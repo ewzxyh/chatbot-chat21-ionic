@@ -67,6 +67,7 @@ import { TiledeskConversationProvider } from '../providers/tiledesk-conversation
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
+
 @NgModule({
   declarations: [
     MyApp,
@@ -99,16 +100,15 @@ export function createTranslateLoader(http: HttpClient) {
         deps: [HttpClient]
       }
     }),
-    IonicStorageModule.forRoot(),
     IonicModule.forRoot(MyApp,{
-      firebaseConfig : {
-        apiKey: '[REDACTED_GOOGLE_KEY]',
-        authDomain: 'chat-v2-dev.firebaseapp.com',
-        databaseURL: 'https://chat-v2-dev.firebaseio.com',
-        projectId: 'chat-v2-dev',
-        storageBucket: 'chat-v2-dev.appspot.com',
-        messagingSenderId: '77360455507'
-      },
+      // firebaseConfig : {
+      //   apiKey: '[REDACTED_GOOGLE_KEY]',
+      //   authDomain: 'chat-v2-dev.firebaseapp.com',
+      //   databaseURL: 'https://chat-v2-dev.firebaseio.com',
+      //   projectId: 'chat-v2-dev',
+      //   storageBucket: 'chat-v2-dev.appspot.com',
+      //   messagingSenderId: '77360455507'
+      // },
       appConfig: {
         tenant:"tilechat"
       }
