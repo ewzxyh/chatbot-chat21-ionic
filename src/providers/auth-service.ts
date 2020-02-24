@@ -67,13 +67,33 @@ export class AuthService {
 
   // Login with Email
   doLoginFirebase(email: string, password: string): any {
-    return this.fireAuth.signInWithEmailAndPassword(email, password)
-    // .then(res => {
-    //   console.log("signInWithEmailAndPassword::: ",res);
-    // });
+    return this.fireAuth.signInWithEmailAndPassword(email, password);
+    //var token = '[REDACTED_JWT]';
+    //return this.fireAuth.signInWithCustomToken(token)
   }
 
 
+  authenticateFirebaseCustomToken(token1) {
+    var token = '[REDACTED_JWT]';
+    const that = this;
+    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(function() {
+      // Sign-out successful.
+      return this.fireAuth.signInWithCustomToken(token)
+      .then(function(response) {
+        this.g.wdLog(['obsLoggedUser - authService.authenticateFirebaseCustomToken']);
+        // that.getToken();????
+        return response;
+      })
+      .catch(function(error) {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+      });
+    })
+    .catch(function(error) {
+      console.error('Error setting firebase auth persistence', error);
+    });
+  }
+  
   // Signin with Facebook
   // signInWithFacebook(): any {
   //   return this.afAuth.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider())
