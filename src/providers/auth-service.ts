@@ -69,6 +69,7 @@ export class AuthService {
   doLoginFirebase(email: string, password: string): any {
     return this.fireAuth.signInWithEmailAndPassword(email, password);
     //var token = '[REDACTED_JWT]';
+    //'[REDACTED_JWT]';
     //return this.fireAuth.signInWithCustomToken(token)
   }
 
