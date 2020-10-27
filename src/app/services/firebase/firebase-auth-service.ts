@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
-
+import { environment } from 'src/environments/environment';
 
 // firebase
 import * as firebase from 'firebase/app';
@@ -33,10 +33,11 @@ export class FirebaseAuthService extends AuthService {
     public http: HttpClient
   ) {
     super();
+
     // tslint:disable-next-line: max-line-length
     this.TOKEN = '[REDACTED_JWT]';
-    this.URL_TILEDESK_SIGNIN = 'https://tiledesk-server-pre.herokuapp.com/auth/signin';
-    this.URL_TILEDESK_CREATE_CUSTOM_TOKEN = 'https://tiledesk-server-pre.herokuapp.com/chat21/firebase/auth/createCustomToken';
+    this.URL_TILEDESK_SIGNIN = environment.SERVER_BASE_URL + 'auth/signin';
+    this.URL_TILEDESK_CREATE_CUSTOM_TOKEN = environment.SERVER_BASE_URL + 'chat21/firebase/auth/createCustomToken';
   }
 
   /**
