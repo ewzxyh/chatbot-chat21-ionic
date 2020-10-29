@@ -21,7 +21,8 @@ export class TiledeskContactsDirectoryService extends ContactsDirectoryService {
     public http: HttpClient
   ) {
     super();
-    this.customToken = 'JWT [REDACTED_JWT]';
+    console.log('TiledeskContactsDirectoryService');
+    // this.customToken = 'JWT [REDACTED_JWT]';
   }
 
   /**
@@ -55,6 +56,7 @@ export class TiledeskContactsDirectoryService extends ContactsDirectoryService {
    * https://www.freakyjolly.com/ionic-httpclient-crud-service-tutorial-to-consume-restful-server-api/#.X3bPCpMzY3g
    */
   loadContactsFromUrl(remoteContactsUrl: string, token: string): Observable<UserModel> {
+    console.log('loadContactsFromUrl', remoteContactsUrl, token);
     if (remoteContactsUrl.startsWith('http') && token !== '') {
       return this.loadContacts(remoteContactsUrl, token);
     }
@@ -65,7 +67,7 @@ export class TiledeskContactsDirectoryService extends ContactsDirectoryService {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        Authorization: this.customToken
+        Authorization: token
       })
     };
     return this.http

@@ -42,7 +42,7 @@ export class ContactsDirectoryPage implements OnInit {
     console.log('initialize');
     const url = this.contactsUrl ? this.contactsUrl : this.DEFAULT_CONTACTS_URL;
     const token = this.token ? this.token : this.DEFAULT_TOKEN;
-    console.log('url', url, '  token: ', token);
+    console.log('this.contactsDirectoryService', this.contactsDirectoryService, '  token: ', token);
     this.contacts = [];
     this.contactsDirectoryService.loadContactsFromUrl(url, token).subscribe((response) => {
       console.log('ContactsDirectoryPage ------------->', response);
@@ -69,9 +69,10 @@ export class ContactsDirectoryPage implements OnInit {
 
   /** */
   getTokenFromLocalStorage() {
-    let token = '';
+    let token = localStorage.getItem('tiledeskToken');
     console.log('getTokenFromLocalStorage: ');
-    // "JWT [REDACTED_JWT]";
+
+    // let token = "JWT [REDACTED_JWT]";
     const user = JSON.parse(localStorage.getItem('user'));
     if (user) {
       console.log('user: ', user);
