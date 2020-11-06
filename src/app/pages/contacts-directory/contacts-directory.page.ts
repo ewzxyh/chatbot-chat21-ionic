@@ -36,16 +36,30 @@ export class ContactsDirectoryPage implements OnInit {
   /** */
   initialize() {
     console.log('initialize');
-    console.log('this.contactsDirectoryService  token: ', this.token);
+    console.log('token: ', this.token);
     this.contacts = [];
+    this.initSubscriptions();
     this.contactsService.loadContactsFromUrl(this.token);
-    // this.contactsDirectoryService.loadContactsFromUrl(url, token).subscribe((response) => {
-    //   console.log('ContactsDirectoryPage ------------->', response);
-    //   this.setContacts(response);
-    // });
   }
 
-  /** */
+  /**
+   * initSubscriptions
+   */
+  initSubscriptions() {
+    console.log('initSubscriptions');
+    const that = this;
+    this.contactsService.BScontacts.subscribe((contacts: any) => {
+      console.log('***** BScontacts *****', contacts);
+      if (contacts) {
+        that.contacts = contacts;
+      }
+    });
+  }
+
+  /**
+   * setContacts
+   * @param data
+   */
   setContacts(data: any) {
     this.contacts = [];
     const listOfContacts = JSON.parse(JSON.stringify(data));
@@ -66,8 +80,6 @@ export class ContactsDirectoryPage implements OnInit {
   getTokenFromLocalStorage() {
     let token = localStorage.getItem('tiledeskToken');
     console.log('getTokenFromLocalStorage: ');
-
-    // let token = "JWT [REDACTED_JWT]";
     const user = JSON.parse(localStorage.getItem('user'));
     if (user) {
       console.log('user: ', user);
