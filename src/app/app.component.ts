@@ -109,9 +109,10 @@ export class AppComponent implements OnInit {
   ) {
 
     const appconfig = appConfigProvider.getConfig();
-    
+    this.logger.info('[APP-COMP] appconfig: ', appconfig) 
     this.logger.info('[APP-COMP] logLevel: ', appconfig.logLevel);
-    this.tenant = appconfig.tenant;
+    this.tenant = appconfig.firebaseConfig.tenant;
+    this.logger.info('[APP-COMP] appconfig firebaseConfig tenant: ', this.tenant) 
 
     // let loggingLevel = null
     // if (appconfig.logLevel) {
@@ -195,19 +196,19 @@ export class AppComponent implements OnInit {
     const tiledeskToken = this.appStorageService.getItem('tiledeskToken')
     const currentUser = JSON.parse(this.appStorageService.getItem('currentUser'));
     if (tiledeskToken) {
-      this.logger.debug('[APP-COMP]  ---------------- MI LOGGO CON UN TOKEN ESISTENTE NEL LOCAL STORAGE O PASSATO NEI PARAMS URL ---------------- ')
+      this.logger.debug('[APP-COMP] >>> I LOG IN WITH A TOKEN EXISTING IN THE LOCAL STORAGE OR WITH A TOKEN PASSED IN THE URL PARAMETERS <<<')
       this.tiledeskAuthService.signInWithCustomToken(tiledeskToken).then(user => {
         this.messagingAuthService.createCustomToken(tiledeskToken)
       }).catch(error => { this.logger.error('[APP-COMP] SIGNINWITHCUSTOMTOKEN error::' + error) })
     } else {
-      this.logger.warn(' [APP-COMP]---------------- NON sono loggato ---------------- ')
+      this.logger.warn('[APP-COMP] >>> I AM NOT LOGGED IN <<<')
       const that = this;
       clearTimeout(this.timeModalLogin);
       this.timeModalLogin = setTimeout(() => {
-        // if (!this.hadBeenCalledOpenModal) {
+        if (!this.hadBeenCalledOpenModal) {
         this.authModal = this.presentModal('initAuthentication');
         this.hadBeenCalledOpenModal = true;
-        // }
+        }
       }, 1000);
     }
 
@@ -271,7 +272,8 @@ export class AppComponent implements OnInit {
 
   goOffLine = () => {
     this.logger.debug('[APP-COMP] ************** goOffLine:', this.authModal);
-
+    // this.conversationsHandlerService.conversations = [];
+  
     this.chatManager.setTiledeskToken(null);
     this.chatManager.setCurrentUser(null);
     this.chatManager.goOffLine();
@@ -280,10 +282,10 @@ export class AppComponent implements OnInit {
     const that = this;
     clearTimeout(this.timeModalLogin);
     this.timeModalLogin = setTimeout(() => {
-      // if (!this.hadBeenCalledOpenModal) {
+      if (!this.hadBeenCalledOpenModal) {
       this.authModal = this.presentModal('goOffLine');
       this.hadBeenCalledOpenModal = true
-      // }
+      }
     }, 1000);
   }
   /**------- AUTHENTICATION FUNCTIONS --> END <--- +*/
@@ -539,8 +541,8 @@ export class AppComponent implements OnInit {
   }
 
   private async presentModal(calledby): Promise<any> {
-    this.logger.debug('[APP-COMP] presentModal calledby', calledby);
-    const attributes = { tenant: 'tilechat', enableBackdropDismiss: false };
+    this.logger.log('[APP-COMP] presentModal calledby', calledby, '- hadBeenCalledOpenModal: ', this.hadBeenCalledOpenModal );
+    const attributes = { tenant: this.tenant, enableBackdropDismiss: false };
     const modal: HTMLIonModalElement =
       await this.modalController.create({
         component: LoginPage,
@@ -549,8 +551,8 @@ export class AppComponent implements OnInit {
         backdropDismiss: false
       });
     modal.onDidDismiss().then((detail: any) => {
-      // this.modalOpen = false
-      this.logger.debug('[APP-COMP] The result: CHIUDI!!!!!', detail.data);
+      this.hadBeenCalledOpenModal = false
+      this.logger.log('[APP-COMP] presentModal onDidDismiss detail.data ', detail.data);
       // this.checkPlatform();
       if (detail !== null) {
         //  this.logger.debug('The result: CHIUDI!!!!!', detail.data);

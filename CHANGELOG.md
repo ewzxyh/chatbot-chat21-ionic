@@ -1,9 +1,24 @@
 # chat21-ionic ver 3.0
 
+### 3.0.49-beta
+- Replaces in "chat-config-template.json" the value "${TENANT}" of the property "tenant" in "${FIREBASE TENANT}"
+
+### 3.0.48-beta
+- Update environments by moving the "tenant" environment variable to the "firebaseConfig" object
+
+### 3.0.47-beta
+- Changes the obtaining of the "tenant" environment variable moved inside the "firebaseConfig" configuration
+- Removes unused services "chat-contacts-synchronizer.ts" (class "ChatContactsSynchronizer") and "database.ts" (class DatabaseProvider)
+- Moves the environment variable 'tenant' in the object "firebaseConfig" of the files chat-config.json, chat-config-template.json; updated README.md
+- Fixes the bug: after logging out the list of conversations is still visible
+- Fixes the bug: modal "login" is sometimes loaded twice after logout
+- Downgrades the mqtt library from version 4.2.8 to 4.1.0
+- Check if the serviceWorker exists before to append 'addEventListener' (fixes the bug addEventListener of undefined)
+
 ### 3.0.46-beta
 - Modifies the "logger service" to accept only values of string type from the "logLevel" environments property (Error < Warn < Info < Debug)
 - Updates the README.md
-- Replaces the value of the "logLevel" property of numeric type with a value of type string in the env.sample and chat-config.json files
+- Replaces the value of the "logLevel" property of numeric type with the corresponding value of type string in the env.sample and chat-config.json files
 - Adds unit tests
 
 ### 3.0.45-beta

@@ -16,7 +16,6 @@ import { EventsService } from '../../services/events-service';
 import PerfectScrollbar from 'perfect-scrollbar'; // https://github.com/mdbootstrap/perfect-scrollbar
 
 // services
-import { DatabaseProvider } from '../../services/database';
 import { ConversationsHandlerService } from 'src/chat21-core/providers/abstract/conversations-handler.service';
 import { ChatManager } from 'src/chat21-core/providers/chat-manager';
 import { NavProxyService } from '../../services/nav-proxy.service';
@@ -55,12 +54,13 @@ export class ConversationListPage implements OnInit {
 
   public convertMessage = convertMessage;
   private isShowMenuPage = false;
-  private logger: LoggerService = LoggerInstance.getInstance()
+  private logger: LoggerService = LoggerInstance.getInstance();
   translationMapConversation: Map<string, string>;
   stylesMap: Map<string, string>;
 
   public conversationType = 'active'
   headerTitle: string
+
 
   constructor(
     private router: Router,
@@ -68,7 +68,7 @@ export class ConversationListPage implements OnInit {
     private navService: NavProxyService,
     public events: EventsService,
     public modalController: ModalController,
-    public databaseProvider: DatabaseProvider,
+    // public databaseProvider: DatabaseProvider,
     public conversationsHandlerService: ConversationsHandlerService,
     public archivedConversationsHandlerService: ArchivedConversationsHandlerService,
     public chatManager: ChatManager,
@@ -77,11 +77,12 @@ export class ConversationListPage implements OnInit {
     private translateService: CustomTranslateService,
     public tiledeskService: TiledeskService,
     public tiledeskAuthService: TiledeskAuthService,
-    public appConfigProvider: AppConfigProvider,
+    public appConfigProvider: AppConfigProvider
   ) {
-    this.listenToAppCompConvsLengthOnInitConvs()
+    this.listenToAppCompConvsLengthOnInitConvs();
     this.listenToLogoutEvent();
-    this.listenToNotificationCLick()
+    this.listenToNotificationCLick();
+
   }
 
   // -----------------------------------------------
@@ -98,28 +99,30 @@ export class ConversationListPage implements OnInit {
 
   listenToNotificationCLick() {
     const that = this;
-    navigator.serviceWorker.addEventListener('message', function (event) {
-      that.logger.log('[CONVS-LIST-PAGE] listenToNotificationCLick - Received a message from service worker event data: ', event.data);
-      that.logger.log('[CONVS-LIST-PAGE] listenToNotificationCLick - Received a message from service worker event data data: ', event.data['data']);
-      that.logger.log('[CONVS-LIST-PAGE] listenToNotificationCLick - Received a message from service worker event data data typeof: ', typeof event.data['data']);
-      let uidConvSelected = ''
-      if (typeof event.data['data'] === 'string') {
-        uidConvSelected = event.data['data']
-      } else {
-        uidConvSelected = event.data['data']['recipient']
-      }
+    if (navigator && navigator.serviceWorker) {
+      navigator.serviceWorker.addEventListener('message', function (event) {
+        that.logger.log('[CONVS-LIST-PAGE] listenToNotificationCLick - Received a message from service worker event data: ', event.data);
+        that.logger.log('[CONVS-LIST-PAGE] listenToNotificationCLick - Received a message from service worker event data data: ', event.data['data']);
+        that.logger.log('[CONVS-LIST-PAGE] listenToNotificationCLick - Received a message from service worker event data data typeof: ', typeof event.data['data']);
+        let uidConvSelected = ''
+        if (typeof event.data['data'] === 'string') {
+          uidConvSelected = event.data['data']
+        } else {
+          uidConvSelected = event.data['data']['recipient']
+        }
 
-      that.logger.log('[CONVS-LIST-PAGE] listenToNotificationCLick - Received a message from service worker event dataObjct uidConvSelected: ', uidConvSelected);
-      that.logger.log('[CONVS-LIST-PAGE] listenToNotificationCLick - Received a message from service worker that.conversations: ', that.conversations);
-      const conversationSelected = that.conversations.find(item => item.uid === uidConvSelected);
-      if (conversationSelected) {
+        that.logger.log('[CONVS-LIST-PAGE] listenToNotificationCLick - Received a message from service worker event dataObjct uidConvSelected: ', uidConvSelected);
+        that.logger.log('[CONVS-LIST-PAGE] listenToNotificationCLick - Received a message from service worker that.conversations: ', that.conversations);
+        const conversationSelected = that.conversations.find(item => item.uid === uidConvSelected);
+        if (conversationSelected) {
 
-        that.conversationSelected = conversationSelected;
-        that.logger.log('[CONVS-LIST-PAGE] listenToNotificationCLick- Received a message from service worker event conversationSelected: ', that.conversationSelected);
+          that.conversationSelected = conversationSelected;
+          that.logger.log('[CONVS-LIST-PAGE] listenToNotificationCLick- Received a message from service worker event conversationSelected: ', that.conversationSelected);
 
-        that.navigateByUrl('active', uidConvSelected)
-      }
-    });
+          that.navigateByUrl('active', uidConvSelected)
+        }
+      });
+    }
   }
 
 
@@ -188,7 +191,13 @@ export class ConversationListPage implements OnInit {
 
   listenToLogoutEvent() {
     this.events.subscribe('profileInfoButtonClick:logout', (hasclickedlogout) => {
-      this.logger.log('[CONVS-LIST-PAGE]-CONVS loadingIsActive hasclickedlogout', hasclickedlogout);
+      this.logger.log('[CONVS-LIST-PAGE] - listenToLogoutEvent - hasclickedlogout', hasclickedlogout);
+
+      this.conversationsHandlerService.conversations = [];
+      this.uidConvSelected = null;
+
+      this.logger.log('[CONVS-LIST-PAGE] - listenToLogoutEvent - CONVERSATIONS ', this.conversations)
+      this.logger.log('[CONVS-LIST-PAGE] - listenToLogoutEvent - uidConvSelected ', this.uidConvSelected)
       if (hasclickedlogout === true) {
         this.loadingIsActive = false
       }
@@ -367,13 +376,13 @@ export class ConversationListPage implements OnInit {
    * ::: initialize :::
    */
   initialize() {
-    // this.tenant = environment.tenant;
-    this.tenant = this.appConfigProvider.getConfig().tenant
-    this.logger.log('[CONVS-LIST-PAGE] this.tenant', this.tenant)
+    const appconfig = this.appConfigProvider.getConfig();
+    this.tenant = appconfig.firebaseConfig.tenant;
+    this.logger.log('[CONVS-LIST-PAGE] - initialize -> firebaseConfig tenant ', this.tenant);
+
     this.loggedUserUid = this.tiledeskAuthService.getCurrentUser().uid;
     this.subscriptions = [];
     this.initConversationsHandler();
-    this.databaseProvider.initialize(this.loggedUserUid, this.tenant);
     this.initVariables();
     this.initSubscriptions();
     // this.initHandlerEventEmitter();
@@ -391,8 +400,6 @@ export class ConversationListPage implements OnInit {
    * imposto uidConvSelected recuperando id ultima conversazione aperta dallo storage
    */
   initVariables() {
-
-
     this.logger.log('[CONVS-LIST-PAGE] uidReciverFromUrl:: ' + this.uidReciverFromUrl);
     this.logger.log('[CONVS-LIST-PAGE] loggedUserUid:: ' + this.loggedUserUid);
     this.logger.log('[CONVS-LIST-PAGE] tenant:: ' + this.tenant);
@@ -681,7 +688,7 @@ export class ConversationListPage implements OnInit {
 
 
 
-    // ------------------------------------------------------------------------------------
+  // ------------------------------------------------------------------------------------
   // ::: readAllMessages :::  ??????????? SEEMS NOT USED ?????????????????
   // when all chat messages are displayed,
   // that is when in the conversation detail I go to the bottom of the page,
