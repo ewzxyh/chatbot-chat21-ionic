@@ -17,9 +17,7 @@ export class CustomLogger implements LoggerService {
     constructor(private logger: NGXLogger) { }
 
     setLoggerConfig(isLogEnabled: boolean, logLevel: string) {
-
         this.isLogEnabled = isLogEnabled;
-
         if (logLevel) {
             this.logLevel = LogLevel[logLevel.toUpperCase()];
             console.log('LoggerService this.logLevel  ', this.logLevel)
