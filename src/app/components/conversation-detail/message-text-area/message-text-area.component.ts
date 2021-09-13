@@ -1,5 +1,5 @@
 import { UserModel } from 'src/chat21-core/models/user';
-import { Component, OnInit, Output, EventEmitter, Input, AfterViewInit, ViewChild, ElementRef, OnChanges, HostListener } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, AfterViewInit, ViewChild, ElementRef, OnChanges, HostListener, Renderer2 } from '@angular/core';
 
 import { Chooser } from '@ionic-native/chooser/ngx';
 import { ModalController, ToastController } from '@ionic/angular';
@@ -26,7 +26,15 @@ import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance'
 })
 export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChanges {
 
-  @ViewChild('textArea', { static: false }) messageTextArea
+  @ViewChild('textArea', { static: false }) messageTextArea: any
+//   set textArea(element: ElementRef<HTMLInputElement>) {
+//     if(element) {
+//       this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ViewChild element ", element);
+//       element.nativeElement.focus()
+//     }
+//  }
+
+
   @ViewChild('fileInput', { static: false }) fileInput: any;
 
   @Input() loggedUser: UserModel;
@@ -39,8 +47,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
   @Input() dropEvent: any;
   @Output() eventChangeTextArea = new EventEmitter<object>();
   @Output() eventSendMessage = new EventEmitter<object>();
-
-
+  @Output() onPresentModalScrollToBottom = new EventEmitter<boolean>();
 
   public conversationEnabled = false;
   public messageString: string;
@@ -67,7 +74,8 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
     public chooser: Chooser,
     public modalController: ModalController,
     public uploadService: UploadService,
-    public toastController: ToastController
+    public toastController: ToastController,
+    private renderer: Renderer2,
   ) { }
 
   // ---------------------------------------------------------
@@ -94,7 +102,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
 
   ngOnChanges() {
     // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngOnChanges this.isOpenInfoConversation ", this.isOpenInfoConversation);
-    // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngOnChanges DROP EVENT ", this.dropEvent);
+    this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngOnChanges DROP EVENT ", this.dropEvent);
 
     this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngOnChanges tagsCannedFilter ", this.tagsCannedFilter);
     // use case drop
@@ -107,13 +115,57 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
     // }
   }
 
-  ngAfterViewInit() {
-    setTimeout(() => {
-      this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] set focus on ", this.messageTextArea);
-      // Keyboard.show() // for android
-      this.messageTextArea.setFocus();
-    }, 300); //a least 150ms.
+  // ngAfterViewInit() {
+    ngAfterViewInit() {
+
+      
+    // const element = this.renderer.selectRootElement('#textArea');
+    // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngAfterViewInit element get with renderer ", element);
+    // const elemTexarea= <HTMLElement>document.querySelector('#ion-textarea');
+    // console.log('[CONVS-DETAIL][MSG-TEXT-AREA] elemTexarea ', elemTexarea) 
+    // elemTexarea.focus()
+    // setTimeout(() => {
+    //   (this.messageTextArea.nativeElement.shadowRoot as ShadowRoot).querySelector('input').focus();
+    // }, 100);
+    this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngAfterViewInit this.messageTextArea ", this.messageTextArea);
+    if (this.messageTextArea) {
+      setTimeout(() => {
+        // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] set focus on ", this.messageTextArea);
+        // Keyboard.show() // for android
+        this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngAfterViewInit this.messageTextArea ", this.messageTextArea);
+        this.messageTextArea.setFocus();
+
+
+        // const el = document.querySelector('textarea');
+        // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngAfterViewInit el ", el);
+        // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngAfterViewInit document.activeElement ", document.activeElement);
+        // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngAfterViewInit el === document.activeElement ", el === document.activeElement);
+
+        // if (document.activeElement.tagName !== 'BODY') {
+        //   if ((el === document.activeElement) === true) {
+        //     const texAreaHasFocus = true
+        //     this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngAfterViewInit texAreaHasFocus ", texAreaHasFocus);
+        //   } else {
+        //     const texAreaHasFocus = false
+        //     this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngAfterViewInit texAreaHasFocus ", texAreaHasFocus);
+        //   }
+        // }
+
+        // el = textarea.native-textarea.sc-ion-textarea-md
+        // dc = textarea.native-textarea.sc-ion-textarea-md
+      }, 1500); //a least 150ms.
+    }
   }
+
+  txtfocus(string) {
+    // const el = document.querySelector('textarea');
+    // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngAfterViewInit txtfocus string ", string);
+    // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngAfterViewInit txtfocus document.activeElement ", document.activeElement);
+    // // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngAfterViewInit document.activeElement === TEXAREa", document.activeElement === );
+    // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngAfterViewInit txtfocus el ", el);
+  }
+
+
 
 
   getWindowWidth(): any {
@@ -265,7 +317,9 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
         data.items.add(new File([file], file.name, { type: file.type }));
         this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] onPaste data ", data);
         this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] onPaste file ", file);
+       
         this.presentModal(data);
+
       } else if (item.type.startsWith("application")) {
 
         event.preventDefault();
@@ -283,7 +337,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
   }
 
   onFileSelected(e: any) {
-    this.logger.log('Message-text-area - onFileSelected event', e);
+    this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] - onFileSelected event', e);
     this.presentModal(e);
 
   }
@@ -294,6 +348,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
  * @param e 
  */
   private async presentModal(e: any): Promise<any> {
+    this.onPresentModalScrollToBottom.emit(true);
     const that = this;
     let dataFiles = " "
     if (e.type === 'change') {
@@ -302,6 +357,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
       this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] presentModal change e.target ', e.target);
       this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] presentModal change e.target.files', e.target.files);
       dataFiles = e.target.files;
+
     } else if (e.type === 'drop') {
       dataFiles = e.dataTransfer.files
       this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] presentModal drop e.dataTransfer.files', e.dataTransfer.files);
@@ -330,7 +386,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
         backdropDismiss: true
       });
     modal.onDidDismiss().then((detail: any) => {
-
+      
       this.logger.log('presentModal onDidDismiss detail', detail);
       if (detail.data !== undefined) {
         let type = ''
@@ -347,6 +403,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
         let fileSelected = null;
         if (e.type === 'change') {
           fileSelected = e.target.files.item(0);
+
         } else if (e.type === 'drop') {
           this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] FIREBASE-UPLOAD [MSG-TEXT-AREA] DROP dataFiles[0]', dataFiles[0])
           fileSelected = dataFiles[0]
@@ -371,18 +428,24 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
 
         if (detail !== null) {
           const currentUpload = new UploadModel(fileSelected);
-          this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] FIREBASE-UPLOAD The result: currentUpload', currentUpload);
-          this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] FIREBASE-UPLOAD The result: CHIUDI!!!!!', detail.data);
+          this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] FIREBASE-UPLOAD presentModal onDidDismiss currentUpload', currentUpload);
+          this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] FIREBASE-UPLOAD presentModal onDidDismiss detail.data', detail.data);
 
           that.uploadService.upload(that.loggedUser.uid, currentUpload).then(downloadURL => {
             metadata.src = downloadURL;
-            this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] FIREBASE-UPLOAD presentModal invio msg downloadURL::: ', metadata);
+            this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] FIREBASE-UPLOAD presentModal invio msg metadata::: ', metadata);
             this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] FIREBASE-UPLOAD presentModal invio msg metadata downloadURL::: ', downloadURL);
             this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] FIREBASE-UPLOAD presentModal invio msg type::: ', type);
             this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] FIREBASE-UPLOAD presentModal invio msg message::: ', messageString);
             // send message
+// if(messageString === undefined) {
+//   messageString = metadata.name
+// }
+
             that.eventSendMessage.emit({ message: messageString, type: type, metadata: metadata });
+
             that.fileInput.nativeElement.value = '';
+            this.dropEvent = null
           }).catch(error => {
             // Use to signal error if something goes wrong.
             this.logger.error(`[CONVS-DETAIL][MSG-TEXT-AREA] FIREBASE-UPLOAD - upload Failed to upload file and get link `, error);
@@ -449,7 +512,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
     } else {
       var pos = text.lastIndexOf("/");
       this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] onKeydown - POSITION OF '/': ", pos);
-        if (!text.includes("/")){ 
+      if (!text.includes("/")) {
         this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] onKeydown - SEND MESSAGE 1 message: ', message);
         this.messageString = '';
         this.sendMessage(text);
@@ -458,18 +521,18 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
         this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] onKeydown - tagsCannedFilter.length 2: ', this.tagsCannedFilter.length);
         this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] onKeydown - SEND MESSAGE 2 message: ', message);
         this.messageString = '';
-        
+
         this.sendMessage(text);
         this.countClicks = 0
-      } else if (text.includes("/") && this.tagsCannedFilter.length === 0 ) {
+      } else if (text.includes("/") && this.tagsCannedFilter.length === 0) {
         this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] onKeydown - tagsCannedFilter.length 3: ', this.tagsCannedFilter.length);
         this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] onKeydown - SEND MESSAGE 3 message: ', message);
         this.messageString = '';
-        
+
         this.sendMessage(text);
         this.countClicks = 0
 
-      } 
+      }
     }
   }
 

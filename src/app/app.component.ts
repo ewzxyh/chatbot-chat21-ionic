@@ -109,29 +109,37 @@ export class AppComponent implements OnInit {
   ) {
 
     const appconfig = appConfigProvider.getConfig();
-    this.logger.info('[APP-COMP] appconfig: ', appconfig) 
+    this.logger.info('[APP-COMP] appconfig: ', appconfig)
     this.logger.info('[APP-COMP] logLevel: ', appconfig.logLevel);
     this.tenant = appconfig.firebaseConfig.tenant;
-    this.logger.info('[APP-COMP] appconfig firebaseConfig tenant: ', this.tenant) 
+    this.logger.info('[APP-COMP] appconfig firebaseConfig tenant: ', this.tenant)
+    this.logger.info('[APP-COMP] appconfig platform is cordova: ', this.platform.is('cordova'))
 
-    // let loggingLevel = null
-    // if (appconfig.logLevel) {
-      // if (appconfig.logLevel === 'Error') {
-      //   loggingLevel = 0
-      // } else if (appconfig.logLevel === 'Warn') {
-      //   loggingLevel = 1
-      // } else if (appconfig.logLevel === 'Info') {
-      //   loggingLevel = 2
-      // } else if (appconfig.logLevel === 'Debug') {
-      //   loggingLevel = 3
-      // }
 
-      // this.logger.setLoggerConfig(true, loggingLevel)
-      this.logger.setLoggerConfig(true, appconfig.logLevel)
+
+
+    this.route.queryParams.subscribe(params => {
+      this.logger.info('[APP-COMP] queryParams params: ', params)
+      if (params.logLevel) {
+        this.logger.info('[APP-COMP] log level get from queryParams: ', params.logLevel)
+        this.logger.setLoggerConfig(true, params.logLevel)
+      } else {
+        this.logger.info('[APP-COMP] log level get from appconfig: ', appconfig.logLevel)
+        this.logger.setLoggerConfig(true, appconfig.logLevel)
+      }
+    });
+
+
+    this.logger.setLoggerConfig(true, appconfig.logLevel)
     // }
-    if (!this.platform.is('desktop')) {
+    // if (!this.platform.is('desktop')) {
+    //   this.splashScreen.show();
+    // }
+    if (!this.platform.is('cordova')) {
       this.splashScreen.show();
     }
+
+
   }
 
 
@@ -206,8 +214,8 @@ export class AppComponent implements OnInit {
       clearTimeout(this.timeModalLogin);
       this.timeModalLogin = setTimeout(() => {
         if (!this.hadBeenCalledOpenModal) {
-        this.authModal = this.presentModal('initAuthentication');
-        this.hadBeenCalledOpenModal = true;
+          this.authModal = this.presentModal('initAuthentication');
+          this.hadBeenCalledOpenModal = true;
         }
       }, 1000);
     }
@@ -271,9 +279,9 @@ export class AppComponent implements OnInit {
   }
 
   goOffLine = () => {
-    this.logger.debug('[APP-COMP] ************** goOffLine:', this.authModal);
+    this.logger.log('[APP-COMP] ************** goOffLine:', this.authModal);
     // this.conversationsHandlerService.conversations = [];
-  
+
     this.chatManager.setTiledeskToken(null);
     this.chatManager.setCurrentUser(null);
     this.chatManager.goOffLine();
@@ -283,8 +291,8 @@ export class AppComponent implements OnInit {
     clearTimeout(this.timeModalLogin);
     this.timeModalLogin = setTimeout(() => {
       if (!this.hadBeenCalledOpenModal) {
-      this.authModal = this.presentModal('goOffLine');
-      this.hadBeenCalledOpenModal = true
+        this.authModal = this.presentModal('goOffLine');
+        this.hadBeenCalledOpenModal = true
       }
     }, 1000);
   }
@@ -492,12 +500,25 @@ export class AppComponent implements OnInit {
     this.conversationsHandlerService.conversationAdded.subscribe((conversation: ConversationModel) => {
       this.logger.log('[APP-COMP] ***** conversationsAdded *****', conversation);
       // that.conversationsChanged(conversations);
-      this.manageTabNotification()
+      if (conversation && conversation.is_new === true) {
+        this.manageTabNotification()
+      }
     });
     this.conversationsHandlerService.conversationChanged.subscribe((conversation: ConversationModel) => {
       this.logger.log('[APP-COMP] ***** subscribeConversationChanged *****', conversation);
       // that.conversationsChanged(conversations);
-      this.manageTabNotification();
+      // 
+
+      this.logger.log('[APP-COMP] ***** subscribeConversationChanged conversation: ', conversation);
+      const currentUser = JSON.parse(this.appStorageService.getItem('currentUser'));
+      this.logger.log('[APP-COMP] ***** subscribeConversationChanged current_user: ', currentUser);
+      if (currentUser) {
+        this.logger.log('[APP-COMP] ***** subscribeConversationChanged current_user uid: ', currentUser.uid);
+
+        if (conversation && conversation.sender !== currentUser.uid) {
+          this.manageTabNotification();
+        }
+      }
     });
   }
 
@@ -541,7 +562,7 @@ export class AppComponent implements OnInit {
   }
 
   private async presentModal(calledby): Promise<any> {
-    this.logger.log('[APP-COMP] presentModal calledby', calledby, '- hadBeenCalledOpenModal: ', this.hadBeenCalledOpenModal );
+    this.logger.log('[APP-COMP] presentModal calledby', calledby, '- hadBeenCalledOpenModal: ', this.hadBeenCalledOpenModal);
     const attributes = { tenant: this.tenant, enableBackdropDismiss: false };
     const modal: HTMLIonModalElement =
       await this.modalController.create({

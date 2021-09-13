@@ -98,12 +98,13 @@ export class ConversationListPage implements OnInit {
   ionViewDidEnter() { }
 
   listenToNotificationCLick() {
+    this.logger.log('[CONVS-LIST-PAGE] listenToNotificationCLick - CALLED: ');
     const that = this;
     if (navigator && navigator.serviceWorker) {
       navigator.serviceWorker.addEventListener('message', function (event) {
-        that.logger.log('[CONVS-LIST-PAGE] listenToNotificationCLick - Received a message from service worker event data: ', event.data);
-        that.logger.log('[CONVS-LIST-PAGE] listenToNotificationCLick - Received a message from service worker event data data: ', event.data['data']);
-        that.logger.log('[CONVS-LIST-PAGE] listenToNotificationCLick - Received a message from service worker event data data typeof: ', typeof event.data['data']);
+        that.logger.log('[CONVS-LIST-PAGE] FIREBASE-NOTIFICATION  listenToNotificationCLick - Received a message from service worker event data: ', event.data);
+        that.logger.log('[CONVS-LIST-PAGE] FIREBASE-NOTIFICATION  listenToNotificationCLick - Received a message from service worker event data data: ', event.data['data']);
+        that.logger.log('[CONVS-LIST-PAGE] FIREBASE-NOTIFICATION  listenToNotificationCLick - Received a message from service worker event data data typeof: ', typeof event.data['data']);
         let uidConvSelected = ''
         if (typeof event.data['data'] === 'string') {
           uidConvSelected = event.data['data']
@@ -111,8 +112,8 @@ export class ConversationListPage implements OnInit {
           uidConvSelected = event.data['data']['recipient']
         }
 
-        that.logger.log('[CONVS-LIST-PAGE] listenToNotificationCLick - Received a message from service worker event dataObjct uidConvSelected: ', uidConvSelected);
-        that.logger.log('[CONVS-LIST-PAGE] listenToNotificationCLick - Received a message from service worker that.conversations: ', that.conversations);
+        that.logger.log('[CONVS-LIST-PAGE] FIREBASE-NOTIFICATION  listenToNotificationCLick - Received a message from service worker event dataObjct uidConvSelected: ', uidConvSelected);
+        that.logger.log('[CONVS-LIST-PAGE] FIREBASE-NOTIFICATION  listenToNotificationCLick - Received a message from service worker that.conversations: ', that.conversations);
         const conversationSelected = that.conversations.find(item => item.uid === uidConvSelected);
         if (conversationSelected) {
 
@@ -444,8 +445,10 @@ export class ConversationListPage implements OnInit {
     //console.log('returnSelectedConversation::', conversation)
     if (conversation.archived) {
       this.navigateByUrl('archived', conversation.uid)
+      this.logger.log('[CONVS-LIST-PAGE] onConversationSelected archived conversation.uid ', conversation.uid)
     } else {
       this.navigateByUrl('active', conversation.uid)
+      this.logger.log('[CONVS-LIST-PAGE] onConversationSelected active conversation.uid ', conversation.uid)
     }
 
   }
@@ -463,12 +466,14 @@ export class ConversationListPage implements OnInit {
       conversation_with = conversation.recipient;
       conversation_with_fullname = conversation.recipient_fullname;
     }
-    conversation.image = this.imageRepoService.getImagePhotoUrl(conversation_with)
+    if (!conversation_with.startsWith("support-group")) {
+      conversation.image = this.imageRepoService.getImagePhotoUrl(conversation_with)
+    }
   }
 
   onConversationLoaded(conversation: ConversationModel) {
     this.logger.log('[CONVS-LIST-PAGE] onConversationLoaded ', conversation)
-    const keys = ['YOU'];
+    const keys = ['YOU', 'SENT_AN_IMAGE', 'SENT_AN_ATTACHMENT'];
     const translationMap = this.translateService.translateLanguage(keys);
     // Fixes the bug: if a snippet of code is pasted and sent it is not displayed correctly in the convesations list
 
@@ -479,11 +484,30 @@ export class ConversationListPage implements OnInit {
       //FIX-BUG: 'YOU: YOU: YOU: text' on last-message-text in conversation-list
       if (conversation.sender === this.loggedUserUid && !conversation.last_message_text.includes(': ')) {
         this.logger.log('[CONVS-LIST-PAGE] onConversationLoaded', conversation)
-        conversation.last_message_text = translationMap.get('YOU') + ': ' + conversation.last_message_text;
+
+        if (conversation.type !== "image" && conversation.type !== "file") {
+          conversation.last_message_text = translationMap.get('YOU') + ': ' + conversation.last_message_text;
+
+        } else if (conversation.type === "image") {
+
+          this.logger.log('[CONVS-LIST-PAGE] HAS SENT AN IMAGE');
+          this.logger.log("[CONVS-LIST-PAGE] translationMap.get('YOU')")
+          // const keys = ['SENT_AN_IMAGE'];
+
+          const SENT_AN_IMAGE = conversation['last_message_text'] = translationMap.get('SENT_AN_IMAGE')
+
+          conversation.last_message_text = translationMap.get('YOU') + ' ' + SENT_AN_IMAGE;
+
+        } else if (conversation.type === "file") {
+          this.logger.log('[CONVS-LIST-PAGE] HAS SENT FILE')
+          const SENT_AN_ATTACHMENT = conversation['last_message_text'] = translationMap.get('SENT_AN_ATTACHMENT')
+          conversation.last_message_text = translationMap.get('YOU') + ' ' + SENT_AN_ATTACHMENT;
+        }
       }
     }
   }
-  // ?????? 
+
+
   navigateByUrl(converationType: string, uidConvSelected: string) {
     this.logger.log('[CONVS-LIST-PAGE] navigateByUrl uidConvSelected: ', uidConvSelected);
     this.logger.log('[CONVS-LIST-PAGE] navigateByUrl run  this.setUidConvSelected');

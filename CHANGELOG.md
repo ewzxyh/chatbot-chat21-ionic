@@ -1,5 +1,38 @@
 # chat21-ionic ver 3.0
 
+### 3.0.53-RC1
+- Fixes the bug: sometimes the message sender name displayed in the header is different from the one displayed in the conversation list
+- Fixes the bug: duplicate push notifications
+- Increase the height of the selectable message in the conversation list to prevent the 'Archive' icon and the sender name text from overlapping the string indicating the message arrival time
+- Updates the avatar background colors
+- Does not set the "image" property of the "conversation" object for "support-group" conversations
+
+### 3.0.52-beta
+- Replaces the label "conversation ID" with "user ID" in the accordion available in the panel "conversation info" of direct conversations
+- Adds the ability to change the log level via the query-string parameter "logLevel"
+- Fixes the bug: clicking on a push notification, if it is a "direct" conversation, the correct conversation is not selected after redirection
+
+### 3.0.51-beta
+- Enhances the style of the search bar in the contact list
+- Adds the ability to upload a file by dragging it to the chat area
+- Fixes the bug: Chat scrolls up when file preview page opens after dragging the file or image 
+- Fixes the bug: the 'loading bubble' is not displayed if the last message is at the bottom of the chat area
+- Fixes the bug: in the "upload preview page" the file icon in the footer is not displayed correctly if the file name is on two lines
+- Adds backward compatibility for viewing conversation details for "support group" type conversations in the "Conversation Information" panel
+- Displays the text "No information available" in the right side panel "Conversation Information" when no information on the selected conversation is found
+
+### 3.0.50-beta
+- Fixes the bug: in the right side panel 'info group' the loading of members fires twice
+- Fixes the bug: autofocus doesn't always work
+- Fixes the bug: browser tab title sounds and blinks even if the message is sent by the logged in user
+- Fixes the bug: browser tab title sounds and blinks if the user change tab during page refresh
+- Fixes the bug: browser tab title sounds and blinks if the user change tab during page refresh
+- Fixes the bug: after uploading the image via drag-and-drop, if the user opens or closes the right side panel or opens another conversation, the image upload preview modal window reopens
+- In the package.json: changes the name of the author + updates version + adds "cordova-android-support-gradle-release"  + downgrade "cordova-android" from the version 9.0.0 to 6.2.3
+- Replaces, in conversation list, when the logged user send an image the markdown with the string "You sent an image" and when send a file with the string "You sent an attachment"
+- Displays the attach icon in the conversation list if the conversation type is "file"
+- Fixes the bug: if an image without text is sent as the first message, the conversation does not appear in the conversation list
+
 ### 3.0.49-beta
 - Replaces in "chat-config-template.json" the value "${TENANT}" of the property "tenant" in "${FIREBASE TENANT}"
 
