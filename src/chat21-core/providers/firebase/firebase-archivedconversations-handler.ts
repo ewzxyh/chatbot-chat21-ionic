@@ -177,18 +177,20 @@ export class FirebaseArchivedConversationsHandler extends ArchivedConversationsH
 
     getConversationDetail(conversationId: string, callback: (conv: ConversationModel) => void) {
         const conversation = this.archivedConversations.find(item => item.uid === conversationId);
-        this.logger.debug('[FIREBASEArchivedConversationsHandlerSERVICE] SubscribeToConversations getConversationDetail::ARCHIVED *****: ', conversation)
+        this.logger.log('[FIREBASEArchivedConversationsHandlerSERVICE] SubscribeToConversations getConversationDetail::ARCHIVED *****: ', conversation)
         if (conversation) {
             callback(conversation)
             // this.BSConversationDetail.next(conversationSelected);
         } else {
             // const urlNodeFirebase = '/apps/' + this.tenant + '/users/' + this.loggedUserId + '/archived_conversations/' + conversationId;
             const urlNodeFirebase = archivedConversationsPathForUserId(this.tenant, this.loggedUserId) + '/' + conversationId;
-            this.logger.debug('[FIREBASEArchivedConversationsHandlerSERVICE] urlNodeFirebase conversationDetail *****', urlNodeFirebase)
+            this.logger.log('[FIREBASEArchivedConversationsHandlerSERVICE] urlNodeFirebase conversationDetail *****', urlNodeFirebase)
             const firebaseMessages = firebase.database().ref(urlNodeFirebase);
             firebaseMessages.on('value', (childSnapshot) => {
                 const childData: ConversationModel = childSnapshot.val();
-                if (childSnapshot && childSnapshot.key && childData.uid) {
+                this.logger.log('[FIREBASEArchivedConversationsHandlerSERVICE] childData *****', childData)
+                // if (childSnapshot && childSnapshot.key && childData.uid) {
+                if (childSnapshot && childSnapshot.key) {
                     childData.uid = childSnapshot.key;
                     const conversation = this.completeConversation(childData);
                     if (conversation) {
@@ -391,7 +393,7 @@ export class FirebaseArchivedConversationsHandler extends ArchivedConversationsH
         // conv.last_message_text = htmlEntities(conv.last_message_text)
         conv.conversation_with_fullname = conversation_with_fullname;
         conv.status = this.setStatusConversation(conv.sender, conv.uid);
-        conv.time_last_message = this.getTimeLastMessage(conv.timestamp);
+        // conv.time_last_message = this.getTimeLastMessage(conv.timestamp); // evaluate if is used
         conv.avatar = avatarPlaceholder(conversation_with_fullname);
         conv.color = getColorBck(conversation_with_fullname);
         conv.archived = true;

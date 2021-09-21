@@ -172,9 +172,12 @@ export class AppComponent implements OnInit {
       this.chatManager.initialize();
       this.presenceService.initialize(this.tenant);
       this.typingService.initialize(this.tenant);
+
       const pushEngine = this.appConfigProvider.getConfig().pushEngine
+      const vap_id_Key = this.appConfigProvider.getConfig().firebaseConfig.vapidKey
+
       if (pushEngine && pushEngine !== 'none') {
-        this.notificationsService.initialize(this.tenant)
+        this.notificationsService.initialize(this.tenant, vap_id_Key)
       }
       this.uploadService.initialize();
 
@@ -256,11 +259,12 @@ export class AppComponent implements OnInit {
     // PUSH NOTIFICATIONS
     // ----------------------------------------------
     const pushEngine = this.appConfigProvider.getConfig().pushEngine
-    if (pushEngine && pushEngine !== 'none') {
-      this.notificationsService.getNotificationPermissionAndSaveToken(currentUser.uid);
-    }
 
     if (currentUser) {
+      if (pushEngine && pushEngine !== 'none') {
+        this.notificationsService.getNotificationPermissionAndSaveToken(currentUser.uid);
+      }
+
       this.chatManager.setCurrentUser(currentUser);
       this.presenceService.setPresence(currentUser.uid);
       this.initConversationsHandler(currentUser.uid);
@@ -512,9 +516,9 @@ export class AppComponent implements OnInit {
       this.logger.log('[APP-COMP] ***** subscribeConversationChanged conversation: ', conversation);
       const currentUser = JSON.parse(this.appStorageService.getItem('currentUser'));
       this.logger.log('[APP-COMP] ***** subscribeConversationChanged current_user: ', currentUser);
+  
       if (currentUser) {
         this.logger.log('[APP-COMP] ***** subscribeConversationChanged current_user uid: ', currentUser.uid);
-
         if (conversation && conversation.sender !== currentUser.uid) {
           this.manageTabNotification();
         }

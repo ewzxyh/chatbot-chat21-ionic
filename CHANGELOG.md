@@ -1,11 +1,48 @@
 # chat21-ionic ver 3.0
 
+### 3.0.55-RC3
+- Fixes the bug with another solution: the sender name in the conversation list does not match the sender name in the conversation details header
+- Adds Android resources
+- Set the "auth Persistence" environment variable to NONE
+
+### 3.0.55-RC2
+- Adds style rules to fit the image name to its width
+- Improves the method of getting Project ID from Conversation ID
+
+### 3.0.54-RC2
+- Fixes the bug: canned responses are not loaded
+- Adds backward compatibility: loading of canned responses for old projects
+
+### 3.0.54-RC1
+- Moves FCM property "VAPID" to environments
+- Adds FCM "VAPID" property to env.sample, chat-config.json and chat-config-template.json files
+- Enhances the firebase-messaging-sw.js
+
+### 3.0.53-RC6
+- Adds "VAPID" in the getToken() method of the "firebase-notification.service"
+- Adds log in the "firebase-notification.service"
+
+### 3.0.53-RC5
+- Push notification debug
+
+### 3.0.53-RC4
+- Enhances the service worker postMessage method 
+
+### 3.0.53-RC3
+- Enhances listenToNotificationCLick() method and rename it to listenToSwPostMessage()
+
+### 3.0.53-RC2
+- Commented the method listenToNotificationCLick() 
+
 ### 3.0.53-RC1
 - Fixes the bug: sometimes the message sender name displayed in the header is different from the one displayed in the conversation list
 - Fixes the bug: duplicate push notifications
 - Increase the height of the selectable message in the conversation list to prevent the 'Archive' icon and the sender name text from overlapping the string indicating the message arrival time
-- Updates the avatar background colors
-- Does not set the "image" property of the "conversation" object for "support-group" conversations
+- Updates the avatars background colors
+- Fixes the bug: 404 error when trying to view the profile picture of "support-group" conversations requesters
+- Adds the date the message was sent to the list of archived conversations
+- Translates the date "how long ago" the message was sent in the conversation list
+
 
 ### 3.0.52-beta
 - Replaces the label "conversation ID" with "user ID" in the accordion available in the panel "conversation info" of direct conversations
