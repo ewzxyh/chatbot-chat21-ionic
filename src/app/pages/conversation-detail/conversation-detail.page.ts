@@ -35,9 +35,11 @@ import { isFirstMessage, isInfo, isMine, messageType } from 'src/chat21-core/uti
 // Logger
 import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service';
 import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance';
+
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { TiledeskService } from '../../services/tiledesk/tiledesk.service';
+import { NetworkService } from '../../services/network-service/network.service';
 
 @Component({
   selector: 'app-conversation-detail',
@@ -92,7 +94,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   public window: any = window;
   public styleMap: Map<string, string> = new Map();
 
-
   MESSAGE_TYPE_INFO = MESSAGE_TYPE_INFO;
   MESSAGE_TYPE_MINE = MESSAGE_TYPE_MINE;
   MESSAGE_TYPE_OTHERS = MESSAGE_TYPE_OTHERS;
@@ -113,6 +114,11 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   messageType = messageType;
   // info_content_child_enabled: boolean = false
   private logger: LoggerService = LoggerInstance.getInstance();
+
+
+  public isOnline: boolean = true;
+  public checkInternet: boolean;
+  public msgCount: number
   /**
    * Constructor
    * @param route 
@@ -157,7 +163,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     public imageRepoService: ImageRepoService,
     public presenceService: PresenceService,
     public toastController: ToastController,
-    public tiledeskService: TiledeskService
+    public tiledeskService: TiledeskService,
+    private networkService: NetworkService
   ) {
 
     // Change list on date change
@@ -174,8 +181,39 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   // @ Lifehooks
   // -----------------------------------------------------------
   ngOnInit() {
-    this.logger.log('[CONVS-DETAIL] > ngOnInit - window.location: ', window.location);
+    // this.logger.log('[CONVS-DETAIL] > ngOnInit - window.location: ', window.location);
+    // this.logger.log('[CONVS-DETAIL] > ngOnInit - fileUploadAccept: ', this.appConfigProvider.getConfig().fileUploadAccept);
+    // const accept_files = this.appConfigProvider.getConfig().fileUploadAccept;
+    // this.logger.log('[CONVS-DETAIL] > ngOnInit - fileUploadAccept typeof accept_files ', typeof accept_files);
+    // const accept_files_array = accept_files.split(',')
+    // this.logger.log('[CONVS-DETAIL] > ngOnInit - fileUploadAccept accept_files_array ', accept_files_array);
+    // this.logger.log('[CONVS-DETAIL] > ngOnInit - fileUploadAccept accept_files_array typeof: ', typeof accept_files_array);
 
+    // accept_files_array.forEach(accept_file => {
+    //   this.logger.log('[CONVS-DETAIL] > ngOnInit - fileUploadAccept accept_file ', accept_file);
+    //   const accept_file_segment = accept_file.split('/')
+    //   this.logger.log('[CONVS-DETAIL] > ngOnInit - fileUploadAccept accept_file_segment ', accept_file_segment);
+    //   if (accept_file_segment[1] === '*') {
+
+    //   }
+    // });
+    this.watchToConnectionStatus();
+  }
+
+  watchToConnectionStatus() {
+
+    this.networkService.checkInternetFunc().subscribe(isOnline => {
+      this.checkInternet = isOnline
+      console.log('[CONVS-LIST-PAGE] - watchToConnectionStatus - isOnline', this.checkInternet)
+
+      // checking internet connection
+      if (this.checkInternet == true) {
+
+        this.isOnline = true;
+      } else {
+        this.isOnline = false;
+      }
+    });
   }
 
   ngAfterViewInit() {
@@ -295,17 +333,18 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       // this.openInfoConversation = true;
     }
 
-
-    if (checkWindowWidthIsLessThan991px()) {
-      this.logger.log('[CONVS-DETAIL] - initialize -> checkWindowWidthIsLessThan991px ', checkWindowWidthIsLessThan991px())
-      this.openInfoConversation = false; // indica se è aperto il box info conversazione
-      this.isOpenInfoConversation = false;
-      this.logger.log('[CONVS-DETAIL] - initialize -> openInfoConversation ', this.openInfoConversation, ' -> isOpenInfoConversation ', this.isOpenInfoConversation)
-    } else {
-      this.logger.log('[CONVS-DETAIL] - initialize -> checkWindowWidthIsLessThan991px ', checkWindowWidthIsLessThan991px())
-      this.openInfoConversation = true;
-      this.isOpenInfoConversation = true;
-      this.logger.log('[CONVS-DETAIL] - initialize -> openInfoConversation ', this.openInfoConversation, ' -> isOpenInfoConversation ', this.isOpenInfoConversation)
+    if (this.isMobile === false) {
+      if (checkWindowWidthIsLessThan991px()) {
+        this.logger.log('[CONVS-DETAIL] - initialize -> checkWindowWidthIsLessThan991px ', checkWindowWidthIsLessThan991px())
+        this.openInfoConversation = false; // indica se è aperto il box info conversazione
+        this.isOpenInfoConversation = false;
+        this.logger.log('[CONVS-DETAIL] - initialize -> openInfoConversation ', this.openInfoConversation, ' -> isOpenInfoConversation ', this.isOpenInfoConversation)
+      } else {
+        this.logger.log('[CONVS-DETAIL] - initialize -> checkWindowWidthIsLessThan991px ', checkWindowWidthIsLessThan991px())
+        this.openInfoConversation = true;
+        this.isOpenInfoConversation = true;
+        this.logger.log('[CONVS-DETAIL] - initialize -> openInfoConversation ', this.openInfoConversation, ' -> isOpenInfoConversation ', this.isOpenInfoConversation)
+      }
     }
 
     this.online = false;
@@ -365,7 +404,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       'LABEL_ENTER_MSG_SHORT',
       'LABEL_ENTER_MSG_SHORTER',
       'ONLY_IMAGE_FILES_ARE_ALLOWED_TO_PASTE',
-      'ONLY_IMAGE_FILES_ARE_ALLOWED_TO_DRAG',
+      'FAILED_TO_UPLOAD_THE_FORMAT_IS NOT_SUPPORTED',
       'NO_INFORMATION_AVAILABLE',
       'CONTACT_ID',
       'USER_ID'
@@ -426,6 +465,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       const that = this;
       this.logger.log('[CONVS-DETAIL] - initConversationHandler that.messages  ', that.messages);
       this.logger.log('[CONVS-DETAIL] - initConversationHandler that.messages.length  ', that.messages.length);
+      this.msgCount = that.messages.length
       setTimeout(() => {
         if (!that.messages || that.messages.length === 0) {
           this.showIonContent = true;
@@ -487,11 +527,11 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   }
 
   setHeaderContent() {
-  //   this.logger.log('[CONVS-DETAIL] - setHeaderContent conversationWith', this.conversationWith)
-  //   this.logger.log('[CONVS-DETAIL] - setHeaderContent conversationsHandlerService', this.conversationsHandlerService)
-  //   this.logger.log('[CONVS-DETAIL] - setHeaderContent conv_type', this.conv_type)
-   if (this.conversationWith && this.conversationsHandlerService && this.conv_type === 'active') {
-    this.logger.log('[CONVS-DETAIL] - setHeaderContent getConversationDetail CALLING')
+    //   this.logger.log('[CONVS-DETAIL] - setHeaderContent conversationWith', this.conversationWith)
+    //   this.logger.log('[CONVS-DETAIL] - setHeaderContent conversationsHandlerService', this.conversationsHandlerService)
+    //   this.logger.log('[CONVS-DETAIL] - setHeaderContent conv_type', this.conv_type)
+    if (this.conversationWith && this.conversationsHandlerService && this.conv_type === 'active') {
+      this.logger.log('[CONVS-DETAIL] - setHeaderContent getConversationDetail CALLING')
       this.conversationsHandlerService.getConversationDetail(this.conversationWith, (conv) => {
         this.logger.log('[CONVS-DETAIL] - setHeaderContent getConversationDetail (active)', this.conversationWith, conv)
         this.conversationAvatar = setConversationAvatar(
@@ -542,12 +582,13 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
 
   /**
-   * SendMessage
-   * @param msg 
-   * @param type 
-   * @param metadata 
-   */
-  sendMessage(msg: string, type: string, metadata?: any) {
+     * SendMessage
+     * @param msg 
+     * @param type 
+     * @param metadata
+     * @param additional_attributes 
+     */
+  sendMessage(msg: string, type: string, metadata?: any, additional_attributes?: any) {
     this.logger.log('[CONVS-DETAIL] - SEND MESSAGE - MSG: ', msg);
     this.logger.log('[CONVS-DETAIL] - SEND MESSAGE - type: ', type);
     this.logger.log('[CONVS-DETAIL] - SEND MESSAGE - metadata: ', metadata);
@@ -556,7 +597,22 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       fullname = this.loggedUser.fullname;
     }
 
-    if (type === 'file' || type === 'image') {
+    const g_attributes = this.setAttributes();
+    // added <any> to resolve the Error occurred during the npm installation: Property 'userFullname' does not exist on type '{}'
+    const attributes = <any>{};
+    if (g_attributes) {
+      for (const [key, value] of Object.entries(g_attributes)) {
+        attributes[key] = value;
+      }
+    }
+    if (additional_attributes) {
+      for (const [key, value] of Object.entries(additional_attributes)) {
+        attributes[key] = value;
+      }
+    }
+
+    // || type === 'image'
+    if (type === 'file') {
 
       if (msg) {
         // msg = msg + '<br>' + 'File: ' + metadata.src;
@@ -568,16 +624,27 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         //   ${metadata.name}
         // </a>`
 
-        // msg = `![file-image-placehoder](./assets/images/file-alt-solid.png)` + `[${metadata.name}](${metadata.src})`
+        // msg = ![file-image-placehoder](./assets/images/file-alt-solid.png) + [${metadata.name}](${metadata.src})
         msg = `[${metadata.name}](${metadata.src})`
       }
     }
-    //     <a href="/images/myw3schoolsimage.jpg" download>
-    //   <img src="/images/myw3schoolsimage.jpg" alt="W3Schools" width="104" height="142">
-    // </a>
+    
+    // else if (type === 'image') {
+    //   if (msg) {
+    //     // msg = msg + '<br>' + 'File: ' + metadata.src;
+    //     msg = metadata.name + '\n' + msg
+
+    //   } else {
+  
+    //     msg = metadata.name
+    //   }
+ 
+    // }
+ 
 
     (metadata) ? metadata = metadata : metadata = '';
     this.logger.log('[CONVS-DETAIL] - SEND MESSAGE msg: ', msg, ' - messages: ', this.messages, ' - loggedUser: ', this.loggedUser);
+ 
     if (msg && msg.trim() !== '' || type !== TYPE_MSG_TEXT) {
       this.conversationHandlerService.sendMessage(
         msg,
@@ -588,12 +655,11 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         this.loggedUser.uid,
         fullname,
         this.channelType,
-        this.setAttributes()
+        attributes
       );
 
     }
   }
-
   // ----------------------------------------------------------
   // InitSubscriptions BS subscriptions 
   // ----------------------------------------------------------
@@ -848,10 +914,20 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     this.logger.log("[CONVS-DETAIL] - loadTagsCanned conversationWith ", conversationWith);
 
     const conversationWith_segments = conversationWith.split('-');
-      // Removes the last element of the array if is = to the separator 
-      if (conversationWith_segments[conversationWith_segments.length - 1] === '') {
+    // Removes the last element of the array if is = to the separator 
+    if (conversationWith_segments[conversationWith_segments.length - 1] === '') {
+      conversationWith_segments.pop();
+    }
+
+    if (conversationWith_segments.length === 4) {
+      const lastArrayElement = conversationWith_segments[conversationWith_segments.length - 1]
+      this.logger.log('[CONVS-DETAIL] - lastArrayElement ', lastArrayElement);
+      this.logger.log('[CONVS-DETAIL] - lastArrayElement length', lastArrayElement.length);
+      if (lastArrayElement.length !== 32) {
         conversationWith_segments.pop();
-     }
+      }
+    }
+
     this.logger.log("[CONVS-DETAIL] - loadTagsCanned conversationWith_segments ", conversationWith_segments);
     let projectId = ""
 
@@ -1069,7 +1145,35 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   }
 
   returnOnAttachmentButtonClicked(event: any) {
-
+    this.logger.debug('[CONV-COMP] eventbutton', event)
+    if (!event || !event.target.type) {
+      return;
+    }
+    switch (event.target.type) {
+      case 'url':
+        try {
+          this.openLink(event.target.button);
+        } catch (err) {
+          this.logger.error('[CONV-COMP] url > Error :' + err);
+        }
+        return;
+      case 'action':
+        try {
+          this.actionButton(event.target.button);
+        } catch (err) {
+          this.logger.error('[CONV-COMP] action > Error :' + err);
+        }
+        return false;
+      case 'text':
+        try {
+          const text = event.target.button.value
+          const metadata = { 'button': true };
+          this.sendMessage(text, TYPE_MSG_TEXT, metadata);
+        } catch (err) {
+          this.logger.error('[CONV-COMP] text > Error :' + err);
+        }
+      default: return;
+    }
   }
 
   onImageRenderedFN(event) {
@@ -1077,6 +1181,32 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     if (this.showButtonToBottom) {
       this.scrollBottom(0)
     }
+  }
+
+
+  private openLink(event: any) {
+    const link = event.link ? event.link : '';
+    const target = event.target ? event.target : '';
+    if (target === 'self' || target === 'parent') {
+      window.open(link, '_parent');
+    } else {
+      window.open(link, '_blank');
+    }
+  }
+
+
+  private actionButton(event: any) {
+    // console.log(event);
+    const action = event.action ? event.action : '';
+    const message = event.value ? event.value : '';
+    const subtype = event.show_reply ? '' : 'info';
+
+    const attributes = {
+      action: action,
+      subtype: subtype
+    };
+    this.sendMessage(message, TYPE_MSG_TEXT, null, attributes);
+    this.logger.debug('[CONV-COMP] > action :');
   }
 
   addUploadingBubbleEvent(event: boolean) {
@@ -1184,8 +1314,49 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       this.heightMessageTextArea = '50';
     }
   }
+  checkAcceptedFile(draggedFileMimeType) {
+    let isAcceptFile = false;
+    this.logger.log('[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept: ', this.appConfigProvider.getConfig().fileUploadAccept);
+    const accept_files = this.appConfigProvider.getConfig().fileUploadAccept;
+    this.logger.log('[CONVS-DETAIL] > checkAcceptedFile - mimeType: ', draggedFileMimeType);
+    if (accept_files === "*/*") {
+      isAcceptFile = true;
+      return isAcceptFile
+    } else if (accept_files !== "*/*") {
+      this.logger.log('[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept typeof accept_files ', typeof accept_files);
+      const accept_files_array = accept_files.split(',')
+      this.logger.log('[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept accept_files_array ', accept_files_array);
+      this.logger.log('[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept accept_files_array typeof: ', typeof accept_files_array);
 
+      accept_files_array.forEach(accept_file => {
 
+        this.logger.log('[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept accept_file ', accept_file);
+        const accept_file_segment = accept_file.split('/')
+        this.logger.log('[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept accept_file_segment ', accept_file_segment);
+        if (accept_file_segment[1] === '*') {
+          if (draggedFileMimeType.startsWith(accept_file_segment[0])) {
+            isAcceptFile = true;
+            this.logger.log('[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept isAcceptFile', isAcceptFile);
+            return isAcceptFile
+
+          } else {
+            isAcceptFile = false;
+            this.logger.log('[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept isAcceptFile', isAcceptFile);
+            return isAcceptFile
+
+          }
+        } else if (accept_file_segment[1] !== '*') {
+          if (draggedFileMimeType === accept_file) {
+            isAcceptFile = true;
+            this.logger.log('[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept isAcceptFile', isAcceptFile);
+            return isAcceptFile
+          }
+        }
+        return isAcceptFile
+      });
+      return isAcceptFile
+    }
+  }
   // -------------------------------------------------------------
   // DRAG FILE 
   // -------------------------------------------------------------
@@ -1206,8 +1377,12 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       var mimeType = fileList[0].type;
       this.logger.log('[CONVS-DETAIL] ----> FILE - DROP mimeType files ', mimeType);
 
-      if (mimeType.startsWith("image") || mimeType.startsWith("application")) {
-
+      // if (mimeType.startsWith("image") || mimeType.startsWith("application")) {
+      // this.logger.log('[CONVS-DETAIL] ----> FILE - DROP mimeType files: ', this.appConfigProvider.getConfig().fileUploadAccept);
+      // this.checkAcceptedFile(mimeType);
+      const isAccepted = this.checkAcceptedFile(mimeType);
+      this.logger.log('[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept isAcceptFile FILE - DROP', isAccepted);
+      if (isAccepted === true) {
         this.handleDropEvent(ev);
 
       } else {
@@ -1242,8 +1417,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
   async presentToastOnlyImageFilesAreAllowedToDrag() {
     const toast = await this.toastController.create({
-      message: this.translationMap.get('ONLY_IMAGE_FILES_ARE_ALLOWED_TO_DRAG'),
-      duration: 3000,
+      message: this.translationMap.get('FAILED_TO_UPLOAD_THE_FORMAT_IS_NOT_SUPPORTED'),
+      duration: 5000,
       color: "danger",
       cssClass: 'toast-custom-class',
     });

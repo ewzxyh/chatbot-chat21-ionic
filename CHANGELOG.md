@@ -1,5 +1,64 @@
 # chat21-ionic ver 3.0
 
+### 3.0.55-RC16
+- Removes the image name displayed at the bottom of the image
+- Removes the adaptation of the image caption width to the image size
+
+### 3.0.55-RC15
+- Fixes the bug: "ion-spinner" throws an error when the chat is offline
+- Fixes the bug: in the component "info-group-component" if groupDetail is not defined throws the error "Cannot read hasOwnProperty of undefined"
+- Fixes the bug: in the "advanced-info-accordion" component if translationMap is not defined throws the error "Cannot read properties of undefined (reading 'get')"
+- Fixes the bug: in the component "user-presence.component" if translationMap is not defined throws the error "Cannot read properties of undefined (reading 'get')"
+- Fixes the bug: if the image name is longer than the image width when uploading, it is displayed on the right side of the image
+- Fixes the bug: if the user logs out of the dashboard and then logs in, the user in the chat is not logged in again
+- Fixes the bug: if the file upload preview window is closed without sending the file, the windows does not reopen if the same file is selected
+- Adds autofocus in the "caption" text area in the file upload preview window
+
+### 3.0.55-RC14
+- Implements Network service
+- Displays, when the chat loses connection, the message "Waiting for network" at the top of the conversation list
+- Displays, when the chat loses connection, the message "Internet is slow or not working" on the conversation details page
+- Set the "user" variable to null when the user logs out of chat
+
+### 3.0.55-RC12
+- Fixes the bug: when a file is uploaded via drag & drop, the message "Failed to upload: the format is not supported" is displayed even if fileUploadAccept is set to "* / *" (accept all)
+- Fixes the bug: the left side panel "conversation list" is not displayed on Safari
+- Fixes the bug: on Safari, clicking a button causes the app to reload or crash
+- Adds a gradient background to the avatars
+
+### 3.0.55-RC11
+- Replaces the message "No internet connection" displayed when Internet is slow or not working  with the message "Internet is slow or not working."
+
+### 3.0.55-RC10
+- Fixes the bug: Safari doesn't support the API's required to use FCM
+- Fixes the bug: the drag and drop does not take into account the accepted files set in the "fileUploadAccept" environments property
+- Fixes the bug: on Safari in the login modal the email and psw entered are not displayed
+
+### 3.0.55-RC9
+- Adds the left panel "projects"
+
+### 3.0.55-RC8
+- Improves backward compatibility for old conversations of the "archive", "predefined replies" features and for displaying the right "Conversation Info" panel
+- Bug fixing
+
+### 3.0.55-RC7
+- Adds the message "No Internet Connection" when the chat tab is a blank page
+- Adds a "toast" indicating when the chat has lost connection
+- Adds action button component
+- Fixes the bug: when accessing the chat without internet connection, the chat does not restart when the connection is restored
+- Fixes the bug: old conversations are not archived (implemented backwards compatibility)
+
+### 3.0.55-RC6
+- Fixes the bug: when the pc starts up, if the connection is missing, the chat tab is a blank page and remains so even after the connection
+
+### 3.0.55-RC5
+- Removes the changes in version 3.0.55-RC4
+- Updates the method of "app.component.ts" watchToConnectionStatus()
+
+### 3.0.55-RC4
+- Set "Auth.Persistence" to "firebase.auth().signInWithCustomToken" method
+- Hardcoded the authPersistence value to 'LOCAL' in the 'localSessionStorage' service
+
 ### 3.0.55-RC3
 - Fixes the bug with another solution: the sender name in the conversation list does not match the sender name in the conversation details header
 - Adds Android resources

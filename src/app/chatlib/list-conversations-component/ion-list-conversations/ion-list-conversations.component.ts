@@ -8,6 +8,9 @@ import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service
 import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
+// import { EventsService } from 'src/app/services/events-service';
+// import { TiledeskService } from '../../../services/tiledesk/tiledesk.service';
+import { NetworkService } from '../../../services/network-service/network.service';
 // import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service';
 // import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance';
 
@@ -24,8 +27,11 @@ export class IonListConversationsComponent extends ListConversationsComponent im
   convertMessage = convertMessage;
   isApp: boolean = false;
   public logger: LoggerService = LoggerInstance.getInstance();
-  public currentYear: any
-  public browserLang: string
+  public currentYear: any;
+  public browserLang: string;
+  public isOnline: boolean = true;
+  public checkInternet: boolean;
+
   /**
    * 
    * @param iterableDiffers 
@@ -37,6 +43,9 @@ export class IonListConversationsComponent extends ListConversationsComponent im
     public kvDiffers: KeyValueDiffers,
     public platform: Platform,
     private translate: TranslateService,
+    // private events: EventsService,
+    // private tiledeskService: TiledeskService,
+    private networkService: NetworkService
   ) {
     super(iterableDiffers, kvDiffers)
     this.browserLang = this.translate.getBrowserLang();
@@ -59,7 +68,43 @@ export class IonListConversationsComponent extends ListConversationsComponent im
     this.isApp = this.platform.is('ios') || this.platform.is('android')
     this.logger.log('[ION-LIST-CONVS-COMP] - ngOnInit - IS-APP ', this.isApp)
     this.logger.log('[ION-LIST-CONVS-COMP] - ngOnInit - Platform', this.platform.platforms());
+    this.watchToConnectionStatus();
   }
+
+
+  watchToConnectionStatus() {
+
+    this.networkService.checkInternetFunc().subscribe(isOnline => {
+      this.checkInternet = isOnline
+      this.logger.log('[ION-LIST-CONVS-COMP] - watchToConnectionStatus - isOnline', this.checkInternet)
+
+      // checking internet connection
+      if (this.checkInternet == true) {
+
+        this.isOnline = true;
+      } else {
+        this.isOnline = false;
+      }
+    });
+  }
+  // --------------------------------------------------
+  // subdsribe to event
+  // --------------------------------------------------
+  // subdcribeToWatchToConnectionStatus() {
+  //   this.logger.log('[ION-LIST-CONVS-COMP] subdcribeToWatchToConnectionStatus ');
+  //   // this.events.subscribe('uidConvSelected:changed', this.subscribeChangedConversationSelected);
+  //   this.events.subscribe('internetisonline', (internetisonline) => {
+  //     // user and time are the same arguments passed in `events.publish(user, time)`
+  //     this.logger.log('[ION-LIST-CONVS-COMP] internetisonline ',internetisonline);
+  //     if (internetisonline === true) {
+  //       this.isOnline = true;
+  //     } else {
+  //       this.isOnline = false;
+  //     }
+  //   });
+  // }
+
+
 
   closeConversation(conversation: ConversationModel) {
     var conversationId = conversation.uid;

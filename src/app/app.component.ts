@@ -5,10 +5,13 @@ import { AppStorageService } from 'src/chat21-core/providers/abstract/app-storag
 import { Component, ViewChild, NgZone, OnInit, HostListener, ElementRef, Renderer2, } from '@angular/core';
 import { Config, Platform, IonRouterOutlet, IonSplitPane, NavController, MenuController, AlertController, IonNav, ToastController } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, VirtualTimeScheduler } from 'rxjs';
 import { ModalController } from '@ionic/angular';
 
-import * as firebase from 'firebase/app';
+// import * as firebase from 'firebase/app';
+import firebase from "firebase/app";
+import 'firebase/auth'; // nk in watch connection status
+
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { TranslateService } from '@ngx-translate/core';
@@ -45,6 +48,14 @@ import { TiledeskAuthService } from 'src/chat21-core/providers/tiledesk/tiledesk
 // FCM
 import { NotificationsService } from 'src/chat21-core/providers/abstract/notifications.service';
 import { getImageUrlThumbFromFirebasestorage } from 'src/chat21-core/utils/utils-user';
+
+// import { Network } from '@ionic-native/network/ngx';
+// import { Observable, Observer, fromEvent, merge, of } from 'rxjs';
+// import { mapTo } from 'rxjs/operators';
+import { TiledeskService } from './services/tiledesk/tiledesk.service';
+import { NetworkService } from './services/network-service/network.service';
+import * as PACKAGE from 'package.json';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -55,6 +66,9 @@ export class AppComponent implements OnInit {
   @ViewChild('sidebarNav', { static: false }) sidebarNav: IonNav;
   @ViewChild('detailNav', { static: false }) detailNav: IonRouterOutlet;
 
+  // public appIsOnline$: Observable<boolean> = undefined;
+  checkInternet: boolean;
+
   private subscription: Subscription;
   public sidebarPage: any;
   public notificationsEnabled: boolean;
@@ -63,6 +77,7 @@ export class AppComponent implements OnInit {
   private doitResize: any;
   private timeModalLogin: any;
   public tenant: string;
+  public persistence: string;
   public authModal: any;
 
   private audio: any;
@@ -71,9 +86,15 @@ export class AppComponent implements OnInit {
   private isTabVisible: boolean = true;
   private tabTitle: string;
   private logger: LoggerService = LoggerInstance.getInstance();
-  public toastMsg: string;
+  public toastMsgErrorWhileUnsubscribingFromNotifications: string;
+  public toastMsgCloseToast: string;
+  public toastMsgWaitingForNetwork: string;
   private modalOpen: boolean = false;
   private hadBeenCalledOpenModal: boolean = false;
+  public missingConnectionToast: any
+  public executedInitializeAppByWatchConnection: boolean = false;
+  private version: string;
+
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -105,57 +126,63 @@ export class AppComponent implements OnInit {
     public archivedConversationsHandlerService: ArchivedConversationsHandlerService,
     private translateService: CustomTranslateService,
     public notificationsService: NotificationsService,
-    public toastController: ToastController
+    public toastController: ToastController,
+    // private network: Network,
+    // private tiledeskService: TiledeskService,
+    private networkService: NetworkService
   ) {
-
-    const appconfig = appConfigProvider.getConfig();
-    this.logger.info('[APP-COMP] appconfig: ', appconfig)
-    this.logger.info('[APP-COMP] logLevel: ', appconfig.logLevel);
-    this.tenant = appconfig.firebaseConfig.tenant;
-    this.logger.info('[APP-COMP] appconfig firebaseConfig tenant: ', this.tenant)
-    this.logger.info('[APP-COMP] appconfig platform is cordova: ', this.platform.is('cordova'))
-
-
-
-
-    this.route.queryParams.subscribe(params => {
-      this.logger.info('[APP-COMP] queryParams params: ', params)
-      if (params.logLevel) {
-        this.logger.info('[APP-COMP] log level get from queryParams: ', params.logLevel)
-        this.logger.setLoggerConfig(true, params.logLevel)
-      } else {
-        this.logger.info('[APP-COMP] log level get from appconfig: ', appconfig.logLevel)
-        this.logger.setLoggerConfig(true, appconfig.logLevel)
-      }
-    });
-
-
-    this.logger.setLoggerConfig(true, appconfig.logLevel)
-    // }
-    // if (!this.platform.is('desktop')) {
-    //   this.splashScreen.show();
-    // }
-    if (!this.platform.is('cordova')) {
-      this.splashScreen.show();
-    }
-
-
+    this.logger.log('[APP-COMP] HELLO Constuctor !!!!!!!')
+    // HACK: fix toast not presented when offline, due to lazy loading the toast controller.
+    // this.toastController.create({ animated: false }).then(t => {
+    //   console.log('[APP-COMP] toastController create')
+    //   t.present();
+    //   t.dismiss();
+    // });
   }
 
 
   /**
    */
   ngOnInit() {
+    this.logger.log('[APP-COMP] HELLO ngOnInit !!!!!!!')
     this.logger.info('[APP-COMP] ngOnInit -->', this.route.snapshot.params);
-    this.tabTitle = document.title
+
     this.initializeApp();
+
   }
 
 
   /** */
   initializeApp() {
+
+    this.logger.log('[APP-COMP] - watchToConnectionStatus - initializeApp');
+    this.logger.log('[APP-COMP] HELLO initializeApp !!!!!!!')
+    this.logger.info('[APP-COMP] appconfig platform is cordova: ', this.platform.is('cordova'))
+
+    if (!this.platform.is('cordova')) {
+      this.splashScreen.show();
+    }
+    this.tabTitle = document.title;
+
+    this.getRouteParamsAndSetLoggerConfig();
+
+    const appconfig = this.appConfigProvider.getConfig();
+    this.logger.info('[APP-COMP] appconfig: ', appconfig)
+    this.version = PACKAGE.version;
+    this.logger.info('[APP-COMP] version: ', this.version)
+
+    this.logger.setLoggerConfig(true, appconfig.logLevel)
+    this.logger.info('[APP-COMP] logLevel: ', appconfig.logLevel);
+
+    this.tenant = appconfig.firebaseConfig.tenant;
+    this.logger.info('[APP-COMP] appconfig firebaseConfig tenant: ', this.tenant);
+
+    this.persistence = appconfig.authPersistence;
+
+
     this.notificationsEnabled = true;
     this.zone = new NgZone({}); // a cosa serve?
+
     this.platform.ready().then(() => {
       this.setLanguage();
 
@@ -164,7 +191,7 @@ export class AppComponent implements OnInit {
       }
       this.statusBar.styleDefault();
       this.navService.init(this.sidebarNav, this.detailNav);
-      this.appStorageService.initialize(environment.storage_prefix, environment.authPersistence, '')
+      this.appStorageService.initialize(environment.storage_prefix, this.persistence, '')
       this.tiledeskAuthService.initialize(this.appConfigProvider.getConfig().apiUrl);
       this.messagingAuthService.initialize();
 
@@ -187,30 +214,162 @@ export class AppComponent implements OnInit {
 
       this.logger.debug('[APP-COMP] initializeApp:: ', this.sidebarNav, this.detailNav);
       // this.listenToLogoutEvent()
-      this.translateToastMessage();
+      this.translateToastMsgs();
+
+      // ---------------------------------------
+      // Watch to network status
+      // ---------------------------------------
+      this.watchToConnectionStatus();
     });
   }
 
-  translateToastMessage() {
+
+
+  watchToConnectionStatus() {
+    this.networkService.checkInternetFunc().subscribe(isOnline => {
+      this.checkInternet = isOnline
+      this.logger.log('[APP-COMP] - watchToConnectionStatus - isOnline', this.checkInternet)
+
+      // checking internet connection
+      if (this.checkInternet == true) {
+        // this.events.publish('internetisonline', true);
+        // show success alert if internet is working
+        // alert('Internet is working.')
+        this.logger.log('[APP-COMP] - watchToConnectionStatus - Internet is working.')
+        // this.logger.log('[APP-COMP] - watchToConnectionStatus - this.missingConnectionToast', this.missingConnectionToast)
+        if (!checkPlatformIsMobile()) {
+          const elemIonNav = <HTMLElement>document.querySelector('ion-nav');
+          this.logger.log('[APP-COMP] - watchToConnectionStatus - desktop * elemIonNav *', elemIonNav)
+
+          if (this.executedInitializeAppByWatchConnection === false) {
+            setTimeout(() => {
+              const elemIonNavchildNodes = elemIonNav.childNodes;
+              this.logger.log('[APP-COMP] - watchToConnectionStatus - elemIonNavchildNodes ', elemIonNavchildNodes);
+
+              if (elemIonNavchildNodes.length === 0) {
+                this.logger.log('[APP-COMP] - watchToConnectionStatus - elemIonNavchildNodes  HERE YES', elemIonNavchildNodes);
+
+                this.initializeApp();
+                this.executedInitializeAppByWatchConnection = true;
+              }
+            }, 2000);
+          }
+        } else if (checkPlatformIsMobile()) {
+          this.logger.log('[APP-COMP] - watchToConnectionStatus - mobile ')
+          const elemIonRouterOutlet = <HTMLElement>document.querySelector('ion-router-outlet');
+          this.logger.log('[APP-COMP] - watchToConnectionStatus - mobile * elemIonRouterOutlet *', elemIonRouterOutlet)
+          if (this.executedInitializeAppByWatchConnection === false) {
+            setTimeout(() => {
+              const childElementCount = elemIonRouterOutlet.childElementCount;
+              this.logger.log('[APP-COMP] - watchToConnectionStatus - mobile * childElementCount *', childElementCount)
+              if (childElementCount === 1) {
+                this.initializeApp();
+                this.executedInitializeAppByWatchConnection = true;
+              }
+            }, 2000);
+          }
+        }
+      }
+      else {
+        this.logger.log('[APP-COMP] - watchToConnectionStatus - Internet is slow or not working.');
+      }
+    });
+  }
+
+  // checkInternetFunc() {
+  //   if (!window || !navigator || !('onLine' in navigator)) return;
+
+  //   this.appIsOnline$ = Observable.create(observer => {
+  //     observer.next(true);
+  //   }).pipe(mapTo(true));
+
+  //   if (this.platform.is('cordova')) {
+  //     // on Device - when platform is cordova
+  //     this.appIsOnline$ = merge(
+  //       this.network.onConnect().pipe(mapTo(true)),
+  //       this.network.onDisconnect().pipe(mapTo(false))
+  //     );
+  //   } else {
+  //     // on Browser - when platform is Browser
+  //     this.appIsOnline$ = merge(
+  //       of(navigator.onLine),
+  //       fromEvent(window, 'online').pipe(mapTo(true)),
+  //       fromEvent(window, 'offline').pipe(mapTo(false))
+  //     );
+  //   }
+  //   return this.appIsOnline$
+  // }
+
+  getRouteParamsAndSetLoggerConfig() {
+    const appconfig = this.appConfigProvider.getConfig();
+    this.route.queryParams.subscribe(params => {
+      this.logger.info('[APP-COMP] getRouteParamsAndSetLoggerConfig - queryParams params: ', params)
+      if (params.logLevel) {
+        this.logger.info('[APP-COMP] getRouteParamsAndSetLoggerConfig - log level get from queryParams: ', params.logLevel)
+        this.logger.setLoggerConfig(true, params.logLevel)
+      } else {
+        this.logger.info('[APP-COMP] getRouteParamsAndSetLoggerConfig - log level get from appconfig: ', appconfig.logLevel)
+        this.logger.setLoggerConfig(true, appconfig.logLevel)
+      }
+    });
+  }
+
+  async presentMissingConnectionToast() {
+    this.missingConnectionToast = await this.toastController.create({
+      // header: '<ion-icon name="bicycle"></ion-icon>' + this.toastMsgWaitingForNetwork,
+      message: '<ion-spinner class="spinner-middle"></ion-spinner>  <span part="message-text" class="waiting-for-network-msg">&nbsp;&nbsp; Waiting for network</span> ',
+      position: 'top',
+      cssClass: 'missing-connection-toast',
+      // buttons: [
+      //   {
+      //     text: this.toastMsgCloseToast,
+      //     role: 'cancel',
+
+      //   }
+      // ]
+    });
+    await this.missingConnectionToast.present()
+
+    // const { role } = await toast.onDidDismiss();
+    // console.log('onDidDismiss resolved with role', role);
+  }
+
+  async dismissMissingConnectionToast() {
+    this.missingConnectionToast = await this.toastController.dismiss()
+  }
+
+
+  translateToastMsgs() {
     this.translate.get('AnErrorOccurredWhileUnsubscribingFromNotifications')
       .subscribe((text: string) => {
-        // this.deleteContact_msg = text;
-        // this.logger.debug('FIREBASE-NOTIFICATION >>>> (APP-COMPONENT) text: ', text)
-        this.toastMsg = text;
-        // this.logger.debug('FIREBASE-NOTIFICATION >>>> (APP-COMPONENT): this.toastMsg', this.toastMsg)
+        this.toastMsgErrorWhileUnsubscribingFromNotifications = text;
+      });
+    this.translate.get('CLOSE_TOAST')
+      .subscribe((text: string) => {
+        this.toastMsgCloseToast = text;
+      });
+    this.translate.get('WAITING_FOR_NETWORK')
+      .subscribe((text: string) => {
+        this.toastMsgWaitingForNetwork = text;
       });
   }
+
 
   /***************************************************+*/
   /**------- AUTHENTICATION FUNCTIONS --> START <--- +*/
   private initAuthentication() {
     const tiledeskToken = this.appStorageService.getItem('tiledeskToken')
+    this.logger.log('[APP-COMP] >>> initAuthentication tiledeskToken ', tiledeskToken)
+
     const currentUser = JSON.parse(this.appStorageService.getItem('currentUser'));
+    this.logger.log('[APP-COMP] >>> initAuthentication currentUser ', currentUser)
     if (tiledeskToken) {
-      this.logger.debug('[APP-COMP] >>> I LOG IN WITH A TOKEN EXISTING IN THE LOCAL STORAGE OR WITH A TOKEN PASSED IN THE URL PARAMETERS <<<')
+      this.logger.log('[APP-COMP] >>> initAuthentication I LOG IN WITH A TOKEN EXISTING IN THE LOCAL STORAGE OR WITH A TOKEN PASSED IN THE URL PARAMETERS <<<')
+
       this.tiledeskAuthService.signInWithCustomToken(tiledeskToken).then(user => {
         this.messagingAuthService.createCustomToken(tiledeskToken)
-      }).catch(error => { this.logger.error('[APP-COMP] SIGNINWITHCUSTOMTOKEN error::' + error) })
+      }).catch(error => { this.logger.error('[APP-COMP] initAuthentication SIGNINWITHCUSTOMTOKEN error::' + error) })
+
     } else {
       this.logger.warn('[APP-COMP] >>> I AM NOT LOGGED IN <<<')
       const that = this;
@@ -252,7 +411,7 @@ export class AppComponent implements OnInit {
     const tiledeskToken = this.tiledeskAuthService.getTiledeskToken();
     const currentUser = this.tiledeskAuthService.getCurrentUser();
     // this.logger.printDebug('APP-COMP - goOnLine****', currentUser);
-    this.logger.debug('[APP-COMP] - goOnLine****', currentUser);
+    this.logger.log('[APP-COMP] - goOnLine****', currentUser);
     this.chatManager.setTiledeskToken(tiledeskToken);
 
     // ----------------------------------------------
@@ -303,31 +462,6 @@ export class AppComponent implements OnInit {
   /**------- AUTHENTICATION FUNCTIONS --> END <--- +*/
   /***************************************************+*/
 
-  /**
-   * ::: initConversationsHandler :::
-   * inizializzo chatConversationsHandler e archviedConversationsHandler
-   * recupero le conversazioni salvate nello storage e pubblico l'evento loadedConversationsStorage
-   * imposto uidConvSelected in conversationHandler e chatArchivedConversationsHandler
-   * e mi sottoscrivo al nodo conversazioni in conversationHandler e chatArchivedConversationsHandler (connect)
-   * salvo conversationHandler in chatManager
-   */
-  // initConversationsHandler(userId: string) {
-  //   const keys = [
-  //     'LABEL_TU'
-  //   ];
-  //   const translationMap = this.translateService.translateLanguage(keys);
-
-  //   this.logger.debug('initConversationsHandler ------------->', userId);
-  //   // 1 - init chatConversationsHandler and  archviedConversationsHandler
-  //   this.conversationsHandlerService.initialize(userId, translationMap);
-  //   // 2 - get conversations from storage
-  //   // this.chatConversationsHandler.getConversationsFromStorage();
-  //   // 5 - connect conversationHandler and archviedConversationsHandler to firebase event (add, change, remove)
-  //   this.conversationsHandlerService.connect();
-  //   // 6 - save conversationHandler in chatManager
-  //   this.chatManager.setConversationsHandler(this.conversationsHandlerService);
-  // }
-
   /** */
   setLanguage() {
     this.translate.setDefaultLang('en');
@@ -372,6 +506,7 @@ export class AppComponent implements OnInit {
     } else {
       this.platformIs = PLATFORM_DESKTOP;
       this.logger.debug('[APP-COMP] PLATFORM_DESKTOP ', this.navService);
+
       this.navService.setRoot(ConversationListPage, {});
 
       const IDConv = this.route.snapshot.firstChild.paramMap.get('IDConv');
@@ -391,7 +526,7 @@ export class AppComponent implements OnInit {
       // createExternalSidebar(this.renderer, DASHBOARD_URL);
 
       // // FOR REALTIME TESTING
-      // createExternalSidebar(this.renderer, 'http://localhost:4203');
+      // createExternalSidebar(this.renderer, 'http://localhost:4204');
 
     }
   }
@@ -462,7 +597,7 @@ export class AppComponent implements OnInit {
     const that = this;
 
     this.messagingAuthService.BSAuthStateChanged.subscribe((state: any) => {
-      this.logger.debug('[APP-COMP] ***** BSAuthStateChanged ***** state', state);
+      this.logger.log('[APP-COMP] ***** BSAuthStateChanged ***** state', state);
       if (state && state === AUTH_STATE_ONLINE) {
         const user = that.tiledeskAuthService.getCurrentUser();
         that.goOnLine();
@@ -501,22 +636,21 @@ export class AppComponent implements OnInit {
     this.events.subscribe('uidConvSelected:changed', this.subscribeChangedConversationSelected);
     this.events.subscribe('profileInfoButtonClick:logout', this.subscribeProfileInfoButtonLogOut);
 
+
     this.conversationsHandlerService.conversationAdded.subscribe((conversation: ConversationModel) => {
-      this.logger.log('[APP-COMP] ***** conversationsAdded *****', conversation);
+      // this.logger.log('[APP-COMP] ***** conversationsAdded *****', conversation);
       // that.conversationsChanged(conversations);
       if (conversation && conversation.is_new === true) {
         this.manageTabNotification()
       }
     });
+
     this.conversationsHandlerService.conversationChanged.subscribe((conversation: ConversationModel) => {
-      this.logger.log('[APP-COMP] ***** subscribeConversationChanged *****', conversation);
-      // that.conversationsChanged(conversations);
-      // 
 
       this.logger.log('[APP-COMP] ***** subscribeConversationChanged conversation: ', conversation);
       const currentUser = JSON.parse(this.appStorageService.getItem('currentUser'));
       this.logger.log('[APP-COMP] ***** subscribeConversationChanged current_user: ', currentUser);
-  
+
       if (currentUser) {
         this.logger.log('[APP-COMP] ***** subscribeConversationChanged current_user uid: ', currentUser.uid);
         if (conversation && conversation.sender !== currentUser.uid) {
@@ -631,7 +765,7 @@ export class AppComponent implements OnInit {
 
   async presentToast() {
     const toast = await this.toastController.create({
-      message: this.toastMsg,
+      message: this.toastMsgErrorWhileUnsubscribingFromNotifications,
       duration: 2000
     });
     toast.present();
@@ -654,9 +788,10 @@ export class AppComponent implements OnInit {
 
     // this.subscribeToConvs()
     this.conversationsHandlerService.subscribeToConversations(() => {
-      this.logger.debug('[APP-COMP]-CONVS- INIT CONV')
+      this.logger.log('[APP-COMP]-CONVS- INIT CONV')
+
       const conversations = this.conversationsHandlerService.conversations;
-      this.logger.debug('[APP-COMP]-CONVS - INIT CONV CONVS', conversations)
+      this.logger.log('[APP-COMP]-CONVS - INIT CONV CONVS', conversations)
 
       // this.logger.printDebug('SubscribeToConversations (convs-list-page) - conversations')
       if (!conversations || conversations.length === 0) {
@@ -717,9 +852,21 @@ export class AppComponent implements OnInit {
 
   @HostListener('window:storage', ['$event'])
   onStorageChanged(event: any) {
+    console.log('[APP-COMP] - onStorageChanged tiledeskToken', this.appStorageService.getItem('tiledeskToken'))
     if (this.appStorageService.getItem('tiledeskToken') === null) {
       this.tiledeskAuthService.logOut()
       this.messagingAuthService.logout();
+    }
+    else {
+      setTimeout(() => {
+        const currentUser = this.tiledeskAuthService.getCurrentUser();
+        if (currentUser) {
+          console.log('[APP-COMP] - onStorageChanged currentUser', currentUser)
+        } else {
+          this.initializeApp()
+        }
+      }, 1000);
+
     }
   }
 
