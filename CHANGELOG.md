@@ -1,5 +1,35 @@
 # chat21-ionic ver 3.0
 
+### 3.0.55-RC24
+- Improves the automatic login method
+
+### 3.0.55-RC23
+- Fixes the bug: missing contact information in the header when selecting a "Direct" conversation
+- Fixes the bug: by clicking on an archived chat the avatar displayed in the header does not correspond to the one displayed in the conversation list and in the right side panel "conversation info"
+- Fixes the bug: sometimes auto login with JWT passed in URL as query string doesn't work
+- Improves the "send message" textarea graphics
+- Adds the ability to insert a new line after the current position in the message text area by pressing the key combinations "ALT + ENTER", "CTRL + ENTER", "CMD + ENTER"
+
+### 3.0.55-RC22
+- Fixes the bug: if the chat is open in multiple browser tabs when the user log in the 'goOnline' method is activated several times
+- Manages the message displayed in the conversation list when the sender sends a file (replace the markdown string with the string "sent an attachment")
+- Fixes the bug: if the chat is open in multiple browser tabs when the user logs out, the conversation list remains visible
+- Displays the "loading bubble" while uploading an image
+
+### 3.0.55-RC21
+- Fixes the bug: if the chat is open in more than one browser tab, not all of them reconnect when the user accesses one of them
+
+### 3.0.55-RC20
+- Improve the method that solves the bug: if the chat is open on more than one tab, the previous ones disconnect
+- Displays the message "sent an image" when the sender sends an image
+- Removes the "setTimeout" set on the onStorageChanged event
+
+### 3.0.55-RC19
+- Fixes the bug: opening the "conversations info" side panel for support type conversations causes the chat to log out
+
+### 3.0.55-RC18
+- Fixes the bug: if the chat is open on more than one tab, the previous ones logging out
+
 ### 3.0.55-RC16
 - Removes the image name displayed at the bottom of the image
 - Removes the adaptation of the image caption width to the image size

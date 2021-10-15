@@ -2,7 +2,7 @@ import { UserModel } from 'src/chat21-core/models/user';
 import { Component, OnInit, Output, EventEmitter, Input, AfterViewInit, ViewChild, ElementRef, OnChanges, HostListener, Renderer2 } from '@angular/core';
 
 import { Chooser } from '@ionic-native/chooser/ngx';
-import { ModalController, ToastController } from '@ionic/angular';
+import { IonTextarea, ModalController, ToastController } from '@ionic/angular';
 
 // Pages
 import { LoaderPreviewPage } from 'src/app/pages/loader-preview/loader-preview.page';
@@ -19,6 +19,7 @@ import { checkPlatformIsMobile } from 'src/chat21-core/utils/utils';
 import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service';
 import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance';
 
+
 @Component({
   selector: 'app-message-text-area',
   templateUrl: './message-text-area.component.html',
@@ -26,7 +27,9 @@ import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance'
 })
 export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChanges {
 
-  @ViewChild('textArea', { static: false }) messageTextArea: any
+  @ViewChild('textArea', { static: false }) messageTextArea: IonTextarea
+
+  @ViewChild('message_text_area', { static: false }) message_text_area: ElementRef
   //   set textArea(element: ElementRef<HTMLInputElement>) {
   //     if(element) {
   //       this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ViewChild element ", element);
@@ -105,9 +108,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
       this.SHORTER_TEXAREA_PLACEHOLDER = this.translationMap.get('LABEL_ENTER_MSG_SHORTER')
     }
 
-    // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngOnChanges this.isOpenInfoConversation ", this.isOpenInfoConversation);
     this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngOnChanges DROP EVENT ", this.dropEvent);
-
     this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngOnChanges tagsCannedFilter ", this.tagsCannedFilter);
     // use case drop
     if (this.dropEvent) {
@@ -122,54 +123,36 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
   // ngAfterViewInit() {
   ngAfterViewInit() {
 
-
-    // const element = this.renderer.selectRootElement('#textArea');
-    // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngAfterViewInit element get with renderer ", element);
-    // const elemTexarea= <HTMLElement>document.querySelector('#ion-textarea');
-    // console.log('[CONVS-DETAIL][MSG-TEXT-AREA] elemTexarea ', elemTexarea) 
-    // elemTexarea.focus()
-    // setTimeout(() => {
-    //   (this.messageTextArea.nativeElement.shadowRoot as ShadowRoot).querySelector('input').focus();
-    // }, 100);
-    this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngAfterViewInit this.messageTextArea ", this.messageTextArea);
+    this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngAfterViewInit message_text_area ", this.message_text_area);
+    this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngAfterViewInit messageTextArea ", this.messageTextArea);
     if (this.messageTextArea) {
       setTimeout(() => {
+
+
+        const elTextArea = this.message_text_area['el'];
+        // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngAfterViewInit elTextArea ", elTextArea);
+        // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngAfterViewInit elTextArea children", elTextArea.children);
+        if (elTextArea.children.length === 1) {
+
+          const elTextAreaWrapper = elTextArea.children[0]
+          // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngAfterViewInit elTextAreaWrapper", elTextAreaWrapper);
+          
+          if (elTextAreaWrapper.children.length === 1) {
+            const elNativeTearea = elTextAreaWrapper.children[0]
+            // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngAfterViewInit elNativeTearea", elNativeTearea);
+             elNativeTearea.setAttribute("style", "height: 37px !important; ");
+          }
+        }
+
+
         // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] set focus on ", this.messageTextArea);
         // Keyboard.show() // for android
-        this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngAfterViewInit this.messageTextArea ", this.messageTextArea);
+
         this.messageTextArea.setFocus();
 
-
-        // const el = document.querySelector('textarea');
-        // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngAfterViewInit el ", el);
-        // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngAfterViewInit document.activeElement ", document.activeElement);
-        // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngAfterViewInit el === document.activeElement ", el === document.activeElement);
-
-        // if (document.activeElement.tagName !== 'BODY') {
-        //   if ((el === document.activeElement) === true) {
-        //     const texAreaHasFocus = true
-        //     this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngAfterViewInit texAreaHasFocus ", texAreaHasFocus);
-        //   } else {
-        //     const texAreaHasFocus = false
-        //     this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngAfterViewInit texAreaHasFocus ", texAreaHasFocus);
-        //   }
-        // }
-
-        // el = textarea.native-textarea.sc-ion-textarea-md
-        // dc = textarea.native-textarea.sc-ion-textarea-md
       }, 1500); //a least 150ms.
     }
   }
-
-  txtfocus(string) {
-    // const el = document.querySelector('textarea');
-    // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngAfterViewInit txtfocus string ", string);
-    // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngAfterViewInit txtfocus document.activeElement ", document.activeElement);
-    // // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngAfterViewInit document.activeElement === TEXAREa", document.activeElement === );
-    // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngAfterViewInit txtfocus el ", el);
-  }
-
-
 
 
   getWindowWidth(): any {
@@ -594,6 +577,24 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
     this.logger.log('closeModal', this.modalController);
     await this.modalController.getTop();
     this.modalController.dismiss({ confirmed: true });
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+
+    // Note: on mac keyboard "metakey" matches "cmd"
+    if (event.key === 'Enter' && event.altKey || event.key === 'Enter' && event.ctrlKey || event.key === 'Enter' && event.metaKey) {
+
+
+     
+      this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] HAS PRESSED COMBO KEYS this.messageString', this.messageString);
+
+      if (this.messageString !== undefined && this.messageString.trim() !== '') {
+        this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] HAS PRESSED Enter + ALT this.messageString', this.messageString);
+        this.messageString = this.messageString + "\r\n"
+      }
+    }
+
   }
 
 

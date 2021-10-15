@@ -63,10 +63,10 @@ export class FirebaseNotifications extends NotificationsService {
 
     getNotificationPermissionAndSaveToken(currentUserUid) {
         // this.tenant = this.getTenant();
-        this.logger.log('[FIREBASE-NOTIFICATIONS] calling requestPermission - tenant ', this.tenant)
-        this.logger.log('[FIREBASE-NOTIFICATIONS] calling requestPermission - currentUserUid ', currentUserUid)
+        this.logger.log('initialize FROM [APP-COMP] - [FIREBASE-NOTIFICATIONS] calling requestPermission - tenant ', this.tenant, ' currentUserUid ', currentUserUid)
+        // this.logger.log('[FIREBASE-NOTIFICATIONS] calling requestPermission - currentUserUid ', currentUserUid)
         this.userId = currentUserUid;
-        // Service Worker explicit registration to explicitly define sw location at a path
+        // Service Worker explicit registration to explicitly define sw location at a path,
         // const swRegistration = async () => {
         //     try {
         //         await navigator.serviceWorker.register('http://localhost:8101/firebase-messaging-sw.js');
@@ -76,9 +76,9 @@ export class FirebaseNotifications extends NotificationsService {
         // }
 
 
-      
+
         if (firebase.messaging.isSupported()) {
-            const messaging = firebase.messaging(); 
+            const messaging = firebase.messaging();
             // messaging.requestPermission()
             Notification.requestPermission().then((permission) => {
                 if (permission === 'granted') {
@@ -158,38 +158,43 @@ export class FirebaseNotifications extends NotificationsService {
     removeNotificationsInstance(callback: (string) => void) {
         var self = this;
         firebase.auth().onAuthStateChanged(function (user) {
+
             if (user) {
-                self.logger.debug('[FIREBASE-NOTIFICATIONS] - User is signed in. ', user)
+                self.logger.debug('[FIREBASE-NOTIFICATIONS] - FB User is signed in. ', user)
+
+                self.logger.log('[FIREBASE-NOTIFICATIONS] >>>> removeNotificationsInstance > this.userId', self.userId);
+                self.logger.log('[FIREBASE-NOTIFICATIONS] >>>> removeNotificationsInstance > FCMcurrentToken', self.FCMcurrentToken);
+                // this.logger.log('[FIREBASE-NOTIFICATIONS] >>>> removeNotificationsInstance > this.tenant', this.tenant);
+
 
             } else {
-                self.logger.debug('[FIREBASE-NOTIFICATIONS] - No user is signed in. ', user)
+                self.logger.debug('[FIREBASE-NOTIFICATIONS] - No FB user is signed in. ', user)
             }
         });
 
-        this.logger.log('[FIREBASE-NOTIFICATIONS] >>>> removeNotificationsInstance > this.userId', this.userId);
-        this.logger.log('[FIREBASE-NOTIFICATIONS] >>>> removeNotificationsInstance > FCMcurrentToken', this.FCMcurrentToken);
-        // this.logger.log('[FIREBASE-NOTIFICATIONS] >>>> removeNotificationsInstance > this.tenant', this.tenant);
-        const urlNodeFirebase = '/apps/' + this.tenant
-        const connectionsRefinstancesId = urlNodeFirebase + '/users/' + this.userId + '/instances/'
-        this.logger.log('[FIREBASE-NOTIFICATIONS] >>>> connectionsRefinstancesId ', connectionsRefinstancesId);
+        const urlNodeFirebase = '/apps/' + self.tenant
+        const connectionsRefinstancesId = urlNodeFirebase + '/users/' + self.userId + '/instances/'
+        self.logger.log('[FIREBASE-NOTIFICATIONS] >>>> connectionsRefinstancesId ', connectionsRefinstancesId);
         let connectionsRefURL = '';
         if (connectionsRefinstancesId) {
-            connectionsRefURL = connectionsRefinstancesId + this.FCMcurrentToken;
+            connectionsRefURL = connectionsRefinstancesId + self.FCMcurrentToken;
             const connectionsRef = firebase.database().ref().child(connectionsRefURL);
-            this.logger.log('[FIREBASE-NOTIFICATIONS] >>>> connectionsRef ', connectionsRef);
-            this.logger.log('[FIREBASE-NOTIFICATIONS] >>>> connectionsRef url ', connectionsRefURL);
+            self.logger.log('[FIREBASE-NOTIFICATIONS] >>>> connectionsRef ', connectionsRef);
+            self.logger.log('[FIREBASE-NOTIFICATIONS] >>>> connectionsRef url ', connectionsRefURL);
             connectionsRef.off()
             connectionsRef.remove()
                 .then(() => {
-                    this.logger.log("[FIREBASE-NOTIFICATIONS] >>>> removeNotificationsInstance > Remove succeeded.")
+                    self.logger.log("[FIREBASE-NOTIFICATIONS] >>>> removeNotificationsInstance > Remove succeeded.")
                     callback('success')
                 }).catch((error) => {
-                    this.logger.error("[FIREBASE-NOTIFICATIONS] >>>> removeNotificationsInstance Remove failed: " + error.message)
+                    self.logger.error("[FIREBASE-NOTIFICATIONS] >>>> removeNotificationsInstance Remove failed: " + error.message)
                     callback('error')
                 }).finally(() => {
-                    this.logger.log('[FIREBASE-NOTIFICATIONS] COMPLETED');
+                    self.logger.log('[FIREBASE-NOTIFICATIONS] COMPLETED');
                 })
         }
+
+
     }
 
     // removeNotificationsInstance() {

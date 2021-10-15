@@ -64,7 +64,7 @@ export class FirebaseArchivedConversationsHandler extends ArchivedConversationsH
      * inizializzo conversations handler
      */
     initialize(tenant: string, userId: string, translationMap: Map<string, string>) {
-        this.logger.info('[FIREBASEArchivedConversationsHandlerSERVICE] tenant ', tenant, ' - userId: ', userId, ' - translationMap: ', translationMap)
+        this.logger.info('[initialize FROM [APP-COMP] - FIREBASEArchivedConversationsHandlerSERVICE] tenant ', tenant, ' - userId: ', userId, ' - translationMap: ', translationMap)
         this.tenant = tenant;
         this.loggedUserId = userId;
         this.translationMap = translationMap;
@@ -391,6 +391,7 @@ export class FirebaseArchivedConversationsHandler extends ArchivedConversationsH
         }
         // Fixes the bug: if a snippet of code is pasted and sent it is not displayed correctly in the archived convesations list
         // conv.last_message_text = htmlEntities(conv.last_message_text)
+        conv.conversation_with = conversation_with;
         conv.conversation_with_fullname = conversation_with_fullname;
         conv.status = this.setStatusConversation(conv.sender, conv.uid);
         // conv.time_last_message = this.getTimeLastMessage(conv.timestamp); // evaluate if is used
