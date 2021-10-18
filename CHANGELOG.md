@@ -1,7 +1,15 @@
 # chat21-ionic ver 3.0
 
-### 3.0.55-RC24
-- Improves the automatic login method
+### 3.0.55-rc26
+- Fixes the bug: the iframe is not displayed
+- Fits the image caption to the width of the image
+- Synchronize the code in "chat21-core"
+
+### 3.0.55-rc25
+- Changes the method to get the JWT from the URL query string and the way to run the auto login
+
+### 3.0.55-rc24
+- Improves the auto-login method
 
 ### 3.0.55-RC23
 - Fixes the bug: missing contact information in the header when selecting a "Direct" conversation
