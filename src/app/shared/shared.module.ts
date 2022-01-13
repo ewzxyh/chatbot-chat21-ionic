@@ -17,6 +17,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { AvatarProfileComponent } from 'src/app/components/utils/avatar-profile/avatar-profile.component';
 import { DdpHeaderComponent } from 'src/app/components/ddp-header/ddp-header.component';
+
 import { UserPresenceComponent } from 'src/app/components/utils/user-presence/user-presence.component';
 import { UserTypingComponent } from 'src/chat21-core/utils/user-typing/user-typing.component';
 import { ListConversationsComponent } from '../chatlib/list-conversations-component/list-conversations/list-conversations.component';
@@ -37,16 +38,21 @@ import { InfoGroupComponent } from '../components/conversation-info/info-group/i
 import { TooltipModule } from 'ng2-tooltip-directive';
 import { OptionHeaderComponent } from '../components/conversation-detail/option-header/option-header.component';
 import { MessageAttachmentComponent } from '../chatlib/conversation-detail/message/message-attachment/message-attachment.component';
+import { ImageViewerComponent } from '../components/image-viewer/image-viewer.component';
+import { ProjectItemComponent } from '../components/project-item/project-item.component';
+import { MessageTextAreaComponent } from '../components/conversation-detail/message-text-area/message-text-area.component';
 
 @NgModule({
   declarations: [
+    MessageTextAreaComponent,
     AvatarProfileComponent,
     DdpHeaderComponent,
     UserPresenceComponent,
     UserTypingComponent,
     ListConversationsComponent,
     IonListConversationsComponent,
-
+    ImageViewerComponent,
+    ProjectItemComponent,
     IonConversationDetailComponent,
     ConversationContentComponent,
     AvatarComponent,
@@ -60,8 +66,7 @@ import { MessageAttachmentComponent } from '../chatlib/conversation-detail/messa
     InfoMessageComponent,
     ReturnReceiptComponent,
     TextComponent,
-
-     BubbleDayMessageComponent,
+    BubbleDayMessageComponent,
     BubbleSystemMessageComponent,
     BubbleMyMessageComponent,
     BubbleOthersMessageComponent,
@@ -76,14 +81,16 @@ import { MessageAttachmentComponent } from '../chatlib/conversation-detail/messa
     OptionHeaderComponent
   ],
   exports: [
+    MessageTextAreaComponent,
     AutofocusDirective,
     AvatarProfileComponent,
     DdpHeaderComponent,
+    ImageViewerComponent,
+    ProjectItemComponent,
     UserPresenceComponent,
     UserTypingComponent,
     ListConversationsComponent,
     IonListConversationsComponent,
-
     IonConversationDetailComponent,
     ConversationContentComponent,
     AvatarComponent,
@@ -96,7 +103,6 @@ import { MessageAttachmentComponent } from '../chatlib/conversation-detail/messa
     InfoMessageComponent,
     ReturnReceiptComponent,
     TextComponent,
-
     BubbleDayMessageComponent,
     BubbleSystemMessageComponent,
     BubbleMyMessageComponent,
@@ -114,7 +120,7 @@ import { MessageAttachmentComponent } from '../chatlib/conversation-detail/messa
     IonicModule,
     MomentModule,
     TooltipModule
-  
+
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA,

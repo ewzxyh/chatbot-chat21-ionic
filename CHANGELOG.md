@@ -1,5 +1,123 @@
 # chat21-ionic ver 3.0
 
+### 3.0.60-rc2
+- Fixes the bug: in AppConfigProvider the "wsUrl" is incorrect (window.location.port is missing)
+
+### 3.0.60-rc1
+- Adds the ability to view canned responses by clicking on the button with the "flash" icon located to the left of the "Enter a message" text area
+
+### 3.0.59.2
+- Fixes the bug: when the agent refreshes the chat page and the chat is in mobile mode, the badge with the number of unassigned conversations does not work
+
+### 3.0.59.1
+- Fixes the bug: "Unable to read uid of undefined" error occurs when agent logs out
+- Fixes the bug: When the agent logs into the chat and the chat is in mobile mode, no conversations are displayed
+- Fixes the bug: the websocket is initialized even if the supportMode property is set to false
+- Fixes the bug: when the agent refreshes the chat page and the chat is in mobile mode, the badge with the number of unassigned conversations does not work
+
+### 3.0.59
+- Deploys in production 
+
+### 3.0.59-rc23
+- Fixes the bug: the badge indicating the number of unassigned conversations does not update correctly when the project is changed
+- Changes the code that prevent the chat from opening in a new browser tab if the chat tab is already open
+- Publish conversations returned by subscription to websocket conversations > "on data" callback
+
+### 3.0.59-rc22
+- Minor improvements
+
+### 3.0.59-rc21
+- chat21client.js -> v0.1.9
+
+### 3.0.59-rc20
+- Improves the transition from "mobile" to "desktop" mode and vice versa by not reloading the app 
+
+### 3.0.59-rc19
+- Fixes the bug: when the chat is in "mobile" mode and from the dashboard the agent clicks on "Open chat" for a specific conversation the "back" button of the chat does not return to the list of conversations
+- Fixes the bug: when the chat is in "mobile" mode and from the dashboard the agent clicks on "Open chat" for a specific conversation the chat does not display the details of the conversation
+
+### 3.0.59-rc18
+- Improves the "app-config" service
+
+### 3.0.59-rc16
+- Changes in config.xml the value of the "SplashScreen"
+- Improves the method to avoid page reloading when an agent clicks the "Open Chat" button of the dashboard on the realtime and non-real time conversation list page and on the conversation detail page
+- Modifies the "app-config" service by adding the ability to pass relative URLs to the websocket
+- Adds "wsUrlRel" property to env.sample, chat-config-template.json and chat-config.json
+- Adds a check in the "websocket-js.ts" service on the existence of the "ws" property of the "WebSocketJs" class before accessing the property "readyState"
+
+### 3.0.59-rc15
+- Implements a method in app.components that counts and stores the number of open Chat tabs
+- Implements a method on the conversation list page that prevents a new chat tab from opening when the agent clicks "Open Chat" from the dashboard
+
+### 3.0.59-rc14
+- Fixes the bug: the sound that warns that a new conversation has been received does not work
+
+### 3.0.59-rc12
+- Fixes the bug: Cannot read properties of undefined (reading 'get') when "translationMap" in not yet defined
+- Fixes the bug: when the log out is performed, the item with the number of new conversations remains visible in the left side panel of the conversations list
+
+### 3.0.59-rc11
+- Fixed bug: the item in the left side panel showing the number of new conversations is not displayed if there are no conversations
+- Removes the "last_project" object and the "contacts" object on logout from local storage
+
+### 3.0.59-rc10
+- Changes in config.xml the site URL of the author 
+- Changes the splash screen images
+- Adds the "browser" platform configuration in config.xml
+- Initialize in app.module.ts firebase to handle push notifications if chatEngine is "mqtt"
+
+### 3.0.59-rc9
+- Changes in the archived conversations the date format if the browser language is English
+- Displays the button to open the contact list for direct conversations and the entry at the top of the conversation list showing the number of unassigned conversations for a selected project if the "supportMode" configuration property is set to true
+- Adds a style rule on the unassigned conversations page that changes the background of the "ion-content" if the project list is displayed in the iframe
+- Adds "supportMode" property to env.sample, chat-config-template.json and chat-config.json
+
+### 3.0.59-rc8
+- Changes the title of the modal window showing unassigned conversations from "Unassigned Conversations" to "New Conversations"
+- Fixes the bug: if the "chatEngine" property value is set to "mqtt" the login modal window does not disappear even if the agent is logged in
+- Fixed the value of the configuration property "dashboardUrl"
+
+### 3.0.59-rc7
+- Fixes the bug "Cannot read properties of undefined (reading 'get')" in component template showing the number of new conversations
+- Fixes the bug: the value of the "supportMode" property is passed hard-coded
+
+### 3.0.59-rc6
+- Outsources the websocket URL to environments
+- Improves the graphic of the element, positioned at the top of the conversation list, which displays the number of new conversations
+- Adds "wsUrl" property to env.sample, chat-config-template.json and chat-config.json
+- Updates environments with "wsUrl" property
+
+### 3.0.59-rc5
+- Display a "toast message" of success after that the agent has joined to an unassigned conversation and other minor improvements
+
+### 3.0.59-rc4
+- Adds an item to the top of the conversation list that shows the number of unassigned conversations for a selected project
+- Adds the ability, by clicking on the element that displays the number of unassigned conversations, to view the unassigned conversations and to join to them or archive them
+
+### 3.0.59-rc3
+- Improves the method that allows to chain multiple canned responses
+
+### 3.0.59-rc2
+- Fixes the bug: on small windows, images and iframes are not the same size as the bubble message that contains them
+- Adds in the "bubble-message" component a check if the metadata is an object before calling the getMetadataSize() method
+- Hides the "canned responses" if there are whitespace after the forward slash "/" or if there are no whitespace before the forward slash "/"
+- Fixes the bug: if the "canned responses" are selected with the mouse, the "send message" text area does not have focus
+- Adds the image viewer and the ability to download an image from it
+- Fixes the position of the "archive" button when the app runs on mobile devices
+- Updates Android splash screen .png image
+
+### 3.0.59-rc1
+- Fixes the bug: the "send message" button remains in the "disabled" state even if it is active
+- Changes the format of the date displayed in the message tooltips
+- Fixes the bug: the sender's avatar is not always displayed in the messages header
+- Fixes the bug: the sender's name is not always displayed in the messages header
+- Fixes the bug: in the avatar-profile component the properties 'avatarUrl', 'color' and 'avatar' are private and accessible only within the class
+- Fixes the bug: on ios platforms the back button in the conversation details header overlaps the avatar
+
+### 3.0.58.1
+- Fix the bug: if the "chatEngine" property value is set to "mqtt "the login modal window does not disappear even if the agent is logged in
+
 ### 3.0.58
 - Changes the logic with which the 'online' / 'offline' event is published (done before by the onAuthStateChanged() method)
 - Removes the setTimeout set for displaying the login window

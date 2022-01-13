@@ -2,7 +2,7 @@ import { URL_SOUND_LIST_CONVERSATION } from './../chat21-core/utils/constants';
 import { ArchivedConversationsHandlerService } from 'src/chat21-core/providers/abstract/archivedconversations-handler.service';
 import { AppStorageService } from 'src/chat21-core/providers/abstract/app-storage.service';
 
-import { Component, ViewChild, NgZone, OnInit, HostListener, ElementRef, Renderer2, } from '@angular/core';
+import { Component, ViewChild, NgZone, OnInit, HostListener, ElementRef, Renderer2, AfterViewInit, } from '@angular/core';
 import { Config, Platform, IonRouterOutlet, IonSplitPane, NavController, MenuController, AlertController, IonNav, ToastController } from '@ionic/angular';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { Subscription, VirtualTimeScheduler } from 'rxjs';
@@ -55,10 +55,9 @@ import { getImageUrlThumbFromFirebasestorage } from 'src/chat21-core/utils/utils
 import { TiledeskService } from './services/tiledesk/tiledesk.service';
 import { NetworkService } from './services/network-service/network.service';
 import * as PACKAGE from 'package.json';
-
-import { Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators'
-
+import { filter } from 'rxjs/operators'
+import { WebSocketJs } from './services/websocket/websocket-js';
+import { Location } from '@angular/common'
 // import { filter } from 'rxjs/operators';
 
 @Component({
@@ -99,15 +98,17 @@ export class AppComponent implements OnInit {
   public missingConnectionToast: any
   public executedInitializeAppByWatchConnection: boolean = false;
   private version: string;
-  private unsubscribe$: Subject<any> = new Subject<any>();
+ 
   // private isOnline: boolean = false;
+
+  wsService: WebSocketJs;
 
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private appConfigProvider: AppConfigProvider,
-    private events: EventsService,
+    public events: EventsService,
     public config: Config,
     public chatManager: ChatManager,
     public translate: TranslateService,
@@ -136,34 +137,162 @@ export class AppComponent implements OnInit {
     public toastController: ToastController,
     // private network: Network,
     // private tiledeskService: TiledeskService,
-    private networkService: NetworkService
+    private networkService: NetworkService,
+    public webSocketJs: WebSocketJs,
+    public location: Location
   ) {
-    this.logger.log('[APP-COMP] HELLO Constuctor !!!!!!!')
-    // HACK: fix toast not presented when offline, due to lazy loading the toast controller.
-    // this.toastController.create({ animated: false }).then(t => {
-    //   console.log('[APP-COMP] toastController create')
-    //   t.present();
-    //   t.dismiss();
-    // });
+
+
+    this.saveInStorageNumberOfOpenedChatTab();
+    this.listenChatAlreadyOpenWithoutParamsInMobileMode()
+
+    // this.listenToUrlChanges();
+    // this.getPageState();
   }
 
-  param() {
-    // PARAM
-    const url: URL = new URL(window.top.location.href);
-    const params: URLSearchParams = url.searchParams;
-    return params;
+
+
+  listenChatAlreadyOpenWithoutParamsInMobileMode() {
+    this.events.subscribe('noparams:mobile', (isAlreadyOpenInMobileMode) => {
+      // console.log('[APP-COMP] Chat is Already Open In Mobile Mode ', isAlreadyOpenInMobileMode)
+      if (isAlreadyOpenInMobileMode === true) {
+        this.checkPlatform()
+      }
+    });
   }
+
+  // listenToUrlChanges() {
+  //   const self = this;
+  //   // window.addEventListener('hashchange', function () {
+  //   window.addEventListener('locationchange', function () {
+
+  //     console.log('location changed!');
+
+  //     const convId = getParameterByName('convId')
+  //     console.log('[APP-COMP] getParameterByName convId ', convId)
+  //     if (convId) {
+  //       setTimeout(() => {
+  //         self.events.publish('supportconvid:haschanged', convId);
+  //       }, 0);
+  //     }
+
+  //     const contact_id = getParameterByName('contact_id')
+  //     console.log('[APP-COMP] getParameterByName contact_id ', contact_id)
+  //     const contact_fullname = getParameterByName('contact_fullname')
+  //     console.log('[APP-COMP] getParameterByName contact_fullname ', contact_fullname)
+  //     if (contact_id && contact_fullname) {
+  //       setTimeout(() => {
+  //         self.router.navigateByUrl('conversation-detail/' + contact_id + '/' + contact_fullname + '/new');
+  //         self.events.publish('directconvid:haschanged', contact_id);
+  //       }, 0);
+
+  //     } else {
+  //       // console.log('[APP-COMP] contact_id and contact_fullname are null')
+  //     }
+
+  //     const conversation_detail = getParameterByName('conversation_detail')
+  //     // console.log('[APP-COMP] getParameterByName conversation_detail ', conversation_detail)
+  //     if (conversation_detail) {
+  //       setTimeout(() => {
+  //         self.router.navigate(['conversation-detail/'])
+  //       }, 0);
+  //     }
+  //   });
+  // }
+
+  // getPageState() {
+  //   const getState = () => {
+
+  //     console.log('[APP-COMP] getState')
+  //     // localStorage.setItem('visibilityState', document.visibilityState)
+  //     if (document.visibilityState === 'hidden') {
+  //       return 'hidden';
+  //     }
+  //     if (document.hasFocus()) {
+  //       return 'active';
+  //     }
+  //     return 'passive';
+  //   };
+
+  //   let state = getState();
+
+  //   const logStateChange = (nextState) => {
+
+  //     const prevState = state;
+  //     if (nextState !== prevState) {
+  //       console.log(`State change: ${prevState} >>> ${nextState}`);
+  //       state = nextState;
+
+  //     }
+  //   };
+
+  //   ['pageshow', 'focus', 'blur', 'visibilitychange', 'resume'].forEach((type) => {
+  //     window.addEventListener(type, () => logStateChange(getState()), { capture: true });
+  //   });
+
+  //   // The next two listeners, on the other hand, can determine the next
+  //   // state from the event itself.
+  //   window.addEventListener('freeze', () => {
+  //     // In the freeze event, the next state is always frozen.
+  //     logStateChange('frozen');
+  //   }, { capture: true });
+
+  //   window.addEventListener('pagehide', (event) => {
+  //     if (event.persisted) {
+  //       // If the event's persisted property is `true` the page is about
+  //       // to enter the Back-Forward Cache, which is also in the frozen state.
+  //       logStateChange('frozen');
+  //       localStorage.setItem('state', 'frozen')
+  //     } else {
+  //       // If the event's persisted property is not `true` the page is
+  //       // about to be unloaded.
+  //       logStateChange('terminated');
+  //       localStorage.setItem('state', 'terminated')
+  //       localStorage.setItem('terminated', 'true')
+  //     }
+  //   }, { capture: true });
+
+  // }
+
+
+  saveInStorageNumberOfOpenedChatTab() {
+    this.logger.log('Calling saveInStorageChatOpenedTab!');
+
+    // https://jsfiddle.net/jjjs5wd3/3/å
+    if (+localStorage.tabCount > 0) {
+      this.logger.log('Chat IONIC Already open!');
+    } else {
+      localStorage.tabCount = 0;
+
+      localStorage.tabCount = +localStorage.tabCount + 1;
+    }
+    const terminationEvent = 'onpagehide' in self ? 'pagehide' : 'unload';
+    window.addEventListener(terminationEvent, (event) => {
+      if (localStorage.tabCount > 0) {
+        localStorage.tabCount = +localStorage.tabCount - 1;
+      }
+    }, { capture: true });
+  }
+
+
+
+  // param() {
+  //   // PARAM
+  //   const url: URL = new URL(window.top.location.href);
+  //   const params: URLSearchParams = url.searchParams;
+  //   return params;
+  // }
   /**
    */
   ngOnInit() {
     const appconfig = this.appConfigProvider.getConfig();
     this.persistence = appconfig.authPersistence;
     this.appStorageService.initialize(environment.storage_prefix, this.persistence, '')
-    this.logger.log('[APP-COMP] HELLO ngOnInit !!!!!!!')
-    this.logger.info('[APP-COMP] ngOnInit this.route.snapshot.params -->', this.route.snapshot.params);
+    // this.logger.log('[APP-COMP] HELLO ngOnInit !!!!!!!')
+    // this.logger.log('[APP-COMP] ngOnInit this.route.snapshot.params -->', this.route.snapshot.params);
     // this.initializeApp('oninit');
     const token = getParameterByName('jwt')
-    this.logger.info('[APP-COMP] ngOnInit AUTOLOGIN token get with getParameterByName -->', token);
+    // this.logger.log('[APP-COMP] ngOnInit AUTOLOGIN token get with getParameterByName -->', token);
 
     if (token) {
       // this.isOnline = false;
@@ -180,9 +309,93 @@ export class AppComponent implements OnInit {
         this.logger.log('[APP-COMP] ngOnInit AUTOLOGIN the current user already exist DON\'T SAVE ')
       }
     }
-    this.initializeApp('oninit');
 
+
+    this.initializeApp('oninit');
+    this.listenToPostMsgs();
   }
+
+
+  listenToPostMsgs() {
+    window.addEventListener("message", (event) => {
+      this.logger.log("[APP-COMP] message event ", event);
+
+      if (event && event.data && event.data.action && event.data.parameter) {
+        if (event.data.action === 'openJoinConversationModal') {
+          // console.log("[APP-COMP] message event action ", event.data.action);
+          // console.log("[APP-COMP] message event parameter ", event.data.parameter);
+          this.presentAlertConfirmJoinRequest(event.data.parameter, event.data.calledBy)
+        }
+      }
+      // if (event && event.data && event.data.action && event.data.parameter) {
+      //   if (event.data.action === 'hasArchived') {
+      //     var iframeWin = <HTMLIFrameElement>document.getElementById("unassigned-convs-iframe")
+      //     const isIFrame = (input: HTMLElement | null): input is HTMLIFrameElement =>
+      //     input !== null && input.tagName === 'IFRAME';
+      //     if (isIFrame(iframeWin) && iframeWin.contentWindow) {
+      //       const msg = { action: "hasArchived", parameter: event.data.parameter, calledBy: event.data.calledBy }
+      //       iframeWin.contentWindow.postMessage(msg, '*');
+      //     }
+
+      //   }
+      // }
+      if (event && event.data && event.data.action && event.data.text) {
+        if (event.data.action === "display_toast_join_complete") {
+          this.presentToastJoinComplete(event.data.text)
+        }
+      }
+    })
+  }
+
+  async presentToastJoinComplete(text) {
+    const toast = await this.toastController.create({
+      message: text,
+      duration: 2000,
+      color: "success"
+    });
+    toast.present();
+  }
+
+  async presentAlertConfirmJoinRequest(requestid, calledby) {
+    var iframeWin = <HTMLIFrameElement>document.getElementById("unassigned-convs-iframe")
+    // console.log("[APP-COMP] message event iframeWin ", iframeWin);
+
+    const isIFrame = (input: HTMLElement | null): input is HTMLIFrameElement =>
+      input !== null && input.tagName === 'IFRAME';
+
+    const keys = ['YouAreAboutToJoinThisChat', 'Cancel', 'AreYouSure'];
+    const translationMap = this.translateService.translateLanguage(keys);
+
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: translationMap.get('AreYouSure'),
+      message: translationMap.get('YouAreAboutToJoinThisChat'),
+      buttons: [
+        {
+          text: translationMap.get('Cancel'),
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            // console.log('Confirm Cancel: blah', blah);
+          }
+        }, {
+          text: 'Ok',
+          handler: () => {
+            // console.log('Confirm Okay');
+
+            if (isIFrame(iframeWin) && iframeWin.contentWindow) {
+              const msg = { action: "joinConversation", parameter: requestid, calledBy: calledby }
+              iframeWin.contentWindow.postMessage(msg, '*');
+            }
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+
 
 
   signInWithCustomToken(token) {
@@ -200,18 +413,18 @@ export class AppComponent implements OnInit {
 
   /** */
   initializeApp(calledby: string) {
-    this.logger.log('[APP-COMP] - X - initializeApp !!! CALLED-BY: ', calledby);
-    this.logger.log('[APP-COMP] appconfig platform is cordova: ', this.platform.is('cordova'))
+    // this.logger.log('[APP-COMP] - X - initializeApp !!! CALLED-BY: ', calledby);
+    // console.log('[APP-COMP] appconfig platform is cordova: ', this.platform.is('cordova'))
 
-    if (!this.platform.is('cordova')) {
-      this.splashScreen.show();
-    }
+    // if (!this.platform.is('cordova')) {
+    this.splashScreen.show();
+    // }
     this.tabTitle = document.title;
 
     this.getRouteParamsAndSetLoggerConfig();
 
     const appconfig = this.appConfigProvider.getConfig();
-    this.logger.info('[APP-COMP] appconfig: ', appconfig)
+    // this.logger.info('[APP-COMP] appconfig: ', appconfig)
     this.version = PACKAGE.version;
     this.logger.info('[APP-COMP] version: ', this.version)
 
@@ -223,12 +436,18 @@ export class AppComponent implements OnInit {
     this.notificationsEnabled = true;
     this.zone = new NgZone({}); // a cosa serve?
 
+    // ------------------------------------------
+    // Platform ready
+    // ------------------------------------------
     this.platform.ready().then(() => {
+      // console.log("Check platform");
+      this.getPlatformName();
+
       this.setLanguage();
 
-      if (this.splashScreen) {
-        this.splashScreen.hide();
-      }
+      // if (this.splashScreen) {
+      this.splashScreen.hide();
+      // }
       this.statusBar.styleDefault();
       this.navService.init(this.sidebarNav, this.detailNav);
       // this.persistence = appconfig.authPersistence;
@@ -262,6 +481,59 @@ export class AppComponent implements OnInit {
       // ---------------------------------------
       this.watchToConnectionStatus();
     });
+  }
+
+  getPlatformName() {
+    if (this.platform.is('cordova')) {
+      this.logger.log("the device running Cordova");
+    }
+    if (!this.platform.is('cordova')) {
+      this.logger.log("the device Not running Cordova");
+    }
+
+    if (this.platform.is('android')) {
+      this.logger.log("running on Android device!");
+    }
+    if (this.platform.is('ios')) {
+      this.logger.log("running on iOS device!");
+    }
+    if (this.platform.is('mobileweb')) {
+      this.logger.log("running in a browser on mobile!");
+    }
+    if (this.platform.is('desktop')) {
+      this.logger.log("running on desktop!");
+    }
+  }
+
+
+  getRouteParamsAndSetLoggerConfig() {
+    const appconfig = this.appConfigProvider.getConfig();
+    this.route.queryParams.subscribe(params => {
+      // this.logger.log('[APP-COMP] getRouteParamsAndSetLoggerConfig - queryParams params: ', params)
+      if (params.logLevel) {
+        this.logger.log('[APP-COMP] getRouteParamsAndSetLoggerConfig - log level get from queryParams: ', params.logLevel)
+        this.logger.setLoggerConfig(true, params.logLevel)
+      } else {
+        this.logger.info('[APP-COMP] getRouteParamsAndSetLoggerConfig - log level get from appconfig: ', appconfig.logLevel)
+        this.logger.setLoggerConfig(true, appconfig.logLevel)
+      }
+    });
+  }
+
+  /** */
+  setLanguage() {
+    this.translate.setDefaultLang('en');
+    this.translate.use('en');
+    this.logger.debug('[APP-COMP] navigator.language: ', navigator.language);
+    let language;
+    if (navigator.language.indexOf('-') !== -1) {
+      language = navigator.language.substring(0, navigator.language.indexOf('-'));
+    } else if (navigator.language.indexOf('_') !== -1) {
+      language = navigator.language.substring(0, navigator.language.indexOf('_'));
+    } else {
+      language = navigator.language;
+    }
+    this.translate.use(language);
   }
 
 
@@ -317,21 +589,6 @@ export class AppComponent implements OnInit {
   }
 
 
-  getRouteParamsAndSetLoggerConfig() {
-    const appconfig = this.appConfigProvider.getConfig();
-    this.route.queryParams.subscribe(params => {
-      this.logger.info('[APP-COMP] getRouteParamsAndSetLoggerConfig - queryParams params: ', params)
-      if (params.logLevel) {
-        this.logger.info('[APP-COMP] getRouteParamsAndSetLoggerConfig - log level get from queryParams: ', params.logLevel)
-        this.logger.setLoggerConfig(true, params.logLevel)
-      } else {
-        this.logger.info('[APP-COMP] getRouteParamsAndSetLoggerConfig - log level get from appconfig: ', appconfig.logLevel)
-        this.logger.setLoggerConfig(true, appconfig.logLevel)
-      }
-    });
-  }
-
-
   translateToastMsgs() {
     this.translate.get('AnErrorOccurredWhileUnsubscribingFromNotifications')
       .subscribe((text: string) => {
@@ -352,6 +609,7 @@ export class AppComponent implements OnInit {
   /**------- AUTHENTICATION FUNCTIONS --> START <--- +*/
   private initAuthentication() {
     const tiledeskToken = this.appStorageService.getItem('tiledeskToken')
+
     this.logger.log('[APP-COMP] >>> INIT-AUTHENTICATION !!! ')
     this.logger.log('[APP-COMP] >>> initAuthentication tiledeskToken ', tiledeskToken)
     // const currentUser = JSON.parse(this.appStorageService.getItem('currentUser'));
@@ -360,19 +618,19 @@ export class AppComponent implements OnInit {
       this.logger.log('[APP-COMP] >>> initAuthentication I LOG IN WITH A TOKEN EXISTING IN THE LOCAL STORAGE OR WITH A TOKEN PASSED IN THE URL PARAMETERS <<<')
       this.tiledeskAuthService.signInWithCustomToken(tiledeskToken).then(user => {
         this.logger.log('[APP-COMP] >>> initAuthentication user ', user)
-        this.messagingAuthService.createCustomToken(tiledeskToken) 
+        this.messagingAuthService.createCustomToken(tiledeskToken)
       }).catch(error => {
         this.logger.error('[APP-COMP] initAuthentication SIGNINWITHCUSTOMTOKEN error::', error)
       })
     } else {
       this.logger.warn('[APP-COMP] >>> I AM NOT LOGGED IN <<<')
-      
+
       // clearTimeout(this.timeModalLogin);
       // this.timeModalLogin = setTimeout(() => {
-        if (!this.hadBeenCalledOpenModal) {
-          this.authModal = this.presentModal('initAuthentication');
-          this.hadBeenCalledOpenModal = true;
-        }
+      if (!this.hadBeenCalledOpenModal) {
+        this.authModal = this.presentModal('initAuthentication');
+        this.hadBeenCalledOpenModal = true;
+      }
       // }, 1000);
     }
   }
@@ -385,94 +643,14 @@ export class AppComponent implements OnInit {
   //   }
   // }
 
-  /**
-   * goOnLine:
-   * 1 - nascondo splashscreen
-   * 2 - recupero il tiledeskToken e lo salvo in chat manager
-   * 3 - carico in d
-   * @param user
-   */
-  goOnLine = () => {
-    // this.isOnline = true;
-    // this.logger.info('initialize FROM [APP-COMP] - [APP-COMP] - GO-ONLINE isOnline ', this.isOnline);
 
-    clearTimeout(this.timeModalLogin);
-    const tiledeskToken = this.tiledeskAuthService.getTiledeskToken();
-    const currentUser = this.tiledeskAuthService.getCurrentUser();
-    // this.logger.printDebug('APP-COMP - goOnLine****', currentUser);
-    this.logger.log('[APP-COMP] - GO-ONLINE - currentUser ', currentUser);
-    this.chatManager.setTiledeskToken(tiledeskToken);
-    this.chatManager.setCurrentUser(currentUser);
-    // ----------------------------------------------
-    // PUSH NOTIFICATIONS
-    // ----------------------------------------------
-    const pushEngine = this.appConfigProvider.getConfig().pushEngine
-
-    if (currentUser) {
-      if (pushEngine && pushEngine !== 'none') {
-        this.notificationsService.getNotificationPermissionAndSaveToken(currentUser.uid);
-      }
-      this.presenceService.setPresence(currentUser.uid);
-
-      this.initConversationsHandler(currentUser.uid);
-      this.initArchivedConversationsHandler(currentUser.uid);
-    }
-    this.checkPlatform();
-    try {
-      this.logger.debug('[APP-COMP] ************** closeModal', this.authModal);
-      if (this.authModal) {
-        this.closeModal();
-      }
-    } catch (err) {
-      this.logger.error('[APP-COMP] -> error:', err);
-    }
-    this.chatManager.startApp();
-  }
-
-  goOffLine = () => {
-    this.logger.log('[APP-COMP] - GO-OFFLINE');
-    // this.isOnline = false;
-    // this.conversationsHandlerService.conversations = [];
-
-    this.chatManager.setTiledeskToken(null);
-    this.chatManager.setCurrentUser(null);
-    this.chatManager.goOffLine();
-
-    this.router.navigateByUrl('conversation-detail/'); //redirect to basePage
-   
-    // clearTimeout(this.timeModalLogin);
-    // this.timeModalLogin = setTimeout(() => {
-      if (!this.hadBeenCalledOpenModal) {
-        this.authModal = this.presentModal('goOffLine');
-        this.hadBeenCalledOpenModal = true
-      }
-    // }, 1000);
-
-    // this.unsubscribe$.next();
-    // this.unsubscribe$.complete();
-
-  }
   /**------- AUTHENTICATION FUNCTIONS --> END <--- +*/
   /***************************************************+*/
 
-  /** */
-  setLanguage() {
-    this.translate.setDefaultLang('en');
-    this.translate.use('en');
-    this.logger.debug('[APP-COMP] navigator.language: ', navigator.language);
-    let language;
-    if (navigator.language.indexOf('-') !== -1) {
-      language = navigator.language.substring(0, navigator.language.indexOf('-'));
-    } else if (navigator.language.indexOf('_') !== -1) {
-      language = navigator.language.substring(0, navigator.language.indexOf('_'));
-    } else {
-      language = navigator.language;
-    }
-    this.translate.use(language);
-  }
+
 
   checkPlatform() {
-    this.logger.debug('[APP-COMP] checkPlatform');
+    //  console.log('[APP-COMP] checkPlatform');
     // let pageUrl = '';
     // try {
     //   const pathPage = this.route.snapshot.firstChild.routeConfig.path;
@@ -488,21 +666,31 @@ export class AppComponent implements OnInit {
     // }
 
     if (checkPlatformIsMobile()) {
+      this.chatManager.startApp();
+
+      this.logger.log('[APP-COMP] checkPlatformIsMobile', checkPlatformIsMobile());
       this.platformIs = PLATFORM_MOBILE;
       const IDConv = this.route.snapshot.firstChild.paramMap.get('IDConv');
-      this.logger.log('[APP-COMP] PLATFORM_MOBILE2 navigateByUrl', PLATFORM_MOBILE, this.route.snapshot);
+
+      // console.log('[APP-COMP]  platformIs', this.platformIs);
+      // console.log('[APP-COMP] PLATFORM', PLATFORM_MOBILE, 'route.snapshot', this.route.snapshot);
       if (!IDConv) {
         this.router.navigateByUrl('conversations-list')
       }
       // this.router.navigateByUrl(pageUrl);
       // this.navService.setRoot(ConversationListPage, {});
     } else {
+      this.chatManager.startApp();
+      this.logger.log('[APP-COMP] checkPlatformIsMobile', checkPlatformIsMobile());
       this.platformIs = PLATFORM_DESKTOP;
+      // console.log('[APP-COMP]  platformIs', this.platformIs);
+      // console.log('[APP-COMP] PLATFORM', PLATFORM_DESKTOP, 'route.snapshot',  this.route.snapshot);
       this.logger.log('[APP-COMP] PLATFORM_DESKTOP ', this.navService);
 
       this.navService.setRoot(ConversationListPage, {});
 
       const IDConv = this.route.snapshot.firstChild.paramMap.get('IDConv');
+
       const FullNameConv = this.route.snapshot.firstChild.paramMap.get('FullNameConv');
       const Convtype = this.route.snapshot.firstChild.paramMap.get('Convtype');
 
@@ -537,16 +725,23 @@ export class AppComponent implements OnInit {
   }
 
   private initAudio() {
+    // console.log('HERE IS initAudio ')
     // SET AUDIO
+    const href = window.location.href;
+    const hrefArray = href.split('/#/');
+    const chatBaseUrl = hrefArray[0]
+    // console.log('initAudio href', href)
+    // console.log('initAudio chatBaseUrl', chatBaseUrl)
+
     this.audio = new Audio();
-    this.audio.src = URL_SOUND_LIST_CONVERSATION;
+    this.audio.src = chatBaseUrl + URL_SOUND_LIST_CONVERSATION;
     this.audio.load();
   }
 
   private manageTabNotification() {
     if (!this.isTabVisible) {
       // TAB IS HIDDEN --> manage title and SOUND
-
+      // console.log('HERE IS manageTabNotification ')
       let badgeNewConverstionNumber = this.conversationsHandlerService.countIsNew()
       badgeNewConverstionNumber > 0 ? badgeNewConverstionNumber : badgeNewConverstionNumber = 1
       document.title = "(" + badgeNewConverstionNumber + ") " + this.tabTitle
@@ -565,6 +760,7 @@ export class AppComponent implements OnInit {
   }
 
   soundMessage() {
+    // console.log('HERE IS soundMessage ')
     const that = this;
     // this.audio = new Audio();
     // // this.audio.src = '/assets/sounds/pling.mp3';
@@ -576,7 +772,7 @@ export class AppComponent implements OnInit {
       that.audio.play().then(() => {
         that.logger.debug('[APP-COMP] ****** soundMessage played *****');
       }).catch((error: any) => {
-        that.logger.debug('[APP-COMP] ***soundMessage error*', error);
+        that.logger.error('[APP-COMP] ***soundMessage error*', error);
       });
     }, 1000);
   }
@@ -591,7 +787,6 @@ export class AppComponent implements OnInit {
   initSubscriptions() {
     this.logger.log('initialize FROM [APP-COMP] - initSubscriptions');
 
-
     // ---------------------------------------------------------------------------------------------------
     // Protecting from multiple subsciptions due to multiple app initializations (call to initializeApp())
     // Only one subscriber x application allowed
@@ -601,13 +796,13 @@ export class AppComponent implements OnInit {
       return;
     }
 
-    this.BSAuthStateChangedSubscriptionRef = this.messagingAuthService.BSAuthStateChanged 
-   
+    this.BSAuthStateChangedSubscriptionRef = this.messagingAuthService.BSAuthStateChanged
+
       // .pipe(takeUntil(this.unsubscribe$))
       .pipe(filter((state) => state !== null))
       .subscribe((state: any) => {
         this.logger.log('initialize FROM [APP-COMP] - [APP-COMP] ***** BSAuthStateChanged  state', state);
-        // this.logger.info('initialize FROM [APP-COMP] - [APP-COMP] ***** BSAuthStateChanged  isOnline', this.isOnline);
+     
         if (state && state === AUTH_STATE_ONLINE) {
           // const user = this.tiledeskAuthService.getCurrentUser();
           // if (this.isOnline === false) {
@@ -639,7 +834,7 @@ export class AppComponent implements OnInit {
 
     this.conversationsHandlerService.conversationChanged.subscribe((conversation: ConversationModel) => {
 
-      this.logger.log('[APP-COMP] ***** subscribeConversationChanged conversation: ', conversation);
+      // console.log('[APP-COMP] ***** subscribeConversationChanged conversation: ', conversation);
       const currentUser = JSON.parse(this.appStorageService.getItem('currentUser'));
       this.logger.log('[APP-COMP] ***** subscribeConversationChanged current_user: ', currentUser);
 
@@ -653,12 +848,134 @@ export class AppComponent implements OnInit {
   }
 
   /**
+ * goOnLine:
+ * 1 - nascondo splashscreen
+ * 2 - recupero il tiledeskToken e lo salvo in chat manager
+ * 3 - carico in d
+ * @param user
+ */
+  goOnLine = () => {
+    this.logger.log('[APP-COMP]- GO-ONLINE ');
+    // this.isOnline = true;
+    // this.logger.info('initialize FROM [APP-COMP] - [APP-COMP] - GO-ONLINE isOnline ', this.isOnline);
+    // clearTimeout(this.timeModalLogin);
+    const tiledeskToken = this.tiledeskAuthService.getTiledeskToken();
+
+    // const supportmode = this.appConfigProvider.getConfig().supportMode;
+    // this.logger.log('[APP-COMP] - GO-ONLINE - supportmode ', supportmode);
+    // if (supportmode === true) {
+    //   this.connetWebsocket() // moved in the comp project-item
+    // }
+    this.events.publish('go:online', true);
+    const currentUser = this.tiledeskAuthService.getCurrentUser();
+    // this.logger.printDebug('APP-COMP - goOnLine****', currentUser);
+    this.logger.log('[APP-COMP] - GO-ONLINE - currentUser ', currentUser);
+    this.chatManager.setTiledeskToken(tiledeskToken);
+    this.chatManager.setCurrentUser(currentUser);
+    // this.chatManager.startApp();
+
+    // ----------------------------------------------
+    // PUSH NOTIFICATIONS
+    // ----------------------------------------------
+    const pushEngine = this.appConfigProvider.getConfig().pushEngine
+
+    if (currentUser) {
+      if (pushEngine && pushEngine !== 'none') {
+        this.notificationsService.getNotificationPermissionAndSaveToken(currentUser.uid);
+      }
+      this.presenceService.setPresence(currentUser.uid);
+
+      this.initConversationsHandler(currentUser.uid);
+      this.initArchivedConversationsHandler(currentUser.uid);
+    }
+    this.checkPlatform();
+    try {
+      this.logger.debug('[APP-COMP] ************** closeModal', this.authModal);
+      if (this.authModal) {
+        this.closeModal();
+      }
+    } catch (err) {
+      this.logger.error('[APP-COMP] -> error:', err);
+    }
+  }
+
+
+
+
+  goOffLine = () => {
+    this.logger.log('[APP-COMP] - GO-OFFLINE');
+    const supportmode = this.appConfigProvider.getConfig().supportMode;
+    this.logger.log('[APP-COMP] - GO-OFFINE - supportmode ', supportmode);
+    if (supportmode === true) {
+        this.webSocketClose()
+    }
+    // this.isOnline = false;
+    // this.conversationsHandlerService.conversations = [];
+    this.chatManager.setTiledeskToken(null);
+    this.chatManager.setCurrentUser(null);
+    this.chatManager.goOffLine();
+
+    this.router.navigateByUrl('conversation-detail/'); //redirect to basePage
+
+    // clearTimeout(this.timeModalLogin);
+    // this.timeModalLogin = setTimeout(() => {
+    if (!this.hadBeenCalledOpenModal) {
+      this.authModal = this.presentModal('goOffLine');
+      this.hadBeenCalledOpenModal = true
+    }
+    // }, 1000);
+
+    // this.unsubscribe$.next();
+    // this.unsubscribe$.complete();
+
+  }
+
+
+  webSocketClose() {
+    this.logger.log('[APP-COMP] - GO-OFFLINE - webSocketClose');
+    this.webSocketJs.close()
+    this.events.publish('go:offline', true);
+  }
+
+  // BEGIN RESIZE FUNCTIONS //
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    const that = this;
+    // this.logger.debug('this.doitResize)', this.doitResize)
+    // clearTimeout(this.doitResize);
+    // this.doitResize = setTimeout(() => {
+    let platformIsNow = PLATFORM_DESKTOP;
+    if (checkPlatformIsMobile()) {
+      platformIsNow = PLATFORM_MOBILE;
+    }
+    if (!this.platformIs || this.platformIs === '') {
+      this.platformIs = platformIsNow;
+    }
+    this.logger.debug('[APP-COMP] onResize width::::', window.innerWidth);
+    this.logger.debug('[APP-COMP] onResize width:::: platformIsNow', platformIsNow);
+    this.logger.debug('[APP-COMP] onResize width:::: this.platformIs', this.platformIs);
+    this.logger.debug('[APP-COMP] onResize width:::: platformIsNow', platformIsNow);
+    if (platformIsNow !== this.platformIs) {
+      window.location.reload();
+      // this.checkPlatform();
+      // this.initializeApp('onresize')
+      this.checkPlatform();
+      // this.goOnLine()
+      // // this.initSubscriptions();
+
+    }
+
+    // }, 0);
+  }
+  // END RESIZE FUNCTIONS //
+
+  /**
    * ::: subscribeChangedConversationSelected :::
    * evento richiamato quando si seleziona un utente nell'elenco degli user
    * apro dettaglio conversazione
    */
   subscribeChangedConversationSelected = (user: UserModel, type: string) => {
-    this.logger.info('[APP-COMP] subscribeUidConvSelectedChanged navigateByUrl', user, type);
+    this.logger.log('[APP-COMP] subscribeUidConvSelectedChanged navigateByUrl', user, type);
     // this.router.navigateByUrl('conversation-detail/' + user.uid + '?conversationWithFullname=' + user.fullname);
     this.router.navigateByUrl('conversation-detail/' + user.uid + '/' + user.fullname + '/' + type);
   }
@@ -686,9 +1003,8 @@ export class AppComponent implements OnInit {
             that.removePresenceAndLogout();
             // that.presentToast();
           }
-        })
+        });
       }
-
     }
   }
 
@@ -806,29 +1122,6 @@ export class AppComponent implements OnInit {
     this.archivedConversationsHandlerService.initialize(this.tenant, userId, translationMap);
   }
 
-  // BEGIN RESIZE FUNCTIONS //
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-    const that = this;
-    // this.logger.debug('this.doitResize)', this.doitResize)
-    clearTimeout(this.doitResize);
-    this.doitResize = setTimeout(() => {
-      let platformIsNow = PLATFORM_DESKTOP;
-      if (checkPlatformIsMobile()) {
-        platformIsNow = PLATFORM_MOBILE;
-      }
-      if (!this.platformIs || this.platformIs === '') {
-        this.platformIs = platformIsNow;
-      }
-      this.logger.debug('[APP-COMP] onResize width::::', window.innerWidth);
-      this.logger.debug('[APP-COMP] onResize width:::: platformIsNow', platformIsNow);
-      this.logger.debug('[APP-COMP] onResize width:::: platformIsNow this.platformIs', this.platformIs);
-      if (platformIsNow !== this.platformIs) {
-        window.location.reload();
-      }
-    }, 500);
-  }
-  // END RESIZE FUNCTIONS //
 
   @HostListener('document:visibilitychange', [])
   visibilitychange() {
@@ -848,7 +1141,7 @@ export class AppComponent implements OnInit {
   // https://developer.mozilla.org/en-US/docs/Web/API/Window/storage_event
   @HostListener('window:storage', ['$event'])
   onStorageChanged(event: any) {
-    // console.log('[APP-COMP] - onStorageChanged event ', event)
+
     if (event.key !== 'chat_sv5__tiledeskToken') {
       return;
     }
@@ -877,7 +1170,7 @@ export class AppComponent implements OnInit {
         // this.unsubscribe$.complete();
         this.initializeApp('onstoragechanged');
 
-       
+
 
         // console.log('[APP-COMP]  onAuthStateChanged HERE !!! ')
         // firebase.auth().onAuthStateChanged(user => {
@@ -887,7 +1180,4 @@ export class AppComponent implements OnInit {
       }
     }
   }
-
-
-
 }

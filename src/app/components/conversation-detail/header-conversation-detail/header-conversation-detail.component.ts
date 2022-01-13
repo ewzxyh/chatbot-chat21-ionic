@@ -1,12 +1,12 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ImageRepoService } from 'src/chat21-core/providers/abstract/image-repo.service';
 
 // Logger
 import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service';
 import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance';
 import { setConversationAvatar, setChannelType } from 'src/chat21-core/utils/utils';
-
+import { Platform } from '@ionic/angular';
 @Component({
   selector: 'app-header-conversation-detail',
   templateUrl: './header-conversation-detail.component.html',
@@ -31,7 +31,9 @@ export class HeaderConversationDetailComponent implements OnInit, OnChanges {
   membersConversation = ['SYSTEM'];
   fullNameConv: string;
   idConv: string;
- 
+  conversation_with_fullname: string;
+  platformName: string;
+
   private logger: LoggerService = LoggerInstance.getInstance();
 
   /**
@@ -41,6 +43,8 @@ export class HeaderConversationDetailComponent implements OnInit, OnChanges {
   constructor(
     public imageRepoService: ImageRepoService,
     private route: ActivatedRoute,
+    public platform: Platform,
+    private router: Router
   ) {
     this.route.paramMap.subscribe(params => {
 
@@ -59,7 +63,8 @@ export class HeaderConversationDetailComponent implements OnInit, OnChanges {
   // ----------------------------------------------------
   ngOnInit() {
     this.logger.log('[CONVS-DETAIL][HEADER] - (ngOnInit) - idLoggedUser', this.idLoggedUser);
-    // this.logger.log('[CONVS-DETAIL][HEADER] - (ngOnInit) - conversationAvatar', this.conversationAvatar);
+    this.logger.log('[CONVS-DETAIL][HEADER] - (ngOnInit) - conversationAvatar', this.conversationAvatar);
+    this.conversation_with_fullname = this.conversationAvatar.conversation_with_fullname
 
     this.initialize();
   }
@@ -79,7 +84,7 @@ export class HeaderConversationDetailComponent implements OnInit, OnChanges {
       if (this.conversationAvatar) {
         this.conversationAvatar.imageurl = this.imageRepoService.getImagePhotoUrl(this.conversationAvatar.uid)
       }
-      this.logger.log('[CONVS-DETAIL][HEADER] - (ngOnChanges) - conversationAvatar usecase UNDEFINED conversationAvatar',  this.conversationAvatar);
+      this.logger.log('[CONVS-DETAIL][HEADER] - (ngOnChanges) - conversationAvatar usecase UNDEFINED conversationAvatar', this.conversationAvatar);
     }
 
     this.logger.log('[CONVS-DETAIL][HEADER] - (ngOnChanges) - isOpenInfoConversation', this.isOpenInfoConversation);
@@ -91,12 +96,24 @@ export class HeaderConversationDetailComponent implements OnInit, OnChanges {
   // @ Initialize (called in ngOnInit)
   // ----------------------------------------------------
   initialize() {
-
+    this.getPlatformName()
     if (this.conversationAvatar && this.conversationAvatar.channelType === this.DIRECT) {
       this.isDirect = true;
     } else if (this.idLoggedUser) {
       this.membersConversation.push(this.idLoggedUser);
     }
+  }
+
+  getPlatformName() {
+    this.logger.log('getPlatformName this.platform', this.platform) 
+    if (this.platform.is('ios')) {
+      this.platformName = 'ios'
+      this.logger.log('getPlatformName platformName', this.platformName) 
+    } else if (this.platform.is('android')){
+      this.platformName = 'android'
+      this.logger.log('getPlatformName platformName', this.platformName) 
+    }
+
   }
 
   onOpenCloseInfoConversation() {
@@ -108,5 +125,9 @@ export class HeaderConversationDetailComponent implements OnInit, OnChanges {
 
   /** */
   pushPage(event) { }
+
+  goBackToConversationList() {
+    this.router.navigateByUrl('/conversations-list');
+  }
 
 }

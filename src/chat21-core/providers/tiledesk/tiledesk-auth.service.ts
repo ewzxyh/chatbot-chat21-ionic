@@ -31,11 +31,11 @@ export class TiledeskAuthService {
     public http: HttpClient,
     public appStorage: AppStorageService,
     // private events: EventsService,
-    ) { }
+  ) { }
 
 
   initialize(serverBaseUrl: string) {
-    this.logger.info('[TILEDESK-AUTH-SERV] - initialize serverBaseUrl', serverBaseUrl);
+    this.logger.log('[TILEDESK-AUTH-SERV] - initialize serverBaseUrl', serverBaseUrl);
     this.SERVER_BASE_URL = serverBaseUrl;
     this.URL_TILEDESK_SIGNIN = this.SERVER_BASE_URL + 'auth/signin';
     this.URL_TILEDESK_SIGNIN_ANONYMOUSLY = this.SERVER_BASE_URL + 'auth/signinAnonymously'
@@ -135,9 +135,18 @@ export class TiledeskAuthService {
     this.logger.log('[TILEDESK-AUTH] - LOGOUT')
     this.appStorage.removeItem('tiledeskToken')
     this.appStorage.removeItem('currentUser')
+
+    this.appStorage.removeItem('currentUser')
     this.setCurrentUser(null);
     // this.isOnline$.next(false) 
-    
+    const stored_project = localStorage.getItem('last_project')
+    if (stored_project) {
+      localStorage.removeItem('last_project')
+    }
+    const stored_contacts = localStorage.getItem('contacts')
+    if (stored_contacts) {
+      localStorage.removeItem('contacts')
+    }
   }
 
 
@@ -183,7 +192,7 @@ export class TiledeskAuthService {
     } else if (storedTiledeskToken && storedTiledeskToken !== tiledeskToken) {
       this.logger.log('[TILEDESK-AUTH] - checkAndSetInStorageTiledeskToken STORED-TOKEN EXIST BUT IS != FROM TOKEN - RUN SET ')
       this.appStorage.setItem('tiledeskToken', tiledeskToken);
-    } else if (storedTiledeskToken && storedTiledeskToken === tiledeskToken){
+    } else if (storedTiledeskToken && storedTiledeskToken === tiledeskToken) {
       this.logger.log('[TILEDESK-AUTH] - checkAndSetInStorageTiledeskToken STORED-TOKEN EXIST AND IS = TO TOKEN ')
     }
   }

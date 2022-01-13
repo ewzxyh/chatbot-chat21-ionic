@@ -2,7 +2,7 @@
 <widget id="chat.tiledesk" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Chat21</name>
     <description>Chat21 is the core of the open source live chat platform</description>
-    <author email="redacted@example.invalid" href="http://ionicframework.com/">Tiledesk Team</author>
+    <author email="" href="https://tiledesk.com/">Tiledesk Team</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-navigation href="*" />
@@ -18,7 +18,7 @@
     <preference name="SplashMaintainAspectRatio" value="true" />
     <preference name="FadeSplashScreenDuration" value="300" />
     <preference name="SplashShowOnlyFirstTime" value="false" />
-    <preference name="SplashScreen" value="screen" />
+    <preference name="SplashScreen" value="assets/logo.png" />
     <preference name="SplashScreenDelay" value="3000" />
     <platform name="android">
         <edit-config file="AndroidManifest.xml" mode="merge" target="/manifest/application" xmlns:android="http://schemas.android.com/apk/res/android">

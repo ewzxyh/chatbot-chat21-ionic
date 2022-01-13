@@ -22,16 +22,21 @@ import { NavProxyService } from '../../services/nav-proxy.service';
 import { TiledeskService } from '../../services/tiledesk/tiledesk.service';
 import { ConversationDetailPage } from '../conversation-detail/conversation-detail.page';
 import { ContactsDirectoryPage } from '../contacts-directory/contacts-directory.page';
+import { UnassignedConversationsPage } from '../unassigned-conversations/unassigned-conversations.page';
 import { ProfileInfoPage } from '../profile-info/profile-info.page';
 import { MessagingAuthService } from 'src/chat21-core/providers/abstract/messagingAuth.service';
 import { CustomTranslateService } from 'src/chat21-core/providers/custom-translate.service';
 import { ImageRepoService } from 'src/chat21-core/providers/abstract/image-repo.service';
 import { TiledeskAuthService } from 'src/chat21-core/providers/tiledesk/tiledesk-auth.service';
 import { AppConfigProvider } from '../../services/app-config';
-
+import { Subscription } from 'rxjs';
+import { Platform } from '@ionic/angular';
 // Logger
 import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service';
 import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance';
+import { NetworkService } from 'src/app/services/network-service/network.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators'
 
 @Component({
   selector: 'app-conversations-list',
@@ -39,7 +44,10 @@ import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance'
   styleUrls: ['./conversations-list.page.scss'],
 })
 export class ConversationListPage implements OnInit {
+
   @ViewChild('ioncontentconvlist', { static: false }) ionContentConvList: IonContent;
+
+  private unsubscribe$: Subject<any> = new Subject<any>();
   private subscriptions: Array<string>;
   public tenant: string;
   public loggedUserUid: string;
@@ -51,7 +59,7 @@ export class ConversationListPage implements OnInit {
   public showPlaceholder = true;
   public numberOpenConv = 0;
   public loadingIsActive = true;
-  public supportMode = environment.supportMode;
+  public supportMode: boolean;
 
   public convertMessage = convertMessage;
   private isShowMenuPage = false;
@@ -61,6 +69,16 @@ export class ConversationListPage implements OnInit {
 
   public conversationType = 'active'
   headerTitle: string;
+  subscription: Subscription;
+
+  public UNASSIGNED_CONVS_URL: any;
+  public hasClickedOpenUnservedConvIframe: boolean = false;
+  public lastProjectId: string;
+  public isOnline: boolean = true;
+  public checkInternet: boolean;
+
+  public displayNewConvsItem: boolean = true
+
 
 
   constructor(
@@ -78,28 +96,178 @@ export class ConversationListPage implements OnInit {
     private translateService: CustomTranslateService,
     public tiledeskService: TiledeskService,
     public tiledeskAuthService: TiledeskAuthService,
-    public appConfigProvider: AppConfigProvider
+    public appConfigProvider: AppConfigProvider,
+    public platform: Platform,
+    private networkService: NetworkService,
+
   ) {
     this.listenToAppCompConvsLengthOnInitConvs();
     this.listenToLogoutEvent();
+    this.listenGoOnline();
+    this.listenGoOffline();
     this.listenToSwPostMessage();
-
+    this.listenSupportConvIdHasChanged();
+    // this.listenDirectConvIdHasChanged();
   }
+
+  listenSupportConvIdHasChanged() {
+    this.events.subscribe('supportconvid:haschanged', (IDConv) => {
+      this.logger.log('[CONVS-LIST-PAGE] - listen To convid:haschanged - convId', IDConv);
+      if (IDConv) {
+        // const conversationSelected = this.conversations.find(item => item.uid === convId);
+        // this.onConversationSelected(conversationSelected)
+        this.setUidConvSelected(IDConv, 'active');
+      }
+      if (!IDConv) {
+        this.logger.log('[CONVS-LIST-PAGE] - listen To convid:haschanged - is the page without conv select');
+
+        const chatTabCount = +localStorage.getItem('tabCount')
+        this.logger.log('[CONVS-LIST-PAGE] - listen To convid:haschanged - chatTabCount ', chatTabCount);
+        if (chatTabCount && chatTabCount > 0) {
+          this.logger.log('[CONVS-LIST-PAGE] - listen To convid:haschanged - the chat is already open ', chatTabCount);
+          if (checkPlatformIsMobile()) {
+            this.logger.log('[CONVS-LIST-PAGE] - the chat is in mobile mode ', checkPlatformIsMobile());
+            this.events.publish('noparams:mobile', true);
+          }
+        }
+      }
+    });
+  }
+
+  // listenDirectConvIdHasChanged() {
+  //   this.events.subscribe('directconvid:haschanged', (contact_id) => {
+  //     // console.log('[CONVS-LIST-PAGE] - listen To directconvid:haschanged - contact_id', contact_id);
+  //     if (contact_id) {
+  //       this.uidConvSelected = contact_id
+  //     }
+  //   });
+  // }
 
 
   // -----------------------------------------------
   // @ Lifehooks
   // -----------------------------------------------
   ngOnInit() {
+    this.watchToConnectionStatus();
+    this.getSupportMode();
 
+    // const currentUrl = this.router.url;
+    // this.logger.log('[CONVS-LIST-PAGE] current_url ngOnInit ', currentUrl);
+    // this.route.queryParams.subscribe(params => {
+    //   this.logger.log('[CONVS-LIST-PAGE] ngOnInit params', params);
+    //   if (params && params.convId) {
+    //     console.log('[CONVS-LIST-PAGE] ngOnInit params convId:', params.convId);
+
+    //     const conversationSelected = this.conversations.find(item => item.uid === params.convId);
+    //     if (conversationSelected) {
+    //       this.conversationSelected = conversationSelected;
+    //       console.log('[CONVS-LIST-PAGE] ngOnInit params convselected - conversationSelected: ', this.conversationSelected);
+    //       setTimeout(() => {
+    //         // this.navigateByUrl('active', params.convId)
+    //       }, 0);
+    //     }
+
+    //   } else {
+    //     console.log('[CONVS-LIST-PAGE] ngOnInit params No convId Params ');
+    //   }
+    //   if (params && params.contact_id && params.contact_fullname) {
+    //     this.logger.log('[CONVS-LIST-PAGE] ngOnInit params contact_id:', params.contact_id, 'contact_fullname ', params.contact_fullname);
+    //     setTimeout(() => {
+    //       this.router.navigateByUrl('conversation-detail/' + params.contact_id + '/' + params.contact_fullname + '/new');
+    //     }, 0);
+    //     this.uidConvSelected = params.contact_id
+    //   } else {
+    //     this.logger.log('[CONVS-LIST-PAGE] ngOnInit params No contact_id and contact_fullname Params ');
+    //   }
+
+    //   if (params && params.conversation_detail) {
+    //     this.logger.log('[CONVS-LIST-PAGE] ngOnInit params conversation_detail:', params.conversation_detail);
+    //     setTimeout(() => {
+    //       this.router.navigateByUrl('conversation-detail/');
+    //     }, 0);
+    //   } else {
+    //     this.logger.log('[CONVS-LIST-PAGE] ngOnInit params No conversation_detail Params ');
+    //   }
+
+    // });
   }
 
+
+
+  getSupportMode() {
+    this.supportMode = this.appConfigProvider.getConfig().supportMode;
+    // console.log('[ION-LIST-CONVS-COMP] - supportMode ', this.supportMode)
+  }
+
+  watchToConnectionStatus() {
+    this.networkService.checkInternetFunc().subscribe(isOnline => {
+      this.checkInternet = isOnline
+      this.logger.log('[ION-LIST-CONVS-COMP] - watchToConnectionStatus - isOnline', this.checkInternet)
+
+      // checking internet connection
+      if (this.checkInternet == true) {
+
+        this.isOnline = true;
+      } else {
+        this.isOnline = false;
+      }
+    });
+  }
+
+
   ionViewWillEnter() {
+    this.logger.log('Called ionViewDidEnter')
     this.logger.log('[CONVS-LIST-PAGE] ionViewWillEnter uidConvSelected', this.uidConvSelected);
     this.listnerStart();
+
+    // exit from app with hardware back button
+    this.subscription = this.platform.backButton.subscribe(() => {
+      navigator['app'].exitApp();
+    });
+  }
+
+  // unsubscribe backButton.subscribe method to not use from other page
+  ionViewWillLeave() {
+    this.logger.log('Called ionViewWillLeave')
+    this.subscription.unsubscribe();
   }
 
   ionViewDidEnter() { }
+
+  getLastProjectId(projectid: string) {
+    this.logger.log('[CONVS-LIST-PAGE] - GET LAST PROJECT ID', projectid);
+    this.lastProjectId = projectid;
+  }
+
+  openUnsevedConversationIframe() {
+    this.hasClickedOpenUnservedConvIframe = true
+    this.logger.log('[CONVS-LIST-PAGE] - HAS CLIKED OPEN UNSERVED REQUEST IFRAME', this.hasClickedOpenUnservedConvIframe);
+    const DASHBOARD_BASE_URL = this.appConfigProvider.getConfig().dashboardUrl;
+    this.UNASSIGNED_CONVS_URL = DASHBOARD_BASE_URL + '#/project/' + this.lastProjectId + '/unserved-request-for-panel';
+    this.logger.log('[CONVS-LIST-PAGE] - HAS CLIKED OPEN UNSERVED REQUEST IFRAME > UNASSIGNED CONVS URL', this.UNASSIGNED_CONVS_URL);
+    this.openUnassignedConversations(this.UNASSIGNED_CONVS_URL)
+  }
+
+  // ---------------------------------------------------------
+  // Opens the Unassigned Conversations iframe
+  // ---------------------------------------------------------
+  openUnassignedConversations(UNASSIGNED_CONVS_URL) {
+
+    if (checkPlatformIsMobile()) {
+      presentModal(this.modalController, UnassignedConversationsPage, { unassigned_convs_url: UNASSIGNED_CONVS_URL });
+    } else {
+      this.navService.push(UnassignedConversationsPage, { unassigned_convs_url: UNASSIGNED_CONVS_URL });
+    }
+  }
+
+  _closeContactsDirectory() {
+    try {
+      closeModal(this.modalController);
+    } catch (err) {
+      this.logger.error('[CONVS-LIST-PAGE] closeContactsDirectory -> error:', err);
+    }
+  }
+
 
   listenToSwPostMessage() {
     this.logger.log('[CONVS-LIST-PAGE] listenToNotificationCLick - CALLED: ');
@@ -137,12 +305,20 @@ export class ConversationListPage implements OnInit {
 
   private listnerStart() {
     const that = this;
-    this.chatManager.BSStart.subscribe((data: any) => {
-      this.logger.log('[CONVS-LIST-PAGE] ***** BSStart Current user *****', data);
-      if (data) {
-        that.initialize();
-      }
-    });
+    this.chatManager.BSStart
+      .pipe(
+        takeUntil(that.unsubscribe$)
+      )
+      .subscribe((data: any) => {
+        this.logger.log('[CONVS-LIST-PAGE] - BSStart SUBSCR DATA - Current user *****', data);
+        if (data) {
+          that.initialize();
+        }
+      }, error => {
+        this.logger.error('[CONVS-LIST-PAGE] - BSStart SUBSCR - ERROR: ', error);
+      }, () => {
+        this.logger.log('[CONVS-LIST-PAGE] - BSStart SUBSCR * COMPLETE *')
+      });
   }
 
 
@@ -178,7 +354,6 @@ export class ConversationListPage implements OnInit {
     if (!this.archivedConversations || this.archivedConversations.length === 0) {
       this.loadingIsActive = false;
     }
-
   }
 
 
@@ -198,9 +373,32 @@ export class ConversationListPage implements OnInit {
     });
   }
 
+  listenGoOnline() {
+    this.events.subscribe('go:online', (goonline) => {
+      this.logger.info('[CONVS-LIST-PAGE] - listen To go:online - goonline', goonline);
+      // this.events.unsubscribe('profileInfoButtonClick:logout')
+      if (goonline === true) {
+        this.displayNewConvsItem = true
+      }
+    });
+  }
+
+  listenGoOffline() {
+
+    this.events.subscribe('go:offline', (offline) => {
+      this.logger.info('[CONVS-LIST-PAGE] - listen To go:offline - offline', offline);
+      // this.events.unsubscribe('profileInfoButtonClick:logout')
+      if (offline === true) {
+        this.displayNewConvsItem = false
+      }
+    });
+  }
+
   listenToLogoutEvent() {
     this.events.subscribe('profileInfoButtonClick:logout', (hasclickedlogout) => {
       this.logger.info('[CONVS-LIST-PAGE] - listenToLogoutEvent - hasclickedlogout', hasclickedlogout);
+
+
       this.conversations = []
       this.conversationsHandlerService.conversations = [];
       this.uidConvSelected = null;
@@ -311,6 +509,9 @@ export class ConversationListPage implements OnInit {
    * evento richiamato quando si seleziona un utente nell'elenco degli user
    * apro dettaglio conversazione
    */
+  // --------------------------------
+  // !!!!!! IS USED? ?????
+  // ------------------------------
   subscribeChangedConversationSelected = (user: UserModel, type: string) => {
     this.logger.log('[CONVS-LIST-PAGE]  ************** subscribeUidConvSelectedChanged navigateByUrl', user, type);
     this.uidConvSelected = user.uid;
@@ -396,11 +597,14 @@ export class ConversationListPage implements OnInit {
     this.tenant = appconfig.firebaseConfig.tenant;
     this.logger.log('[CONVS-LIST-PAGE] - initialize -> firebaseConfig tenant ', this.tenant);
 
-    this.loggedUserUid = this.tiledeskAuthService.getCurrentUser().uid;
+    if (this.tiledeskAuthService.getCurrentUser()) {
+      this.loggedUserUid = this.tiledeskAuthService.getCurrentUser().uid;
+    }
     this.subscriptions = [];
     this.initConversationsHandler();
     this.initVariables();
     this.initSubscriptions();
+
     // this.initHandlerEventEmitter();
   }
 
@@ -445,6 +649,7 @@ export class ConversationListPage implements OnInit {
   setUidConvSelected(uidConvSelected: string, conversationType?: string,) {
     this.logger.log('[CONVS-LIST-PAGE] setuidCOnvSelected', uidConvSelected)
     this.uidConvSelected = uidConvSelected;
+    this.logger.log('uidConvSelected', uidConvSelected)
     // this.conversationsHandlerService.uidConvSelected = uidConvSelected;
     if (uidConvSelected) {
       let conversationSelected;
@@ -455,7 +660,7 @@ export class ConversationListPage implements OnInit {
       }
       if (conversationSelected) {
         this.logger.log('[CONVS-LIST-PAGE] conversationSelected', conversationSelected);
-        this.logger.log('[CONVS-LIST-PAGE] la conv ', this.conversationSelected, ' has already been loaded');
+        this.logger.log('[CONVS-LIST-PAGE] the conversation ', this.conversationSelected, ' has already been loaded');
         this.conversationSelected = conversationSelected;
         this.logger.log('[CONVS-LIST-PAGE] setUidConvSelected: ', this.conversationSelected);
       }
@@ -463,7 +668,7 @@ export class ConversationListPage implements OnInit {
   }
 
   onConversationSelected(conversation: ConversationModel) {
-    //console.log('returnSelectedConversation::', conversation)
+    this.logger.log('onConversationSelected conversation', conversation)
     if (conversation.archived) {
       this.navigateByUrl('archived', conversation.uid)
       this.logger.log('[CONVS-LIST-PAGE] onConversationSelected archived conversation.uid ', conversation.uid)
@@ -493,8 +698,8 @@ export class ConversationListPage implements OnInit {
   }
 
   onConversationLoaded(conversation: ConversationModel) {
-    this.logger.log('[CONVS-LIST-PAGE] onConversationLoaded ', conversation)
-    this.logger.log('[CONVS-LIST-PAGE] onConversationLoaded is new? ', conversation.is_new)
+    // this.logger.log('[CONVS-LIST-PAGE] onConversationLoaded ', conversation)
+    // this.logger.log('[CONVS-LIST-PAGE] onConversationLoaded is new? ', conversation.is_new)
     // if (conversation.is_new === false) {
     //   this.ionContentConvList.scrollToTop(0);
     // }
@@ -560,6 +765,7 @@ export class ConversationListPage implements OnInit {
 
 
   navigateByUrl(converationType: string, uidConvSelected: string) {
+    this.logger.log('[CONVS-LIST-PAGE] calling navigateByUrl: ');
     this.logger.log('[CONVS-LIST-PAGE] navigateByUrl uidConvSelected: ', uidConvSelected);
     this.logger.log('[CONVS-LIST-PAGE] navigateByUrl run  this.setUidConvSelected');
     this.logger.log('[CONVS-LIST-PAGE] navigateByUrl this.uidConvSelected ', this.uidConvSelected);
@@ -567,12 +773,14 @@ export class ConversationListPage implements OnInit {
 
     this.setUidConvSelected(uidConvSelected, converationType);
     if (checkPlatformIsMobile()) {
-      this.logger.log('[CONVS-LIST-PAGE] PLATFORM_MOBILE 1', this.navService);
+      this.logger.log('[CONVS-LIST-PAGE] checkPlatformIsMobile(): ', checkPlatformIsMobile());
+      this.logger.log('[CONVS-LIST-PAGE] DESKTOP (window >= 768)', this.navService);
       let pageUrl = 'conversation-detail/' + this.uidConvSelected + '/' + this.conversationSelected.conversation_with_fullname + '/' + converationType;
       this.logger.log('[CONVS-LIST-PAGE] pageURL', pageUrl)
       this.router.navigateByUrl(pageUrl);
     } else {
-      this.logger.log('[CONVS-LIST-PAGE] PLATFORM_DESKTOP 2', this.navService);
+      this.logger.log('[CONVS-LIST-PAGE] checkPlatformIsMobile(): ', checkPlatformIsMobile());
+      this.logger.log('[CONVS-LIST-PAGE] MOBILE (window < 768) ', this.navService);
       let pageUrl = 'conversation-detail/' + this.uidConvSelected;
       if (this.conversationSelected && this.conversationSelected.conversation_with_fullname) {
         pageUrl = 'conversation-detail/' + this.uidConvSelected + '/' + this.conversationSelected.conversation_with_fullname + '/' + converationType;

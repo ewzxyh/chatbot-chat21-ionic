@@ -75,10 +75,10 @@ export class FirebaseAuthService extends MessagingAuthService {
    *
    */
   initialize() {
-    console.log('initialize FROM [APP-COMP] [FIREBASEAuthSERVICE]')
+    this.logger.log('initialize FROM [APP-COMP] [FIREBASEAuthSERVICE]')
     this.SERVER_BASE_URL = this.getBaseUrl();
     this.URL_TILEDESK_CREATE_CUSTOM_TOKEN = this.SERVER_BASE_URL + 'chat21/firebase/auth/createCustomToken';
-    this.logger.info('[FIREBASEAuthSERVICE] - initialize URL_TILEDESK_CREATE_CUSTOM_TOKEN ', this.URL_TILEDESK_CREATE_CUSTOM_TOKEN)
+    this.logger.log('[FIREBASEAuthSERVICE] - initialize URL_TILEDESK_CREATE_CUSTOM_TOKEN ', this.URL_TILEDESK_CREATE_CUSTOM_TOKEN)
 
 
     let firebasePersistence;
@@ -102,7 +102,7 @@ export class FirebaseAuthService extends MessagingAuthService {
       }
     }
     firebase.auth().setPersistence(firebasePersistence).then(async () => {
-      console.log('[FIREBASEAuthSERVICE] firebasePersistence ', firebasePersistence)
+      this.logger.log('[FIREBASEAuthSERVICE] firebasePersistence ', firebasePersistence)
       // this.onAuthStateChanged(); // commented for new-login
     })
       .catch((error) => {
@@ -203,12 +203,12 @@ export class FirebaseAuthService extends MessagingAuthService {
     // Only one subscriber x application allowed
     // ---------------------------------------------------------------------------------------------------
     if (this.unsubscribe) {
-      console.log('initialize FROM [APP-COMP] - [FIREBASEAuthSERVICE] onAuthStateChanged ALREADY SUBSCRIBED')
+      this.logger.log('initialize FROM [APP-COMP] - [FIREBASEAuthSERVICE] onAuthStateChanged ALREADY SUBSCRIBED')
       return
     }
 
     this.unsubscribe = firebase.auth().onAuthStateChanged(user => {
-      console.log('initialize FROM [APP-COMP] - [FIREBASEAuthSERVICE] onAuthStateChanged', user)
+      this.logger.log('initialize FROM [APP-COMP] - [FIREBASEAuthSERVICE] onAuthStateChanged', user)
 
       
       if (!user) {
@@ -351,7 +351,7 @@ export class FirebaseAuthService extends MessagingAuthService {
     // }
     // return firebase.auth().setPersistence(firebasePersistence).then(async () => {
     return firebase.auth().signInWithCustomToken(token).then(async (user) => {
-      console.log('[FIREBASEAuthSERVICE] signInWithCustomToken user: ', user);
+      this.logger.log('[FIREBASEAuthSERVICE] signInWithCustomToken user: ', user);
       if (user) {
         this.BSAuthStateChanged.next('online');
       }

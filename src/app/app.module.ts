@@ -94,7 +94,8 @@ import { TooltipModule } from 'ng2-tooltip-directive';
 import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance';
 import { Network } from '@ionic-native/network/ngx';
 import { ConnectionService } from 'ng-connection-service';
-
+import { WebSocketJs } from './services/websocket/websocket-js';
+import { UnassignedConversationsPageModule } from './pages/unassigned-conversations/unassigned-conversations.module';
 
 // FACTORIES
 export function createTranslateLoader(http: HttpClient) {
@@ -102,7 +103,7 @@ export function createTranslateLoader(http: HttpClient) {
 
 }
 
-export function authenticationFactory(http: HttpClient, appConfig: AppConfigProvider, chat21Service: Chat21Service, appSorage: AppStorageService, network: Network, connectionService:ConnectionService) {
+export function authenticationFactory(http: HttpClient, appConfig: AppConfigProvider, chat21Service: Chat21Service, appSorage: AppStorageService, network: Network, connectionService: ConnectionService) {
   const config = appConfig.getConfig()
   if (config.chatEngine === CHAT_ENGINE_MQTT) {
 
@@ -111,8 +112,13 @@ export function authenticationFactory(http: HttpClient, appConfig: AppConfigProv
 
     const auth = new MQTTAuthService(http, chat21Service, appSorage);
 
-    auth.setBaseUrl(appConfig.getConfig().apiUrl)
-    
+    auth.setBaseUrl(appConfig.getConfig().apiUrl);
+
+    if (config.pushEngine = PUSH_ENGINE_MQTT) {
+      // FOR PUSH NOTIFICATIONS INIT FIREBASE APP
+      FirebaseInitService.initFirebase(config.firebaseConfig);
+    }
+
     return auth
   } else {
 
@@ -120,7 +126,7 @@ export function authenticationFactory(http: HttpClient, appConfig: AppConfigProv
     // console.log('[APP-MOD] FirebaseInitService config ', config)
     const auth = new FirebaseAuthService(http, network, connectionService);
     auth.setBaseUrl(config.apiUrl)
-  
+
     return auth
   }
 }
@@ -216,12 +222,12 @@ export function uploadFactory(http: HttpClient, appConfig: AppConfigProvider, ap
   }
 }
 
-export function notificationsServiceFactory(appConfig: AppConfigProvider) {
+export function notificationsServiceFactory(appConfig: AppConfigProvider, chat21Service: Chat21Service) {
   const config = appConfig.getConfig()
   if (config.pushEngine === PUSH_ENGINE_FIREBASE) {
     return new FirebaseNotifications();
   } else if (config.pushEngine === PUSH_ENGINE_MQTT) {
-    return new MQTTNotifications();
+    return new MQTTNotifications(chat21Service);
   } else {
     return;
   }
@@ -253,6 +259,7 @@ const appInitializerFn = (appConfig: AppConfigProvider, logger: NGXLogger) => {
     LoginPageModule,
     ConversationListPageModule,
     ConversationDetailPageModule,
+    UnassignedConversationsPageModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -338,7 +345,7 @@ const appInitializerFn = (appConfig: AppConfigProvider, logger: NGXLogger) => {
     {
       provide: NotificationsService,
       useFactory: notificationsServiceFactory,
-      deps: [AppConfigProvider]
+      deps: [AppConfigProvider, Chat21Service]
     },
     {
       provide: AppStorageService,
@@ -352,6 +359,7 @@ const appInitializerFn = (appConfig: AppConfigProvider, logger: NGXLogger) => {
     EventsService,
     Chooser,
     Chat21Service,
+    WebSocketJs
   ]
 })
 export class AppModule { }

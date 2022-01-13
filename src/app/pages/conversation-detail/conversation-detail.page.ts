@@ -40,6 +40,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { TiledeskService } from '../../services/tiledesk/tiledesk.service';
 import { NetworkService } from '../../services/network-service/network.service';
+import { EventsService } from '../../services/events-service';
 
 @Component({
   selector: 'app-conversation-detail',
@@ -50,6 +51,8 @@ import { NetworkService } from '../../services/network-service/network.service';
 export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('ionContentChatArea', { static: false }) ionContentChatArea: IonContent;
   @ViewChild('rowMessageTextArea', { static: false }) rowTextArea: ElementRef;
+
+
 
   // @ViewChild('info_content', { static: false }) info_content_child : InfoContentComponent;
 
@@ -90,6 +93,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
   public tagsCanned: any = [];
   public tagsCannedFilter: any = [];
+  public HIDE_CANNED_RESPONSES: boolean = false;
+
 
   public window: any = window;
   public styleMap: Map<string, string> = new Map();
@@ -164,7 +169,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     public presenceService: PresenceService,
     public toastController: ToastController,
     public tiledeskService: TiledeskService,
-    private networkService: NetworkService
+    private networkService: NetworkService,
+    private events: EventsService
   ) {
 
     // Change list on date change
@@ -173,6 +179,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       this.conversationWith = params.get('IDConv');
       this.conversationWithFullname = params.get('FullNameConv');
       this.conv_type = params.get('Convtype');
+
+      this.events.publish('supportconvid:haschanged', this.conversationWith);  
     });
 
   }
@@ -407,7 +415,9 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       'FAILED_TO_UPLOAD_THE_FORMAT_IS NOT_SUPPORTED',
       'NO_INFORMATION_AVAILABLE',
       'CONTACT_ID',
-      'USER_ID'
+      'USER_ID',
+      "UPLOAD",
+      "CANNED_RESPONSES"
     ];
 
     this.translationMap = this.customTranslateService.translateLanguage(keys);
@@ -533,23 +543,27 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     if (this.conversationWith && this.conversationsHandlerService && this.conv_type === 'active') {
       this.logger.log('[CONVS-DETAIL] - setHeaderContent getConversationDetail CALLING')
       this.conversationsHandlerService.getConversationDetail(this.conversationWith, (conv) => {
-        this.logger.log('[CONVS-DETAIL] - setHeaderContent getConversationDetail (active)', this.conversationWith, conv)
-        this.conversationAvatar = setConversationAvatar(
-          conv.conversation_with,
-          conv.conversation_with_fullname,
-          conv.channel_type
-        );
+        if (conv) {
+          this.logger.log('[CONVS-DETAIL] - setHeaderContent getConversationDetail (active)', this.conversationWith, conv)
+          this.conversationAvatar = setConversationAvatar(
+            conv.conversation_with,
+            conv.conversation_with_fullname,
+            conv.channel_type
+          );
+        }
         this.logger.log('[CONVS-DETAIL] - setHeaderContent > conversationAvatar: ', this.conversationAvatar);
       })
     }
     else { //get conversation from 'conversations' firebase node
       this.archivedConversationsHandlerService.getConversationDetail(this.conversationWith, (conv) => {
-        this.logger.log('[CONVS-DETAIL] - setHeaderContent getConversationDetail (archived)', this.conversationWith, conv)
-        this.conversationAvatar = setConversationAvatar(
-          conv.conversation_with,
-          conv.conversation_with_fullname,
-          conv.channel_type
-        );
+        if (conv) {
+          this.logger.log('[CONVS-DETAIL] - setHeaderContent getConversationDetail (archived)', this.conversationWith, conv)
+          this.conversationAvatar = setConversationAvatar(
+            conv.conversation_with,
+            conv.conversation_with_fullname,
+            conv.channel_type
+          );
+        }
       })
     }
 
@@ -628,23 +642,23 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         msg = `[${metadata.name}](${metadata.src})`
       }
     }
-    
+
     // else if (type === 'image') {
     //   if (msg) {
     //     // msg = msg + '<br>' + 'File: ' + metadata.src;
     //     msg = metadata.name + '\n' + msg
 
     //   } else {
-  
+
     //     msg = metadata.name
     //   }
- 
+
     // }
- 
+
 
     (metadata) ? metadata = metadata : metadata = '';
     this.logger.log('[CONVS-DETAIL] - SEND MESSAGE msg: ', msg, ' - messages: ', this.messages, ' - loggedUser: ', this.loggedUser);
- 
+
     if (msg && msg.trim() !== '' || type !== TYPE_MSG_TEXT) {
       this.conversationHandlerService.sendMessage(
         msg,
@@ -835,12 +849,12 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
   logScrolling(event: any) {
     // EVENTO IONIC-NATIVE: SCATTA SEMPRE, QUINDI DECIDO SE MOSTRARE O MENO IL BADGE 
-    this.logger.log('[CONVS-DETAIL] logScrolling: ', event);
+    // this.logger.log('[CONVS-DETAIL] logScrolling: ', event);
     this.detectBottom()
   }
 
   logScrollEnd(event: any) {
-    this.logger.log('[CONVS-DETAIL] logScrollEnd: ', event);
+    // this.logger.log('[CONVS-DETAIL] logScrollEnd: ', event);
   }
 
 
@@ -882,16 +896,82 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       // ----------------------------------------------------------
       setTimeout(() => {
         if (this.conversationWith.startsWith("support-group")) {
-          var pos = message.lastIndexOf("/");
-          this.logger.log("[CONVS-DETAIL] - returnChangeTextArea - canned responses pos of / ", pos);
-          this.logger.log("[CONVS-DETAIL] - returnChangeTextArea - pos:: ", pos);
+
+          const pos = message.lastIndexOf("/");
+          // console.log("[CONVS-DETAIL] - returnChangeTextArea - canned responses pos of / (using lastIndexOf) ", pos);
+
+          // test
+          // var rest = message.substring(0, message.lastIndexOf("/") + 1);
+          // var last = message.substring(message.lastIndexOf("/") + 1, message.length);
+          // console.log('[CONVS-DETAIL] - returnChangeTextArea rest', rest);
+          // console.log('[CONVS-DETAIL] - returnChangeTextArea last', last);
+          // console.log('[CONVS-DETAIL] - returnChangeTextArea last', last.length);
+          // if (last.length === 1 && last.trim() === '') {
+          //   console.log('[CONVS-DETAIL] - returnChangeTextArea last is a white space ');
+          // } else if (last.length === 1 && last.trim() !== '') {
+          //   console.log('[CONVS-DETAIL] - returnChangeTextArea last is NOT space ');
+          // }
+
 
           if (pos >= 0) {
-            // if (pos === 0) {
-            // && that.tagsCanned.length > 0
             var strSearch = message.substr(pos + 1);
             this.logger.log("[CONVS-DETAIL] - returnChangeTextArea - canned responses strSearch ", strSearch);
+
+            // --------------------------------------------
+            // Load canned responses
+            // --------------------------------------------
             this.loadTagsCanned(strSearch, this.conversationWith);
+
+            // ------------------------------------------------------------------------------------------------------------------------------------------
+            // Hide / display Canned when the SLASH has POSITION POS 0 and checking if there is a space after the SLASH (in this case it will be hidden)
+            // ------------------------------------------------------------------------------------------------------------------------------------------
+
+            var after_slash = message.substring(message.lastIndexOf("/") + 1, message.length);
+            if (pos === 0 && after_slash.length === 1 && after_slash.trim() === '') {
+              this.logger.log('[CONVS-DETAIL] - returnChangeTextArea after_slash --> there is a white space after ');
+              this.HIDE_CANNED_RESPONSES = true
+              this.tagsCannedFilter = []
+            } else if (pos === 0 && after_slash.length === 0) {
+              this.logger.log('[CONVS-DETAIL] - returnChangeTextArea after_slash --> there is NOT a white space after');
+              this.HIDE_CANNED_RESPONSES = false
+            }
+
+
+            if (pos > 0) {
+
+              // ------------------------------------------------------------------------------------------------------------------------------------------
+              // Hide / display Canned when the SLASH has POSITION POS > and checking if there is a space after the SLASH (in this case they it be hidden)
+              // and if there is not a space before the SLASH (in this it will be hidden)
+              // ------------------------------------------------------------------------------------------------------------------------------------------
+
+              let beforeSlash = message.substr(pos - 1)
+              let afterSlash = message.substr(pos + 1)
+              this.logger.log('[CONVS-DETAIL] - returnChangeTextArea * POS ', pos);
+
+              this.logger.log('[CONVS-DETAIL] - returnChangeTextArea  --> beforeSlash', beforeSlash);
+              this.logger.log('[CONVS-DETAIL] - returnChangeTextArea  --> afterSlash', afterSlash);
+              var afterSlashParts = afterSlash.split("/")
+              var beforeSlashParts = beforeSlash.split("/")
+              this.logger.log('[CONVS-DETAIL] - returnChangeTextArea  --> afterSlash parts', afterSlashParts);
+              this.logger.log('[CONVS-DETAIL] - returnChangeTextArea  --> beforeSlash parts', beforeSlashParts);
+
+              if (beforeSlashParts.length === 2) {
+                if (beforeSlashParts[0].indexOf(' ') >= 0 && afterSlashParts[0] === '') {
+                  this.HIDE_CANNED_RESPONSES = false
+                  this.logger.log('[CONVS-DETAIL] - returnChangeTextArea  --> beforeSlash there is a white space After Not');
+                  // if (beforeSlashParts[0].indexOf(' ') >= 0 && afterSlashParts[0].indexOf(' ') >= 0)
+                } else if (beforeSlashParts[0].indexOf(' ') < 0 && afterSlashParts[0] === '') {
+                  this.HIDE_CANNED_RESPONSES = true;
+                  this.tagsCannedFilter = []
+                  this.logger.log('[CONVS-DETAIL] - returnChangeTextArea  --> beforeSlash not thete is a white space After Not');
+                } else if (beforeSlashParts[0].indexOf(' ') >= 0 && afterSlashParts[0] === ' ') {
+                  this.logger.log('[CONVS-DETAIL] - returnChangeTextArea  --> beforeSlash not thete is a white space After YES');
+                  this.HIDE_CANNED_RESPONSES = true;
+                  this.tagsCannedFilter = []
+                }
+              }
+            }
+
 
           } else {
             this.tagsCannedFilter = [];
@@ -904,6 +984,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       this.logger.error('[CONVS-DETAIL] - returnChangeTextArea - error: ', err);
     }
   }
+
+
 
   // ----------------------------------------------------------
   // @ CANNED RESPONSES methods
@@ -974,7 +1056,10 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       this.logger.log('[CONVS-DETAIL] - loadTagsCanned  getCannedResponses RES', res);
 
       this.tagsCanned = res
-      this.showTagsCanned(strSearch);
+
+      if (this.HIDE_CANNED_RESPONSES === false) {
+        this.showTagsCanned(strSearch);
+      }
 
     }, (error) => {
       this.logger.error('[CONVS-DETAIL] - loadTagsCanned  getCannedResponses - ERROR  ', error);
@@ -1030,11 +1115,19 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     return str;
   }
 
-  replaceTagInMessage(canned) {
+  replaceTagInMessage(canned, event) {
+    this.logger.log("[CONVS-DETAIL] replaceTagInMessage  event ", event);
     const elTextArea = this.rowTextArea['el'];
     const textArea = elTextArea.getElementsByTagName('ion-textarea')[0];
+
     this.logger.log("[CONVS-DETAIL] replaceTagInMessage  textArea ", textArea);
     this.logger.log("[CONVS-DETAIL] replaceTagInMessage  textArea value", textArea.value)
+
+    // var lastChar =  textArea.value.substr(-1); // Selects the last character
+    // if (lastChar === '/') {         
+    //   textArea.value = textArea.value.substring(0, textArea.value.length() - 1);
+    // }
+    // this.insertAtCursor(this.textArea, textArea.value)
 
 
     this.arrowkeyLocation = -1
@@ -1051,15 +1144,72 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
     var strTEMP = textArea.value.replace(strSearch, canned.text);
     strTEMP = this.replacePlaceholderInCanned(strTEMP);
+    this.logger.log("[CONVS-DETAIL] replaceTagInMessage strSearch ", strTEMP);
     // strTEMP = this.replacePlaceholderInCanned(strTEMP);
     // textArea.value = '';
     // that.messageString = strTEMP;
     textArea.value = strTEMP;
     setTimeout(() => {
-      textArea.focus();
+      // textArea.focus();
+      textArea.setFocus();
       this.resizeTextArea();
     }, 200);
   }
+
+
+  hasClickedOpenCannedResponses($event) {
+    this.logger.log('[CONVS-DETAIL] - hasClickedOpenCannedResponses ',  $event) 
+    const elTextArea = this.rowTextArea['el'];
+    const textArea = elTextArea.getElementsByTagName('ion-textarea')[0];
+ 
+    this.logger.log("[CONVS-DETAIL] replaceTagInMessage  textArea ", textArea);
+    this.logger.log("[CONVS-DETAIL] replaceTagInMessage  textArea value", textArea.value)
+    this.insertAtCursor(textArea, '/')
+   }
+
+   insertAtCursor(myField, myValue) {
+    this.logger.log('[CANNED-RES-EDIT-CREATE] - insertAtCursor - myValue ', myValue );
+    this.logger.log('[CANNED-RES-EDIT-CREATE] - insertAtCursor - myField ', myField ); 
+    
+      myValue = ' ' + myValue;
+      this.logger.log('[CANNED-RES-EDIT-CREATE] - GET TEXT AREA - QUI ENTRO myValue ', myValue );
+    
+   
+    //IE support
+    if (myField.selection) {
+      myField.focus();
+      let sel = myField.selection.createRange();
+      sel.text = myValue;
+      // this.cannedResponseMessage = sel.text;
+    }
+    //MOZILLA and others
+    else if (myField.selectionStart || myField.selectionStart == '0') {
+      var startPos = myField.selectionStart;
+      this.logger.log('[CANNED-RES-EDIT-CREATE] - insertAtCursor - startPos ', startPos);
+      
+      var endPos = myField.selectionEnd;
+      this.logger.log('[CANNED-RES-EDIT-CREATE] - insertAtCursor - endPos ', endPos);
+      
+      myField.value = myField.value.substring(0, startPos) + myValue + myField.value.substring(endPos, myField.value.length);
+  
+      // place cursor at end of text in text input element
+      myField.focus();
+      var val = myField.value; //store the value of the element
+      myField.value = ''; //clear the value of the element
+      myField.value = val + ' '; //set that value back. 
+  
+      // this.cannedResponseMessage = myField.value;
+
+      // this.texareaIsEmpty = false;
+      // myField.select();
+    } else {
+      myField.value += myValue;
+      // this.cannedResponseMessage = myField.value;
+    }
+  }
+
+
+   
 
 
   @HostListener('document:keydown', ['$event'])
@@ -1088,9 +1238,12 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
       if (event.key === 'Enter') {
         const canned_selected = this.tagsCannedFilter[this.arrowkeyLocation]
-
+        this.logger.log('[CONVS-DETAIL] replaceTagInMessage  canned_selected ', canned_selected)
         if (canned_selected) {
-          this.replaceTagInMessage(canned_selected)
+
+          this.replaceTagInMessage(canned_selected, 'enter')
+          // event.preventDefault();
+          // return false;
         }
       }
     }
