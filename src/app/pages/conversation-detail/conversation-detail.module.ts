@@ -40,6 +40,7 @@ import { NgxLinkifyjsModule } from 'ngx-linkifyjs';
     CommonModule,
     FormsModule,
     IonicModule,
+    TooltipModule,
     ConversationDetailPageRoutingModule,
     TranslateModule.forChild({
       loader: {
@@ -56,7 +57,7 @@ import { NgxLinkifyjsModule } from 'ngx-linkifyjs';
   declarations: [
     ConversationDetailPage,
     HeaderConversationDetailComponent,
-    // MessageTextAreaComponent,
+    MessageTextAreaComponent,
     // BubbleDayMessageComponent,
     // BubbleSystemMessageComponent,
     // BubbleMyMessageComponent,
