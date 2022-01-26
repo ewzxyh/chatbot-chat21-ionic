@@ -88,7 +88,7 @@ export class WebSocketJs {
       // this.ws =  new WebSocket("wss://tiledesk-server-pre.herokuapp.com/?token=JWT [REDACTED_JWT]");
 
       this.logger.log('[WEBSOCKET-JS] - REF - READY STATE ≠ 1 > OPEN WS AND THEN SUBSCRIBE TO TOPICS');
-      // this.logger.log('% »»» WebSocketJs WF *** REF *** WS 2 ', this.ws);
+      this.logger.log('% »»» WebSocketJs WF *** REF *** WS 2 ', this.ws);
 
       var that = this;
       if (this.ws) {
@@ -96,6 +96,9 @@ export class WebSocketJs {
           that.logger.log('[WEBSOCKET-JS] - REF - OPEN EVENT *** ', event);
           that.subscribe(topic);
         });
+      } else {
+  
+        
       }
 
       if (this.topics.indexOf(topic) === -1) {
@@ -277,7 +280,7 @@ export class WebSocketJs {
       // onmessage Ottieni il battito cardiaco restituito per indicare che la connessione è normale
       if (this.ws && this.ws.readyState == 1) {
 
-        // this.logger.log("[WEBSOCKET-JS] - HEART-START - SEND PING-MSG");
+        this.logger.log("[WEBSOCKET-JS] - HEART-START - SEND PING-MSG");
 
         this.send(JSON.stringify(this.pingMsg), 'HEART-START')
 
@@ -289,7 +292,7 @@ export class WebSocketJs {
 
       // Se non viene ripristinato dopo un determinato periodo di tempo, il backend viene attivamente disconnesso
       this.pongTimeoutId = setTimeout(() => {
-        this.logger.log("[WEBSOCKET-JS] - HEART-START - PONG-TIMEOUT-ID  - CLOSE WS ");
+   this.logger.log("[WEBSOCKET-JS] - HEART-START - PONG-TIMEOUT-ID  - CLOSE WS ");
         // se onclose Si esibirà reconnect，Eseguiamo ws.close() Bene, se lo esegui direttamente reconnect Si innescherà onclose Causa riconnessione due volte
         this.ws.close();
       }, this.pongTimeout);
@@ -326,7 +329,7 @@ export class WebSocketJs {
     // this.sendingMessages = [];//new Map();
     // this.data = [];
     // this.init(this.sendMesagesInSendingArray);
-
+    this.logger.log("[WEBSOCKET-JS] - CALLING INIT - url ", this.url);
     this.logger.log("[WEBSOCKET-JS] - CALLING INIT - topics ", this.topics);
     this.logger.log("[WEBSOCKET-JS] - CALLING INIT - url ", this.url);
     this.logger.log("[WEBSOCKET-JS] - CALLING INIT - callbacks ", this.callbacks);
