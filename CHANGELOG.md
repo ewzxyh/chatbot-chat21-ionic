@@ -1,5 +1,19 @@
 # chat21-ionic ver 3.0
 
+### 3.0.60
+- Deploys in production
+
+### 3.0.60-rc9
+- Adds the message "All conversations served" in the conversation details section that appears when there are no active conversations
+- Fixes the bug: in the item that displays the number of unassigned conversations the button "fix a project" does not go to the right in mobile mode
+
+### 3.0.60-rc8
+- Fixes the bug: "info" messages sent by "SYSTEM" are not translated
+- Adds the Portuguese language
+- Adds the French language
+- Adds the Russian language
+- Adds the Turkish language
+
 ### 3.0.60-rc7
 - Adds German language
 - Adds a method that translates chat texts based on the language of the browser settings if no preferred language is selected in the dashboard or based on the preferred language (ignoring the browser language)

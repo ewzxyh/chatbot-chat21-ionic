@@ -2,8 +2,8 @@
   "LABEL_TU": "vocês: ",
   "LABEL_MSG_PUSH_START_CHAT": "Nenhuma conversa ainda",
   "LABEL_MSG_START_CHAT": "Começar a conversar",
-  "LABEL_ACTIVE_NOW": "ativo agora",
-  "LABEL_AVAILABLE": "acessível",
+  "LABEL_ACTIVE_NOW": "disponível",
+  "LABEL_AVAILABLE": "disponível",
   "LABEL_NOT_AVAILABLE": "não disponível",
   "LABEL_NO_MSG_HERE": "Ainda sem mensagem aqui...",
   "LABEL_TODAY": "hoje",
@@ -204,5 +204,6 @@
   "CHANGE_PINNED_PROJECT": "Alterar projeto fixado",
   "CHANGE_TO_AVAILABLE_UNAVAILABLE": "alterar para disponível/indisponível",
   "CHANGE_TO_YOUR_STATUS_TO_AVAILABLE": "altere seu status para disponível",
-  "CHANGE_TO_YOUR_STATUS_TO_UNAVAILABLE": "altere seu status para indisponível"
+  "CHANGE_TO_YOUR_STATUS_TO_UNAVAILABLE": "altere seu status para indisponível",
+  "ALL_CONVS_SERVED": "Todas as conversas foram atendidas? Bom trabalho!"
 }
