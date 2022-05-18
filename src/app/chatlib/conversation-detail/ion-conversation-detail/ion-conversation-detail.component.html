@@ -68,10 +68,9 @@
       </div>
     </ng-container>
 
-    <div class="align-center" class="ion-text-center" *ngIf="messageType(MESSAGE_TYPE_INFO, message)"
-      class="msg_info_container">
+    <div class="align-center ion-text-center msg_info_container" *ngIf="messageType(MESSAGE_TYPE_INFO, message)">
       <chat-info-message class="messages" 
-      [message]="message">
+        [message]="message">
       </chat-info-message>
     </div>
 
@@ -79,7 +78,6 @@
     <div role="messaggio" *ngIf="messageType(MESSAGE_TYPE_MINE, message)" class="msg_container base_sent">
 
       <!--backgroundColor non viene ancora usato -->
-      
       <chat-bubble-message class="messages msg_sent" id="message_msg_sent" style="position: relative;" 
         [ngClass]="{'has-metadata': (isImage(message) || isFrame(message))}" 
         [class.emoticon]="isEmojii(message?.text)"
@@ -138,8 +136,10 @@
 
     <!-- message type:: button &&  -->
     <div *ngIf="message?.attributes && message?.attributes?.attachment " class="slide-in-left">
-      <chat-message-attachment style="height: 100%; display: block;" [message]="message"
-        [isLastMessage]="isLastMessage(message?.uid)" [stylesMap]="stylesMap"
+      <chat-message-attachment style="height: 100%; display: block;" 
+        [message]="message"
+        [isLastMessage]="isLastMessage(message?.uid)" 
+        [stylesMap]="stylesMap"
         (onAttachmentButtonClicked)="returnOnAttachmentButtonClicked($event)">
       </chat-message-attachment>
     </div>
