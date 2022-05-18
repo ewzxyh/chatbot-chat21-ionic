@@ -3,7 +3,7 @@ import { ChangeDetectorRef, Component, Input, OnInit, Output, EventEmitter } fro
 
 
 import { MESSAGE_TYPE_INFO, MESSAGE_TYPE_MINE, MESSAGE_TYPE_OTHERS } from 'src/chat21-core/utils/constants';
-import { isChannelTypeGroup, isFirstMessage, isInfo, isMine, messageType } from 'src/chat21-core/utils/utils-message';
+import { isChannelTypeGroup, isEmojii, isFirstMessage, isInfo, isMine, messageType } from 'src/chat21-core/utils/utils-message';
 import { UploadService } from 'src/chat21-core/providers/abstract/upload.service';
 import { isFile, isFrame, isImage } from 'src/chat21-core/utils/utils-message';
 
@@ -41,6 +41,7 @@ export class IonConversationDetailComponent extends ConversationContentComponent
   isFirstMessage = isFirstMessage;
   messageType = messageType;
   isChannelTypeGroup = isChannelTypeGroup;
+  isEmojii = isEmojii;
 
   MESSAGE_TYPE_INFO = MESSAGE_TYPE_INFO;
   MESSAGE_TYPE_MINE = MESSAGE_TYPE_MINE;

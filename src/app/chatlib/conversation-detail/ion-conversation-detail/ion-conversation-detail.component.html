@@ -70,7 +70,8 @@
 
     <div class="align-center" class="ion-text-center" *ngIf="messageType(MESSAGE_TYPE_INFO, message)"
       class="msg_info_container">
-      <chat-info-message class="messages" [message]="message">
+      <chat-info-message class="messages" 
+      [message]="message">
       </chat-info-message>
     </div>
 
@@ -79,18 +80,26 @@
 
       <!--backgroundColor non viene ancora usato -->
       
-      <chat-bubble-message style="position: relative;"
-        [ngClass]="{'has-metadata': (isImage(message) || isFrame(message))}" class="messages msg_sent"
-        id="message_msg_sent" [ngClass]="{'button-in-msg' : message.metadata && message.metadata.button}"
-        [message]="message" [textColor]="'col-msg-sent'" (onBeforeMessageRender)="returnOnBeforeMessageRender($event)"
-        (onAfterMessageRender)="returnOnAfterMessageRender($event)" (onImageRendered)="onImageRenderedFN($event)"
-        [addAsCannedResponseTooltipText]="addAsCannedResponseTooltipText" [areVisibleCAR]="areVisibleCAR"
+      <chat-bubble-message class="messages msg_sent" id="message_msg_sent" style="position: relative;" 
+        [ngClass]="{'has-metadata': (isImage(message) || isFrame(message))}" 
+        [class.emoticon]="isEmojii(message?.text)"
+        [ngClass]="{'button-in-msg' : message.metadata && message.metadata.button}"
+        [message]="message" 
+        [textColor]="'col-msg-sent'"
+        [addAsCannedResponseTooltipText]="addAsCannedResponseTooltipText" 
+        [areVisibleCAR]="areVisibleCAR"
         [support_mode]="support_mode"
-        [class.emoticon]="message?.emoticon">
+        (onBeforeMessageRender)="returnOnBeforeMessageRender($event)"
+        (onAfterMessageRender)="returnOnAfterMessageRender($event)" 
+        (onImageRendered)="onImageRenderedFN($event)"
+        >
       </chat-bubble-message>
 
       <!-- icon status message -->
-      <chat-return-receipt [status]="message.status" [message]="message" [senderId]="senderId">
+      <chat-return-receipt 
+        [status]="message.status" 
+        [message]="message" 
+        [senderId]="senderId">
       </chat-return-receipt>
 
     </div>
@@ -112,14 +121,18 @@
 
       <!--backgroundColor non viene ancora usato -->
 
-      <chat-bubble-message style="position: relative;"
-        [ngClass]="{'has-metadata': (isImage(message) || isFrame(message))}" class="messages msg_receive"
-        id="message_msg_receive" [message]="message" [textColor]="'black'"
-        (onBeforeMessageRender)="returnOnBeforeMessageRender($event)"
-        (onAfterMessageRender)="returnOnAfterMessageRender($event)" (onImageRendered)="onImageRenderedFN($event)"
-        [addAsCannedResponseTooltipText]="addAsCannedResponseTooltipText" [areVisibleCAR]="areVisibleCAR"
+      <chat-bubble-message class="messages msg_receive" id="message_msg_receive" style="position: relative;"
+        [ngClass]="{'has-metadata': (isImage(message) || isFrame(message))}" 
+        [class.emoticon]="isEmojii(message?.text)"
+        [message]="message" 
+        [textColor]="'black'"
+        [addAsCannedResponseTooltipText]="addAsCannedResponseTooltipText" 
+        [areVisibleCAR]="areVisibleCAR"
         [support_mode]="support_mode"
-        [class.emoticon]="message?.emoticon">
+        (onBeforeMessageRender)="returnOnBeforeMessageRender($event)"
+        (onAfterMessageRender)="returnOnAfterMessageRender($event)" 
+        (onImageRendered)="onImageRenderedFN($event)"
+        >
       </chat-bubble-message>
     </div>
 
