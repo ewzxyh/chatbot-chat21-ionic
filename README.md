@@ -36,6 +36,12 @@ In progress git
 * A Firebase project. Create one free on `https://firebase.google.com`
 * "Chat21 Firebase cloud functions" installed. Instructions:`https://github.com/chat21/chat21-cloud-functions`
 
+# Run Tiledesk with Docker Compose
+
+Do you want to install all the Tiledesk components on your server with just one click?
+Use [Docker Compose Tiledesk installation guide](https://github.com/Tiledesk/tiledesk-deployment/blob/master/docker-compose/README.md)
+
+
 # Installation #
 * Install the latest stable release. Check on Github page the last release under the Releases tab and then run 
 - `git clone https://github.com/frontiere21/chat21-ionic.git --branch <LATEST-RELEASE-VERSION>`
@@ -61,6 +67,8 @@ In progress git
         fileUploadAccept:"*/*",
         logLevel":"<YOUR-PREFERRED-LOG-LEVEL>",
         supportMode: false,
+        writeToButton: false,
+        archivedButton: false,
         firebaseConfig: {
             tenant:"tilechat",
             apiKey: '123ABC..',
@@ -92,7 +100,11 @@ In progress git
 
 * `wsUrl`: allows you to know in real time the agent's availability status, the agent's busy status and the number of unassigned conversations for a selected project
 
-* `supportMode`: if set to true it allows you to view the list of contacts from which you can make direct conversations and the item at the top of the list of conversations that shows the number of unassigned conversations of a selected project and that the agent can view and take over by clicking on it 
+* `supportMode`: if it is set to true it shows the left sidebar which makes dashboard and chat management smarter
+
+* `writeToButton`: if set to true, it makes the button for viewing the contact list visible and makes direct conversations with them possible
+
+* `archivedButton`: if set to true, it makes the button for viewing archived conversations visible
 
 ### Push notification
 * open `/src/firebase-messaging-sw.js` and replace messagingSenderId: with < your messagingSenderId >

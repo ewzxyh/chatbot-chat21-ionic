@@ -1,10 +1,11 @@
 {
-    "t2y12PruGU9wUtEGzBJfolMIgK": "",
+    "t2y12PruGU9wUtEGzBJfolMIgK":"${FEATURES_TOKEN}",
     "chatEngine": "mqtt",
     "updloaEngine": "native",
     "pushEngine":"none",
     "fileUploadAccept":"*/*",
     "logLevel": "Info",
+    "authPersistence": "LOCAL",
     "firebaseConfig": {
         "tenant":"tilechat",
         "apiKey": "CHANGEIT",
@@ -27,5 +28,7 @@
     "dashboardUrl": "https://support-pre.tiledesk.com/dashboard/",
     "wsUrl": "ws://localhost:3000/",
     "wsUrlRel": "${WS_URL_RELATIVE}",
-    "supportMode": false
+    "supportMode": false,
+    "writeToButton": false,
+    "archivedButton": false
 }
