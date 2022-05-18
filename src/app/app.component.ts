@@ -153,7 +153,7 @@ export class AppComponent implements OnInit {
     // this.getPageState();
   }
 
-   isOnMobileDevice() {
+  isOnMobileDevice() {
     this.IS_ON_MOBILE_DEVICE = false;
     if (/Android|iPhone/i.test(window.navigator.userAgent)) {
       this.IS_ON_MOBILE_DEVICE = true;
@@ -299,7 +299,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     const appconfig = this.appConfigProvider.getConfig();
     this.logger.log('[APP-COMP] ngOnInit  appconfig', appconfig)
-    if (appconfig && appconfig.supportMode &&  (appconfig.supportMode === true || appconfig.supportMode === 'true' )) {
+    if (appconfig && appconfig.supportMode && (appconfig.supportMode === true || appconfig.supportMode === 'true')) {
       this.SUPPORT_MODE = true;
       this.logger.log('[APP-COMP] appconfig > SUPPORT_MODE', this.SUPPORT_MODE)
     } else {
@@ -564,16 +564,16 @@ export class AppComponent implements OnInit {
     } else if (browserLang && stored_preferred_lang) {
       chat_lang = stored_preferred_lang
     }
-  
+
     this.logger.log('[APP-COMP] - chat_lang', chat_lang)
-  
+
     if (tranlatedLanguage.includes(chat_lang)) {
-      this.logger.log('[APP-COMP] tranlatedLanguage includes',chat_lang , ': ', tranlatedLanguage.includes(chat_lang)) 
+      this.logger.log('[APP-COMP] tranlatedLanguage includes', chat_lang, ': ', tranlatedLanguage.includes(chat_lang))
       this.translate.setDefaultLang(chat_lang)
       this.translate.use(chat_lang);
     }
     else {
-      this.logger.log('[APP-COMP] tranlatedLanguage includes',chat_lang , ': ', tranlatedLanguage.includes(chat_lang)) 
+      this.logger.log('[APP-COMP] tranlatedLanguage includes', chat_lang, ': ', tranlatedLanguage.includes(chat_lang))
       this.translate.setDefaultLang('en');
       this.translate.use('en');
     }
@@ -659,6 +659,78 @@ export class AppComponent implements OnInit {
   }
 
 
+  updateStoredCurrentUser() {
+    const currentUser = JSON.parse(this.appStorageService.getItem('currentUser'));
+    this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser', currentUser)
+    const dshbrdUser = JSON.parse(localStorage.getItem('user'));
+    this.logger.log('[APP-COMP] updateStoredCurrentUser - dshbrdUser', dshbrdUser)
+    
+    if (currentUser.color !== dshbrdUser.fillColour) {
+      this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.color !== dshbrdUser.fillColour')
+      this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.color ', currentUser.color)
+      this.logger.log('[APP-COMP] updateStoredCurrentUser - dshbrdUser.fillColour ', dshbrdUser.fillColour)
+      currentUser.color = dshbrdUser.fillColour;
+    } else {
+      this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.color === dshbrdUser.fillColour')
+      this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.color ', currentUser.color)
+      this.logger.log('[APP-COMP] updateStoredCurrentUser - dshbrdUser.fillColour ', dshbrdUser.fillColour)
+    }
+
+    if (currentUser.firstname !== dshbrdUser.firstname) {
+      this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.firstname !== dshbrdUser.firstname')
+      this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.firstname ', currentUser.firstname)
+      this.logger.log('[APP-COMP] updateStoredCurrentUser - dshbrdUser.firstname ', dshbrdUser.firstname)
+      currentUser.firstname = dshbrdUser.firstname
+    } else {
+      this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.firstname === dshbrdUser.firstname')
+      this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.firstname ', currentUser.firstname)
+      this.logger.log('[APP-COMP] updateStoredCurrentUser - dshbrdUser.firstname ', dshbrdUser.firstname)
+   
+    }
+
+    if (currentUser.lastname !== dshbrdUser.lastname) {
+      this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.lastname !== dshbrdUser.lastname')
+      this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.lastname ', currentUser.lastname)
+      this.logger.log('[APP-COMP] updateStoredCurrentUser - dshbrdUser.lastname ', dshbrdUser.lastname)
+      currentUser.lastname = dshbrdUser.lastname
+    } else {
+      this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.lastname === dshbrdUser.lastname')
+      this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.lastname ', currentUser.lastname)
+      this.logger.log('[APP-COMP] updateStoredCurrentUser - dshbrdUser.lastname ', dshbrdUser.lastname)
+    }
+
+    if (currentUser.avatar !== dshbrdUser.fullname_initial) {
+      this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.avatar !== dshbrdUser.fullname_initial')
+      this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.avatar ', currentUser.avatar)
+      this.logger.log('[APP-COMP] updateStoredCurrentUser - dshbrdUser.fullname_initial ', dshbrdUser.fullname_initial )
+    } else {
+      this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.avatar === dshbrdUser.fullname_initial')
+      this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.avatar ', currentUser.avatar)
+      this.logger.log('[APP-COMP] updateStoredCurrentUser - dshbrdUser.fullname_initial ', dshbrdUser.fullname_initial )
+    }
+
+    let fullname = ""
+    if (dshbrdUser.firstname && !dshbrdUser.lastname ) {
+      fullname = dshbrdUser.firstname
+    } else if (dshbrdUser.firstname && dshbrdUser.lastname) {
+      fullname = dshbrdUser.firstname + ' ' + dshbrdUser.lastname
+      this.logger.log('[APP-COMP] updateStoredCurrentUser - fullname ', fullname)
+    }
+
+    if (fullname !== currentUser.fullname) {
+      this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.fullname !== dshbrdUser.fullname ')
+      this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.fullname  ' , fullname)
+      this.logger.log('[APP-COMP] updateStoredCurrentUser - dshbrdUser.fullname ', currentUser.fullname )
+      currentUser.fullname = fullname
+    } else {
+      this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.fullname === dshbrdUser.fullname ')
+      this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.fullname  ' , fullname)
+      this.logger.log('[APP-COMP] updateStoredCurrentUser - dshbrdUser.fullname ', currentUser.fullname )
+    }
+
+    this.appStorageService.setItem('currentUser', JSON.stringify(currentUser));
+  }
+
   /***************************************************+*/
   /**------- AUTHENTICATION FUNCTIONS --> START <--- +*/
   private initAuthentication() {
@@ -672,6 +744,9 @@ export class AppComponent implements OnInit {
       this.logger.log('[APP-COMP] >>> initAuthentication I LOG IN WITH A TOKEN EXISTING IN THE LOCAL STORAGE OR WITH A TOKEN PASSED IN THE URL PARAMETERS <<<')
       this.tiledeskAuthService.signInWithCustomToken(tiledeskToken).then(user => {
         this.logger.log('[APP-COMP] >>> initAuthentication user ', user)
+        
+        this.updateStoredCurrentUser()
+
         this.messagingAuthService.createCustomToken(tiledeskToken)
       }).catch(error => {
         this.logger.error('[APP-COMP] initAuthentication SIGNINWITHCUSTOMTOKEN error::', error)
@@ -1007,7 +1082,7 @@ export class AppComponent implements OnInit {
     let platformIsNow = PLATFORM_DESKTOP;
     if (checkPlatformIsMobile()) {
       platformIsNow = PLATFORM_MOBILE;
-      this.logger.log('onResize platformIsNow ', platformIsNow) 
+      this.logger.log('onResize platformIsNow ', platformIsNow)
     }
     if (!this.platformIs || this.platformIs === '') {
       this.platformIs = platformIsNow;
