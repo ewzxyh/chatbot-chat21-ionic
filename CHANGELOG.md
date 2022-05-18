@@ -1,5 +1,8 @@
 # chat21-ionic ver 3.0
 
+### 3.0.62.4
+- Fixed bug: when the user profile is updated in the dashboard it is not updated in the chat
+
 ### 3.0.62.3
 - Fixes the bug: the method setTyping fired twice after that a message is sent
 - Other minor improvements
