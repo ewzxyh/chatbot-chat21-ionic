@@ -16,6 +16,7 @@ import { isInArray } from 'src/chat21-core/utils/utils';
 // Logger
 import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service';
 import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance';
+import { AppStorageService } from 'src/chat21-core/providers/abstract/app-storage.service';
 
 @Component({
   selector: 'app-login',
@@ -39,7 +40,8 @@ export class LoginPage implements OnInit {
     private translateService: CustomTranslateService,
     private events: EventsService,
     private loginComponent: LoginComponent,
-    public toastController: ToastController
+    public toastController: ToastController,
+    public appStorageService: AppStorageService
   ) { }
 
   ngOnInit() {
@@ -123,6 +125,8 @@ export class LoginPage implements OnInit {
     this.tiledeskAuthService.signInWithEmailAndPassword(auth.email, auth.password)
       .then(tiledeskToken => {
         this.messagingAuthService.createCustomToken(tiledeskToken) 
+        // Here edit stored current user
+        // this.updateStoredCurrentUser()
       })
       .catch(error => {
         this.showSpinnerInLoginBtn = false;
@@ -149,6 +153,13 @@ export class LoginPage implements OnInit {
       });
 
     // this.authService.signInWithEmailAndPassword(auth.email, auth.password);
+  }
+
+  updateStoredCurrentUser() {
+    const currentUser = JSON.parse(this.appStorageService.getItem('currentUser'));
+    console.log('[LOGIN PAGE] updateStoredCurrentUser - currentUser' , currentUser)
+    const dshbrdUser = JSON.parse(localStorage.getItem('user'));
+    console.log('[LOGIN PAGE] updateStoredCurrentUser - dshbrdUser' , dshbrdUser)
   }
 
   async presentToast(errormsg: string) {
