@@ -153,7 +153,7 @@ export class AppComponent implements OnInit {
     // this.getPageState();
   }
 
-  isOnMobileDevice() {
+   isOnMobileDevice() {
     this.IS_ON_MOBILE_DEVICE = false;
     if (/Android|iPhone/i.test(window.navigator.userAgent)) {
       this.IS_ON_MOBILE_DEVICE = true;
