@@ -59,9 +59,11 @@ ion-item {
 }
 
 .message_sender_fullname {
-    font-size: 0.7em;
+    font-size: 0.9em;
     margin: 0 0 1px 10px;
-    color: var(--gray);
+    // color: var(--gray);
+    font-weight: 500;
+    color: #080f1a;
 }
 
 .messages {
@@ -94,7 +96,7 @@ ion-item {
     .emoticon {
         background: unset !important;
         font-size: 4em;
-        padding-bottom: 21px;
+        // padding-bottom: 21px;
         padding-top: 30px;
     }
     .has-metadata {
@@ -297,13 +299,26 @@ ion-item {
 // emoticon
 // ---------------------------------------------------------
 
-:host .base_sent .msg_sent ::ng-deep div > div > div > .chat-text-emoticon > p > p {
-    margin-bottom: 6px !important;
-    margin-right: -7px !important;
+// :host .base_sent .msg_sent ::ng-deep div > div > div > .chat-text-emoticon > p > p {
+//     margin-bottom: 6px !important;
+//     margin-right: -7px !important;
+// }
+
+// :host .base_receive .msg_receive ::ng-deep div > div > div > .chat-text-emoticon > p > p {
+//     margin-bottom: 41px !important;
+//     margin-left: -8px !important;
+//     margin-top: 49px !important;
+// }
+
+
+// :host .base_sent .msg_sent  .emoticon  ::ng-deep div > div >  div > chat-text > p > p {
+//     margin-bottom: 38px;
+// }
+
+:host .base_sent .emoticon ::ng-deep div > div > div > chat-text > p > p {
+    margin-bottom: 38px;
 }
 
-:host .base_receive .msg_receive ::ng-deep div > div > div > .chat-text-emoticon > p > p {
-    margin-bottom: 41px !important;
-    margin-left: -8px !important;
-    margin-top: 49px !important;
+:host .base_receive .emoticon ::ng-deep div > div > div > chat-text > p > p {
+    margin-bottom: 38px;
 }

@@ -28,7 +28,7 @@
                             <!--backgroundColor non viene ancora usato -->
                             <tiledeskwidget-bubble-message class="messages msg_sent slide-in-right"
                               [ngClass]="{'button-in-msg' : message?.metadata && message?.metadata?.button}"
-                              [class.emoticon]="isEmojii(message?.text)"
+                              [class.chat-text-emoticon]="isEmojii(message?.text)"
                               [message]="message"
                               [textColor]="'col-msg-sent'"
                               (onBeforeMessageRender)="returnOnBeforeMessageRender($event)"
@@ -55,7 +55,7 @@
 
                             <!--backgroundColor non viene ancora usato -->
                             <tiledeskwidget-bubble-message class="messages msg_receive slide-in-left"
-                              [class.emoticon]="isEmojii(message?.text)"
+                              [class.chat-text-emoticon]="isEmojii(message?.text)"
                               [message]="message"
                               [textColor]="'black'"
                               (onBeforeMessageRender)="returnOnBeforeMessageRender($event)"

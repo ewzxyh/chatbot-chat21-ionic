@@ -156,8 +156,7 @@ export class FirebaseConversationHandler extends ConversationHandlerService {
             typeMsg,
             attributes,
             channelType,
-            false,
-            isEmojii(msg)
+            false
         );
         const messageRef = firebaseMessagesCustomUid.push({
             language: lang,
