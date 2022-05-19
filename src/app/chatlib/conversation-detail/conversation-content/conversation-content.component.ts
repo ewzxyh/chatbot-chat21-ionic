@@ -5,7 +5,7 @@ import { MSG_STATUS_SENT, MSG_STATUS_RETURN_RECEIPT, MSG_STATUS_SENT_SERVER, MAX
 import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service';
 import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance';
 import { UploadService } from 'src/chat21-core/providers/abstract/upload.service';
-import { isInfo, isMine, messageType } from 'src/chat21-core/utils/utils-message';
+import { isEmojii, isInfo, isMine, messageType } from 'src/chat21-core/utils/utils-message';
 @Component({
   selector: 'tiledeskwidget-conversation-content',
   templateUrl: './conversation-content.component.html',
@@ -49,6 +49,7 @@ export class ConversationContentComponent implements OnInit {
   isMine = isMine;
   isInfo = isInfo;
   messageType = messageType;
+  isEmojii = isEmojii;
 
   MESSAGE_TYPE_INFO = MESSAGE_TYPE_INFO;
   MESSAGE_TYPE_MINE = MESSAGE_TYPE_MINE;
