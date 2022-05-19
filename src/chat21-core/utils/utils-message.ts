@@ -86,7 +86,7 @@ export function messageType(msgType: string, message: any) {
 }
 
 export function isEmojii_2(message: any){ 
-
+  // https://localcoder.org/javascript-detect-if-a-string-contains-only-unicode-emojis
   const onlyEmojis = message.replace(new RegExp('[\u0000-\u1eeff]', 'g'), '')
   const visibleChars = message.replace(new RegExp('[\n\r\s]+|( )+', 'g'), '')
   return onlyEmojis.length === visibleChars.length
