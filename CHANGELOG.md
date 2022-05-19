@@ -2,6 +2,7 @@
 
 ### 3.0.62.4
 - Fixed bug: when the user profile is updated in the dashboard it is not updated in the chat
+- Fixed bug: when is sent a message with only emojis, some emojis have the chat balloon background
 
 ### 3.0.62.3
 - Fixes the bug: the method setTyping fired twice after that a message is sent
