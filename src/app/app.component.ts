@@ -729,6 +729,7 @@ export class AppComponent implements OnInit {
     }
 
     this.appStorageService.setItem('currentUser', JSON.stringify(currentUser));
+    this.tiledeskAuthService.setCurrentUser(currentUser);
   }
 
   /***************************************************+*/
