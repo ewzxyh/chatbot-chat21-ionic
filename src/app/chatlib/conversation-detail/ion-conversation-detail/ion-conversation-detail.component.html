@@ -80,7 +80,7 @@
       <!--backgroundColor non viene ancora usato -->
       <chat-bubble-message class="messages msg_sent" id="message_msg_sent" style="position: relative;" 
         [ngClass]="{'has-metadata': (isImage(message) || isFrame(message))}" 
-        [class.emoticon]="isEmojii_2(message?.text)"
+        [class.emoticon]="isEmojii(message?.text)"
         [ngClass]="{'button-in-msg' : message.metadata && message.metadata.button}"
         [message]="message" 
         [textColor]="'col-msg-sent'"
@@ -120,7 +120,7 @@
 
       <chat-bubble-message class="messages msg_receive" id="message_msg_receive" style="position: relative;"
         [ngClass]="{'has-metadata': (isImage(message) || isFrame(message))}" 
-        [class.emoticon]="isEmojii_2(message?.text)"
+        [class.emoticon]="isEmojii(message?.text)"
         [message]="message" 
         [textColor]="'black'"
         [addAsCannedResponseTooltipText]="addAsCannedResponseTooltipText" 
