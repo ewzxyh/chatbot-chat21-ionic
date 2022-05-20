@@ -32,10 +32,15 @@
 
 <ng-template #showConversation>
 
-  <app-header-conversation-detail [isMobile]="isMobile" [idLoggedUser]="loggedUser.uid"
-    [conversationAvatar]="conversationAvatar" [translationMap]="translationMap"
-    (eventOpenCloseInfoConversation)="returnOpenCloseInfoConversation($event)"
-    [isOpenInfoConversation]="isOpenInfoConversation" [conv_type]="conv_type">
+  <app-header-conversation-detail 
+    [isMobile]="isMobile" 
+    [idLoggedUser]="loggedUser.uid"
+    [conversationUid]="conversationWith"
+    [conversationAvatar]="conversationAvatar" 
+    [translationMap]="translationMap"
+    [isOpenInfoConversation]="isOpenInfoConversation" 
+    [conv_type]="conv_type"
+    (eventOpenCloseInfoConversation)="returnOpenCloseInfoConversation($event)">
   </app-header-conversation-detail>
 
   <ion-content id="conv-details">
@@ -113,12 +118,16 @@
 
 
                 <ion-conversation-detail *ngIf="isHovering === false" #conversationContentDetail
-                  [channelType]="channelType" [messages]="messages" [senderId]="loggedUser.uid"
-                  [baseLocation]="window?.location?.origin" [stylesMap]="styleMap"
+                  [channelType]="channelType" 
+                  [messages]="messages" 
+                  [senderId]="loggedUser.uid"
+                  [baseLocation]="window?.location?.origin" 
+                  [stylesMap]="styleMap"
                   (onBeforeMessageRender)="returnOnBeforeMessageRender($event)"
                   (onAfterMessageRender)="returnOnAfterMessageRender($event)"
                   (onAttachmentButtonClicked)="returnOnAttachmentButtonClicked($event)"
-                  (onScrollContent)="returnOnScrollContent($event)" (onMenuOptionShow)="returnOnMenuOption($event)"
+                  (onScrollContent)="returnOnScrollContent($event)" 
+                  (onMenuOptionShow)="returnOnMenuOption($event)"
                   (onImageRendered)="onImageRenderedFN($event)"
                   (onAddUploadingBubble)="addUploadingBubbleEvent($event)">
                 </ion-conversation-detail>
@@ -163,16 +172,22 @@
             <!-- (eventReplaceMessageWithCanned)="replaceTagInMessage($event)" -->
             <!-- [tagsCannedFilter]="tagsCannedFilter" -->
             <!-- openInfoConversation   {{openInfoConversation}} - isMobile {{isMobile}} -->
-            <app-message-text-area
-              *ngIf="(openInfoConversation === false && isMobile === true) || (openInfoConversation === true && isMobile === false) || (openInfoConversation === false && isMobile === false)"
-              [tagsCannedCount]="tagsCannedCount" [areVisibleCAR]="areVisibleCAR" [support_mode]="support_mode"
-              [loggedUser]="loggedUser" [conversationWith]="conversationWith" [tagsCannedFilter]="tagsCannedFilter"
+            <app-message-text-area *ngIf="(openInfoConversation === false && isMobile === true) || (openInfoConversation === true && isMobile === false) || (openInfoConversation === false && isMobile === false)"
+              [tagsCannedCount]="tagsCannedCount" 
+              [areVisibleCAR]="areVisibleCAR" 
+              [support_mode]="support_mode"
+              [loggedUser]="loggedUser" 
+              [conversationWith]="conversationWith" 
+              [tagsCannedFilter]="tagsCannedFilter"
+              [translationMap]="translationMap"
+              [fileUploadAccept]="appConfigProvider.getConfig().fileUploadAccept"
+              [isOpenInfoConversation]="isOpenInfoConversation" 
+              [dropEvent]="dropEvent"
+              [disableTextarea]="disableTextarea"
               (eventChangeTextArea)="returnChangeTextArea($event)"
               (hasClickedOpenCannedResponses)="hasClickedOpenCannedResponses($event)"
-              (eventSendMessage)="returnSendMessage($event)" [translationMap]="translationMap"
-              [fileUploadAccept]="appConfigProvider.getConfig().fileUploadAccept"
-              [isOpenInfoConversation]="isOpenInfoConversation" [dropEvent]="dropEvent"
-              (onPresentModalScrollToBottom)="onPresentModalScrollToBottom($event)" [disableTextarea]="disableTextarea">
+              (eventSendMessage)="returnSendMessage($event)" 
+              (onPresentModalScrollToBottom)="onPresentModalScrollToBottom($event)">
             </app-message-text-area>
             <!-- [events]="eventsReplaceTexareaText.asObservable()" -->
           </ion-row>
@@ -180,8 +195,12 @@
         </ion-col>
 
         <ion-col id="chat21-info-conversation" [class.mobile]="isMobile" [class.open]="openInfoConversation">
-          <app-info-content [openInfoConversation]="openInfoConversation" [translationMap]="translationMap"
-            [loggedUser]="loggedUser" [tenant]="tenant" [groupDetail]="groupDetail">
+          <app-info-content 
+            [openInfoConversation]="openInfoConversation" 
+            [translationMap]="translationMap"
+            [loggedUser]="loggedUser" 
+            [tenant]="tenant" 
+            [groupDetail]="groupDetail">
           </app-info-content>
         </ion-col>
 

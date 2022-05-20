@@ -22,6 +22,7 @@ import { ModalController } from '@ionic/angular'
 import { EventsService } from 'src/app/services/events-service'
 import { CreateTicketPage } from 'src/app/pages/create-ticket/create-ticket.page'
 import { TiledeskService } from 'src/app/services/tiledesk/tiledesk.service'
+import { TYPE_DIRECT } from 'src/chat21-core/utils/constants'
 
 @Component({
   selector: 'app-header-conversation-detail',
@@ -31,57 +32,36 @@ import { TiledeskService } from 'src/app/services/tiledesk/tiledesk.service'
 export class HeaderConversationDetailComponent implements OnInit, OnChanges {
   @Input() conversationAvatar: any
   @Input() idLoggedUser: string
+  @Input() conversationUid: string
   @Input() conv_type: string
-  @Input() isOpenInfoConversation: boolean
+  @Input() isOpenInfoConversation: boolean = true
   @Input() isMobile: boolean
   @Input() translationMap: Map<string, string>
   @Output() eventOpenCloseInfoConversation = new EventEmitter<boolean>()
   conversationWithFullname: string
   openInfoConversation = true
   openInfoMessage = true
-  DIRECT = 'direct'
 
   isDirect = false
   isTyping = false
   borderColor = '#ffffff'
   fontColor = '#949494'
   membersConversation = ['SYSTEM']
-  fullNameConv: string
-  idConv: string
-  conversation_with_fullname: string
   platformName: string
   conv_closed: boolean = false;
   IS_ON_IOS_MOBILE_DEVICE: boolean
   private logger: LoggerService = LoggerInstance.getInstance()
 
-  /**
-   * Constructor
-   * @param imageRepoService
-   */
   constructor(
     public imageRepoService: ImageRepoService,
     private route: ActivatedRoute,
     public platform: Platform,
     private router: Router,
-    // public tiledeskAuthService: TiledeskAuthService,
     public tiledeskService: TiledeskService,
     public events: EventsService,
     public modalController: ModalController,
   ) {
-    this.route.paramMap.subscribe((params) => {
-      // this.conversationWithFullname = params.get('FullNameConv');
-      this.logger.log('[CONVS-DETAIL][HEADER] -> params: ', params)
-      this.fullNameConv = params.get('FullNameConv')
-      this.logger.log(
-        '[CONVS-DETAIL][HEADER] -> params > conversation_with_fullname: ',
-        this.fullNameConv,
-      )
-      this.idConv = params.get('IDConv')
-      this.logger.log(
-        '[CONVS-DETAIL][HEADER] -> params > conversation_with: ',
-        this.idConv,
-      )
-    })
+    
   }
 
   // ----------------------------------------------------
@@ -91,8 +71,7 @@ export class HeaderConversationDetailComponent implements OnInit, OnChanges {
 
     this.logger.log('[CONVS-DETAIL][HEADER] - (ngOnInit) - idLoggedUser', this.idLoggedUser,)
     this.logger.log('[CONVS-DETAIL][HEADER] - (ngOnInit) - conversationAvatar', this.conversationAvatar,)
-    this.logger.log('[CONVS-DETAIL][HEADER] - (ngOnInit) -  conv_type', this.conv_type,)
-    this.conversation_with_fullname = this.conversationAvatar.conversation_with_fullname
+    this.logger.log('[CONVS-DETAIL][HEADER] - (ngOnInit) -  conv_type', this.conv_type)
     this.listenToConversationHasBeenClosed()
     this.initialize();
     // this.isOniOSMobileDevice()
@@ -111,29 +90,8 @@ export class HeaderConversationDetailComponent implements OnInit, OnChanges {
   ngOnChanges() {
     this.logger.log('[CONVS-DETAIL][HEADER] - (ngOnChanges) -  conversationAvatar', this.conversationAvatar)
     if (this.conversationAvatar) {
-      this.conversationAvatar.imageurl = this.imageRepoService.getImagePhotoUrl(
-        this.conversationAvatar.uid,
-      )
-    } else {
-      const channelType = setChannelType(this.idConv)
-      this.logger.log('[CONVS-DETAIL][HEADER] - (ngOnChanges) - conversationAvatar usecase UNDEFINED channelType ', channelType)
-      this.conversationAvatar = setConversationAvatar(
-        this.idConv,
-        this.fullNameConv,
-        channelType,
-      )
-      if (this.conversationAvatar) {
-        this.conversationAvatar.imageurl = this.imageRepoService.getImagePhotoUrl(
-          this.conversationAvatar.uid,
-        )
-      }
-      this.logger.log('[CONVS-DETAIL][HEADER] - (ngOnChanges) - conversationAvatar usecase UNDEFINED conversationAvatar', this.conversationAvatar)
-    }
-
-    this.logger.log(
-      '[CONVS-DETAIL][HEADER] - (ngOnChanges) - isOpenInfoConversation',
-      this.isOpenInfoConversation,
-    )
+      this.conversationAvatar.imageurl = this.imageRepoService.getImagePhotoUrl(this.conversationAvatar.uid)
+    } 
     this.openInfoConversation = this.isOpenInfoConversation
   }
 
@@ -142,10 +100,7 @@ export class HeaderConversationDetailComponent implements OnInit, OnChanges {
   // ----------------------------------------------------
   initialize() {
     this.getPlatformName()
-    if (
-      this.conversationAvatar &&
-      this.conversationAvatar.channelType === this.DIRECT
-    ) {
+    if ( this.conversationAvatar && this.conversationAvatar.channelType === TYPE_DIRECT ) {
       this.isDirect = true
     } else if (this.idLoggedUser) {
       this.membersConversation.push(this.idLoggedUser)
@@ -165,13 +120,13 @@ export class HeaderConversationDetailComponent implements OnInit, OnChanges {
 
   closeConversation() {
     this.logger.log('[CONVS-DETAIL][HEADER] click on RESOLVE this.events', this.events) 
-    this.events.publish('conversation:closed', this.idConv)
+    this.events.publish('conversation:closed', this.conversationUid)
   }
 
   listenToConversationHasBeenClosed() {
     this.events.subscribe('conversationhasbeenclosed', (convId) => {
       // console.log('[CONVS-DETAIL][HEADER] conversationhasbeenclosed  convId', convId)
-      if (convId === this.idConv) {
+      if (convId === this.conversationUid) {
         this.logger.log('[CONVS-DETAIL][HEADER] the conversation was closed',)
         this.conv_closed = true;
       }

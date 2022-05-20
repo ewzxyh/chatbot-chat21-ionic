@@ -32,8 +32,8 @@
       <!-- (click)="onOpenCloseInfoConversation()" -->
       <div *ngIf="conversationAvatar" class="tile-info-with" 
         [ngClass]="{ 'tile-info-with-ios': platformName === 'ios' }">
-        <!-- <span class="tile-username">{{ conversationAvatar.conversation_with_fullname }} </span> -->
-        <span class="tile-username">{{ conversation_with_fullname }} </span>
+        <span class="tile-username">{{ conversationAvatar.conversation_with_fullname }} </span>
+        <!-- <span class="tile-username">{{ conversation_with_fullname }} </span> -->
 
       </div>
 
@@ -50,7 +50,7 @@
         <span style="text-transform: capitalize; margin-left: 5px;"> {{ 'Crea ticket' | translate}} </span>
       </ion-button> -->
 
-      <ion-button *ngIf="idConv.startsWith('support-group') && conv_type !== 'archived'" ion-button fill="clear" color="primary" size="small" 
+      <ion-button *ngIf="conversationUid?.startsWith('support-group') && conv_type !== 'archived'" ion-button fill="clear" color="primary" size="small" 
       (click)="closeConversation()" [ngClass]="{'resolve-conv-margin-right': !isMobile}" [disabled]="conv_closed === true">
         <!-- <ion-icon slot="icon-only" name="alert-circle-outline"></ion-icon> -->
         <ion-icon name="archive-outline"></ion-icon>
