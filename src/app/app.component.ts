@@ -269,7 +269,6 @@ export class AppComponent implements OnInit {
 
   saveInStorageNumberOfOpenedChatTab() {
     // this.logger.log('Calling saveInStorageChatOpenedTab!');
-
     // https://jsfiddle.net/jjjs5wd3/3/å
     if (+localStorage.tabCount > 0) {
       this.logger.log('Chat IONIC Already open!');
@@ -660,76 +659,84 @@ export class AppComponent implements OnInit {
 
 
   updateStoredCurrentUser() {
-    const currentUser = JSON.parse(this.appStorageService.getItem('currentUser'));
-    this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser', currentUser)
-    const dshbrdUser = JSON.parse(localStorage.getItem('user'));
-    this.logger.log('[APP-COMP] updateStoredCurrentUser - dshbrdUser', dshbrdUser)
-    
-    if (currentUser.color !== dshbrdUser.fillColour) {
-      this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.color !== dshbrdUser.fillColour')
-      this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.color ', currentUser.color)
-      this.logger.log('[APP-COMP] updateStoredCurrentUser - dshbrdUser.fillColour ', dshbrdUser.fillColour)
-      currentUser.color = dshbrdUser.fillColour;
+    const storedCurrentUser = this.appStorageService.getItem('currentUser')
+    const storedDshbrdUser = localStorage.getItem('user')
+
+    this.logger.log('[APP-COMP] updateStoredCurrentUser - stored currentUser', storedCurrentUser)
+    this.logger.log('[APP-COMP] updateStoredCurrentUser - stored dshbrdUser', storedDshbrdUser)
+    if ((storedCurrentUser && storedCurrentUser !== 'undefined') && (storedDshbrdUser && storedDshbrdUser !== 'undefined')) {
+      const currentUser = JSON.parse(storedCurrentUser);
+      const dshbrdUser = JSON.parse(storedDshbrdUser);
+      if (currentUser && dshbrdUser) {
+        if (currentUser.color !== dshbrdUser.fillColour) {
+          this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.color !== dshbrdUser.fillColour')
+          this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.color ', currentUser.color)
+          this.logger.log('[APP-COMP] updateStoredCurrentUser - dshbrdUser.fillColour ', dshbrdUser.fillColour)
+          currentUser.color = dshbrdUser.fillColour;
+        } else {
+          this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.color === dshbrdUser.fillColour')
+          this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.color ', currentUser.color)
+          this.logger.log('[APP-COMP] updateStoredCurrentUser - dshbrdUser.fillColour ', dshbrdUser.fillColour)
+        }
+
+        if (currentUser.firstname !== dshbrdUser.firstname) {
+          this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.firstname !== dshbrdUser.firstname')
+          this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.firstname ', currentUser.firstname)
+          this.logger.log('[APP-COMP] updateStoredCurrentUser - dshbrdUser.firstname ', dshbrdUser.firstname)
+          currentUser.firstname = dshbrdUser.firstname;
+        } else {
+          this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.firstname === dshbrdUser.firstname')
+          this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.firstname ', currentUser.firstname)
+          this.logger.log('[APP-COMP] updateStoredCurrentUser - dshbrdUser.firstname ', dshbrdUser.firstname)
+        }
+
+        if (currentUser.lastname !== dshbrdUser.lastname) {
+          this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.lastname !== dshbrdUser.lastname')
+          this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.lastname ', currentUser.lastname)
+          this.logger.log('[APP-COMP] updateStoredCurrentUser - dshbrdUser.lastname ', dshbrdUser.lastname)
+          currentUser.lastname = dshbrdUser.lastname;
+        } else {
+          this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.lastname === dshbrdUser.lastname')
+          this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.lastname ', currentUser.lastname)
+          this.logger.log('[APP-COMP] updateStoredCurrentUser - dshbrdUser.lastname ', dshbrdUser.lastname)
+        }
+
+        if (currentUser.avatar !== dshbrdUser.fullname_initial) {
+          this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.avatar !== dshbrdUser.fullname_initial')
+          this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.avatar ', currentUser.avatar)
+          this.logger.log('[APP-COMP] updateStoredCurrentUser - dshbrdUser.fullname_initial ', dshbrdUser.fullname_initial)
+          currentUser.avatar = dshbrdUser.fullname_initial
+        } else {
+          this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.avatar === dshbrdUser.fullname_initial')
+          this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.avatar ', currentUser.avatar)
+          this.logger.log('[APP-COMP] updateStoredCurrentUser - dshbrdUser.fullname_initial ', dshbrdUser.fullname_initial)
+        }
+
+        let fullname = ""
+        if (dshbrdUser.firstname && !dshbrdUser.lastname) {
+          fullname = dshbrdUser.firstname
+        } else if (dshbrdUser.firstname && dshbrdUser.lastname) {
+          fullname = dshbrdUser.firstname + ' ' + dshbrdUser.lastname
+          this.logger.log('[APP-COMP] updateStoredCurrentUser - fullname ', fullname)
+        }
+
+        if (fullname !== currentUser.fullname) {
+          this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.fullname !== dshbrdUser.fullname ')
+          this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.fullname  ', fullname)
+          this.logger.log('[APP-COMP] updateStoredCurrentUser - dshbrdUser.fullname ', currentUser.fullname)
+          currentUser.fullname = fullname
+        } else {
+          this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.fullname === dshbrdUser.fullname ')
+          this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.fullname  ', fullname)
+          this.logger.log('[APP-COMP] updateStoredCurrentUser - dshbrdUser.fullname ', currentUser.fullname)
+        }
+
+        this.appStorageService.setItem('currentUser', JSON.stringify(currentUser));
+        this.tiledeskAuthService.setCurrentUser(currentUser);
+      }
     } else {
-      this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.color === dshbrdUser.fillColour')
-      this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.color ', currentUser.color)
-      this.logger.log('[APP-COMP] updateStoredCurrentUser - dshbrdUser.fillColour ', dshbrdUser.fillColour)
+      this.logger.error('[APP-COMP] updateStoredCurrentUser - currentuser or dashboarduser not found in storage')
     }
-
-    if (currentUser.firstname !== dshbrdUser.firstname) {
-      this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.firstname !== dshbrdUser.firstname')
-      this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.firstname ', currentUser.firstname)
-      this.logger.log('[APP-COMP] updateStoredCurrentUser - dshbrdUser.firstname ', dshbrdUser.firstname)
-      currentUser.firstname = dshbrdUser.firstname
-    } else {
-      this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.firstname === dshbrdUser.firstname')
-      this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.firstname ', currentUser.firstname)
-      this.logger.log('[APP-COMP] updateStoredCurrentUser - dshbrdUser.firstname ', dshbrdUser.firstname)
-   
-    }
-
-    if (currentUser.lastname !== dshbrdUser.lastname) {
-      this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.lastname !== dshbrdUser.lastname')
-      this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.lastname ', currentUser.lastname)
-      this.logger.log('[APP-COMP] updateStoredCurrentUser - dshbrdUser.lastname ', dshbrdUser.lastname)
-      currentUser.lastname = dshbrdUser.lastname
-    } else {
-      this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.lastname === dshbrdUser.lastname')
-      this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.lastname ', currentUser.lastname)
-      this.logger.log('[APP-COMP] updateStoredCurrentUser - dshbrdUser.lastname ', dshbrdUser.lastname)
-    }
-
-    if (currentUser.avatar !== dshbrdUser.fullname_initial) {
-      this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.avatar !== dshbrdUser.fullname_initial')
-      this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.avatar ', currentUser.avatar)
-      this.logger.log('[APP-COMP] updateStoredCurrentUser - dshbrdUser.fullname_initial ', dshbrdUser.fullname_initial )
-    } else {
-      this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.avatar === dshbrdUser.fullname_initial')
-      this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.avatar ', currentUser.avatar)
-      this.logger.log('[APP-COMP] updateStoredCurrentUser - dshbrdUser.fullname_initial ', dshbrdUser.fullname_initial )
-    }
-
-    let fullname = ""
-    if (dshbrdUser.firstname && !dshbrdUser.lastname ) {
-      fullname = dshbrdUser.firstname
-    } else if (dshbrdUser.firstname && dshbrdUser.lastname) {
-      fullname = dshbrdUser.firstname + ' ' + dshbrdUser.lastname
-      this.logger.log('[APP-COMP] updateStoredCurrentUser - fullname ', fullname)
-    }
-
-    if (fullname !== currentUser.fullname) {
-      this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.fullname !== dshbrdUser.fullname ')
-      this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.fullname  ' , fullname)
-      this.logger.log('[APP-COMP] updateStoredCurrentUser - dshbrdUser.fullname ', currentUser.fullname )
-      currentUser.fullname = fullname
-    } else {
-      this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.fullname === dshbrdUser.fullname ')
-      this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.fullname  ' , fullname)
-      this.logger.log('[APP-COMP] updateStoredCurrentUser - dshbrdUser.fullname ', currentUser.fullname )
-    }
-
-    this.appStorageService.setItem('currentUser', JSON.stringify(currentUser));
-    this.tiledeskAuthService.setCurrentUser(currentUser);
   }
 
   /***************************************************+*/
@@ -745,7 +752,7 @@ export class AppComponent implements OnInit {
       this.logger.log('[APP-COMP] >>> initAuthentication I LOG IN WITH A TOKEN EXISTING IN THE LOCAL STORAGE OR WITH A TOKEN PASSED IN THE URL PARAMETERS <<<')
       this.tiledeskAuthService.signInWithCustomToken(tiledeskToken).then(user => {
         this.logger.log('[APP-COMP] >>> initAuthentication user ', user)
-        
+
         this.updateStoredCurrentUser()
 
         this.messagingAuthService.createCustomToken(tiledeskToken)
@@ -777,24 +784,7 @@ export class AppComponent implements OnInit {
   /**------- AUTHENTICATION FUNCTIONS --> END <--- +*/
   /***************************************************+*/
 
-
-
   checkPlatform() {
-    //  console.log('[APP-COMP] checkPlatform');
-    // let pageUrl = '';
-    // try {
-    //   const pathPage = this.route.snapshot.firstChild.routeConfig.path;
-    //   this.route.snapshot.firstChild.url.forEach(element => {
-    //     pageUrl += '/' + element.path;
-    //   });
-    // } catch (error) {
-    //   this.logger.debug('error', error);
-    // }
-    // this.logger.debug('checkPlatform pathPage: ', pageUrl);
-    // if (!pageUrl || pageUrl === '') {
-    //   pageUrl = '/conversations-list';
-    // }
-
     if (checkPlatformIsMobile()) {
       this.chatManager.startApp();
 
@@ -970,14 +960,20 @@ export class AppComponent implements OnInit {
     this.conversationsHandlerService.conversationChanged.subscribe((conversation: ConversationModel) => {
 
       // console.log('[APP-COMP] ***** subscribeConversationChanged conversation: ', conversation);
-      const currentUser = JSON.parse(this.appStorageService.getItem('currentUser'));
-      this.logger.log('[APP-COMP] ***** subscribeConversationChanged current_user: ', currentUser);
+      let currentUser = null
+      const storedCurrentUser = this.appStorageService.getItem('currentUser')
+      if (storedCurrentUser && storedCurrentUser !== 'undefined') {
+        currentUser = JSON.parse(storedCurrentUser);
+        this.logger.log('[APP-COMP] ***** subscribeConversationChanged currentUser: ', currentUser);
 
-      if (currentUser) {
-        this.logger.log('[APP-COMP] ***** subscribeConversationChanged current_user uid: ', currentUser.uid);
-        if (conversation && conversation.sender !== currentUser.uid) {
-          this.manageTabNotification();
+        if (currentUser) {
+          this.logger.log('[APP-COMP] ***** subscribeConversationChanged current_user uid: ', currentUser.uid);
+          if (conversation && conversation.sender !== currentUser.uid) {
+            this.manageTabNotification();
+          }
         }
+      } else {
+        this.logger.error('[APP-COMP] ***** subscribeConversationChanged currentUser nor found in storage  ');
       }
     });
   }
