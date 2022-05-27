@@ -66,11 +66,13 @@ export class ImageComponent implements OnInit {
     var modalImg = <HTMLImageElement>document.getElementById("image-viewer-img");
     var captionText = document.getElementById("caption");
     modalImg.src = url
-    captionText.innerHTML = fileName;
+    if (captionText) {
    
-  }
+      captionText.innerHTML = fileName ? null : fileName = decodeURIComponent(decodeURIComponent(url).split('/').pop());
+      // console.log('XXXX ', decodeURIComponent(decodeURIComponent(url).split('/').pop()))
+    }
 
- 
+  }
 
 
 }
