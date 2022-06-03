@@ -61,9 +61,7 @@ export class ProjectItemComponent implements OnInit {
     this.translations();
     this.listenToPostMsgs();
     this.onInitWindowWidth();
-
-    this.isOnMobileDevice()
-    // console.log('[PROJECT-ITEM] - on INIT')
+    this.isOnMobileDevice();
   }
 
   isOnMobileDevice() {
@@ -71,7 +69,6 @@ export class ProjectItemComponent implements OnInit {
     if (/Android|iPhone/i.test(window.navigator.userAgent)) {
       this.IS_ON_MOBILE_DEVICE = true;
     }
-    // console.log('[PROJECT-ITEM] IS_ON_MOBILE_DEVICE', this.IS_ON_MOBILE_DEVICE)
     return this.IS_ON_MOBILE_DEVICE;
   }
 
@@ -107,10 +104,7 @@ export class ProjectItemComponent implements OnInit {
 
   listenToPostMsgs() {
     window.addEventListener("message", (event) => {
-      // console.log("[PROJECT-ITEM] post message event ", event);
-
       if (event && event.data) {
-        // console.log("[PROJECT-ITEM] message event data  ", event.data);
         if (event.data === 'hasChangedProject') {
           this.unservedRequestCount = 0;
           if (this.project) {
@@ -161,11 +155,13 @@ export class ProjectItemComponent implements OnInit {
   getStoredCurrenUser() {
     const storedCurrentUser = this.appStorageService.getItem('currentUser');
     this.logger.log('[PROJECT-ITEM] - STORED CURRENT USER ', storedCurrentUser)
-    if (storedCurrentUser) {
+    if (storedCurrentUser && storedCurrentUser !== 'undefined') {
       const currentUser = JSON.parse(storedCurrentUser)
       this.logger.log('[PROJECT-ITEM] - STORED CURRENT USER OBJCT', currentUser);
       this.currentUserId = currentUser.uid
       this.logger.log('[PROJECT-ITEM] - CURRENT USER ID', this.currentUserId);
+    } else {
+      this.logger.error('[PROJECT-ITEM] - STORED CURRENT USER OBJCT NOT FOUND IN STORAGE');
     }
   }
 
@@ -298,28 +294,19 @@ export class ProjectItemComponent implements OnInit {
   }
 
   updateUnservedRequestCount() {
-    // console.log('[PROJECT-ITEM] updateUnservedRequestCount ')
-    // this.requestsService.requestsList_bs.subscribe((requests) => {
+
     this.wsService.wsRequestsList$
       .subscribe((requests) => {
-        // console.log('[PROJECT-ITEM] requests ', requests)
         if (requests) {
           let count = 0;
           requests.forEach(r => {
-            // this.logger.log('NAVBAR - UPDATE-UNSERVED-REQUEST-COUNT request agents', r.agents)
-            // *bug fix: when the user is an agent also for the unserved we have to consider if he is present in agents
-            // && this.ROLE_IS_AGENT === true
             if (r['status'] === 100) {
               if (this.hasmeInAgents(r['agents']) === true) {
                 count = count + 1;
               }
             }
-            // if (r['status'] === 100 && this.ROLE_IS_AGENT === false) {
-            //   count = count + 1;
-            // }
           });
           this.unservedRequestCount = count;
-          // console.log('[PROJECT-ITEM] UNSERVED REQUEST COUNT - RES ', this.unservedRequestCount)
         }
       }, error => {
         this.logger.error('[PROJECT-ITEM] UNSERVED REQUEST COUNT * error * ', error)
@@ -331,10 +318,7 @@ export class ProjectItemComponent implements OnInit {
   hasmeInAgents(agents) {
     if (agents) {
       for (let j = 0; j < agents.length; j++) {
-        // this.logger.log('[PROJECT-ITEM] hasmeInAgents currentUserId  ', this.currentUserId)
-        // this.logger.log('[PROJECT-ITEM] hasmeInAgents agent  ', agents[j].id_user)
         if (this.currentUserId === agents[j].id_user) {
-          // this.logger.log('[PROJECT-ITEM] hasmeInAgents ')
           return true
         }
       }
@@ -344,7 +328,6 @@ export class ProjectItemComponent implements OnInit {
   }
 
   updateCurrentUserRequestCount() {
-    // this.requestsService.requestsList_bs.subscribe((requests) => {
     this.wsService.wsRequestsList$
       .pipe(
         takeUntil(this.unsubscribe$)
@@ -353,15 +336,9 @@ export class ProjectItemComponent implements OnInit {
         if (requests) {
           let count = 0;
           requests.forEach(r => {
-
-            // const membersArray = Object.keys(r.members);
             const participantsArray = r['participants'] // new used with ws 
-            // this.logger.log('[NAVBAR] »» WIDGET updateCurrentUserRequestCount REQUEST currentUserRequestCount membersArray ', membersArray);
-
-            // const currentUserIsInParticipants = membersArray.includes(this.user._id);
+    
             const currentUserIsInParticipants = participantsArray.includes(this.currentUserId); // new used with ws 
-
-            // this.logger.log('[NAVBAR] »» WIDGET updateCurrentUserRequestCount REQUEST currentUserRequestCount currentUserIsInParticipants ', currentUserIsInParticipants);
             if (currentUserIsInParticipants === true) {
               count = count + 1;
             }
@@ -374,7 +351,6 @@ export class ProjectItemComponent implements OnInit {
       }, () => {
         this.logger.log('[PROJECT-ITEM] CURRENT USER REQUEST COUNT */* COMPLETE */*')
       })
-
   }
 
 

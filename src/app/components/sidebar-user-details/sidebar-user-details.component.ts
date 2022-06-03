@@ -71,7 +71,7 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
     public appConfigProvider: AppConfigProvider,
     public events: EventsService,
     private eRef: ElementRef,
-  
+
   ) { }
 
   ngOnInit() {
@@ -90,14 +90,20 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
       this.logger.log('[SIDEBAR-USER-DETAILS] BSAuthStateChanged ', state)
 
       if (state === 'online') {
-        const currentUser = JSON.parse(this.appStorageService.getItem('currentUser'));
-        this.logger.log('[SIDEBAR-USER-DETAILS] currentUser ', currentUser)
-        if (currentUser) {
-          this.user = currentUser;
-          this.createUserAvatar(this.user)
-          this.photo_profile_URL = this.imageRepoService.getImagePhotoUrl(currentUser.uid)
-          this.logger.log('[SIDEBAR-USER-DETAILS] photo_profile_URL ', this.photo_profile_URL);
-          this.checkIfExistPhotoProfile(this.photo_profile_URL)
+
+        const storedCurrentUser = this.appStorageService.getItem('currentUser')
+        if (storedCurrentUser && storedCurrentUser !== 'undefined') {
+          const currentUser = JSON.parse(storedCurrentUser);
+          this.logger.log('[SIDEBAR-USER-DETAILS] - subcribeToAuthStateChanged - currentUser ', currentUser)
+          if (currentUser) {
+            this.user = currentUser;
+            this.createUserAvatar(this.user)
+            this.photo_profile_URL = this.imageRepoService.getImagePhotoUrl(currentUser.uid)
+            this.logger.log('[SIDEBAR-USER-DETAILS] photo_profile_URL ', this.photo_profile_URL);
+            this.checkIfExistPhotoProfile(this.photo_profile_URL)
+          }
+        } else {
+          this.logger.error('[SIDEBAR-USER-DETAILS] currentUser not found in storage ')
         }
       }
     })
@@ -180,43 +186,50 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
 
   getCurrentChatLangAndTranslateLabels() {
     this.browserLang = this.translate.getBrowserLang();
-    const currentUser = JSON.parse(this.appStorageService.getItem('currentUser'));
-    this.logger.log('[SIDEBAR-USER-DETAILS] - ngOnInit - currentUser ', currentUser)
-    this.logger.log('[SIDEBAR-USER-DETAILS] - ngOnInit - browserLang ', this.browserLang)
-    let currentUserId = ''
-    if (currentUser) {
-      currentUserId = currentUser.uid
-      this.logger.log('[SIDEBAR-USER-DETAILS] - ngOnInit - currentUserId ', currentUserId)
-    }
+    const storedCurrentUser = this.appStorageService.getItem('currentUser')
 
-    const stored_preferred_lang = localStorage.getItem(currentUserId + '_lang');
-    this.logger.log('[SIDEBAR-USER-DETAILS] stored_preferred_lang: ', stored_preferred_lang);
+    if (storedCurrentUser && storedCurrentUser !== 'undefined') {
+      const currentUser = JSON.parse(storedCurrentUser);
+      this.logger.log('[SIDEBAR-USER-DETAILS] - ngOnInit - currentUser ', currentUser)
+      this.logger.log('[SIDEBAR-USER-DETAILS] - ngOnInit - browserLang ', this.browserLang)
+      let currentUserId = ''
+      if (currentUser) {
+        currentUserId = currentUser.uid
+        this.logger.log('[SIDEBAR-USER-DETAILS] - ngOnInit - currentUserId ', currentUserId)
+      }
 
-
-    this.chat_lang = ''
-    if (this.browserLang && !stored_preferred_lang) {
-      this.chat_lang = this.browserLang
-      // this.flag_url = "assets/images/language_flag/" + this.chat_lang + ".png"
-
-      this.logger.log('[SIDEBAR-USER-DETAILS] flag_url: ', this.flag_url);
-      this.logger.log('[SIDEBAR-USER-DETAILS] chat_lang: ', this.chat_lang);
-    } else if (this.browserLang && stored_preferred_lang) {
-      this.chat_lang = stored_preferred_lang
-      // this.flag_url = "assets/images/language_flag/" + this.chat_lang + ".png"
-      this.logger.log('[SIDEBAR-USER-DETAILS] flag_url: ', this.flag_url);
-      this.logger.log('[SIDEBAR-USER-DETAILS] chat_lang: ', this.chat_lang);
-    }
+      const stored_preferred_lang = localStorage.getItem(currentUserId + '_lang');
+      this.logger.log('[SIDEBAR-USER-DETAILS] stored_preferred_lang: ', stored_preferred_lang);
 
 
-    if (tranlatedLanguage.includes(this.chat_lang)) {
-      this.logger.log('[SIDEBAR-USER-DETAILS] tranlatedLanguage includes', this.chat_lang, ': ', tranlatedLanguage.includes(this.chat_lang))
-      this.translate.use(this.chat_lang);
-      this.flag_url = "assets/images/language_flag/" + this.chat_lang + ".png"
+      this.chat_lang = ''
+      if (this.browserLang && !stored_preferred_lang) {
+        this.chat_lang = this.browserLang
+        // this.flag_url = "assets/images/language_flag/" + this.chat_lang + ".png"
+
+        this.logger.log('[SIDEBAR-USER-DETAILS] flag_url: ', this.flag_url);
+        this.logger.log('[SIDEBAR-USER-DETAILS] chat_lang: ', this.chat_lang);
+      } else if (this.browserLang && stored_preferred_lang) {
+        this.chat_lang = stored_preferred_lang
+        // this.flag_url = "assets/images/language_flag/" + this.chat_lang + ".png"
+        this.logger.log('[SIDEBAR-USER-DETAILS] flag_url: ', this.flag_url);
+        this.logger.log('[SIDEBAR-USER-DETAILS] chat_lang: ', this.chat_lang);
+      }
+
+
+      if (tranlatedLanguage.includes(this.chat_lang)) {
+        this.logger.log('[SIDEBAR-USER-DETAILS] tranlatedLanguage includes', this.chat_lang, ': ', tranlatedLanguage.includes(this.chat_lang))
+        this.translate.use(this.chat_lang);
+        this.flag_url = "assets/images/language_flag/" + this.chat_lang + ".png"
+      } else {
+        this.logger.log('[SIDEBAR-USER-DETAILS] tranlatedLanguage includes', this.chat_lang, ': ', tranlatedLanguage.includes(this.chat_lang))
+        this.translate.use('en');
+        this.flag_url = "assets/images/language_flag/en.png"
+        this.chat_lang = 'en'
+      }
+
     } else {
-      this.logger.log('[SIDEBAR-USER-DETAILS] tranlatedLanguage includes', this.chat_lang, ': ', tranlatedLanguage.includes(this.chat_lang))
-      this.translate.use('en');
-      this.flag_url = "assets/images/language_flag/en.png"
-      this.chat_lang = 'en'
+      this.logger.error('[SIDEBAR-USER-DETAILS] - ngOnInit - currentUser not found in storage')
     }
     this.translateLabels()
   }
@@ -264,27 +277,21 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
   getEditProfileTranslation() {
     this.translate.get('EditProfile')
       .subscribe((text: string) => {
-
-        // console.log('[SIDEBAR-USER-DETAILS] - GET GTTTTTN ', text)
         this.EditProfileLabel = text
       });
   }
 
-  
+
 
   getAvailableTranslation() {
     this.translate.get('Available')
       .subscribe((text: string) => {
-
-        // console.log('[SIDEBAR-USER-DETAILS] - GET GTTTTTN ', text)
         this.IS_AVAILABLE_msg = text
       });
   }
   getUnavailableTranslation() {
     this.translate.get('Unavailable')
       .subscribe((text: string) => {
-
-        // console.log('[SIDEBAR-USER-DETAILS] - GET GTTTTTN ', text)
         this.IS_UNAVAILABLE_msg = text
       });
   }
@@ -292,8 +299,6 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
   getIsBusyTranslation() {
     this.translate.get('Busy')
       .subscribe((text: string) => {
-
-        // console.log('[SIDEBAR-USER-DETAILS] - GET GTTTTTN ', text)
         this.IS_BUSY_msg = text
       });
   }
@@ -301,8 +306,6 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
   getLogoutTranslation() {
     this.translate.get('LABEL_LOGOUT')
       .subscribe((text: string) => {
-        // this.deleteContact_msg = text;
-        // console.log('[SIDEBAR-USER-DETAILS] - GET Logout label ', text)
         this.LOGOUT_msg = text
       });
   }
@@ -310,8 +313,6 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
   getSubscriptionPaymentProblemTranslation() {
     this.translate.get('SubscriptionPaymentProblem')
       .subscribe((text: string) => {
-
-        // console.log('[SIDEBAR-USER-DETAILS] - GET GTTTTTN ', text)
         this.SUBSCRIPTION_PAYMENT_PROBLEM_msg = text
       });
   }
@@ -319,8 +320,6 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
   getThePlanHasExpiredTranslation() {
     this.translate.get('ThePlanHasExpired')
       .subscribe((text: string) => {
-
-        // console.log('[SIDEBAR-USER-DETAILS] - GET GTTTTTN ', text)
         this.THE_PLAN_HAS_EXPIRED_msg = text
       });
   }
@@ -334,20 +333,15 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
         // console.log('[SIDEBAR-USER-DETAILS] - GET STORED PROJECT ', projectObjct)
 
         this.projectID = projectObjct['id_project']['_id']
-        // console.log('[SIDEBAR-USER-DETAILS] - GET STORED PROJECT > PROJECT ID ', this.projectID);
-
+    
         this.prjct_name = projectObjct['id_project']['name']
-        // console.log('[SIDEBAR-USER-DETAILS] - GET STORED PROJECT > PROJECT NAME ', this.prjct_name);
 
         this.plan_type = projectObjct['id_project']['profile']['type'];
-        // console.log('[SIDEBAR-USER-DETAILS] - GET STORED PROJECT > PLAN TYPE ', this.plan_type);
-
+   
         const trial_expired = projectObjct['id_project']['trialExpired']
-        // console.log('[SIDEBAR-USER-DETAILS] - GET STORED PROJECT > TRIAL EXPIRED ', trial_expired);
-
+    
         const profile_name = projectObjct['id_project']['profile']['name'];
-        // console.log('[SIDEBAR-USER-DETAILS] - GET STORED PROJECT > PROFILE NAME ', profile_name);
-
+     
         this.plan_name = projectObjct['id_project']['profile']['name'];
         this.plan_subscription_is_active = projectObjct['id_project']['isActiveSubscription'];
 
@@ -363,9 +357,7 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
         } else if (this.plan_type === 'payment' && profile_name === 'enterprise') {
           this.getEnterprisePlanTranslation();
         }
-
       }
-
     } catch (err) {
       this.logger.error('[SIDEBAR-USER-DETAILS] - GET STORED PROJECT ERR ', err)
     }
@@ -380,47 +372,32 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
 
 
   getProPlanTrialTranslation() {
-    // this.profile_name_translated = this.PRO_PLAN_TRIAL_msg;
     this.translate.get('ProPlanTrial')
       .subscribe((text: string) => {
-
-        // console.log('[SIDEBAR-USER-DETAILS] - GET GTTTTTN ', text)
         this.profile_name_translated = text
       });
   }
 
   getFreePlanTranslation() {
-    // this.profile_name_translated = this.FREE_PLAN_msg;
     this.translate.get('FreePlan')
       .subscribe((text: string) => {
-
-        // console.log('[SIDEBAR-USER-DETAILS] - GET GTTTTTN ', text)
         this.profile_name_translated = text
       });
   }
 
   getProPlanTranslation() {
-    // this.profile_name_translated = this.PAYD_PLAN_NAME_PRO_msg;
     this.translate.get('PaydPlanNamePro')
       .subscribe((text: string) => {
-        // this.deleteContact_msg = text;
-        // console.log('[SIDEBAR-USER-DETAILS] - GET GTTTTTN ', text)
         this.profile_name_translated = text
       });
   }
 
   getEnterprisePlanTranslation() {
-    // this.profile_name_translated = this.PAYD_PLAN_NAME_ENTERPRISE_msg;
     this.translate.get('PaydPlanNameEnterprise')
       .subscribe((text: string) => {
-        // this.deleteContact_msg = text;
-        // console.log('[SIDEBAR-USER-DETAILS] - GET GTTTTTN ', text)
         this.profile_name_translated = text
       });
   }
-
- 
-
 
   listenTocurrentProjectUserUserAvailability$() {
     this.wsService.currentProjectUserAvailability$
@@ -432,7 +409,6 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
           this.IS_AVAILABLE = projectUser['user_available']
           this.IS_BUSY = projectUser['isBusy']
           this.USER_ROLE = projectUser['role']
-          // console.log('[SIDEBAR-USER-DETAILS] -translateUserRole  1', this.USER_ROLE)
           this.translateUserRole(this.USER_ROLE)
         }
 
@@ -446,57 +422,26 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
   }
 
   translateUserRole(role) {
-    // console.log('[SIDEBAR-USER-DETAILS] -translateUserRole ', role)
     this.translate.get(role)
       .subscribe((text: string) => {
-
-        // console.log('[SIDEBAR-USER-DETAILS] - GET GTTTTTN ', text)
         this.USER_ROLE_LABEL = text
       });
-
-
   }
 
 
-  ngOnChanges() {
-    // console.log('[SIDEBAR-USER-DETAILS] HAS_CLICKED_OPEN_USER_DETAIL', this.HAS_CLICKED_OPEN_USER_DETAIL)
-    // var element = document.getElementById('user-details');
-    // // console.log('[SIDEBAR-USER-DETAILS] element', element)
-    // if (this.HAS_CLICKED_OPEN_USER_DETAIL === true) {
-    //   element.classList.add("active");
-    // }
-  }
+  ngOnChanges() {  }
 
 
-
-  // closeUserDetailSidePanel() {
-  //   var element = document.getElementById('user-details');
-  //   element.classList.remove("active");
-  //   this.logger.log('[SIDEBAR-USER-DETAILS] element', element);
-  //   this.HAS_CLICKED_OPEN_USER_DETAIL === true
-  //   // this.onCloseUserDetailsSidebar.emit(false);
-  // }
 
 
 
   changeAvailabilityStateInUserDetailsSidebar(available) {
     this.logger.log('[SIDEBAR-USER-DETAILS] - changeAvailabilityState projectid', this.projectID, ' available 1: ', available);
 
-    //   available = !available
-    //   console.log('[SIDEBAR-USER-DETAILS] - changeAvailabilityState projectid', this.projectID, ' available 2 : ', available);
-
     this.wsService.updateCurrentUserAvailability(this.tiledeskToken, this.projectID, available)
       .subscribe((projectUser: any) => {
 
         this.logger.log('[SIDEBAR-USER-DETAILS] - PROJECT-USER UPDATED ', projectUser)
-
-        // NOTIFY TO THE USER SERVICE WHEN THE AVAILABLE / UNAVAILABLE BUTTON IS CLICKED
-        // this.usersService.availability_btn_clicked(true)
-
-        // if (this.project['id_project']._id === projectUser.id_project) {
-        //   this.project['ws_projct_user_available'] = projectUser.user_available;
-        //   // this.project['ws_projct_user_isBusy'] = projectUser['isBusy']
-        // }
 
       }, (error) => {
         this.logger.error('[SIDEBAR-USER-DETAILS] - PROJECT-USER UPDATED - ERROR  ', error);
@@ -509,7 +454,6 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
 
   goToUserProfile() {
     let url = this.DASHBOARD_URL + this.projectID + '/user-profile'
-   
     const myWindow = window.open(url, '_self');
     myWindow.focus();
   }
@@ -520,9 +464,7 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
   }
 
   public onLogout() {
-    // this.authService.logout();
     this.closeUserDetailSidePanel()
-    // pubblico evento
     this.events.publish('profileInfoButtonClick:logout', true);
   }
 

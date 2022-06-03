@@ -79,22 +79,6 @@ export class SidebarComponent implements OnInit {
     this.listenTocurrentProjectUserUserAvailability$()
     this.getOSCODE();
     this.getCurrentChatLangAndTranslateLabels();
-
-    // this.loggedUser = this.chatManager.getCurrentUser();
-    // if (this.loggedUser) {
-    //   this.itemAvatar = {
-    //     imageurl: this.imageRepoService.getImagePhotoUrl(this.loggedUser.uid),
-    //     avatar: this.loggedUser.avatar,
-    //     color: this.loggedUser.color,
-    //     online: this.loggedUser.online,
-    //     lastConnection: this.loggedUser.lastConnection,
-    //     status: '',
-    //     width: '35px',
-    //     height: '35px'
-    //   };
-    // }
-
-
   }
 
 
@@ -112,7 +96,7 @@ export class SidebarComponent implements OnInit {
       this.logger.log('[SIDEBAR] USER_ROLE ', this.USER_ROLE)
       this.buildURLs(this.USER_ROLE)
     } else {
-      this.logger.log('[SIDEBAR] stored_project ', stored_project)
+      this.logger.error('[SIDEBAR] stored_project not found in storage', stored_project)
     }
   }
 
@@ -139,15 +123,21 @@ export class SidebarComponent implements OnInit {
       this.logger.log('[SIDEBAR] BSAuthStateChanged ', state)
 
       if (state === 'online') {
-        this.currentUser = JSON.parse(this.appStorageService.getItem('currentUser'));
-        this.logger.log('[SIDEBAR] currentUser ', this.currentUser)
-        if (this.currentUser) {
-          this.createUserAvatar(this.currentUser)
-          this.photo_profile_URL = this.imageRepoService.getImagePhotoUrl(this.currentUser.uid)
-          this.logger.log('[SIDEBAR] photo_profile_URL ', this.photo_profile_URL)
-          this.checkIfExistPhotoProfile(this.photo_profile_URL)
-        }
+        const storedCurrentUser = this.appStorageService.getItem('currentUser');
+        this.logger.log('[SIDEBAR] storedCurrentUser ', storedCurrentUser)
 
+        if (storedCurrentUser && storedCurrentUser !== 'undefined') {
+          this.currentUser = JSON.parse(storedCurrentUser);
+          this.logger.log('[SIDEBAR] subcribeToAuthStateChanged currentUser ', this.currentUser)
+          if (this.currentUser) {
+            this.createUserAvatar(this.currentUser)
+            this.photo_profile_URL = this.imageRepoService.getImagePhotoUrl(this.currentUser.uid)
+            this.logger.log('[SIDEBAR] photo_profile_URL ', this.photo_profile_URL)
+            this.checkIfExistPhotoProfile(this.photo_profile_URL)
+          }
+        } else {
+          this.logger.error('[SIDEBAR] BSAuthStateChanged current user not found in storage')
+        }
       }
     })
   }
@@ -196,32 +186,41 @@ export class SidebarComponent implements OnInit {
 
   getCurrentChatLangAndTranslateLabels() {
     const browserLang = this.translate.getBrowserLang();
-    const currentUser = JSON.parse(this.appStorageService.getItem('currentUser'));
-    // console.log('[SIDEBAR] - ngOnInit - currentUser ', currentUser)
-    // console.log('[SIDEBAR] - ngOnInit - browserLang ', browserLang)
-    let currentUserId = ''
-    if (currentUser) {
-      currentUserId = currentUser.uid
-      // console.log('[SIDEBAR] - ngOnInit - currentUserId ', currentUserId)
-    }
 
-    const stored_preferred_lang = localStorage.getItem(currentUserId + '_lang');
-    // console.log('[SIDEBAR] stored_preferred_lang: ', stored_preferred_lang);
+    const storedCurrentUser = this.appStorageService.getItem('currentUser')
+    this.logger.log('[SIDEBAR] - ngOnInit - storedCurrentUser ', storedCurrentUser)
 
-    let chat_lang = '';
-    if (browserLang && !stored_preferred_lang) {
-      chat_lang = browserLang
-      this.logger.log('[SIDEBAR] chat_lang: ', chat_lang);
-    } else if (browserLang && stored_preferred_lang) {
-      chat_lang = stored_preferred_lang
-      this.logger.log('[SIDEBAR] chat_lang: ', chat_lang);
-    }
-    if (tranlatedLanguage.includes(chat_lang)) {
-      this.logger.log('[SIDEBAR] tranlatedLanguage includes', chat_lang, ': ', tranlatedLanguage.includes(chat_lang))
-      this.translate.use(chat_lang);
+
+    if (storedCurrentUser && storedCurrentUser !== 'undefined') {
+      const currentUser = JSON.parse(storedCurrentUser);
+      this.logger.log('[SIDEBAR] - ngOnInit - currentUser ', currentUser)
+      this.logger.log('[SIDEBAR] - ngOnInit - browserLang ', browserLang)
+      let currentUserId = ''
+      if (currentUser) {
+        currentUserId = currentUser.uid
+        this.logger.log('[SIDEBAR] - ngOnInit - getCurrentChatLangAndTranslateLabels - currentUserId ', currentUserId)
+      }
+
+      const stored_preferred_lang = localStorage.getItem(currentUserId + '_lang');
+      this.logger.log('[SIDEBAR] stored_preferred_lang: ', stored_preferred_lang);
+
+      let chat_lang = '';
+      if (browserLang && !stored_preferred_lang) {
+        chat_lang = browserLang
+        this.logger.log('[SIDEBAR] chat_lang: ', chat_lang);
+      } else if (browserLang && stored_preferred_lang) {
+        chat_lang = stored_preferred_lang
+        this.logger.log('[SIDEBAR] chat_lang: ', chat_lang);
+      }
+      if (tranlatedLanguage.includes(chat_lang)) {
+        this.logger.log('[SIDEBAR] tranlatedLanguage includes', chat_lang, ': ', tranlatedLanguage.includes(chat_lang))
+        this.translate.use(chat_lang);
+      } else {
+        this.logger.log('[SIDEBAR] tranlatedLanguage includes', chat_lang, ': ', tranlatedLanguage.includes(chat_lang))
+        this.translate.use('en');
+      }
     } else {
-      this.logger.log('[SIDEBAR] tranlatedLanguage includes', chat_lang, ': ', tranlatedLanguage.includes(chat_lang))
-      this.translate.use('en');
+      this.logger.error('[SIDEBAR] - ngOnInit - currentUser not found in storage ')
     }
     this.translateLabels()
   }
@@ -240,7 +239,6 @@ export class SidebarComponent implements OnInit {
   getConversationsTranslation() {
     this.translate.get('Conversations')
       .subscribe((text: string) => {
-        // console.log('[SIDEBAR] - translate Conversations', text)
         this.conversations_lbl = text
       });
   }
@@ -248,7 +246,6 @@ export class SidebarComponent implements OnInit {
   getContactsTranslation() {
     this.translate.get('LABEL_CONTACTS')
       .subscribe((text: string) => {
-        // console.log('[SIDEBAR] - translate Contacts', text)
         this.contacts_lbl = text
       });
   }
@@ -256,7 +253,6 @@ export class SidebarComponent implements OnInit {
   getAppsTranslation() {
     this.translate.get('Apps')
       .subscribe((text: string) => {
-        // console.log('[SIDEBAR] - translate Apps', text)
         this.apps_lbl = text
       });
   }
@@ -264,7 +260,6 @@ export class SidebarComponent implements OnInit {
   getAnalyticsTranslation() {
     this.translate.get('Analytics')
       .subscribe((text: string) => {
-        // console.log('[SIDEBAR] - translate Analytics', text)
         this.analytics_lbl = text
       });
   }
@@ -272,7 +267,6 @@ export class SidebarComponent implements OnInit {
   getActivitiesTranslation() {
     this.translate.get('Activities')
       .subscribe((text: string) => {
-        // console.log('[SIDEBAR] - translate Activities', text)
         this.activities_lbl = text
       });
   }
@@ -280,7 +274,6 @@ export class SidebarComponent implements OnInit {
   getHistoryTranslation() {
     this.translate.get('History')
       .subscribe((text: string) => {
-        // console.log('[SIDEBAR] - translate History', text)
         this.history_lbl = text
       });
   }
@@ -288,7 +281,6 @@ export class SidebarComponent implements OnInit {
   getSettingsTranslation() {
     this.translate.get('Settings')
       .subscribe((text: string) => {
-        // console.log('[SIDEBAR] - translate Settings', text)
         this.settings_lbl = text
       });
   }
@@ -385,20 +377,14 @@ export class SidebarComponent implements OnInit {
     this.countClickOnOpenUserDetailSidebar++
     this.logger.log('[SIDEBAR-CHAT] countClickOnOpenUserDetailSidebar', this.countClickOnOpenUserDetailSidebar)
     this.logger.log('[SIDEBAR-CHAT] OPEN UESER DTLS SIDE PANEL')
-    // this.HAS_CLICKED_OPEN_USER_DETAIL = true
-    // console.log('[SIDEBAR-CHAT] OPEN USER DTLS SIDE PANEL ', this.HAS_CLICKED_OPEN_USER_DETAIL)
     const elSidebarUserDtls = <HTMLElement>document.querySelector('#user-details');
     this.logger.log('[SIDEBAR] OPEN USER DTLS SIDE PANEL elSidebarUserDtls ', elSidebarUserDtls)
 
-    // if (elSidebarUserDtls) {
-    //   elSidebarUserDtls.classList.add("active");
-    //   this.events.publish('userdetailsidebar:opened', true);
-    // }
+  
     if (elSidebarUserDtls && this.countClickOnOpenUserDetailSidebar === 1) {
       elSidebarUserDtls.classList.add("active");
     }
     if (elSidebarUserDtls && this.countClickOnOpenUserDetailSidebar > 1) {
-      // console.log('[SIDEBAR] this.countClickOnOpenUserDetailSidebar HERE', this.countClickOnOpenUserDetailSidebar)
       if (elSidebarUserDtls.classList.contains('active')) {
         this.logger.log('[SIDEBAR-CHAT] elSidebarUserDtls contains class ACTIVE', elSidebarUserDtls)
         elSidebarUserDtls.classList.remove("active");
@@ -408,24 +394,6 @@ export class SidebarComponent implements OnInit {
       }
     }
   }
-
-  // onCloseUserDetailsSidebar($event) {
-  // this.logger.log('[SIDEBAR-CHAT] HAS_CLICKED_CLOSE_USER_DETAIL ', $event)
-  // this.HAS_CLICKED_OPEN_USER_DETAIL = $event
-  // const elemNavbar = <HTMLElement>document.querySelector('.navbar-absolute');
-  // this.logger.log('[SIDEBAR] elemNavBar ', elemNavbar)
-  // if (elemNavbar) {
-  //   elemNavbar.classList.remove("navbar-absolute-custom-class")
-  // }
-
-  // const elemNavbarBrand = <HTMLElement>document.querySelector('.navbar-brand');
-  // this.logger.log('[SIDEBAR] elemNavbarBrand ', elemNavbarBrand)
-  // if (elemNavbarBrand) {
-  //   elemNavbarBrand.classList.remove("navbar-brand-z-index-zero")
-  // }
-  // }
-
-
 
   goToHome() {
     let url = this.DASHBOARD_URL + this.project_id + '/home'
@@ -458,13 +426,11 @@ export class SidebarComponent implements OnInit {
     myWindow.focus();
   }
 
-
   goToAnalytics() {
     let url = this.DASHBOARD_URL + this.project_id + '/analytics'
     const myWindow = window.open(url, '_self');
     myWindow.focus();
   }
-
 
   goToActivities() {
     let url = this.DASHBOARD_URL + this.project_id + '/activities'

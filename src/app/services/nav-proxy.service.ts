@@ -22,7 +22,7 @@ export class NavProxyService {
   ) { }
 
   init(sidebarNav: IonNav, detailNav: IonRouterOutlet) {
-  
+
     this.sidebarNav = sidebarNav;
     this.detailNav = detailNav;
     this.logger.log('[NAV-SERV] initialize sidebarNav', sidebarNav, ' detailNav', detailNav);
@@ -30,7 +30,9 @@ export class NavProxyService {
 
   setRoot(page: any, navExtra: any) {
     this.logger.log('[NAV-SERV] setRoot page', page, ' navExtra', navExtra);
-    this.sidebarNav.setRoot(page, navExtra);
+    if (this.sidebarNav) {
+      this.sidebarNav.setRoot(page, navExtra);
+    }
   }
 
   pop() {
@@ -45,24 +47,24 @@ export class NavProxyService {
 
 
   openPage(pageName: string, page: any, navExtra?: NavigationExtras) {
-    this.logger.log('[NAV-SERV] openPage pageName:', pageName, ' page:', page, ' navExtra: ',  navExtra);
+    this.logger.log('[NAV-SERV] openPage pageName:', pageName, ' page:', page, ' navExtra: ', navExtra);
     this.router.navigate([pageName], navExtra);
   }
 
 
-    // !!!! SEEMS NOT USED
-    pushSidebar(page: any, pageName: string, navExtra?) {
-      this.logger.log('push2:', pageName, 'navExtra():', navExtra, 'this.sidebarNav', this.sidebarNav);
-      if (checkPlatformIsMobile()) {
-        this.router.navigate([pageName], navExtra);
-      } else {
-        this.sidebarNav.push(page, navExtra);
-      }
+  // !!!! SEEMS NOT USED
+  pushSidebar(page: any, pageName: string, navExtra?) {
+    this.logger.log('push2:', pageName, 'navExtra():', navExtra, 'this.sidebarNav', this.sidebarNav);
+    if (checkPlatformIsMobile()) {
+      this.router.navigate([pageName], navExtra);
+    } else {
+      this.sidebarNav.push(page, navExtra);
     }
-  
+  }
 
 
-   // !!!! SEEMS NOT USED
+
+  // !!!! SEEMS NOT USED
   closePage(pageName: string) {
     this.logger.log('closePage:', pageName, 'checkPlatformIsMobile():', checkPlatformIsMobile());
     if (checkPlatformIsMobile()) {
