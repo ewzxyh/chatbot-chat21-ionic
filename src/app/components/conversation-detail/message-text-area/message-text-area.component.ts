@@ -87,6 +87,8 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
   showEmojiPicker: boolean = false; //To show/hide emoji picker
   addWhiteSpaceBefore: boolean;
   emojiPerLine: number = 9
+  emojiColor: string ="#3880ff"
+  emojiiCategories = [ 'recent', 'people', 'nature', 'activity']
   /**
    * Constructor
    * @param chooser 
