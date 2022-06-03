@@ -493,16 +493,31 @@ export class FirebaseConversationsHandler extends ConversationsHandlerService {
         }
 
         conv.conversation_with = conversation_with;
-        conv.conversation_with_fullname = conversation_with_fullname;
+        conv.conversation_with_fullname = this.changeSenderFullName(conv)
+        conv.recipient_fullname = this.changeSenderFullName(conv); //NEW
         conv.status = this.setStatusConversation(conv.sender, conv.uid);
         // conv.time_last_message = this.getTimeLastMessage(conv.timestamp); // evaluate if is used
-        conv.avatar = avatarPlaceholder(conversation_with_fullname);
-        conv.color = getColorBck(conversation_with_fullname);
+        conv.avatar = avatarPlaceholder(conv.conversation_with_fullname);
+        conv.color = getColorBck(conv.conversation_with_fullname);
         //conv.image = this.imageRepo.getImagePhotoUrl(conversation_with);
         // getImageUrlThumbFromFirebasestorage(conversation_with, this.FIREBASESTORAGE_BASE_URL_IMAGE, this.urlStorageBucket);
         return conv;
     }
 
+
+    /**BUG-FIX: on Conversation-list, when conversation start, it continuosly change the sender_fullname info from Guest to others name */
+    private changeSenderFullName(conversation: ConversationModel): string {
+        let old_conv = this.conversations.find(conv => conv.uid === conversation.uid)
+        let conversation_with_fullname = conversation.recipient_fullname
+        if(old_conv){
+            if(conversation.recipient_fullname !== old_conv.recipient_fullname && conversation.recipient_fullname !== 'Guest '){
+                conversation_with_fullname = conversation.recipient_fullname
+              } else {
+                conversation_with_fullname=  old_conv.recipient_fullname
+              } 
+        }
+        return conversation_with_fullname
+      }
 
     translateInfoSupportMessages(conv) {
         const INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU = this.translationMap.get('INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU');
