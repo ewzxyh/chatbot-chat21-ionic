@@ -285,10 +285,7 @@ export class ConversationListPage implements OnInit {
 
   ionViewWillEnter() {
     this.logger.log('Called ionViewDidEnter')
-    this.logger.log(
-      '[CONVS-LIST-PAGE] ionViewWillEnter uidConvSelected',
-      this.uidConvSelected,
-    )
+    this.logger.log('[CONVS-LIST-PAGE] ionViewWillEnter uidConvSelected',this.uidConvSelected )
     this.listnerStart()
 
     // exit from app with hardware back button
@@ -313,29 +310,18 @@ export class ConversationListPage implements OnInit {
   openUnsevedConversationIframe(event) {
     this.logger.log('[CONVS-LIST-PAGE] openUnsevedConversationIframe ', event)
     this.hasClickedOpenUnservedConvIframe = true
-    this.logger.log(
-      '[CONVS-LIST-PAGE] - HAS CLIKED OPEN UNSERVED REQUEST IFRAME',
-      this.hasClickedOpenUnservedConvIframe,
-    )
+    this.logger.log('[CONVS-LIST-PAGE] - HAS CLIKED OPEN UNSERVED REQUEST IFRAME',this.hasClickedOpenUnservedConvIframe )
     const DASHBOARD_BASE_URL = this.appConfigProvider.getConfig().dashboardUrl
     // http://localhost:4204/#/projects-for-panel
     this.PROJECTS_FOR_PANEL_URL = DASHBOARD_BASE_URL + '#/projects-for-panel'
-    this.UNASSIGNED_CONVS_URL =
-      DASHBOARD_BASE_URL +
-      '#/project/' +
-      this.lastProjectId +
-      '/unserved-request-for-panel'
+    this.UNASSIGNED_CONVS_URL = DASHBOARD_BASE_URL + '#/project/' + this.lastProjectId + '/unserved-request-for-panel'
 
     if (event === 'pinbtn') {
       this.IFRAME_URL = this.PROJECTS_FOR_PANEL_URL
     } else {
       this.IFRAME_URL = this.UNASSIGNED_CONVS_URL
     }
-
-    this.logger.log(
-      '[CONVS-LIST-PAGE] - HAS CLIKED OPEN UNSERVED REQUEST IFRAME > UNASSIGNED CONVS URL',
-      this.UNASSIGNED_CONVS_URL,
-    )
+    this.logger.log('[CONVS-LIST-PAGE] - HAS CLIKED OPEN UNSERVED REQUEST IFRAME > UNASSIGNED CONVS URL',this.UNASSIGNED_CONVS_URL )
     this.openUnassignedConversations(this.IFRAME_URL, event)
   }
 
@@ -360,10 +346,7 @@ export class ConversationListPage implements OnInit {
     try {
       closeModal(this.modalController)
     } catch (err) {
-      this.logger.error(
-        '[CONVS-LIST-PAGE] closeContactsDirectory -> error:',
-        err,
-      )
+      this.logger.error( '[CONVS-LIST-PAGE] closeContactsDirectory -> error:', err)
     }
   }
 
@@ -372,46 +355,23 @@ export class ConversationListPage implements OnInit {
     const that = this
     if (navigator && navigator.serviceWorker) {
       navigator.serviceWorker.addEventListener('message', function (event) {
-        that.logger.log(
-          '[CONVS-LIST-PAGE] FIREBASE-NOTIFICATION  listenToNotificationCLick - Received a message from service worker event data: ',
-          event.data,
-        )
-        that.logger.log(
-          '[CONVS-LIST-PAGE] FIREBASE-NOTIFICATION  listenToNotificationCLick - Received a message from service worker event data data: ',
-          event.data['data'],
-        )
-        that.logger.log(
-          '[CONVS-LIST-PAGE] FIREBASE-NOTIFICATION  listenToNotificationCLick - Received a message from service worker event data data typeof: ',
-          typeof event.data['data'],
-        )
+        that.logger.log('[CONVS-LIST-PAGE] FIREBASE-NOTIFICATION  listenToNotificationCLick - Received a message from service worker event data: ', event.data)
+        that.logger.log('[CONVS-LIST-PAGE] FIREBASE-NOTIFICATION  listenToNotificationCLick - Received a message from service worker event data data: ', event.data['data'] )
+        that.logger.log('[CONVS-LIST-PAGE] FIREBASE-NOTIFICATION  listenToNotificationCLick - Received a message from service worker event data data typeof: ', typeof event.data['data'] )
         let uidConvSelected = ''
         if (event.data && event.data['conversWith']) {
           uidConvSelected = event.data['conversWith']
         } else {
-          that.logger.log(
-            '[CONVS-LIST-PAGE] FIREBASE-NOTIFICATION  listenToNotificationCLick - DIFFERENT MSG',
-          )
+          that.logger.log('[CONVS-LIST-PAGE] FIREBASE-NOTIFICATION  listenToNotificationCLick - DIFFERENT MSG',)
           return
         }
 
-        that.logger.log(
-          '[CONVS-LIST-PAGE] FIREBASE-NOTIFICATION  listenToNotificationCLick - Received a message from service worker event dataObjct uidConvSelected: ',
-          uidConvSelected,
-        )
-        that.logger.log(
-          '[CONVS-LIST-PAGE] FIREBASE-NOTIFICATION  listenToNotificationCLick - Received a message from service worker that.conversations: ',
-          that.conversations,
-        )
-        const conversationSelected = that.conversations.find(
-          (item) => item.uid === uidConvSelected,
-        )
+        that.logger.log('[CONVS-LIST-PAGE] FIREBASE-NOTIFICATION  listenToNotificationCLick - Received a message from service worker event dataObjct uidConvSelected: ', uidConvSelected )
+        that.logger.log('[CONVS-LIST-PAGE] FIREBASE-NOTIFICATION  listenToNotificationCLick - Received a message from service worker that.conversations: ', that.conversations)
+        const conversationSelected = that.conversations.find((item) => item.uid === uidConvSelected)
         if (conversationSelected) {
           that.conversationSelected = conversationSelected
-          that.logger.log(
-            '[CONVS-LIST-PAGE] listenToNotificationCLick- Received a message from service worker event conversationSelected: ',
-            that.conversationSelected,
-          )
-
+          that.logger.log('[CONVS-LIST-PAGE] listenToNotificationCLick- Received a message from service worker event conversationSelected: ', that.conversationSelected )
           that.navigateByUrl('active', uidConvSelected)
         }
       })
@@ -420,23 +380,16 @@ export class ConversationListPage implements OnInit {
 
   private listnerStart() {
     const that = this
-    this.chatManager.BSStart.pipe(takeUntil(that.unsubscribe$)).subscribe(
-      (data: any) => {
-        this.logger.log(
-          '[CONVS-LIST-PAGE] - BSStart SUBSCR DATA - Current user *****',
-          data,
-        )
+    this.chatManager.BSStart.pipe(takeUntil(that.unsubscribe$)).subscribe((data: any) => {
+        this.logger.log('[CONVS-LIST-PAGE] - BSStart SUBSCR DATA - Current user *****', data)
         if (data) {
           that.initialize()
         }
-      },
-      (error) => {
+    },(error) => {
         this.logger.error('[CONVS-LIST-PAGE] - BSStart SUBSCR - ERROR: ', error)
-      },
-      () => {
+    },() => {
         this.logger.log('[CONVS-LIST-PAGE] - BSStart SUBSCR * COMPLETE *')
-      },
-    )
+    })
   }
 
   // ------------------------------------------------------------------ //
@@ -444,7 +397,7 @@ export class ConversationListPage implements OnInit {
   // ------------------------------------------------------------------ //
   initConversationsHandler() {
     this.conversations = this.conversationsHandlerService.conversations
-    this.logger.log('[CONVS-LIST-PAGE] - CONVERSATIONS ', this.conversations)
+    this.logger.log('[CONVS-LIST-PAGE] - CONVERSATIONS ', this.conversations.length, this.conversations)
     // save conversationHandler in chatManager
     this.chatManager.setConversationsHandler(this.conversationsHandlerService)
     this.showPlaceholder = false
@@ -452,36 +405,22 @@ export class ConversationListPage implements OnInit {
 
   initArchivedConversationsHandler() {
     const keysConversation = ['CLOSED', 'Resolve']
-    this.translationMapConversation = this.translateService.translateLanguage(
-      keysConversation,
-    )
+    this.translationMapConversation = this.translateService.translateLanguage( keysConversation )
 
     this.archivedConversationsHandlerService.subscribeToConversations(() => {
-      this.logger.log(
-        '[CONVS-LIST-PAGE]-CONVS - conversations archived length ',
-        this.archivedConversations.length,
-      )
+      this.logger.log('[CONVS-LIST-PAGE]-CONVS - conversations archived length ',this.archivedConversations.length)
     })
 
     this.archivedConversations = this.archivedConversationsHandlerService.archivedConversations
-    this.logger.log(
-      '[CONVS-LIST-PAGE] archived conversation',
-      this.archivedConversations,
-    )
+    this.logger.log('[CONVS-LIST-PAGE] archived conversation',this.archivedConversations )
 
     // save archivedConversationsHandlerService in chatManager
     this.chatManager.setArchivedConversationsHandler(
       this.archivedConversationsHandlerService,
     )
 
-    this.logger.log(
-      '[CONVS-LIST-PAGE]-CONVS SubscribeToConversations - conversations archived length ',
-      this.archivedConversations.length,
-    )
-    if (
-      !this.archivedConversations ||
-      this.archivedConversations.length === 0
-    ) {
+    this.logger.log('[CONVS-LIST-PAGE]-CONVS SubscribeToConversations - conversations archived length ', this.archivedConversations.length )
+    if (!this.archivedConversations || this.archivedConversations.length === 0 ) {
       this.loadingIsActive = false
     }
   }
@@ -494,26 +433,17 @@ export class ConversationListPage implements OnInit {
   // - for the direct conversation
   // ----------------------------------------------------------------------------------------------------
   listenToAppCompConvsLengthOnInitConvs() {
-    this.events.subscribe(
-      'appcompSubscribeToConvs:loadingIsActive',
-      (loadingIsActive) => {
-        this.logger.log(
-          '[CONVS-LIST-PAGE]-CONVS loadingIsActive',
-          loadingIsActive,
-        )
-        if (loadingIsActive === false) {
-          this.loadingIsActive = false
-        }
-      },
-    )
+    this.events.subscribe( 'appcompSubscribeToConvs:loadingIsActive', (loadingIsActive) => {
+      this.logger.log( '[CONVS-LIST-PAGE]-CONVS loadingIsActive', loadingIsActive)
+      if (loadingIsActive === false) {
+        this.loadingIsActive = false
+      }
+    })
   }
 
   listenGoOnline() {
     this.events.subscribe('go:online', (goonline) => {
-      this.logger.info(
-        '[CONVS-LIST-PAGE] - listen To go:online - goonline',
-        goonline,
-      )
+      this.logger.info('[CONVS-LIST-PAGE] - listen To go:online - goonline',goonline)
       // this.events.unsubscribe('profileInfoButtonClick:logout')
       if (goonline === true) {
         this.displayNewConvsItem = true
@@ -523,10 +453,7 @@ export class ConversationListPage implements OnInit {
 
   listenGoOffline() {
     this.events.subscribe('go:offline', (offline) => {
-      this.logger.info(
-        '[CONVS-LIST-PAGE] - listen To go:offline - offline',
-        offline,
-      )
+      this.logger.info('[CONVS-LIST-PAGE] - listen To go:offline - offline',offline)
       // this.events.unsubscribe('profileInfoButtonClick:logout')
       if (offline === true) {
         this.displayNewConvsItem = false
@@ -535,31 +462,19 @@ export class ConversationListPage implements OnInit {
   }
 
   listenToLogoutEvent() {
-    this.events.subscribe(
-      'profileInfoButtonClick:logout',
-      (hasclickedlogout) => {
-        this.logger.info(
-          '[CONVS-LIST-PAGE] - listenToLogoutEvent - hasclickedlogout',
-          hasclickedlogout,
-        )
+    this.events.subscribe( 'profileInfoButtonClick:logout', (hasclickedlogout) => {
+        this.logger.info( '[CONVS-LIST-PAGE] - listenToLogoutEvent - hasclickedlogout',hasclickedlogout)
 
         this.conversations = []
         this.conversationsHandlerService.conversations = []
         this.uidConvSelected = null
 
-        this.logger.log(
-          '[CONVS-LIST-PAGE] - listenToLogoutEvent - CONVERSATIONS ',
-          this.conversations,
-        )
-        this.logger.log(
-          '[CONVS-LIST-PAGE] - listenToLogoutEvent - uidConvSelected ',
-          this.uidConvSelected,
-        )
+        this.logger.log('[CONVS-LIST-PAGE] - listenToLogoutEvent - CONVERSATIONS ', this.conversations )
+        this.logger.log('[CONVS-LIST-PAGE] - listenToLogoutEvent - uidConvSelected ', this.uidConvSelected )
         if (hasclickedlogout === true) {
           this.loadingIsActive = false
         }
-      },
-    )
+    })
   }
 
   // ------------------------------------------------------------------
@@ -644,14 +559,8 @@ export class ConversationListPage implements OnInit {
   subscribeLoggedUserLogout = () => {
     this.conversations = []
     this.uidConvSelected = null
-    this.logger.log(
-      '[CONVS-LIST-PAGE] - subscribeLoggedUserLogout conversations ',
-      this.conversations,
-    )
-    this.logger.log(
-      '[CONVS-LIST-PAGE] - subscribeLoggedUserLogout uidConvSelected ',
-      this.uidConvSelected,
-    )
+    this.logger.log('[CONVS-LIST-PAGE] - subscribeLoggedUserLogout conversations ',this.conversations)
+    this.logger.log('[CONVS-LIST-PAGE] - subscribeLoggedUserLogout uidConvSelected ',this.uidConvSelected)
   }
 
   // ------------------------------------------------------------------------------------
@@ -659,15 +568,10 @@ export class ConversationListPage implements OnInit {
   // ------------------------------------------------------------------------------------
   conversationsChanged = (conversations: ConversationModel[]) => {
     this.numberOpenConv = this.conversationsHandlerService.countIsNew()
-    this.logger.log(
-      '[CONVS-LIST-PAGE] - conversationsChanged - NUMB OF CONVERSATIONS: ',
-      this.numberOpenConv,
-    )
+    this.logger.log('[CONVS-LIST-PAGE] - conversationsChanged - NUMB OF CONVERSATIONS: ',this.numberOpenConv)
     // console.log('conversationsChanged »»»»»»»»» uidConvSelected', that.conversations[0], that.uidConvSelected);
     if (this.uidConvSelected && !this.conversationSelected) {
-      const conversationSelected = this.conversations.find(
-        (item) => item.uid === this.uidConvSelected,
-      )
+      const conversationSelected = this.conversations.find((item) => item.uid === this.uidConvSelected)
       if (conversationSelected) {
         this.conversationSelected = conversationSelected
         this.setUidConvSelected(this.uidConvSelected)
@@ -684,26 +588,13 @@ export class ConversationListPage implements OnInit {
   // !!!!!! IS USED? ?????
   // ------------------------------
   subscribeChangedConversationSelected = (user: UserModel, type: string) => {
-    this.logger.log(
-      '[CONVS-LIST-PAGE]  ************** subscribeUidConvSelectedChanged navigateByUrl',
-      user,
-      type,
-    )
+    this.logger.log('[CONVS-LIST-PAGE]  ************** subscribeUidConvSelectedChanged navigateByUrl',user, type)
     this.uidConvSelected = user.uid
-    this.logger.log(
-      '[CONVS-LIST-PAGE]  ************** uidConvSelected ',
-      this.uidConvSelected,
-    )
+    this.logger.log('[CONVS-LIST-PAGE]  ************** uidConvSelected ', this.uidConvSelected)
     // this.conversationsHandlerService.uidConvSelected = user.uid;
-    const conversationSelected = this.conversations.find(
-      (item) => item.uid === this.uidConvSelected,
-    )
+    const conversationSelected = this.conversations.find( (item) => item.uid === this.uidConvSelected)
     if (conversationSelected) {
-      this.logger.log(
-        '[CONVS-LIST-PAGE] --> uidConvSelected: ',
-        this.conversationSelected,
-        this.uidConvSelected,
-      )
+      this.logger.log('[CONVS-LIST-PAGE] --> uidConvSelected: ',this.conversationSelected, this.uidConvSelected)
       this.conversationSelected = conversationSelected
     }
     // this.router.navigateByUrl('conversation-detail/' + user.uid + '?conversationWithFullname=' + user.fullname);
@@ -714,10 +605,7 @@ export class ConversationListPage implements OnInit {
    * evento richiamato quando si seleziona bottone profile-info-modal
    */
   subscribeProfileInfoButtonClicked = (event: string) => {
-    this.logger.log(
-      '[CONVS-LIST-PAGE] ************** subscribeProfileInfoButtonClicked: ',
-      event,
-    )
+    this.logger.log('[CONVS-LIST-PAGE] ************** subscribeProfileInfoButtonClicked: ', event)
     if (event === 'displayArchived') {
       this.initArchivedConversationsHandler()
       // this.openArchivedConversationsModal()
@@ -727,15 +615,11 @@ export class ConversationListPage implements OnInit {
       const keys = ['LABEL_ARCHIVED']
       // const keys = ['History'];
 
-      this.headerTitle = this.translateService
-        .translateLanguage(keys)
-        .get(keys[0])
+      this.headerTitle = this.translateService.translateLanguage(keys).get(keys[0])
     } else if (event === 'displayContact') {
       this.conversationType = 'archived'
       const keys = ['LABEL_CONTACTS']
-      this.headerTitle = this.translateService
-        .translateLanguage(keys)
-        .get(keys[0])
+      this.headerTitle = this.translateService.translateLanguage(keys).get(keys[0])
     }
   }
 
@@ -783,10 +667,7 @@ export class ConversationListPage implements OnInit {
   initialize() {
     const appconfig = this.appConfigProvider.getConfig()
     this.tenant = appconfig.firebaseConfig.tenant
-    this.logger.log(
-      '[CONVS-LIST-PAGE] - initialize -> firebaseConfig tenant ',
-      this.tenant,
-    )
+    this.logger.log('[CONVS-LIST-PAGE] - initialize -> firebaseConfig tenant ',this.tenant)
 
     if (this.tiledeskAuthService.getCurrentUser()) {
       this.loggedUserUid = this.tiledeskAuthService.getCurrentUser().uid
@@ -813,9 +694,7 @@ export class ConversationListPage implements OnInit {
   // It only works on BSStart.subscribe! it is useful or can be eliminated
   // --------------------------------------------------------
   initVariables() {
-    this.logger.log(
-      '[CONVS-LIST-PAGE] uidReciverFromUrl:: ' + this.uidReciverFromUrl,
-    )
+    this.logger.log('[CONVS-LIST-PAGE] uidReciverFromUrl:: ' + this.uidReciverFromUrl)
     this.logger.log('[CONVS-LIST-PAGE] loggedUserUid:: ' + this.loggedUserUid)
     this.logger.log('[CONVS-LIST-PAGE] tenant:: ' + this.tenant)
     if (this.route.component['name'] !== 'ConversationListPage') {
@@ -825,10 +704,7 @@ export class ConversationListPage implements OnInit {
         if (IDConv) {
           this.setUidConvSelected(IDConv)
         } else {
-          this.logger.log(
-            '[CONVS-LIST-PAGE] conversationWith 2 (else): ',
-            IDConv,
-          )
+          this.logger.log('[CONVS-LIST-PAGE] conversationWith 2 (else): ',IDConv)
         }
       }
     }
@@ -846,9 +722,11 @@ export class ConversationListPage implements OnInit {
       let conversationSelected
       if (conversationType === 'active') {
         conversationSelected = this.conversations.find((item) => item.uid === this.uidConvSelected)
-      } else if (conversationType === 'archived') { conversationSelected = this.archivedConversations.find((item) => item.uid === this.uidConvSelected) }
+      } else if (conversationType === 'archived') { 
+        conversationSelected = this.archivedConversations.find((item) => item.uid === this.uidConvSelected) 
+      }
       if (conversationSelected) {
-        this.logger.log('[CONVS-LIST-PAGE] conversationSelected', conversationSelected,)
+        this.logger.log('[CONVS-LIST-PAGE] conversationSelected', conversationSelected)
         this.logger.log('[CONVS-LIST-PAGE] the conversation ', this.conversationSelected, ' has already been loaded')
         this.conversationSelected = conversationSelected
         this.logger.log('[CONVS-LIST-PAGE] setUidConvSelected: ', this.conversationSelected)
@@ -882,9 +760,7 @@ export class ConversationListPage implements OnInit {
       conversation_with_fullname = conversation.recipient_fullname
     }
     if (!conversation_with.startsWith('support-group')) {
-      conversation.image = this.imageRepoService.getImagePhotoUrl(
-        conversation_with,
-      )
+      conversation.image = this.imageRepoService.getImagePhotoUrl(conversation_with)
     }
   }
 
