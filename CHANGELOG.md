@@ -1,6 +1,6 @@
 # chat21-ionic ver 3.0
 
-### 3.0.62.4
+### 3.0.62.4-rc1
 - Fixes the bug: when the user profile is updated in the dashboard it is not updated in the chat
 - Fixes the bug: when is sent a message with only emojis, some emojis have the chat balloon background
 - Fixes the bug: in the conversation detail header  the requester's avatar does not update after the same has filled in the pre-chat form requested by the bot
