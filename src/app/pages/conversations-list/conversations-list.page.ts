@@ -700,9 +700,10 @@ export class ConversationListPage implements OnInit {
     if (this.route.component['name'] !== 'ConversationListPage') {
       if (this.route && this.route.snapshot && this.route.snapshot.firstChild) {
         const IDConv = this.route.snapshot.firstChild.paramMap.get('IDConv')
+        const convType = this.route.snapshot.firstChild.paramMap.get('Convtype')
         this.logger.log('[CONVS-LIST-PAGE] conversationWith 2: ', IDConv)
         if (IDConv) {
-          this.setUidConvSelected(IDConv)
+          this.setUidConvSelected(IDConv, convType)
         } else {
           this.logger.log('[CONVS-LIST-PAGE] conversationWith 2 (else): ',IDConv)
         }
