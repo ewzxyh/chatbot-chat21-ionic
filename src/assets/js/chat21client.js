@@ -962,7 +962,7 @@ class Chat21Client {
         }
         if (this.log) {console.log("starting mqtt connection with LWT on:", presence_topic, this.endpoint)}
         // client = mqtt.connect('mqtt://127.0.0.1:15675/ws',options)
-        this.client = mqtt.connect('a://99.80.197.164:15675/ws',options)
+        this.client = mqtt.connect(this.endpoint,options)
         
         this.client.on('connect', // TODO if token is wrong it must reply with an error!
             () => {
