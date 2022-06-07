@@ -114,23 +114,72 @@ export class FirebaseConversationsHandler extends ConversationsHandlerService {
     // ---------------------------------------------------------------------------------
     // New connect - renamed subscribeToConversation
     //----------------------------------------------------------------------------------
-    subscribeToConversations(callback) {
+    subscribeToConversations(lastConversationTimestamp: number, callback) {
         const that = this;
         const urlNodeFirebase = conversationsPathForUserId(this.tenant, this.loggedUserId);
         this.logger.debug('[FIREBASEConversationsHandlerSERVICE] SubscribeToConversations conversations::ACTIVE urlNodeFirebase', urlNodeFirebase)
         this.ref = firebase.database().ref(urlNodeFirebase).orderByChild('timestamp').limitToLast(200);
-        this.ref.on('child_changed', (childSnapshot) => {
-            that.changed(childSnapshot);
+        
+        // this.ref.once('value').then(snapshot => {
+        //     snapshot.forEach(childSnapshot => {
+        //         const childData: ConversationModel = childSnapshot.val();
+        //         childData.uid = childSnapshot.key
+        //         that.added(childData)
+        //         lastConversationTimestamp = childData.timestamp
+        //     });
+            
+        //     callback(that.conversations)
+        //     return lastConversationTimestamp
+        // }).then((timestamp)=> {
+        //     console.log('timestampppppp',timestamp)
+        //     this.ref.startAt(timestamp).on('child_changed', (childSnapshot) => {
+        //         const conv: ConversationModel = childSnapshot.val();
+        //         conv.uid = childSnapshot.key
+        //         that.changed(conv);
+        //     });
+        //     this.ref.startAt(timestamp).on('child_removed', (childSnapshot) => {
+        //         const conv: ConversationModel = childSnapshot.val();
+        //         conv.uid = childSnapshot.key
+        //         that.removed(conv);
+        //     });
+        //     this.ref.startAt(timestamp).on('child_added', (childSnapshot) => {
+        //         const conv: ConversationModel = childSnapshot.val();
+        //         console.log('addedddd', conv)
+        //         conv.uid = childSnapshot.key
+        //         that.added(conv);
+        //     });
+        // });
+        // this.ref.on('value', (snaps) => {
+        //     if(snaps){
+        //         console.log('convvvvvv', snaps.val(), snaps.val().length)
+        //         for(let item=0; item<snaps.val().length; item++){
+        //             that.added(snaps.val()[item])
+        //         }
+        //         callback(this.conversations)
+        //     }
+        // })
+        console.log('FIREBASE CONVS-----> timestampppp', lastConversationTimestamp)
+        this.ref.startAt(lastConversationTimestamp).on('child_changed', (childSnapshot) => {
+            const conv: ConversationModel = childSnapshot.val();
+            conv.uid = childSnapshot.key
+            that.changed(conv);
         });
-        this.ref.on('child_removed', (childSnapshot) => {
-            that.removed(childSnapshot);
+        this.ref.startAt(lastConversationTimestamp).on('child_removed', (childSnapshot) => {
+            const conv: ConversationModel = childSnapshot.val();
+            conv.uid = childSnapshot.key
+            that.removed(conv);
         });
-        this.ref.on('child_added', (childSnapshot) => {
-            that.added(childSnapshot);
+        this.ref.startAt(lastConversationTimestamp).on('child_added', (childSnapshot) => {
+            const conv: ConversationModel = childSnapshot.val();
+            console.log('FIREBASE CONVS-----> addedddd', conv)
+            conv.uid = childSnapshot.key
+            that.added(conv);
         });
 
+        
+
         setTimeout(() => {
-            callback()
+            callback(this.conversations)
         }, 2000);
         // SET AUDIO
         // this.audio = new Audio();
@@ -334,12 +383,10 @@ export class FirebaseConversationsHandler extends ConversationsHandlerService {
     //  *
     //  * @param childSnapshot
     //  */
-    private conversationGenerate(childSnapshot: any): boolean {
-        const childData: ConversationModel = childSnapshot.val();
-        childData.uid = childSnapshot.key;
-        const conversation = this.completeConversation(childData);
+    private conversationGenerate(converation: any): boolean {
+        const conversation = this.completeConversation(converation);
         if (this.isValidConversation(conversation)) {
-            this.setClosingConversation(childSnapshot.key, false);
+            this.setClosingConversation(converation.uid, false);
             const index = searchIndexInArrayForUid(this.conversations, conversation.uid);
             if (index > -1) {
                 this.conversations.splice(index, 1, conversation);
@@ -393,9 +440,9 @@ export class FirebaseConversationsHandler extends ConversationsHandlerService {
      * 7 -  pubblico conversations:update
      */
     //TODO-GAB: ora emit singola conversation e non dell'intero array di conversations
-    private added(childSnapshot: any) {
-        if (this.conversationGenerate(childSnapshot)) {
-            const index = searchIndexInArrayForUid(this.conversations, childSnapshot.key);
+    private added(conversation: ConversationModel) {
+        if (this.conversationGenerate(conversation)) {
+            const index = searchIndexInArrayForUid(this.conversations, conversation.uid);
             if (index > -1) {
                 const conversationAdded = this.conversations[index]
                 this.conversationAdded.next(conversationAdded);
@@ -416,15 +463,15 @@ export class FirebaseConversationsHandler extends ConversationsHandlerService {
      */
 
     //TODO-GAB: ora emit singola conversation e non dell'intero array di conversations
-    private changed(childSnapshot: any) {
-        if (this.conversationGenerate(childSnapshot)) {
-            const index = searchIndexInArrayForUid(this.conversations, childSnapshot.key);
+    private changed(conversation: ConversationModel) {
+        if (this.conversationGenerate(conversation)) {
+            const index = searchIndexInArrayForUid(this.conversations, conversation.uid);
             if (index > -1) {
                 const conversationChanged = this.conversations[index]
                 this.conversationChanged.next(conversationChanged);
             }
         } else {
-            this.logger.error('[FIREBASEConversationsHandlerSERVICE]CHANGED::conversations with conversationId: ', childSnapshot.key, 'is not valid')
+            this.logger.error('[FIREBASEConversationsHandlerSERVICE]CHANGED::conversations with conversationId: ', conversation.uid, 'is not valid')
         }
     }
 
@@ -436,8 +483,8 @@ export class FirebaseConversationsHandler extends ConversationsHandlerService {
      * 5 -  elimino conversazione dall'array delle conversazioni chiuse
      */
     //TODO-GAB: ora emit singola conversation e non dell'intero array di conversations
-    private removed(childSnapshot: any) {
-        const index = searchIndexInArrayForUid(this.conversations, childSnapshot.key);
+    private removed(conversation: ConversationModel) {
+        const index = searchIndexInArrayForUid(this.conversations, conversation.uid);
         if (index > -1) {
             const conversationRemoved = this.conversations[index]
             this.conversations.splice(index, 1);
@@ -446,7 +493,7 @@ export class FirebaseConversationsHandler extends ConversationsHandlerService {
             this.conversationRemoved.next(conversationRemoved);
         }
         // remove the conversation from the isConversationClosingMap
-        this.deleteClosingConversation(childSnapshot.key);
+        this.deleteClosingConversation(conversation.uid);
     }
 
 

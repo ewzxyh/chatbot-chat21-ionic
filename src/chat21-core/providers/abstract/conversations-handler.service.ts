@@ -27,9 +27,9 @@ export abstract class ConversationsHandlerService {
   // abstract imageRepo: ImageRepoService;
 
   // functions
-  abstract initialize(tenant: string, userId: string, translationMap: Map<string, string>): void;
+  abstract initialize(tenant: string, userId: string ,translationMap: Map<string, string>): void;
   // abstract connect(): void;
-  abstract subscribeToConversations(callback: any): void;
+  abstract subscribeToConversations(lastConversatioTimestamp: number, callback: any): void;
   abstract countIsNew(): number;
   abstract setConversationRead(conversationId: string): void;
   abstract dispose(): void;
