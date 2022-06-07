@@ -276,7 +276,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       const conversations = this.conversationsHandlerService.conversations
       // console.log('[CONVS-DETAIL] conversations', conversations);
       this.conversation_count = conversations.length
-      this.logger.log('[CONVS-DETAIL] conversation_count', this.conversation_count)
     })
 
     this.conversationsHandlerService.conversationChanged.subscribe((conv) => {
@@ -284,7 +283,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       const conversations = this.conversationsHandlerService.conversations
       // console.log('[CONVS-DETAIL] conversations', conversations);
       this.conversation_count = conversations.length
-      this.logger.log('[CONVS-DETAIL] conversation_count',this.conversation_count)
       if (conv && conv.sender !== this.loggedUser.uid) {
         this.logger.log('[CONVS-DETAIL] subscribe to BSConversationsChange data sender ', conv.sender)
         this.logger.log('[CONVS-DETAIL] subscribe to BSConversationsChange this.loggedUser.uid ', this.loggedUser.uid)
