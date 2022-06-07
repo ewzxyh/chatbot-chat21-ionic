@@ -5,6 +5,9 @@
 - Fixes the bug: when is sent a message with only emojis, some emojis have the chat balloon background
 - Fixes the bug: in the conversation detail header  the requester's avatar does not update after the same has filled in the pre-chat form requested by the bot
 - Fixes the bug: images that are not in the database cannot be downloaded
+- Adds default chat color to emojis picker tabs
+- Fixes the bug: the selected conversation is undefined
+- Fixes the bug: in the conversation list, the name of the requester changes according to the order of arrival of the conversations
 
 ### 3.0.62.3
 - Fixes the bug: the method setTyping fired twice after that a message is sent
