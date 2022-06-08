@@ -158,28 +158,20 @@ export class FirebaseConversationsHandler extends ConversationsHandlerService {
         //         callback(this.conversations)
         //     }
         // })
-        console.log('FIREBASE CONVS-----> timestampppp', lastConversationTimestamp)
         this.ref.startAt(lastConversationTimestamp).on('child_changed', (childSnapshot) => {
-            const conv: ConversationModel = childSnapshot.val();
-            conv.uid = childSnapshot.key
-            that.changed(conv);
+            that.changed(childSnapshot);
         });
         this.ref.startAt(lastConversationTimestamp).on('child_removed', (childSnapshot) => {
-            const conv: ConversationModel = childSnapshot.val();
-            conv.uid = childSnapshot.key
-            that.removed(conv);
+            that.removed(childSnapshot);
         });
         this.ref.startAt(lastConversationTimestamp).on('child_added', (childSnapshot) => {
-            const conv: ConversationModel = childSnapshot.val();
-            console.log('FIREBASE CONVS-----> addedddd', conv)
-            conv.uid = childSnapshot.key
-            that.added(conv);
+            that.added(childSnapshot);
         });
 
         
 
         setTimeout(() => {
-            callback(this.conversations)
+            callback()
         }, 2000);
         // SET AUDIO
         // this.audio = new Audio();
@@ -383,10 +375,12 @@ export class FirebaseConversationsHandler extends ConversationsHandlerService {
     //  *
     //  * @param childSnapshot
     //  */
-    private conversationGenerate(converation: any): boolean {
-        const conversation = this.completeConversation(converation);
+    private conversationGenerate(childSnapshot: any): boolean {
+        const childData: ConversationModel = childSnapshot.val();
+        childData.uid = childSnapshot.key;
+        const conversation = this.completeConversation(childData);
         if (this.isValidConversation(conversation)) {
-            this.setClosingConversation(converation.uid, false);
+            this.setClosingConversation(conversation.uid, false);
             const index = searchIndexInArrayForUid(this.conversations, conversation.uid);
             if (index > -1) {
                 this.conversations.splice(index, 1, conversation);
@@ -440,9 +434,9 @@ export class FirebaseConversationsHandler extends ConversationsHandlerService {
      * 7 -  pubblico conversations:update
      */
     //TODO-GAB: ora emit singola conversation e non dell'intero array di conversations
-    private added(conversation: ConversationModel) {
-        if (this.conversationGenerate(conversation)) {
-            const index = searchIndexInArrayForUid(this.conversations, conversation.uid);
+    private added(childSnapshot: any) {
+        if (this.conversationGenerate(childSnapshot)) {
+            const index = searchIndexInArrayForUid(this.conversations, childSnapshot.key);
             if (index > -1) {
                 const conversationAdded = this.conversations[index]
                 this.conversationAdded.next(conversationAdded);
@@ -463,15 +457,15 @@ export class FirebaseConversationsHandler extends ConversationsHandlerService {
      */
 
     //TODO-GAB: ora emit singola conversation e non dell'intero array di conversations
-    private changed(conversation: ConversationModel) {
-        if (this.conversationGenerate(conversation)) {
-            const index = searchIndexInArrayForUid(this.conversations, conversation.uid);
+    private changed(childSnapshot: any) {
+        if (this.conversationGenerate(childSnapshot)) {
+            const index = searchIndexInArrayForUid(this.conversations, childSnapshot.key);
             if (index > -1) {
                 const conversationChanged = this.conversations[index]
                 this.conversationChanged.next(conversationChanged);
             }
         } else {
-            this.logger.error('[FIREBASEConversationsHandlerSERVICE]CHANGED::conversations with conversationId: ', conversation.uid, 'is not valid')
+            this.logger.error('[FIREBASEConversationsHandlerSERVICE]CHANGED::conversations with conversationId: ', childSnapshot.key, 'is not valid')
         }
     }
 
@@ -483,8 +477,8 @@ export class FirebaseConversationsHandler extends ConversationsHandlerService {
      * 5 -  elimino conversazione dall'array delle conversazioni chiuse
      */
     //TODO-GAB: ora emit singola conversation e non dell'intero array di conversations
-    private removed(conversation: ConversationModel) {
-        const index = searchIndexInArrayForUid(this.conversations, conversation.uid);
+    private removed(childSnapshot: any) {
+        const index = searchIndexInArrayForUid(this.conversations, childSnapshot.key);
         if (index > -1) {
             const conversationRemoved = this.conversations[index]
             this.conversations.splice(index, 1);
@@ -493,7 +487,7 @@ export class FirebaseConversationsHandler extends ConversationsHandlerService {
             this.conversationRemoved.next(conversationRemoved);
         }
         // remove the conversation from the isConversationClosingMap
-        this.deleteClosingConversation(conversation.uid);
+        this.deleteClosingConversation(childSnapshot.key);
     }
 
 
@@ -524,28 +518,27 @@ export class FirebaseConversationsHandler extends ConversationsHandlerService {
             conversation_with = conv.recipient;
             conversation_with_fullname = conv.recipient_fullname;
             conv.sender_fullname = this.translationMap.get('YOU')
-
             // conv.last_message_text = YOU + conv.last_message_text;
             // } else if (conv.channel_type === TYPE_GROUP) {
         } else if (isGroup(conv)) {
             // conversation_with_fullname = conv.sender_fullname;
             // conv.last_message_text = conv.last_message_text;
             conversation_with = conv.recipient;
-            conversation_with_fullname = conv.recipient_fullname;
+            // conversation_with_fullname = conv.recipient_fullname;
+            conversation_with_fullname = this.changeSenderFullName(conv)
         }
         if (conv.attributes && conv.attributes.subtype) {
             if (conv.attributes.subtype === 'info' || conv.attributes.subtype === 'info/support') {
                 this.translateInfoSupportMessages(conv);
             }
         }
-
+        // Fixes the bug: if a snippet of code is pasted and sent it is not displayed correctly in the convesations list
+        // conv.time_last_message = this.getTimeLastMessage(conv.timestamp);
         conv.conversation_with = conversation_with;
-        conv.conversation_with_fullname = this.changeSenderFullName(conv)
-        conv.recipient_fullname = this.changeSenderFullName(conv); //NEW
+        conv.conversation_with_fullname = conversation_with_fullname;
         conv.status = this.setStatusConversation(conv.sender, conv.uid);
-        // conv.time_last_message = this.getTimeLastMessage(conv.timestamp); // evaluate if is used
-        conv.avatar = avatarPlaceholder(conv.conversation_with_fullname);
-        conv.color = getColorBck(conv.conversation_with_fullname);
+        conv.avatar = avatarPlaceholder(conversation_with_fullname);
+        conv.color = getColorBck(conversation_with_fullname);
         //conv.image = this.imageRepo.getImagePhotoUrl(conversation_with);
         // getImageUrlThumbFromFirebasestorage(conversation_with, this.FIREBASESTORAGE_BASE_URL_IMAGE, this.urlStorageBucket);
         return conv;
@@ -559,12 +552,13 @@ export class FirebaseConversationsHandler extends ConversationsHandlerService {
         if(old_conv){
             if(conversation.recipient_fullname !== old_conv.recipient_fullname && conversation.recipient_fullname !== 'Guest '){
                 conversation_with_fullname = conversation.recipient_fullname
-              } else {
-                conversation_with_fullname=  old_conv.recipient_fullname
+            } else {
+                // conversation_with_fullname=  old_conv.recipient_fullname
+                conversation_with_fullname=  old_conv.conversation_with_fullname
               } 
         }
         return conversation_with_fullname
-      }
+    }
 
     translateInfoSupportMessages(conv) {
         const INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU = this.translationMap.get('INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU');
