@@ -68,7 +68,7 @@ export class ImageComponent implements OnInit {
     modalImg.src = url
     if (captionText) {
    
-      captionText.innerHTML = fileName ? null : fileName = decodeURIComponent(decodeURIComponent(url).split('/').pop());
+      captionText.innerHTML = fileName ? fileName : decodeURIComponent(decodeURIComponent(url).split('/').pop());
       // console.log('XXXX ', decodeURIComponent(decodeURIComponent(url).split('/').pop()))
     }
 
