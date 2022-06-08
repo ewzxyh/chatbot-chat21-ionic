@@ -166,6 +166,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   public checkInternet: boolean;
   public msgCount: number;
   public disableTextarea: boolean;
+  appsidebarIsWide: boolean;
 
   /**
    * Constructor
@@ -252,7 +253,43 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     this.watchToConnectionStatus();
     this.getOSCODE();
     this.getStoredProjectAndUserRole();
+    this.listenToDsbrdPostMsgs();
   }
+
+  listenToDsbrdPostMsgs() {
+
+    window.addEventListener("message", (event) => {
+      this.logger.log("[CONVS-DETAIL] message event ", event);
+
+      // const chat21InfoConversationEle = <HTMLElement>document.querySelector('#chat21-info-conversation');
+      // console.log('[CONVS-DETAIL] HAS CLICKED ENLARGE SIDEBAR WIDE chat21InfoConversationEle ', chat21InfoConversationEle)
+
+      // const chatAreaEle = <HTMLElement>document.querySelector('#chatArea');
+      // console.log('[CONVS-DETAIL] HAS CLICKED ENLARGE SIDEBAR WIDE chatAreaEle ', chatAreaEle)
+
+      if (event && event.data && event.data.action && event.data.action === 'openAppsSidebarWideMode' && event.data.parameter === true) {
+        this.logger.log('[CONVS-DETAIL] HERE YES 1')
+        this.appsidebarIsWide = true
+        // chat21InfoConversationEle.classList.add("info-convs-apps-sidebar-wide");
+        // chatAreaEle.classList.add("chat-area-apps-sidebar-wide");
+      }
+
+      if (event && event.data && event.data.action && event.data.action === 'openAppsSidebarWideMode' && event.data.parameter === false) {
+        this.logger.log('[CONVS-DETAIL] HERE YES 2')
+        this.appsidebarIsWide = false
+        // chat21InfoConversationEle.classList.remove("info-convs-apps-sidebar-wide");
+        // chatAreaEle.classList.remove("chat-area-apps-sidebar-wide");
+      }
+
+      if (event && event.data && event.data.action && event.data.action === 'closeAppsSidebarWideMode' && event.data.parameter === true) {
+        this.logger.log('[CONVS-DETAIL] HERE YES 3')
+        this.appsidebarIsWide = false
+        // chat21InfoConversationEle.classList.remove("info-convs-apps-sidebar-wide");
+        // chatAreaEle.classList.remove("chat-area-apps-sidebar-wide");
+      }
+    })
+  }
+
 
   getStoredProjectAndUserRole() {
     const stored_project = localStorage.getItem('last_project')
@@ -284,7 +321,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       const conversations = this.conversationsHandlerService.conversations
       // console.log('[CONVS-DETAIL] conversations', conversations);
       this.conversation_count = conversations.length
-      this.logger.log('[CONVS-DETAIL] conversation_count',this.conversation_count)
+      this.logger.log('[CONVS-DETAIL] conversation_count', this.conversation_count)
       if (conv && conv.sender !== this.loggedUser.uid) {
         this.logger.log('[CONVS-DETAIL] subscribe to BSConversationsChange data sender ', conv.sender)
         this.logger.log('[CONVS-DETAIL] subscribe to BSConversationsChange this.loggedUser.uid ', this.loggedUser.uid)
@@ -296,10 +333,10 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
           // ARE AT THE END
           this.updateConversationBadge()
         }
-        if(conv.uid === this.conversationWith){
-          this.conversationAvatar = setConversationAvatar(conv.conversation_with,conv.conversation_with_fullname,conv.channel_type)
+        if (conv.uid === this.conversationWith) {
+          this.conversationAvatar = setConversationAvatar(conv.conversation_with, conv.conversation_with_fullname, conv.channel_type)
         }
-          
+
       }
     })
 
@@ -308,7 +345,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       const conversations = this.conversationsHandlerService.conversations
       // console.log('[CONVS-DETAIL] conversations', conversations);
       this.conversation_count = conversations.length
-      this.logger.log('[CONVS-DETAIL] conversation_count',this.conversation_count)
+      this.logger.log('[CONVS-DETAIL] conversation_count', this.conversation_count)
     })
 
     setTimeout(() => {
@@ -467,21 +504,21 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       this.logger.log('[CONVS-DETAIL] - initialize -> checkPlatformIsMobile isMobile? ', this.isMobile)
     } else {
       this.isMobile = false
-      this.logger.log('[CONVS-DETAIL] - initialize -> checkPlatformIsMobile isMobile? ',this.isMobile)
+      this.logger.log('[CONVS-DETAIL] - initialize -> checkPlatformIsMobile isMobile? ', this.isMobile)
       // this.openInfoConversation = true;
     }
 
     if (this.isMobile === false) {
       if (checkWindowWidthIsLessThan991px()) {
-        this.logger.log('[CONVS-DETAIL] - initialize -> checkWindowWidthIsLessThan991px ',checkWindowWidthIsLessThan991px())
+        this.logger.log('[CONVS-DETAIL] - initialize -> checkWindowWidthIsLessThan991px ', checkWindowWidthIsLessThan991px())
         this.openInfoConversation = false // indica se è aperto il box info conversazione
         this.isOpenInfoConversation = false
-        this.logger.log('[CONVS-DETAIL] - initialize -> openInfoConversation ',this.openInfoConversation,' -> isOpenInfoConversation ',this.isOpenInfoConversation)
+        this.logger.log('[CONVS-DETAIL] - initialize -> openInfoConversation ', this.openInfoConversation, ' -> isOpenInfoConversation ', this.isOpenInfoConversation)
       } else {
-        this.logger.log('[CONVS-DETAIL] - initialize -> checkWindowWidthIsLessThan991px ',checkWindowWidthIsLessThan991px())
+        this.logger.log('[CONVS-DETAIL] - initialize -> checkWindowWidthIsLessThan991px ', checkWindowWidthIsLessThan991px())
         this.openInfoConversation = true
         this.isOpenInfoConversation = true
-        this.logger.log('[CONVS-DETAIL] - initialize -> openInfoConversation ',this.openInfoConversation,' -> isOpenInfoConversation ',this.isOpenInfoConversation)
+        this.logger.log('[CONVS-DETAIL] - initialize -> openInfoConversation ', this.openInfoConversation, ' -> isOpenInfoConversation ', this.isOpenInfoConversation)
       }
     }
 
@@ -557,7 +594,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   }
 
   returnOpenCloseInfoConversation(openInfoConversation: boolean) {
-    this.logger.log('[CONVS-DETAIL] returnOpenCloseInfoConversation - openInfoConversation ',openInfoConversation)
+    this.logger.log('[CONVS-DETAIL] returnOpenCloseInfoConversation - openInfoConversation ', openInfoConversation)
     this.resizeTextArea()
     this.openInfoMessage = false
     this.openInfoConversation = openInfoConversation
@@ -650,7 +687,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     const translationMap = this.setTranslationMapForConversationHandler()
     this.showMessageWelcome = false
     const handler: ConversationHandlerService = this.chatManager.getConversationHandlerByConversationId(this.conversationWith)
-    this.logger.log('[CONVS-DETAIL] - initConversationHandler - handler ',handler,' conversationWith ',this.conversationWith)
+    this.logger.log('[CONVS-DETAIL] - initConversationHandler - handler ', handler, ' conversationWith ', this.conversationWith)
     if (!handler) {
       this.conversationHandlerService = this.conversationHandlerBuilderService.build()
       this.conversationHandlerService.initialize(
@@ -661,9 +698,9 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         translationMap,
       )
       this.conversationHandlerService.connect()
-      this.logger.log('[CONVS-DETAIL] - initConversationHandler - NEW handler - conversationHandlerService',this.conversationHandlerService)
+      this.logger.log('[CONVS-DETAIL] - initConversationHandler - NEW handler - conversationHandlerService', this.conversationHandlerService)
       this.messages = this.conversationHandlerService.messages
-      this.logger.log('[CONVS-DETAIL] - initConversationHandler - messages: ',this.messages)
+      this.logger.log('[CONVS-DETAIL] - initConversationHandler - messages: ', this.messages)
       this.chatManager.addConversationHandler(this.conversationHandlerService)
 
       // // wait 8 second and then display the message if there are no messages
@@ -732,7 +769,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     //   this.logger.log('[CONVS-DETAIL] - setHeaderContent conversationWith', this.conversationWith)
     //   this.logger.log('[CONVS-DETAIL] - setHeaderContent conversationsHandlerService', this.conversationsHandlerService)
     //   this.logger.log('[CONVS-DETAIL] - setHeaderContent conv_type', this.conv_type)
-    if ( this.conversationWith && this.conversationsHandlerService && this.conv_type === 'active' ) {
+    if (this.conversationWith && this.conversationsHandlerService && this.conv_type === 'active') {
       this.logger.log('[CONVS-DETAIL] - setHeaderContent getConversationDetail CALLING')
       this.conversationsHandlerService.getConversationDetail(this.conversationWith, (conv) => {
         if (conv) {
@@ -879,7 +916,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     // if (!subscription) {
     //   subscription = this.conversationsHandlerService.conversationChanged.subscribe((data: ConversationModel) => {
     //     this.logger.log('[CONVS-DETAIL] subscribe BSConversationsChanged data ', data, ' this.loggedUser.uid:', this.loggedUser.uid)
-        
+
     //     if (data && data.sender !== this.loggedUser.uid) {
     //       this.logger.log('[CONVS-DETAIL] subscribe to BSConversationsChange data sender ', data.sender)
     //       this.logger.log('[CONVS-DETAIL] subscribe to BSConversationsChange this.loggedUser.uid ', this.loggedUser.uid)
@@ -898,7 +935,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     //           data.channel_type,
     //         )
     //       }
-            
+
     //     }
     //   })
     //   const subscribe = { key: subscriptionKey, value: subscription }
@@ -910,11 +947,11 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     if (!subscription) {
       this.logger.log('[CONVS-DETAIL] subscribe to messageAdded - conversationHandlerService', this.conversationHandlerService)
       subscription = this.conversationHandlerService.messageAdded.subscribe((msg: any) => {
-          this.logger.log('[CONVS-DETAIL] subscribe to messageAdded - msg ', msg)
-          if (msg) {
-            that.newMessageAdded(msg)
-            // this.setHeaderContent()
-          }
+        this.logger.log('[CONVS-DETAIL] subscribe to messageAdded - msg ', msg)
+        if (msg) {
+          that.newMessageAdded(msg)
+          // this.setHeaderContent()
+        }
       })
       const subscribe = { key: subscriptionKey, value: subscription }
       this.subscriptions.push(subscribe)
@@ -926,7 +963,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     if (!subscription) {
       this.logger.log('[CONVS-DETAIL] subscribe to messageChanged')
       subscription = this.conversationHandlerService.messageChanged.subscribe((msg: any) => {
-          this.logger.log('[CONVS-DETAIL] subscribe to messageChanged - msg ',msg)
+        this.logger.log('[CONVS-DETAIL] subscribe to messageChanged - msg ', msg)
       })
       const subscribe = { key: subscriptionKey, value: subscription }
       this.subscriptions.push(subscribe)
@@ -937,7 +974,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     if (!subscription) {
       this.logger.log('[CONVS-DETAIL] subscribe to messageRemoved')
       subscription = this.conversationHandlerService.messageRemoved.subscribe((messageId: any) => {
-          this.logger.log('[CONVS-DETAIL] subscribe to messageRemoved - messageId ', messageId)
+        this.logger.log('[CONVS-DETAIL] subscribe to messageRemoved - messageId ', messageId)
       })
       const subscribe = { key: subscriptionKey, value: subscription }
       this.subscriptions.push(subscribe)
@@ -951,9 +988,9 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       this.groupService.onGroupChange(this.conversationWith).pipe(takeUntil(this.unsubscribe$)).subscribe((groupDetail: any) => {
         this.groupDetail = groupDetail
         this.logger.log('[CONVS-DETAIL] subscribe to onGroupChange - groupDetail ', this.groupDetail)
-      },(error) => {
+      }, (error) => {
         this.logger.error('[CONVS-DETAIL] subscribe to onGroupChange  - ERROR  ', error)
-      },() => {
+      }, () => {
         this.logger.log('[CONVS-DETAIL] subscribe to onGroupChange  /* COMPLETE */')
         this.groupDetail = null
       })
@@ -1028,7 +1065,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   }
 
   updateConversationBadge() {
-    if (this.conversationWith &&this.conversationsHandlerService && this.conv_type === 'active') {
+    if (this.conversationWith && this.conversationsHandlerService && this.conv_type === 'active') {
       this.conversationsHandlerService.setConversationRead(this.conversationWith)
     } else if (this.conversationWith && this.archivedConversationsHandlerService && this.conv_type === 'archived') {
       this.archivedConversationsHandlerService.setConversationRead(this.conversationWith)
@@ -1078,7 +1115,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       // }
       idCurrentUser = this.loggedUser.uid
 
-      if (this.loggedUser.firstname &&this.loggedUser.firstname !== undefined) {
+      if (this.loggedUser.firstname && this.loggedUser.firstname !== undefined) {
         userFullname = this.loggedUser.firstname
       }
 
@@ -1236,7 +1273,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   getProjectIdByConversationWith(strSearch, conversationWith: string) {
     const tiledeskToken = this.tiledeskAuthService.getTiledeskToken()
 
-    this.tiledeskService.getProjectIdByConvRecipient(tiledeskToken, conversationWith).subscribe( (res) => {
+    this.tiledeskService.getProjectIdByConvRecipient(tiledeskToken, conversationWith).subscribe((res) => {
       this.logger.log('[CONVS-DETAIL] - loadTagsCanned - GET PROJECTID BY CONV RECIPIENT RES', res)
       if (res) {
         const projectId = res.id_project
@@ -1245,16 +1282,16 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
           this.getAndShowCannedResponses(strSearch, projectId)
         }
       }
-    },(error) => {
+    }, (error) => {
       this.logger.error('[CONVS-DETAIL] - loadTagsCanned - GET PROJECTID BY CONV RECIPIENT - ERROR  ', error)
-    },() => {
+    }, () => {
       this.logger.log('[CONVS-DETAIL] - loadTagsCanned - GET PROJECTID BY CONV RECIPIENT * COMPLETE *')
     })
   }
 
   getAndShowCannedResponses(strSearch, projectId) {
     const tiledeskToken = this.tiledeskAuthService.getTiledeskToken()
-    this.logger.log( '[CONVS-DETAIL] - loadTagsCanned tagsCanned.length',this.tagsCanned.length)
+    this.logger.log('[CONVS-DETAIL] - loadTagsCanned tagsCanned.length', this.tagsCanned.length)
     //if(this.tagsCanned.length <= 0 ){
     this.tagsCanned = []
     this.cannedResponsesService.getCannedResponses(tiledeskToken, projectId).subscribe((res) => {
@@ -1266,9 +1303,9 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       if (this.HIDE_CANNED_RESPONSES === false) {
         this.showTagsCanned(strSearch)
       }
-    },(error) => {
+    }, (error) => {
       this.logger.error('[CONVS-DETAIL] - loadTagsCanned  getCannedResponses - ERROR  ', error)
-    },() => {
+    }, () => {
       this.logger.log('[CONVS-DETAIL] - loadTagsCanned  getCannedResponses * COMPLETE *')
     })
   }
