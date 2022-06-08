@@ -294,7 +294,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
           // ARE AT THE END
           this.updateConversationBadge()
         }
-        if(conv.uid === this.conversationWith){
+        if(conv.uid && conv.uid === this.conversationWith){
           this.conversationAvatar = setConversationAvatar(conv.conversation_with,conv.conversation_with_fullname,conv.channel_type)
         }
           
