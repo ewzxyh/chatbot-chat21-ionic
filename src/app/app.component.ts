@@ -342,8 +342,6 @@ export class AppComponent implements OnInit {
 
       if (event && event.data && event.data.action && event.data.parameter) {
         if (event.data.action === 'openJoinConversationModal') {
-          // console.log("[APP-COMP] message event action ", event.data.action);
-          // console.log("[APP-COMP] message event parameter ", event.data.parameter);
           this.presentAlertConfirmJoinRequest(event.data.parameter, event.data.calledBy)
         }
       }
@@ -378,7 +376,6 @@ export class AppComponent implements OnInit {
 
   async presentAlertConfirmJoinRequest(requestid, calledby) {
     var iframeWin = <HTMLIFrameElement>document.getElementById("unassigned-convs-iframe")
-    // console.log("[APP-COMP] message event iframeWin ", iframeWin);
 
     const isIFrame = (input: HTMLElement | null): input is HTMLIFrameElement =>
       input !== null && input.tagName === 'IFRAME';
@@ -396,12 +393,10 @@ export class AppComponent implements OnInit {
           role: 'cancel',
           cssClass: 'secondary',
           handler: (blah) => {
-            // console.log('Confirm Cancel: blah', blah);
           }
         }, {
           text: 'Ok',
           handler: () => {
-            // console.log('Confirm Okay');
 
             if (isIFrame(iframeWin) && iframeWin.contentWindow) {
               const msg = { action: "joinConversation", parameter: requestid, calledBy: calledby }
@@ -421,14 +416,12 @@ export class AppComponent implements OnInit {
   signInWithCustomToken(token) {
     // this.isOnline = false;
     this.logger.log('[APP-COMP] SIGNINWITHCUSTOMTOKEN  token', token)
-    this.tiledeskAuthService.signInWithCustomToken(token)
-      .then((user: any) => {
+    this.tiledeskAuthService.signInWithCustomToken(token).then((user: any) => {
         this.logger.log('[APP-COMP] SIGNINWITHCUSTOMTOKEN AUTLOGIN user', user)
         this.messagingAuthService.createCustomToken(token)
-      })
-      .catch(error => {
+    }).catch(error => {
         this.logger.error('[APP-COMP] SIGNINWITHCUSTOMTOKEN error::', error)
-      })
+    })
   }
 
   /** */
@@ -578,16 +571,6 @@ export class AppComponent implements OnInit {
       this.translate.use('en');
     }
 
-    // this.logger.debug('[APP-COMP] navigator.language: ', navigator.language);
-    // let language;
-    // if (navigator.language.indexOf('-') !== -1) {
-    //   language = navigator.language.substring(0, navigator.language.indexOf('-'));
-    // } else if (navigator.language.indexOf('_') !== -1) {
-    //   language = navigator.language.substring(0, navigator.language.indexOf('_'));
-    // } else {
-    //   language = navigator.language;
-    // }
-    // this.translate.use(language);
   }
 
 
@@ -1102,6 +1085,7 @@ export class AppComponent implements OnInit {
 
 
     if (hasClickedLogout === true) {
+      this.appStorageService.removeItem('conversations')
       // ----------------------------------------------
       // PUSH NOTIFICATIONS
       // ----------------------------------------------
@@ -1210,8 +1194,8 @@ export class AppComponent implements OnInit {
     this.conversationsHandlerService.initialize(this.tenant, userId, translationMap);
     // this.subscribeToConvs()
     const lastTimestamp = this.manageStoredConversations()
-    console.log('[APP-COMP] initConversationsHandler: get lastTimestamp', lastTimestamp)
-    this.conversationsHandlerService.subscribeToConversations(lastTimestamp, (convs) => {
+    this.logger.log('[APP-COMP] initConversationsHandler: get lastTimestamp', lastTimestamp)
+    this.conversationsHandlerService.subscribeToConversations(lastTimestamp, () => {
       // this.logger.log('[APP-COMP] - CONVS - INIT CONV')
       const conversations = this.conversationsHandlerService.conversations;
       this.logger.info('initialize FROM [APP-COMP] - [APP-COMP]-CONVS - INIT CONV CONVS', conversations)
@@ -1225,6 +1209,7 @@ export class AppComponent implements OnInit {
 
   }
 
+  // START: manage conversations on firebase upon last timestamp from stored conversations
   private manageStoredConversations(): number {
     let timestamp = 0
     if(this.appStorageService.getItem('conversations')){
@@ -1247,7 +1232,7 @@ export class AppComponent implements OnInit {
       that.appStorageService.setItem('conversations', JSON.stringify(this.conversationsHandlerService.conversations))
     }, 2000);
   }
-
+  // END: manage conversations on firebase upon last timestamp from stored conversations
 
   private initArchivedConversationsHandler(userId: string) {
     const keys = ['YOU'];
