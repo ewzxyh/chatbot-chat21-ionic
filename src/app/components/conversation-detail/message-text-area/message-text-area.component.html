@@ -92,8 +92,14 @@
           <!-- https://www.npmjs.com/package/@ctrl/ngx-emoji-mart/v/1.0.6 -->
           <!-- --------------------------------------------------------------------- -->
           <!-- [style]="{ position: 'absolute', bottom: '53px', right: '-246px' }" -->
-          <emoji-mart [showPreview]="false" [perLine]="emojiPerLine" [style.visibility]="showEmojiPicker?'visible':'hidden'"
-            (emojiSelect)="addEmoji($event)"  [ngClass]="{'emoji-mart-desktop': !IS_ON_MOBILE_DEVICE, 'emoji-mart-mobile': IS_ON_MOBILE_DEVICE }">
+          <emoji-mart 
+            [showPreview]="false" 
+            [perLine]="emojiPerLine" 
+            [style.visibility]="showEmojiPicker?'visible':'hidden'"  
+            [include]="emojiiCategories"
+            [color]="emojiColor" 
+            [ngClass]="{'emoji-mart-desktop': !IS_ON_MOBILE_DEVICE, 'emoji-mart-mobile': IS_ON_MOBILE_DEVICE }"
+            (emojiSelect)="addEmoji($event)">
           </emoji-mart>
           <!-- </div> -->
 
