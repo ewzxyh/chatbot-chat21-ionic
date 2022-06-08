@@ -1,5 +1,5 @@
 .message {
-    .bobble-message {
+    .bubble-message {
         position: relative;
         border-radius: 15px;
         font-size: 15px;
@@ -57,8 +57,8 @@
     }
         
   
-    .bobble-message {
-        background-color: var(--bobble-blue);
+    .bubble-message {
+        background-color: var(--bubble-blue);
         color: white;
         margin-right: 24px;
         float: right;
@@ -67,7 +67,7 @@
     }
     &.first-message {
         margin-top: 10px;
-        .bobble-message {
+        .bubble-message {
             border-top-right-radius: 12px;
             border-bottom-right-radius: 0px;
         }
