@@ -79,7 +79,7 @@
 
       <!--backgroundColor non viene ancora usato -->
       <chat-bubble-message class="messages msg_sent" id="message_msg_sent" style="position: relative;" 
-        [ngClass]="{'has-metadata': (isImage(message) || isFrame(message))}" 
+        [ngClass]="{'has-metadata': (isImage(message) || isFrame(message)), 'privateMsg': (message?.attributes && message?.attributes?.subtype === 'private')}" 
         [class.emoticon]="isEmojii(message?.text)"
         [ngClass]="{'button-in-msg' : message.metadata && message.metadata.button}"
         [message]="message" 
