@@ -3,6 +3,8 @@
 ### 3.0.62.4-rc2
 - Fixed bug: in the modal window showing the image preview before download, the image name is missing
 - Add the ability to display the app sidebar in "wide mode"
+- Displays balloon messages with a light orange background for "internal notes" type message
+- Updates the regex that detects if the message contains only one or more emojis
 
 ### 3.0.62.4-rc1
 - Fixes the bug: when the user profile is updated in the dashboard it is not updated in the chat
