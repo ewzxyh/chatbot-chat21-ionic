@@ -84,7 +84,7 @@ ion-item {
     // padding: 2px 0px 4px 40px;
     padding: 2px 0px 14px 40px; // edited to display the date at the bottom of the "message bubble"
     .msg_sent {
-        background-color: var(--bobble-blue);
+        background-color: var(--bubble-blue);
         color: var(--col-msg-sent);
         margin-right: 4px;
         margin-left: 4px;
@@ -92,6 +92,11 @@ ion-item {
         min-width: 14px;
         border-top-right-radius: 8px;
         border-bottom-right-radius: 0px;
+
+        &.privateMsg{
+            background-color: var(--bubble-privateMsg);
+            color: var(--bubble-privateMsgColor)
+        }
     }
     .emoticon {
         background: unset !important;
