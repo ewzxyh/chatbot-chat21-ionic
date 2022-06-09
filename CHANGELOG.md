@@ -1,5 +1,8 @@
 # chat21-ionic ver 3.0
 
+### 3.0.63
+- Deploys in production
+
 ### 3.0.62.4-rc2
 - Fixed bug: in the modal window showing the image preview before download, the image name is missing
 - Add the ability to display the app sidebar in "wide mode"
