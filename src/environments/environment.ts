@@ -1,5 +1,5 @@
 export const environment = {
-    t2y12PruGU9wUtEGzBJfolMIgK:'',
+    t2y12PruGU9wUtEGzBJfolMIgK:"CAR:F-PAY:F-ANA:F-ACT:F-APP:F",
     production: false,
     remoteConfig: true,
     remoteConfigUrl: './chat-config.json',
@@ -28,10 +28,11 @@ export const environment = {
     baseImageUrl: 'https://firebasestorage.googleapis.com/v0/b/',
     dashboardUrl: 'http://localhost:4500/',
     wsUrl: 'ws://localhost:3000/',
+    wsUrlRel: 'CHANGEIT',
     storage_prefix: 'chat_sv5',
     authPersistence: 'LOCAL',
     logLevel: 'Info',
     supportMode: false,
-    teammatesButton: false,
+    writeToButton: false,
     archivedButton: false,
 };

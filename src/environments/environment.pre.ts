@@ -1,5 +1,5 @@
 export const environment = {
-    t2y12PruGU9wUtEGzBJfolMIgK:'',
+    t2y12PruGU9wUtEGzBJfolMIgK:"CAR:F-PAY:F-ANA:F-ACT:F-APP:F",
     production: false,
     remoteConfig: true,
     remoteConfigUrl: './chat-config.json',
@@ -29,10 +29,12 @@ export const environment = {
     baseImageUrl: 'CHANGEIT',
     dashboardUrl: 'CHANGEIT',
     wsUrl: 'CHANGEIT',
+    wsUrlRel: 'CHANGEIT',
     storage_prefix: 'chat_sv5',
     authPersistence: 'LOCAL',
     logLevel: 'Info',
     supportMode: false,
-    teammatesButton: false,
     archivedButton: false,
+    writeToButton: false,
+   
 };
