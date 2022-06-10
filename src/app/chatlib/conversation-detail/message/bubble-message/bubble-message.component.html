@@ -57,10 +57,7 @@
       </chat-text>
 
       <chat-html *ngIf="message?.type==='html'"
-        [htmlText]="message?.text"
-        [fontSize]="stylesMap.get('buttonFontSize')"
-        [themeColor]="stylesMap.get('themeColor')"
-        [foregroundColor]="stylesMap.get('foregroundColor')">
+        [htmlText]="message?.text">
       </chat-html>
 
       <ng-container *ngIf="areVisibleCAR && supportMode">
