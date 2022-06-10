@@ -20,7 +20,7 @@ export class BubbleMessageComponent implements OnInit, OnChanges {
   @Input() message: MessageModel;
   @Input() textColor: string;
   @Input() areVisibleCAR: boolean;
-  @Input() support_mode: boolean;
+  @Input() supportMode: boolean;
   @Output() onBeforeMessageRender = new EventEmitter();
   @Output() onAfterMessageRender = new EventEmitter();
   @Output() onImageRendered = new EventEmitter<boolean>()
@@ -89,7 +89,7 @@ export class BubbleMessageComponent implements OnInit, OnChanges {
   ngOnChanges() {
     this.logger.log('BUBBLE-MSG Hello !!!! this.message ',  this.message)
     this.logger.log('BUBBLE-MSG ngOnChanges areVisibleCAR', this.areVisibleCAR)
-    this.logger.log('BUBBLE-MSG ngOnChanges support_mode', this.support_mode)
+    this.logger.log('BUBBLE-MSG ngOnChanges supportMode', this.supportMode)
     if (this.message && this.message.metadata && typeof this.message.metadata === 'object') {
       this.getMetadataSize(this.message.metadata)
     }

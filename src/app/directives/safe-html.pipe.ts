@@ -8,8 +8,8 @@ export class SafeHtmlPipe implements PipeTransform {
   
   transform(html) {
     // console.log('SafeHtmlPipe html ', html)
-    // return this.sanitizer.bypassSecurityTrustHtml(html);
-    return this.sanitizer.bypassSecurityTrustResourceUrl(html);
+    // return this.sanitizer.bypassSecurityTrustResourceUrl(html);
+    return this.sanitizer.bypassSecurityTrustHtml(html);
   
   }
 

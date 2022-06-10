@@ -40,7 +40,7 @@
 
       <div class="start-buttons" style="position: absolute;display: flex; top: 2px;">
 
-        <ng-container *ngIf="areVisibleCAR && support_mode === true">
+        <ng-container *ngIf="areVisibleCAR && supportMode">
           <div class="canned-responses-btn-wpr" style="margin-left: -5px;"
             tooltip="{{translationMap?.get('CANNED_RESPONSES')}}" [options]="tooltipOptions" placement="top">
             <ion-button ion-button fill="clear" class="canned-responses-btn" (click)="openCannedResponses()"
@@ -110,7 +110,7 @@
 
 
 
-      <div class="text-message" [ngClass]="{'text-message-no-cr': areVisibleCAR === false || support_mode === false}">
+      <div class="text-message" [ngClass]="{'text-message-no-cr': areVisibleCAR === false || supportMode === false}">
         <ion-textarea id="ion-textarea" #messageTextArea #message_text_area #textArea rows="1"
           [placeholder]="TEXAREA_PLACEHOLDER" autosize="false" auto-grow="true" autofocus="true" [value]=""
           [(ngModel)]="messageString" (ionChange)="ionChange($event);" [disabled]="disableTextarea"

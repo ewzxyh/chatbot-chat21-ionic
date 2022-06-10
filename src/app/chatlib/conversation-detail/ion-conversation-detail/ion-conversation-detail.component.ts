@@ -22,12 +22,12 @@ export class IonConversationDetailComponent extends ConversationContentComponent
 
   @Input() senderId: string;
   @Input() channelType: string;
+  @Input() areVisibleCAR: boolean;
+  @Input() supportMode: boolean;
   @Output() onImageRendered = new EventEmitter<boolean>()
   @Output() onAddUploadingBubble = new EventEmitter<boolean>();
 
   public public_Key: any
-  public areVisibleCAR: boolean
-  public support_mode: boolean
   public uploadProgress: number = 100
   public fileType: any
   public browserLang: string;
@@ -64,48 +64,11 @@ export class IonConversationDetailComponent extends ConversationContentComponent
   }
 
   ngOnInit() {
-    this.getOSCODE()
     this.listenToUploadFileProgress();
     this.setMomentLocaleAndGetTranslation();
   }
 
-  getOSCODE() {
-    this.support_mode = null
-    if( this.appConfigProvider.getConfig().supportMode === true ||  this.appConfigProvider.getConfig().supportMode === 'true') {
-      this.support_mode = true
-    } else if ( this.appConfigProvider.getConfig().supportMode === false  ||  this.appConfigProvider.getConfig().supportMode === 'false') {
-      this.support_mode = false
-    } else if ( !this.appConfigProvider.getConfig().supportMode ) {
-      this.support_mode = false
-    }
-    this.public_Key = this.appConfigProvider.getConfig().t2y12PruGU9wUtEGzBJfolMIgK
-    this.logger.log('[CONVS-DETAIL][ION-CONVS-DETAIL] AppConfigService getAppConfig public_Key', this.public_Key)
 
-    if (this.public_Key) {
-      let keys = this.public_Key.split('-')
-      this.logger.log('[CONVS-DETAIL][ION-CONVS-DETAIL] PUBLIC-KEY - public_Key keys', keys)
-
-      keys.forEach((key) => {
-        if (key.includes('CAR')) {
-          let car = key.split(':')
-          if (car[1] === 'F') {
-            this.areVisibleCAR = false
-            this.logger.log('[CONVS-DETAIL][ION-CONVS-DETAIL] PUBLIC-KEY - areVisibleCAR', this.areVisibleCAR)
-          } else {
-            this.areVisibleCAR = true
-            this.logger.log('[CONVS-DETAIL][ION-CONVS-DETAIL] PUBLIC-KEY - areVisibleCAR', this.areVisibleCAR)
-          }
-        }
-      })
-
-      if (!this.public_Key.includes('CAR')) {
-        this.areVisibleCAR = false
-        // console.log('[CONVS-DETAIL][ION-CONVS-DETAIL] PUBLIC-KEY - areVisibleCAR', this.areVisibleCAR)
-      }
-    } else {
-      this.areVisibleCAR = false
-    }
-  }
 
   setMomentLocaleAndGetTranslation() {
     this.browserLang = this.translate.getBrowserLang();
