@@ -63,7 +63,7 @@
         [foregroundColor]="stylesMap.get('foregroundColor')">
       </chat-html>
 
-      <ng-container *ngIf="areVisibleCAR && support_mode === true">
+      <ng-container *ngIf="areVisibleCAR && supportMode">
         <ion-button shape="round" size="small" class="btn-add-msg-as-canned-response" ion-button fill="clear"
           (click)="presentCreateCannedResponseModal()" tooltip="{{addAsCannedResponseTooltipText}}"
           [options]="tooltipOptions" placement="bottom">

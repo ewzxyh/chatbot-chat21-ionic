@@ -230,15 +230,6 @@ export class ConversationListPage implements OnInit {
     this.logger.log('[CONVS-LIST-PAGE] getConversationListHeight scrollbar2element', scrollbar2element)
   }
 
-  // this.support_mode = null
-  // if( this.appConfigProvider.getConfig().supportMode === true ||  this.appConfigProvider.getConfig().supportMode === 'true') {
-  //   this.support_mode = true
-  // } else if ( this.appConfigProvider.getConfig().supportMode === false  ||  this.appConfigProvider.getConfig().supportMode === 'false') {
-  //   this.support_mode = false
-  // } else if ( !this.appConfigProvider.getConfig().supportMode ) {
-  //   this.support_mode = false
-  // }
-
   getAppConfigToHideDiplayBtns() {
     const appConfig = this.appConfigProvider.getConfig()
     // console.log('[CONVS-LIST-PAGE] - appConfig ', appConfig)
@@ -266,7 +257,6 @@ export class ConversationListPage implements OnInit {
       this.writeto_btn = false;
       this.logger.log('[CONVS-LIST-PAGE] getAppConfigToHideDiplayBtns writeto_btn ', this.writeto_btn)
     }
-    // console.log('[ION-LIST-CONVS-COMP] - supportMode ', this.supportMode)
   }
 
   watchToConnectionStatus() {

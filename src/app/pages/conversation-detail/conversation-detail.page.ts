@@ -143,7 +143,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   arrowkeyLocation = -1
   public_Key: any;
   areVisibleCAR: boolean;
-  support_mode: boolean;
+  supportMode: boolean;
   //SOUND
   setTimeoutSound: any;
   audio: any;
@@ -315,15 +315,15 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   }
 
   getOSCODE() {
-    this.support_mode = null
+    this.supportMode = null
     if (this.appConfigProvider.getConfig().supportMode === true || this.appConfigProvider.getConfig().supportMode === 'true') {
-      this.support_mode = true
+      this.supportMode = true
     } else if (this.appConfigProvider.getConfig().supportMode === false || this.appConfigProvider.getConfig().supportMode === 'false') {
-      this.support_mode = false
+      this.supportMode = false
     } else if (!this.appConfigProvider.getConfig().supportMode) {
-      this.support_mode = false
+      this.supportMode = false
     }
-    this.logger.log('[CONVS-DETAIL] AppConfigService getAppConfig support_mode', this.support_mode)
+    this.logger.log('[CONVS-DETAIL] AppConfigService getAppConfig supportMode', this.supportMode)
     this.public_Key = this.appConfigProvider.getConfig().t2y12PruGU9wUtEGzBJfolMIgK
     this.logger.log('[CONVS-DETAIL] AppConfigService getAppConfig public_Key', this.public_Key)
 
@@ -336,26 +336,17 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
           let car = key.split(':')
           if (car[1] === 'F') {
             this.areVisibleCAR = false
-            this.logger.log(
-              '[CONVS-DETAIL] PUBLIC-KEY - areVisibleCAR',
-              this.areVisibleCAR,
-            )
+            this.logger.log('[CONVS-DETAIL] PUBLIC-KEY - areVisibleCAR',this.areVisibleCAR)
           } else {
             this.areVisibleCAR = true
-            this.logger.log(
-              '[CONVS-DETAIL] PUBLIC-KEY - areVisibleCAR',
-              this.areVisibleCAR,
-            )
+            this.logger.log('[CONVS-DETAIL] PUBLIC-KEY - areVisibleCAR',this.areVisibleCAR)
           }
         }
       })
 
       if (!this.public_Key.includes('CAR')) {
         this.areVisibleCAR = false
-        this.logger.log(
-          '[CONVS-DETAIL] PUBLIC-KEY - areVisibleCAR',
-          this.areVisibleCAR,
-        )
+        this.logger.log('[CONVS-DETAIL] PUBLIC-KEY - areVisibleCAR',this.areVisibleCAR)
       }
     } else {
       this.areVisibleCAR = false
@@ -1088,7 +1079,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       // ----------------------------------------------------------
       // DISPLAY CANNED RESPONSES if message.lastIndexOf("/")
       // ----------------------------------------------------------
-      if (this.areVisibleCAR && this.support_mode === true) {
+      if (this.areVisibleCAR && this.supportMode === true) {
         setTimeout(() => {
           if (this.conversationWith.startsWith('support-group')) {
             const pos = message.lastIndexOf('/')
