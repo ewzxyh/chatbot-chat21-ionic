@@ -1000,9 +1000,8 @@ export class AppComponent implements OnInit {
 
   goOffLine = () => {
     this.logger.log('[APP-COMP] - GO-OFFLINE');
-    const supportmode = this.appConfigProvider.getConfig().supportMode;
-    this.logger.log('[APP-COMP] - GO-OFFINE - supportmode ', supportmode);
-    if (supportmode === true) {
+    this.logger.log('[APP-COMP] - GO-OFFINE - supportmode ', this.SUPPORT_MODE);
+    if (this.SUPPORT_MODE === true) {
       this.webSocketClose()
     }
     // this.isOnline = false;
