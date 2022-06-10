@@ -936,8 +936,6 @@ export class AppComponent implements OnInit {
           this.manageTabNotification();
         }
 
-      } else {
-        this.logger.error('[APP-COMP] ***** subscribeConversationChanged currentUser nor found in storage  ');
       }
     });
   }
