@@ -1,14 +1,14 @@
 /*
     Chat21Client
 
-    v0.1.10
+    v0.1.11
 
     @Author Andrea Sponziello
     (c) Tiledesk 2020
 */
 
-// let mqtt = require('mqtt');
-// let axios = require('axios');
+//let mqtt = require('mqtt');
+//let axios = require('axios');
 
 const _CLIENTADDED = "/clientadded"
 const _CLIENTUPDATED = "/clientupdated"
@@ -141,7 +141,7 @@ class Chat21Client {
         const payload = JSON.stringify(outgoing_message)
         this.client.publish(dest_topic, payload, null, (err) => {
             callback(err, outgoing_message)
-        })
+        });
     }
 
     updateMessageStatus(messageId, conversWith, status, callback) {
@@ -236,10 +236,6 @@ class Chat21Client {
                 group_members: members
             },
             method: 'POST'
-            // url: options.url,
-        // headers: options.headers,
-        // json: options.json,
-        // method: options.method
         }
         Chat21Client.myrequest(options, (err, response, json) => {
             if (err) {
@@ -249,23 +245,6 @@ class Chat21Client {
                 callback(null, json);
             }
         }, this.log);
-        // var xmlhttp = new XMLHttpRequest();
-        // xmlhttp.open("POST", URL, true);
-        // xmlhttp.setRequestHeader("authorization", this.jwt);
-        // xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        // xmlhttp.onreadystatechange = function() {
-        //     if (callback && xmlhttp.readyState == 4 && xmlhttp.status == 200 && xmlhttp.responseText) {
-        //         try {
-        //             const json = JSON.parse(xmlhttp.responseText)
-        //             callback(null, json.result)
-        //         }
-        //         catch (err) {
-        //             console.log("parsing json ERROR", err)
-        //             callback(err, null)
-        //         }
-        //     }
-        // };
-        // xmlhttp.send(JSON.stringify(data));
     }
 
     groupData(group_id, callback) {
@@ -590,7 +569,7 @@ class Chat21Client {
                         }
                         // map.forEach((value, key, map) =>)
                         this.onConversationUpdatedCallbacks.forEach((callback, handler, map) => {
-                            callback(JSON.parse(message.toString()), topic)
+                            callback(JSON.parse(message.toString()), _topic)
                         });
                     }
                 }
@@ -602,7 +581,7 @@ class Chat21Client {
                             console.log("conversation deleted! /conversations/, topic:", topic, message.toString() );
                         }
                         this.onConversationDeletedCallbacks.forEach((callback, handler, map) => {
-                            callback(JSON.parse(message.toString()), topic)
+                            callback(JSON.parse(message.toString()), _topic)
                         });
                     }
                 }
@@ -611,7 +590,7 @@ class Chat21Client {
                     if (topic.includes("/archived_conversations/") && topic.endsWith(_CLIENTADDED)) {
                         // map.forEach((value, key, map) =>)
                         this.onArchivedConversationAddedCallbacks.forEach((callback, handler, map) => {
-                            callback(JSON.parse(message.toString()), topic)
+                            callback(JSON.parse(message.toString()), _topic)
                         });
                     }
                 }
@@ -620,7 +599,7 @@ class Chat21Client {
                     if (topic.includes("/archived_conversations/") && topic.endsWith(_CLIENTDELETED)) {
                         // map.forEach((value, key, map) =>)
                         this.onArchivedConversationDeletedCallbacks.forEach((callback, handler, map) => {
-                            callback(JSON.parse(message.toString()), topic)
+                            callback(JSON.parse(message.toString()), _topic)
                         });
                     }
                 }
@@ -720,20 +699,20 @@ class Chat21Client {
     }
 
     parseTopic(topic) {
-        var topic_parts = topic.split("/")
+        var topic_parts = topic.split("/");
         // /apps/tilechat/users/(ME)/messages/RECIPIENT_ID/ACTION
         if (topic_parts.length >= 7) {
-            const app_id = topic_parts[1]
-            const sender_id = topic_parts[3]
-            const recipient_id = topic_parts[5]
-            const convers_with = recipient_id
-            const me = sender_id
+            const app_id = topic_parts[1];
+            const sender_id = topic_parts[3];
+            const recipient_id = topic_parts[5];
+            const convers_with = recipient_id;
+            const me = sender_id;
             const parsed = {
                 "conversWith": convers_with
             }
-            return parsed
+            return parsed;
         }
-        return null
+        return null;
     }
 
     lastArchivedConversations(callback) {
@@ -801,27 +780,46 @@ class Chat21Client {
         const URL = `${this.APIendpoint}/${this.appid}/${this.user_id}/${path}/${conversWith}`
         console.log("getting conversation detail:", URL)
         console.log("conversWith:", conversWith)
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.open("GET", URL, true);
-        xmlhttp.setRequestHeader("authorization", this.jwt);
-        xmlhttp.onreadystatechange = function() {
-            if (callback && xmlhttp.readyState == 4 && xmlhttp.status == 200 && xmlhttp.responseText) {
-                try {
-                    const json = JSON.parse(xmlhttp.responseText);
-                    if (json && json.result && Array.isArray(json.result) && json.result.length ==1) {
-                        callback(null, json.result[0]);
-                    }
-                    else {
-                        callback({"message": "Incorrect conversation result."}, null);
-                    }
-                }
-                catch (err) {
-                    console.error("parsing json ERROR", err);
-                    callback(err, null);
-                }
+        
+        let options = {
+            url: URL,
+            headers: {
+                "Authorization": this.jwt
+                // "Content-Type": "application/json;charset=UTF-8"
+            },
+            method: 'GET'
+        }
+        Chat21Client.myrequest(options, (err, response, json) => {
+            console.log("JSON...", json)
+            if (json && json.result && Array.isArray(json.result) && json.result.length ==1) {
+                callback(null, json.result[0]);
             }
-        };
-        xmlhttp.send(null);
+            else {
+                callback(null, null);
+            }
+        }, this.log);
+        
+        // var xmlhttp = new XMLHttpRequest();
+        // xmlhttp.open("GET", URL, true);
+        // xmlhttp.setRequestHeader("authorization", this.jwt);
+        // xmlhttp.onreadystatechange = function() {
+        //     if (callback && xmlhttp.readyState == 4 && xmlhttp.status == 200 && xmlhttp.responseText) {
+        //         try {
+        //             const json = JSON.parse(xmlhttp.responseText);
+        //             if (json && json.result && Array.isArray(json.result) && json.result.length ==1) {
+        //                 callback(null, json.result[0]);
+        //             }
+        //             else {
+        //                 callback({"message": "Incorrect conversation result."}, null);
+        //             }
+        //         }
+        //         catch (err) {
+        //             console.error("parsing json ERROR", err);
+        //             callback(err, null);
+        //         }
+        //     }
+        // };
+        // xmlhttp.send(null);
     }
 
     lastMessages(convers_with, callback) {
@@ -962,7 +960,7 @@ class Chat21Client {
         }
         if (this.log) {console.log("starting mqtt connection with LWT on:", presence_topic, this.endpoint)}
         // client = mqtt.connect('mqtt://127.0.0.1:15675/ws',options)
-        this.client = mqtt.connect('a://99.80.197.164:15675/ws',options)
+        this.client = mqtt.connect(this.endpoint,options)
         
         this.client.on('connect', // TODO if token is wrong it must reply with an error!
             () => {
@@ -1033,8 +1031,8 @@ class Chat21Client {
 
 function isBrowser() {
     return true;
-    // return false;
+    //return false;
 }
 
 export { Chat21Client }; // Browser
-// module.exports = { Chat21Client };
+//module.exports = { Chat21Client };
