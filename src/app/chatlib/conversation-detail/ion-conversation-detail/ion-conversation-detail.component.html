@@ -79,14 +79,14 @@
 
       <!--backgroundColor non viene ancora usato -->
       <chat-bubble-message class="messages msg_sent" id="message_msg_sent" style="position: relative;" 
-        [ngClass]="{'has-metadata': (isImage(message) || isFrame(message))}" 
+        [ngClass]="{'has-metadata': (isImage(message) || isFrame(message)), 'privateMsg': (message?.attributes && message?.attributes?.subtype === 'private')}" 
         [class.emoticon]="isEmojii(message?.text)"
         [ngClass]="{'button-in-msg' : message.metadata && message.metadata.button}"
         [message]="message" 
         [textColor]="'col-msg-sent'"
         [addAsCannedResponseTooltipText]="addAsCannedResponseTooltipText" 
         [areVisibleCAR]="areVisibleCAR"
-        [support_mode]="support_mode"
+        [supportMode]="supportMode"
         (onBeforeMessageRender)="returnOnBeforeMessageRender($event)"
         (onAfterMessageRender)="returnOnAfterMessageRender($event)" 
         (onImageRendered)="onImageRenderedFN($event)">
@@ -125,7 +125,7 @@
         [textColor]="'black'"
         [addAsCannedResponseTooltipText]="addAsCannedResponseTooltipText" 
         [areVisibleCAR]="areVisibleCAR"
-        [support_mode]="support_mode"
+        [supportMode]="supportMode"
         (onBeforeMessageRender)="returnOnBeforeMessageRender($event)"
         (onAfterMessageRender)="returnOnAfterMessageRender($event)" 
         (onImageRendered)="onImageRenderedFN($event)"

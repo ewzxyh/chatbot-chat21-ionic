@@ -1,3 +1,4 @@
+import { HtmlComponent } from './../chatlib/conversation-detail/message/html/html.component';
 import { BubbleOthersMessageComponent } from './../components/conversation-detail/bubble-others-message/bubble-others-message.component';
 
 import { TextComponent } from '../chatlib/conversation-detail/message/text/text.component';
@@ -46,6 +47,7 @@ import { DefaultTooltipOptions } from 'src/chat21-core/utils/utils';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { SafeHtmlPipe } from '../directives/safe-html.pipe';
 
 // import { MessageTextAreaComponent } from '../components/conversation-detail/message-text-area/message-text-area.component'; // MessageTextAreaComponent is part of the declarations ConversationDetailPageModule
 
@@ -75,6 +77,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     InfoMessageComponent,
     ReturnReceiptComponent,
     TextComponent,
+    HtmlComponent,
     BubbleDayMessageComponent,
     BubbleSystemMessageComponent,
     BubbleMyMessageComponent,
@@ -87,6 +90,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MarkedPipe,
     AutofocusDirective,
     HtmlEntitiesEncodePipe,
+    SafeHtmlPipe,
     OptionHeaderComponent
   ],
   exports: [

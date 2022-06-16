@@ -278,6 +278,7 @@ const appInitializerFn = (appConfig: AppConfigProvider, logger: NGXLogger) => {
       serverLogLevel: NgxLoggerLevel.ERROR,
       timestampFormat: 'HH:mm:ss.SSS',
       enableSourceMaps: false,
+      disableFileDetails: true,
       colorScheme: ['purple', 'yellow', 'gray', 'gray', 'red', 'red', 'red'],
       serverLoggingUrl: 'https://tiledesk-server-pre.herokuapp.com/logs'
     }),

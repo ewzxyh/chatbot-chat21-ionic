@@ -1,10 +1,28 @@
 # chat21-ionic ver 3.0
 
+### 3.0.64-rc1
+- Fixes the bug: in the conversation list, for the direct convesations, the name of the requester changes according to the order of arrival of the conversations
+- Displays balloon messages with a light orange background for "internal notes" type message
+- Adds the html component
+- Improves chat performance by caching conversations
+
+### 3.0.63
+- Deploys in production
+
+### 3.0.62.4-rc2
+- Fixed bug: in the modal window showing the image preview before download, the image name is missing
+- Add the ability to display the app sidebar in "wide mode"
+- Displays balloon messages with a light orange background for "internal notes" type message
+- Updates the regex that detects if the message contains only one or more emojis
+
 ### 3.0.62.4-rc1
 - Fixes the bug: when the user profile is updated in the dashboard it is not updated in the chat
 - Fixes the bug: when is sent a message with only emojis, some emojis have the chat balloon background
-- Fixes the bug: in the conversation detail header the requester's avatar does not update after the same has filled in the pre-chat form requested by the bot
+- Fixes the bug: in the conversation detail header  the requester's avatar does not update after the same has filled in the pre-chat form requested by the bot
 - Fixes the bug: images that are not in the database cannot be downloaded
+- Adds default chat color to emojis picker tabs
+- Fixes the bug: the selected conversation is undefined
+- Fixes the bug: in the conversation list, for the support convesations, the name of the requester changes according to the order of arrival of the conversations
 
 ### 3.0.62.3
 - Fixes the bug: the method setTyping fired twice after that a message is sent

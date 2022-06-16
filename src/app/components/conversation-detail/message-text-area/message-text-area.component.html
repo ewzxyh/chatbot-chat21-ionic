@@ -40,7 +40,7 @@
 
       <div class="start-buttons" style="position: absolute;display: flex; top: 2px;">
 
-        <ng-container *ngIf="areVisibleCAR && support_mode === true">
+        <ng-container *ngIf="areVisibleCAR && supportMode">
           <div class="canned-responses-btn-wpr" style="margin-left: -5px;"
             tooltip="{{translationMap?.get('CANNED_RESPONSES')}}" [options]="tooltipOptions" placement="top">
             <ion-button ion-button fill="clear" class="canned-responses-btn" (click)="openCannedResponses()"
@@ -92,8 +92,14 @@
           <!-- https://www.npmjs.com/package/@ctrl/ngx-emoji-mart/v/1.0.6 -->
           <!-- --------------------------------------------------------------------- -->
           <!-- [style]="{ position: 'absolute', bottom: '53px', right: '-246px' }" -->
-          <emoji-mart [showPreview]="false" [perLine]="emojiPerLine" [style.visibility]="showEmojiPicker?'visible':'hidden'"
-            (emojiSelect)="addEmoji($event)"  [ngClass]="{'emoji-mart-desktop': !IS_ON_MOBILE_DEVICE, 'emoji-mart-mobile': IS_ON_MOBILE_DEVICE }">
+          <emoji-mart 
+            [showPreview]="false" 
+            [perLine]="emojiPerLine" 
+            [style.visibility]="showEmojiPicker?'visible':'hidden'"  
+            [include]="emojiiCategories"
+            [color]="emojiColor" 
+            [ngClass]="{'emoji-mart-desktop': !IS_ON_MOBILE_DEVICE, 'emoji-mart-mobile': IS_ON_MOBILE_DEVICE }"
+            (emojiSelect)="addEmoji($event)">
           </emoji-mart>
           <!-- </div> -->
 
@@ -104,7 +110,7 @@
 
 
 
-      <div class="text-message" [ngClass]="{'text-message-no-cr': areVisibleCAR === false || support_mode === false}">
+      <div class="text-message" [ngClass]="{'text-message-no-cr': areVisibleCAR === false || supportMode === false}">
         <ion-textarea id="ion-textarea" #messageTextArea #message_text_area #textArea rows="1"
           [placeholder]="TEXAREA_PLACEHOLDER" autosize="false" auto-grow="true" autofocus="true" [value]=""
           [(ngModel)]="messageString" (ionChange)="ionChange($event);" [disabled]="disableTextarea"

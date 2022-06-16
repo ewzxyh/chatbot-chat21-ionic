@@ -46,7 +46,8 @@
   <ion-content id="conv-details">
     <ion-grid class="grid_content">
       <ion-row class="row_content">
-        <ion-col id="chatArea" [class.mobile]="isMobile" [class.open]="openInfoConversation">
+        <ion-col id="chatArea" [class.mobile]="isMobile" [class.open]="openInfoConversation"
+        [ngClass]="{'chat-area-apps-sidebar-wide': appsidebarIsWide === true}">
 
 
           <ion-row class="row_chat_area" [style.height]="'calc(100% - '+heightMessageTextArea+'px)'">
@@ -121,7 +122,9 @@
                   [channelType]="channelType" 
                   [messages]="messages" 
                   [senderId]="loggedUser.uid"
-                  [baseLocation]="window?.location?.origin" 
+                  [baseLocation]="window?.location?.origin"
+                  [areVisibleCAR]="areVisibleCAR" 
+                  [supportMode]= "supportMode" 
                   [stylesMap]="styleMap"
                   (onBeforeMessageRender)="returnOnBeforeMessageRender($event)"
                   (onAfterMessageRender)="returnOnAfterMessageRender($event)"
@@ -175,7 +178,7 @@
             <app-message-text-area *ngIf="(openInfoConversation === false && isMobile === true) || (openInfoConversation === true && isMobile === false) || (openInfoConversation === false && isMobile === false)"
               [tagsCannedCount]="tagsCannedCount" 
               [areVisibleCAR]="areVisibleCAR" 
-              [support_mode]="support_mode"
+              [supportMode]="supportMode"
               [loggedUser]="loggedUser" 
               [conversationWith]="conversationWith" 
               [tagsCannedFilter]="tagsCannedFilter"
@@ -194,7 +197,8 @@
 
         </ion-col>
 
-        <ion-col id="chat21-info-conversation" [class.mobile]="isMobile" [class.open]="openInfoConversation">
+        <ion-col id="chat21-info-conversation" [class.mobile]="isMobile" [class.open]="openInfoConversation"
+        [ngClass]="{'info-convs-apps-sidebar-wide': appsidebarIsWide === true}">
           <app-info-content 
             [openInfoConversation]="openInfoConversation" 
             [translationMap]="translationMap"

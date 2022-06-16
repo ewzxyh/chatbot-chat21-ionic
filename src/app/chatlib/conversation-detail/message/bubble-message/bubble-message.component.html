@@ -18,13 +18,18 @@
 
     <!-- [width]="getMetadataSize(message.metadata).width" 
     [height]="getMetadataSize(message.metadata).height" -->
-    <chat-image *ngIf="isImage(message)" [metadata]="message.metadata" [width]="message.metadata.width"
-      [height]="message.metadata.height" (onImageRendered)="onImageRenderedFN($event)">
+    <chat-image *ngIf="isImage(message)" 
+      [metadata]="message.metadata" 
+      [width]="message.metadata.width"
+      [height]="message.metadata.height" 
+      (onImageRendered)="onImageRenderedFN($event)">
     </chat-image>
 
     <!-- [width]="getMetadataSize(message.metadata).width"  -->
     <!-- [height]="getMetadataSize(message.metadata).height"> -->
-    <chat-frame *ngIf="isFrame(message)" [metadata]="message.metadata" [width]="message.metadata.width"
+    <chat-frame *ngIf="isFrame(message)" 
+      [metadata]="message.metadata" 
+      [width]="message.metadata.width"
       [height]="message.metadata.height">
     </chat-frame>
 
@@ -42,13 +47,20 @@
         <span> {{message.timestamp | amCalendar }} </span>
       </ng-template> -->
 
-      <chat-text [text]="message?.text" [color]="textColor" [message]="message"
-      [class.chat-text-emoticon]="message?.emoticon"
+      <chat-text *ngIf="message?.type !=='html'"
+        [text]="message?.text" 
+        [color]="textColor" 
+        [message]="message"
+        [class.chat-text-emoticon]="message?.emoticon"
         (onBeforeMessageRender)="returnOnBeforeMessageRender($event)"
         (onAfterMessageRender)="returnOnAfterMessageRender($event)">
       </chat-text>
 
-      <ng-container *ngIf="areVisibleCAR && support_mode === true">
+      <chat-html *ngIf="message?.type==='html'"
+        [htmlText]="message?.text">
+      </chat-html>
+
+      <ng-container *ngIf="areVisibleCAR && supportMode">
         <ion-button shape="round" size="small" class="btn-add-msg-as-canned-response" ion-button fill="clear"
           (click)="presentCreateCannedResponseModal()" tooltip="{{addAsCannedResponseTooltipText}}"
           [options]="tooltipOptions" placement="bottom">

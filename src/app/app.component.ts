@@ -90,6 +90,7 @@ export class AppComponent implements OnInit {
   private setTimeoutSound: any;
   private isTabVisible: boolean = true;
   private tabTitle: string;
+  private setTimeoutConversationsEvent: any;
   private logger: LoggerService = LoggerInstance.getInstance();
   public toastMsgErrorWhileUnsubscribingFromNotifications: string;
   public toastMsgCloseToast: string;
@@ -341,8 +342,6 @@ export class AppComponent implements OnInit {
 
       if (event && event.data && event.data.action && event.data.parameter) {
         if (event.data.action === 'openJoinConversationModal') {
-          // console.log("[APP-COMP] message event action ", event.data.action);
-          // console.log("[APP-COMP] message event parameter ", event.data.parameter);
           this.presentAlertConfirmJoinRequest(event.data.parameter, event.data.calledBy)
         }
       }
@@ -377,7 +376,6 @@ export class AppComponent implements OnInit {
 
   async presentAlertConfirmJoinRequest(requestid, calledby) {
     var iframeWin = <HTMLIFrameElement>document.getElementById("unassigned-convs-iframe")
-    // console.log("[APP-COMP] message event iframeWin ", iframeWin);
 
     const isIFrame = (input: HTMLElement | null): input is HTMLIFrameElement =>
       input !== null && input.tagName === 'IFRAME';
@@ -395,12 +393,10 @@ export class AppComponent implements OnInit {
           role: 'cancel',
           cssClass: 'secondary',
           handler: (blah) => {
-            // console.log('Confirm Cancel: blah', blah);
           }
         }, {
           text: 'Ok',
           handler: () => {
-            // console.log('Confirm Okay');
 
             if (isIFrame(iframeWin) && iframeWin.contentWindow) {
               const msg = { action: "joinConversation", parameter: requestid, calledBy: calledby }
@@ -420,14 +416,12 @@ export class AppComponent implements OnInit {
   signInWithCustomToken(token) {
     // this.isOnline = false;
     this.logger.log('[APP-COMP] SIGNINWITHCUSTOMTOKEN  token', token)
-    this.tiledeskAuthService.signInWithCustomToken(token)
-      .then((user: any) => {
+    this.tiledeskAuthService.signInWithCustomToken(token).then((user: any) => {
         this.logger.log('[APP-COMP] SIGNINWITHCUSTOMTOKEN AUTLOGIN user', user)
         this.messagingAuthService.createCustomToken(token)
-      })
-      .catch(error => {
+    }).catch(error => {
         this.logger.error('[APP-COMP] SIGNINWITHCUSTOMTOKEN error::', error)
-      })
+    })
   }
 
   /** */
@@ -577,16 +571,6 @@ export class AppComponent implements OnInit {
       this.translate.use('en');
     }
 
-    // this.logger.debug('[APP-COMP] navigator.language: ', navigator.language);
-    // let language;
-    // if (navigator.language.indexOf('-') !== -1) {
-    //   language = navigator.language.substring(0, navigator.language.indexOf('-'));
-    // } else if (navigator.language.indexOf('_') !== -1) {
-    //   language = navigator.language.substring(0, navigator.language.indexOf('_'));
-    // } else {
-    //   language = navigator.language;
-    // }
-    // this.translate.use(language);
   }
 
 
@@ -661,7 +645,6 @@ export class AppComponent implements OnInit {
   updateStoredCurrentUser() {
     const storedCurrentUser = this.appStorageService.getItem('currentUser')
     const storedDshbrdUser = localStorage.getItem('user')
-
     this.logger.log('[APP-COMP] updateStoredCurrentUser - stored currentUser', storedCurrentUser)
     this.logger.log('[APP-COMP] updateStoredCurrentUser - stored dshbrdUser', storedDshbrdUser)
     if ((storedCurrentUser && storedCurrentUser !== 'undefined') && (storedDshbrdUser && storedDshbrdUser !== 'undefined')) {
@@ -678,7 +661,6 @@ export class AppComponent implements OnInit {
           this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.color ', currentUser.color)
           this.logger.log('[APP-COMP] updateStoredCurrentUser - dshbrdUser.fillColour ', dshbrdUser.fillColour)
         }
-
         if (currentUser.firstname !== dshbrdUser.firstname) {
           this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.firstname !== dshbrdUser.firstname')
           this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.firstname ', currentUser.firstname)
@@ -689,7 +671,6 @@ export class AppComponent implements OnInit {
           this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.firstname ', currentUser.firstname)
           this.logger.log('[APP-COMP] updateStoredCurrentUser - dshbrdUser.firstname ', dshbrdUser.firstname)
         }
-
         if (currentUser.lastname !== dshbrdUser.lastname) {
           this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.lastname !== dshbrdUser.lastname')
           this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.lastname ', currentUser.lastname)
@@ -700,7 +681,6 @@ export class AppComponent implements OnInit {
           this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.lastname ', currentUser.lastname)
           this.logger.log('[APP-COMP] updateStoredCurrentUser - dshbrdUser.lastname ', dshbrdUser.lastname)
         }
-
         if (currentUser.avatar !== dshbrdUser.fullname_initial) {
           this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.avatar !== dshbrdUser.fullname_initial')
           this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.avatar ', currentUser.avatar)
@@ -711,7 +691,6 @@ export class AppComponent implements OnInit {
           this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.avatar ', currentUser.avatar)
           this.logger.log('[APP-COMP] updateStoredCurrentUser - dshbrdUser.fullname_initial ', dshbrdUser.fullname_initial)
         }
-
         let fullname = ""
         if (dshbrdUser.firstname && !dshbrdUser.lastname) {
           fullname = dshbrdUser.firstname
@@ -719,7 +698,6 @@ export class AppComponent implements OnInit {
           fullname = dshbrdUser.firstname + ' ' + dshbrdUser.lastname
           this.logger.log('[APP-COMP] updateStoredCurrentUser - fullname ', fullname)
         }
-
         if (fullname !== currentUser.fullname) {
           this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.fullname !== dshbrdUser.fullname ')
           this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.fullname  ', fullname)
@@ -730,7 +708,6 @@ export class AppComponent implements OnInit {
           this.logger.log('[APP-COMP] updateStoredCurrentUser - currentUser.fullname  ', fullname)
           this.logger.log('[APP-COMP] updateStoredCurrentUser - dshbrdUser.fullname ', currentUser.fullname)
         }
-
         this.appStorageService.setItem('currentUser', JSON.stringify(currentUser));
         this.tiledeskAuthService.setCurrentUser(currentUser);
       }
@@ -846,13 +823,10 @@ export class AppComponent implements OnInit {
   }
 
   private initAudio() {
-    // console.log('HERE IS initAudio ')
     // SET AUDIO
     const href = window.location.href;
     const hrefArray = href.split('/#/');
     const chatBaseUrl = hrefArray[0]
-    // console.log('initAudio href', href)
-    // console.log('initAudio chatBaseUrl', chatBaseUrl)
 
     this.audio = new Audio();
     this.audio.src = chatBaseUrl + URL_SOUND_LIST_CONVERSATION;
@@ -862,7 +836,6 @@ export class AppComponent implements OnInit {
   private manageTabNotification() {
     if (!this.isTabVisible) {
       // TAB IS HIDDEN --> manage title and SOUND
-      // console.log('HERE IS manageTabNotification ')
       let badgeNewConverstionNumber = this.conversationsHandlerService.countIsNew()
       badgeNewConverstionNumber > 0 ? badgeNewConverstionNumber : badgeNewConverstionNumber = 1
       document.title = "(" + badgeNewConverstionNumber + ") " + this.tabTitle
@@ -881,7 +854,6 @@ export class AppComponent implements OnInit {
   }
 
   soundMessage() {
-    // console.log('HERE IS soundMessage ')
     const that = this;
     // this.audio = new Audio();
     // // this.audio.src = '/assets/sounds/pling.mp3';
@@ -917,11 +889,7 @@ export class AppComponent implements OnInit {
       return;
     }
 
-    this.BSAuthStateChangedSubscriptionRef = this.messagingAuthService.BSAuthStateChanged
-
-      // .pipe(takeUntil(this.unsubscribe$))
-      .pipe(filter((state) => state !== null))
-      .subscribe((state: any) => {
+    this.BSAuthStateChangedSubscriptionRef = this.messagingAuthService.BSAuthStateChanged.pipe(filter((state) => state !== null)).subscribe((state: any) => {
         this.logger.log('initialize FROM [APP-COMP] - [APP-COMP] ***** BSAuthStateChanged  state', state);
 
         if (state && state === AUTH_STATE_ONLINE) {
@@ -950,30 +918,24 @@ export class AppComponent implements OnInit {
 
 
     this.conversationsHandlerService.conversationAdded.subscribe((conversation: ConversationModel) => {
-      // this.logger.log('[APP-COMP] ***** conversationsAdded *****', conversation);
+      this.logger.log('[APP-COMP] ***** conversationsAdded *****', conversation);
       // that.conversationsChanged(conversations);
       if (conversation && conversation.is_new === true) {
         this.manageTabNotification()
+        this.updateConversationsOnStorage()
       }
     });
 
     this.conversationsHandlerService.conversationChanged.subscribe((conversation: ConversationModel) => {
-
       // console.log('[APP-COMP] ***** subscribeConversationChanged conversation: ', conversation);
-      let currentUser = null
-      const storedCurrentUser = this.appStorageService.getItem('currentUser')
-      if (storedCurrentUser && storedCurrentUser !== 'undefined') {
-        currentUser = JSON.parse(storedCurrentUser);
+      if(conversation)  this.updateConversationsOnStorage();
+      const currentUser = this.tiledeskAuthService.getCurrentUser()
+      if (currentUser && currentUser !== null) {
         this.logger.log('[APP-COMP] ***** subscribeConversationChanged currentUser: ', currentUser);
-
-        if (currentUser) {
-          this.logger.log('[APP-COMP] ***** subscribeConversationChanged current_user uid: ', currentUser.uid);
-          if (conversation && conversation.sender !== currentUser.uid) {
-            this.manageTabNotification();
-          }
+        if (conversation && conversation.sender !== currentUser.uid) {
+          this.manageTabNotification();
         }
-      } else {
-        this.logger.error('[APP-COMP] ***** subscribeConversationChanged currentUser nor found in storage  ');
+
       }
     });
   }
@@ -1036,9 +998,8 @@ export class AppComponent implements OnInit {
 
   goOffLine = () => {
     this.logger.log('[APP-COMP] - GO-OFFLINE');
-    const supportmode = this.appConfigProvider.getConfig().supportMode;
-    this.logger.log('[APP-COMP] - GO-OFFINE - supportmode ', supportmode);
-    if (supportmode === true) {
+    this.logger.log('[APP-COMP] - GO-OFFINE - supportmode ', this.SUPPORT_MODE);
+    if (this.SUPPORT_MODE === true) {
       this.webSocketClose()
     }
     // this.isOnline = false;
@@ -1121,6 +1082,7 @@ export class AppComponent implements OnInit {
 
 
     if (hasClickedLogout === true) {
+      this.appStorageService.removeItem('conversations')
       // ----------------------------------------------
       // PUSH NOTIFICATIONS
       // ----------------------------------------------
@@ -1227,14 +1189,13 @@ export class AppComponent implements OnInit {
     this.logger.log('[APP-COMP] initConversationsHandler ------------->', userId, this.tenant);
     // 1 - init chatConversationsHandler and  archviedConversationsHandler
     this.conversationsHandlerService.initialize(this.tenant, userId, translationMap);
-
     // this.subscribeToConvs()
-    this.conversationsHandlerService.subscribeToConversations(() => {
-      this.logger.log('[APP-COMP] - CONVS - INIT CONV')
-
+    const lastTimestamp = this.manageStoredConversations()
+    this.logger.log('[APP-COMP] initConversationsHandler: get lastTimestamp', lastTimestamp)
+    this.conversationsHandlerService.subscribeToConversations(lastTimestamp, () => {
+      // this.logger.log('[APP-COMP] - CONVS - INIT CONV')
       const conversations = this.conversationsHandlerService.conversations;
       this.logger.info('initialize FROM [APP-COMP] - [APP-COMP]-CONVS - INIT CONV CONVS', conversations)
-
       // this.logger.printDebug('SubscribeToConversations (convs-list-page) - conversations')
       if (!conversations || conversations.length === 0) {
         // that.showPlaceholder = true;
@@ -1244,6 +1205,31 @@ export class AppComponent implements OnInit {
     });
 
   }
+
+  // START: manage conversations on firebase upon last timestamp from stored conversations
+  private manageStoredConversations(): number {
+    let timestamp = 0
+    if(this.appStorageService.getItem('conversations')){
+      const conversationsStored = JSON.parse(this.appStorageService.getItem('conversations'))
+      if(conversationsStored && conversationsStored.length > 0) {
+        this.conversationsHandlerService.conversations = conversationsStored
+        timestamp = conversationsStored[0].timestamp
+        this.events.publish('appcompSubscribeToConvs:loadingIsActive', false);
+      }
+    }
+    return timestamp
+  }
+
+  private updateConversationsOnStorage(){
+    const that = this
+    //reset timer and save conversation on storage after 2s
+    clearTimeout(this.setTimeoutConversationsEvent);
+    this.setTimeoutConversationsEvent = setTimeout(() => {
+      this.logger.debug('[APP-COMP] updateConversationsOnStorage: reset timer and save conversations -> ', this.conversationsHandlerService.conversations.length)
+      that.appStorageService.setItem('conversations', JSON.stringify(this.conversationsHandlerService.conversations))
+    }, 2000);
+  }
+  // END: manage conversations on firebase upon last timestamp from stored conversations
 
   private initArchivedConversationsHandler(userId: string) {
     const keys = ['YOU'];

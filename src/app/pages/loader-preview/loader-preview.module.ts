@@ -7,7 +7,6 @@ import { LoaderPreviewPage } from './loader-preview.page';
 import { TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import { createTranslateLoader } from '../../../chat21-core/utils/utils';
 import { HttpClient } from '@angular/common/http';
-import { SafeHtmlPipe } from 'src/app/directives/safe-html.pipe';
 
 
 @NgModule({
@@ -24,6 +23,6 @@ import { SafeHtmlPipe } from 'src/app/directives/safe-html.pipe';
       }
     })
   ],
-  declarations: [LoaderPreviewPage, SafeHtmlPipe]
+  declarations: [LoaderPreviewPage]
 })
 export class LoaderPreviewPageModule {}

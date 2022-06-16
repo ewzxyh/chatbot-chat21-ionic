@@ -156,10 +156,18 @@ export class LoginPage implements OnInit {
   }
 
   updateStoredCurrentUser() {
-    const currentUser = JSON.parse(this.appStorageService.getItem('currentUser'));
-    console.log('[LOGIN PAGE] updateStoredCurrentUser - currentUser' , currentUser)
-    const dshbrdUser = JSON.parse(localStorage.getItem('user'));
-    console.log('[LOGIN PAGE] updateStoredCurrentUser - dshbrdUser' , dshbrdUser)
+    const storedCurrentUser = this.appStorageService.getItem('currentUser')
+    const storedDshbrdUser = localStorage.getItem('user')
+    
+    if (storedCurrentUser && storedCurrentUser !== 'undefined') {
+      const currentUser = JSON.parse(storedCurrentUser);
+      // console.log('[LOGIN PAGE] updateStoredCurrentUser - currentUser' , currentUser)
+    }
+
+    if  (storedDshbrdUser && storedDshbrdUser !== 'undefined') {
+      const dshbrdUser = JSON.parse(localStorage.getItem('user'));
+      // console.log('[LOGIN PAGE] updateStoredCurrentUser - dshbrdUser' , dshbrdUser)
+   }
   }
 
   async presentToast(errormsg: string) {

@@ -46,7 +46,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
   @Input() tagsCannedFilter: any = [];
   @Input() tagsCannedCount: number;
   @Input() areVisibleCAR: boolean;
-  @Input() support_mode: boolean;
+  @Input() supportMode: boolean;
   @Input() events: Observable<void>;
   @Input() fileUploadAccept: string
   @Input() isOpenInfoConversation: boolean;
@@ -87,6 +87,8 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
   showEmojiPicker: boolean = false; //To show/hide emoji picker
   addWhiteSpaceBefore: boolean;
   emojiPerLine: number = 9
+  emojiColor: string ="#3880ff"
+  emojiiCategories = [ 'recent', 'people', 'nature', 'activity']
   /**
    * Constructor
    * @param chooser 
@@ -155,7 +157,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
     } else {
       this.IS_SUPPORT_GROUP_CONVERSATION = false
     }
-    this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] ngOnChanges support_mode ', this.support_mode)
+    this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] ngOnChanges supportMode ', this.supportMode)
     this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] ngOnChanges disableTextarea ', this.disableTextarea)
     this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngOnChanges DROP EVENT ", this.dropEvent);
     this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngOnChanges tagsCannedFilter ", this.tagsCannedFilter);
