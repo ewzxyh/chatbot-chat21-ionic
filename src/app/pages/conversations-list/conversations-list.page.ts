@@ -138,25 +138,14 @@ export class ConversationListPage implements OnInit {
         this.setUidConvSelected(IDConv, 'active')
       }
       if (!IDConv) {
-        this.logger.log(
-          '[CONVS-LIST-PAGE] - listen To convid:haschanged - is the page without conv select',
-        )
+        this.logger.log('[CONVS-LIST-PAGE] - listen To convid:haschanged - is the page without conv select',)
 
         const chatTabCount = +localStorage.getItem('tabCount')
-        this.logger.log(
-          '[CONVS-LIST-PAGE] - listen To convid:haschanged - chatTabCount ',
-          chatTabCount,
-        )
+        this.logger.log('[CONVS-LIST-PAGE] - listen To convid:haschanged - chatTabCount ',chatTabCount,)
         if (chatTabCount && chatTabCount > 0) {
-          this.logger.log(
-            '[CONVS-LIST-PAGE] - listen To convid:haschanged - the chat is already open ',
-            chatTabCount,
-          )
+          this.logger.log('[CONVS-LIST-PAGE] - listen To convid:haschanged - the chat is already open ',chatTabCount)
           if (checkPlatformIsMobile()) {
-            this.logger.log(
-              '[CONVS-LIST-PAGE] - the chat is in mobile mode ',
-              checkPlatformIsMobile(),
-            )
+            this.logger.log('[CONVS-LIST-PAGE] - the chat is in mobile mode ',checkPlatformIsMobile())
             this.events.publish('noparams:mobile', true)
           }
         }
@@ -179,46 +168,6 @@ export class ConversationListPage implements OnInit {
   ngOnInit() {
     this.watchToConnectionStatus()
     this.getAppConfigToHideDiplayBtns()
-
-    // const currentUrl = this.router.url;
-    // this.logger.log('[CONVS-LIST-PAGE] current_url ngOnInit ', currentUrl);
-    // this.route.queryParams.subscribe(params => {
-    //   this.logger.log('[CONVS-LIST-PAGE] ngOnInit params', params);
-    //   if (params && params.convId) {
-    //     console.log('[CONVS-LIST-PAGE] ngOnInit params convId:', params.convId);
-
-    //     const conversationSelected = this.conversations.find(item => item.uid === params.convId);
-    //     if (conversationSelected) {
-    //       this.conversationSelected = conversationSelected;
-    //       console.log('[CONVS-LIST-PAGE] ngOnInit params convselected - conversationSelected: ', this.conversationSelected);
-    //       setTimeout(() => {
-    //         // this.navigateByUrl('active', params.convId)
-    //       }, 0);
-    //     }
-
-    //   } else {
-    //     console.log('[CONVS-LIST-PAGE] ngOnInit params No convId Params ');
-    //   }
-    //   if (params && params.contact_id && params.contact_fullname) {
-    //     this.logger.log('[CONVS-LIST-PAGE] ngOnInit params contact_id:', params.contact_id, 'contact_fullname ', params.contact_fullname);
-    //     setTimeout(() => {
-    //       this.router.navigateByUrl('conversation-detail/' + params.contact_id + '/' + params.contact_fullname + '/new');
-    //     }, 0);
-    //     this.uidConvSelected = params.contact_id
-    //   } else {
-    //     this.logger.log('[CONVS-LIST-PAGE] ngOnInit params No contact_id and contact_fullname Params ');
-    //   }
-
-    //   if (params && params.conversation_detail) {
-    //     this.logger.log('[CONVS-LIST-PAGE] ngOnInit params conversation_detail:', params.conversation_detail);
-    //     setTimeout(() => {
-    //       this.router.navigateByUrl('conversation-detail/');
-    //     }, 0);
-    //   } else {
-    //     this.logger.log('[CONVS-LIST-PAGE] ngOnInit params No conversation_detail Params ');
-    //   }
-
-    // });
   }
 
   ngOnChanges() {
@@ -901,29 +850,18 @@ export class ConversationListPage implements OnInit {
       this.logger.log('[CONVS-LIST-PAGE] onCloseConversation conversationId: ', conversationId)
 
       const conversationWith_segments = conversationId.split('-')
-      this.logger.log(
-        '[CONVS-LIST-PAGE] - conversationId_segments: ',
-        conversationWith_segments,
-      )
+      this.logger.log('[CONVS-LIST-PAGE] - conversationId_segments: ',conversationWith_segments)
 
       // Removes the last element of the array if is = to the separator
-      if (
-        conversationWith_segments[conversationWith_segments.length - 1] === ''
-      ) {
+      if (conversationWith_segments[conversationWith_segments.length - 1] === '') {
         conversationWith_segments.pop()
       }
 
       if (conversationWith_segments.length === 4) {
         const lastArrayElement =
           conversationWith_segments[conversationWith_segments.length - 1]
-        this.logger.log(
-          '[CONVS-LIST-PAGE] - lastArrayElement ',
-          lastArrayElement,
-        )
-        this.logger.log(
-          '[CONVS-LIST-PAGE] - lastArrayElement length',
-          lastArrayElement.length,
-        )
+        this.logger.log('[CONVS-LIST-PAGE] - lastArrayElement ',lastArrayElement)
+        this.logger.log('[CONVS-LIST-PAGE] - lastArrayElement length',lastArrayElement.length)
         if (lastArrayElement.length !== 32) {
           conversationWith_segments.pop()
         }
@@ -935,11 +873,7 @@ export class ConversationListPage implements OnInit {
           project_id = conversationWith_segments[2]
 
           const tiledeskToken = this.tiledeskAuthService.getTiledeskToken()
-          this.archiveSupportGroupConv(
-            tiledeskToken,
-            project_id,
-            conversationId,
-          )
+          this.archiveSupportGroupConv(tiledeskToken,project_id,conversationId,)
         } else {
           this.getProjectIdByConversationWith(conversationId)
         }
@@ -952,89 +886,40 @@ export class ConversationListPage implements OnInit {
   getProjectIdByConversationWith(conversationId: string) {
     const tiledeskToken = this.tiledeskAuthService.getTiledeskToken()
 
-    this.tiledeskService
-      .getProjectIdByConvRecipient(tiledeskToken, conversationId)
-      .subscribe(
-        (res) => {
-          this.logger.log(
-            '[CONVS-LIST-PAGE] - GET PROJECTID BY CONV RECIPIENT RES',
-            res,
-          )
+    this.tiledeskService.getProjectIdByConvRecipient(tiledeskToken, conversationId).subscribe((res) => {
+          this.logger.log('[CONVS-LIST-PAGE] - GET PROJECTID BY CONV RECIPIENT RES',res)
 
           if (res) {
             const project_id = res.id_project
-            this.logger.log(
-              '[INFO-CONTENT-COMP] - GET PROJECTID BY CONV RECIPIENT  project_id',
-              project_id,
-            )
-            this.archiveSupportGroupConv(
-              tiledeskToken,
-              project_id,
-              conversationId,
-            )
+            this.logger.log('[INFO-CONTENT-COMP] - GET PROJECTID BY CONV RECIPIENT  project_id',project_id)
+            this.archiveSupportGroupConv(tiledeskToken,project_id,conversationId)
           }
-        },
-        (error) => {
-          this.logger.error(
-            '[CONVS-LIST-PAGE] - GET PROJECTID BY CONV RECIPIENT - ERROR  ',
-            error,
-          )
-        },
-        () => {
-          this.logger.log(
-            '[CONVS-LIST-PAGE] - GET PROJECTID BY CONV RECIPIENT * COMPLETE *',
-          )
-        },
-      )
+    },(error) => {
+          this.logger.error('[CONVS-LIST-PAGE] - GET PROJECTID BY CONV RECIPIENT - ERROR  ',error)
+    },() => {
+          this.logger.log('[CONVS-LIST-PAGE] - GET PROJECTID BY CONV RECIPIENT * COMPLETE *')
+    })
   }
 
   archiveSupportGroupConv(tiledeskToken, project_id, conversationId) {
-    this.logger.log(
-      '[CONVS-LIST-PAGE] - onCloseConversation projectId: ',
-      project_id,
-    )
-    this.tiledeskService
-      .closeSupportGroup(tiledeskToken, project_id, conversationId)
-      .subscribe(
-        (res) => {
-          this.archiveActionNotAllowed = false
-          this.logger.log(
-            '[CONVS-LIST-PAGE] - onCloseConversation closeSupportGroup RES',
-            res,
-          )
-        },
-        (error) => {
-          this.logger.error(
-            '[CONVS-LIST-PAGE] - onCloseConversation closeSupportGroup - ERROR  ',
-            error,
-          )
-          this.logger.error(
-            '[CONVS-LIST-PAGE] - onCloseConversation closeSupportGroup - ERROR  error.error.msg ',
-            error.error.msg,
-          )
-          this.logger.error(
-            '[CONVS-LIST-PAGE] - onCloseConversation closeSupportGroup - ERROR  error.status ',
-            error.status,
-          )
-          if (error.error.msg === 'you dont belong to the project.') {
-            this.archiveActionNotAllowed = true
-          }
-        },
-        () => {
-          this.logger.log(
-            '[CONVS-LIST-PAGE] - onCloseConversation closeSupportGroup * COMPLETE *',
-          )
-          this.logger.log(
-            '[CONVS-LIST-PAGE] - onCloseConversation (closeSupportGroup) CONVS ',
-            this.conversations,
-          )
-          this.logger.log(
-            '[CONVS-LIST-PAGE] - onCloseConversation (closeSupportGroup) CONVS LENGHT ',
-            this.conversations.length,
-          )
-          this.events.publish('conversationhasbeenclosed', conversationId)
-        },
-      )
+    this.logger.log('[CONVS-LIST-PAGE] - onCloseConversation projectId: ',project_id)
+    this.tiledeskService.closeSupportGroup(tiledeskToken, project_id, conversationId).subscribe((res) => {
+      this.archiveActionNotAllowed = false
+      this.logger.log('[CONVS-LIST-PAGE] - onCloseConversation closeSupportGroup RES',res)
+    },(error) => {
+      this.logger.error('[CONVS-LIST-PAGE] - onCloseConversation closeSupportGroup - ERROR  ',error)
+      this.logger.error('[CONVS-LIST-PAGE] - onCloseConversation closeSupportGroup - ERROR  error.error.msg ',error.error.msg)
+      this.logger.error('[CONVS-LIST-PAGE] - onCloseConversation closeSupportGroup - ERROR  error.status ',error.status)
+      if (error.error.msg === 'you dont belong to the project.') {
+        this.archiveActionNotAllowed = true
+      }
+    },() => {
+      this.logger.log('[CONVS-LIST-PAGE] - onCloseConversation closeSupportGroup * COMPLETE *')
+      this.logger.log('[CONVS-LIST-PAGE] - onCloseConversation (closeSupportGroup) CONVS ',this.conversations)
+      this.logger.log('[CONVS-LIST-PAGE] - onCloseConversation (closeSupportGroup) CONVS LENGHT ',this.conversations.length)
+      this.events.publish('conversationhasbeenclosed', conversationId)
+      this.navigateByUrl('archived', conversationId)
+    })
   }
 
   onCloseAlert($event) {
