@@ -59,7 +59,6 @@ export class ListConversationsComponent implements OnInit {
   public openConversationByID(conversation) {
     this.logger.log('[LISTCONVERSATIONS-W] openConversationByID: ', conversation);
     if (conversation) {
-      this.logger.log(conversation.recipient_fullname)
       // this.conversationsService.updateIsNew(conversation);
       // this.conversationsService.updateConversationBadge();
       this.uidConvSelected = conversation.uid
