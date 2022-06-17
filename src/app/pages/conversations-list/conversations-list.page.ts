@@ -452,8 +452,8 @@ export class ConversationListPage implements OnInit {
   }
 
   listenToLogoutEvent() {
-    this.events.subscribe( 'profileInfoButtonClick:logout', (hasclickedlogout) => {
-        this.logger.info( '[CONVS-LIST-PAGE] - listenToLogoutEvent - hasclickedlogout',hasclickedlogout)
+    this.events.subscribe('profileInfoButtonClick:logout', (hasclickedlogout) => {
+        this.logger.info('[CONVS-LIST-PAGE] - listenToLogoutEvent - hasclickedlogout',hasclickedlogout)
 
         this.conversations = []
         this.conversationsHandlerService.conversations = []
@@ -497,50 +497,36 @@ export class ConversationListPage implements OnInit {
     //   this.readAllMessages(conversationId);
     // });
 
-    this.conversationsHandlerService.conversationAdded.subscribe(
-      (conversation: ConversationModel) => {
+    this.conversationsHandlerService.conversationAdded.subscribe((conversation: ConversationModel) => {
         // this.logger.log('[CONVS-LIST-PAGE] ***** conversationsAdded *****', conversation);
         // that.conversationsChanged(conversations);
         if (conversation) {
           this.onImageLoaded(conversation)
           this.onConversationLoaded(conversation)
         }
-      },
-    )
+    })
 
-    this.conversationsHandlerService.conversationChanged.subscribe(
-      (conversation: ConversationModel) => {
+    this.conversationsHandlerService.conversationChanged.subscribe((conversation: ConversationModel) => {
         // this.logger.log('[CONVS-LIST-PAGE] ***** subscribeConversationChanged *****', conversation);
         // that.conversationsChanged(conversations)
         if (conversation) {
           this.onImageLoaded(conversation)
           this.onConversationLoaded(conversation)
         }
-      },
-    )
+    })
 
-    this.conversationsHandlerService.conversationRemoved.subscribe(
-      (conversation: ConversationModel) => {
-        this.logger.log(
-          '[CONVS-LIST-PAGE] ***** conversationsRemoved *****',
-          conversation,
-        )
-      },
-    )
+    this.conversationsHandlerService.conversationRemoved.subscribe((conversation: ConversationModel) => {
+        this.logger.log('[CONVS-LIST-PAGE] ***** conversationsRemoved *****',conversation)
+    })
 
-    this.archivedConversationsHandlerService.archivedConversationAdded.subscribe(
-      (conversation: ConversationModel) => {
-        this.logger.log(
-          '[CONVS-LIST-PAGE] ***** archivedConversationAdded *****',
-          conversation,
-        )
+    this.archivedConversationsHandlerService.archivedConversationAdded.subscribe((conversation: ConversationModel) => {
+        this.logger.log('[CONVS-LIST-PAGE] ***** archivedConversationAdded *****',conversation)
         // that.conversationsChanged(conversations);
         if (conversation) {
           this.onImageLoaded(conversation)
           this.onConversationLoaded(conversation)
         }
-      },
-    )
+    })
   }
 
   // ------------------------------------------------------------------------------------
