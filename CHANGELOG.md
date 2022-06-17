@@ -1,5 +1,16 @@
 # chat21-ionic ver 3.0
 
+### 3.0.65-rc.1 - LATEST
+- added: improves chat performance by caching conversations
+- added: Displays balloon messages with a light orange background for "internal notes" type message
+- added: the html component
+- bug-fixed: if archive conversation and do a refresh, url not change from active to archived
+- bug-fixed: truncate sender_fullname in conversation-list and conversation-detail header components
+- bug-fixed: on conversation removed, update local conversations on storage	
+
+### 3.0.64 IN PROD
+- Fixes the bug: in the conversation list, for the direct convesations, the name of the requester changes according to the order of arrival of the conversations
+
 ### 3.0.64-rc1
 - Fixes the bug: in the conversation list, for the direct convesations, the name of the requester changes according to the order of arrival of the conversations
 - Displays balloon messages with a light orange background for "internal notes" type message
