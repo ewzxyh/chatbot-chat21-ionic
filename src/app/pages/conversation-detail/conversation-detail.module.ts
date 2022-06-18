@@ -1,3 +1,4 @@
+import { TruncatePipe } from './../../directives/truncate.pipe';
 import { IonConversationDetailComponent } from '../../chatlib/conversation-detail/ion-conversation-detail/ion-conversation-detail.component';
 import { TooltipModule } from 'ng2-tooltip-directive';
 import { NgModule } from '@angular/core';
@@ -32,7 +33,6 @@ import { InfoGroupComponent } from 'src/app/components/conversation-info/info-gr
 
 
 import { SharedModule } from 'src/app/shared/shared.module';
-// import { SharedConversationInfoModule } from 'src/app/shared/shared-conversation-info.module';
 import { NgxLinkifyjsModule } from 'ngx-linkifyjs';
 import { ScrollbarThemeModule } from '../../utils/scrollbar-theme.directive';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
@@ -62,7 +62,7 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
   declarations: [
     ConversationDetailPage,
     HeaderConversationDetailComponent,
-    MessageTextAreaComponent
+    MessageTextAreaComponent,
     // BubbleDayMessageComponent,
     // BubbleSystemMessageComponent,
     // BubbleMyMessageComponent,
@@ -71,6 +71,7 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
     // InfoSupportGroupComponent,
     // InfoDirectComponent,
     // InfoGroupComponent,
+    TruncatePipe
   ]
 })
 export class ConversationDetailPageModule {}

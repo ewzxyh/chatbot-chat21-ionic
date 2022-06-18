@@ -935,8 +935,13 @@ export class AppComponent implements OnInit {
         if (conversation && conversation.sender !== currentUser.uid) {
           this.manageTabNotification();
         }
-
       }
+    });
+
+    this.conversationsHandlerService.conversationRemoved.subscribe((conversation: ConversationModel) => {
+      this.logger.log('[APP-COMP] ***** conversationRemoved *****', conversation);
+      // that.conversationsChanged(conversations);
+      if(conversation)  this.updateConversationsOnStorage();
     });
   }
 

@@ -32,7 +32,7 @@
       <!-- (click)="onOpenCloseInfoConversation()" -->
       <div *ngIf="conversationAvatar" class="tile-info-with" 
         [ngClass]="{ 'tile-info-with-ios': platformName === 'ios' }">
-        <span class="tile-username">{{ conversationAvatar.conversation_with_fullname }} </span>
+        <span class="tile-username">{{ conversationAvatar.conversation_with_fullname | truncate:50 }} </span>
         <!-- <span class="tile-username">{{ conversation_with_fullname }} </span> -->
 
       </div>

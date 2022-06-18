@@ -4,6 +4,25 @@ ion-header {
     border-bottom-style: solid;
     border-color: var(--light-gray);
     border-bottom-width: thin;
+    ion-toolbar{
+        height: 60px;
+        .flex-container{
+            display: flex;
+        }
+
+        .back-flex-container{
+            flex: 0 1 auto;
+            order: 0;
+        }
+        .user-info-flex-container{
+            flex: 0 1 auto;
+            order: 1;
+        }
+        .resolve-flex-container{
+            flex: 0 1 auto;
+            order: 2;
+        }
+    }
     ion-title {
         text-align: left;
         height: 40px;
