@@ -648,16 +648,15 @@ export class ConversationListPage implements OnInit {
       let conversationSelected
       if (conversationType === 'active') {
         conversationSelected = this.conversations.find((item) => item.uid === this.uidConvSelected)
-        this.conversationsHandlerService.uidConvSelected = conversationSelected.uid
       } else if (conversationType === 'archived') { 
-        conversationSelected = this.archivedConversations.find((item) => item.uid === this.uidConvSelected) 
-        this.archivedConversationsHandlerService.uidConvSelected = conversationSelected.uid
+        conversationSelected = this.archivedConversations.find((item) => item.uid === this.uidConvSelected)
       }
       if (conversationSelected) {
         this.logger.log('[CONVS-LIST-PAGE] conversationSelected', conversationSelected)
         this.logger.log('[CONVS-LIST-PAGE] the conversation ', this.conversationSelected, ' has already been loaded')
         this.conversationSelected = conversationSelected
         this.logger.log('[CONVS-LIST-PAGE] setUidConvSelected: ', this.conversationSelected)
+        conversationType === 'active'? this.conversationsHandlerService.uidConvSelected = conversationSelected.uid : this.archivedConversationsHandlerService.uidConvSelected = conversationSelected.uid
       }
     }
   }
@@ -922,7 +921,9 @@ export class ConversationListPage implements OnInit {
       this.logger.log('[CONVS-LIST-PAGE] - onCloseConversation (closeSupportGroup) CONVS ',this.conversations)
       this.logger.log('[CONVS-LIST-PAGE] - onCloseConversation (closeSupportGroup) CONVS LENGHT ',this.conversations.length)
       this.events.publish('conversationhasbeenclosed', conversationId)
-      this.navigateByUrl('archived', conversationId)
+      if(conversationId === this.uidConvSelected){
+        this.navigateByUrl('archived', conversationId)
+      }
     })
   }
 

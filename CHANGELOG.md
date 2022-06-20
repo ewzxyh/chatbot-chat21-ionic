@@ -1,5 +1,10 @@
 # chat21-ionic ver 3.0
 
+### 3.0.65-rc3 - LATEST
+- changed: retrive conversations with 'onces' fireabase event and remove lastTimestamp from added, changed and removed fireabase subscriptions event
+- bug-fixed: conversation not archived due to conversation_removed unhandled event
+- bug-fixed: if removed conversation.uid is the selected ones, change url from /active to /archived with navigateByUrl after archivedConversation is completed
+
 
 ### 3.0.65-rc2 - LATEST
 - changed: behaviour of is_new of a conversation (not update 'is_new' conversation property if conv is the selected one or if sender is me)
