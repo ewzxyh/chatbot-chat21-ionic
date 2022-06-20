@@ -41,7 +41,7 @@ export class IonListConversationsComponent extends ListConversationsComponent im
   public alert_lbl: string;
   public actionNotAllowed_lbl: string;
   public youAreNoLongerAmongTheTeammatesManagingThisConversation_lbl: string;
-public ok_lbl: string;
+  public ok_lbl: string;
 
   tooltip_options = {
     'show-delay': 0,
@@ -119,35 +119,22 @@ public ok_lbl: string;
 
 
   translateLbls() {
-    this.translate.get('Resolve')
-      .subscribe((text: string) => {
-        this.resolve_btn_tooltip = text;
-      });
-
-    this.translate.get('Archive')
-      .subscribe((text: string) => {
-        this.archive_btn_tooltip = text;
-      });
-
-    this.translate.get('ALERT_TITLE')
-      .subscribe((text: string) => {
-        this.alert_lbl = text;
-      });
-
-      this.translate.get('ActionNotAllowed')
-      .subscribe((text: string) => {
-        this.actionNotAllowed_lbl = text;
-      });
-
-      this.translate.get('YouAreNoLongerAmongTheTeammatesManagingThisConversation')
-      .subscribe((text: string) => {
-        this.youAreNoLongerAmongTheTeammatesManagingThisConversation_lbl = text;
-      });
-
-      this.translate.get('CLOSE_ALERT_CONFIRM_LABEL')
-      .subscribe((text: string) => {
-        this.ok_lbl = text;
-      });
+    const translationKeys = [
+      'Resolve',
+      'Archive',
+      'ALERT_TITLE',
+      'ActionNotAllowed',
+      'CLOSE_ALERT_CONFIRM_LABEL',
+      'YouAreNoLongerAmongTheTeammatesManagingThisConversation'
+    ]
+    this.translate.get(['Resolve', 'Archive', 'ALERT_TITLE']).subscribe((translations: string) => {
+        this.resolve_btn_tooltip = translations['Resolve'];
+        this.archive_btn_tooltip = translations['Archive'];
+        this.alert_lbl = translations['ALERT_TITLE']
+        this.actionNotAllowed_lbl = translations['ActionNotAllowed']
+        this.ok_lbl = translations['CLOSE_ALERT_CONFIRM_LABEL']
+        this.youAreNoLongerAmongTheTeammatesManagingThisConversation_lbl = translations['YouAreNoLongerAmongTheTeammatesManagingThisConversation']
+    });
   }
 
   setMomentLocale() {
@@ -227,6 +214,7 @@ public ok_lbl: string;
     var conversationId = conversation.uid;
     this.logger.log('[ION-LIST-CONVS-COMP] - closeConversation - conversationId ', conversationId)
     this.onCloseConversation.emit(conversation)
+    let currentIndex = this.listConversations.findIndex(conv => conv.uid === conversation.uid)
   }
 
 

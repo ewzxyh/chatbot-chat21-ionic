@@ -76,7 +76,7 @@
 
 
 <ion-item button="true" lines="none" class="ion-no-padding" [class.ion-selected]="conversation?.uid === uidConvSelected"
-  *ngFor="let conversation of listConversations" (click)="openConversationByID(conversation)" detail=false>
+  *ngFor="let conversation of listConversations; let index= index" (click)="openConversationByID(conversation)" detail=false>
   <div tabindex="0"></div>
 
   <!-- <div [class.selected]="conversation.uid === uidConvSelected"></div> -->
