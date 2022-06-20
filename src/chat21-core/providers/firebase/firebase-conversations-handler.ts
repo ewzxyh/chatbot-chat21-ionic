@@ -120,17 +120,19 @@ export class FirebaseConversationsHandler extends ConversationsHandlerService {
         this.logger.debug('[FIREBASEConversationsHandlerSERVICE] SubscribeToConversations conversations::ACTIVE urlNodeFirebase', urlNodeFirebase)
         this.ref = firebase.database().ref(urlNodeFirebase).orderByChild('timestamp').limitToLast(200);
         
-        // this.ref.once('value').then(snapshot => {
-        //     snapshot.forEach(childSnapshot => {
-        //         const childData: ConversationModel = childSnapshot.val();
-        //         childData.uid = childSnapshot.key
-        //         that.added(childData)
-        //         lastConversationTimestamp = childData.timestamp
-        //     });
+        this.ref.once('value').then(snapshot => {
+            snapshot.forEach(childSnapshot => {
+                // const childData: ConversationModel = childSnapshot.val();
+                // childData.uid = childSnapshot.key
+                // that.added(childData)
+                // lastConversationTimestamp = childData.timestamp
+                that.added(childSnapshot)
+            });
             
-        //     callback(that.conversations)
-        //     return lastConversationTimestamp
-        // }).then((timestamp)=> {
+            callback(that.conversations)
+            return lastConversationTimestamp
+        })
+        //.then((timestamp)=> {
         //     console.log('timestampppppp',timestamp)
         //     this.ref.startAt(timestamp).on('child_changed', (childSnapshot) => {
         //         const conv: ConversationModel = childSnapshot.val();
@@ -158,21 +160,21 @@ export class FirebaseConversationsHandler extends ConversationsHandlerService {
         //         callback(this.conversations)
         //     }
         // })
-        this.ref.startAt(lastConversationTimestamp).on('child_changed', (childSnapshot) => {
+        this.ref.on('child_changed', (childSnapshot) => {
             that.changed(childSnapshot);
         });
-        this.ref.startAt(lastConversationTimestamp).on('child_removed', (childSnapshot) => {
+        this.ref.on('child_removed', (childSnapshot) => {
             that.removed(childSnapshot);
         });
-        this.ref.startAt(lastConversationTimestamp).on('child_added', (childSnapshot) => {
+        this.ref.on('child_added', (childSnapshot) => {
             that.added(childSnapshot);
         });
 
         
 
-        setTimeout(() => {
-            callback()
-        }, 2000);
+        // setTimeout(() => {
+        //     callback()
+        // }, 2000);
         // SET AUDIO
         // this.audio = new Audio();
         // this.audio.src = URL_SOUND;
