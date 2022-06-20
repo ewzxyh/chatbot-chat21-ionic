@@ -532,10 +532,15 @@ export class FirebaseConversationsHandler extends ConversationsHandlerService {
                 this.translateInfoSupportMessages(conv);
             }
         }
-
+        /** START: UPDATE CONVERSATIONS is_new IF conv is selected or sender is me */
         if(conv.uid === this.uidConvSelected){
             conv.is_new = false
         }
+        if(conv.sender === this.loggedUserId){
+            conv.is_new = false
+        }
+        /** END: UPDATE CONVERSATIONS is_new IF conv is selected or sender is me */
+
         // Fixes the bug: if a snippet of code is pasted and sent it is not displayed correctly in the convesations list
         // conv.time_last_message = this.getTimeLastMessage(conv.timestamp);
         conv.conversation_with = conversation_with;
