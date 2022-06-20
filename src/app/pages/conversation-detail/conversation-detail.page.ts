@@ -934,7 +934,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     subscriptionKey = 'messageAdded'
     subscription = this.subscriptions.find((item) => item.key === subscriptionKey)
     if (!subscription) {
-      this.logger.log('[CONVS-DETAIL] subscribe to messageAdded - conversationHandlerService', this.conversationHandlerService)
       subscription = this.conversationHandlerService.messageAdded.subscribe((msg: any) => {
         this.logger.log('[CONVS-DETAIL] subscribe to messageAdded - msg ', msg)
         if (msg) {
@@ -950,7 +949,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     subscriptionKey = 'messageChanged'
     subscription = this.subscriptions.find((item) => item.key === subscriptionKey)
     if (!subscription) {
-      this.logger.log('[CONVS-DETAIL] subscribe to messageChanged')
       subscription = this.conversationHandlerService.messageChanged.subscribe((msg: any) => {
         this.logger.log('[CONVS-DETAIL] subscribe to messageChanged - msg ', msg)
       })
@@ -961,7 +959,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     subscriptionKey = 'messageRemoved'
     subscription = this.subscriptions.find((item) => item.key === subscriptionKey)
     if (!subscription) {
-      this.logger.log('[CONVS-DETAIL] subscribe to messageRemoved')
       subscription = this.conversationHandlerService.messageRemoved.subscribe((messageId: any) => {
         this.logger.log('[CONVS-DETAIL] subscribe to messageRemoved - messageId ', messageId)
       })
@@ -1186,26 +1183,15 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
                 this.logger.log('[CONVS-DETAIL] - returnChangeTextArea  --> beforeSlash parts', beforeSlashParts)
 
                 if (beforeSlashParts.length === 2) {
-                  if (
-                    beforeSlashParts[0].indexOf(' ') >= 0 &&
-                    afterSlashParts[0] === ''
-                  ) {
+                  if (beforeSlashParts[0].indexOf(' ') >= 0 && afterSlashParts[0] === '') {
                     this.HIDE_CANNED_RESPONSES = false
-                    this.logger.log(
-                      '[CONVS-DETAIL] - returnChangeTextArea  --> beforeSlash there is a white space After Not',
-                    )
+                    this.logger.log('[CONVS-DETAIL] - returnChangeTextArea  --> beforeSlash there is a white space After Not')
                     // if (beforeSlashParts[0].indexOf(' ') >= 0 && afterSlashParts[0].indexOf(' ') >= 0)
-                  } else if (
-                    beforeSlashParts[0].indexOf(' ') < 0 &&
-                    afterSlashParts[0] === ''
-                  ) {
+                  } else if (beforeSlashParts[0].indexOf(' ') < 0 && afterSlashParts[0] === '') {
                     this.HIDE_CANNED_RESPONSES = true
                     this.tagsCannedFilter = []
                     this.logger.log('[CONVS-DETAIL] - returnChangeTextArea  --> beforeSlash not thete is a white space After Not')
-                  } else if (
-                    beforeSlashParts[0].indexOf(' ') >= 0 &&
-                    afterSlashParts[0] === ' '
-                  ) {
+                  } else if (beforeSlashParts[0].indexOf(' ') >= 0 && afterSlashParts[0] === ' ') {
                     this.logger.log('[CONVS-DETAIL] - returnChangeTextArea  --> beforeSlash not thete is a white space After YES')
                     this.HIDE_CANNED_RESPONSES = true
                     this.tagsCannedFilter = []
@@ -1475,11 +1461,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     this.logger.log('[CONVS-DETAIL] - insertAtCursor - myValue ', myValue)
     this.logger.log('[CONVS-DETAIL] - insertAtCursor - myField ', myField)
 
-    // myValue = ' ' + myValue;
-
-    // console.log('[CONVS-DETAIL] - GET TEXT AREA - Here yes myValue ', myValue);
-    // console.log('[CONVS-DETAIL] - GET TEXT AREA - Here yes textArea value length', myField.value.length);
-
     if (myField.value.length > 0) {
       myValue = ' ' + myValue
     }
@@ -1571,24 +1552,15 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     // this.audio.src = '/assets/sounds/pling.mp3';
     this.audio.src = URL_SOUND_LIST_CONVERSATION
     this.audio.load()
-    this.logger.log(
-      '[CONVS-DETAIL] soundMessage conversation this.audio',
-      this.audio,
-    )
+    this.logger.log('[CONVS-DETAIL] soundMessage conversation this.audio',this.audio)
     clearTimeout(this.setTimeoutSound)
     this.setTimeoutSound = setTimeout(function () {
-      that.audio
-        .play()
-        .then(() => {
+      that.audio.play().then(() => {
           // Audio is playing.
-          this.logger.log(
-            '[CONVS-DETAIL] soundMessag that.audio.src ',
-            that.audio.src,
-          )
-        })
-        .catch((error) => {
+          this.logger.log('[CONVS-DETAIL] soundMessag that.audio.src ',that.audio.src)
+      }).catch((error) => {
           that.logger.error(error)
-        })
+      })
     }, 1000)
   }
 
@@ -1750,10 +1722,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
    * FIREBY BY: click event ScrollToBottom bottom-right icon button
    */
   public actionScrollBottom() {
-    this.logger.log(
-      '[CONVS-DETAIL] actionScrollBottom - ionContentChatArea: ',
-      this.ionContentChatArea,
-    )
+    this.logger.log('[CONVS-DETAIL] actionScrollBottom - ionContentChatArea: ',this.ionContentChatArea)
     // const that = this;
     this.showButtonToBottom = false
     this.updateConversationBadge()
