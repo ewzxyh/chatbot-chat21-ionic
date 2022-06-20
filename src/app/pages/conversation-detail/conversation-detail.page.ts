@@ -327,10 +327,10 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         this.logger.log('[CONVS-DETAIL] subscribe to  BSConversationsChange showButtonToBottom ', this.showButtonToBottom)
         // UPDATE THE CONVERSATION TO 'READ' IF IT IS ME WHO WRITES THE LAST MESSAGE OF THE CONVERSATION
         // AND IF THE POSITION OF THE SCROLL IS AT THE END
-        if (!this.showButtonToBottom && conv.is_new) {
-          // ARE AT THE END
-          this.updateConversationBadge()
-        }
+        // if (!this.showButtonToBottom && conv.is_new) {
+        //   // ARE AT THE END
+        //   this.updateConversationBadge()
+        // }
         if(conv.uid && conv.uid === this.conversationWith){
           this.conversationAvatar = setConversationAvatar(conv.conversation_with,conv.conversation_with_fullname,conv.channel_type)
         }
