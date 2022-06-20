@@ -1,8 +1,8 @@
 <ion-header no-border class="ion-no-border">
   <ion-toolbar style="height:60px">
-    <ion-buttons slot="start" style="height:60px">
+    <ion-buttons slot="start" style="height:60px" *ngIf="isMobile">
       <!-- (click)="pushPage('conversations-list')" defaultHref="/conversations-list" -->
-      <ion-back-button style="display: block;" text="" *ngIf="isMobile" (click)="goBackToConversationList()">
+      <ion-back-button style="display: block;" text=""  (click)="goBackToConversationList()">
       </ion-back-button>
     </ion-buttons>
 
@@ -12,7 +12,9 @@
         <!-- [ngStyle] = "{ 'left': platformName === 'ios' ? '55px' : ''  }" -->
         <div *ngIf="conversationAvatar" class="avatar-container" (click)="onOpenCloseInfoConversation()" style="cursor: pointer"
           [ngClass]="{ 'avatar-container-ios': platformName === 'ios' }">
-          <app-avatar-profile [itemAvatar]=conversationAvatar></app-avatar-profile>
+          <app-avatar-profile 
+            [itemAvatar]=conversationAvatar>
+          </app-avatar-profile>
         </div>
         <!-- [ngStyle] = "{ 'left': platformName === 'ios' ? '63px' : ''  }" -->
         <div *ngIf="isDirect" class="user-presence" [ngClass]="{ 'user-presence-ios': platformName === 'ios' }">
