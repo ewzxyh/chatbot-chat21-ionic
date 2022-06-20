@@ -149,10 +149,10 @@ export class MQTTConversationsHandler extends ConversationsHandlerService {
         this.logger.debug('[MQTTConversationsHandler] connecting MQTT conversations handler');
         const handlerConversationAdded = this.chat21Service.chatClient.onConversationAdded( (conv) => {
             this.logger.log("onConversationAdded:", conv);
-            if (conv.sender === this.loggedUserId) {
-                this.logger.debug("The sender it's me! Forcing is_new = false")
-                conv.is_new = false;
-            }
+            // if (conv.sender === this.loggedUserId) {
+            //     this.logger.debug("The sender it's me! Forcing is_new = false")
+            //     conv.is_new = false;
+            // }
             let conversation = this.completeConversation(conv); // needed to get the "conversation_with", and find the conv in the conv-history
             this.logger.log("onConversationAdded completed:" + JSON.stringify(conversation));
             const index = this.searchIndexInArrayForConversationWith(this.conversations, conversation.conversation_with);
@@ -387,7 +387,7 @@ export class MQTTConversationsHandler extends ConversationsHandlerService {
     }
 
     private completeConversation(conv): ConversationModel {
-        conv.selected = false;
+        // conv.selected = false;
         if (!conv.sender_fullname || conv.sender_fullname === 'undefined' || conv.sender_fullname.trim() === '') {
             conv.sender_fullname = conv.sender;
         }
@@ -415,6 +415,10 @@ export class MQTTConversationsHandler extends ConversationsHandlerService {
             conv.last_message_text = conv.text; // building conv with a message
         }
         conv.uid = conv.conversation_with;
+        if (conv.uid === this.uidConvSelected) {
+            this.logger.debug("For selected conversation is_new = false");
+            conv.is_new = false;
+        }
         return conv;
     }
 
