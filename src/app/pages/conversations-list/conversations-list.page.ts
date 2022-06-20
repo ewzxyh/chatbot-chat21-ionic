@@ -648,10 +648,10 @@ export class ConversationListPage implements OnInit {
       let conversationSelected
       if (conversationType === 'active') {
         conversationSelected = this.conversations.find((item) => item.uid === this.uidConvSelected)
-        this.conversationsHandlerService.uidConvSelected = conversationSelected
+        this.conversationsHandlerService.uidConvSelected = conversationSelected.uid
       } else if (conversationType === 'archived') { 
         conversationSelected = this.archivedConversations.find((item) => item.uid === this.uidConvSelected) 
-        this.archivedConversationsHandlerService.uidConvSelected = conversationSelected
+        this.archivedConversationsHandlerService.uidConvSelected = conversationSelected.uid
       }
       if (conversationSelected) {
         this.logger.log('[CONVS-LIST-PAGE] conversationSelected', conversationSelected)
