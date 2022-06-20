@@ -505,7 +505,7 @@ export class FirebaseConversationsHandler extends ConversationsHandlerService {
      * @param conv
      */
     private completeConversation(conv): ConversationModel {
-        conv.selected = false;
+        // conv.selected = false;
         if (!conv.sender_fullname || conv.sender_fullname === 'undefined' || conv.sender_fullname.trim() === '') {
             conv.sender_fullname = conv.sender;
         }
@@ -531,6 +531,10 @@ export class FirebaseConversationsHandler extends ConversationsHandlerService {
             if (conv.attributes.subtype === 'info' || conv.attributes.subtype === 'info/support') {
                 this.translateInfoSupportMessages(conv);
             }
+        }
+
+        if(conv.uid === this.uidConvSelected){
+            conv.is_new = false
         }
         // Fixes the bug: if a snippet of code is pasted and sent it is not displayed correctly in the convesations list
         // conv.time_last_message = this.getTimeLastMessage(conv.timestamp);
