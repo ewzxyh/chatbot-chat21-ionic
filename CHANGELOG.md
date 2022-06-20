@@ -1,6 +1,10 @@
 # chat21-ionic ver 3.0
 
-### 3.0.65-rc.1 - LATEST
+
+### 3.0.65-rc2 - LATEST
+- changed: behaviour of is_new of a conversation (not update 'is_new' conversation property if conv is the selected one or if sender is me)
+
+### 3.0.65-rc1 - LATEST
 - added: improves chat performance by caching conversations
 - added: Displays balloon messages with a light orange background for "internal notes" type message
 - added: the html component
