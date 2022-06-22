@@ -25,6 +25,8 @@ ion-header {
     }
     ion-title {
         text-align: left;
+        padding-inline: unset;
+        margin: 0px 10px;
         height: 40px;
         width: 100%;
     }
