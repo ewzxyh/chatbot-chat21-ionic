@@ -59,16 +59,12 @@ export class BubbleMessageComponent implements OnInit, OnChanges {
   setMomentLocale() {
     this.browserLang = this.translate.getBrowserLang();
     const currentUser = this.tiledeskAuthService.getCurrentUser();
-    this.logger.log('[BUBBLE-MESSAGE] - ngOnInit - currentUser ', currentUser)
     let currentUserId = ''
     if (currentUser) {
       currentUserId = currentUser.uid
-      this.logger.log('[BUBBLE-MESSAGE] - ngOnInit - currentUserId ', currentUserId)
     }
 
     const stored_preferred_lang = localStorage.getItem(currentUserId + '_lang');
-    this.logger.log('[BUBBLE-MESSAGE] stored_preferred_lang: ', stored_preferred_lang);
-
 
     let chat_lang = ''
     if (this.browserLang && !stored_preferred_lang) {
@@ -81,15 +77,9 @@ export class BubbleMessageComponent implements OnInit, OnChanges {
         sameElse: 'LLLL'
       }
     });
-    // this.translate.getTranslation(chat_lang).subscribe((labels: string) => {
-    //   console.log('[BUBBLE-MESSAGE] translations: ', labels);
-    // });
   }
 
   ngOnChanges() {
-    this.logger.log('BUBBLE-MSG Hello !!!! this.message ',  this.message)
-    this.logger.log('BUBBLE-MSG ngOnChanges areVisibleCAR', this.areVisibleCAR)
-    this.logger.log('BUBBLE-MSG ngOnChanges supportMode', this.supportMode)
     if (this.message && this.message.metadata && typeof this.message.metadata === 'object') {
       this.getMetadataSize(this.message.metadata)
     }
