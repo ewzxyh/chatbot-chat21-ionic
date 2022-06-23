@@ -110,7 +110,6 @@ export class LoginPage implements OnInit {
       'Email must be a valid email',
       'Password is required',
       'Password must be at least 6 characters long'
-
     ];
     this.translationMap = this.translateService.translateLanguage(keys);
   }

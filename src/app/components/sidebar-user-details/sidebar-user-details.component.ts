@@ -46,19 +46,14 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
   profile_name_translated: string;
   SubscriptionPaymentProblem: string;
   user: any
-  projectID: any
   tiledeskToken: string;
-  prjct_name: string;
-  plan_type: string;
+  project: { _id: string, name: string, type: string, isActiveSubscription: boolean, plan_name: string}
   _prjct_profile_name: string;
 
   isVisiblePAY: boolean;
   public_Key: any
-  plan_name: string;
-  plan_subscription_is_active: boolean;
   USER_PHOTO_PROFILE_EXIST: boolean;
   version: string
-  test: Date = new Date();
   company_name: string = 'Tiledesk'
   DASHBOARD_URL: string;
   constructor(
@@ -79,7 +74,7 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
     this.version = PACKAGE.version;
     this.subcribeToAuthStateChanged();
     this.listenTocurrentProjectUserUserAvailability$();
-    this.getCurrentStoredProject();
+    this.listenToCurrentStoredProject();
     this.getOSCODE();
     // this.listenOpenUserSidebarEvent();
   }
@@ -96,8 +91,7 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
           if (currentUser) {
             this.user = currentUser;
             this.getCurrentChatLangAndTranslateLabels(this.user);
-            this.createUserAvatar(this.user)
-            this.photo_profile_URL = this.imageRepoService.getImagePhotoUrl(currentUser.uid)
+            this.photo_profile_URL = this.imageRepoService.getImagePhotoUrl(this.user.uid)
             this.logger.log('[SIDEBAR-USER-DETAILS] photo_profile_URL ', this.photo_profile_URL);
             this.checkIfExistPhotoProfile(this.photo_profile_URL)
           }
@@ -122,23 +116,6 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
     })
   }
 
-
-  createUserAvatar(currentUser) {
-    this.logger.log('[SIDEBAR-USER-DETAILS] - createProjectUserAvatar ', currentUser)
-    let fullname = ''
-    if (currentUser && currentUser.firstname && currentUser.lastname) {
-      fullname = currentUser.firstname + ' ' + currentUser.lastname
-      currentUser['fullname_initial'] = avatarPlaceholder(fullname)
-      currentUser['fillColour'] = getColorBck(fullname)
-    } else if (currentUser && currentUser.firstname) {
-      fullname = currentUser.firstname
-      currentUser['fullname_initial'] = avatarPlaceholder(fullname)
-      currentUser['fillColour'] = getColorBck(fullname)
-    } else {
-      currentUser['fullname_initial'] = 'N/A'
-      currentUser['fillColour'] = 'rgb(98, 100, 167)'
-    }
-  }
 
   verifyImageURL(image_url, callBack) {
     const img = new Image();
@@ -241,15 +218,6 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
       this.THE_PLAN_HAS_EXPIRED_msg = text['ThePlanHasExpired']
       
     });
-
-
-    // this.getEditProfileTranslation();
-    // this.getAvailableTranslation();
-    // this.getUnavailableTranslation();
-    // this.getIsBusyTranslation();
-    // this.getSubscriptionPaymentProblemTranslation();
-    // this.getThePlanHasExpiredTranslation();
-    // this.getLogoutTranslation();
   }
 
 
@@ -291,75 +259,70 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
   getAvailableTranslation() {
     this.translate.get('Available').subscribe((text: string) => {
         this.IS_AVAILABLE_msg = text
-      });
+    });
   }
   getUnavailableTranslation() {
     this.translate.get('Unavailable').subscribe((text: string) => {
         this.IS_UNAVAILABLE_msg = text
-      });
+    });
   }
 
   getIsBusyTranslation() {
     this.translate.get('Busy').subscribe((text: string) => {
         this.IS_BUSY_msg = text
-      });
+    });
   }
 
   getLogoutTranslation() {
     this.translate.get('LABEL_LOGOUT').subscribe((text: string) => {
         this.LOGOUT_msg = text
-      });
+    });
   }
 
   getSubscriptionPaymentProblemTranslation() {
     this.translate.get('SubscriptionPaymentProblem').subscribe((text: string) => {
         this.SUBSCRIPTION_PAYMENT_PROBLEM_msg = text
-      });
+    });
   }
 
   getThePlanHasExpiredTranslation() {
     this.translate.get('ThePlanHasExpired').subscribe((text: string) => {
         this.THE_PLAN_HAS_EXPIRED_msg = text
-      });
+    });
   }
 
 
-  getCurrentStoredProject() {
-    try {
-      const project = localStorage.getItem('last_project')
+  listenToCurrentStoredProject() {
+    this.events.subscribe('storage:last_project', project => {
       if (project && project !== 'undefined') {
         const projectObjct = JSON.parse(project)
         // console.log('[SIDEBAR-USER-DETAILS] - GET STORED PROJECT ', projectObjct)
 
-        this.projectID = projectObjct['id_project']['_id']
-    
-        this.prjct_name = projectObjct['id_project']['name']
+        this.project = {
+          _id: projectObjct['id_project']['_id'],
+          name: projectObjct['id_project']['name'],
+          type: projectObjct['id_project']['profile']['type'],
+          isActiveSubscription: projectObjct['id_project']['isActiveSubscription'],
+          plan_name: projectObjct['id_project']['profile']['name']
+        }
 
-        this.plan_type = projectObjct['id_project']['profile']['type'];
-   
-        const trial_expired = projectObjct['id_project']['trialExpired']
-    
+        const trial_expired = projectObjct['id_project']['trialExpired']    
         const profile_name = projectObjct['id_project']['profile']['name'];
-     
-        this.plan_name = projectObjct['id_project']['profile']['name'];
-        this.plan_subscription_is_active = projectObjct['id_project']['isActiveSubscription'];
-
-        if (this.plan_type === 'free') {
+      
+        if (this.project.type === 'free') {
 
           if (trial_expired === false) {
             this.getProPlanTrialTranslation();
           } else if (trial_expired === true) {
             this.getFreePlanTranslation();
           }
-        } else if (this.plan_type === 'payment' && profile_name === 'pro') {
+        } else if (this.project.type === 'payment' && profile_name === 'pro') {
           this.getProPlanTranslation();
-        } else if (this.plan_type === 'payment' && profile_name === 'enterprise') {
+        } else if (this.project.type === 'payment' && profile_name === 'enterprise') {
           this.getEnterprisePlanTranslation();
         }
       }
-    } catch (err) {
-      this.logger.error('[SIDEBAR-USER-DETAILS] - GET STORED PROJECT ERR ', err)
-    }
+    })
 
     try {
       this.tiledeskToken = this.appStorageService.getItem('tiledeskToken');
@@ -426,9 +389,9 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
 
 
   changeAvailabilityStateInUserDetailsSidebar(available) {
-    this.logger.log('[SIDEBAR-USER-DETAILS] - changeAvailabilityState projectid', this.projectID, ' available 1: ', available);
+    this.logger.log('[SIDEBAR-USER-DETAILS] - changeAvailabilityState projectid', this.project._id, ' available 1: ', available);
 
-    this.wsService.updateCurrentUserAvailability(this.tiledeskToken, this.projectID, available)
+    this.wsService.updateCurrentUserAvailability(this.tiledeskToken, this.project._id, available)
       .subscribe((projectUser: any) => {
 
         this.logger.log('[SIDEBAR-USER-DETAILS] - PROJECT-USER UPDATED ', projectUser)
@@ -443,7 +406,7 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
   }
 
   goToUserProfile() {
-    let url = this.DASHBOARD_URL + this.projectID + '/user-profile'
+    let url = this.DASHBOARD_URL + this.project._id + '/user-profile'
     const myWindow = window.open(url, '_self');
     myWindow.focus();
   }

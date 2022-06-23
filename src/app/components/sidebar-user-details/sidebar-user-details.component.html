@@ -25,9 +25,9 @@
             onerror="this.src='assets/images/no_image_user.png'" />
 
         <div *ngIf="!USER_PHOTO_PROFILE_EXIST" class="user-img-in-sidebar-user-details"
-            [ngStyle]="{'background':  'linear-gradient(rgb(255,255,255) -125%,' + user?.fillColour + ')'}">
+            [ngStyle]="{'background':  'linear-gradient(rgb(255,255,255) -125%,' + user?.color + ')'}">
             <span id="sidebaravatar-altenative-user-avatar" class="sidebar-user-details-altenative-user-avatar">
-                {{ user?.fullname_initial }}
+                {{ user?.fullname }}
             </span>
         </div>
 
@@ -78,18 +78,18 @@
     <section *ngIf="isVisiblePAY" class="user-details-plan-info">
         <span class="material-icons user-details-plan-icon">apps</span>
         <span>
-            <div> {{prjct_name}} </div>
+            <div> {{project?.name}} </div>
             <div style="display: inline-block;    margin-left: 26px;"> {{ profile_name_translated }} </div>
 
-            <div *ngIf="plan_type === 'payment' && plan_subscription_is_active === false"
-                style="color:#f44336; position:relative; top: -1px;;display: inline-block;">
-                <i *ngIf="plan_name !== 'enterprise'" class="material-icons" style="vertical-align: middle; color:#f44336; cursor:pointer;    
+            <div *ngIf="project?.type === 'payment' && project?.isActiveSubscription === false"
+                style="color:#f44336; position:relative; top: -1px;display: inline-block;">
+                <i *ngIf="project?.plan_name !== 'enterprise'" class="material-icons" style="vertical-align: middle; color:#f44336; cursor:pointer;    
                     font-size: 16px;" matTooltipClass="custom-mat-tooltip"
                     matTooltip="{{ SUBSCRIPTION_PAYMENT_PROBLEM_msg }}" #tooltip="matTooltip" matTooltipPosition='right'
                     matTooltipHideDelay="100">
                     error_outline
                 </i>
-                <i *ngIf="plan_name === 'enterprise'" class="material-icons" style="vertical-align: middle; color:#f44336; cursor:pointer;    
+                <i *ngIf="project?.plan_name === 'enterprise'" class="material-icons" style="vertical-align: middle; color:#f44336; cursor:pointer;    
                     font-size: 16px;" matTooltipClass="custom-mat-tooltip" matTooltip="{{ THE_PLAN_HAS_EXPIRED_msg }}"
                     #tooltip="matTooltip" matTooltipPosition='right' matTooltipHideDelay="100">
                     error_outline
@@ -120,10 +120,7 @@
     </section>
 
     <section class="user-details-footer-chat-version">
-        <div class="chat-version">
-            <!-- &copy; {{test | date: 'yyyy'}} {{company_name}} ver {{version}} -->
-            ver {{version}}
-        </div>
+        <div class="chat-version"> ver {{version}}</div>
     </section>
 
 </div>

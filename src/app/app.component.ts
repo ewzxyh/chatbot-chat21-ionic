@@ -37,7 +37,7 @@ import { LoginPage } from './pages/authentication/login/login.page';
 import { ConversationListPage } from './pages/conversations-list/conversations-list.page';
 
 // utils
-import { createExternalSidebar, checkPlatformIsMobile, isGroup, getParameterByName } from '../chat21-core/utils/utils';
+import { checkPlatformIsMobile, isGroup, getParameterByName, searchIndexInArrayForUid, compareValues } from '../chat21-core/utils/utils';
 import { STORAGE_PREFIX, PLATFORM_MOBILE, PLATFORM_DESKTOP, CHAT_ENGINE_FIREBASE, AUTH_STATE_OFFLINE, AUTH_STATE_ONLINE } from '../chat21-core/utils/constants';
 import { environment } from '../environments/environment';
 import { UserModel } from '../chat21-core/models/user';
@@ -481,6 +481,7 @@ export class AppComponent implements OnInit {
       }
       this.uploadService.initialize();
 
+      this.setLanguage(null)
       this.initAuthentication();
       this.initSubscriptions();
       this.initAudio();
@@ -627,16 +628,13 @@ export class AppComponent implements OnInit {
 
 
   translateToastMsgs() {
-    this.translate.get('AnErrorOccurredWhileUnsubscribingFromNotifications')
-      .subscribe((text: string) => {
+    this.translate.get('AnErrorOccurredWhileUnsubscribingFromNotifications').subscribe((text: string) => {
         this.toastMsgErrorWhileUnsubscribingFromNotifications = text;
       });
-    this.translate.get('CLOSE_TOAST')
-      .subscribe((text: string) => {
+    this.translate.get('CLOSE_TOAST').subscribe((text: string) => {
         this.toastMsgCloseToast = text;
       });
-    this.translate.get('WAITING_FOR_NETWORK')
-      .subscribe((text: string) => {
+    this.translate.get('WAITING_FOR_NETWORK').subscribe((text: string) => {
         this.toastMsgWaitingForNetwork = text;
       });
   }
@@ -1221,7 +1219,6 @@ export class AppComponent implements OnInit {
 
   private initArchivedConversationsHandler(userId: string) {
     const keys = ['YOU'];
-
     const translationMap = this.translateService.translateLanguage(keys);
 
     this.logger.debug('[APP-COMP] initArchivedConversationsHandler ------------->', userId, this.tenant);
@@ -1286,5 +1283,10 @@ export class AppComponent implements OnInit {
 
       }
     }
+
+    if(this.appStorageService.getItem('last_project')){
+      this.events.publish('storage:last_project', this.appStorageService.getItem('last_project'))
+    }
   }
 }
+
