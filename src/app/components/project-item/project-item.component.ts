@@ -1,3 +1,4 @@
+import { EventsService } from './../../services/events-service';
 import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
 import { WebsocketService } from 'src/app/services/websocket/websocket.service';
 import { Subject } from 'rxjs';
@@ -53,6 +54,7 @@ export class ProjectItemComponent implements OnInit {
     public tiledeskService: TiledeskService,
     public webSocketJs: WebSocketJs,
     private appConfigProvider: AppConfigProvider,
+    public events: EventsService
   ) { }
 
   ngOnInit() {
@@ -208,6 +210,8 @@ export class ProjectItemComponent implements OnInit {
       this.doProjectSubscriptions(this.project)
       this.logger.log('[PROJECT-ITEM] - LAST PROJECT PARSED ', this.project)
     }
+
+    this.events.publish('storage:last_project', this.project)
 
 
   }

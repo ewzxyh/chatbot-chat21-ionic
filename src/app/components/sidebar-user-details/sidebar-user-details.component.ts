@@ -293,9 +293,8 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
 
 
   listenToCurrentStoredProject() {
-    this.events.subscribe('storage:last_project', project => {
-      if (project && project !== 'undefined') {
-        const projectObjct = JSON.parse(project)
+    this.events.subscribe('storage:last_project', projectObjct => {
+      if (projectObjct && projectObjct !== 'undefined') {
         // console.log('[SIDEBAR-USER-DETAILS] - GET STORED PROJECT ', projectObjct)
 
         this.project = {
