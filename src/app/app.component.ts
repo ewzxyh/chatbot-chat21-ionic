@@ -922,8 +922,8 @@ export class AppComponent implements OnInit {
       // that.conversationsChanged(conversations);
       if (conversation && conversation.is_new === true) {
         this.manageTabNotification()
-        this.updateConversationsOnStorage()
       }
+      if(conversation) this.updateConversationsOnStorage()
     });
 
     this.conversationsHandlerService.conversationChanged.subscribe((conversation: ConversationModel) => {
@@ -1195,9 +1195,7 @@ export class AppComponent implements OnInit {
     // 1 - init chatConversationsHandler and  archviedConversationsHandler
     this.conversationsHandlerService.initialize(this.tenant, userId, translationMap);
     // this.subscribeToConvs()
-    const lastTimestamp = this.manageStoredConversations()
-    this.logger.log('[APP-COMP] initConversationsHandler: get lastTimestamp', lastTimestamp)
-    this.conversationsHandlerService.subscribeToConversations(lastTimestamp, () => {
+    this.conversationsHandlerService.subscribeToConversations(null, () => {
       // this.logger.log('[APP-COMP] - CONVS - INIT CONV')
       const conversations = this.conversationsHandlerService.conversations;
       this.logger.info('initialize FROM [APP-COMP] - [APP-COMP]-CONVS - INIT CONV CONVS', conversations)
@@ -1211,20 +1209,6 @@ export class AppComponent implements OnInit {
 
   }
 
-  // START: manage conversations on firebase upon last timestamp from stored conversations
-  private manageStoredConversations(): number {
-    let timestamp = 0
-    if(this.appStorageService.getItem('conversations')){
-      const conversationsStored = JSON.parse(this.appStorageService.getItem('conversations'))
-      if(conversationsStored && conversationsStored.length > 0) {
-        this.conversationsHandlerService.conversations = conversationsStored
-        timestamp = conversationsStored[0].timestamp
-        this.events.publish('appcompSubscribeToConvs:loadingIsActive', false);
-      }
-    }
-    return timestamp
-  }
-
   private updateConversationsOnStorage(){
     const that = this
     //reset timer and save conversation on storage after 2s
@@ -1234,7 +1218,6 @@ export class AppComponent implements OnInit {
       that.appStorageService.setItem('conversations', JSON.stringify(this.conversationsHandlerService.conversations))
     }, 2000);
   }
-  // END: manage conversations on firebase upon last timestamp from stored conversations
 
   private initArchivedConversationsHandler(userId: string) {
     const keys = ['YOU'];

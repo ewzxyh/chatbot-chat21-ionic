@@ -53,6 +53,7 @@ export class FirebaseConversationsHandler extends ConversationsHandlerService {
     private BASE_URL: string;
     // private audio: any;
     // private setTimeoutSound: any;
+    private subscribe: any
 
     constructor(
         //public databaseProvider: DatabaseProvider
@@ -121,64 +122,47 @@ export class FirebaseConversationsHandler extends ConversationsHandlerService {
         this.ref = firebase.database().ref(urlNodeFirebase).orderByChild('timestamp').limitToLast(200);
         
         this.ref.once('value').then(snapshot => {
-            snapshot.forEach(childSnapshot => {
-                // const childData: ConversationModel = childSnapshot.val();
-                // childData.uid = childSnapshot.key
-                // that.added(childData)
-                // lastConversationTimestamp = childData.timestamp
-                that.added(childSnapshot)
-            });
+            if(snapshot && snapshot.val()){
+                
+                
+                snapshot.forEach(childSnapshot => {
+                    // const childData: ConversationModel = childSnapshot.val();
+                    // childData.uid = childSnapshot.key
+                    // that.added(childData)
+                    // lastConversationTimestamp = childData.timestamp
+                    that.added(childSnapshot)
+                });
+                this.logger.debug('[FIREBASEConversationsHandlerSERVICE] # of remote conversations on Firebase:', Object.keys(snapshot.val()).length)
+                this.logger.debug('[FIREBASEConversationsHandlerSERVICE] # of conversation added:', that.conversations)
+                callback(that.conversations)
+                return lastConversationTimestamp
+            }
             
-            callback(that.conversations)
-            return lastConversationTimestamp
+        }).then(()=> {
+            this.ref.on('child_changed', (childSnapshot) => {
+                that.changed(childSnapshot);
+            });
+            this.ref.on('child_removed', (childSnapshot) => {
+                that.removed(childSnapshot);
+            });
+            this.ref.on('child_added', (childSnapshot) => {
+                that.added(childSnapshot);
+            });
         })
-        //.then((timestamp)=> {
-        //     console.log('timestampppppp',timestamp)
-        //     this.ref.startAt(timestamp).on('child_changed', (childSnapshot) => {
-        //         const conv: ConversationModel = childSnapshot.val();
-        //         conv.uid = childSnapshot.key
-        //         that.changed(conv);
-        //     });
-        //     this.ref.startAt(timestamp).on('child_removed', (childSnapshot) => {
-        //         const conv: ConversationModel = childSnapshot.val();
-        //         conv.uid = childSnapshot.key
-        //         that.removed(conv);
-        //     });
-        //     this.ref.startAt(timestamp).on('child_added', (childSnapshot) => {
-        //         const conv: ConversationModel = childSnapshot.val();
-        //         console.log('addedddd', conv)
-        //         conv.uid = childSnapshot.key
-        //         that.added(conv);
-        //     });
-        // });
-        // this.ref.on('value', (snaps) => {
-        //     if(snaps){
-        //         console.log('convvvvvv', snaps.val(), snaps.val().length)
-        //         for(let item=0; item<snaps.val().length; item++){
-        //             that.added(snaps.val()[item])
-        //         }
-        //         callback(this.conversations)
-        //     }
-        // })
-        this.ref.on('child_changed', (childSnapshot) => {
-            that.changed(childSnapshot);
-        });
-        this.ref.on('child_removed', (childSnapshot) => {
-            that.removed(childSnapshot);
-        });
-        this.ref.on('child_added', (childSnapshot) => {
-            that.added(childSnapshot);
-        });
-
         
+        // this.ref.on('child_changed', (childSnapshot) => {
+        //     that.changed(childSnapshot);
+        // });
+        // this.ref.on('child_removed', (childSnapshot) => {
+        //     that.removed(childSnapshot);
+        // });
+        // this.ref.on('child_added', (childSnapshot) => {
+        //     that.added(childSnapshot);
+        // });
 
         // setTimeout(() => {
         //     callback()
         // }, 2000);
-        // SET AUDIO
-        // this.audio = new Audio();
-        // this.audio.src = URL_SOUND;
-        // this.audio.load();
     }
 
     /**

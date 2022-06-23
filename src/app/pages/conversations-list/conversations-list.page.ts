@@ -1,3 +1,4 @@
+import { AppStorageService } from 'src/chat21-core/providers/abstract/app-storage.service';
 import { ArchivedConversationsHandlerService } from 'src/chat21-core/providers/abstract/archivedconversations-handler.service'
 import { Component, OnInit, ViewChild } from '@angular/core'
 import { IonContent, ModalController } from '@ionic/angular'
@@ -17,6 +18,8 @@ import {
   closeModal,
   convertMessage,
   isGroup,
+  searchIndexInArrayForUid,
+  compareValues,
 } from '../../../chat21-core/utils/utils'
 
 import { EventsService } from '../../services/events-service'
@@ -118,6 +121,7 @@ export class ConversationListPage implements OnInit {
     public appConfigProvider: AppConfigProvider,
     public platform: Platform,
     private networkService: NetworkService,
+    private appStorageService: AppStorageService
   ) {
     this.listenToAppCompConvsLengthOnInitConvs()
     this.listenToLogoutEvent()
@@ -168,6 +172,7 @@ export class ConversationListPage implements OnInit {
   ngOnInit() {
     this.watchToConnectionStatus()
     this.getAppConfigToHideDiplayBtns()
+    // this.conversations = this.manageStoredConversations()
   }
 
   ngOnChanges() {
@@ -335,11 +340,25 @@ export class ConversationListPage implements OnInit {
   // Init convrsation handler
   // ------------------------------------------------------------------ //
   initConversationsHandler() {
+    this.conversations = this.manageStoredConversations()
     this.conversations = this.conversationsHandlerService.conversations
     this.logger.log('[CONVS-LIST-PAGE] - CONVERSATIONS ', this.conversations.length, this.conversations)
     // save conversationHandler in chatManager
     this.chatManager.setConversationsHandler(this.conversationsHandlerService)
     this.showPlaceholder = false
+  }
+
+  private manageStoredConversations(): ConversationModel[] {
+    let conversationsStored = []
+    if(this.appStorageService.getItem('conversations')){
+      conversationsStored = JSON.parse(this.appStorageService.getItem('conversations'))
+      if(conversationsStored && conversationsStored.length > 0) {
+        // this.conversationsHandlerService.conversations = conversationsStored
+        this.logger.log('[CONVS-LIST-PAGE] retrive conversations from storage --> ', conversationsStored.length)
+        this.events.publish('appcompSubscribeToConvs:loadingIsActive', false);
+      }
+    }
+    return conversationsStored
   }
 
   initArchivedConversationsHandler() {
