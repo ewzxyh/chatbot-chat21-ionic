@@ -77,7 +77,6 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.DASHBOARD_URL = this.appConfigProvider.getConfig().dashboardUrl + '#/project/';
     this.version = PACKAGE.version;
-    this.getCurrentChatLangAndTranslateLabels();
     this.subcribeToAuthStateChanged();
     this.listenTocurrentProjectUserUserAvailability$();
     this.getCurrentStoredProject();
@@ -90,13 +89,13 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
       this.logger.log('[SIDEBAR-USER-DETAILS] BSAuthStateChanged ', state)
 
       if (state === 'online') {
-
         const storedCurrentUser = this.appStorageService.getItem('currentUser')
         if (storedCurrentUser && storedCurrentUser !== 'undefined') {
           const currentUser = JSON.parse(storedCurrentUser);
           this.logger.log('[SIDEBAR-USER-DETAILS] - subcribeToAuthStateChanged - currentUser ', currentUser)
           if (currentUser) {
             this.user = currentUser;
+            this.getCurrentChatLangAndTranslateLabels(this.user);
             this.createUserAvatar(this.user)
             this.photo_profile_URL = this.imageRepoService.getImagePhotoUrl(currentUser.uid)
             this.logger.log('[SIDEBAR-USER-DETAILS] photo_profile_URL ', this.photo_profile_URL);
@@ -184,64 +183,73 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
   }
 
 
-  getCurrentChatLangAndTranslateLabels() {
+  getCurrentChatLangAndTranslateLabels(currentUser) {
     this.browserLang = this.translate.getBrowserLang();
-    const storedCurrentUser = this.appStorageService.getItem('currentUser')
+    this.logger.log('[SIDEBAR-USER-DETAILS] - ngOnInit - currentUser ', currentUser)
+    this.logger.log('[SIDEBAR-USER-DETAILS] - ngOnInit - browserLang ', this.browserLang)
 
-    if (storedCurrentUser && storedCurrentUser !== 'undefined') {
-      const currentUser = JSON.parse(storedCurrentUser);
-      this.logger.log('[SIDEBAR-USER-DETAILS] - ngOnInit - currentUser ', currentUser)
-      this.logger.log('[SIDEBAR-USER-DETAILS] - ngOnInit - browserLang ', this.browserLang)
-      let currentUserId = ''
-      if (currentUser) {
-        currentUserId = currentUser.uid
-        this.logger.log('[SIDEBAR-USER-DETAILS] - ngOnInit - currentUserId ', currentUserId)
-      }
-
-      const stored_preferred_lang = localStorage.getItem(currentUserId + '_lang');
-      this.logger.log('[SIDEBAR-USER-DETAILS] stored_preferred_lang: ', stored_preferred_lang);
+    const stored_preferred_lang = localStorage.getItem(currentUser.uid + '_lang');
+    this.logger.log('[SIDEBAR-USER-DETAILS] stored_preferred_lang: ', stored_preferred_lang);
 
 
-      this.chat_lang = ''
-      if (this.browserLang && !stored_preferred_lang) {
-        this.chat_lang = this.browserLang
-        // this.flag_url = "assets/images/language_flag/" + this.chat_lang + ".png"
+    this.chat_lang = ''
+    if (this.browserLang && !stored_preferred_lang) {
+      this.chat_lang = this.browserLang
+      // this.flag_url = "assets/images/language_flag/" + this.chat_lang + ".png"
 
-        this.logger.log('[SIDEBAR-USER-DETAILS] flag_url: ', this.flag_url);
-        this.logger.log('[SIDEBAR-USER-DETAILS] chat_lang: ', this.chat_lang);
-      } else if (this.browserLang && stored_preferred_lang) {
-        this.chat_lang = stored_preferred_lang
-        // this.flag_url = "assets/images/language_flag/" + this.chat_lang + ".png"
-        this.logger.log('[SIDEBAR-USER-DETAILS] flag_url: ', this.flag_url);
-        this.logger.log('[SIDEBAR-USER-DETAILS] chat_lang: ', this.chat_lang);
-      }
-
-
-      if (tranlatedLanguage.includes(this.chat_lang)) {
-        this.logger.log('[SIDEBAR-USER-DETAILS] tranlatedLanguage includes', this.chat_lang, ': ', tranlatedLanguage.includes(this.chat_lang))
-        this.translate.use(this.chat_lang);
-        this.flag_url = "assets/images/language_flag/" + this.chat_lang + ".png"
-      } else {
-        this.logger.log('[SIDEBAR-USER-DETAILS] tranlatedLanguage includes', this.chat_lang, ': ', tranlatedLanguage.includes(this.chat_lang))
-        this.translate.use('en');
-        this.flag_url = "assets/images/language_flag/en.png"
-        this.chat_lang = 'en'
-      }
-
-    } else {
-      this.logger.error('[SIDEBAR-USER-DETAILS] - ngOnInit - currentUser not found in storage')
+      this.logger.log('[SIDEBAR-USER-DETAILS] flag_url: ', this.flag_url);
+      this.logger.log('[SIDEBAR-USER-DETAILS] chat_lang: ', this.chat_lang);
+    } else if (this.browserLang && stored_preferred_lang) {
+      this.chat_lang = stored_preferred_lang
+      // this.flag_url = "assets/images/language_flag/" + this.chat_lang + ".png"
+      this.logger.log('[SIDEBAR-USER-DETAILS] flag_url: ', this.flag_url);
+      this.logger.log('[SIDEBAR-USER-DETAILS] chat_lang: ', this.chat_lang);
     }
+
+    if (tranlatedLanguage.includes(this.chat_lang)) {
+      this.logger.log('[SIDEBAR-USER-DETAILS] tranlatedLanguage includes', this.chat_lang, ': ', tranlatedLanguage.includes(this.chat_lang))
+      this.translate.use(this.chat_lang);
+      this.flag_url = "assets/images/language_flag/" + this.chat_lang + ".png"
+    } else {
+      this.logger.log('[SIDEBAR-USER-DETAILS] tranlatedLanguage includes', this.chat_lang, ': ', tranlatedLanguage.includes(this.chat_lang))
+      this.translate.use('en');
+      this.flag_url = "assets/images/language_flag/en.png"
+      this.chat_lang = 'en'
+    }
+
     this.translateLabels()
   }
 
   translateLabels() {
-    this.getEditProfileTranslation();
-    this.getAvailableTranslation();
-    this.getUnavailableTranslation();
-    this.getIsBusyTranslation();
-    this.getSubscriptionPaymentProblemTranslation();
-    this.getThePlanHasExpiredTranslation();
-    this.getLogoutTranslation();
+    let keys= [
+      'EditProfile',
+      'Available',
+      'Unavailable',
+      'Busy',
+      'LABEL_LOGOUT',
+      'SubscriptionPaymentProblem',
+      'ThePlanHasExpired'
+    ]
+
+    this.translate.get(keys).subscribe((text: string) => {
+      this.EditProfileLabel = text['EditProfile'];
+      this.IS_AVAILABLE_msg = text['Available']
+      this.IS_UNAVAILABLE_msg = text['Unavailable']
+      this.IS_BUSY_msg = text['Busy']
+      this.LOGOUT_msg = text['LABEL_LOGOUT']
+      this.SUBSCRIPTION_PAYMENT_PROBLEM_msg = text['SubscriptionPaymentProblem']
+      this.THE_PLAN_HAS_EXPIRED_msg = text['ThePlanHasExpired']
+      
+    });
+
+
+    // this.getEditProfileTranslation();
+    // this.getAvailableTranslation();
+    // this.getUnavailableTranslation();
+    // this.getIsBusyTranslation();
+    // this.getSubscriptionPaymentProblemTranslation();
+    // this.getThePlanHasExpiredTranslation();
+    // this.getLogoutTranslation();
   }
 
 
@@ -275,51 +283,42 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
   }
 
   getEditProfileTranslation() {
-    this.translate.get('EditProfile')
-      .subscribe((text: string) => {
+    this.translate.get('EditProfile').subscribe((text: string) => {
         this.EditProfileLabel = text
       });
   }
 
-
-
   getAvailableTranslation() {
-    this.translate.get('Available')
-      .subscribe((text: string) => {
+    this.translate.get('Available').subscribe((text: string) => {
         this.IS_AVAILABLE_msg = text
       });
   }
   getUnavailableTranslation() {
-    this.translate.get('Unavailable')
-      .subscribe((text: string) => {
+    this.translate.get('Unavailable').subscribe((text: string) => {
         this.IS_UNAVAILABLE_msg = text
       });
   }
 
   getIsBusyTranslation() {
-    this.translate.get('Busy')
-      .subscribe((text: string) => {
+    this.translate.get('Busy').subscribe((text: string) => {
         this.IS_BUSY_msg = text
       });
   }
 
   getLogoutTranslation() {
-    this.translate.get('LABEL_LOGOUT')
-      .subscribe((text: string) => {
+    this.translate.get('LABEL_LOGOUT').subscribe((text: string) => {
         this.LOGOUT_msg = text
       });
   }
 
   getSubscriptionPaymentProblemTranslation() {
-    this.translate.get('SubscriptionPaymentProblem')
-      .subscribe((text: string) => {
+    this.translate.get('SubscriptionPaymentProblem').subscribe((text: string) => {
         this.SUBSCRIPTION_PAYMENT_PROBLEM_msg = text
       });
   }
 
   getThePlanHasExpiredTranslation() {
-    this.translate.get('ThePlanHasExpired')
-      .subscribe((text: string) => {
+    this.translate.get('ThePlanHasExpired').subscribe((text: string) => {
         this.THE_PLAN_HAS_EXPIRED_msg = text
       });
   }
@@ -329,7 +328,7 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
     try {
       const project = localStorage.getItem('last_project')
       if (project && project !== 'undefined') {
-        const projectObjct = JSON.parse(localStorage.getItem('last_project'))
+        const projectObjct = JSON.parse(project)
         // console.log('[SIDEBAR-USER-DETAILS] - GET STORED PROJECT ', projectObjct)
 
         this.projectID = projectObjct['id_project']['_id']
@@ -372,37 +371,31 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
 
 
   getProPlanTrialTranslation() {
-    this.translate.get('ProPlanTrial')
-      .subscribe((text: string) => {
+    this.translate.get('ProPlanTrial').subscribe((text: string) => {
         this.profile_name_translated = text
       });
   }
 
   getFreePlanTranslation() {
-    this.translate.get('FreePlan')
-      .subscribe((text: string) => {
+    this.translate.get('FreePlan').subscribe((text: string) => {
         this.profile_name_translated = text
       });
   }
 
   getProPlanTranslation() {
-    this.translate.get('PaydPlanNamePro')
-      .subscribe((text: string) => {
+    this.translate.get('PaydPlanNamePro').subscribe((text: string) => {
         this.profile_name_translated = text
       });
   }
 
   getEnterprisePlanTranslation() {
-    this.translate.get('PaydPlanNameEnterprise')
-      .subscribe((text: string) => {
+    this.translate.get('PaydPlanNameEnterprise').subscribe((text: string) => {
         this.profile_name_translated = text
       });
   }
 
   listenTocurrentProjectUserUserAvailability$() {
-    this.wsService.currentProjectUserAvailability$
-      .pipe(skip(1))
-      .subscribe((projectUser) => {
+    this.wsService.currentProjectUserAvailability$.pipe(skip(1)).subscribe((projectUser) => {
         this.logger.log('[SIDEBAR-USER-DETAILS] - $UBSC TO WS USER AVAILABILITY & BUSY STATUS RES ', projectUser);
 
         if (projectUser) {
@@ -412,8 +405,6 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
           this.translateUserRole(this.USER_ROLE)
         }
 
-
-
       }, (error) => {
         this.logger.error('[SIDEBAR-USER-DETAILS] - $UBSC TO WS USER AVAILABILITY & BUSY STATUS error ', error);
       }, () => {
@@ -422,8 +413,7 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
   }
 
   translateUserRole(role) {
-    this.translate.get(role)
-      .subscribe((text: string) => {
+    this.translate.get(role).subscribe((text: string) => {
         this.USER_ROLE_LABEL = text
       });
   }
