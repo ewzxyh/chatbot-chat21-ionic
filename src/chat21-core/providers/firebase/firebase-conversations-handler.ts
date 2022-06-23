@@ -302,24 +302,44 @@ export class FirebaseConversationsHandler extends ConversationsHandlerService {
         } else {
             this.logger.log('[FIREBASEConversationsHandlerSERVICE]  getConversationDetail ***** ELSE')
             // const urlNodeFirebase = '/apps/' + this.tenant + '/users/' + this.loggedUserId + '/conversations/' + conversationId;
-            const urlNodeFirebase = conversationsPathForUserId(this.tenant, this.loggedUserId) + '/' + conversationId;
+            const urlNodeFirebase = conversationsPathForUserId(this.tenant, this.loggedUserId) // + '/' + conversationId;
             this.logger.log('[FIREBASEConversationsHandlerSERVICE] conversationDetail urlNodeFirebase *****', urlNodeFirebase)
             const firebaseMessages = firebase.database().ref(urlNodeFirebase);
-            firebaseMessages.on('value', (childSnapshot) => {
-                const childData: ConversationModel = childSnapshot.val();
-                this.logger.log('[FIREBASEConversationsHandlerSERVICE] conversationDetail childSnapshot.val() *****', childSnapshot.val());
-                this.logger.log('[FIREBASEConversationsHandlerSERVICE] conversationDetail childSnapshot *****', childSnapshot)
-                // && childData.uid
-                if (childSnapshot && childSnapshot.key && childData) {
-                    childData.uid = childSnapshot.key;
-                    const conversation = this.completeConversation(childData);
-                    if (conversation) {
-                        callback(conversation)
-                    } else {
-                        callback(null)
-                    }
+            if(this.subscribe){
+                this.logger.log('[FIREBASEConversationsHandlerSERVICE] getConversationDetail ALREADY SUBSCRIBED')
+                return;
+            }
 
+            this.subscribe = firebaseMessages.on('value', (snap) => {
+                const childSnapshot = snap.child('/'+conversationId)
+                if(!childSnapshot.exists()){
+                    this.logger.log('[FIREBASEConversationsHandlerSERVICE] getConversationDetail conversation NOT exist', conversationId)
+                    callback(null)
+                } else {
+                    const childData: ConversationModel = childSnapshot.val();
+                    this.logger.debug('[FIREBASEConversationsHandlerSERVICE] getConversationDetail conversation exist', childSnapshot.val(), childSnapshot.key)
+                    if (childSnapshot && childSnapshot.key && childData) {
+                        childData.uid = childSnapshot.key;
+                        const conversation = this.completeConversation(childData);
+                        if (conversation) {
+                            callback(conversation)
+                        } else {
+                            callback(null)
+                        }
+                    }
+                    // this.BSConversationDetail.next(conversation);
                 }
+                // const childData: ConversationModel = childSnapshot.val();
+                // this.logger.debug('[FIREBASEConversationsHandlerSERVICE] conversationDetail childSnapshot *****', childSnapshot.val())
+                // if (childSnapshot && childSnapshot.key && childData) {
+                //     childData.uid = childSnapshot.key;
+                //     const conversation = this.completeConversation(childData);
+                //     if (conversation) {
+                //         callback(conversation)
+                //     } else {
+                //         callback(null)
+                //     }
+                // }
                 // this.BSConversationDetail.next(conversation);
             });
         }
@@ -642,3 +662,4 @@ export class FirebaseConversationsHandler extends ConversationsHandlerService {
     // END PRIVATE FUNCTIONS
     // ---------------------------------------------------------- //
 }
+

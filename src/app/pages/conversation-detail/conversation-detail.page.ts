@@ -320,7 +320,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       const conversations = this.conversationsHandlerService.conversations
       // console.log('[CONVS-DETAIL] conversations', conversations);
       this.conversation_count = conversations.length
-      if (conv && conv.sender !== this.loggedUser.uid) {
+      if (conv && this.loggedUser && conv.sender !== this.loggedUser.uid) {
         this.logger.log('[CONVS-DETAIL] subscribe to BSConversationsChange data sender ', conv.sender)
         this.logger.log('[CONVS-DETAIL] subscribe to BSConversationsChange this.loggedUser.uid ', this.loggedUser.uid)
         this.logger.log('[CONVS-DETAIL] subscribe to BSConversationsChange is_new ', conv.is_new)
@@ -761,6 +761,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     if (this.conversationWith && this.conversationsHandlerService && this.conv_type === 'active') {
       this.logger.log('[CONVS-DETAIL] - setHeaderContent getConversationDetail CALLING')
       this.conversationsHandlerService.getConversationDetail(this.conversationWith, (conv) => {
+        this.logger.debug('[CONV-COMP] setHeaderContent getConversationDetail: conversationsHandlerService ', this.conversationWith, conv, this.conv_type)
         if (conv) {
           this.conversationAvatar = setConversationAvatar(
             conv.conversation_with,
@@ -768,18 +769,44 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
             conv.channel_type,
           )
         }
+        if(!conv){
+          this.logger.debug('[CONV-COMP] setHeaderContent getConversationDetail: conv not exist --> search in archived list', this.conversationWith, this.conv_type)
+          this.archivedConversationsHandlerService.getConversationDetail(this.conversationWith, (conv) => {
+            this.logger.debug('[CONV-COMP] setHeaderContent getConversationDetail: archivedConversationsHandlerService', this.conversationWith, conv)
+            if (conv) {
+              console.log('[CONVS-DETAIL] - setHeaderContent getConversationDetail (archived)', this.conversationWith, 'CONVS', conv)
+              this.conversationAvatar = setConversationAvatar(
+                conv.conversation_with,
+                conv.conversation_with_fullname,
+                conv.channel_type,
+              )
+            }
+          })
+        }
         this.logger.log('[CONVS-DETAIL] - setHeaderContent > conversationAvatar: ', this.conversationAvatar)
       })
     } else {
-      //get conversation from 'conversations' firebase node
+      //get conversation from 'archived-conversations' firebase node
+      this.logger.debug('[CONV-COMP] setHeaderContent getConversationDetail: archivedConversationsHandlerService', this.conversationWith, this.conv_type)
       this.archivedConversationsHandlerService.getConversationDetail(this.conversationWith, (conv) => {
         if (conv) {
-          // console.log('[CONVS-DETAIL] - setHeaderContent getConversationDetail (archived)', this.conversationWith, 'CONVS', conv)
           this.conversationAvatar = setConversationAvatar(
             conv.conversation_with,
             conv.conversation_with_fullname,
             conv.channel_type,
           )
+        }
+        if(!conv){
+          this.conversationsHandlerService.getConversationDetail(this.conversationWith, (conv) => {
+            if (conv) {
+              this.conversationAvatar = setConversationAvatar(
+                conv.conversation_with,
+                conv.conversation_with_fullname,
+                conv.channel_type,
+              )
+            }
+            this.logger.log('[CONVS-DETAIL] - setHeaderContent > conversationAvatar: ', this.conversationAvatar)
+          })
         }
       })
     }
