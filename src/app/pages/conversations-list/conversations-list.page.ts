@@ -231,7 +231,7 @@ export class ConversationListPage implements OnInit {
     this.logger.log('Called ionViewDidEnter')
     this.logger.log('[CONVS-LIST-PAGE] ionViewWillEnter uidConvSelected',this.uidConvSelected )
     this.listnerStart()
-    this.conversations = this.manageStoredConversations()
+    // this.conversations = this.manageStoredConversations()
     // exit from app with hardware back button
     this.subscription = this.platform.backButton.subscribe(() => {
       navigator['app'].exitApp()

@@ -847,8 +847,8 @@ export class AppComponent implements OnInit {
           document.title = "(" + badgeNewConverstionNumber + ") " + that.tabTitle;
         }
       }, 1000);
+      this.soundMessage()
     }
-    this.soundMessage()
   }
 
   soundMessage() {
@@ -1210,11 +1210,11 @@ export class AppComponent implements OnInit {
   private updateConversationsOnStorage(){
     const that = this
     //reset timer and save conversation on storage after 2s
-    clearTimeout(this.setTimeoutConversationsEvent);
-    this.setTimeoutConversationsEvent = setTimeout(() => {
-      this.logger.debug('[APP-COMP] updateConversationsOnStorage: reset timer and save conversations -> ', this.conversationsHandlerService.conversations.length)
-      that.appStorageService.setItem('conversations', JSON.stringify(this.conversationsHandlerService.conversations))
-    }, 2000);
+  //   clearTimeout(this.setTimeoutConversationsEvent);
+  //   this.setTimeoutConversationsEvent = setTimeout(() => {
+  //     this.logger.debug('[APP-COMP] updateConversationsOnStorage: reset timer and save conversations -> ', this.conversationsHandlerService.conversations.length)
+  //     that.appStorageService.setItem('conversations', JSON.stringify(this.conversationsHandlerService.conversations))
+  //   }, 2000);
   }
 
   private initArchivedConversationsHandler(userId: string) {
