@@ -847,8 +847,8 @@ export class AppComponent implements OnInit {
           document.title = "(" + badgeNewConverstionNumber + ") " + that.tabTitle;
         }
       }, 1000);
-      this.soundMessage()
     }
+    this.soundMessage()
   }
 
   soundMessage() {
@@ -865,7 +865,7 @@ export class AppComponent implements OnInit {
       }).catch((error: any) => {
         that.logger.error('[APP-COMP] ***soundMessage error*', error);
       });
-    }, 1000);
+    }, 4000);
   }
   /**---------------- SOUND FUNCTIONS --> END <--- +*/
   /***************************************************+*/
@@ -1282,10 +1282,6 @@ export class AppComponent implements OnInit {
         // })
 
       }
-    }
-
-    if(this.appStorageService.getItem('last_project')){
-      this.events.publish('storage:last_project', this.appStorageService.getItem('last_project'))
     }
   }
 }
