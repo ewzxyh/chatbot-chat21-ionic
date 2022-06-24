@@ -172,7 +172,7 @@ export class ConversationListPage implements OnInit {
   ngOnInit() {
     this.watchToConnectionStatus()
     this.getAppConfigToHideDiplayBtns()
-    // this.conversations = this.manageStoredConversations()
+    
   }
 
   ngOnChanges() {
@@ -231,7 +231,7 @@ export class ConversationListPage implements OnInit {
     this.logger.log('Called ionViewDidEnter')
     this.logger.log('[CONVS-LIST-PAGE] ionViewWillEnter uidConvSelected',this.uidConvSelected )
     this.listnerStart()
-
+    this.conversations = this.manageStoredConversations()
     // exit from app with hardware back button
     this.subscription = this.platform.backButton.subscribe(() => {
       navigator['app'].exitApp()
@@ -340,7 +340,7 @@ export class ConversationListPage implements OnInit {
   // Init convrsation handler
   // ------------------------------------------------------------------ //
   initConversationsHandler() {
-    this.conversations = this.manageStoredConversations()
+    // this.conversations = this.manageStoredConversations()
     this.conversations = this.conversationsHandlerService.conversations
     this.logger.log('[CONVS-LIST-PAGE] - CONVERSATIONS ', this.conversations.length, this.conversations)
     // save conversationHandler in chatManager
