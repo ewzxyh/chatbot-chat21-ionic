@@ -1,5 +1,14 @@
 # chat21-ionic ver 3.0
 
+### 3.0.65 in PROD
+- bug-fixed: icons in sidebar were not alignet correctly on Safari
+- bug-fixed: missing translations on sidebar-detail component and login-modal page on start when user logged in for the first time
+- bug-fixed: some icons not showed in side-bar user detail component: replaced material-design-icons with material-icons
+- bug-fixed: if removed conversation.uid is the selected ones, change url from /active to /archived with navigateByUrl after archivedConversation is completed
+- bug-fixed: truncate sender_fullname in conversation-list and conversation-detail header components
+- added: arabic translations language
+- changed: behaviour of is_new of a conversation (not update 'is_new' conversation property if conv is the selected one or if sender is me)
+
 ### 3.0.65-rc3 - LATEST
 - changed: retrive conversations with 'onces' firebase event and remove lastTimestamp from added, changed and removed fireabase subscriptions event
 - bug-fixed: conversation not archived due to conversation_removed unhandled event

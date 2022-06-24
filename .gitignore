@@ -14,3 +14,4 @@ firebase-messaging-sw.js
 env.pre
 .env
 src/firebase-messaging-sw.js
+deploy_prod.sh
