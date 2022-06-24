@@ -86,16 +86,9 @@ export class SidebarComponent implements OnInit {
     this.events.subscribe('storage:last_project',project =>{
       this.logger.log('[SIDEBAR] stored_project ', project)
       if (project && project !== 'undefined') {
-        this.logger.log('[SIDEBAR] project ', project)
-
         this.project_id = project.id_project.id
-        this.logger.log('[SIDEBAR] project_id ', this.project_id)
-
         this.USER_ROLE = project.role;
-        this.logger.log('[SIDEBAR] USER_ROLE ', this.USER_ROLE)
         this.buildURLs(this.USER_ROLE)
-      } else {
-        this.logger.error('[SIDEBAR] stored_project not found in storage', project)
       }
     })
   }

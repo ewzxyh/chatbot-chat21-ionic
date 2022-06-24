@@ -211,12 +211,13 @@ export class ProjectItemComponent implements OnInit {
       this.logger.log('[PROJECT-ITEM] - LAST PROJECT PARSED ', this.project)
     }
 
-    this.events.publish('storage:last_project', this.project)
+    
 
 
   }
 
   doProjectSubscriptions(project) {
+    this.events.publish('storage:last_project', project)
     this.logger.log('[PROJECT-ITEM] doProjectSubscriptions project ', project)
     if (project) {
       const user_role = this.project.role
