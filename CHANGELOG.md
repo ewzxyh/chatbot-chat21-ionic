@@ -1,5 +1,9 @@
 # chat21-ionic ver 3.0
 
+### 3.0.66 in PROD
+- added: control to 'foregroundCount' locale storage variable from dashboard
+- added: uk translations
+
 ### 3.0.65 in PROD
 - bug-fixed: icons in sidebar were not alignet correctly on Safari
 - bug-fixed: missing translations on sidebar-detail component and login-modal page on start when user logged in for the first time
