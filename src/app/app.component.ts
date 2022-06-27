@@ -99,6 +99,7 @@ export class AppComponent implements OnInit {
   private hadBeenCalledOpenModal: boolean = false;
   public missingConnectionToast: any
   public executedInitializeAppByWatchConnection: boolean = false;
+  // private isInitialized: boolean = false;
   private version: string;
   IS_ONLINE: boolean;
   IS_ON_MOBILE_DEVICE: boolean;
@@ -849,6 +850,7 @@ export class AppComponent implements OnInit {
       }, 1000);
       this.soundMessage()
     }
+    // if(this.isInitialized) this.soundMessage()
   }
 
   soundMessage() {
@@ -1143,33 +1145,6 @@ export class AppComponent implements OnInit {
   }
 
 
-  // listenToLogoutEvent() {
-  //   this.events.subscribe('profileInfoButtonClick:logout', (hasclickedlogout) => {
-  //     this.logger.debug('[APP-COMP] hasclickedlogout', hasclickedlogout);
-  //     if (hasclickedlogout === true) {
-  //       // ----------------------------------------------
-  //       // PUSH NOTIFICATIONS
-  //       // ----------------------------------------------
-  //       const that = this;
-  //       const pushEngine = this.appConfigProvider.getConfig().pushEngine
-  //       if( pushEngine && pushEngine !== 'none'){
-  //         this.notificationsService.removeNotificationsInstance(function (res) {
-  //           that.logger.debug('[APP-COMP] FIREBASE-NOTIFICATION >>>>  removeNotificationsInstance > CALLBACK RES', res);
-
-  //           if (res === 'success') {
-  //             that.removePresenceAndLogout();
-  //           } else {
-  //             that.removePresenceAndLogout();
-  //             that.presentToast();
-  //           }
-  //         })
-  //       }
-
-  //     }
-  //   });
-  // }
-
-
   async presentToast() {
     const toast = await this.toastController.create({
       message: this.toastMsgErrorWhileUnsubscribingFromNotifications,
@@ -1209,12 +1184,13 @@ export class AppComponent implements OnInit {
 
   private updateConversationsOnStorage(){
     const that = this
-    //reset timer and save conversation on storage after 2s
-  //   clearTimeout(this.setTimeoutConversationsEvent);
-  //   this.setTimeoutConversationsEvent = setTimeout(() => {
-  //     this.logger.debug('[APP-COMP] updateConversationsOnStorage: reset timer and save conversations -> ', this.conversationsHandlerService.conversations.length)
-  //     that.appStorageService.setItem('conversations', JSON.stringify(this.conversationsHandlerService.conversations))
-  //   }, 2000);
+    // reset timer and save conversation on storage after 2s
+    // clearTimeout(this.setTimeoutConversationsEvent);
+    // this.setTimeoutConversationsEvent = setTimeout(() => {
+    //   that.logger.debug('[APP-COMP] updateConversationsOnStorage: reset timer and save conversations -> ', this.conversationsHandlerService.conversations.length)
+    //   that.appStorageService.setItem('conversations', JSON.stringify(that.conversationsHandlerService.conversations))
+    //   that.isInitialized = true;
+    // }, 2000);
   }
 
   private initArchivedConversationsHandler(userId: string) {

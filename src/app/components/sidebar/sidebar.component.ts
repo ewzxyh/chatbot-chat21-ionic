@@ -127,6 +127,7 @@ export class SidebarComponent implements OnInit {
             this.photo_profile_URL = this.imageRepoService.getImagePhotoUrl(this.currentUser.uid)
             this.logger.log('[SIDEBAR] photo_profile_URL ', this.photo_profile_URL)
             this.checkIfExistPhotoProfile(this.photo_profile_URL)
+            this.checkAndRemoveDashboardForegroundCount()
           }
         } else {
           this.logger.error('[SIDEBAR] BSAuthStateChanged current user not found in storage')
@@ -147,6 +148,18 @@ export class SidebarComponent implements OnInit {
         this.logger.log('[SIDEBAR] photo_profile_URL IMAGE EXIST ', imageExists)
       }
     })
+  }
+
+  checkAndRemoveDashboardForegroundCount(){
+    try {
+      const dashboardForegroundCount = localStorage.getItem('dshbrd----foregroundcount')
+      this.logger.log('[SIDEBAR] - THERE IS DASHBOARD FOREGROUND COUNT', dashboardForegroundCount)
+      if (dashboardForegroundCount && dashboardForegroundCount !== 'undefined') {
+        localStorage.setItem('dshbrd----foregroundcount', '0')
+      }
+    } catch (err) {
+      this.logger.error('Get local storage dshbrd----foregroundcount ', err)
+    }
   }
 
   createUserAvatar(currentUser) {
@@ -230,50 +243,43 @@ export class SidebarComponent implements OnInit {
   }
 
   getConversationsTranslation() {
-    this.translate.get('Conversations')
-      .subscribe((text: string) => {
+    this.translate.get('Conversations').subscribe((text: string) => {
         this.conversations_lbl = text
       });
   }
 
   getContactsTranslation() {
-    this.translate.get('LABEL_CONTACTS')
-      .subscribe((text: string) => {
+    this.translate.get('LABEL_CONTACTS').subscribe((text: string) => {
         this.contacts_lbl = text
       });
   }
 
   getAppsTranslation() {
-    this.translate.get('Apps')
-      .subscribe((text: string) => {
+    this.translate.get('Apps').subscribe((text: string) => {
         this.apps_lbl = text
       });
   }
 
   getAnalyticsTranslation() {
-    this.translate.get('Analytics')
-      .subscribe((text: string) => {
+    this.translate.get('Analytics').subscribe((text: string) => {
         this.analytics_lbl = text
       });
   }
 
   getActivitiesTranslation() {
-    this.translate.get('Activities')
-      .subscribe((text: string) => {
+    this.translate.get('Activities').subscribe((text: string) => {
         this.activities_lbl = text
       });
   }
 
   getHistoryTranslation() {
-    this.translate.get('History')
-      .subscribe((text: string) => {
+    this.translate.get('History').subscribe((text: string) => {
         this.history_lbl = text
       });
   }
 
   getSettingsTranslation() {
-    this.translate.get('Settings')
-      .subscribe((text: string) => {
+    this.translate.get('Settings').subscribe((text: string) => {
         this.settings_lbl = text
       });
   }
