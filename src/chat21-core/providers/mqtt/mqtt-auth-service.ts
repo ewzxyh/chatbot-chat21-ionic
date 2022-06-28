@@ -25,11 +25,11 @@ import { AppStorageService } from '../abstract/app-storage.service';
 
 
 @Injectable({ providedIn: 'root' })
-
 export class MQTTAuthService extends MessagingAuthService {
   
-  BSAuthStateChanged: BehaviorSubject<any>;
-  BSSignOut: BehaviorSubject<any>;
+  // BehaviorSubject
+  BSAuthStateChanged: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  BSSignOut: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   SERVER_BASE_URL: string;
 

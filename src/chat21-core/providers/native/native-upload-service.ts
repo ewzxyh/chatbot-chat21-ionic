@@ -11,16 +11,9 @@ import { LoggerInstance } from '../logger/loggerInstance';
 @Injectable()
 export class NativeUploadService extends UploadService {
 
+    BSStateUpload: BehaviorSubject<any> = new BehaviorSubject<any>(null)
 
-
-    BSStateUpload: BehaviorSubject<any>;
-
-    // private persistence: string;
-    SERVER_BASE_URL: string;
-
-    public token: any;
-    public tiledeskToken: any;
-
+    private tiledeskToken: string;
     private URL_TILEDESK_IMAGES: string;
     private URL_TILEDESK_FILE: string;
     private logger: LoggerService = LoggerInstance.getInstance()

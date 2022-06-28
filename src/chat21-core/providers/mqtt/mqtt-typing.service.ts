@@ -14,6 +14,7 @@ import { LoggerInstance } from '../logger/loggerInstance';
 import { setLastDate } from '../../utils/utils';
 import { environment } from '../../../environments/environment';
 import { TypingService } from '../abstract/typing.service';
+import { BehaviorSubject } from 'rxjs';
 
 export class TypingModel {
 
@@ -31,6 +32,10 @@ export class TypingModel {
 
 export class MQTTTypingService extends TypingService {
 
+  // BehaviorSubject
+  BSIsTyping: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  BSSetTyping: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  
   // private params
   private tenant: string;
   private urlNodeTypings: string;

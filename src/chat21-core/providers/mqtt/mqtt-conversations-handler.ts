@@ -23,15 +23,20 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 @Injectable({ providedIn: 'root' })
 export class MQTTConversationsHandler extends ConversationsHandlerService {
 
-    BSConversationDetail: BehaviorSubject<ConversationModel>;
-    conversationAdded: BehaviorSubject<ConversationModel>;
-    conversationChanged: BehaviorSubject<ConversationModel>;
-    conversationRemoved: BehaviorSubject<ConversationModel>;
-    loadedConversationsStorage: BehaviorSubject<ConversationModel[]>;
+    // BehaviorSubject
+    BSConversationDetail: BehaviorSubject<ConversationModel> = new BehaviorSubject<ConversationModel>(null);;
+    conversationAdded: BehaviorSubject<ConversationModel> = new BehaviorSubject<ConversationModel>(null);;
+    conversationChanged: BehaviorSubject<ConversationModel> = new BehaviorSubject<ConversationModel>(null);; 
+    conversationRemoved: BehaviorSubject<ConversationModel> = new BehaviorSubject<ConversationModel>(null);;
     BSConversations: BehaviorSubject<ConversationModel[]>
+    // readAllMessages: BehaviorSubject<string>;
+    
+    // public variables
     conversations: Array<ConversationModel> = [];
     uidConvSelected: string;
     tenant: string;
+
+    // private variables
     private loggedUserId: string;
     private translationMap: Map<string, string>;
     private isConversationClosingMap: Map<string, boolean>;

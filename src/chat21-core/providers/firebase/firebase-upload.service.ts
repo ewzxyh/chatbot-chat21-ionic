@@ -24,7 +24,7 @@ import { UploadModel } from '../../models/upload';
 export class FirebaseUploadService extends UploadService {
 
   // BehaviorSubject
-  BSStateUpload: BehaviorSubject<any>;
+  BSStateUpload: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   //private
   private url: string;

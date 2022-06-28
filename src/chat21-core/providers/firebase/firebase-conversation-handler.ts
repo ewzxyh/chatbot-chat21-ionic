@@ -32,10 +32,10 @@ import { messageType, isEmojii } from 'src/chat21-core/utils/utils-message';
 export class FirebaseConversationHandler extends ConversationHandlerService {
 
     // BehaviorSubject
-    messageAdded: BehaviorSubject<MessageModel>;
-    messageChanged: BehaviorSubject<MessageModel>;
-    messageRemoved: BehaviorSubject<string>;
-    isTyping: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+    messageAdded: BehaviorSubject<MessageModel> = new BehaviorSubject<MessageModel>(null);;
+    messageChanged: BehaviorSubject<MessageModel> = new BehaviorSubject<MessageModel>(null);;
+    messageRemoved: BehaviorSubject<string> = new BehaviorSubject<string>(null);
+    messageWait: BehaviorSubject<any> = new BehaviorSubject<string>(null);
 
     // public variables
     public attributes: any;

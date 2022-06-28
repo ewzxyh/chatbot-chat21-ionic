@@ -32,8 +32,8 @@ export class TypingModel {
 export class FirebaseTypingService extends TypingService {
 
   // BehaviorSubject
-  BSIsTyping: BehaviorSubject<any>;
-  BSSetTyping: BehaviorSubject<any>;
+  BSIsTyping: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  BSSetTyping: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   // public params
   // public tenant: string;

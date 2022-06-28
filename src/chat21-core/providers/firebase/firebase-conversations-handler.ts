@@ -31,12 +31,11 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 export class FirebaseConversationsHandler extends ConversationsHandlerService {
 
     // BehaviorSubject
-    BSConversationDetail: BehaviorSubject<ConversationModel>;
+    BSConversationDetail: BehaviorSubject<ConversationModel> = new BehaviorSubject<ConversationModel>(null);
+    conversationAdded: BehaviorSubject<ConversationModel> = new BehaviorSubject<ConversationModel>(null);
+    conversationChanged: BehaviorSubject<ConversationModel> = new BehaviorSubject<ConversationModel>(null);
+    conversationRemoved: BehaviorSubject<ConversationModel> = new BehaviorSubject<ConversationModel>(null);
     // readAllMessages: BehaviorSubject<string>;
-    conversationAdded: BehaviorSubject<ConversationModel>;
-    conversationChanged: BehaviorSubject<ConversationModel>;
-    conversationRemoved: BehaviorSubject<ConversationModel>;
-    loadedConversationsStorage: BehaviorSubject<ConversationModel[]>;
 
     // public params
     conversations: Array<ConversationModel> = [];

@@ -23,9 +23,8 @@ import { LoggerInstance } from '../logger/loggerInstance';
 export class FirebasePresenceService extends PresenceService {
 
   // BehaviorSubject
-  // BSIsOnline: BehaviorSubject<any>;
-  BSIsOnline: BehaviorSubject<any>;
-  BSLastOnline: BehaviorSubject<any>;
+  BSIsOnline: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  BSLastOnline: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   // public tenant: string;
 

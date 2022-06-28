@@ -21,8 +21,9 @@ import { environment } from '../../../environments/environment';
 })
 export class MQTTPresenceService extends PresenceService {
 
-  BSIsOnline: BehaviorSubject<any>;
-  BSLastOnline: BehaviorSubject<any>;
+  // BehaviorSubject
+  BSIsOnline: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  BSLastOnline: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   // private params
   private tenant: string;

@@ -15,16 +15,14 @@ export abstract class ConversationsHandlerService {
 
   // BehaviorSubject
   abstract BSConversationDetail: BehaviorSubject<ConversationModel> = new BehaviorSubject<ConversationModel>(null);
-  // abstract readAllMessages: BehaviorSubject<string> = new BehaviorSubject<string>(null);
   abstract conversationAdded: BehaviorSubject<ConversationModel> = new BehaviorSubject<ConversationModel>(null);
   abstract conversationChanged: BehaviorSubject<ConversationModel> = new BehaviorSubject<ConversationModel>(null);
   abstract conversationRemoved: BehaviorSubject<ConversationModel> = new BehaviorSubject<ConversationModel>(null);
-  abstract loadedConversationsStorage: BehaviorSubject<ConversationModel[]> = new BehaviorSubject<ConversationModel[]>([]);
-
+  // abstract readAllMessages: BehaviorSubject<string> = new BehaviorSubject<string>(null);
+ 
   // params
   abstract conversations: Array<ConversationModel> = [];
   abstract uidConvSelected: string;
-  // abstract imageRepo: ImageRepoService;
 
   // functions
   abstract initialize(tenant: string, userId: string, translationMap: Map<string, string>): void;

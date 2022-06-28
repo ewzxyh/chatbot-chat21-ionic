@@ -14,7 +14,6 @@ import { LoggerInstance } from '../logger/loggerInstance';
 })
 export class TiledeskAuthService {
 
-  // public isOnline$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
   // private persistence: string;
   public SERVER_BASE_URL: string;
 
