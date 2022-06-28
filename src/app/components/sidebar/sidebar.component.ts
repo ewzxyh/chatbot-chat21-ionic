@@ -233,55 +233,26 @@ export class SidebarComponent implements OnInit {
 
 
   translateLabels() {
-    this.getConversationsTranslation();
-    this.getContactsTranslation();
-    this.getActivitiesTranslation();
-    this.getAppsTranslation();
-    this.getAnalyticsTranslation();
-    this.getHistoryTranslation();
-    this.getSettingsTranslation()
-  }
+    const keys= [
+      'Conversations',
+      'LABEL_CONTACTS',
+      'Apps',
+      'Analytics',
+      'Activities',
+      'History',
+      'Settings'
+    ]
 
-  getConversationsTranslation() {
-    this.translate.get('Conversations').subscribe((text: string) => {
-        this.conversations_lbl = text
-      });
-  }
-
-  getContactsTranslation() {
-    this.translate.get('LABEL_CONTACTS').subscribe((text: string) => {
-        this.contacts_lbl = text
-      });
-  }
-
-  getAppsTranslation() {
-    this.translate.get('Apps').subscribe((text: string) => {
-        this.apps_lbl = text
-      });
-  }
-
-  getAnalyticsTranslation() {
-    this.translate.get('Analytics').subscribe((text: string) => {
-        this.analytics_lbl = text
-      });
-  }
-
-  getActivitiesTranslation() {
-    this.translate.get('Activities').subscribe((text: string) => {
-        this.activities_lbl = text
-      });
-  }
-
-  getHistoryTranslation() {
-    this.translate.get('History').subscribe((text: string) => {
-        this.history_lbl = text
-      });
-  }
-
-  getSettingsTranslation() {
-    this.translate.get('Settings').subscribe((text: string) => {
-        this.settings_lbl = text
-      });
+    this.translate.get(keys).subscribe((text: string) => {
+      this.conversations_lbl = text['Conversations'];
+      this.contacts_lbl = text['LABEL_CONTACTS']
+      this.apps_lbl = text['Apps']
+      this.analytics_lbl = text['Analytics']
+      this.activities_lbl = text['Activities']
+      this.history_lbl = text['History']
+      this.settings_lbl = text['Settings']
+      
+    });
   }
 
   getOSCODE() {
