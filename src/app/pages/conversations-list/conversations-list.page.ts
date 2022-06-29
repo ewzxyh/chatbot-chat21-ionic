@@ -72,6 +72,7 @@ export class ConversationListPage implements OnInit {
   public supportMode: boolean
   public writeto_btn: boolean
   public archived_btn: boolean
+  public sound_btn: string
   public convertMessage = convertMessage
   private isShowMenuPage = false
   private logger: LoggerService = LoggerInstance.getInstance()
@@ -127,6 +128,7 @@ export class ConversationListPage implements OnInit {
     this.listenToLogoutEvent()
     this.listenGoOnline()
     this.listenGoOffline()
+    this.listenToStorageChange()
     this.listenToSwPostMessage()
     this.listenSupportConvIdHasChanged()
     // this.listenDirectConvIdHasChanged();
@@ -211,6 +213,16 @@ export class ConversationListPage implements OnInit {
       this.writeto_btn = false;
       this.logger.log('[CONVS-LIST-PAGE] getAppConfigToHideDiplayBtns writeto_btn ', this.writeto_btn)
     }
+
+
+    const sound_status = localStorage.getItem('dshbrd----sound')
+    if(sound_status && sound_status !== 'undefined'){
+      this.sound_btn = sound_status
+    } else {
+      this.sound_btn = 'enabled'
+    }
+
+
   }
 
   watchToConnectionStatus() {
@@ -336,6 +348,8 @@ export class ConversationListPage implements OnInit {
     })
   }
 
+  
+
   // ------------------------------------------------------------------ //
   // Init convrsation handler
   // ------------------------------------------------------------------ //
@@ -433,6 +447,10 @@ export class ConversationListPage implements OnInit {
           this.loadingIsActive = false
         }
     })
+  }
+
+  listenToStorageChange(){
+    this.events.subscribe('storage:sound', value => this.sound_btn = value)
   }
 
   // ------------------------------------------------------------------
@@ -836,6 +854,13 @@ export class ConversationListPage implements OnInit {
       presentModal(this.modalController, ProfileInfoPage, { token: TOKEN })
     } else {
       this.navService.push(ProfileInfoPage, { token: TOKEN })
+    }
+  }
+
+  onSoundChange(event: string){
+    if(event && event !== undefined){
+      localStorage.setItem('dshbrd----sound', event)
+      this.sound_btn = event
     }
   }
 

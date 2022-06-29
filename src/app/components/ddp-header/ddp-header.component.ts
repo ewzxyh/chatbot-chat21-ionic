@@ -9,12 +9,16 @@ import { CustomTranslateService } from 'src/chat21-core/providers/custom-transla
   styleUrls: ['./ddp-header.component.scss'],
 })
 export class DdpHeaderComponent implements OnInit {
+  
   @Input() numberOpenConv: number
   @Input() supportMode: boolean
   @Input() archived_btn: boolean
   @Input() writeto_btn: boolean
+  @Input() sound_btn: string
+  @Output() onSoundChange = new EventEmitter<string>()
   @Output() openContactsDirectory = new EventEmitter()
   @Output() openProfileInfo = new EventEmitter()
+
   IS_ON_MOBILE_DEVICE: boolean
   createTicketModal = null
   public translationMap: Map<string, string>;
@@ -86,6 +90,10 @@ export class DdpHeaderComponent implements OnInit {
   /** */
   onOpenContactsDirectory(e: any) {
     this.openContactsDirectory.emit(e)
+  }
+
+  onSoundChangeFN(e: any){
+    this.onSoundChange.emit(e)
   }
   // END @Output() //
 

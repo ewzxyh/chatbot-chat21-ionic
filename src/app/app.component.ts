@@ -89,6 +89,8 @@ export class AppComponent implements OnInit {
   private setIntervalTime: any;
   private setTimeoutSound: any;
   private isTabVisible: boolean = true;
+  private isSoundEnabled: boolean;
+  private hasPlayed: boolean;
   private tabTitle: string;
   private setTimeoutConversationsEvent: any;
   private logger: LoggerService = LoggerInstance.getInstance();
@@ -99,7 +101,7 @@ export class AppComponent implements OnInit {
   private hadBeenCalledOpenModal: boolean = false;
   public missingConnectionToast: any
   public executedInitializeAppByWatchConnection: boolean = false;
-  // private isInitialized: boolean = false;
+  private isInitialized: boolean = false;
   private version: string;
   IS_ONLINE: boolean;
   IS_ON_MOBILE_DEVICE: boolean;
@@ -830,6 +832,12 @@ export class AppComponent implements OnInit {
     this.audio = new Audio();
     this.audio.src = chatBaseUrl + URL_SOUND_LIST_CONVERSATION;
     this.audio.load();
+
+    const sound_status = localStorage.getItem('dshbrd----sound')
+    if(sound_status && sound_status !== 'undefined'){
+      this.isSoundEnabled = sound_status === 'enabled'? true: false
+    }
+
   }
 
   private manageTabNotification() {
@@ -848,26 +856,41 @@ export class AppComponent implements OnInit {
           document.title = "(" + badgeNewConverstionNumber + ") " + that.tabTitle;
         }
       }, 1000);
-      this.soundMessage()
+      // if(this.isSoundEnabled) this.soundMessage()
     }
-    // if(this.isInitialized) this.soundMessage()
+
+    const sound_status = localStorage.getItem('dshbrd----sound')
+    if(sound_status && sound_status !== 'undefined'){
+      this.isSoundEnabled = sound_status === 'enabled'? true: false
+    }
+
+    if(this.isInitialized && this.isSoundEnabled) this.soundMessage()
   }
 
   soundMessage() {
     const that = this;
-    // this.audio = new Audio();
-    // // this.audio.src = '/assets/sounds/pling.mp3';
-    // this.audio.src = URL_SOUND_LIST_CONVERSATION;
-    // this.audio.load();
     this.logger.debug('[APP-COMP] conversation play', this.audio);
-    clearTimeout(this.setTimeoutSound);
-    this.setTimeoutSound = setTimeout(function () {
+    // clearTimeout(this.setTimeoutSound);
+    // this.setTimeoutSound = setTimeout(function () {
+    //   that.audio.play().then(() => {
+    //     that.logger.debug('[APP-COMP] ****** soundMessage played *****');
+    //   }).catch((error: any) => {
+    //     that.logger.error('[APP-COMP] ***soundMessage error*', error);
+    //   });
+    // }, 4000);
+    
+    //play sound every 4s from the fist time you receive a conversation added/changed
+    if(!this.hasPlayed){
       that.audio.play().then(() => {
+        that.hasPlayed = true
         that.logger.debug('[APP-COMP] ****** soundMessage played *****');
+        setTimeout(() => {
+          that.hasPlayed = false
+        }, 4000);
       }).catch((error: any) => {
         that.logger.error('[APP-COMP] ***soundMessage error*', error);
       });
-    }, 4000);
+    }
   }
   /**---------------- SOUND FUNCTIONS --> END <--- +*/
   /***************************************************+*/
@@ -1185,12 +1208,12 @@ export class AppComponent implements OnInit {
   private updateConversationsOnStorage(){
     const that = this
     // reset timer and save conversation on storage after 2s
-    // clearTimeout(this.setTimeoutConversationsEvent);
-    // this.setTimeoutConversationsEvent = setTimeout(() => {
-    //   that.logger.debug('[APP-COMP] updateConversationsOnStorage: reset timer and save conversations -> ', this.conversationsHandlerService.conversations.length)
-    //   that.appStorageService.setItem('conversations', JSON.stringify(that.conversationsHandlerService.conversations))
-    //   that.isInitialized = true;
-    // }, 2000);
+    clearTimeout(this.setTimeoutConversationsEvent);
+    this.setTimeoutConversationsEvent = setTimeout(() => {
+      // that.logger.debug('[APP-COMP] updateConversationsOnStorage: reset timer and save conversations -> ', this.conversationsHandlerService.conversations.length)
+      // that.appStorageService.setItem('conversations', JSON.stringify(that.conversationsHandlerService.conversations))
+      that.isInitialized = true;
+    }, 2000);
   }
 
   private initArchivedConversationsHandler(userId: string) {
@@ -1202,10 +1225,22 @@ export class AppComponent implements OnInit {
     this.archivedConversationsHandlerService.initialize(this.tenant, userId, translationMap);
   }
 
+  checkAndRemoveDashboardForegroundCount(){
+    try {
+      const dashboardForegroundCount = localStorage.getItem('dshbrd----foregroundcount')
+      this.logger.log('[SIDEBAR] - THERE IS DASHBOARD FOREGROUND COUNT', dashboardForegroundCount)
+      if (dashboardForegroundCount && dashboardForegroundCount !== 'undefined') {
+        localStorage.setItem('dshbrd----foregroundcount', '0')
+      }
+    } catch (err) {
+      this.logger.error('Get local storage dshbrd----foregroundcount ', err)
+    }
+  }
+
 
   @HostListener('document:visibilitychange', [])
   visibilitychange() {
-    // this.logger.debug("document TITLE", document.hidden, document.title);
+    this.logger.debug("document TITLE", document.hidden, document.title);
     if (document.hidden) {
       this.isTabVisible = false
     } else {
@@ -1213,6 +1248,7 @@ export class AppComponent implements OnInit {
       clearInterval(this.setIntervalTime)
       this.isTabVisible = true;
       document.title = this.tabTitle;
+      this.checkAndRemoveDashboardForegroundCount()
     }
   }
 
@@ -1222,7 +1258,7 @@ export class AppComponent implements OnInit {
   @HostListener('window:storage', ['$event'])
   onStorageChanged(event: any) {
 
-    if (event.key !== 'chat_sv5__tiledeskToken') {
+    if (event.key !== 'chat_sv5__tiledeskToken' && event.key !== 'dshbrd----sound') {
       return;
     }
 
@@ -1258,6 +1294,11 @@ export class AppComponent implements OnInit {
         // })
 
       }
+    }
+
+    if(event.key === 'dshbrd----sound'){
+      this.events.publish('storage:sound', event.newValue);
+      this.isSoundEnabled = event.newValue === 'enabled'? true: false
     }
   }
 }
