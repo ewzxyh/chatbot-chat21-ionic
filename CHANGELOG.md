@@ -1,5 +1,9 @@
 # chat21-ionic ver 3.0
 
+### 3.0.67 in PROD
+- added: control to 'foregroundCount' when tab is hidden/visible
+- added: sound control on/off to new conversations and conversations changed
+
 ### 3.0.66 in PROD
 - added: control to 'foregroundCount' locale storage variable from dashboard
 - added: uk translations
