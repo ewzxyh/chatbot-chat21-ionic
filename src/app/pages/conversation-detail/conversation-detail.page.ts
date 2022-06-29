@@ -1786,43 +1786,22 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   }
   checkAcceptedFile(draggedFileMimeType) {
     let isAcceptFile = false
-    this.logger.log(
-      '[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept: ',
-      this.appConfigProvider.getConfig().fileUploadAccept,
-    )
+    this.logger.log('[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept: ',this.appConfigProvider.getConfig().fileUploadAccept)
     const accept_files = this.appConfigProvider.getConfig().fileUploadAccept
-    this.logger.log(
-      '[CONVS-DETAIL] > checkAcceptedFile - mimeType: ',
-      draggedFileMimeType,
-    )
+    this.logger.log('[CONVS-DETAIL] > checkAcceptedFile - mimeType: ',draggedFileMimeType)
     if (accept_files === '*/*') {
       isAcceptFile = true
       return isAcceptFile
     } else if (accept_files !== '*/*') {
-      this.logger.log(
-        '[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept typeof accept_files ',
-        typeof accept_files,
-      )
+      this.logger.log( '[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept typeof accept_files ',typeof accept_files)
       const accept_files_array = accept_files.split(',')
-      this.logger.log(
-        '[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept accept_files_array ',
-        accept_files_array,
-      )
-      this.logger.log(
-        '[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept accept_files_array typeof: ',
-        typeof accept_files_array,
-      )
+      this.logger.log('[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept accept_files_array ',accept_files_array)
+      this.logger.log('[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept accept_files_array typeof: ',typeof accept_files_array)
 
       accept_files_array.forEach((accept_file) => {
-        this.logger.log(
-          '[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept accept_file ',
-          accept_file,
-        )
+        this.logger.log('[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept accept_file ',accept_file)
         const accept_file_segment = accept_file.split('/')
-        this.logger.log(
-          '[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept accept_file_segment ',
-          accept_file_segment,
-        )
+        this.logger.log('[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept accept_file_segment ',accept_file_segment)
         if (accept_file_segment[1] === '*') {
           if (draggedFileMimeType.startsWith(accept_file_segment[0])) {
             isAcceptFile = true

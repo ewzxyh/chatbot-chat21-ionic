@@ -110,39 +110,25 @@ export class LoaderPreviewPage implements OnInit, AfterViewInit {
     } else if (file.type.startsWith('image') && file.type.includes('svg')) {
       // this.previewFiles(file)
 
-      this.logger.log(
-        '[LOADER-PREVIEW-PAGE] - readAsDataURL file TYPE',
-        file.type,
-      )
+      this.logger.log('[LOADER-PREVIEW-PAGE] - readAsDataURL file TYPE',file.type)
       this.logger.log('[LOADER-PREVIEW-PAGE] - readAsDataURL file ', file)
       const preview = document.querySelector('#img-preview') as HTMLImageElement
 
       const reader = new FileReader()
       const that = this
-      reader.addEventListener(
-        'load',
-        function () {
+      reader.addEventListener('load',function () {
           // convert image file to base64 string
           // const img = reader.result as string;
           const img = reader.result.toString()
-          that.logger.log(
-            'FIREBASE-UPLOAD USE CASE SVG LoaderPreviewPage readAsDataURL img ',
-            img,
-          )
+          that.logger.log('FIREBASE-UPLOAD USE CASE SVG LoaderPreviewPage readAsDataURL img ',img)
 
           // that.fileSelected = that.sanitizer.bypassSecurityTrustResourceUrl(img);
 
-          that.arrayFiles.push(
-            that.sanitizer.bypassSecurityTrustResourceUrl(img),
-          )
+          that.arrayFiles.push(that.sanitizer.bypassSecurityTrustResourceUrl(img))
           if (!that.fileSelected) {
-            that.fileSelected = that.sanitizer.bypassSecurityTrustResourceUrl(
-              img,
-            )
+            that.fileSelected = that.sanitizer.bypassSecurityTrustResourceUrl(img)
           }
-        },
-        false,
-      )
+      },false)
 
       if (file) {
         reader.readAsDataURL(file)
@@ -153,27 +139,13 @@ export class LoaderPreviewPage implements OnInit, AfterViewInit {
       // ---------------------------------------------------------------------
       // } else if (file.type.startsWith("application") || file.type.startsWith("video") || file.type.startsWith("audio") ) {
     } else {
-      this.logger.log(
-        '[LOADER-PREVIEW-PAGE] - readAsDataURL - USE CASE FILE - FILE ',
-        file,
-      )
-      this.logger.log(
-        '[LOADER-PREVIEW-PAGE] - readAsDataURL - USE CASE FILE - FILE TYPE',
-        file.type,
-      )
-      this.file_extension =
-        file.name.substring(file.name.lastIndexOf('.') + 1, file.name.length) ||
-        file.name
-      this.logger.log(
-        '[LOADER-PREVIEW-PAGE] - readAsDataURL - USE CASE FILE - FILE EXTENSION',
-        this.file_extension,
-      )
+      this.logger.log('[LOADER-PREVIEW-PAGE] - readAsDataURL - USE CASE FILE - FILE ',file)
+      this.logger.log('[LOADER-PREVIEW-PAGE] - readAsDataURL - USE CASE FILE - FILE TYPE',file.type)
+      this.file_extension =  file.name.substring(file.name.lastIndexOf('.') + 1, file.name.length) || file.name
+      this.logger.log('[LOADER-PREVIEW-PAGE] - readAsDataURL - USE CASE FILE - FILE EXTENSION',this.file_extension)
       this.file_name = file.name
       this.file_name_ellipsis_the_middle = this.start_and_end(file.name)
-      this.logger.log(
-        '[LOADER-PREVIEW-PAGE] - readAsDataURL - USE CASE FILE - FILE NAME',
-        this.file_name,
-      )
+      this.logger.log( '[LOADER-PREVIEW-PAGE] - readAsDataURL - USE CASE FILE - FILE NAME',this.file_name)
       // if (file.type) {
       //   const file_type_array = file.type.split('/');
       //   this.logger.log('FIREBASE-UPLOAD USE CASE FILE LoaderPreviewPage readAsDataURL file_type_array', file_type_array);
@@ -204,10 +176,7 @@ export class LoaderPreviewPage implements OnInit, AfterViewInit {
     const reader = new FileReader()
     reader.onloadend = (evt) => {
       const img = reader.result.toString()
-      this.logger.log(
-        '[LOADER-PREVIEW-PAGE] - createFile file - FileReader success img',
-        img,
-      )
+      this.logger.log('[LOADER-PREVIEW-PAGE] - createFile file - FileReader success img',img)
       this.arrayFiles.push(img)
       if (!this.fileSelected) {
         this.fileSelected = img
