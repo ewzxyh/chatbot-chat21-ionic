@@ -194,17 +194,19 @@ export class MQTTConversationsHandler extends ConversationsHandlerService {
             }
         });
     }
+
+    getLastConversation(callback: (conv: ConversationModel, error: string) => void): void {
+        throw new Error('Method not implemented.');
+    }
     
     private added(conv: any) {
         this.logger.debug('[MQTTConversationsHandler] NEW CONV childSnapshot', conv)
         let conversation = this.completeConversation(conv);
         if (this.isValidConversation(conversation)) {
             this.setClosingConversation(conversation.conversation_with, false);
-            this.logger.debug('[MQTTConversationsHandler] new conv.uid' + conversation.uid);
-            this.logger.debug('[MQTTConversationsHandler] conversations:', this.conversations);
+            this.logger.debug('[MQTTConversationsHandler] conversations:', conversation.uid, this.conversations);
             const index = this.searchIndexInArrayForConversationWith(this.conversations, conversation.conversation_with);
             this.logger.debug('[MQTTConversationsHandler] found index:', index)
-            this.logger.debug('[MQTTConversationsHandler] NUOVA CONVER;.uid2' + conversation.uid)
             if (index > -1) {
                 this.logger.debug('[MQTTConversationsHandler] TROVATO')
                 this.conversations.splice(index, 1, conversation);
@@ -416,7 +418,6 @@ export class MQTTConversationsHandler extends ConversationsHandlerService {
             conv.last_message_text = conv.text; // building conv with a message
         }
         conv.uid = conv.conversation_with;
-        console.log("uidConvSelected is", this.uidConvSelected);
         if (conv.uid === this.uidConvSelected) {
             this.logger.debug("For selected conversation is_new = false");
             conv.is_new = false;

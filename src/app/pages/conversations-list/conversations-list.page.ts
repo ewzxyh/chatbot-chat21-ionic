@@ -192,26 +192,20 @@ export class ConversationListPage implements OnInit {
     this.supportMode = null
     if (appConfig && appConfig.supportMode === true || appConfig.supportMode === 'true') {
       this.supportMode = true;
-      this.logger.log('[CONVS-LIST-PAGE] getAppConfigToHideDiplayBtns supportMode ', this.supportMode)
     } else if (appConfig && appConfig.supportMode === false || appConfig.supportMode === 'false') {
       this.supportMode = false
-      this.logger.log('[CONVS-LIST-PAGE] getAppConfigToHideDiplayBtns supportMode ', this.supportMode)
     }
     this.archived_btn = null
     if (appConfig && appConfig.archivedButton === true || appConfig.archivedButton === 'true') {
       this.archived_btn = true;
-      this.logger.log('[CONVS-LIST-PAGE] getAppConfigToHideDiplayBtns archived_btn ', this.archived_btn)
     } else if (appConfig && appConfig.archivedButton === false || appConfig.archivedButton === 'false') {
       this.archived_btn = false;
-      this.logger.log('[CONVS-LIST-PAGE] getAppConfigToHideDiplayBtns archived_btn ', this.archived_btn)
     }
     this.writeto_btn = null
     if (appConfig && appConfig.writeToButton === true || appConfig.writeToButton === 'true') {
       this.writeto_btn = true;
-      this.logger.log('[CONVS-LIST-PAGE] getAppConfigToHideDiplayBtns writeto_btn ', this.writeto_btn)
     } else if (appConfig && appConfig.writeToButton === false || appConfig.writeToButton === 'false') {
       this.writeto_btn = false;
-      this.logger.log('[CONVS-LIST-PAGE] getAppConfigToHideDiplayBtns writeto_btn ', this.writeto_btn)
     }
 
 
@@ -679,7 +673,6 @@ export class ConversationListPage implements OnInit {
   setUidConvSelected(uidConvSelected: string, conversationType?: string) {
     this.logger.log('[CONVS-LIST-PAGE] setuidCOnvSelected', uidConvSelected)
     this.uidConvSelected = uidConvSelected
-    this.logger.log('uidConvSelected', uidConvSelected)
     // this.conversationsHandlerService.uidConvSelected = uidConvSelected;
     if (uidConvSelected) {
       let conversationSelected
@@ -934,17 +927,17 @@ export class ConversationListPage implements OnInit {
     const tiledeskToken = this.tiledeskAuthService.getTiledeskToken()
 
     this.tiledeskService.getProjectIdByConvRecipient(tiledeskToken, conversationId).subscribe((res) => {
-          this.logger.log('[CONVS-LIST-PAGE] - GET PROJECTID BY CONV RECIPIENT RES',res)
+      this.logger.log('[CONVS-LIST-PAGE] - GET PROJECTID BY CONV RECIPIENT RES',res)
 
-          if (res) {
-            const project_id = res.id_project
-            this.logger.log('[INFO-CONTENT-COMP] - GET PROJECTID BY CONV RECIPIENT  project_id',project_id)
-            this.archiveSupportGroupConv(tiledeskToken,project_id,conversationId)
-          }
+      if (res) {
+        const project_id = res.id_project
+        this.logger.log('[INFO-CONTENT-COMP] - GET PROJECTID BY CONV RECIPIENT  project_id',project_id)
+        this.archiveSupportGroupConv(tiledeskToken,project_id,conversationId)
+      }
     },(error) => {
-          this.logger.error('[CONVS-LIST-PAGE] - GET PROJECTID BY CONV RECIPIENT - ERROR  ',error)
+      this.logger.error('[CONVS-LIST-PAGE] - GET PROJECTID BY CONV RECIPIENT - ERROR  ',error)
     },() => {
-          this.logger.log('[CONVS-LIST-PAGE] - GET PROJECTID BY CONV RECIPIENT * COMPLETE *')
+      this.logger.log('[CONVS-LIST-PAGE] - GET PROJECTID BY CONV RECIPIENT * COMPLETE *')
     })
   }
 
@@ -962,7 +955,7 @@ export class ConversationListPage implements OnInit {
       }
     },() => {
       this.logger.log('[CONVS-LIST-PAGE] - onCloseConversation closeSupportGroup * COMPLETE *')
-      this.logger.log('[CONVS-LIST-PAGE] - onCloseConversation (closeSupportGroup) CONVS ',this.conversations)
+      this.logger.log('[CONVS-LIST-PAGE] - onCloseConversation (closeSupportGroup) ID ',this.uidConvSelected, conversationId)
       this.logger.log('[CONVS-LIST-PAGE] - onCloseConversation (closeSupportGroup) CONVS LENGHT ',this.conversations.length)
       this.events.publish('conversationhasbeenclosed', conversationId)
       if(conversationId === this.uidConvSelected){

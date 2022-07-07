@@ -531,55 +531,33 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   _getProjectIdByConversationWith(conversationWith: string) {
     const tiledeskToken = this.tiledeskAuthService.getTiledeskToken()
 
-    this.tiledeskService
-      .getProjectIdByConvRecipient(tiledeskToken, conversationWith)
-      .subscribe(
-        (res) => {
-          this.logger.log('[CONVS-DETAIL] - GET PROJECTID BY CONV RECIPIENT RES', res)
-          if (res) {
-            const projectId = res.id_project
-            this.logger.log('[CONVS-DETAIL] - GET PROJECTID BY CONV RECIPIENT projectId ', projectId)
-            this.getProjectById(tiledeskToken, projectId)
-          }
-        },
-        (error) => {
-          this.logger.error('[CONVS-DETAIL] - GET PROJECTID BY CONV RECIPIENT - ERROR  ', error)
-        },
-        () => {
-          this.logger.log(
-            '[CONVS-DETAIL] - GET PROJECTID BY CONV RECIPIENT * COMPLETE *',
-          )
-        },
-      )
+    this.tiledeskService.getProjectIdByConvRecipient(tiledeskToken, conversationWith).subscribe((res) => {
+      this.logger.log('[CONVS-DETAIL] - GET PROJECTID BY CONV RECIPIENT RES + projectId', res, res.id_project)
+      if (res) {
+        const projectId = res.id_project
+        this.getProjectById(tiledeskToken, projectId)
+      }
+    },(error) => {
+      this.logger.error('[CONVS-DETAIL] - GET PROJECTID BY CONV RECIPIENT - ERROR  ', error)
+    },() => {
+      this.logger.log('[CONVS-DETAIL] - GET PROJECTID BY CONV RECIPIENT * COMPLETE *',)
+    })
   }
 
   getProjectById(tiledeskToken, projectId) {
-    this.tiledeskService.getProjectById(tiledeskToken, projectId).subscribe(
-      (res) => {
-        this.logger.log('[CONVS-DETAIL] - GET PROJECTID BY CONV RECIPIENT RES', res)
-        if (res) {
-          const projectId = res.id_project
-          this.logger.log(
-            '[CONVS-DETAIL] - GET PROJECTID BY CONV RECIPIENT projectId ',
-            projectId,
-          )
-        }
-      },
-      (error) => {
-        this.logger.error(
-          '[CONVS-DETAIL] - GET PROJECTID BY CONV RECIPIENT - ERROR  ',
-          error,
-        )
-        if ((error.error.msg = 'you dont belong to the project.')) {
-          this.disableTextarea = true
-        }
-      },
-      () => {
-        this.logger.log(
-          '[CONVS-DETAIL] - GET PROJECTID BY CONV RECIPIENT * COMPLETE *',
-        )
-      },
-    )
+    this.tiledeskService.getProjectById(tiledeskToken, projectId).subscribe((res) => {
+      this.logger.log('[CONVS-DETAIL] - GET PROJECTID BY CONV RECIPIENT RES', res)
+      if (res) {
+        const projectId = res.id_project
+      }
+    },(error) => {
+      this.logger.error('[CONVS-DETAIL] - GET PROJECTID BY CONV RECIPIENT - ERROR  ',error)
+      if ((error.error.msg = 'you dont belong to the project.')) {
+        this.disableTextarea = true
+      }
+    },() => {
+      this.logger.log('[CONVS-DETAIL] - GET PROJECTID BY CONV RECIPIENT * COMPLETE *')
+    })
   }
 
   returnOpenCloseInfoConversation(openInfoConversation: boolean) {
