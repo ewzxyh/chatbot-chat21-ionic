@@ -32,6 +32,7 @@ export abstract class ConversationsHandlerService {
   abstract setConversationRead(conversationId: string): void;
   abstract dispose(): void;
   abstract archiveConversation(conversationId: string): void;
+  abstract getLastConversation(callback:(conv: ConversationModel, error: string)=>void): void
   abstract getConversationDetail(conversationId: string, callback:(conv: ConversationModel)=>void): void;
   abstract getClosingConversation(conversationId: string): boolean;
   abstract setClosingConversation(conversationId: string, status: boolean): void;

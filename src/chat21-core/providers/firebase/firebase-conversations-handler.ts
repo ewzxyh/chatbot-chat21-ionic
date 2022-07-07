@@ -50,6 +50,7 @@ export class FirebaseConversationsHandler extends ConversationsHandlerService {
     private logger: LoggerService = LoggerInstance.getInstance()
     private ref: firebase.database.Query;
     private BASE_URL: string;
+    private BASE_URL_DATABASE: string;
     // private audio: any;
     // private setTimeoutSound: any;
     private subscribe: any
@@ -78,6 +79,7 @@ export class FirebaseConversationsHandler extends ConversationsHandlerService {
         //this.databaseProvider.initialize(userId, this.tenant);
         //this.getConversationsFromStorage();
         this.BASE_URL = this.appConfig.getConfig().firebaseConfig.chat21ApiUrl;
+        this.BASE_URL_DATABASE = this.appConfig.getConfig().firebaseConfig.databaseURL;
     }
 
     /**
@@ -162,6 +164,45 @@ export class FirebaseConversationsHandler extends ConversationsHandlerService {
         setTimeout(() => {
             callback()
         }, 2000);
+    }
+
+    public getLastConversation(callback: (conversation: ConversationModel, error: string)=>void){
+
+        this.getFirebaseToken((error, idToken) => {
+            this.logger.debug('[FIREBASEConversationsHandlerSERVICE] getConversationsRESTApi  idToken', idToken)
+            this.logger.debug('[FIREBASEConversationsHandlerSERVICE] getConversationsRESTApi  error', error)
+            if (idToken) {
+                const httpOptions = {
+                    headers: new HttpHeaders({
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        // 'Authorization': 'Bearer ' + idToken,
+                    })
+
+                }
+                const urlNodeFirebase = conversationsPathForUserId(this.tenant, this.loggedUserId);
+                const queryString = '?auth=' + idToken +'&orderBy="timestamp"&limitToLast=1'
+                const url = this.BASE_URL_DATABASE + urlNodeFirebase + '.json' + queryString// + queryString;
+                this.http.get(url, httpOptions).subscribe((childSnapshot: any) => {
+                    this.logger.debug('[FIREBASEConversationsHandlerSERVICE] getConversationsRESTApi - RES', childSnapshot);
+                    if(childSnapshot){
+                        const childData: ConversationModel = childSnapshot[Object.keys(childSnapshot)[0]];
+                        childData.uid = Object.keys(childSnapshot)[0]
+                        const conversation = this.completeConversation(childData); 
+                        callback(conversation, null)
+                    }else if(!childSnapshot){
+                        callback(null, null)
+                    }
+                }, (error) => {
+                    this.logger.error('[FIREBASEConversationsHandlerSERVICE] getConversationsRESTApi ERROR ', error);
+                    callback(null, 'error')
+                }, () => {
+                    this.logger.debug('[FIREBASEConversationsHandlerSERVICE] getConversationsRESTApi * COMPLETE *');
+                });
+            } else {
+                callback(null, 'error')
+            }
+        });
     }
 
     /**
