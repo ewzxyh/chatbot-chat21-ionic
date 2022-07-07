@@ -878,7 +878,7 @@ export class AppComponent implements OnInit {
     //     that.logger.error('[APP-COMP] ***soundMessage error*', error);
     //   });
     // }, 4000);
-    
+
     //play sound every 4s from the fist time you receive a conversation added/changed
     if(!this.hasPlayed){
       that.audio.play().then(() => {
@@ -1037,7 +1037,8 @@ export class AppComponent implements OnInit {
     this.chatManager.goOffLine();
 
     this.router.navigateByUrl('conversation-detail/'); //redirect to basePage
-
+    this.goToDashboardLogin()
+    
     // clearTimeout(this.timeModalLogin);
     // this.timeModalLogin = setTimeout(() => {
     if (!this.hadBeenCalledOpenModal) {
@@ -1049,6 +1050,12 @@ export class AppComponent implements OnInit {
     // this.unsubscribe$.next();
     // this.unsubscribe$.complete();
 
+  }
+
+  goToDashboardLogin(){
+    let DASHBOARD_URL = this.appConfigProvider.getConfig().dashboardUrl + '/index.html'
+    const myWindow = window.open(DASHBOARD_URL, '_self');
+    myWindow.focus();
   }
 
 
@@ -1240,7 +1247,7 @@ export class AppComponent implements OnInit {
 
   @HostListener('document:visibilitychange', [])
   visibilitychange() {
-    this.logger.debug("document TITLE", document.hidden, document.title);
+    // this.logger.debug("document TITLE", document.hidden, document.title);
     if (document.hidden) {
       this.isTabVisible = false
     } else {
