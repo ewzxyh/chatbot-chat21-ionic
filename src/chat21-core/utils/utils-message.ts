@@ -109,7 +109,7 @@ export function isEmojii(message: any){
     const onlyEmojis = message.replace(new RegExp('[\u0000-\u1eeff]', 'g'), '')
     const visibleChars = message.replace(new RegExp('[\n\r\s]+|( )+', 'g'), '')
     if(onlyEmojis === '' || visibleChars == '') return false
-    return onlyEmojis.length === visibleChars.length
+    return (onlyEmojis.length === visibleChars.length && onlyEmojis.length <= 2)
   } catch(e) {
     return false
   }
