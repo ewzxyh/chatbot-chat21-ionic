@@ -836,14 +836,16 @@ export class AppComponent implements OnInit {
     const sound_status = localStorage.getItem('dshbrd----sound')
     if(sound_status && sound_status !== 'undefined'){
       this.isSoundEnabled = sound_status === 'enabled'? true: false
+    }else{
+      this.isSoundEnabled = true
     }
 
   }
 
-  private manageTabNotification() {
+  private manageTabNotification(badgeNotificationCount?: number) {
     if (!this.isTabVisible) {
       // TAB IS HIDDEN --> manage title and SOUND
-      let badgeNewConverstionNumber = this.conversationsHandlerService.countIsNew()
+      let badgeNewConverstionNumber = badgeNotificationCount? badgeNotificationCount : this.conversationsHandlerService.countIsNew()
       badgeNewConverstionNumber > 0 ? badgeNewConverstionNumber : badgeNewConverstionNumber = 1
       document.title = "(" + badgeNewConverstionNumber + ") " + this.tabTitle
 
@@ -863,7 +865,6 @@ export class AppComponent implements OnInit {
     if(sound_status && sound_status !== 'undefined'){
       this.isSoundEnabled = sound_status === 'enabled'? true: false
     }
-
     if(this.isInitialized && this.isSoundEnabled) this.soundMessage()
   }
 
@@ -938,10 +939,10 @@ export class AppComponent implements OnInit {
 
     this.events.subscribe('uidConvSelected:changed', this.subscribeChangedConversationSelected);
     this.events.subscribe('profileInfoButtonClick:logout', this.subscribeProfileInfoButtonLogOut);
-
+    this.events.subscribe('unservedRequest:count', this.subscribeUnservedRequestCount)
 
     this.conversationsHandlerService.conversationAdded.subscribe((conversation: ConversationModel) => {
-      this.logger.log('[APP-COMP] ***** conversationsAdded *****', conversation);
+      this.logger.log('[APP-COMP] ***** subscribeConversationAdded *****', conversation);
       // that.conversationsChanged(conversations);
       if (conversation && conversation.is_new === true) {
         this.manageTabNotification()
@@ -1037,7 +1038,7 @@ export class AppComponent implements OnInit {
     this.chatManager.goOffLine();
 
     this.router.navigateByUrl('conversation-detail/'); //redirect to basePage
-    this.goToDashboardLogin()
+    // this.goToDashboardLogin()
     
     // clearTimeout(this.timeModalLogin);
     // this.timeModalLogin = setTimeout(() => {
@@ -1135,6 +1136,12 @@ export class AppComponent implements OnInit {
           }
         });
       }
+    }
+  }
+
+  subscribeUnservedRequestCount = (unservedRequestCount) => {
+    if(unservedRequestCount && unservedRequestCount > 0){
+      this.manageTabNotification(unservedRequestCount) //sound and alternate title
     }
   }
 
