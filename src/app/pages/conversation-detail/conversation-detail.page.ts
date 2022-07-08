@@ -259,7 +259,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   listenToDsbrdPostMsgs() {
 
     window.addEventListener("message", (event) => {
-      this.logger.log("[CONVS-DETAIL] message event ", event);
+      // this.logger.log("[CONVS-DETAIL] message event ", event);
 
       // const chat21InfoConversationEle = <HTMLElement>document.querySelector('#chat21-info-conversation');
       // console.log('[CONVS-DETAIL] HAS CLICKED ENLARGE SIDEBAR WIDE chat21InfoConversationEle ', chat21InfoConversationEle)

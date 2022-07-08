@@ -16,7 +16,7 @@ export class WebsocketService {
 
   wsService: WebSocketJs;
   wsRequestsList: any;
-  public wsRequestsList$: BehaviorSubject<Request[]> = new BehaviorSubject<Request[]>([]);
+  public wsRequestsList$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
 
   private logger: LoggerService = LoggerInstance.getInstance();
 
