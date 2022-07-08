@@ -954,10 +954,17 @@ export class AppComponent implements OnInit {
       // console.log('[APP-COMP] ***** subscribeConversationChanged conversation: ', conversation);
       if(conversation)  this.updateConversationsOnStorage();
       const currentUser = this.tiledeskAuthService.getCurrentUser()
+    });
+
+    this.conversationsHandlerService.conversationChangedDetailed.subscribe((changes: {value: ConversationModel, previousValue: ConversationModel}) => {
+      console.log('[APP-COMP] ***** subscribeConversationChangedDetailed conversation: ', changes);
+      const currentUser = this.tiledeskAuthService.getCurrentUser()
       if (currentUser && currentUser !== null) {
-        this.logger.log('[APP-COMP] ***** subscribeConversationChanged currentUser: ', currentUser);
-        if (conversation && conversation.sender !== currentUser.uid) {
-          this.manageTabNotification();
+        this.logger.log('[APP-COMP] ***** subscribeConversationChangedDetailed currentUser: ', currentUser);
+        if (changes.value && changes.value.sender !== currentUser.uid) {
+          if(changes.value.is_new === changes.previousValue.is_new){
+            this.manageTabNotification();
+          }
         }
       }
     });

@@ -324,7 +324,6 @@ export class FirebaseArchivedConversationsHandler extends ArchivedConversationsH
      * 7 -  attivo sound se è un msg nuovo
      */
 
-    //TODO-GAB: fare emit singola conversation e non dell'intero array di conversations
     private changed(childSnapshot: any) {
         if (this.conversationGenerate(childSnapshot)) {
             const index = searchIndexInArrayForUid(this.archivedConversations, childSnapshot.key);
