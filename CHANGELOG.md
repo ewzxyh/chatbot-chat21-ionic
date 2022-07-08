@@ -1,5 +1,9 @@
 # chat21-ionic ver 3.0
 
+### 3.0.68-rc1
+- bug-fixed: not sound if conversation.is_new changed from true to false in conversationChange BS
+- added: sound and title flashing on new unassigned request
+
 ### 3.0.67 in PROD
 - added: control to 'foregroundCount' when tab is hidden/visible
 - added: sound control on/off to new conversations and conversations changed
