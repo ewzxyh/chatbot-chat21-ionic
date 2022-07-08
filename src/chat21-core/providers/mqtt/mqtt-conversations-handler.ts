@@ -49,11 +49,7 @@ export class MQTTConversationsHandler extends ConversationsHandlerService {
         super();
     }
 
-    initialize(
-        tenant: string, 
-        userId: string,
-        translationMap: Map<string, string>
-        ) {
+    initialize(tenant: string,  userId: string,translationMap: Map<string, string>) {
         this.logger.debug('[MQTTConversationsHandler] initialize');
         this.loggedUserId = userId;
         this.translationMap = translationMap;
@@ -62,19 +58,19 @@ export class MQTTConversationsHandler extends ConversationsHandlerService {
     }
 
     public getConversationDetail(conversationWith: string, callback) {
-        // 1 search local array
-        // 2 search remote
+        // 1 cerco array locale
+        // 2 cerco remoto
         // callback
-        
+
         const conversation = this.conversations.find(conv => conv.conversation_with === conversationWith);
-        
+        this.logger.log('[MQTTConversationsHandler] getConversationDetail found locally? *****: ', conversation);
         if (conversation) {
             
             callback(conversation);
         } else {
-            
+            this.logger.log('[MQTTConversationsHandler] getConversationDetail Not found locally, remote.getConversationDetail *****: ', conversation);
             this.chat21Service.chatClient.conversationDetail(conversationWith, (err, conversation) => {
-                
+                this.logger.log('[MQTTConversationsHandler] getConversationDetail --REMOTE CONV IS OBJ:', conversation);
                 if (conversation) {
                     if (callback) {
                         callback(this.completeConversation(conversation));
@@ -154,9 +150,8 @@ export class MQTTConversationsHandler extends ConversationsHandlerService {
          // lastTimestamp temporarily ignored
         this.logger.debug('[MQTTConversationsHandler] connecting MQTT conversations handler');
         const handlerConversationAdded = this.chat21Service.chatClient.onConversationAdded( (conv) => {
-            this.logger.log("onConversationAdded:", conv);
             let conversation = this.completeConversation(conv); // needed to get the "conversation_with", and find the conv in the conv-history
-            this.logger.log("onConversationAdded completed:" + JSON.stringify(conversation));
+            this.logger.log("onConversationAdded completed:",conversation);
             const index = this.searchIndexInArrayForConversationWith(this.conversations, conversation.conversation_with);
             if (index > -1) {
                 this.logger.log('[MQTTConversationsHandler] Added conv -> Changed!')
@@ -207,7 +202,6 @@ export class MQTTConversationsHandler extends ConversationsHandlerService {
             this.setClosingConversation(conversation.conversation_with, false);
             this.logger.debug('[MQTTConversationsHandler] conversations:', conversation.uid, this.conversations);
             const index = this.searchIndexInArrayForConversationWith(this.conversations, conversation.conversation_with);
-            this.logger.debug('[MQTTConversationsHandler] found index:', index)
             if (index > -1) {
                 this.logger.debug('[MQTTConversationsHandler] TROVATO')
                 this.conversations.splice(index, 1, conversation);
@@ -218,13 +212,8 @@ export class MQTTConversationsHandler extends ConversationsHandlerService {
             }
             this.logger.debug('[MQTTConversationsHandler] NUOVA CONVER;.uid3' + conversation.uid)
             this.conversations.sort(compareValues('timestamp', 'desc'));
-            this.logger.debug('[MQTTConversationsHandler] NUOVA CONVER;.uid4' + conversation.uid)
             this.logger.debug('[MQTTConversationsHandler] TUTTE:', this.conversations)
-            // this.conversationChanged.next(conversation);
-            this.logger.debug('[MQTTConversationsHandler] NUOVA CONVER;.uid5' + conversation.uid)
             this.conversationAdded.next(conversation);
-            this.logger.debug('[MQTTConversationsHandler] NUOVA CONVER;.uid6' + conversation.uid)
-            // this.events.publish('conversationsChanged', this.conversations);
         } else {
             this.logger.error('[MQTTConversationsHandler] ChatConversationsHandler::added::conversations with conversationId: ', conversation.conversation_with, 'is not valid');
         }

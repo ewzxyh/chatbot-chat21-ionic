@@ -942,8 +942,7 @@ export class AppComponent implements OnInit {
     this.events.subscribe('unservedRequest:count', this.subscribeUnservedRequestCount)
 
     this.conversationsHandlerService.conversationAdded.subscribe((conversation: ConversationModel) => {
-      this.logger.log('[APP-COMP] ***** subscribeConversationAdded *****', conversation);
-      // that.conversationsChanged(conversations);
+      // this.logger.log('[APP-COMP] ***** subscribeConversationAdded *****', conversation);
       if (conversation && conversation.is_new === true) {
         this.manageTabNotification()
       }
@@ -957,7 +956,7 @@ export class AppComponent implements OnInit {
     });
 
     this.conversationsHandlerService.conversationChangedDetailed.subscribe((changes: {value: ConversationModel, previousValue: ConversationModel}) => {
-      console.log('[APP-COMP] ***** subscribeConversationChangedDetailed conversation: ', changes);
+      // console.log('[APP-COMP] ***** subscribeConversationChangedDetailed conversation: ', changes);
       const currentUser = this.tiledeskAuthService.getCurrentUser()
       if (currentUser && currentUser !== null) {
         this.logger.log('[APP-COMP] ***** subscribeConversationChangedDetailed currentUser: ', currentUser);
@@ -971,7 +970,6 @@ export class AppComponent implements OnInit {
 
     this.conversationsHandlerService.conversationRemoved.subscribe((conversation: ConversationModel) => {
       this.logger.log('[APP-COMP] ***** conversationRemoved *****', conversation);
-      // that.conversationsChanged(conversations);
       if(conversation)  this.updateConversationsOnStorage();
     });
   }

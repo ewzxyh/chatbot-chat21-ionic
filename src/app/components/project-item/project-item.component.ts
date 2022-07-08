@@ -2,7 +2,7 @@ import { EventsService } from './../../services/events-service';
 import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
 import { WebsocketService } from 'src/app/services/websocket/websocket.service';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, skip } from 'rxjs/operators';
 import { AppStorageService } from 'src/chat21-core/providers/abstract/app-storage.service';
 import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service';
 import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance';
@@ -64,6 +64,13 @@ export class ProjectItemComponent implements OnInit {
     this.listenToPostMsgs();
     this.onInitWindowWidth();
     this.isOnMobileDevice();
+  }
+
+  ngOnDestroy() {
+    this.logger.log('[PROJECT-ITEM] > ngOnDestroy')
+    this.unsubscribe$.next()
+    this.unsubscribe$.complete()
+
   }
 
   isOnMobileDevice() {
@@ -237,18 +244,13 @@ export class ProjectItemComponent implements OnInit {
       this.listenTocurrentProjectUserUserAvailability$(project)
 
       this.wsService.subscriptionToWsConversations(project.id_project._id)
-      // this.updateCurrentUserRequestCount();
       this.updateUnservedRequestCount();
 
     }
   }
 
   listenTocurrentProjectUserUserAvailability$(project) {
-    this.wsService.currentProjectUserAvailability$
-      .pipe(
-        takeUntil(this.unsubscribe$)
-      )
-      .subscribe((projectUser) => {
+    this.wsService.currentProjectUserAvailability$.pipe(takeUntil(this.unsubscribe$)).subscribe((projectUser) => {
         this.logger.log('[PROJECT-ITEM] - $UBSC TO WS USER AVAILABILITY & BUSY STATUS RES ', projectUser);
 
         if (project.id_project._id === projectUser['id_project']) {
@@ -300,24 +302,24 @@ export class ProjectItemComponent implements OnInit {
 
   updateUnservedRequestCount() {
 
-    this.wsService.wsRequestsList$
-      .subscribe((requests) => {
-        if (requests) {
-          let count = 0;
-          requests.forEach(r => {
-            if (r['status'] === 100) {
-              if (this.hasmeInAgents(r['agents']) === true) {
-                count = count + 1;
-              }
+    this.wsService.wsRequestsList$.pipe(takeUntil(this.unsubscribe$)).pipe(skip(1)).subscribe((requests) => {
+      if (requests) {
+        let count = 0;
+        requests.forEach(r => {
+          if (r['status'] === 100) {
+            if (this.hasmeInAgents(r['agents']) === true) {
+              count = count + 1;
             }
-          });
-          this.unservedRequestCount = count;
-        }
-      }, error => {
-        this.logger.error('[PROJECT-ITEM] UNSERVED REQUEST COUNT * error * ', error)
-      }, () => {
-        this.logger.log('[PROJECT-ITEM] UNSERVED REQUEST COUNT */* COMPLETE */*')
-      })
+          }
+        });
+        this.unservedRequestCount = count;
+        this.events.publish('unservedRequest:count', this.unservedRequestCount)
+      }
+    }, error => {
+      this.logger.error('[PROJECT-ITEM] UNSERVED REQUEST COUNT * error * ', error)
+    }, () => {
+      this.logger.log('[PROJECT-ITEM] UNSERVED REQUEST COUNT */* COMPLETE */*')
+    })
   }
 
   hasmeInAgents(agents) {
@@ -332,31 +334,6 @@ export class ProjectItemComponent implements OnInit {
     }
   }
 
-  updateCurrentUserRequestCount() {
-    this.wsService.wsRequestsList$
-      .pipe(
-        takeUntil(this.unsubscribe$)
-      )
-      .subscribe((requests) => {
-        if (requests) {
-          let count = 0;
-          requests.forEach(r => {
-            const participantsArray = r['participants'] // new used with ws 
-    
-            const currentUserIsInParticipants = participantsArray.includes(this.currentUserId); // new used with ws 
-            if (currentUserIsInParticipants === true) {
-              count = count + 1;
-            }
-          });
-          this.currentUserRequestCount = count;
-          this.logger.log('[PROJECT-ITEM] CURRENT USER REQUEST COUNT - RES', this.currentUserRequestCount);
-        }
-      }, error => {
-        this.logger.error('[PROJECT-ITEM] CURRENT USER REQUEST COUNT * error * ', error)
-      }, () => {
-        this.logger.log('[PROJECT-ITEM] CURRENT USER REQUEST COUNT */* COMPLETE */*')
-      })
-  }
 
 
 
