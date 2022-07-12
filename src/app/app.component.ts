@@ -562,15 +562,13 @@ export class AppComponent implements OnInit {
       chat_lang = stored_preferred_lang
     }
 
-    this.logger.log('[APP-COMP] - chat_lang', chat_lang)
-
     if (tranlatedLanguage.includes(chat_lang)) {
       this.logger.log('[APP-COMP] tranlatedLanguage includes', chat_lang, ': ', tranlatedLanguage.includes(chat_lang))
       this.translate.setDefaultLang(chat_lang)
       this.translate.use(chat_lang);
     }
     else {
-      this.logger.log('[APP-COMP] tranlatedLanguage includes', chat_lang, ': ', tranlatedLanguage.includes(chat_lang))
+      this.logger.log('[APP-COMP] tranlatedLanguage not includes', chat_lang, ': ', tranlatedLanguage.includes(chat_lang))
       this.translate.setDefaultLang('en');
       this.translate.use('en');
     }
@@ -870,7 +868,7 @@ export class AppComponent implements OnInit {
 
   soundMessage() {
     const that = this;
-    this.logger.debug('[APP-COMP] conversation play', this.audio);
+    // this.logger.debug('[APP-COMP] conversation play', this.audio);
     // clearTimeout(this.setTimeoutSound);
     // this.setTimeoutSound = setTimeout(function () {
     //   that.audio.play().then(() => {

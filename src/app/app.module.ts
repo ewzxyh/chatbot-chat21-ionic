@@ -200,15 +200,15 @@ export function presenceFactory(appConfig: AppConfigProvider) {
   }
 }
 
-export function imageRepoFactory(appConfig: AppConfigProvider) {
+export function imageRepoFactory(appConfig: AppConfigProvider, http: HttpClient) {
 
   const config = appConfig.getConfig()
   if (config.uploadEngine === UPLOAD_ENGINE_NATIVE) {
-    const imageService = new NativeImageRepoService()
+    const imageService = new NativeImageRepoService(http)
     imageService.setImageBaseUrl(config.baseImageUrl)
     return imageService
   } else {
-    const imageService = new FirebaseImageRepoService();
+    const imageService = new FirebaseImageRepoService(http);
     FirebaseInitService.initFirebase(config.firebaseConfig)
     imageService.setImageBaseUrl(config.baseImageUrl)
     return imageService
@@ -345,7 +345,7 @@ const appInitializerFn = (appConfig: AppConfigProvider, logger: NGXLogger) => {
     {
       provide: ImageRepoService,
       useFactory: imageRepoFactory,
-      deps: [AppConfigProvider]
+      deps: [AppConfigProvider, HttpClient]
     },
     {
       provide: ConversationHandlerBuilderService,

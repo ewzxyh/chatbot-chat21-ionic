@@ -88,7 +88,6 @@ export class IonListConversationsComponent extends ListConversationsComponent im
     // }
 
     this.currentYear = moment().format('YYYY');
-    this.logger.log('[ION-LIST-CONVS-COMP] - currentYear ', this.currentYear)
 
     const DASHBOARD_BASE_URL = this.appConfigProvider.getConfig().dashboardUrl;
 
@@ -99,8 +98,7 @@ export class IonListConversationsComponent extends ListConversationsComponent im
   }
   ngOnInit() {
     this.isApp = this.platform.is('ios') || this.platform.is('android')
-    this.logger.log('[ION-LIST-CONVS-COMP] - ngOnInit - IS-APP ', this.isApp)
-    this.logger.log('[ION-LIST-CONVS-COMP] - ngOnInit - Platform', this.platform.platforms());
+    this.logger.log('[ION-LIST-CONVS-COMP] - ngOnInit - IS-APP ', this.isApp);
 
   }
 
