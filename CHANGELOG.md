@@ -1,8 +1,13 @@
 # chat21-ionic ver 3.0
 
+### 3.0.68-rc2
+ - bug-fixed: removed lookup API call for old requests
+
 ### 3.0.68-rc1
 - bug-fixed: not sound if conversation.is_new changed from true to false in conversationChange BS
-- added: sound and title flashing on new unassigned request
+- changed: if message contains only 1 emoji remove bubble message background and increase font-size
+- added: new languages az, sv, kk, uz
+- removed: control in info-content component for old project id with 32 characters
 
 ### 3.0.67 in PROD
 - added: control to 'foregroundCount' when tab is hidden/visible
