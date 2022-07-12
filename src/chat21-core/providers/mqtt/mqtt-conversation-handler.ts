@@ -65,13 +65,7 @@ export class MQTTConversationHandler extends ConversationHandlerService {
     /**
      * inizializzo conversation handler
      */
-    initialize(
-        recipientId: string,
-        recipientFullName: string,
-        loggedUser: UserModel,
-        tenant: string,
-        translationMap: Map<string, string>
-    ) {
+    initialize(recipientId: string,recipientFullName: string,loggedUser: UserModel,tenant: string, translationMap: Map<string, string>) {
         this.logger.log('[MQTTConversationHandler] initWithRecipient:', tenant);
         this.recipientId = recipientId;
         this.recipientFullname = recipientFullName;
@@ -96,7 +90,7 @@ export class MQTTConversationHandler extends ConversationHandlerService {
      * mi sottoscrivo a change, removed, added
      */
     connect() {
-        this.logger.log('[MQTTConversationHandler] connecting conversation handler...');
+        this.logger.log('[MQTTConversationHandler] connecting conversation handler...', this.conversationWith);
         if (this.conversationWith == null) {
             this.logger.error('[MQTTConversationHandler] cant connect invalid this.conversationWith', this.conversationWith);
             return;
@@ -118,7 +112,6 @@ export class MQTTConversationHandler extends ConversationHandlerService {
             this.logger.log('[MQTTConversationHandler] message updated:', message, 'on topic:', topic);
             this.updatedMessageStatus(message);
         });
-        this.logger.log("[MQTTConversationHandler] this.conversationWith,", this.conversationWith);
     }
 
     isGroup(groupId) {
@@ -256,16 +249,6 @@ export class MQTTConversationHandler extends ConversationHandlerService {
         this.messageAdded.next(msg);
     }
 
-    // /** */
-    // private updatedMessage(message: any) {
-    //     const msg = this.messageGenerate(message);
-    //     msg.uid = msg.message_id;
-    //     // imposto il giorno del messaggio per visualizzare o nascondere l'header data
-    //     // con**** DATAIL messageAdded ***sole.log('>>>>>>>>>>>>>> changed headerDate: ', msg);
-    //     this.addReplaceMessageInArray(msg.uid, msg);
-    //     this.messageChanged.next(msg);
-    // }
-
     /** */
     private updatedMessageStatus(patch: any) {
         if(this.skipInfoMessage && messageType(MESSAGE_TYPE_INFO, patch) ){
@@ -278,8 +261,6 @@ export class MQTTConversationHandler extends ConversationHandlerService {
             if (message) {
                 message.status = patch.status;
                 this.logger.log('[MQTTConversationHandler] message found and patched (replacing)', message);
-                // imposto il giorno del messaggio per visualizzare o nascondere l'header data
-                // con**** DATAIL messageAdded ***sole.log('>>>>>>>>>>>>>> changed headerDate: ', msg);
                 this.addReplaceMessageInArray(message.uid, message);
                 this.messageChanged.next(message);
             }
@@ -311,8 +292,7 @@ export class MQTTConversationHandler extends ConversationHandlerService {
         //     msg.text = htmlEntities(msg.text);
         // }
         // verifico che il sender è il logged user
-        this.logger.log("****>msg.sender:" + msg.sender);
-        this.logger.log("****>this.loggedUser.uid:" + this.loggedUser.uid);
+        this.logger.log("[MQTTConversationHandler] ****>msg.sender:" + msg.sender);
         msg.isSender = this.isSender(msg.sender, this.loggedUser.uid);
         // traduco messaggi se sono del server
         if (msg.attributes && msg.attributes.subtype) {
@@ -436,7 +416,6 @@ export class MQTTConversationHandler extends ConversationHandlerService {
     this.listSubsriptions.forEach(sub => {
       this.logger.log('[MQTTConversationHandler] unsubscribe: ', sub.uid, key);
       if (sub.uid === key) {
-        this.logger.log('[MQTTConversationHandler] unsubscribe: ', sub.uid, key);
         sub.unsubscribe(key, null);
         return;
       }

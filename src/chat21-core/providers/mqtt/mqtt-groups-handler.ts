@@ -35,7 +35,7 @@ import { avatarPlaceholder, getColorBck } from 'src/chat21-core/utils/utils-user
      * inizializzo groups handler
      */
     initialize(tenant: string, loggedUserId: string): void {
-        this.logger.log('initialize GROUP-HANDLER MQTT');
+        this.logger.log('[MQTT-GROUPS-HANDLER] initialize');
         this.tenant = tenant;
         this.loggedUserId = loggedUserId;
     }
@@ -64,13 +64,11 @@ import { avatarPlaceholder, getColorBck } from 'src/chat21-core/utils/utils-user
     onGroupChange(groupId: string): Observable<GroupModel> {
         if (this.isGroup(groupId)) {
             this.chat21Service.chatClient.groupData(groupId, (err, group) => {
-                this.logger.log('got result by REST call:', group);
-                this.logger.log('got group by REST call:', group.result);
+                this.logger.log('[MQTT-GROUPS-HANDLER] onGroupChange: got result by REST call:', group);
                 this.groupValue(group.result);
-                this.logger.log('subscribing to group updates...', groupId);
+                this.logger.log('[MQTT-GROUPS-HANDLER] onGroupChange: subscribing to group updates...', groupId);
                 const handler_group_updated = this.chat21Service.chatClient.onGroupUpdated( (group, topic) => {
                     if (topic.conversWith === groupId) {
-                        this.logger.log('group updated:', group);
                         this.groupValue(group);
                     }
                 });
@@ -87,13 +85,11 @@ import { avatarPlaceholder, getColorBck } from 'src/chat21-core/utils/utils-user
     }
 
     private groupValue(childSnapshot: any){
-        this.logger.log('groupValue > childSnapshot:', childSnapshot)
-        const group: GroupModel = childSnapshot;
-        this.logger.log('groupValue > GroupModel by childSnapshot:', group)
+        this.logger.debug('[MQTT-GROUPS-SERV] group detail::', childSnapshot.val(), childSnapshot)
+        const group: GroupModel = childSnapshot.val();
+        this.logger.debug('[MQTT-GROUPS-SERV] groupValue ', group)
         if (group) {
             let groupCompleted = this.completeGroup(group)
-            this.logger.log("group:", group);
-            this.logger.log("groupCompleted:", groupCompleted);
             this.SgroupDetail.next(groupCompleted)
         }
     }

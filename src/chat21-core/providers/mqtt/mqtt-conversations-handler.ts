@@ -264,7 +264,6 @@ export class MQTTConversationsHandler extends ConversationsHandlerService {
 
     private updateConversationWithSnapshot(conv: ConversationModel, snap: any) {
         this.logger.debug('[MQTTConversationsHandler] updating conv', conv, 'with snap', snap)
-        this.logger.debug('[MQTTConversationsHandler] print snap keys/values')
         Object.keys(snap).forEach(k => {
             this.logger.debug('[MQTTConversationsHandler] key:' + k);
             if (k === 'is_new') {
@@ -309,27 +308,6 @@ export class MQTTConversationsHandler extends ConversationsHandlerService {
                 conv.type = snap[k];
             }
         });
-        // SCHEMA ConversationModel
-        // public uid: string,
-        // public attributes: any,
-        // public channel_type: string,
-        // public conversation_with_fullname: string,
-        // public conversation_with: string,
-        // public recipient: string,
-        // public recipient_fullname: string,
-        // public image: string,
-        // public is_new: boolean,
-        // public last_message_text: string,
-        // public sender: string,
-        // public senderAuthInfo: any,
-        // public sender_fullname: string,
-        // public status: string,
-        // public timestamp: string,
-        // public time_last_message: string,
-        // public selected: boolean,
-        // public color: string,
-        // public avatar: string,
-        // public archived: boolean
     }
 
     
@@ -409,11 +387,9 @@ export class MQTTConversationsHandler extends ConversationsHandlerService {
         }
         conv.uid = conv.conversation_with;
         if (conv.uid === this.uidConvSelected) {
-            this.logger.debug("For selected conversation is_new = false");
             conv.is_new = false;
         }
         if (conv.sender === this.loggedUserId) {
-            this.logger.debug("is_new always false if sender it's me")
             conv.is_new = false;
         }
         return conv;

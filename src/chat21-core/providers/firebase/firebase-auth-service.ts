@@ -48,12 +48,7 @@ export class FirebaseAuthService extends MessagingAuthService {
   public SERVER_BASE_URL: string;
 
   // private
-  private URL_TILEDESK_SIGNIN: string;
-  private URL_TILEDESK_SIGNIN_ANONYMOUSLY: string;
   private URL_TILEDESK_CREATE_CUSTOM_TOKEN: string;
-  private URL_TILEDESK_SIGNIN_WITH_CUSTOM_TOKEN: string;
-  //TODO-GAB
-  // private imageRepo: ImageRepoService = new FirebaseImageRepoService();
 
   private firebaseToken: string;
   private logger: LoggerService = LoggerInstance.getInstance()

@@ -8,6 +8,7 @@ import { ImageRepoService } from '../abstract/image-repo.service';
 // import * as firebase from 'firebase/app';
 import firebase from "firebase/app";
 import 'firebase/storage';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 
@@ -17,7 +18,7 @@ export class FirebaseImageRepoService extends ImageRepoService {
     private urlStorageBucket = environment.firebaseConfig.storageBucket + '/o/profiles%2F';
     private baseImageURL: string;
     
-    constructor() {
+    constructor(public http: HttpClient) {
         super();
     }
 

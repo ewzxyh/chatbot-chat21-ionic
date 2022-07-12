@@ -119,7 +119,6 @@ export class TiledeskAuthService {
         if (data['success'] && data['token']) {
           that.tiledeskToken = data['token'];
           that.createCompleteUser(data['user']);
-
           // that.appStorage.setItem('tiledeskToken', that.tiledeskToken); // salvarlo esternamente nell'app.component
           this.checkAndSetInStorageTiledeskToken(that.tiledeskToken)
           resolve(this.currentUser)

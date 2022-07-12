@@ -15,9 +15,10 @@ import { TYPE_GROUP } from '../../utils/constants';
 import { getImageUrlThumbFromFirebasestorage, avatarPlaceholder, getColorBck } from '../../utils/utils-user';
 import { compareValues, getFromNow, conversationsPathForUserId, searchIndexInArrayForUid } from '../../utils/utils';
 import { ArchivedConversationsHandlerService } from '../abstract/archivedconversations-handler.service';
+import { LoggerService } from '../abstract/logger.service';
+import { LoggerInstance } from '../logger/loggerInstance';
 
 @Injectable({ providedIn: 'root' })
-
 export class MQTTArchivedConversationsHandler extends ArchivedConversationsHandlerService {
 
     // BehaviorSubject
@@ -31,20 +32,14 @@ export class MQTTArchivedConversationsHandler extends ArchivedConversationsHandl
     archivedConversations: Array<ConversationModel> = [];
     uidConvSelected: string;
     tenant: string;
-    // FIREBASESTORAGE_BASE_URL_IMAGE: string;
-    // urlStorageBucket: string;
 
     // private variables
     private loggedUserId: string;
     private translationMap: Map<string, string>;
     private isConversationClosingMap: Map<string, boolean>;
-
-    private audio: any;
-    private setTimeoutSound: any;
+    private logger: LoggerService = LoggerInstance.getInstance()
 
     constructor(
-        // private tiledeskConversationsProvider: TiledeskConversationProvider,
-        // public databaseProvider: DatabaseProvider,
         public chat21Service: Chat21Service
     ) {
         super();
@@ -53,18 +48,12 @@ export class MQTTArchivedConversationsHandler extends ArchivedConversationsHandl
     /**
      * inizializzo conversations handler
      */
-    initialize(
-        tenant: string, 
-        userId: string,
-        translationMap: Map<string, string>
-        ) {
-        console.log('initialize MQTTConversationsHandler');
+    initialize(tenant: string,  userId: string,translationMap: Map<string, string>) {
+        this.logger.debug('[MQTTArchivedConversationsHandler] initialize');
         this.loggedUserId = userId;
         this.translationMap = translationMap;
         this.archivedConversations = [];
-        // this.databaseProvider.initialize(userId, this.tenant);
         this.isConversationClosingMap = new Map();
-        // this.getConversationsFromStorage();
     }
 
     public getConversationDetail(conversationWith: string, callback) {
@@ -73,13 +62,14 @@ export class MQTTArchivedConversationsHandler extends ArchivedConversationsHandl
         // callback
 
         const conversation = this.archivedConversations.find(conv => conv.conversation_with === conversationWith);
-        console.log('found locally? getConversationDetail *****: ', conversation);
+        this.logger.log('[MQTTArchivedConversationsHandler] getConversationDetail found locally? *****: ', conversation);
         if (conversation) {
             console.log('found!');
             callback(conversation);
         } else {
-            console.log('Not found locally, remote.getConversationDetail *****: ', conversation);
+            this.logger.log('[MQTTArchivedConversationsHandler] getConversationDetail Not found locally, remote.getConversationDetail *****: ', conversation);
             this.chat21Service.chatClient.archivedConversationDetail(conversationWith, (err, conversation) => {
+                this.logger.log('[MQTTArchivedConversationsHandler] getConversationDetail --REMOTE CONV IS OBJ:', conversation);
                 if (conversation) {
                     if (callback) {
                         callback(this.completeConversation(conversation));
@@ -152,45 +142,28 @@ export class MQTTArchivedConversationsHandler extends ArchivedConversationsHandl
      // New connect - renamed subscribeToConversation
      //----------------------------------------------------------------------------------
      subscribeToConversations(loaded) {
-            console.log('connecting MQTT conversations handler');
-            const handlerConversationAdded = this.chat21Service.chatClient.onArchivedConversationAdded( (conv) => {
-                console.log('conversation added:', conv.text);
-                this.added(conv);
-            });
-            // const handlerConversationUpdated = this.chat21Service.chatClient.onConversationUpdated( (conv) => {
-            //     console.log('conversation updated:', conv.text);
-            //     this.changed(conv);
-            // });
-            const handlerConversationDeleted = this.chat21Service.chatClient.onArchivedConversationDeleted( (conv) => {
-                console.log('conversation deleted:', conv.text);
-                this.removed(conv);
-            });
-            this.chat21Service.chatClient.lastConversations( true, (err, conversations) => {
-                console.log('Last conversations', conversations, 'err', err);
-                if (!err) {
-                    conversations.forEach(conv => {
-                        this.added(conv);
-                    });
-                    loaded();
-                }
-            });
-            // SET AUDIO
-            // this.audio = new Audio();
-            // this.audio.src = URL_SOUND;
-            // this.audio.load();
-        // const that = this;
-        // const urlNodeFirebase = conversationsPathForUserId(this.tenant, this.loggedUserId);
-        // console.log('connect -------> conversations', urlNodeFirebase);
-        // this.ref = firebase.database().ref(urlNodeFirebase).orderByChild('timestamp').limitToLast(200);
-        // this.ref.on('child_changed', (childSnapshot) => {
-        //     that.changed(childSnapshot);
+        this.logger.debug('[MQTTArchivedConversationsHandler] connecting MQTT conversations handler');
+        const handlerConversationAdded = this.chat21Service.chatClient.onArchivedConversationAdded( (conv) => {
+            this.logger.log('[MQTTArchivedConversationsHandler] Added conv ->', conv.text)
+            this.added(conv);
+        });
+        // const handlerConversationUpdated = this.chat21Service.chatClient.onConversationUpdated( (conv) => {
+        //     console.log('conversation updated:', conv.text);
+        //     this.changed(conv);
         // });
-        // this.ref.on('child_removed', (childSnapshot) => {
-        //     that.removed(childSnapshot);
-        // });
-        // this.ref.on('child_added', (childSnapshot) => {
-        //     that.added(childSnapshot);
-        // });
+        const handlerConversationDeleted = this.chat21Service.chatClient.onArchivedConversationDeleted( (conv) => {
+            this.logger.debug('[MQTTArchivedConversationsHandler] conversation deleted:', conv);
+            this.removed(conv);
+        });
+        this.chat21Service.chatClient.lastConversations( true, (err, conversations) => {
+            this.logger.debug('[MQTTArchivedConversationsHandler] Last conversations', conversations, 'err', err);
+            if (!err) {
+                conversations.forEach(conv => {
+                    this.added(conv);
+                });
+                loaded();
+            }
+        });
     }
 
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice
@@ -205,61 +178,32 @@ export class MQTTArchivedConversationsHandler extends ArchivedConversationsHandl
      * 7 -  pubblico conversations:update
      */
     private added(childSnapshot: any) {
-        console.log("NEW CONV:::", childSnapshot)
-        // const childData: ConversationModel = childSnapshot;
-        // childData.uid = childSnapshot.key;
-        // const conversation = this.completeConversation(childData);
-        // if (this.isValidConversation(childSnapshot.key, conversation)) {
-        //     this.setClosingConversation(childSnapshot.key, false);
-        //     // da verificare l'utilità e spostare in questa classe
-        //     // this.tiledeskConversationsProvider.setClosingConversation(childSnapshot.key, false);
-        //     const index = searchIndexInArrayForUid(this.conversations, conversation.uid);
-        //     if (index > -1) {
-        //         this.conversations.splice(index, 1, conversation);
-        //     } else {
-        //         this.conversations.splice(0, 0, conversation);
-        //         // this.databaseProvider.setConversation(conversation);
-        //     }
-        //     this.conversations.sort(compareValues('timestamp', 'desc'));
-        //     console.log("ALL CONVS:", this.conversations)
-        //     this.conversationChanged.next(conversation);
-        //     this.conversationAdded.next(conversation);
-        //     // this.events.publish('conversationsChanged', this.conversations);
-        // } else {
-        //     console.error('ChatConversationsHandler::added::conversations with conversationId: ', childSnapshot.key, 'is not valid');
-        // }
-        // let childData: ConversationModel = childSnapshot;
+        this.logger.debug('[MQTTArchivedConversationsHandler] NEW CONV childSnapshot', childSnapshot)
+
         let conversation = this.completeConversation(childSnapshot);
         conversation.uid = conversation.conversation_with;
         // console.log("NUOVA CONVER;" + conversation.uid)
-        console.log("NUOVA CONVER;.uid" + conversation.uid)
         if (this.isValidConversation(conversation)) {
             this.setClosingConversation(conversation.conversation_with, false);
-            console.log("NUOVA CONVER;.uid1" + conversation.uid)
-            console.log("conversations:", this.archivedConversations)
-            console.log("cerco: ", conversation.uid)
+            this.logger.debug('[MQTTArchivedConversationsHandler] conversations:', conversation.uid, this.archivedConversations);
             const index = this.searchIndexInArrayForConversationWith(this.archivedConversations, conversation.conversation_with);
-            console.log("found index:", index)
             console.log("NUOVA CONVER;.uid2" + conversation.uid)
             if (index > -1) {
-                console.log("TROVATO")
+                this.logger.debug('[MQTTArchivedConversationsHandler] TROVATO')
                 this.archivedConversations.splice(index, 1, conversation);
             } else {
-                console.log("NON TROVATO")
+                this.logger.debug('[MQTTArchivedConversationsHandler] NON TROVATO')
                 this.archivedConversations.splice(0, 0, conversation);
                 // this.databaseProvider.setConversation(conversation);
             }
-            console.log("NUOVA CONVER;.uid3" + conversation.uid)
+            this.logger.debug('[MQTTArchivedConversationsHandler] NUOVA CONVER;.uid3' + conversation.uid)
             this.archivedConversations.sort(compareValues('timestamp', 'desc'));
-            console.log("NUOVA CONVER;.uid4" + conversation.uid)
-            console.log("TUTTE:", this.archivedConversations)
+            this.logger.debug('[MQTTArchivedConversationsHandler] TUTTE:', this.archivedConversations)
             this.archivedConversationChanged.next(conversation);
-            console.log("NUOVA CONVER;.uid5" + conversation.uid)
             this.archivedConversationAdded.next(conversation);
-            console.log("NUOVA CONVER;.uid6" + conversation.uid)
             // this.events.publish('conversationsChanged', this.conversations);
         } else {
-            console.error('ChatConversationsHandler::added::conversations with conversationId: ', conversation.conversation_with, 'is not valid');
+            this.logger.error('[MQTTArchivedConversationsHandler] ChatConversationsHandler::added::conversations with conversationId: ', conversation.conversation_with, 'is not valid');
         }
     }
 
@@ -318,19 +262,6 @@ export class MQTTArchivedConversationsHandler extends ArchivedConversationsHandl
         }
         // remove the conversation from the isConversationClosingMap
         this.deleteClosingConversation(childSnapshot.key);
-
-        // const index = searchIndexInArrayForUid(this.conversations, childSnapshot.key);
-        // if (index > -1) {
-        //     // 2
-        //     this.conversations.splice(index, 1);
-        //     // this.conversations.sort(compareValues('timestamp', 'desc'));
-        //     // 3
-        //     this.databaseProvider.removeConversation(childSnapshot.key);
-        //     // 4
-        //     // this.conversationsChanged.next(this.conversations);
-        //     this.conversationsRemoved.next(this.conversations);
-        //     // this.events.publish('conversationsChanged', this.conversations);
-        // }
     }
 
     /**
@@ -374,86 +305,8 @@ export class MQTTArchivedConversationsHandler extends ArchivedConversationsHandl
      * 5 -  imposto avatar, colore e immagine
      * @param conv
      */
-    // public completeConversation(conv: any): ConversationModel {
-    //     const conversation: ConversationModel = conv;
-    //     // console.log('completeConversation', conv);
-    //     if (!conv.sender_fullname || conv.sender_fullname === 'undefined' || conv.sender_fullname.trim() === '') {
-    //         conversation.sender_fullname = conv.sender;
-    //     } else {
-    //         conversation.sender_fullname = conv.sender_fullname;
-    //     }
-    //     if (!conv.recipient_fullname || conv.recipient_fullname === 'undefined' || conv.recipient_fullname.trim() === ''){
-    //         conversation.recipient_fullname = conv.recipient;
-    //     } else {
-    //         conversation.recipient_fullname = conv.recipient_fullname;
-    //     }
-    //     let LABEL_TU: string;
-    //     this.translate.get('LABEL_TU').subscribe((res: string) => {
-    //         LABEL_TU = res;
-    //     });
-    //     let conversationWithFullname = conv.sender_fullname;
-    //     let conversationWith = conv.sender;
-    //     conversation.last_message_text = conv.last_message_text;
-    //     if (conv.sender === this.loggedUser.uid) {
-    //         conversationWith = conv.recipient;
-    //         conversationWithFullname = conv.recipient_fullname;
-    //         conversation.last_message_text = LABEL_TU + conv.last_message_text;
-    //     } else if (conv.channel_type === TYPE_GROUP) {
-    //         conversationWith = conv.recipient;
-    //         conversationWithFullname = conv.recipient_fullname;
-    //         conversation.last_message_text = conv.last_message_text;
-    //     }
-    //     conversation.conversation_with_fullname = conversationWithFullname;
-
-    //     conversation.selected = false;
-    //     console.log('conv.uid', conv.uid);
-    //     conversation.status = this.setStatusConversation(conv.sender, conv.uid);
-
-    //     conversation.time_last_message = this.getTimeLastMessage(conv.timestamp);
-
-    //     conversation.avatar = avatarPlaceholder(conversationWithFullname);
-    //     conversation.color = getColorBck(conversationWithFullname);
-    //     conversation.image = this.getImageUrlThumbFromFirebasestorage(conv.uid);
-    //     // try {
-    //     //     const FIREBASESTORAGE_BASE_URL_IMAGE = this.appConfig.getConfig().FIREBASESTORAGE_BASE_URL_IMAGE;
-    //     //     conversation.image = getImageUrlThumb(FIREBASESTORAGE_BASE_URL_IMAGE, conversationWith);
-    //     // } catch (err) {
-    //     //     console.log(err);
-    //     // }
-    //     // console.log('completeConversation fine', conversation);
-    //     return conversation;
-    // }
-
     private completeConversation(conv): ConversationModel {
-        // console.log('completeConversation', conv);
-        // const LABEL_TU = this.translationMap.get('LABEL_TU');
         // conv.selected = false;
-        // if (!conv.sender_fullname || conv.sender_fullname === 'undefined' || conv.sender_fullname.trim() === '') {
-        //     conv.sender_fullname = conv.sender;
-        // }
-        // if (!conv.recipient_fullname || conv.recipient_fullname === 'undefined' || conv.recipient_fullname.trim() === '') {
-        //     conv.recipient_fullname = conv.recipient;
-        // }
-        // let conversation_with_fullname = conv.sender_fullname;
-        // let conversation_with = conv.sender;
-        // if (conv.sender === this.loggedUserId) {
-        //     conversation_with = conv.recipient;
-        //     conversation_with_fullname = conv.recipient_fullname;
-        //     conv.last_message_text = LABEL_TU + conv.last_message_text;
-        // } else if (conv.channel_type === TYPE_GROUP) {
-        //     conversation_with = conv.recipient;
-        //     conversation_with_fullname = conv.recipient_fullname;
-        //     conv.last_message_text = conv.last_message_text;
-        // }
-        // conv.conversation_with_fullname = conversation_with_fullname;
-
-        // conv.status = this.setStatusConversation(conv.sender, conv.uid);
-        // conv.time_last_message = this.getTimeLastMessage(conv.timestamp);
-        // conv.avatar = avatarPlaceholder(conversation_with_fullname);
-        // conv.color = getColorBck(conversation_with_fullname);
-        // return conv;
-        console.log('completeConversation', conv);
-        conv.selected = false;
         if (!conv.sender_fullname || conv.sender_fullname === 'undefined' || conv.sender_fullname.trim() === '') {
             conv.sender_fullname = conv.sender;
         }
@@ -474,7 +327,6 @@ export class MQTTArchivedConversationsHandler extends ArchivedConversationsHandl
         conv.conversation_with_fullname = conversation_with_fullname;
         conv.conversation_with = conversation_with;
         conv.status = this.setStatusConversation(conv.sender, conv.uid);
-        conv.time_last_message = this.getTimeLastMessage(conv.timestamp);
         conv.avatar = avatarPlaceholder(conversation_with_fullname);
         conv.color = getColorBck(conversation_with_fullname);
         if (!conv.last_message_text) {
@@ -571,124 +423,75 @@ export class MQTTArchivedConversationsHandler extends ArchivedConversationsHandl
     /**
      * attivo sound se è un msg nuovo
      */
-    private soundMessage() {
-        console.log('****** soundMessage *****', this.audio);
-        const that = this;
-        // this.audio = new Audio();
-        // this.audio.src = 'assets/pling.mp3';
-        // this.audio.load();
-        this.audio.pause();
-        this.audio.currentTime = 0;
-        clearTimeout(this.setTimeoutSound);
-        this.setTimeoutSound = setTimeout(function () {
-        //setTimeout(function() {
-            that.audio.play()
-            .then(function() {
-                // console.log('****** then *****');
-            })
-            .catch(function() {
-                // console.log('***//tiledesk-dashboard/chat*');
-            });
-        }, 1000);       
-    }
-
-    // /**
-    //  *  check if the conversations is valid or not
-    // */
-    // private isValidConversation(convToCheckId, convToCheck: ConversationModel) : boolean {
-    //     //console.log("[BEGIN] ChatConversationsHandler:: convToCheck with uid: ", convToCheckId);
-    //     if (!this.isValidField(convToCheck.uid)) {
-    //         console.error("ChatConversationsHandler::isValidConversation:: 'uid is not valid' ");
-    //         return false;
-    //     }
-    //     if (!this.isValidField(convToCheck.is_new)) {
-    //         console.error("ChatConversationsHandler::isValidConversation:: 'is_new is not valid' ");
-    //         return false;
-    //     }
-    //     if (!this.isValidField(convToCheck.last_message_text)) {
-    //         console.error("ChatConversationsHandler::isValidConversation:: 'last_message_text is not valid' ");
-    //         return false;
-    //     }
-    //     if (!this.isValidField(convToCheck.recipient)) {
-    //         console.error("ChatConversationsHandler::isValidConversation:: 'recipient is not valid' ");
-    //         return false;
-    //     }
-    //     if (!this.isValidField(convToCheck.recipient_fullname)) {
-    //         console.error("ChatConversationsHandler::isValidConversation:: 'recipient_fullname is not valid' ");
-    //         return false;
-    //     }
-    //     if (!this.isValidField(convToCheck.sender)) {
-    //         console.error("ChatConversationsHandler::isValidConversation:: 'sender is not valid' ");
-    //         return false;
-    //     }
-    //     if (!this.isValidField(convToCheck.sender_fullname)) {
-    //         console.error("ChatConversationsHandler::isValidConversation:: 'sender_fullname is not valid' ");
-    //         return false;
-    //     }
-    //     if (!this.isValidField(convToCheck.status)) {
-    //         console.error("ChatConversationsHandler::isValidConversation:: 'status is not valid' ");
-    //         return false;
-    //     }
-    //     if (!this.isValidField(convToCheck.timestamp)) {
-    //         console.error("ChatConversationsHandler::isValidConversation:: 'timestamp is not valid' ");
-    //         return false;
-    //     }
-    //     if (!this.isValidField(convToCheck.channel_type)) {
-    //         console.error("ChatConversationsHandler::isValidConversation:: 'channel_type is not valid' ");
-    //         return false;
-    //     }
-    //     //console.log("[END] ChatConversationsHandler:: convToCheck with uid: ", convToCheckId);
-    //     // any other case
-    //     return true;
+    // private soundMessage() {
+    //     console.log('****** soundMessage *****', this.audio);
+    //     const that = this;
+    //     // this.audio = new Audio();
+    //     // this.audio.src = 'assets/pling.mp3';
+    //     // this.audio.load();
+    //     this.audio.pause();
+    //     this.audio.currentTime = 0;
+    //     clearTimeout(this.setTimeoutSound);
+    //     this.setTimeoutSound = setTimeout(function () {
+    //     //setTimeout(function() {
+    //         that.audio.play()
+    //         .then(function() {
+    //             // console.log('****** then *****');
+    //         })
+    //         .catch(function() {
+    //             // console.log('***//tiledesk-dashboard/chat*');
+    //         });
+    //     }, 1000);       
     // }
+
 
     /**
      *  check if the conversations is valid or not
     */
     private isValidConversation(convToCheck: ConversationModel) : boolean {
         //console.log("[BEGIN] ChatConversationsHandler:: convToCheck with uid: ", convToCheckId);
-        console.log("checking uid of", convToCheck)
-        console.log("uid is:", convToCheck.uid)
-        console.log("channel_type is:", convToCheck.channel_type)
+        this.logger.debug('[MQTTArchivedConversationsHandler] checking uid of', convToCheck)
+        this.logger.debug('[MQTTArchivedConversationsHandler] conversation.uid', convToCheck.uid)
+        this.logger.debug('[MQTTArchivedConversationsHandler] channel_type is:', convToCheck.channel_type)
         
         if (!this.isValidField(convToCheck.uid)) {
-            console.error("ChatConversationsHandler::isValidConversation:: 'uid is not valid' ");
+            this.logger.error('[MQTTArchivedConversationsHandler] ChatConversationsHandler::isValidConversation:: "uid is not valid" ');
             return false;
         }
         // if (!this.isValidField(convToCheck.is_new)) {
-        //     console.error("ChatConversationsHandler::isValidConversation:: 'is_new is not valid' ");
+        //     this.logger.error("ChatConversationsHandler::isValidConversation:: 'is_new is not valid' ");
         //     return false;
         // }
         if (!this.isValidField(convToCheck.last_message_text)) {
-            console.error("ChatConversationsHandler::isValidConversation:: 'last_message_text is not valid' ");
+            this.logger.error('[MQTTArchivedConversationsHandler] ChatConversationsHandler::isValidConversation:: "last_message_text is not valid" ');
             return false;
         }
         if (!this.isValidField(convToCheck.recipient)) {
-            console.error("ChatConversationsHandler::isValidConversation:: 'recipient is not valid' ");
+            this.logger.error('[MQTTArchivedConversationsHandler] ChatConversationsHandler::isValidConversation:: "recipient is not valid" ');
             return false;
         }
         if (!this.isValidField(convToCheck.recipient_fullname)) {
-            console.error("ChatConversationsHandler::isValidConversation:: 'recipient_fullname is not valid' ");
+            this.logger.error('[MQTTArchivedConversationsHandler] ChatConversationsHandler::isValidConversation:: "recipient_fullname is not valid" ');
             return false;
         }
         if (!this.isValidField(convToCheck.sender)) {
-            console.error("ChatConversationsHandler::isValidConversation:: 'sender is not valid' ");
+            this.logger.error('[MQTTArchivedConversationsHandler] ChatConversationsHandler::isValidConversation:: "sender is not valid" ');
             return false;
         }
         if (!this.isValidField(convToCheck.sender_fullname)) {
-            console.error("ChatConversationsHandler::isValidConversation:: 'sender_fullname is not valid' ");
+            this.logger.error('[MQTTArchivedConversationsHandler] ChatConversationsHandler::isValidConversation:: "sender_fullname is not valid" ');
             return false;
         }
         if (!this.isValidField(convToCheck.status)) {
-            console.error("ChatConversationsHandler::isValidConversation:: 'status is not valid' ");
+            this.logger.error('[MQTTArchivedConversationsHandler] ChatConversationsHandler::isValidConversation:: "status is not valid" ');
             return false;
         }
         if (!this.isValidField(convToCheck.timestamp)) {
-            console.error("ChatConversationsHandler::isValidConversation:: 'timestamp is not valid' ");
+            this.logger.error('[MQTTArchivedConversationsHandler] ChatConversationsHandler::isValidConversation:: "timestamp is not valid" ');
             return false;
         }
         if (!this.isValidField(convToCheck.channel_type)) {
-            console.error("ChatConversationsHandler::isValidConversation:: 'channel_type is not valid' ");
+            this.logger.error('[MQTTArchivedConversationsHandler] ChatConversationsHandler::isValidConversation:: "channel_type is not valid" ');
             return false;
         }
         //console.log("[END] ChatConversationsHandler:: convToCheck with uid: ", convToCheckId);

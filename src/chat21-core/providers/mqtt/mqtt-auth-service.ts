@@ -38,10 +38,8 @@ export class MQTTAuthService extends MessagingAuthService {
   public user: any;
   private currentUser: any;
 
-  // private URL_TILEDESK_SIGNIN: string;
+  // private 
   private URL_TILEDESK_CREATE_CUSTOM_TOKEN: string;
-  // private URL_TILEDESK_SIGNIN_ANONYMOUSLY: string;
-  // private URL_TILEDESK_SIGNIN_WITH_CUSTOM_TOKEN: string;
 
   private logger: LoggerService = LoggerInstance.getInstance()
 
@@ -51,7 +49,6 @@ export class MQTTAuthService extends MessagingAuthService {
     public appStorage: AppStorageService
   ) {
     super();
-    this.logger.log("chat21Service:", chat21Service)
   }
 
   /**
@@ -59,30 +56,30 @@ export class MQTTAuthService extends MessagingAuthService {
    */
   initialize() {
     this.SERVER_BASE_URL = this.getBaseUrl();
-    // this.URL_TILEDESK_SIGNIN = this.SERVER_BASE_URL + 'auth/signin';
-    // this.URL_TILEDESK_SIGNIN_ANONYMOUSLY = this.SERVER_BASE_URL + 'auth/signinAnonymously';
     this.URL_TILEDESK_CREATE_CUSTOM_TOKEN = this.SERVER_BASE_URL + 'chat21/native/auth/createCustomToken';
-    // this.URL_TILEDESK_SIGNIN_WITH_CUSTOM_TOKEN = this.SERVER_BASE_URL + 'auth/signinWithCustomToken';
-    this.logger.log(' ---------------- login con token url ---------------- ');
+    this.logger.log('[MQTTAuthService] initialize ');
     // this.checkIsAuth();
     // this.onAuthStateChanged();
   }
 
   // logout(callback) {
-  logout() {
-    this.logger.log("closing mqtt connection...");
-    this.chat21Service.chatClient.close(() => {
-      this.logger.log("mqtt connection closed. OK");
-      // remove
-      // this.appStorage.removeItem('tiledeskToken');
-      // this.appStorage.removeItem('currentUser');
-      this.currentUser = null;
-      this.logger.log("user removed.");
-      this.BSSignOut.next(true);
-      this.BSAuthStateChanged.next('offline');
-      // if (callback) {
-      //   callback();
-      // }
+  logout(): Promise<boolean> {
+    this.logger.log("[MQTTAuthService] logout: closing mqtt connection...");
+    return new Promise((resolve, reject) => {
+      this.chat21Service.chatClient.close(() => {
+        console.log("[MQTTAuthService] logout: mqtt connection closed. OK");
+        // remove
+        // this.appStorage.removeItem('tiledeskToken');
+        // this.appStorage.removeItem('currentUser');
+        this.currentUser = null;
+        console.log("[MQTTAuthService] logout: user removed");
+        this.BSSignOut.next(true);
+        this.BSAuthStateChanged.next('offline');
+        resolve(true)
+        // if (callback) {
+        //   callback();
+        // }
+      });
     });
   }
 
@@ -97,7 +94,7 @@ z
 
   /** */
   getToken(): string {
-    this.logger.log('UserService::getToken');
+    this.logger.log('[MQTTAuthService]::getToken');
     return this.token;
   }
 
@@ -258,7 +255,7 @@ z
     // const that = this;
     this.http.post(this.URL_TILEDESK_CREATE_CUSTOM_TOKEN, postData, { headers, responseType})
     .subscribe(data =>  {
-      this.logger.log("**** data", data)
+      this.logger.log("[MQTTAuthService] connectWithCustomToken: **** data", data)
       const result = JSON.parse(data);
       this.connectMQTT(result);
     }, error => {
@@ -267,10 +264,10 @@ z
   }
 
   connectMQTT(credentials: any): any {
-    this.logger.log('**** credentials:', credentials);
+    this.logger.log('[MQTTAuthService] connectMQTT: **** credentials:', credentials);
     const userid = credentials.userid;
     this.chat21Service.chatClient.connect(userid, credentials.token, () => {
-      this.logger.log('Chat connected.');
+      this.logger.log('[MQTTAuthService] connectMQTT: Chat connected.');
       this.BSAuthStateChanged.next('online');
     });
   }

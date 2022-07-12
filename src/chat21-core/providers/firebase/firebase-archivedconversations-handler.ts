@@ -393,7 +393,6 @@ export class FirebaseArchivedConversationsHandler extends ArchivedConversationsH
             conversation_with_fullname = conv.recipient_fullname;
         }
         // Fixes the bug: if a snippet of code is pasted and sent it is not displayed correctly in the archived convesations list
-        // conv.last_message_text = htmlEntities(conv.last_message_text)
         conv.conversation_with = conversation_with;
         conv.conversation_with_fullname = conversation_with_fullname;
         conv.status = this.setStatusConversation(conv.sender, conv.uid);
