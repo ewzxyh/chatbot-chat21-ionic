@@ -902,44 +902,44 @@ export class ConversationListPage implements OnInit {
           conversationWith_segments[conversationWith_segments.length - 1]
         this.logger.log('[CONVS-LIST-PAGE] - lastArrayElement ',lastArrayElement)
         this.logger.log('[CONVS-LIST-PAGE] - lastArrayElement length',lastArrayElement.length)
-        if (lastArrayElement.length !== 32) {
-          conversationWith_segments.pop()
-        }
+        // if (lastArrayElement.length !== 32) {
+        //   conversationWith_segments.pop()
+        // }
       }
 
       if (conversationId.startsWith('support-group')) {
         let project_id = ''
-        if (conversationWith_segments.length === 4) {
+        // if (conversationWith_segments.length === 4) {
           project_id = conversationWith_segments[2]
 
           const tiledeskToken = this.tiledeskAuthService.getTiledeskToken()
           this.archiveSupportGroupConv(tiledeskToken,project_id,conversationId,)
-        } else {
-          this.getProjectIdByConversationWith(conversationId)
-        }
+        // } else {
+          // this.getProjectIdByConversationWith(conversationId)
+        // }
       } else {
         this.conversationsHandlerService.archiveConversation(conversationId)
       }
     }
   }
 
-  getProjectIdByConversationWith(conversationId: string) {
-    const tiledeskToken = this.tiledeskAuthService.getTiledeskToken()
+  // getProjectIdByConversationWith(conversationId: string) {
+  //   const tiledeskToken = this.tiledeskAuthService.getTiledeskToken()
 
-    this.tiledeskService.getProjectIdByConvRecipient(tiledeskToken, conversationId).subscribe((res) => {
-      this.logger.log('[CONVS-LIST-PAGE] - GET PROJECTID BY CONV RECIPIENT RES',res)
+  //   this.tiledeskService.getProjectIdByConvRecipient(tiledeskToken, conversationId).subscribe((res) => {
+  //     this.logger.log('[CONVS-LIST-PAGE] - GET PROJECTID BY CONV RECIPIENT RES',res)
 
-      if (res) {
-        const project_id = res.id_project
-        this.logger.log('[INFO-CONTENT-COMP] - GET PROJECTID BY CONV RECIPIENT  project_id',project_id)
-        this.archiveSupportGroupConv(tiledeskToken,project_id,conversationId)
-      }
-    },(error) => {
-      this.logger.error('[CONVS-LIST-PAGE] - GET PROJECTID BY CONV RECIPIENT - ERROR  ',error)
-    },() => {
-      this.logger.log('[CONVS-LIST-PAGE] - GET PROJECTID BY CONV RECIPIENT * COMPLETE *')
-    })
-  }
+  //     if (res) {
+  //       const project_id = res.id_project
+  //       this.logger.log('[INFO-CONTENT-COMP] - GET PROJECTID BY CONV RECIPIENT  project_id',project_id)
+  //       this.archiveSupportGroupConv(tiledeskToken,project_id,conversationId)
+  //     }
+  //   },(error) => {
+  //     this.logger.error('[CONVS-LIST-PAGE] - GET PROJECTID BY CONV RECIPIENT - ERROR  ',error)
+  //   },() => {
+  //     this.logger.log('[CONVS-LIST-PAGE] - GET PROJECTID BY CONV RECIPIENT * COMPLETE *')
+  //   })
+  // }
 
   archiveSupportGroupConv(tiledeskToken, project_id, conversationId) {
     this.logger.log('[CONVS-LIST-PAGE] - onCloseConversation projectId: ',project_id)
