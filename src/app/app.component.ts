@@ -863,6 +863,7 @@ export class AppComponent implements OnInit {
     if(sound_status && sound_status !== 'undefined'){
       this.isSoundEnabled = sound_status === 'enabled'? true: false
     }
+    // this.logger.debug('[APP-COMP] manageTabNotification can saund?', this.isInitialized, this.isSoundEnabled)
     if(this.isInitialized && this.isSoundEnabled) this.soundMessage()
   }
 

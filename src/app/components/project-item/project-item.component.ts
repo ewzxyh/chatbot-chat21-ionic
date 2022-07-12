@@ -278,11 +278,9 @@ export class ProjectItemComponent implements OnInit {
     available = !available
     this.logger.log('[PROJECT-ITEM] - changeAvailabilityState projectid', projectid, ' available: ', available);
 
-    this.wsService.updateCurrentUserAvailability(this.tiledeskToken, projectid, available)
-      .subscribe((projectUser: any) => {
+    this.wsService.updateCurrentUserAvailability(this.tiledeskToken, projectid, available).subscribe((projectUser: any) => {
 
         this.logger.log('[PROJECT-ITEM] - PROJECT-USER UPDATED ', projectUser)
-
         // NOTIFY TO THE USER SERVICE WHEN THE AVAILABLE / UNAVAILABLE BUTTON IS CLICKED
         // this.usersService.availability_btn_clicked(true)
 
@@ -312,8 +310,11 @@ export class ProjectItemComponent implements OnInit {
             }
           }
         });
-        this.unservedRequestCount = count;
-        this.events.publish('unservedRequest:count', this.unservedRequestCount)
+        //not sound if unservedRequest is already chached and web-sk is closed and restart again
+        if(this.unservedRequestCount < count){  
+          this.unservedRequestCount = count;
+          this.events.publish('unservedRequest:count', this.unservedRequestCount)
+        }
       }
     }, error => {
       this.logger.error('[PROJECT-ITEM] UNSERVED REQUEST COUNT * error * ', error)
