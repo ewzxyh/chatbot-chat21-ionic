@@ -100,12 +100,12 @@ export class InfoContentComponent implements OnInit {
       this.logger.log('[INFO-CONTENT-COMP] - paramMap.subscribe conversationWith_segments: ', conversationWith_segments);
 
       if (this.conversationWith.startsWith("support-group")) {
-        // if (conversationWith_segments.length === 4) {
+        if (conversationWith_segments.length === 4) {
           this.project_id = conversationWith_segments[2];
           this.selectInfoContentTypeInfoSupportGroup();
-        // } else {
-        //   this.getProjectIdByConversationWith(this.conversationWith)
-        // }
+        } else {
+          this.getProjectIdByConversationWith(this.conversationWith)
+        }
       } else {
         this.selectInfoContentTypeDirectAndGroup(this.conversationWith);
       }
@@ -115,25 +115,25 @@ export class InfoContentComponent implements OnInit {
 
   }
 
-  // getProjectIdByConversationWith(conversationWith: string) {
-  //   const tiledeskToken = this.tiledeskAuthService.getTiledeskToken();
+  getProjectIdByConversationWith(conversationWith: string) {
+    const tiledeskToken = this.tiledeskAuthService.getTiledeskToken();
 
-  //   this.tiledeskService.getProjectIdByConvRecipient(tiledeskToken, conversationWith).subscribe(res => {
-  //     this.logger.log('[INFO-CONTENT-COMP] - GET PROJECTID BY CONV RECIPIENT RES', res);
+    this.tiledeskService.getProjectIdByConvRecipient(tiledeskToken, conversationWith).subscribe(res => {
+      this.logger.log('[INFO-CONTENT-COMP] - GET PROJECTID BY CONV RECIPIENT RES', res);
 
-  //     if (res) {
-  //       this.project_id = res.id_project
-  //       this.logger.log('[INFO-CONTENT-COMP] - GET PROJECTID BY CONV RECIPIENT  this.project_id', this.project_id);
-  //     }
+      if (res) {
+        this.project_id = res.id_project
+        this.logger.log('[INFO-CONTENT-COMP] - GET PROJECTID BY CONV RECIPIENT  this.project_id', this.project_id);
+      }
 
-  //   }, (error) => {
-  //     this.logger.error('[INFO-CONTENT-COMP] - GET PROJECTID BY CONV RECIPIENT - ERROR  ', error);
+    }, (error) => {
+      this.logger.error('[INFO-CONTENT-COMP] - GET PROJECTID BY CONV RECIPIENT - ERROR  ', error);
 
-  //   }, () => {
-  //     this.logger.log('[INFO-CONTENT-COMP] - GET PROJECTID BY CONV RECIPIENT * COMPLETE *');
-  //     this.selectInfoContentTypeInfoSupportGroup();
-  //   });
-  // }
+    }, () => {
+      this.logger.log('[INFO-CONTENT-COMP] - GET PROJECTID BY CONV RECIPIENT * COMPLETE *');
+      this.selectInfoContentTypeInfoSupportGroup();
+    });
+  }
 
   ngOnInit() {
     this.logger.log('>>> N INFO-CONTENT-COMP CALLING ngOnInit');

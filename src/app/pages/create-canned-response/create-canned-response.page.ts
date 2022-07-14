@@ -107,29 +107,29 @@ export class CreateCannedResponsePage implements OnInit {
     this.logger.log('[CREATE-CANNED-RES] - loadTagsCanned conversationWith_segments ', conversationWith_segments)
     // let projectId = ''
 
-    // if (conversationWith_segments.length === 4) {
+    if (conversationWith_segments.length === 4) {
       this.prjctID = conversationWith_segments[2]
       this.logger.log('[CREATE-CANNED-RES] - loadTagsCanned projectId ', this.prjctID)
-    // } else {
-      // this.getProjectIdByConversationWith(conversation_id, tiledeskToken)
-    // }
+    } else {
+      this.getProjectIdByConversationWith(conversation_id, tiledeskToken)
+    }
   }
 
-  // getProjectIdByConversationWith(conversationWith: string, tiledeskToken: string) {
-  //   // const tiledeskToken = this.tiledeskAuthService.getTiledeskToken()
+  getProjectIdByConversationWith(conversationWith: string, tiledeskToken: string) {
+    // const tiledeskToken = this.tiledeskAuthService.getTiledeskToken()
 
-  //   this.tiledeskService.getProjectIdByConvRecipient(tiledeskToken, conversationWith).subscribe((res) => {
-  //     this.logger.log('[CREATE-CANNED-RES] - GET PROJECTID BY CONV RECIPIENT RES', res)
-  //     if (res) {
-  //       this.prjctID = res.id_project
-  //       this.logger.log('[CREATE-CANNED-RES] - GET PROJECTID BY CONV RECIPIENT projectId ', this.prjctID)
-  //     }
-  //   }, (error) => {
-  //     this.logger.error('[CREATE-CANNED-RES] - GET PROJECTID BY CONV RECIPIENT - ERROR  ', error)
-  //   },() => {
-  //     this.logger.log('[CREATE-CANNED-RES] - GET PROJECTID BY CONV RECIPIENT * COMPLETE *',)
-  //   })
-  // }
+    this.tiledeskService.getProjectIdByConvRecipient(tiledeskToken, conversationWith).subscribe((res) => {
+      this.logger.log('[CREATE-CANNED-RES] - GET PROJECTID BY CONV RECIPIENT RES', res)
+      if (res) {
+        this.prjctID = res.id_project
+        this.logger.log('[CREATE-CANNED-RES] - GET PROJECTID BY CONV RECIPIENT projectId ', this.prjctID)
+      }
+    }, (error) => {
+      this.logger.error('[CREATE-CANNED-RES] - GET PROJECTID BY CONV RECIPIENT - ERROR  ', error)
+    },() => {
+      this.logger.log('[CREATE-CANNED-RES] - GET PROJECTID BY CONV RECIPIENT * COMPLETE *',)
+    })
+  }
 
 
   buildForm() {

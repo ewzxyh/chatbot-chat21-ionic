@@ -1232,33 +1232,33 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     this.logger.log('[CONVS-DETAIL] - loadTagsCanned conversationWith_segments ', conversationWith_segments)
     let projectId = ''
 
-    // if (conversationWith_segments.length === 4) {
+    if (conversationWith_segments.length === 4) {
       projectId = conversationWith_segments[2]
       this.logger.log('[CONVS-DETAIL] - loadTagsCanned projectId ', projectId)
       this.getAndShowCannedResponses(strSearch, projectId)
-    // } else {
-      // this.getProjectIdByConversationWith(strSearch, this.conversationWith)
-    // }
+    } else {
+      this.getProjectIdByConversationWith(strSearch, this.conversationWith)
+    }
   }
 
-  // getProjectIdByConversationWith(strSearch, conversationWith: string) {
-  //   const tiledeskToken = this.tiledeskAuthService.getTiledeskToken()
+  getProjectIdByConversationWith(strSearch, conversationWith: string) {
+    const tiledeskToken = this.tiledeskAuthService.getTiledeskToken()
 
-  //   this.tiledeskService.getProjectIdByConvRecipient(tiledeskToken, conversationWith).subscribe((res) => {
-  //     this.logger.log('[CONVS-DETAIL] - loadTagsCanned - GET PROJECTID BY CONV RECIPIENT RES', res)
-  //     if (res) {
-  //       const projectId = res.id_project
-  //       this.logger.log('[CONVS-DETAIL] - loadTagsCanned - GET PROJECTID BY CONV RECIPIENT projectId ', projectId)
-  //       if (projectId) {
-  //         this.getAndShowCannedResponses(strSearch, projectId)
-  //       }
-  //     }
-  //   }, (error) => {
-  //     this.logger.error('[CONVS-DETAIL] - loadTagsCanned - GET PROJECTID BY CONV RECIPIENT - ERROR  ', error)
-  //   }, () => {
-  //     this.logger.log('[CONVS-DETAIL] - loadTagsCanned - GET PROJECTID BY CONV RECIPIENT * COMPLETE *')
-  //   })
-  // }
+    this.tiledeskService.getProjectIdByConvRecipient(tiledeskToken, conversationWith).subscribe((res) => {
+      this.logger.log('[CONVS-DETAIL] - loadTagsCanned - GET PROJECTID BY CONV RECIPIENT RES', res)
+      if (res) {
+        const projectId = res.id_project
+        this.logger.log('[CONVS-DETAIL] - loadTagsCanned - GET PROJECTID BY CONV RECIPIENT projectId ', projectId)
+        if (projectId) {
+          this.getAndShowCannedResponses(strSearch, projectId)
+        }
+      }
+    }, (error) => {
+      this.logger.error('[CONVS-DETAIL] - loadTagsCanned - GET PROJECTID BY CONV RECIPIENT - ERROR  ', error)
+    }, () => {
+      this.logger.log('[CONVS-DETAIL] - loadTagsCanned - GET PROJECTID BY CONV RECIPIENT * COMPLETE *')
+    })
+  }
 
   getAndShowCannedResponses(strSearch, projectId) {
     const tiledeskToken = this.tiledeskAuthService.getTiledeskToken()
