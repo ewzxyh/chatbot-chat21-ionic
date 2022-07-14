@@ -1139,6 +1139,8 @@ export class AppComponent implements OnInit {
             // that.presentToast();
           }
         });
+      } else {
+        this.removePresenceAndLogout()
       }
     }
   }
