@@ -1,5 +1,7 @@
 # chat21-ionic ver 3.0
 
+### 3.0.69 in PROD
+
 ### 3.0.69-rc1
 - changed: restored lookup behaviour for old conversations with 3 segment and without project id inside it
 
