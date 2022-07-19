@@ -6,6 +6,9 @@
 
 Chat21 is the core of the open source live chat platform [Tiledesk.com](http://www.tiledesk.com).
 
+## Community? Questions? Support?
+If you need help or just want to hang out, come, say hi on our <img width="15" alt="dialogo_widgetchat_2" src="https://seeklogo.com/images/D/discord-color-logo-E5E6DFEF80-seeklogo.com.png"> [Discord](https://discord.gg/WQPfqShJ) server.
+
 # Features #
 With Chat21-ionic you can:
 * Send a direct message to a user (one to one message)
@@ -186,4 +189,3 @@ To auto login pass the JWT token as a query parameter of your Chat url as in the
 "http://localhost:8100/#/conversation-detail?jwt=<JWT_TOKEN>"
 
 ```
-
