@@ -1,5 +1,11 @@
 # chat21-ionic ver 3.0
 
+### 3.0.70-rc.1
+- changed: README and LICENSE files
+- added: cached conversations from storage in FirebaseConversationsHandlerService
+- added: replase stored conversations after 10s of remote 'once' call
+- added: icon and splash resources for mobile
+
 ### 3.0.69 in PROD
 
 ### 3.0.69-rc1
