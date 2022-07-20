@@ -237,7 +237,6 @@ export class ConversationListPage implements OnInit {
     this.logger.log('Called ionViewDidEnter')
     this.logger.log('[CONVS-LIST-PAGE] ionViewWillEnter uidConvSelected',this.uidConvSelected )
     this.listnerStart()
-    // this.conversations = this.manageStoredConversations()
     // exit from app with hardware back button
     this.subscription = this.platform.backButton.subscribe(() => {
       navigator['app'].exitApp()
@@ -349,6 +348,7 @@ export class ConversationListPage implements OnInit {
   // ------------------------------------------------------------------ //
   initConversationsHandler() {
     // this.conversations = this.manageStoredConversations()
+    // this.manageStoredConversations()
     this.conversations = this.conversationsHandlerService.conversations
     this.logger.log('[CONVS-LIST-PAGE] - CONVERSATIONS ', this.conversations.length, this.conversations)
     // save conversationHandler in chatManager
@@ -356,18 +356,19 @@ export class ConversationListPage implements OnInit {
     this.showPlaceholder = false
   }
 
-  private manageStoredConversations(): ConversationModel[] {
-    let conversationsStored = []
-    if(this.appStorageService.getItem('conversations')){
-      conversationsStored = JSON.parse(this.appStorageService.getItem('conversations'))
-      if(conversationsStored && conversationsStored.length > 0) {
-        // this.conversationsHandlerService.conversations = conversationsStored
-        this.logger.log('[CONVS-LIST-PAGE] retrive conversations from storage --> ', conversationsStored.length)
-        this.events.publish('appcompSubscribeToConvs:loadingIsActive', false);
-      }
-    }
-    return conversationsStored
-  }
+  // private manageStoredConversations() {
+  //   let conversationsStored = []
+  //   if(this.appStorageService.getItem('conversations')){
+  //     conversationsStored = JSON.parse(this.appStorageService.getItem('conversations'))
+  //     if(conversationsStored && conversationsStored.length > 0) {
+  //       // this.conversationsHandlerService.conversations = conversationsStored
+  //       this.logger.log('[CONVS-LIST-PAGE] retrive conversations from storage --> ', conversationsStored.length)
+  //       this.events.publish('appcompSubscribeToConvs:loadingIsActive', false);
+  //       this.conversations.push(...conversationsStored)
+  //     }
+  //   }
+  //   // this.conversations = this.conversationsHandlerService.conversations
+  // }
 
   initArchivedConversationsHandler() {
     const keysConversation = ['CLOSED', 'Resolve']
@@ -898,8 +899,7 @@ export class ConversationListPage implements OnInit {
       }
 
       if (conversationWith_segments.length === 4) {
-        const lastArrayElement =
-          conversationWith_segments[conversationWith_segments.length - 1]
+        const lastArrayElement = conversationWith_segments[conversationWith_segments.length - 1]
         this.logger.log('[CONVS-LIST-PAGE] - lastArrayElement ',lastArrayElement)
         this.logger.log('[CONVS-LIST-PAGE] - lastArrayElement length',lastArrayElement.length)
         // if (lastArrayElement.length !== 32) {

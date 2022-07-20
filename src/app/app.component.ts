@@ -1239,10 +1239,10 @@ export class AppComponent implements OnInit {
     // reset timer and save conversation on storage after 2s
     clearTimeout(this.setTimeoutConversationsEvent);
     this.setTimeoutConversationsEvent = setTimeout(() => {
-      // that.logger.debug('[APP-COMP] updateConversationsOnStorage: reset timer and save conversations -> ', this.conversationsHandlerService.conversations.length)
-      // that.appStorageService.setItem('conversations', JSON.stringify(that.conversationsHandlerService.conversations))
+      that.logger.debug('[APP-COMP] updateConversationsOnStorage: reset timer and save conversations -> ', this.conversationsHandlerService.conversations.length)
+      that.appStorageService.setItem('conversations', JSON.stringify(that.conversationsHandlerService.conversations))
       that.isInitialized = true;
-    }, 2000);
+    }, 10000);
   }
 
   private initArchivedConversationsHandler(userId: string) {

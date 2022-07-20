@@ -109,6 +109,18 @@ export class FirebaseConversationsHandler extends ConversationsHandlerService {
 
     // }
 
+    getConversationsFromLocalStorage(){
+        let conversationsStored = []
+        if(localStorage.getItem('chat_sv5__conversations')){
+            conversationsStored = JSON.parse(localStorage.getItem('chat_sv5__conversations'))
+            if(conversationsStored && conversationsStored.length > 0) {
+                // this.conversationsHandlerService.conversations = conversationsStored
+                this.logger.log('[FIREBASEConversationsHandlerSERVICE] retrive conversations from storage --> ', conversationsStored.length)
+                this.conversations = conversationsStored
+            }
+        }
+    }
+
     /**
      * mi connetto al nodo conversations
      * creo la reference
@@ -119,52 +131,53 @@ export class FirebaseConversationsHandler extends ConversationsHandlerService {
     //----------------------------------------------------------------------------------
     subscribeToConversations(lastConversationTimestamp: number, callback) {
         const that = this;
+        this.getConversationsFromLocalStorage()
         const urlNodeFirebase = conversationsPathForUserId(this.tenant, this.loggedUserId);
         this.logger.debug('[FIREBASEConversationsHandlerSERVICE] SubscribeToConversations conversations::ACTIVE urlNodeFirebase', urlNodeFirebase)
         this.ref = firebase.database().ref(urlNodeFirebase).orderByChild('timestamp').limitToLast(200);
         
-        // this.ref.once('value').then(snapshot => {
-        //     if(snapshot && snapshot.val()){
+        this.ref.once('value').then(snapshot => {
+            this.conversations.splice(0) //empty conversations list and replace storedConversations with remote onces
+            if(snapshot && snapshot.val()){
                 
-                
-        //         snapshot.forEach(childSnapshot => {
-        //             // const childData: ConversationModel = childSnapshot.val();
-        //             // childData.uid = childSnapshot.key
-        //             // that.added(childData)
-        //             // lastConversationTimestamp = childData.timestamp
-        //             that.added(childSnapshot)
-        //         });
-        //         this.logger.debug('[FIREBASEConversationsHandlerSERVICE] # of remote conversations on Firebase:', Object.keys(snapshot.val()).length)
-        //         this.logger.debug('[FIREBASEConversationsHandlerSERVICE] # of conversation added:', that.conversations)
-        //         callback(that.conversations)
-        //         return lastConversationTimestamp
-        //     }
+                snapshot.forEach(childSnapshot => {
+                    // const childData: ConversationModel = childSnapshot.val();
+                    // childData.uid = childSnapshot.key
+                    // that.added(childData)
+                    // lastConversationTimestamp = childData.timestamp
+                    that.added(childSnapshot)
+                });
+                this.logger.debug('[FIREBASEConversationsHandlerSERVICE] # of remote conversations on Firebase:', Object.keys(snapshot.val()).length)
+                this.logger.debug('[FIREBASEConversationsHandlerSERVICE] # of conversation added:', that.conversations)
+                callback(that.conversations)
+                return lastConversationTimestamp
+            }
             
-        // }).then(()=> {
-        //     this.ref.on('child_changed', (childSnapshot) => {
-        //         that.changed(childSnapshot);
-        //     });
-        //     this.ref.on('child_removed', (childSnapshot) => {
-        //         that.removed(childSnapshot);
-        //     });
-        //     this.ref.on('child_added', (childSnapshot) => {
-        //         that.added(childSnapshot);
-        //     });
-        // })
+        }).then(()=> {
+            this.ref.on('child_changed', (childSnapshot) => {
+                that.changed(childSnapshot);
+            });
+            this.ref.on('child_removed', (childSnapshot) => {
+                that.removed(childSnapshot);
+            });
+            this.ref.on('child_added', (childSnapshot) => {
+                that.added(childSnapshot);
+            });
+        })
         
-        this.ref.on('child_changed', (childSnapshot) => {
-            that.changed(childSnapshot);
-        });
-        this.ref.on('child_removed', (childSnapshot) => {
-            that.removed(childSnapshot);
-        });
-        this.ref.on('child_added', (childSnapshot) => {
-            that.added(childSnapshot);
-        });
+        // this.ref.on('child_changed', (childSnapshot) => {
+        //     that.changed(childSnapshot);
+        // });
+        // this.ref.on('child_removed', (childSnapshot) => {
+        //     that.removed(childSnapshot);
+        // });
+        // this.ref.on('child_added', (childSnapshot) => {
+        //     that.added(childSnapshot);
+        // });
 
-        setTimeout(() => {
-            callback()
-        }, 2000);
+        // setTimeout(() => {
+        //     callback()
+        // }, 2000);
     }
 
     public getLastConversation(callback: (conversation: ConversationModel, error: string)=>void){
