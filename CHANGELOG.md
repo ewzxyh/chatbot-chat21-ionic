@@ -1,5 +1,8 @@
 # chat21-ionic ver 3.0
 
+### 3.0.70-rc.2
+- added: cache control max-age
+
 ### 3.0.70-rc.1
 - changed: README and LICENSE files
 - added: cached conversations from storage in FirebaseConversationsHandlerService
