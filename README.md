@@ -4,6 +4,8 @@
 > 
 > ***Use [Docker Compose Tiledesk installation](https://github.com/Tiledesk/tiledesk-deployment/blob/master/docker-compose/README.md) guide***
 
+# Introduction
+
 Chat21 is the core of the open source live chat platform [Tiledesk.com](http://www.tiledesk.com). Tiledesk is an Open Source Live Chat platform with integrated Chatbots written in NodeJs and Express. Build your own customer support with a multi-channel platform for Web, Android and iOS.
 
 Designed to be open source since the beginning, we actively worked on it to create a totally new, first class customer service platform based on instant messaging.
