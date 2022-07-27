@@ -1,2 +1,5 @@
-<span class="base_info" [innerHTML]="message?.text | htmlEntiesEncode | marked"></span>
+<span class="base_info" [innerHTML]="message?.text | htmlEntiesEncode | marked" [tooltip]="timeTooltipLeft"  placement="left" content-type="template">
 <!-- <span class="base_info" [innerHTML]="message_text | marked"></span> -->
+<ng-template #timeTooltipLeft>
+    <span>{{message.timestamp | amTimeAgo}} ({{message.timestamp | amLocal | amDateFormat: 'L HH:mm:ss'}})</span>
+</ng-template> 
