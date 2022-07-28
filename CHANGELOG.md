@@ -1,7 +1,10 @@
 # chat21-ionic ver 3.0
 
+### 3.0.70 in PROD
+
 ### 3.0.70-rc.2
 - added: cache control max-age
+- added: tooltip on info message in conversation-detail page
 
 ### 3.0.70-rc.1
 - changed: README and LICENSE files
