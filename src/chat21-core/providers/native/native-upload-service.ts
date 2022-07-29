@@ -63,8 +63,10 @@ export class NativeUploadService extends UploadService {
             const url = this.URL_TILEDESK_FILE + '/users'
             return new Promise((resolve, reject) => {
                 that.http.post(url, formData, requestOptions).subscribe(data => {
-                    const downloadURL = this.URL_TILEDESK_FILE + '?path=' + encodeURI(data['filename']);
-                    resolve(downloadURL)
+                    let downloadURL = this.URL_TILEDESK_FILE + '/download' + '?path=' + encodeURI(data['filename']);
+                    if(upload.file.type.includes('pdf')){
+                        downloadURL = this.URL_TILEDESK_FILE + '?path=' + encodeURI(data['filename']);
+                    }
                     // that.BSStateUpload.next({upload: upload});
                 }, (error) => {
                     this.logger.error('[NATIVE UPLOAD] - ERROR upload new file ', error)
