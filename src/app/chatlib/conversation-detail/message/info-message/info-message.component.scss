@@ -1,3 +1,9 @@
+.info-container{
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
 .base_info {
     border-radius: 14px;
     border: 1px solid #C9E4F6;
@@ -8,8 +14,39 @@
     background: #C9E4F6;
     font-size: 0.70em;
     color: var(--basic-gray);
-    margin-left: 32px;
-    margin-right: 32px;
+    margin-left: 5px; //32px;
+    margin-right: 5px; //32px;
  
 }
 
+.spinner {
+    // margin: 15px 10px; //remove it if activate avatar image 
+    width: 45px;
+    // text-align: center;
+    min-height: 100%;
+    margin: auto 0px;
+}
+
+.spinner > div {
+    width: 10px;
+    height: 10px;
+    background-color: #333;
+
+    border-radius: 100%;
+    display: inline-block;
+    margin: 0px 2px;
+}
+
+.spinner .bounce1 {
+    background-color: #C9E4F6;
+}
+
+.spinner .bounce2 {
+    background-color: #C9E4F6;
+    opacity: 0.6
+}
+
+.spinner .bounce3 {
+    background-color: #C9E4F6;
+    opacity: 0.4
+}
