@@ -333,8 +333,9 @@ export class LoaderPreviewPage implements OnInit, AfterViewInit {
     }
   }
 
-  pressedOnKeyboard(e: any, text: string) {
-    this.logger.log('[LOADER-PREVIEW-PAGE] pressedOnKeyboard - event:: ', e)
+
+  onKeyUp(event: any, text: string) {
+    this.logger.log('[LOADER-PREVIEW-PAGE] onKeyUp - event:: ', event)
     // const message = e.target.textContent.trim();
     // if (e.inputType === 'insertLineBreak' && message === '') {
     //   this.messageString = '';
