@@ -137,8 +137,7 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
 
   @HostListener('document:click', ['$event'])
   clickout(event) {
-    this.logger.log('[SIDEBAR-USER-DETAILSS-CHAT] clickout event.target)', event.target)
-    this.logger.log('[SIDEBAR-USER-DETAILSS-CHAT] clickout event.target)', event.target.id)
+    // this.logger.log('[SIDEBAR-USER-DETAILSS-CHAT] clickout event.target)', event.target)
     const clicked_element_id = event.target.id
     if (this.eRef.nativeElement.contains(event.target)) {
       // this.logger.log('[SIDEBAR-USER-DETAILS] clicked inside')
