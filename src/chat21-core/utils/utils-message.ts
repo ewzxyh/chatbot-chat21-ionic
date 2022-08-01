@@ -72,13 +72,13 @@ export function messageType(msgType: string, message: any) {
     return false;
   }
   if (msgType === MESSAGE_TYPE_INFO) {
-    return this.isInfo(message);
+    return isInfo(message);
   }
   if (msgType === MESSAGE_TYPE_MINE) {
-    return this.isMine(message);
+    return isMine(message);
   }
   if (msgType === MESSAGE_TYPE_OTHERS) {
-    if (this.isInfo(message) === false && this.isMine(message) === false) {
+    if (isInfo(message) === false && isMine(message) === false) {
       return true;
     }
     return false;
