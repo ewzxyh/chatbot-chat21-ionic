@@ -119,7 +119,7 @@
       <!--backgroundColor non viene ancora usato -->
 
       <chat-bubble-message class="messages msg_receive" id="message_msg_receive" style="position: relative;"
-        [ngClass]="{'has-metadata': (isImage(message) || isFrame(message))}" 
+        [ngClass]="{'has-metadata': (isImage(message) || isFrame(message)), 'privateMsg': (message?.attributes && message?.attributes?.subtype === 'private')}" 
         [class.emoticon]="isEmojii(message?.text)"
         [message]="message" 
         [textColor]="'black'"

@@ -152,6 +152,11 @@ ion-item {
         width: auto;
         border-top-left-radius: 8px;
         border-bottom-left-radius: 0px;
+
+        &.privateMsg{
+            background-color: var(--bubble-privateMsg);
+            color: var(--bubble-privateMsgColor)
+        }
     }
 
     .emoticon {
