@@ -15,7 +15,9 @@ export abstract class ConversationHandlerService {
   abstract messageAdded: BehaviorSubject<MessageModel> = new BehaviorSubject<MessageModel>(null);
   abstract messageChanged: BehaviorSubject<MessageModel> = new BehaviorSubject<MessageModel>(null);
   abstract messageRemoved: BehaviorSubject<string> = new BehaviorSubject<string>(null);
-
+  abstract messageWait: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  abstract messageInfo: BehaviorSubject<MessageModel> = new BehaviorSubject<MessageModel>(null);
+  
   // params
   abstract attributes: any;
   abstract messages: Array<MessageModel> = [];

@@ -971,6 +971,20 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       this.subscriptions.push(subscribe)
     }
 
+    subscriptionKey = 'messageInfo'
+    subscription = this.subscriptions.find((item) => item.key === subscriptionKey)
+    if (!subscription) {
+      subscription = this.conversationHandlerService.messageInfo.subscribe((msg: any) => {
+        this.logger.log('[CONVS-DETAIL] subscribe to messageInfo - messageId ', msg)
+        if (msg) {
+          that.updateLeadInfo(msg)
+          // this.setHeaderContent()
+        }
+      })
+      const subscribe = { key: subscriptionKey, value: subscription }
+      this.subscriptions.push(subscribe)
+    }
+
     // subscriptionKey = 'onGroupChange';
     // subscription = this.subscriptions.find(item => item.key === subscriptionKey);
     // if (!subscription) {
@@ -1007,6 +1021,25 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     window.addEventListener('keyboardDidHide', () => {
       this.logger.log('[CONVS-DETAIL] - Keyboard is Hidden')
     })
+  }
+
+  updateLeadInfo(msg){
+    if (msg.attributes && msg.attributes['updateUserFullname']) {
+      const userFullname = msg.attributes['updateUserFullname'];
+      this.logger.debug('[CONVS-DETAIL] newMessageAdded --> updateUserFullname', userFullname)
+      this.conversationWithFullname = userFullname //update info for next sendMessage object
+      //updates conversation header info
+      this.conversationAvatar = setConversationAvatar(
+        this.conversationWith,
+        this.conversationWithFullname,
+        this.conversationAvatar.channel_type
+      )
+      
+    }
+    if (msg.attributes && msg.attributes['updateUserEmail']) {
+      const userEmail = msg.attributes['updateUserEmail'];
+      this.logger.debug('[CONVS-DETAIL] newMessageAdded --> userEmail', userEmail)
+    }
   }
 
   // ----------------------------------------------------------------

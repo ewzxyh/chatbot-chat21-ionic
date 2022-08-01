@@ -34,7 +34,8 @@ export class MQTTConversationHandler extends ConversationHandlerService {
     messageChanged: BehaviorSubject<MessageModel> = new BehaviorSubject<MessageModel>(null);;
     messageRemoved: BehaviorSubject<string> = new BehaviorSubject<string>(null);
     messageWait: BehaviorSubject<any> = new BehaviorSubject<string>(null);
-
+    messageInfo: BehaviorSubject<MessageModel> = new BehaviorSubject<MessageModel>(null);
+    
     // public variables
     public attributes: any;
     public messages: MessageModel[];
@@ -231,6 +232,7 @@ export class MQTTConversationHandler extends ConversationHandlerService {
         const msg = this.messageGenerate(messageSnapshot);
         msg.uid = msg.message_id;
         if(this.skipInfoMessage && messageType(MESSAGE_TYPE_INFO, msg) ){
+            this.messageInfo.next(msg)
             return;
         }
         // imposto il giorno del messaggio per visualizzare o nascondere l'header data

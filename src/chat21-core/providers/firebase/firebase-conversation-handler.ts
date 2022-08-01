@@ -36,6 +36,7 @@ export class FirebaseConversationHandler extends ConversationHandlerService {
     messageChanged: BehaviorSubject<MessageModel> = new BehaviorSubject<MessageModel>(null);;
     messageRemoved: BehaviorSubject<string> = new BehaviorSubject<string>(null);
     messageWait: BehaviorSubject<any> = new BehaviorSubject<string>(null);
+    messageInfo: BehaviorSubject<MessageModel> = new BehaviorSubject<MessageModel>(null);
 
     // public variables
     public attributes: any;
@@ -244,6 +245,9 @@ export class FirebaseConversationHandler extends ConversationHandlerService {
         // msg.attributes && msg.attributes['subtype'] === 'info'
         if (this.skipMessage && messageType(MESSAGE_TYPE_INFO, msg)) {
             return;
+        }
+        if(!this.skipMessage && messageType(MESSAGE_TYPE_INFO, msg)) {
+            this.messageInfo.next(msg)
         }
         this.addRepalceMessageInArray(childSnapshot.key, msg);
         this.messageAdded.next(msg);
