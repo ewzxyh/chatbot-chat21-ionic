@@ -4,8 +4,8 @@ echo "version $version"
 
 if [ "$version" != "" ]; then
     git tag -a "v$version" -m "`git log -1 --format=%s`"
-    echo "Created a new tag, v$version"
-    git push --tags
+    echo "Created a new tag, $version"
+    git push remoteTiledesk --tags
     npm publish
 fi
 

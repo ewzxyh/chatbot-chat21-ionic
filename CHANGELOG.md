@@ -1,5 +1,10 @@
 # chat21-ionic ver 3.0
 
+### 3.0.71-rc.1
+- changed: native downloadURL on new file uploaded
+- added: update lead info in conversation-detail and conversation-header when agent updates 
+- added: private message UI when agent receive a private message from other agents
+
 ### 3.0.70 in PROD
 
 ### 3.0.70-rc.2
