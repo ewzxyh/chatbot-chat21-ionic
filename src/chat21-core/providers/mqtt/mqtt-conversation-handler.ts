@@ -231,9 +231,11 @@ export class MQTTConversationHandler extends ConversationHandlerService {
     private addedMessage(messageSnapshot: any) {
         const msg = this.messageGenerate(messageSnapshot);
         msg.uid = msg.message_id;
-        if(this.skipInfoMessage && messageType(MESSAGE_TYPE_INFO, msg) ){
-            this.messageInfo.next(msg)
+        if(this.skipInfoMessage && messageType(MESSAGE_TYPE_INFO, msg)){
             return;
+        }
+        if(!this.skipInfoMessage && messageType(MESSAGE_TYPE_INFO, msg)){
+            this.messageInfo.next(msg)
         }
         // imposto il giorno del messaggio per visualizzare o nascondere l'header data
         msg.headerDate = null;
