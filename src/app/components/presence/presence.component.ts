@@ -7,7 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class PresenceComponent implements OnInit {
 
-  @Input() isOnline: boolean = true;
+  @Input() isOnline: boolean = false;
   @Input() translationMap: Map<string, string>;
   // @Input() fontColor: string;
   // @Input() borderColor: string;
