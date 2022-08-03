@@ -20,10 +20,6 @@ export class ContactsDirectoryComponent implements OnInit, OnChanges {
 
   private contactsOrig: Array<UserModel>;
   uidUserSelected: string;
-
-  borderColor = '#ffffff';
-  fontColor = '#949494';
-
   private logger: LoggerService = LoggerInstance.getInstance();
  
   constructor(
