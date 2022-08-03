@@ -1,4 +1,4 @@
-import { PresenceComponent } from '../../components/presence/presence.component';
+import { PresenceComponent } from '../../components/utils/presence/presence.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
