@@ -1,3 +1,4 @@
+import { PresenceService } from 'src/chat21-core/providers/abstract/presence.service';
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { UserModel } from 'src/chat21-core/models/user';
 import { ImageRepoService } from 'src/chat21-core/providers/abstract/image-repo.service';
@@ -5,6 +6,7 @@ import { ImageRepoService } from 'src/chat21-core/providers/abstract/image-repo.
 // Logger
 import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service';
 import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'component-contacts-directory',
@@ -12,15 +14,21 @@ import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance'
   styleUrls: ['./contacts-directory.component.scss'],
 })
 export class ContactsDirectoryComponent implements OnInit, OnChanges {
+
   @Input() contacts: Array<UserModel>;
   @Output() onOpenNewChat = new EventEmitter<UserModel>();
 
   private contactsOrig: Array<UserModel>;
   uidUserSelected: string;
+
+  borderColor = '#ffffff';
+  fontColor = '#949494';
+
   private logger: LoggerService = LoggerInstance.getInstance();
  
   constructor(
-    public imageRepoService: ImageRepoService
+    public imageRepoService: ImageRepoService,
+    public presenceService: PresenceService
   ) { }
 
   /**
@@ -35,6 +43,7 @@ export class ContactsDirectoryComponent implements OnInit, OnChanges {
     if(this.contacts){
       this.contacts.forEach(contact => {
         contact.imageurl = this.imageRepoService.getImagePhotoUrl(contact.uid)
+        this.presenceService.userIsOnline(contact.uid).pipe(filter((isOnline) => isOnline !== null)).subscribe((status)=> {contact.online = status.isOnline })
       });
     }
   }

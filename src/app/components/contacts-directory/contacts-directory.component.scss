@@ -52,6 +52,13 @@ ion-item {
             border-style: solid;
             border-width: 0px;
         }
+        .user-presence{
+            position: absolute;
+            width: 100%;
+            height: 40px;
+            top: 30px;
+            left: calc(50% + 15px);
+        }
     }
     ion-label {
         flex: 1 1 0px;
@@ -81,6 +88,8 @@ ion-item {
         }
         
     }
+    
+
     ion-note {
         position: absolute;
         right: 8px;
