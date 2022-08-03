@@ -148,10 +148,7 @@ export class InfoGroupComponent implements OnInit, AfterViewInit, OnChanges {
         for (const [key, value] of Object.entries(this.groupDetail.members)) {
           this.logger.log('CONVERSATION-DETAIL group detail Key:', key, ' -Value: ', value);
 
-          this.presenceService.userIsOnline(key)
-            .pipe(takeUntil(this.unsubscribe$))
-            .pipe(filter((isOnline) => isOnline !== null))
-            .subscribe((isOnline: any) => {
+          this.presenceService.userIsOnline(key).pipe(takeUntil(this.unsubscribe$)).pipe(filter((isOnline) => isOnline !== null)).subscribe((isOnline: any) => {
               this.logger.log('InfoGroupComponent group detail BSIsOnline isOnline', isOnline)
               members_isonline_array[key]['isSignin'] = isOnline.isOnline
               if (this.member_array.length > 0) {

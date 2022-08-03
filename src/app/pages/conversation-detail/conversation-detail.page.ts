@@ -974,7 +974,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     subscriptionKey = 'messageInfo'
     subscription = this.subscriptions.find((item) => item.key === subscriptionKey)
     if (!subscription) {
-      subscription = this.conversationHandlerService.messageInfo.subscribe((msg: any) => {
+      subscription = this.conversationHandlerService.messageInfo.pipe(takeUntil(this.unsubscribe$)).subscribe((msg: any) => {
         this.logger.log('[CONVS-DETAIL] subscribe to messageInfo - messageId ', msg)
         if (msg) {
           that.updateLeadInfo(msg)

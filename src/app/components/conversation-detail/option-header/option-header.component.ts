@@ -10,6 +10,7 @@ export class OptionHeaderComponent implements OnInit {
 
   @Input() headerTitle: string
   @Output() onBackButton = new EventEmitter<boolean>();
+  static UserPresenceComponent: any[] | any;
 
   constructor() { }
 

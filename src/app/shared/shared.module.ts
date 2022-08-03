@@ -1,3 +1,4 @@
+import { ContactsDirectoryComponent } from './../components/contacts-directory/contacts-directory.component';
 import { HtmlComponent } from './../chatlib/conversation-detail/message/html/html.component';
 import { BubbleOthersMessageComponent } from './../components/conversation-detail/bubble-others-message/bubble-others-message.component';
 
@@ -91,7 +92,7 @@ import { SafeHtmlPipe } from '../directives/safe-html.pipe';
     AutofocusDirective,
     HtmlEntitiesEncodePipe,
     SafeHtmlPipe,
-    OptionHeaderComponent
+    OptionHeaderComponent,
   ],
   exports: [
     // MessageTextAreaComponent,

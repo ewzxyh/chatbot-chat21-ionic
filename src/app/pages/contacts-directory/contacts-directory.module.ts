@@ -1,8 +1,9 @@
+import { PresenceComponent } from '../../components/presence/presence.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import {TranslateLoader, TranslateModule, TranslatePipe} from '@ngx-translate/core';
+import {TranslateModule} from '@ngx-translate/core';
 
 import { ContactsDirectoryPageRoutingModule } from './contacts-directory-routing.module';
 import { ContactsDirectoryComponent } from '../../components/contacts-directory/contacts-directory.component';
@@ -10,7 +11,6 @@ import { ContactsDirectoryComponent } from '../../components/contacts-directory/
 import { ContactsDirectoryPage } from './contacts-directory.page';
 // import { ContactsDirectoryService } from '../../services/contacts-directory.service';
 // import { TiledeskContactsDirectoryService } from '../../services/tiledesk/tiledesk-contacts-directory.service';
-import { HttpClient } from '@angular/common/http';
 
 
 // export function contactsFactory(http: HttpClient) {
@@ -36,7 +36,8 @@ import { HttpClient } from '@angular/common/http';
   ],
   declarations: [
     ContactsDirectoryPage,
-    ContactsDirectoryComponent
+    ContactsDirectoryComponent,
+    PresenceComponent
   ]
 })
 export class ContactsDirectoryPageModule {}
