@@ -85,6 +85,37 @@ export function messageType(msgType: string, message: any) {
   }
 }
 
+/** */
+export function getSizeImg(message: any, maxWidthImage?: number): any {
+  try {
+    const metadata = message.metadata;
+    const sizeImage = {
+      width: metadata.width,
+      height: metadata.height
+    };
+    if (!maxWidthImage) {
+      maxWidthImage = MAX_WIDTH_IMAGES;
+    }
+    if (metadata.width && metadata.width > maxWidthImage) {
+      const rapporto = (metadata['width'] / metadata['height']);
+      sizeImage.width = maxWidthImage;
+      sizeImage.height = maxWidthImage / rapporto;
+    }
+    return sizeImage;
+  } catch (err) {
+    console.error('error: ', err);
+    return;
+  }
+}
+
+/** */
+export function isChannelTypeGroup(channelType: string) {
+  if (channelType === CHANNEL_TYPE_GROUP || channelType === TYPE_SUPPORT_GROUP) {
+    return true;
+  }
+  return false;
+}
+
 export function isEmojii(message: any){
   
   // let emoji = '';
@@ -115,38 +146,24 @@ export function isEmojii(message: any){
   }
 }
 
-
-
-
-/** */
-export function getSizeImg(message: any, maxWidthImage?: number): any {
-  try {
-    const metadata = message.metadata;
-    const sizeImage = {
-      width: metadata.width,
-      height: metadata.height
-    };
-    if (!maxWidthImage) {
-      maxWidthImage = MAX_WIDTH_IMAGES;
-    }
-    if (metadata.width && metadata.width > maxWidthImage) {
-      const rapporto = (metadata['width'] / metadata['height']);
-      sizeImage.width = maxWidthImage;
-      sizeImage.height = maxWidthImage / rapporto;
-    }
-    return sizeImage;
-  } catch (err) {
-    console.error('error: ', err);
-    return;
+export function checkIfIsMemberJoinedGroup(msg, loggedUser): boolean{
+  if(msg && msg.attributes && msg.attributes.messagelabel
+      && msg.attributes.messagelabel['key']=== "MEMBER_JOINED_GROUP" 
+      && msg.attributes.messagelabel.parameters['member_id'] !== loggedUser.uid
+      && !msg.attributes.messagelabel.parameters['member_id'].includes('bot') 
+      && !msg.attributes.messagelabel.parameters['member_id'].includes('system')){
+          return true
   }
+  return false
+  
 }
 
-/** */
-export function isChannelTypeGroup(channelType: string) {
-  if (channelType === CHANNEL_TYPE_GROUP || channelType === TYPE_SUPPORT_GROUP) {
-    return true;
+export function hideInfoMessage(msg, infoMessageKeyEnabled): boolean{
+  if(msg && msg.attributes && msg.attributes.messagelabel
+    && infoMessageKeyEnabled.includes(msg.attributes.messagelabel['key'])){
+      return false
   }
-  return false;
+  return true
 }
 
 
