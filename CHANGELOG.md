@@ -1,5 +1,7 @@
 # chat21-ionic ver 3.0
 
+### 3.0.72 in PROD
+
 ### 3.0.72-rc.1
 - added: user presence on contact-directory component
 
