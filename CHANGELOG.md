@@ -1,7 +1,9 @@
 # chat21-ionic ver 3.0
 
+### 3.0.73 in PROD
+
 ### 3.0.73-rc.1
-- bug-fixed: topic.split is not a function while a conversataion is closed by an agent in MQTT-conversations-handler.service
+- bug-fixed: topic.split is not a function while a conversation is closed by an agent in MQTT-conversations-handler.service
 - removed: user id from contact-directory component
 
 ### 3.0.72 in PROD
