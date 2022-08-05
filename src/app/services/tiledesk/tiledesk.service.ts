@@ -43,9 +43,7 @@ export class TiledeskService {
     const url = this.apiUrl + projectid + '/requests/' + supportgroupid + '/close';
 
     this.logger.log('[TILEDESK-SERVICE] - closeSupportGroup URL ', url);
-    return this.http
-      .put(url, body, httpOptions)
-      .pipe(map((res: any) => {
+    return this.http.put(url, body, httpOptions).pipe(map((res: any) => {
         this.logger.log('[TILEDESK-SERVICE] - closeSupportGroup - RES ', res);
         return res
       }))
@@ -64,9 +62,7 @@ export class TiledeskService {
       })
     };
 
-    return this.http
-      .get(lookupUrl, httpOptions)
-      .pipe(map((res: any) => {
+    return this.http.get(lookupUrl, httpOptions).pipe(map((res: any) => {
         this.logger.log('[TILEDESK-SERVICE] GET PROJECTID BY CONV RECIPIENT - RES ', res);
         return res
       }))
@@ -83,9 +79,7 @@ export class TiledeskService {
       })
     };
 
-    return this.http
-    .get(url, httpOptions)
-    .pipe(map((res: any) => {
+    return this.http.get(url, httpOptions).pipe(map((res: any) => {
       this.logger.log('[TILEDESK-SERVICE] GET PROJECTS - RES ', res);
       return res
     }))
@@ -102,9 +96,7 @@ export class TiledeskService {
         Authorization: token
       })
     };
-    return this.http
-    .get(url, httpOptions)
-    .pipe(map((res: any) => {
+    return this.http.get(url, httpOptions).pipe(map((res: any) => {
       this.logger.log('[TILEDESK-SERVICE] GET PROJECT BY ID URL - RES ', res);
       return res
     }))
@@ -121,9 +113,7 @@ export class TiledeskService {
         Authorization: token
       })
     };
-    return this.http
-    .get(url, httpOptions)
-    .pipe(map((res: any) => {
+    return this.http.get(url, httpOptions).pipe(map((res: any) => {
       this.logger.log('[TILEDESK-SERVICE] - GET PROJECT-USER RES ', res);
       return res
     }))
@@ -139,9 +129,7 @@ export class TiledeskService {
         Authorization: token
       })
     };
-    return this.http
-    .get(url, httpOptions)
-    .pipe(map((res: any) => {
+    return this.http.get(url, httpOptions).pipe(map((res: any) => {
       this.logger.log('[TILEDESK-SERVICE] - GET ALL ACTIVE LEADS (LIMIT 10000) ', res);
       return res
     }))
@@ -161,9 +149,7 @@ export class TiledeskService {
       })
     };
     const body = {};
-    return this.http
-      .post(url, body, httpOptions)
-      .pipe(map((res: any) => {
+    return this.http.post(url, body, httpOptions).pipe(map((res: any) => {
         this.logger.log('[TILEDESK-SERVICE] - CREATE NEW PROJECT USER TO GET NEW LEAD ID url ', res);
         return res
       }))
@@ -186,9 +172,7 @@ export class TiledeskService {
     const body = { 'lead_id': leadid, 'fullname': fullname, 'email': leademail };
     this.logger.log('[TILEDESK-SERVICE] - CREATE NEW LEAD ', body);
 
-    return this.http
-    .post(url, body, httpOptions)
-    .pipe(map((res: any) => {
+    return this.http.post(url, body, httpOptions).pipe(map((res: any) => {
       this.logger.log('[TILEDESK-SERVICE] - CREATE NEW LEAD RES ', res);
       return res
     }))
@@ -209,9 +193,7 @@ export class TiledeskService {
       })
     };
 
-    return this.http
-    .get(url, httpOptions)
-    .pipe(map((res: any) => {
+    return this.http.get(url, httpOptions).pipe(map((res: any) => {
       this.logger.log('[TILEDESK-SERVICE] - GET ALL BOTS BY PROJECT ID - RES ', res);
       return res
     }))
@@ -232,9 +214,7 @@ export class TiledeskService {
       })
     };
 
-    return this.http
-    .get(url, httpOptions)
-    .pipe(map((res: any) => {
+    return this.http.get(url, httpOptions).pipe(map((res: any) => {
       this.logger.log('[TILEDESK-SERVICE] - GET DEPTS (ALL STATUS) - RES ', res);
       return res
     }))
@@ -265,9 +245,7 @@ export class TiledeskService {
     // , 'participants': [participantid]
 
     this.logger.log('[WS-REQUESTS-SERV] - CREATE INTERNAL REQUEST body ', body);
-    return this.http
-    .post(url, body, httpOptions)
-    .pipe(map((res: any) => {
+    return this.http.post(url, body, httpOptions).pipe(map((res: any) => {
       this.logger.log('[TILEDESK-SERVICE] - CREATE NEW LEAD RES ', res);
       return res
     }))
@@ -293,9 +271,7 @@ export class TiledeskService {
 
     this.logger.log('[TILEDESK-SERVICE] CREATE CANNED-RES - BODY ', body);
 
-    return this.http
-    .post(url, JSON.stringify(body), httpOptions)
-    .pipe(map((res: any) => {
+    return this.http.post(url, JSON.stringify(body), httpOptions).pipe(map((res: any) => {
       this.logger.log('[TILEDESK-SERVICE] - CREATE CANNED-RES - RES ', res);
       return res
     }))
