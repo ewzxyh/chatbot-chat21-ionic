@@ -518,7 +518,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     // this.initConversationsHandler(); // nk
     if (this.conversationWith) {
       this.disableTextarea = false
-      this._getProjectIdByConversationWith(this.conversationWith)
+      // this._getProjectIdByConversationWith(this.conversationWith)
       this.initConversationHandler()
       this.initGroupsHandler()
       this.initSubscriptions()
