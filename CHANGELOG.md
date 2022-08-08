@@ -1,5 +1,9 @@
 # chat21-ionic ver 3.0
 
+
+### 3.0.74-rc.1
+- changed: dashboardUrl in env from absolute to relative http url
+
 ### 3.0.73 in PROD
 
 ### 3.0.73-rc.1
