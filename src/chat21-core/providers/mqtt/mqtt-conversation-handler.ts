@@ -287,6 +287,7 @@ export class MQTTConversationHandler extends ConversationHandlerService {
         this.logger.log("[MQTTConversationHandler] childSnapshot >" + JSON.stringify(childSnapshot));
         const msg = childSnapshot;
         msg.uid = childSnapshot.key;
+        msg.text = msg.text.trim() //remove black msg with only spaces
         // controllo fatto per i gruppi da rifattorizzare
         if (!msg.sender_fullname || msg.sender_fullname === 'undefined') {
             msg.sender_fullname = msg.sender;

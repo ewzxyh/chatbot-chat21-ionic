@@ -46,7 +46,7 @@ export class TiledeskService {
     return this.http.put(url, body, httpOptions).pipe(map((res: any) => {
         this.logger.log('[TILEDESK-SERVICE] - closeSupportGroup - RES ', res);
         return res
-      }))
+    }))
   }
 
   // http://tiledesk-server-pre.herokuapp.com/requests_util/lookup/id_project/support-group-60ffe291f725db00347661ef-b4cb6875785c4a23b27244fe498eecf44
@@ -65,7 +65,7 @@ export class TiledeskService {
     return this.http.get(lookupUrl, httpOptions).pipe(map((res: any) => {
         this.logger.log('[TILEDESK-SERVICE] GET PROJECTID BY CONV RECIPIENT - RES ', res);
         return res
-      }))
+    }))
   }
 
   public getProjects(token: string) {

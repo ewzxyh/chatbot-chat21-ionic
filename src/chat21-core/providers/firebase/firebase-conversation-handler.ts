@@ -280,6 +280,7 @@ export class FirebaseConversationHandler extends ConversationHandlerService {
     private messageGenerate(childSnapshot: any) {
         const msg: MessageModel = childSnapshot.val();
         msg.uid = childSnapshot.key;
+        msg.text = msg.text.trim() //remove black msg with only spaces
         // controllo fatto per i gruppi da rifattorizzare
         if (!msg.sender_fullname || msg.sender_fullname === 'undefined') {
             msg.sender_fullname = msg.sender;
