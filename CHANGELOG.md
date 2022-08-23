@@ -1,8 +1,10 @@
 # chat21-ionic ver 3.0
 
+### 3.0.74 in PROD
 
 ### 3.0.74-rc.1
 - changed: dashboardUrl in env from absolute to relative http url
+- bug-fixed: not get projectId if is direct covnersation
 
 ### 3.0.73 in PROD
 
