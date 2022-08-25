@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MessageModel } from 'src/chat21-core/models/message';
-import { MAX_WIDTH_IMAGES } from 'src/chat21-core/utils/constants';
+import { MAX_WIDTH_IMAGES, MIN_WIDTH_IMAGES } from 'src/chat21-core/utils/constants';
 import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service';
 import { isFile, isFrame, isImage } from 'src/chat21-core/utils/utils-message';
 import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance';
@@ -39,6 +39,7 @@ export class BubbleMessageComponent implements OnInit, OnChanges {
     'hideDelayAfterClick': 3000,
     'hide-delay': 200
   };
+  sizeImage : { width: number, height: number}
 
   private logger: LoggerService = LoggerInstance.getInstance()
  
@@ -81,7 +82,7 @@ export class BubbleMessageComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     if (this.message && this.message.metadata && typeof this.message.metadata === 'object') {
-      this.getMetadataSize(this.message.metadata)
+      this.sizeImage = this.getMetadataSize(this.message.metadata)
     }
   }
 
@@ -112,27 +113,36 @@ export class BubbleMessageComponent implements OnInit, OnChanges {
   // }
 
   getMetadataSize(metadata): any {
-    if (metadata.width === undefined) {
-      metadata.width = MAX_WIDTH_IMAGES
-    }
-    if (metadata.height === undefined) {
-      metadata.height = MAX_WIDTH_IMAGES
-    }
+    // if (metadata.width === undefined) {
+    //   metadata.width = MAX_WIDTH_IMAGES
+    // }
+    // if (metadata.height === undefined) {
+    //   metadata.height = MAX_WIDTH_IMAGES
+    // }
+
+    const sizeImage = {
+      width: metadata.width,
+      height: metadata.height
+    };
 
     if (metadata.width && metadata.width < MAX_WIDTH_IMAGES) {
       if (metadata.width <= 55) {
         const ratio = (metadata['width'] / metadata['height']);
-        metadata.width = 200;
-        metadata.height = 200 / ratio;
+        sizeImage.width = MIN_WIDTH_IMAGES;
+        sizeImage.height = MIN_WIDTH_IMAGES / ratio;
       } else if (metadata.width > 55) {
-        metadata.width = this.message.metadata.width;
-        metadata.height = this.message.metadata.height;
+        sizeImage.width = metadata.width;
+        sizeImage.height = metadata.height
       }
+      
     } else if (metadata.width && metadata.width > MAX_WIDTH_IMAGES) {
       const ratio = (metadata['width'] / metadata['height']);
-      metadata.width = MAX_WIDTH_IMAGES;
-      metadata.height = MAX_WIDTH_IMAGES / ratio;
+      sizeImage.width = MAX_WIDTH_IMAGES;
+      sizeImage.height = MAX_WIDTH_IMAGES / ratio;
     }
+    // metadata.width = sizeImage.width
+    // metadata.height = sizeImage.height
+    return sizeImage
   }
 
 
