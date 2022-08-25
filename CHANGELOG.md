@@ -1,5 +1,8 @@
 # chat21-ionic ver 3.0
 
+### 3.0.75-rc.1
+- added: handled ESC keyboard button to dismiss image preview component
+
 ### 3.0.74 in PROD
 
 ### 3.0.74-rc.1
