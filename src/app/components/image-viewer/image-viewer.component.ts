@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { saveAs } from 'file-saver';
 @Component({
   selector: 'app-image-viewer',
@@ -51,6 +51,14 @@ export class ImageViewerComponent implements OnInit {
 
     saveAs(modalImgURL, captionText);
     this.closeImageViewerModal()
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  onKeyPress(event){
+    const keyCode = event.which || event.keyCode;
+    if (keyCode === 27) { // Esc keyboard code
+      this.closeImageViewerModal()
+    }
   }
 
 }
