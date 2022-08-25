@@ -44,6 +44,7 @@ export const CHANNEL_TYPE_GROUP = 'group';
 export const TYPE_MSG_TEXT = 'text';
 export const TYPE_MSG_IMAGE = 'image';
 export const MAX_WIDTH_IMAGES = 300;
+export const MIN_WIDTH_IMAGES = 130;
 export const TYPE_DIRECT = 'direct';
 export const TYPE_GROUP = 'group';
 export const SYSTEM = 'system';
