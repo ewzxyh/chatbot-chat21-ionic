@@ -1,5 +1,8 @@
 # chat21-ionic ver 3.0
 
+### 3.0.75-rc.2
+- bug-fixed: unserved request count not updated correctly after a request is assigned
+
 ### 3.0.75-rc.1
 - added: handled ESC keyboard button to dismiss image preview component
 
