@@ -73,7 +73,7 @@ export class BubbleMessageComponent implements OnInit, OnChanges {
     } else if (this.browserLang && stored_preferred_lang) {
       chat_lang = stored_preferred_lang
     }
-    moment.locale(chat_lang , {
+    moment.updateLocale(chat_lang , {
       calendar: {
         sameElse: 'LLLL'
       }
