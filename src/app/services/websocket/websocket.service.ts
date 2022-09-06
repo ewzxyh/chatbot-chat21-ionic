@@ -202,14 +202,14 @@ export class WebsocketService {
         self.logger.log("[WS-SERV] CHAT - CONVS  - ON-DATA - notification ", notification);
 
         // console.log("[WS-SERV] CHAT - CONVS  - ON-DATA - DATA notification > event > method ", notification.event.method);
-        if (notification.event.method === 'CREATE') {
-          self.wsRequestsList = [];
-          self.wsRequestsList.push(data)
-          self.logger.log("[WS-SERV] CHAT - CONVS  - ON-DATA - DATA wsRequestsList ", self.wsRequestsList);
-          if (self.wsRequestsList) {
-            self.wsRequestsList$.next(self.wsRequestsList);
-          }
-        }
+        // if (notification.event.method === 'CREATE') {
+        //   self.wsRequestsList = [];
+        //   self.wsRequestsList.push(data)
+        //   self.logger.log("[WS-SERV] CHAT - CONVS  - ON-DATA - DATA wsRequestsList ", self.wsRequestsList);
+        //   if (self.wsRequestsList) {
+        //     self.wsRequestsList$.next(self.wsRequestsList);
+        //   }
+        // }
       }
     );
   }
@@ -284,6 +284,7 @@ export class WebsocketService {
           this.wsRequestsList$.next(this.wsRequestsList);
           this.logger.log("[WS-SERV] -  ON-UPATE CONVS LIST ", this.wsRequestsList);
         }
+        
       }
     }
   }

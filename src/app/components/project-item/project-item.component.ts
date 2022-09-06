@@ -311,10 +311,11 @@ export class ProjectItemComponent implements OnInit {
           }
         });
         //not sound if unservedRequest is already chached and web-sk is closed and restart again
-        if(this.unservedRequestCount !== count){  
-          this.unservedRequestCount = count;
+        if(count > this.unservedRequestCount ){  
           this.events.publish('unservedRequest:count', this.unservedRequestCount)
         }
+        this.unservedRequestCount = count;
+
       }
     }, error => {
       this.logger.error('[PROJECT-ITEM] UNSERVED REQUEST COUNT * error * ', error)
