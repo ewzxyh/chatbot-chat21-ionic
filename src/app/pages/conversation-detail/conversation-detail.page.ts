@@ -1593,11 +1593,11 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     }, 1000)
   }
 
-  returnOnBeforeMessageRender(event) {
+  onBeforeMessageRenderFN(event) {
     //this.onBeforeMessageRender.emit(event)
   }
 
-  returnOnAfterMessageRender(event) {
+  onAfterMessageRenderFN(event) {
     // this.onAfterMessageRender.emit(event)
   }
 
@@ -1607,7 +1607,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
   returnOnScrollContent(event: boolean) { }
 
-  returnOnAttachmentButtonClicked(event: any) {
+  onAttachmentButtonClickedFN(event: any) {
     this.logger.debug('[CONV-COMP] eventbutton', event)
     if (!event || !event.target.type) {
       return
@@ -1642,7 +1642,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
   onElementRenderedFN(event) {
     const imageRendered = event
-    console.log('loadeddddddd', event, this.showButtonToBottom)
     if (event.status && this.ionContentChatArea) {
       this.scrollBottom(0)
     }

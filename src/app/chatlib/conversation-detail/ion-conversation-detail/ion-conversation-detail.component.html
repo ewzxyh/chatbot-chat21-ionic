@@ -87,8 +87,8 @@
         [addAsCannedResponseTooltipText]="addAsCannedResponseTooltipText" 
         [areVisibleCAR]="areVisibleCAR"
         [supportMode]="supportMode"
-        (onBeforeMessageRender)="returnOnBeforeMessageRender($event)"
-        (onAfterMessageRender)="returnOnAfterMessageRender($event)" 
+        (onBeforeMessageRender)="onBeforeMessageRenderFN($event)"
+        (onAfterMessageRender)="onAfterMessageRenderFN($event)" 
         (onElementRendered)="onElementRenderedFN($event)">
       </chat-bubble-message>
 
@@ -126,8 +126,8 @@
         [addAsCannedResponseTooltipText]="addAsCannedResponseTooltipText" 
         [areVisibleCAR]="areVisibleCAR"
         [supportMode]="supportMode"
-        (onBeforeMessageRender)="returnOnBeforeMessageRender($event)"
-        (onAfterMessageRender)="returnOnAfterMessageRender($event)" 
+        (onBeforeMessageRender)="onBeforeMessageRenderFN($event)"
+        (onAfterMessageRender)="onAfterMessageRenderFN($event)" 
         (onElementRendered)="onElementRenderedFN($event)">
       </chat-bubble-message>
     </div>
@@ -139,7 +139,7 @@
         [isLastMessage]="isLastMessage(message?.uid)" 
         [stylesMap]="stylesMap"
         (onElementRendered)="onElementRenderedFN($event)"
-        (onAttachmentButtonClicked)="returnOnAttachmentButtonClicked($event)">
+        (onAttachmentButtonClicked)="onAttachmentButtonClickedFN($event)">
       </chat-message-attachment>
     </div>
   </div>
