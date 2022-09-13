@@ -44,7 +44,6 @@ export class ImageComponent implements OnInit {
 
   onLoaded(event) {
     this.loading = false
-    console.log('imageeeeee loadeddd')
     this.onElementRendered.emit({element: "image", status:true})
   }
 

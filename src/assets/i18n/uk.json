@@ -65,6 +65,8 @@
     "INFO_SUPPORT_USER_ADDED_MESSAGE": "{{ предмет }} {{ дієслово} {{ доповнення}}",
     "INFO_SUPPORT_CHAT_REOPENED": "Чат знову відкрився",
     "INFO_SUPPORT_CHAT_CLOSED": "Чат закритий",
+    "INFO_SUPPORT_LEAD_UPDATED":"Лід оновлено",
+    "INFO_SUPPORT_MEMBER_LEFT_GROUP":"видалено з групи",
     "INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU": "Вам призначено новий запит на підтримку",
     "LABEL_PROFILE": "Профіль",
     "LABEL_CLOSE": "зачинено",

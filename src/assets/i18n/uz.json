@@ -66,6 +66,8 @@
     "INFO_SUPPORT_USER_ADDED_MESSAGE": "{{ subject }} {{ verb }} {{ complement }}",
     "INFO_SUPPORT_CHAT_REOPENED": "Chat qayta ochildi",
     "INFO_SUPPORT_CHAT_CLOSED": "Chat yopildi",
+    "INFO_SUPPORT_LEAD_UPDATED":"Etakchi yangilandi",
+    "INFO_SUPPORT_MEMBER_LEFT_GROUP":"guruhdan olib tashlandi",
     "INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU": "Sizga yangi qoʻllab-quvvatlash soʻrovi tayinlandi",
     "LABEL_PROFILE": "Profil",
     "LABEL_CLOSE": "Yopiq",

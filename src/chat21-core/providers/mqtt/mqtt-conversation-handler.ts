@@ -1,3 +1,4 @@
+import { TOUCHING_OPERATOR, LEAD_UPDATED, MEMBER_LEFT_GROUP } from './../../utils/constants';
 import { Inject, Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
@@ -330,6 +331,10 @@ export class MQTTConversationHandler extends ConversationHandlerService {
         const INFO_SUPPORT_USER_ADDED_VERB = this.translationMap.get('INFO_SUPPORT_USER_ADDED_VERB');
         const INFO_SUPPORT_CHAT_REOPENED = this.translationMap.get('INFO_SUPPORT_CHAT_REOPENED');
         const INFO_SUPPORT_CHAT_CLOSED = this.translationMap.get('INFO_SUPPORT_CHAT_CLOSED');
+        const INFO_SUPPORT_LEAD_UPDATED = this.translationMap.get('INFO_SUPPORT_LEAD_UPDATED');
+        const INFO_SUPPORT_MEMBER_LEFT_GROUP = this.translationMap.get('INFO_SUPPORT_MEMBER_LEFT_GROUP');
+        const INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU = this.translationMap.get('INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU');
+
         if (message.attributes.messagelabel
             && message.attributes.messagelabel.parameters
             && message.attributes.messagelabel.key === MEMBER_JOINED_GROUP
@@ -359,6 +364,23 @@ export class MQTTConversationHandler extends ConversationHandlerService {
             message.text = INFO_SUPPORT_CHAT_REOPENED;
         } else if ((message.attributes.messagelabel && message.attributes.messagelabel.key === CHAT_CLOSED)) {
             message.text = INFO_SUPPORT_CHAT_CLOSED;
+        } else if ((message.attributes && message.attributes.messagelabel && message.attributes.messagelabel.key === TOUCHING_OPERATOR) && message.sender === "system") {
+            // console.log('FIREBASEConversationHandlerSERVICE message text', message.text)
+            const textAfterColon = message.text.split(":")[1]
+            // console.log('FIREBASEConversationHandlerSERVICE message text - textAfterColon', textAfterColon)
+            if (textAfterColon !== undefined) {
+                message.text = INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU + ': ' + textAfterColon;
+            }
+        } else if ((message.attributes.messagelabel && message.attributes.messagelabel.key === LEAD_UPDATED)) {
+            message.text = INFO_SUPPORT_LEAD_UPDATED;
+        } else if ((message.attributes.messagelabel && message.attributes.messagelabel.key === MEMBER_LEFT_GROUP)) {
+           let subject: string;
+           if (message.attributes.messagelabel.parameters.fullname) {
+               subject = message.attributes.messagelabel.parameters.fullname;
+           }else{
+               subject = message.attributes.messagelabel.parameters.member_id;
+           }
+           message.text = subject + ' ' +  INFO_SUPPORT_MEMBER_LEFT_GROUP ;
         }
     }
 

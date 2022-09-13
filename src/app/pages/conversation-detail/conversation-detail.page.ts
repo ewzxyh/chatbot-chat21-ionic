@@ -634,6 +634,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       'INFO_SUPPORT_CHAT_REOPENED',
       'INFO_SUPPORT_CHAT_CLOSED',
       'INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU',
+      'INFO_SUPPORT_LEAD_UPDATED',
+      'INFO_SUPPORT_MEMBER_LEFT_GROUP',
       'LABEL_TODAY',
       'LABEL_TOMORROW',
       'LABEL_LAST_ACCESS',

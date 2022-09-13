@@ -65,6 +65,8 @@
         "INFO_SUPPORT_USER_ADDED_MESSAGE": "{{ subject }} {{ verb }} {{ complement }}",
         "INFO_SUPPORT_CHAT_REOPENED": "تمت إعادة فتح الدردشة",
         "INFO_SUPPORT_CHAT_CLOSED": "الدردشة مغلقة",
+        "INFO_SUPPORT_LEAD_UPDATED":"تحديث الرصاص",
+        "INFO_SUPPORT_MEMBER_LEFT_GROUP":"تمت إزالته من المجموعة",
         "INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU": "تم تعيين طلب دعم جديد لك",
         "LABEL_PROFILE": "الملف الشخصي",
         "LABEL_CLOSE": "مغلق",
