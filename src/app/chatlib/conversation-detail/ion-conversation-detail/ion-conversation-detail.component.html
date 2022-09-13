@@ -89,7 +89,7 @@
         [supportMode]="supportMode"
         (onBeforeMessageRender)="returnOnBeforeMessageRender($event)"
         (onAfterMessageRender)="returnOnAfterMessageRender($event)" 
-        (onImageRendered)="onImageRenderedFN($event)">
+        (onElementRendered)="onElementRenderedFN($event)">
       </chat-bubble-message>
 
       <!-- icon status message -->
@@ -128,8 +128,7 @@
         [supportMode]="supportMode"
         (onBeforeMessageRender)="returnOnBeforeMessageRender($event)"
         (onAfterMessageRender)="returnOnAfterMessageRender($event)" 
-        (onImageRendered)="onImageRenderedFN($event)"
-        >
+        (onElementRendered)="onElementRenderedFN($event)">
       </chat-bubble-message>
     </div>
 
@@ -139,6 +138,7 @@
         [message]="message"
         [isLastMessage]="isLastMessage(message?.uid)" 
         [stylesMap]="stylesMap"
+        (onElementRendered)="onElementRenderedFN($event)"
         (onAttachmentButtonClicked)="returnOnAttachmentButtonClicked($event)">
       </chat-message-attachment>
     </div>

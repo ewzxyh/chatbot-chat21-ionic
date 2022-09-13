@@ -1,5 +1,5 @@
 import { DomSanitizer } from '@angular/platform-browser';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'chat-frame',
@@ -11,8 +11,10 @@ export class FrameComponent implements OnInit {
   @Input() metadata: any;
   @Input() width: string;
   @Input() height: string;
+  @Output() onElementRendered = new EventEmitter<{element: string, status: boolean}>();
   
   url: any;
+  loading: boolean = true
   constructor(private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
@@ -23,10 +25,13 @@ export class FrameComponent implements OnInit {
     // this.height = this.getSizeImg(this.metadata).height;
   }
   
-
-
   ngOnDestroy(){
     this.url = null;
+  }
+
+  onLoaded(event){
+    this.loading = false
+    this.onElementRendered.emit({element: "image", status:true})
   }
 
 

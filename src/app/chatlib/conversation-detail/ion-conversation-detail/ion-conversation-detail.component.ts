@@ -24,7 +24,7 @@ export class IonConversationDetailComponent extends ConversationContentComponent
   @Input() channelType: string;
   @Input() areVisibleCAR: boolean;
   @Input() supportMode: boolean;
-  @Output() onImageRendered = new EventEmitter<boolean>()
+  @Output() onElementRendered = new EventEmitter<{element: string, status: boolean}>();
   @Output() onAddUploadingBubble = new EventEmitter<boolean>();
 
   public public_Key: any
@@ -94,8 +94,7 @@ export class IonConversationDetailComponent extends ConversationContentComponent
     // this.translate.getTranslation(chat_lang).subscribe((labels: string) => {
     //   console.log('[CONVS-DETAIL] translations: ', labels);
     // });
-    this.translate.get('AddAsCannedResponse')
-      .subscribe((text: string) => {
+    this.translate.get('AddAsCannedResponse').subscribe((text: string) => {
         // console.log('[CONVS-DETAIL] AddAsCannedResponse translated: ', text);
         this.addAsCannedResponseTooltipText = text
       })
@@ -132,9 +131,9 @@ export class IonConversationDetailComponent extends ConversationContentComponent
     this.onAddUploadingBubble.emit(value);
   }
 
-  onImageRenderedFN(event) {
-    this.logger.log('[CONVS-DETAIL][ION-CONVS-DETAIL] - onImageRenderedFN:::ionic', event)
-    this.onImageRendered.emit(event)
+  onElementRenderedFN(event) {
+    this.logger.log('[CONVS-DETAIL][ION-CONVS-DETAIL] - onElementRenderedFN:::ionic', event)
+    this.onElementRendered.emit(event)
   }
 
   /**

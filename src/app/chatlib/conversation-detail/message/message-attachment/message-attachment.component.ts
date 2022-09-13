@@ -11,10 +11,11 @@ import { MessageModel } from 'src/chat21-core/models/message';
 export class MessageAttachmentComponent implements OnInit {
 
   // ========= begin:: Input/Output values ============//
-  @Output() onAttachmentButtonClicked = new EventEmitter<any>();
   @Input() message: MessageModel;
   @Input() isLastMessage: boolean;
   @Input() stylesMap: Map<string, string>;
+  @Output() onAttachmentButtonClicked = new EventEmitter<any>();
+  @Output() onElementRendered = new EventEmitter<{element: string, status: boolean}>()
   // ========= end:: Input/Output values ============//
 
   public type: string;
@@ -43,6 +44,10 @@ export class MessageAttachmentComponent implements OnInit {
         return;
       }
     }
+  }
+
+  ngAfterViewInit(){
+    this.onElementRendered.emit({element: 'attachment', status: true})
   }
 
   returnOnAttachmentButtonClicked(event: any){

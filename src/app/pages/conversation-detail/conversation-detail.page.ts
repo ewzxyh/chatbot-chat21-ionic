@@ -1640,9 +1640,10 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     }
   }
 
-  onImageRenderedFN(event) {
+  onElementRenderedFN(event) {
     const imageRendered = event
-    if (this.showButtonToBottom) {
+    console.log('loadeddddddd', event, this.showButtonToBottom)
+    if (event.status && this.ionContentChatArea) {
       this.scrollBottom(0)
     }
   }

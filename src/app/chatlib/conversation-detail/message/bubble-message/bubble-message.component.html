@@ -22,7 +22,7 @@
       [metadata]="message.metadata" 
       [width]="sizeImage?.width"
       [height]="sizeImage?.height"
-      (onImageRendered)="onImageRenderedFN($event)">
+      (onElementRendered)="onElementRenderedFN($event)">
     </chat-image>
 
     <!-- [width]="getMetadataSize(message.metadata).width"  -->
@@ -30,7 +30,8 @@
     <chat-frame *ngIf="isFrame(message)" 
       [metadata]="message.metadata" 
       [width]="message.metadata.width"
-      [height]="message.metadata.height">
+      [height]="message.metadata.height"
+      (onElementRendered)="onElementRenderedFN($event)">
     </chat-frame>
 
     <!-- <chat-frame *ngIf="message.metadata && message.metadata.type && message.metadata.type.includes('video')"

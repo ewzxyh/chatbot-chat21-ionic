@@ -23,7 +23,7 @@ export class BubbleMessageComponent implements OnInit, OnChanges {
   @Input() supportMode: boolean;
   @Output() onBeforeMessageRender = new EventEmitter();
   @Output() onAfterMessageRender = new EventEmitter();
-  @Output() onImageRendered = new EventEmitter<boolean>()
+  @Output() onElementRendered = new EventEmitter<{element: string, status: boolean}>();
   isImage = isImage;
   isFile = isFile;
   isFrame = isFrame;
@@ -53,7 +53,7 @@ export class BubbleMessageComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    this.setMomentLocale()
+    // this.setMomentLocale()
   }
 
 
@@ -140,13 +140,8 @@ export class BubbleMessageComponent implements OnInit, OnChanges {
       sizeImage.width = MAX_WIDTH_IMAGES;
       sizeImage.height = MAX_WIDTH_IMAGES / ratio;
     }
-    // metadata.width = sizeImage.width
-    // metadata.height = sizeImage.height
     return sizeImage
   }
-
-
-
 
   /**
   * function customize tooltip
@@ -195,8 +190,8 @@ export class BubbleMessageComponent implements OnInit, OnChanges {
     this.onAfterMessageRender.emit(messageOBJ)
   }
 
-  onImageRenderedFN(event) {
-    this.onImageRendered.emit(event)
+  onElementRenderedFN(event){
+    this.onElementRendered.emit({element: event.element, status: event.status})
   }
 
   async presentCreateCannedResponseModal(): Promise<any> {
