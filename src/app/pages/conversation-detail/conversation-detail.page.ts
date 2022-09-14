@@ -1034,7 +1034,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       this.conversationAvatar = setConversationAvatar(
         this.conversationWith,
         this.conversationWithFullname,
-        this.conversationAvatar.channel_type
+        this.channelType
       )
       
     }
