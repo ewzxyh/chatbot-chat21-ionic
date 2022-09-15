@@ -24,9 +24,10 @@ export class ScrollbarThemeDirective {
       ::-webkit-scrollbar {
           width: 6px;
          height: 8px;
+         display: none;
       }
       ::-webkit-scrollbar-track {
-      background: #f9f9f9;
+        background: #f9f9f9;
       }
       ::-webkit-scrollbar-thumb {
          background-color: #b9b9b9;
