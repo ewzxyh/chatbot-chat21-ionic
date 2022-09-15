@@ -73,10 +73,7 @@ export class LoaderPreviewPage implements OnInit, AfterViewInit {
   }
 
   ionViewDidEnter() {
-    this.logger.log(
-      '[LOADER-PREVIEW-PAGE] ionViewDidEnter thumbnailsPreview.nativeElement.offsetHeight',
-      this.thumbnailsPreview.nativeElement.offsetHeight,
-    )
+    this.logger.log('[LOADER-PREVIEW-PAGE] ionViewDidEnter thumbnailsPreview.nativeElement.offsetHeight',this.thumbnailsPreview.nativeElement.offsetHeight)
     this.calculateHeightPreviewArea()
   }
 
@@ -86,17 +83,11 @@ export class LoaderPreviewPage implements OnInit, AfterViewInit {
     // USE CASE IMAGE
     // ---------------------------------------------------------------------
     if (file.type.startsWith('image') && !file.type.includes('svg')) {
-      this.logger.log(
-        '[LOADER-PREVIEW-PAGE] - readAsDataURL - USE CASE IMAGE file TYPE',
-        file.type,
-      )
+      this.logger.log('[LOADER-PREVIEW-PAGE] - readAsDataURL - USE CASE IMAGE file TYPE',file.type)
       const reader = new FileReader()
       reader.onloadend = (evt) => {
         const img = reader.result.toString()
-        this.logger.log(
-          '[LOADER-PREVIEW-PAGE] - readAsDataURL - FileReader success ',
-          img,
-        )
+        this.logger.log('[LOADER-PREVIEW-PAGE] - readAsDataURL - FileReader success ',img)
         this.arrayFiles.push(img)
         if (!this.fileSelected) {
           this.fileSelected = img
@@ -232,9 +223,7 @@ export class LoaderPreviewPage implements OnInit, AfterViewInit {
       this.logger.log('typeFile: ', typeFile)
 
       const reader = new FileReader()
-      reader.addEventListener(
-        'load',
-        function () {
+      reader.addEventListener('load',function () {
           const img = reader.result.toString()
           that.logger.log('FileReader success')
           that.arrayFiles.push(img)
@@ -349,10 +338,7 @@ export class LoaderPreviewPage implements OnInit, AfterViewInit {
 
   /** */
   onSendMessage() {
-    this.logger.log(
-      '[LOADER-PREVIEW-PAGE] onSendMessage messageString:',
-      this.messageString,
-    )
+    this.logger.log('[LOADER-PREVIEW-PAGE] onSendMessage messageString:',this.messageString)
     let file = this.selectedFiles.item(0)
     const file4Load = new Image()
     const nameImg = file.name
