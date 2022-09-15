@@ -798,7 +798,7 @@ export class AppComponent implements OnInit {
         pageUrl += IDConv + '/' + FullNameConv + '/' + Convtype
       }
       // replace(/\(/g, '%28').replace(/\)/g, '%29') -> used for the encoder of any round brackets
-      this.router.navigateByUrl(pageUrl.replace(/\(/g, '%28').replace(/\)/g, '%29'));
+      this.router.navigateByUrl(pageUrl.replace(/\(/g, '%28').replace(/\)/g, '%29').replace( /#/g, "%23" ));
 
 
       // const DASHBOARD_URL = this.appConfigProvider.getConfig().DASHBOARD_URL;

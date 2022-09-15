@@ -227,6 +227,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
       this.events.publish('supportconvid:haschanged', this.conversationWith)
     })
+
+
   }
 
   // -----------------------------------------------------------
