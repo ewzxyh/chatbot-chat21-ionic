@@ -770,6 +770,12 @@ export class ConversationListPage implements OnInit {
         }
       }
     }
+
+    if(conversation.conversation_with_fullname === 'Guest '){
+      console.log('1111111', conversation)
+      conversation.conversation_with_fullname = 'guest' + '#' + this.getUUidConversation(conversation.uid)
+    }
+
   }
 
   // isMarkdownLink(last_message_text) {
@@ -782,6 +788,27 @@ export class ConversationListPage implements OnInit {
   //     return matchRegex
   //   }
   // }
+
+  private getUUidConversation(uid): string{
+    const conversationWith_segments = uid.split('-')
+    // Removes the last element of the array if is = to the separator
+    if (conversationWith_segments[conversationWith_segments.length - 1] === '') {
+      conversationWith_segments.pop()
+    }
+
+    this.logger.log('[CONVS-LIST] - getUUidConversation conversationWith_segments ', conversationWith_segments, conversationWith_segments.length)
+    let mini_uid = ''
+
+    if (conversationWith_segments.length === 4) {
+      mini_uid = conversationWith_segments[conversationWith_segments.length -1].substr(0,5)
+      this.logger.log('[CONVS-LIST] - getUUidConversation mini_uid segment===4', mini_uid)
+    } else {
+      this.logger.log('[CONVS-LIST] - else  getUUidConversation segment<4 ', mini_uid)
+      mini_uid = conversationWith_segments[conversationWith_segments.length -1].substr(-5)
+    }
+
+    return mini_uid
+  }
 
   navigateByUrl(converationType: string, uidConvSelected: string) {
 

@@ -617,7 +617,7 @@ export class FirebaseConversationsHandler extends ConversationsHandlerService {
         let old_conv = this.conversations.find(conv => conv.uid === conversation.uid)
         let conversation_with_fullname = conversation.recipient_fullname
         if(old_conv){
-            if(conversation.recipient_fullname !== old_conv.recipient_fullname && conversation.recipient_fullname !== 'Guest '){
+            if(conversation.recipient_fullname !== old_conv.recipient_fullname && (conversation.recipient_fullname !== 'Guest ')){
                 conversation_with_fullname = conversation.recipient_fullname
             } else {
                 // conversation_with_fullname=  old_conv.recipient_fullname
