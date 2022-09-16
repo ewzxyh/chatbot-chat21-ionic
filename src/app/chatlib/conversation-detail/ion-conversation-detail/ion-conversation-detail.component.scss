@@ -245,15 +245,22 @@ ion-item {
     // left: -26px;
 }
 
-:host .base_receive .msg_receive ::ng-deep div > div > ion-button {
+:host .base_receive .msg_receive ::ng-deep div > div > div > ion-button.canned {
     display: none;
     position: absolute;
     top: -3px;
     right: -31px;
 }
 
+:host .base_receive .msg_receive ::ng-deep div > div > div >ion-button.emoji {
+    display: none;
+    position: absolute;
+    top: -3px;
+    right: -51px;
+}
+
 // :host .base_receive .msg_receive:hover ::ng-deep div > div > ion-button {
-:host .base_receive:hover .msg_receive ::ng-deep div > div > ion-button {
+:host .base_receive:hover .msg_receive ::ng-deep div > div > div > ion-button {
     display: block;
     // position: absolute;
     // top: -11px;

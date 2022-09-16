@@ -61,12 +61,19 @@
       </chat-html>
 
       <ng-container *ngIf="areVisibleCAR && supportMode">
-        <ion-button shape="round" size="small" class="btn-add-msg-as-canned-response" ion-button fill="clear"
+        <ion-button shape="round" size="small" class="btn-add-msg canned" ion-button fill="clear"
           (click)="presentCreateCannedResponseModal()" tooltip="{{addAsCannedResponseTooltipText}}"
           [options]="tooltipOptions" placement="bottom">
           <ion-icon slot="icon-only" name="flash-outline" style="font-size: 1em;"> </ion-icon>
         </ion-button>
       </ng-container>
+      <!-- <ng-container *ngIf="supportMode">
+        <ion-button shape="round" size="small" class="btn-add-msg emoji" ion-button fill="clear"
+          (click)="presentEmojiiModal()" tooltip="{{addAsCannedResponseTooltipText}}"
+          [options]="tooltipOptions" placement="bottom">
+          <ion-icon slot="icon-only" name="happy-outline" style="font-size: 1em;"> </ion-icon>
+        </ion-button>
+      </ng-container> -->
     </div>
   </div>
 
