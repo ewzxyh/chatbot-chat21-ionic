@@ -442,6 +442,8 @@ select:-webkit-autofill:focus {
     // left: 0;
     // right: 0;
     // overflow: hidden;
+    
+    
 }
 
 .canned-list {
@@ -461,6 +463,31 @@ select:-webkit-autofill:focus {
     -webkit-font-smoothing: antialiased;
     // list-style: none;
     z-index: 999999;
+
+    .cannedContent{
+        width: 100%;
+    }
+
+    ion-input {
+        --padding-bottom: 0px;
+        --padding-top: 0px;
+        &.text{
+            font-style: italic;
+        }
+        &.title {
+            font-weight: 500;
+        }
+    }
+    .native-input[disabled] {
+        opacity: 10 !important;
+    }
+    ion-icon {
+        zoom: 0.7;
+    }
+    .no-ripple {
+        --ripple-color: transparent;
+        --background-activated: transparent;
+    }
 }
 
 .canned-item {

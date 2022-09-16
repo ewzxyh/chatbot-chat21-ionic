@@ -383,6 +383,16 @@ ion-content {
             }
         }
     }
+
+    #canned{
+        ion-input {
+            --padding-bottom:0px;
+            &.text{
+                font-style: italic;
+            }
+            
+        }
+    }
 }
 
 .chat-area-apps-sidebar-wide {

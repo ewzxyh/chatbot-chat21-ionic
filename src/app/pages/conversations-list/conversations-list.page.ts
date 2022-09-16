@@ -772,7 +772,6 @@ export class ConversationListPage implements OnInit {
     }
 
     if(conversation.conversation_with_fullname === 'Guest '){
-      console.log('1111111', conversation)
       conversation.conversation_with_fullname = 'guest' + '#' + this.getUUidConversation(conversation.uid)
     }
 
