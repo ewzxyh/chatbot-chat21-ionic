@@ -1,6 +1,13 @@
 # chat21-ionic ver 3.0
 
-### 3.0.75 in PROD
+### 3.0.76-rc.1
+- changed: senderFullName in list conversation for guest users with guest#uuid[0..5]
+- added: multi-language to MEMBER_LEFT_GROUP and LEAD_UPDATED info messages
+- added: onElementRendered event to image/frame/mesagge-attachment to scroll content after element is rendered
+- added: enabled possibility to edit or delete a canned response created by yourself
+- removed: scrollBar from conversation-detail page
+
+## 3.0.75 in PROD
 
 ### 3.0.75-rc.2
 - bug-fixed: unserved request count not updated correctly after a request is assigned
