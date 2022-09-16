@@ -102,7 +102,7 @@
     </div>
 
     <!-- message RECIPIENT:: -->
-    <div role="messaggio" *ngIf="messageType(MESSAGE_TYPE_OTHERS, message) && isChannelTypeGroup(channelType)"
+    <div role="messaggio" *ngIf="messageType(MESSAGE_TYPE_OTHERS, message) && isChannelTypeGroup(channelType) && !isSameSender(message?.sender, i)"
       class="message_sender_fullname">
       {{message.sender_fullname}}
     </div>

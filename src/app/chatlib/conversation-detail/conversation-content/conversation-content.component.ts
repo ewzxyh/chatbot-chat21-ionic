@@ -256,7 +256,21 @@ export class ConversationContentComponent implements OnInit {
     return false;
   }
 
-  hideMenuOption() {
+  isSameSender(senderId, index):boolean{
+    if(senderId && this.messages[index - 1] && (senderId === this.messages[index - 1].sender)){
+      return true;
+    }
+    return false;
+  }
+
+  isFirstMessage(senderId, index):boolean{
+    if(senderId && index == 0 && this.messages[index] && (this.messages[index] !== senderId)){
+      return true;
+    }
+    return false;
+  }
+
+  hideOutsideElements() {
     this.onMenuOptionShow.emit(false)
   }
 
