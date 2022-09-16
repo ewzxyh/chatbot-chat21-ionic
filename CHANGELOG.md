@@ -5,6 +5,7 @@
 - added: multi-language to MEMBER_LEFT_GROUP and LEAD_UPDATED info messages
 - added: onElementRendered event to image/frame/mesagge-attachment to scroll content after element is rendered
 - added: enabled possibility to edit or delete a canned response created by yourself
+- added: disable footer component of an archived conversation if it's been more than 10 days
 - removed: scrollBar from conversation-detail page
 
 ## 3.0.75 in PROD
