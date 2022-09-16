@@ -1,3 +1,4 @@
+import { CannedResponseComponent } from './../../components/canned-response/canned-response.component';
 import { TruncatePipe } from './../../directives/truncate.pipe';
 import { IonConversationDetailComponent } from '../../chatlib/conversation-detail/ion-conversation-detail/ion-conversation-detail.component';
 import { TooltipModule } from 'ng2-tooltip-directive';
@@ -63,6 +64,7 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
     ConversationDetailPage,
     HeaderConversationDetailComponent,
     MessageTextAreaComponent,
+    CannedResponseComponent,
     // BubbleDayMessageComponent,
     // BubbleSystemMessageComponent,
     // BubbleMyMessageComponent,
