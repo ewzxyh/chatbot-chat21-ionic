@@ -52,11 +52,11 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
   @Input() isOpenInfoConversation: boolean;
   @Input() translationMap: Map<string, string>;
   @Input() dropEvent: any;
+  @Input() disableTextarea: boolean;
   @Output() eventChangeTextArea = new EventEmitter<object>();
   @Output() hasClickedOpenCannedResponses = new EventEmitter<boolean>();
   @Output() eventSendMessage = new EventEmitter<object>();
   @Output() onPresentModalScrollToBottom = new EventEmitter<boolean>();
-  @Input() disableTextarea: boolean;
 
   public conversationEnabled = false;
   public messageString: string;

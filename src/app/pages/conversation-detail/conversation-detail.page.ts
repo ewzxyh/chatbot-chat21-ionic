@@ -45,7 +45,7 @@ import { ArchivedConversationsHandlerService } from 'src/chat21-core/providers/a
 import { ConversationHandlerService } from 'src/chat21-core/providers/abstract/conversation-handler.service'
 import { ContactsService } from 'src/app/services/contacts/contacts.service'
 import { CannedResponsesService } from '../../services/canned-responses/canned-responses.service'
-import { compareValues, htmlEntities } from '../../../chat21-core/utils/utils'
+import { compareValues, getDateDifference, htmlEntities } from '../../../chat21-core/utils/utils'
 import { ImageRepoService } from 'src/chat21-core/providers/abstract/image-repo.service'
 import { PresenceService } from 'src/chat21-core/providers/abstract/presence.service'
 import { CreateCannedResponsePage } from 'src/app/pages/create-canned-response/create-canned-response.page'
@@ -764,6 +764,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
                 conv.conversation_with_fullname,
                 conv.channel_type,
               )
+              let duration = getDateDifference(conv.timestamp, Date.now())
+              duration.days > 10? this.disableTextarea = true: this.disableTextarea = false
             }
           })
         }
@@ -774,11 +776,14 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       this.logger.debug('[CONV-COMP] setHeaderContent getConversationDetail: archivedConversationsHandlerService', this.conversationWith, this.conv_type)
       this.archivedConversationsHandlerService.getConversationDetail(this.conversationWith, (conv) => {
         if (conv) {
+
           this.conversationAvatar = setConversationAvatar(
             conv.conversation_with,
             conv.conversation_with_fullname,
             conv.channel_type,
           )
+          let duration = getDateDifference(conv.timestamp, Date.now())
+          duration.days > 10? this.disableTextarea = true: this.disableTextarea = false
         }
         if(!conv){
           this.conversationsHandlerService.getConversationDetail(this.conversationWith, (conv) => {
@@ -802,6 +807,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     // );
     // this.logger.log('[CONVS-DETAIL] - setHeaderContent > conversationAvatar: ', this.conversationAvatar);
   }
+
+
 
   returnSendMessage(e: any) {
     this.logger.log('[CONVS-DETAIL] - returnSendMessage event', e, ' - conversationWith', this.conversationWith)
@@ -1482,6 +1489,12 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     }, () => {
       this.logger.log('[CONVS-DETAIL] - onConfirmEditCanned * COMPLETE *')
     })
+  }
+
+  closeListCannedResponse(){
+    this.logger.log('[CONVS-DETAIL] close list canned . . .  ')
+    this.HIDE_CANNED_RESPONSES = true
+    this.tagsCannedFilter = []
   }
 
   async presentCreateCannedResponseModal(): Promise<any> {

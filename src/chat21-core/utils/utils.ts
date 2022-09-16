@@ -406,6 +406,20 @@ export function getFromNow(timestamp): string {
   return date_as_string;
 }
 
+export function getDateDifference(startTimestampDate, endTimestampDate){
+  // var startTime = moment.unix(startTimestampDate);
+  // var endTime = moment.unix(endTimestampDate);
+
+  const startTime = moment(startTimestampDate);
+  const endTime = moment(endTimestampDate);
+  const duration = moment.duration(endTime.diff(startTime));
+  const days = duration.asDays()
+  const hours = duration.asHours();
+  const minutes = duration.asMinutes();
+
+  return {days, hours, minutes}
+}
+
 
 
 export function popupUrl(html, title) {
