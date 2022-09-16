@@ -281,13 +281,9 @@ export class LoaderPreviewPage implements OnInit, AfterViewInit {
   }
 
   calculateHeightPreviewArea() {
-    const heightThumbnailsPreview = this.thumbnailsPreview.nativeElement
-      .offsetHeight
-    const heightMessageTextArea = this.messageTextArea.nativeElement
-      .offsetHeight
-    this.heightPreviewArea = (
-      heightMessageTextArea + heightThumbnailsPreview
-    ).toString()
+    const heightThumbnailsPreview = this.thumbnailsPreview.nativeElement.offsetHeight
+    const heightMessageTextArea = this.messageTextArea.nativeElement.offsetHeight
+    this.heightPreviewArea = (heightMessageTextArea + heightThumbnailsPreview).toString()
     // this.logger.log('heightThumbnailsPreview', heightThumbnailsPreview);
     // this.logger.log('heightMessageTextArea', this.messageTextArea);
     // this.logger.log('heightPreviewArea', this.heightPreviewArea);
@@ -359,7 +355,6 @@ export class LoaderPreviewPage implements OnInit, AfterViewInit {
       fileSelected: file,
       messageString: this.messageString,
       metadata: metadata,
-      type: TYPE_MSG_IMAGE,
     })
   }
 
