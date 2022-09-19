@@ -1,10 +1,9 @@
 <div id="canned">
-  <div class="header">HEADER</div>
-  <ion-list class="canned-list" *ngIf="tagsCannedFilter.length > 0 && HIDE_CANNED_RESPONSES === false">
+  <ion-list class="canned-list" *ngIf="tagsCannedFilter.length > 0">
     <ion-item button="true" [ngClass]="{'is_active_item': i == arrowkeyLocation}" lines="none"
       class="canned-item no-ripple border" id="{{'canned-item_'+ i }}"
       *ngFor="let canned of tagsCannedFilter; let i = index;"
-      (click)="replaceTagInMessage(canned, $event)">
+      (click)="onClickCannedFN(canned, $event)">
       <div class="cannedContent">
         <ion-input [(ngModel)]="canned.title" class="title" id="{{'titleCanned_'+canned._id}}" [disabled]="canned.disabled"></ion-input>
         <ion-input [(ngModel)]="canned.text" class="text" [disabled]="canned.disabled"></ion-input>
@@ -13,7 +12,7 @@
       <ion-icon class="canned-item-icon"  name="pencil-sharp" slot=end *ngIf="canned.createdBy === loggedUser.uid && canned.disabled" (click)="onEditCanned(canned, $event)"></ion-icon>
       <ion-icon class="canned-item-icon"  name="trash-bin-outline" slot=end *ngIf="canned.createdBy === loggedUser.uid" (click)="onDeleteCanned(canned, $event)"></ion-icon>
     </ion-item>
-    <ion-item  class="canned-item add-canned-response-wpr" button="true" lines="none" (click)="presentCreateCannedResponseModal()">
+    <ion-item  class="canned-item add-canned-response-wpr" button="true" lines="none" (click)="onClickAddCannedResponseFN()">
       <ion-icon class="add-canned-response-icon"  name="flash-outline"></ion-icon>
       <span class="add-canned-response-add-icon">+</span>
      <label class="add-canned-response-label" >{{translationMap?.get('AddNewCannedResponse')}}</label> 

@@ -1,4 +1,5 @@
-import { Component, Input, OnInit, SimpleChange, ElementRef } from '@angular/core';
+import { Component, Input, OnInit, SimpleChange, ElementRef, Output, EventEmitter, HostListener } from '@angular/core';
+import { CreateCannedResponsePage } from 'src/app/pages/create-canned-response/create-canned-response.page';
 import { CannedResponsesService } from 'src/app/services/canned-responses/canned-responses.service';
 import { TiledeskService } from 'src/app/services/tiledesk/tiledesk.service';
 import { UserModel } from 'src/chat21-core/models/user';
@@ -18,13 +19,18 @@ export class CannedResponseComponent implements OnInit {
   @Input() conversationWith: string;
   @Input() conversationWithFullname: string;
   @Input() currentString: string;
-  @Input() translationMap: Map<string, string>
+  @Input() translationMap: Map<string, string>;
+  @Output() onLoadedCannedResponses = new EventEmitter<[any]>();
+  @Output() onClickCanned = new EventEmitter<any>();
+  @Output() onClickAddCannedResponse = new EventEmitter();
   public loggedUser: UserModel
   
   public tagsCanned: any = []
   public tagsCannedCount: number
   public tagsCannedFilter: any = []
 
+  public arrowkeyLocation = -1
+  
   private logger: LoggerService = LoggerInstance.getInstance();
   constructor(
     public tiledeskAuthService: TiledeskAuthService,
@@ -146,8 +152,7 @@ export class CannedResponseComponent implements OnInit {
       const nocanned = {
         // "<div class='cannedContent'><div class='cannedTitle nocannedTitle #noCannedTitle'>" + this.translationMap.get('THERE_ARE_NO_CANNED_RESPONSES_AVAILABLE') + ".</div><div class='cannedText'>" + this.translationMap.get('TO_CREATE_THEM_GO_TO_THE_PROJECT') + '</div></div>'
         // <div class='cannedText no-canned-available-text'>" + this.translationMap.get('AddNewCannedResponse') + '</div>
-        title:
-          "<div class='cannedContent'><div class='cannedTitle nocannedTitle #noCannedTitle'>" + this.translationMap.get('THERE_ARE_NO_CANNED_RESPONSES_AVAILABLE') + ".</div></div>",
+        title: this.translationMap.get('THERE_ARE_NO_CANNED_RESPONSES_AVAILABLE') ,
         text: 'There are no canned responses available',
       }
       // } else if (this.USER_ROLE === 'agent') {
@@ -160,6 +165,7 @@ export class CannedResponseComponent implements OnInit {
       // }
       this.tagsCannedFilter.push(nocanned)
     }
+    this.onLoadedCannedResponses.emit(this.tagsCannedFilter)
   }
 
   filterItems(items, searchTerm) {
@@ -168,12 +174,7 @@ export class CannedResponseComponent implements OnInit {
     return items.filter((item) => {
       //this.logger.log("filterItems::: ", item.title.toString().toLowerCase());
       this.logger.log('[CANNED] filtered tagsCannedClone item ', item)
-      return (
-        item.title
-          .toString()
-          .toLowerCase()
-          .indexOf(searchTerm.toString().toLowerCase()) > -1
-      )
+      return item.title.toString().toLowerCase().indexOf(searchTerm.toString().toLowerCase()) > -1
     })
   }
 
@@ -191,7 +192,7 @@ export class CannedResponseComponent implements OnInit {
     ev.preventDefault()
     ev.stopPropagation()
     canned.disabled = false
-    this.logger.log('[CONVS-DETAIL] onEditCanned ', canned)
+    this.logger.log('[CANNED] onEditCanned ', canned)
     setTimeout(() => {
       this.el.nativeElement.querySelector('#titleCanned_'+canned._id).setFocus()
     }, 500);
@@ -201,13 +202,13 @@ export class CannedResponseComponent implements OnInit {
     ev.preventDefault()
     ev.stopPropagation()
     const tiledeskToken = this.tiledeskAuthService.getTiledeskToken()
-    this.logger.log('[CONVS-DETAIL] onConfirmEditCanned ', canned, ev)
+    this.logger.log('[CANNED] onConfirmEditCanned ', canned, ev)
     this.cannedResponsesService.edit(tiledeskToken, canned.id_project, canned).subscribe(cannedRes=> {
       canned.disabled = true
     }, (error) => {
-      this.logger.error('[CONVS-DETAIL] - onConfirmEditCanned - ERROR  ', error)
+      this.logger.error('[CANNED] - onConfirmEditCanned - ERROR  ', error)
     }, () => {
-      this.logger.log('[CONVS-DETAIL] - onConfirmEditCanned * COMPLETE *')
+      this.logger.log('[CANNED] - onConfirmEditCanned * COMPLETE *')
     })
   }
   
@@ -215,16 +216,66 @@ export class CannedResponseComponent implements OnInit {
     ev.preventDefault()
     ev.stopPropagation()
     const tiledeskToken = this.tiledeskAuthService.getTiledeskToken()
-    this.logger.log('[CONVS-DETAIL] onDeleteCanned ', canned)
+    this.logger.log('[CANNED] onDeleteCanned ', canned)
     this.cannedResponsesService.delete(tiledeskToken, canned.id_project, canned._id).subscribe(cannedRes=> {
       if(cannedRes.status === 1000){
         this.tagsCannedFilter.splice(this.tagsCannedFilter.findIndex(el => el._id === canned._id), 1)
       }
     }, (error) => {
-      this.logger.error('[CONVS-DETAIL] - onConfirmEditCanned - ERROR  ', error)
+      this.logger.error('[CANNED] - onConfirmEditCanned - ERROR  ', error)
     }, () => {
-      this.logger.log('[CONVS-DETAIL] - onConfirmEditCanned * COMPLETE *')
+      this.logger.log('[CANNED] - onConfirmEditCanned * COMPLETE *')
     })
+  }
+
+  onClickCannedFN(canned, event){
+    if(!canned.disabled){
+      event.preventDefault();
+      event.stopPropagation();
+    } else if(this.tagsCannedCount > 0){
+      this.onClickCanned.emit(canned)
+    } else {
+      this.logger.log('[CANNED] THERE IS NOT CANNED ', canned.text)
+    }
+  }
+
+  onClickAddCannedResponseFN(){
+    this.onClickAddCannedResponse.emit()
+  }
+
+
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    this.logger.log("CONVERSATION-DETAIL handleKeyboardEvent  event.key ", event);
+
+    if (this.tagsCannedFilter.length > 0) {
+      if (event.key === 'ArrowDown') {
+        this.arrowkeyLocation++
+        if (this.arrowkeyLocation === this.tagsCannedFilter.length) {
+          this.arrowkeyLocation--
+        }
+        // this.replaceTagInMessage(this.tagsCannedFilter[this.arrowkeyLocation])
+      } else if (event.key === 'ArrowUp') {
+        if (this.arrowkeyLocation > 0) {
+          this.arrowkeyLocation--
+        } else if (this.arrowkeyLocation < 0) {
+          this.arrowkeyLocation++
+        }
+        // this.replaceTagInMessage(this.tagsCannedFilter[this.arrowkeyLocation])
+      }
+
+      if (event.key === 'Enter') {
+        const canned_selected = this.tagsCannedFilter[this.arrowkeyLocation]
+        this.logger.log('[CONVS-DETAIL] replaceTagInMessage  canned_selected ',canned_selected)
+        if (canned_selected) {
+          this.arrowkeyLocation = -1
+          this.tagsCannedFilter = []
+          this.onClickCanned.emit(canned_selected)
+          // event.preventDefault();
+          // return false;
+        }
+      }
+    }
   }
 
 }

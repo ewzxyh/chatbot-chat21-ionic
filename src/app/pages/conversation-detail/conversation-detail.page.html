@@ -55,7 +55,7 @@
               here is ignored
             </span>
 
-            <div class="overlay" *ngIf="tagsCannedFilter.length > 0 && HIDE_CANNED_RESPONSES === false"></div>
+            <div class="overlay" *ngIf="!HIDE_CANNED_RESPONSES"></div>
 
             <ng-template #content_welcome>
               <!-- <div class="messageFirst">
@@ -150,23 +150,27 @@
             <!-- ----------------------------------------------------------- -->
             <!-- Canned responses -->
             <!-- ----------------------------------------------------------- -->
-            <!-- <app-canned-response *ngIf="!HIDE_CANNED_RESPONSES"
+            <app-canned-response *ngIf="HIDE_CANNED_RESPONSES === false"
+              id="canned"
               [conversationWith]="conversationWith"
               [conversationWithFullname]="conversationWithFullname"
               [currentString]="messageStr"
-              [translationMap]="translationMap">
-            </app-canned-response> -->
+              [translationMap]="translationMap"
+              (onLoadedCannedResponses)="onLoadedCannedResponses($event)"
+              (onClickCanned)="replaceTagInMessage($event)"
+              (onClickAddCannedResponse)="presentCreateCannedResponseModal()">
+            </app-canned-response>
             
             
-            <div id="canned" *ngIf="tagsCannedFilter.length > 0 && HIDE_CANNED_RESPONSES === false">
-              <!-- <div class="header">
+            <!-- <div id="canned" *ngIf="tagsCannedFilter.length > 0 && HIDE_CANNED_RESPONSES === false">
+              <div class="header">
                   <ion-item lines="none"> <ion-icon class="canned-response-icon-header"  name="flash-outline"></ion-icon> Canned responses</ion-item>
                   <ion-item lines="none" (click)="presentCreateCannedResponseModal()">
                     <ion-icon class="canned-response-icon-header" name="add" slot="start"></ion-icon>
                      New response
                   </ion-item>
                   <ion-item lines="none" (click)="closeListCannedResponse()"> <ion-icon class="canned-response-icon-header" name="close" ></ion-icon></ion-item>
-              </div> -->
+              </div>
               <ion-list class="canned-list" >
                 <ion-item button="true" [ngClass]="{'is_active_item': i == arrowkeyLocation}" lines="none"
                   class="canned-item no-ripple border" id="{{'canned-item_'+ i }}"
@@ -187,12 +191,12 @@
                  <label class="add-canned-response-label" >{{translationMap?.get('AddNewCannedResponse')}}</label> 
                 </ion-item>
               </ion-list>
-              <!-- <ion-list class="canned-list" *ngIf="tagsCannedFilter.length === 0 && HIDE_CANNED_RESPONSES === false">
+              <!- - <ion-list class="canned-list" *ngIf="tagsCannedFilter.length === 0 && HIDE_CANNED_RESPONSES === false">
                 <ion-item button="true" >
                   There are no canned responses available
                 </ion-item>
-              </ion-list> -->
-            </div>
+              </ion-list> - ->
+            </div> -->
 
 
 
@@ -213,7 +217,7 @@
               [dropEvent]="dropEvent"
               [disableTextarea]="disableTextarea"
               (eventChangeTextArea)="returnChangeTextArea($event)"
-              (hasClickedOpenCannedResponses)="hasClickedOpenCannedResponses($event)"
+              (onClickOpenCannedResponses)="onClickOpenCannedResponses($event)"
               (eventSendMessage)="returnSendMessage($event)" 
               (onPresentModalScrollToBottom)="onPresentModalScrollToBottom($event)">
             </app-message-text-area>
