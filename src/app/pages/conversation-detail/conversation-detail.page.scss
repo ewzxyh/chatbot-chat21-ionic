@@ -25,22 +25,7 @@
     font-size: 24px;
 }
 
-.add-canned-response-icon {
-    color: #b3bfd0;
-    cursor: pointer;
-    font-size: 18px;
-}
-.add-canned-response-label {
-    color: #b3bfd0;
-    cursor: pointer;
-}
-.add-canned-response-add-icon {
-    color: #b3bfd0;
-    cursor: pointer;
-    position: relative;
-    top: 4px;
-    left: -6px;
-}
+
 
 #canned > ion-list > ion-item.canned-item.add-canned-response-wpr:hover > span {
     color: #1877f2;
@@ -384,15 +369,19 @@ ion-content {
         }
     }
 
-    #canned{
-        ion-input {
-            --padding-bottom:0px;
-            &.text{
-                font-style: italic;
-            }
-            
-        }
+    #canned {
+        z-index: 99999;
+        width: 100%;
+        // background: rgba(237,240,244,.9);
+        // position: fixed;
+        // top: 0;
+        // bottom: 0;
+        // left: 0;
+        // right: 0;
+        // overflow: hidden;
     }
+
+    
 }
 
 .chat-area-apps-sidebar-wide {
@@ -498,13 +487,9 @@ ion-content {
     right: 0;
     left: 0;
     bottom: 0;
-    z-index: 99998; // here plz remove this comma
+    // z-index: 99998; // here plz remove this comma
 }
 
-.is_active_item {
-    // background-color: #eaf1fd!important;
-    --background: #eaf1fd !important;
-}
 
 // -------------------------------------------------------------
 // DRAG FILE

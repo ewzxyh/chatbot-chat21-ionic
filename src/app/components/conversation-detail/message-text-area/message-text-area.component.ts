@@ -1,5 +1,5 @@
 import { UserModel } from 'src/chat21-core/models/user';
-import { Component, OnInit, Output, EventEmitter, Input, AfterViewInit, ViewChild, ElementRef, OnChanges, HostListener, Renderer2 } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, AfterViewInit, ViewChild, ElementRef, OnChanges, HostListener, Renderer2, SimpleChange, SimpleChanges } from '@angular/core';
 
 import { Chooser } from '@ionic-native/chooser/ngx';
 import { IonTextarea, ModalController, ToastController } from '@ionic/angular';
@@ -43,7 +43,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
 
   @Input() loggedUser: UserModel;
   @Input() conversationWith: string;
-  @Input() tagsCannedFilter: any = [];
+  @Input() tagsCannedFilter: any;
   @Input() tagsCannedCount: number;
   @Input() areVisibleCAR: boolean;
   @Input() supportMode: boolean;
@@ -54,8 +54,8 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
   @Input() dropEvent: any;
   @Input() disableTextarea: boolean;
   @Output() eventChangeTextArea = new EventEmitter<object>();
-  @Output() hasClickedOpenCannedResponses = new EventEmitter<boolean>();
   @Output() eventSendMessage = new EventEmitter<object>();
+  @Output() onClickOpenCannedResponses = new EventEmitter<boolean>();
   @Output() onPresentModalScrollToBottom = new EventEmitter<boolean>();
 
   public conversationEnabled = false;
@@ -69,6 +69,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
   public currentWindowWidth: any;
   private logger: LoggerService = LoggerInstance.getInstance();
   public countClicks: number = 0;
+  public openCanned: boolean = false;
   public IS_SUPPORT_GROUP_CONVERSATION: boolean;
   public IS_ON_MOBILE_DEVICE: boolean;
   TYPE_MSG_TEXT = TYPE_MSG_TEXT;
@@ -140,9 +141,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
   }
 
 
-
-
-  ngOnChanges() {
+  ngOnChanges(changes: SimpleChanges) {
     if (this.translationMap) {
       // this.LONG_TEXAREA_PLACEHOLDER = this.translationMap.get('LABEL_ENTER_MSG')
       // this.SHORT_TEXAREA_PLACEHOLDER = this.translationMap.get('LABEL_ENTER_MSG_SHORT')
@@ -580,7 +579,8 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
   }
 
   openCannedResponses() {
-    this.hasClickedOpenCannedResponses.emit(true);
+    this.openCanned = !this.openCanned
+    this.onClickOpenCannedResponses.emit(this.openCanned);
   }
 
 
@@ -698,8 +698,9 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-
+    this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] handleKeyboardEvent  event.key ", event);
     // Note: on mac keyboard "metakey" matches "cmd"
+    
     if (event.key === 'Enter' && event.altKey || event.key === 'Enter' && event.ctrlKey || event.key === 'Enter' && event.metaKey) {
       this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] HAS PRESSED COMBO KEYS this.messageString', this.messageString);
       if (this.messageString !== undefined && this.messageString.trim() !== '') {

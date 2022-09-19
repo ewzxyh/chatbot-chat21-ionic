@@ -130,10 +130,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   public conv_type: string
 
   public messageStr: string;
-  public tagsCanned: any = []
-  public tagsCannedCount: number
-  public tagsCannedFilter: Array<any> = []
-  public HIDE_CANNED_RESPONSES: boolean = false
+  public tagsCannedFilter: Array<any>= [];
+  public HIDE_CANNED_RESPONSES: boolean = true
 
   public window: any = window
   public styleMap: Map<string, string> = new Map()
@@ -142,7 +140,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   MESSAGE_TYPE_MINE = MESSAGE_TYPE_MINE
   MESSAGE_TYPE_OTHERS = MESSAGE_TYPE_OTHERS
 
-  arrowkeyLocation = -1
+
   public_Key: any;
   areVisibleCAR: boolean;
   supportMode: boolean;
@@ -485,7 +483,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     this.logger.log('[CONVS-DETAIL] - initialize -> conversationWith: ', this.conversationWith, ' -> conversationWithFullname: ', this.conversationWithFullname)
     this.subscriptions = []
     this.setHeightTextArea()
-    this.tagsCanned = [] // list of canned
 
     this.messages = [] // list messages of conversation
     this.isFileSelected = false // indicates if a file has been selected (image to upload)
@@ -1171,7 +1168,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
             this.logger.log('[CONVS-DETAIL] - returnChangeTextArea - canned responses pos of / (using lastIndexOf) ', pos)
 
             if (pos === -1) {
-              this.tagsCannedFilter = []
+              // this.tagsCannedFilter = []
               this.HIDE_CANNED_RESPONSES = true
             }
             // test
@@ -1193,7 +1190,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
               // --------------------------------------------
               // Load canned responses
               // --------------------------------------------
-              this.loadTagsCanned(strSearch, this.conversationWith)
               this.HIDE_CANNED_RESPONSES = false
               this.messageStr = strSearch
               // ------------------------------------------------------------------------------------------------------------------------------------------
@@ -1204,47 +1200,37 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
               if (pos === 0 && after_slash.length === 1 && after_slash.trim() === '' ) {
                 this.logger.log('[CONVS-DETAIL] - returnChangeTextArea after_slash --> there is a white space after ')
                 this.HIDE_CANNED_RESPONSES = true
-                this.tagsCannedFilter = []
+                // this.tagsCannedFilter = []
               } else if (pos === 0 && after_slash.length === 0) {
                 this.logger.log('[CONVS-DETAIL] - returnChangeTextArea after_slash --> there is NOT a white space after')
                 this.HIDE_CANNED_RESPONSES = false
               }
 
-              // if (pos > 0) {
+              if (pos > 0) {
               //   // ------------------------------------------------------------------------------------------------------------------------------------------
               //   // Hide / display Canned when the SLASH has POSITION POS > and checking if there is a space after the SLASH (in this case they it be hidden)
               //   // and if there is not a space before the SLASH (in this it will be hidden)
               //   // ------------------------------------------------------------------------------------------------------------------------------------------
 
-              //   let beforeSlash = message.substr(pos - 1)
-              //   let afterSlash = message.substr(pos + 1)
-              //   this.logger.log('[CONVS-DETAIL] - returnChangeTextArea * POS ', pos)
+                  let beforeSlash = message.substr(0, pos)
+                  let afterSlash = message.substr(pos + 1)
+                  this.logger.log('[CONVS-DETAIL] - returnChangeTextArea * POS ', pos)
 
-              //   this.logger.log('[CONVS-DETAIL] - returnChangeTextArea  --> beforeSlash', beforeSlash)
-              //   this.logger.log('[CONVS-DETAIL] - returnChangeTextArea  --> afterSlash', afterSlash)
-              //   var afterSlashParts = afterSlash.split('/')
-              //   var beforeSlashParts = beforeSlash.split('/')
-              //   this.logger.log('[CONVS-DETAIL] - returnChangeTextArea  --> afterSlash parts', afterSlashParts)
-              //   this.logger.log('[CONVS-DETAIL] - returnChangeTextArea  --> beforeSlash parts', beforeSlashParts)
+                  this.logger.log('[CONVS-DETAIL] - returnChangeTextArea  --> beforeSlash', beforeSlash)
+                  this.logger.log('[CONVS-DETAIL] - returnChangeTextArea  --> afterSlash', afterSlash)
 
-              //   if (beforeSlashParts.length === 2) {
-              //     if (beforeSlashParts[0].indexOf(' ') >= 0 && afterSlashParts[0] === '') {
-              //       this.HIDE_CANNED_RESPONSES = false
-              //       this.logger.log('[CONVS-DETAIL] - returnChangeTextArea  --> beforeSlash there is a white space After Not')
-              //       // if (beforeSlashParts[0].indexOf(' ') >= 0 && afterSlashParts[0].indexOf(' ') >= 0)
-              //     } else if (beforeSlashParts[0].indexOf(' ') < 0 && afterSlashParts[0] === '') {
-              //       this.HIDE_CANNED_RESPONSES = true
-              //       this.tagsCannedFilter = []
-              //       this.logger.log('[CONVS-DETAIL] - returnChangeTextArea  --> beforeSlash not thete is a white space After Not')
-              //     } else if (beforeSlashParts[0].indexOf(' ') >= 0 && afterSlashParts[0] === ' ') {
-              //       this.logger.log('[CONVS-DETAIL] - returnChangeTextArea  --> beforeSlash not thete is a white space After YES')
-              //       this.HIDE_CANNED_RESPONSES = true
-              //       this.tagsCannedFilter = []
-              //     }
-              //   }
-              // }
+
+                  if(beforeSlash[beforeSlash.length-1].indexOf(' ') >= 0 && afterSlash[0] === ''){
+                    this.HIDE_CANNED_RESPONSES = false
+                  } else if(beforeSlash[beforeSlash.length-1].indexOf(' ') < 0 && afterSlash[0] === '' ){
+                    this.HIDE_CANNED_RESPONSES = true
+                  } else if(beforeSlash[beforeSlash.length-1].indexOf(' ') >= 0 && afterSlash[0] === ' '){
+                    this.HIDE_CANNED_RESPONSES = true
+                    // this.tagsCannedFilter = []
+                  }
+                }
             } else {
-              this.tagsCannedFilter = []
+              // this.tagsCannedFilter = []
             }
           }
         }, 300)
@@ -1255,143 +1241,12 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     }
   }
 
-  // ----------------------------------------------------------
-  // @ CANNED RESPONSES methods
-  // ----------------------------------------------------------
-  loadTagsCanned(strSearch, conversationWith) {
-    this.logger.log('[CONVS-DETAIL] - loadTagsCanned strSearch ', strSearch)
-    this.logger.log('[CONVS-DETAIL] - loadTagsCanned groupDetail ', this.groupDetail)
-    this.logger.log('[CONVS-DETAIL] - loadTagsCanned conversationWith ', conversationWith)
-
-    const conversationWith_segments = conversationWith.split('-')
-    // Removes the last element of the array if is = to the separator
-    if (conversationWith_segments[conversationWith_segments.length - 1] === '') {
-      conversationWith_segments.pop()
-    }
-
-    this.logger.log('[CONVS-DETAIL] - loadTagsCanned conversationWith_segments ', conversationWith_segments)
-    let project = ''
-
-    if (conversationWith_segments.length === 4) {
-      project = conversationWith_segments[2]
-      this.logger.log('[CONVS-DETAIL] - loadTagsCanned projectId ', project)
-      this.getAndShowCannedResponses(strSearch, project)
-    } else {
-      this.getProjectIdByConversationWith(strSearch, this.conversationWith)
-    }
-  }
-
-  getProjectIdByConversationWith(strSearch, conversationWith: string) {
-    const tiledeskToken = this.tiledeskAuthService.getTiledeskToken()
-
-    this.tiledeskService.getProjectIdByConvRecipient(tiledeskToken, conversationWith).subscribe((res) => {
-      this.logger.log('[CONVS-DETAIL] - loadTagsCanned - GET PROJECTID BY CONV RECIPIENT RES', res)
-      if (res) {
-        const projectId = res.id_project
-        this.logger.log('[CONVS-DETAIL] - loadTagsCanned - GET PROJECTID BY CONV RECIPIENT projectId ', projectId)
-        if (projectId) {
-          this.getAndShowCannedResponses(strSearch, projectId)
-        }
-      }
-    }, (error) => {
-      this.logger.error('[CONVS-DETAIL] - loadTagsCanned - GET PROJECTID BY CONV RECIPIENT - ERROR  ', error)
-    }, () => {
-      this.logger.log('[CONVS-DETAIL] - loadTagsCanned - GET PROJECTID BY CONV RECIPIENT * COMPLETE *')
-    })
-  }
-
-  getAndShowCannedResponses(strSearch, projectId) {
-    const tiledeskToken = this.tiledeskAuthService.getTiledeskToken()
-    this.logger.log('[CONVS-DETAIL] - loadTagsCanned tagsCanned.length', this.tagsCanned.length)
-    //if(this.tagsCanned.length <= 0 ){
-    this.tagsCanned = []
-    this.cannedResponsesService.getAll(tiledeskToken, projectId).subscribe((res) => {
-      this.logger.log('[CONVS-DETAIL] - loadTagsCanned  getCannedResponses RES', res)
-
-      this.tagsCanned = res
-      this.tagsCannedCount = res.length
-      this.logger.log('[CONVS-DETAIL] - loadTagsCanned  getCannedResponses tagsCannedCount', this.tagsCannedCount)
-      if (this.HIDE_CANNED_RESPONSES === false) {
-        this.showTagsCanned(strSearch)
-      }
-    }, (error) => {
-      this.logger.error('[CONVS-DETAIL] - loadTagsCanned  getCannedResponses - ERROR  ', error)
-    }, () => {
-      this.logger.log('[CONVS-DETAIL] - loadTagsCanned  getCannedResponses * COMPLETE *')
-    })
-  }
-
-  showTagsCanned(strSearch) {
-    this.logger.log('[CONVS-DETAIL] - showTagsCanned strSearch ', strSearch)
-    this.tagsCannedFilter = []
-    var tagsCannedClone = JSON.parse(JSON.stringify(this.tagsCanned))
-    this.logger.log('[CONVS-DETAIL] - showTagsCanned tagsCannedClone ', tagsCannedClone)
-    //this.logger.log("that.contacts lenght:: ", strSearch);
-    this.tagsCannedFilter = this.filterItems(tagsCannedClone, strSearch)
-    this.logger.log('[CONVS-DETAIL] - showTagsCanned tagsCannedFilter ', this.tagsCannedFilter)
-
-    this.tagsCannedFilter.sort(compareValues('title', 'asc'))
-    var strReplace = strSearch
-    if (strSearch.length > 0) {
-      strReplace = "<b class='highlight-search-string'>" + strSearch + '</b>'
-    }
-    // for (var i = 0; i < this.tagsCannedFilter.length; i++) {
-    //   let text = htmlEntities(this.tagsCannedFilter[i].text);
-    //   // const textCanned = "<div class='cannedText'>" + this.replacePlaceholderInCanned(this.tagsCannedFilter[i].text) + '</div>'
-    //   const textCanned = "<div class='cannedText'>" + this.replacePlaceholderInCanned(text) + '</div>'
-    //   let title = htmlEntities(this.tagsCannedFilter[i].title)
-    //   // this.tagsCannedFilter[i].title = "<div class='cannedContent'><div class='cannedTitle'>" + this.tagsCannedFilter[i].title.toString().replace(strSearch, strReplace.trim()) + '</div>' + textCanned + '</div>'
-    //   this.tagsCannedFilter[i].title = "<div class='cannedContent'><div class='cannedTitle'>" + title.toString().replace(strSearch, strReplace.trim()) + '</div>' + textCanned + '</div>'
-    // }
-    this.tagsCannedFilter.forEach(canned => {
-      canned.text = this.replacePlaceholderInCanned(canned.text);
-      canned.disabled = true
-    });
-    if (this.tagsCannedCount === 0) {
-      // const button = this.renderer.createElement('button');
-      // const buttonText = this.renderer.createText('Click me');
-      // this.renderer.appendChild(button, buttonText);
-      // console.log('[CONVS-DETAIL] - this.el.nativeElement ', this.el.nativeElement)
-      // this.renderer.listen(button, 'click', () => { alert('hi'); });
-      // let nocanned = {}
-      // if (this.USER_ROLE !== 'agent') {
-      const nocanned = {
-        // "<div class='cannedContent'><div class='cannedTitle nocannedTitle #noCannedTitle'>" + this.translationMap.get('THERE_ARE_NO_CANNED_RESPONSES_AVAILABLE') + ".</div><div class='cannedText'>" + this.translationMap.get('TO_CREATE_THEM_GO_TO_THE_PROJECT') + '</div></div>'
-        // <div class='cannedText no-canned-available-text'>" + this.translationMap.get('AddNewCannedResponse') + '</div>
-        title:
-          "<div class='cannedContent'><div class='cannedTitle nocannedTitle #noCannedTitle'>" + this.translationMap.get('THERE_ARE_NO_CANNED_RESPONSES_AVAILABLE') + ".</div></div>",
-        text: 'There are no canned responses available',
-      }
-      // } else if (this.USER_ROLE === 'agent') {
-      //   nocanned = {
-      //     // "<div class='cannedContent'><div class='cannedTitle nocannedTitle #noCannedTitle'>" + this.translationMap.get('THERE_ARE_NO_CANNED_RESPONSES_AVAILABLE') + ".</div><div class='cannedText'>" + this.translationMap.get('TO_CREATE_THEM_GO_TO_THE_PROJECT') + '</div></div>'
-      //     title:
-      //       "<div class='cannedContent'><div class='cannedTitle nocannedTitle #noCannedTitle'>" + this.translationMap.get('THERE_ARE_NO_CANNED_RESPONSES_AVAILABLE') + ".</div></div>",
-      //     text: 'There are no canned responses available',
-      //   }
-      // }
-      this.tagsCannedFilter.push(nocanned)
-    }
-  }
+  
 
   toggleSidebar() {
     // console.log('[CONVS-DETAIL] has clicked test')
   }
 
-  filterItems(items, searchTerm) {
-    this.logger.log('[CONVS-DETAIL] filterItems tagsCannedClone ', items, ' searchTerm: ', searchTerm)
-    //this.logger.log("filterItems::: ",searchTerm);
-    return items.filter((item) => {
-      //this.logger.log("filterItems::: ", item.title.toString().toLowerCase());
-      this.logger.log('[CONVS-DETAIL] filtered tagsCannedClone item ', item)
-      return (
-        item.title
-          .toString()
-          .toLowerCase()
-          .indexOf(searchTerm.toString().toLowerCase()) > -1
-      )
-    })
-  }
 
   replacePlaceholderInCanned(str) {
     this.logger.log('[CONVS-DETAIL] - replacePlaceholderInCanned str ', str)
@@ -1402,94 +1257,43 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     return str
   }
 
-  replaceTagInMessage(canned, event) {
-    if(!canned.disabled){
-      event.preventDefault();
-      event.stopPropagation();
-    }else if (this.tagsCannedCount > 0) {
-      // console.log('[CONVS-DETAIL] replaceTagInMessage  event ', event)
-      // console.log('[CONVS-DETAIL] replaceTagInMessage  canned ', canned)
-      // console.log('[CONVS-DETAIL] replaceTagInMessage  canned title', canned.title)
-      // console.log('[CONVS-DETAIL] replaceTagInMessage  canned contains nocannedTitle', canned.title.includes('nocannedTitle'))
-
-      const elTextArea = this.rowTextArea['el']
-      const textArea = elTextArea.getElementsByTagName('ion-textarea')[0]
-
-      // console.log('[CONVS-DETAIL] replaceTagInMessage  textArea ', textArea)
-      // console.log('[CONVS-DETAIL] replaceTagInMessage  textArea value', textArea.value,)
-
-      // var lastChar =  textArea.value.substr(-1); // Selects the last character
-      // if (lastChar === '/') {
-      //   textArea.value = textArea.value.substring(0, textArea.value.length() - 1);
-      // }
-      // this.insertAtCursor(this.textArea, textArea.value)
-
-      this.arrowkeyLocation = -1
-      this.tagsCannedFilter = []
-      this.logger.log('[CONVS-DETAIL] replaceTagInMessage  canned text ', canned.text)
-
-      // replace text
-      var pos = textArea.value.lastIndexOf('/')
-      var strSearch = textArea.value.substr(pos)
-      this.logger.log('[CONVS-DETAIL] replaceTagInMessage strSearch ', strSearch)
-
-      var strTEMP = textArea.value.replace(strSearch, canned.text)
-      strTEMP = this.replacePlaceholderInCanned(strTEMP)
-      this.logger.log('[CONVS-DETAIL] replaceTagInMessage strSearch ', strTEMP)
-      // strTEMP = this.replacePlaceholderInCanned(strTEMP);
-      // textArea.value = '';
-      // that.messageString = strTEMP;
-      textArea.value = strTEMP
-      setTimeout(() => {
-        // textArea.focus();
-        textArea.setFocus()
-        this.resizeTextArea()
-      }, 200)
-    }
-    else {
-      this.logger.log('[CONVS-DETAIL] THERE IS NOT CANNED ', canned.text)
-    }
+  onLoadedCannedResponses(event){
+    this.logger.log('[CONVS-DETAIL] onLoadedCannedResponses --> ',event)
+    if(event && event.length > 0 ){
+      this.tagsCannedFilter = event
+    } 
   }
 
-  onEditCanned(canned, ev){
-    ev.preventDefault()
-    ev.stopPropagation()
-    canned.disabled = false
-    this.logger.log('[CONVS-DETAIL] onEditCanned ', canned)
+  replaceTagInMessage(canned, event?) {
+    const elTextArea = this.rowTextArea['el']
+    const textArea = elTextArea.getElementsByTagName('ion-textarea')[0]
+    // console.log('[CONVS-DETAIL] replaceTagInMessage  textArea ', textArea)
+    // console.log('[CONVS-DETAIL] replaceTagInMessage  textArea value', textArea.value,)
+
+    // var lastChar =  textArea.value.substr(-1); // Selects the last character
+    // if (lastChar === '/') {
+    //   textArea.value = textArea.value.substring(0, textArea.value.length() - 1);
+    // }
+    // this.insertAtCursor(this.textArea, textArea.value)
+
+    this.logger.log('[CONVS-DETAIL] replaceTagInMessage  canned text ', canned.text)
+
+    // replace text
+    var strTEMP = textArea.value.replace(/\/$/ig, canned.text)
+    strTEMP = this.replacePlaceholderInCanned(strTEMP)
+    this.logger.log('[CONVS-DETAIL] replaceTagInMessage strSearch ', strTEMP)
+    // strTEMP = this.replacePlaceholderInCanned(strTEMP);
+    // textArea.value = '';
+    // that.messageString = strTEMP;
+    textArea.value = strTEMP
     setTimeout(() => {
-      this.el.nativeElement.querySelector('#titleCanned_'+canned._id).setFocus()
-    }, 500);
+      // textArea.focus();
+      textArea.setFocus()
+      // this.resizeTextArea()
+    }, 200)
+    
   }
 
-  onConfirmEditCanned(canned, ev){
-    ev.preventDefault()
-    ev.stopPropagation()
-    const tiledeskToken = this.tiledeskAuthService.getTiledeskToken()
-    this.logger.log('[CONVS-DETAIL] onConfirmEditCanned ', canned, ev)
-    this.cannedResponsesService.edit(tiledeskToken, canned.id_project, canned).subscribe(cannedRes=> {
-      canned.disabled = true
-    }, (error) => {
-      this.logger.error('[CONVS-DETAIL] - onConfirmEditCanned - ERROR  ', error)
-    }, () => {
-      this.logger.log('[CONVS-DETAIL] - onConfirmEditCanned * COMPLETE *')
-    })
-  }
-  
-  onDeleteCanned(canned, ev){
-    ev.preventDefault()
-    ev.stopPropagation()
-    const tiledeskToken = this.tiledeskAuthService.getTiledeskToken()
-    this.logger.log('[CONVS-DETAIL] onDeleteCanned ', canned)
-    this.cannedResponsesService.delete(tiledeskToken, canned.id_project, canned._id).subscribe(cannedRes=> {
-      if(cannedRes.status === 1000){
-        this.tagsCannedFilter.splice(this.tagsCannedFilter.findIndex(el => el._id === canned._id), 1)
-      }
-    }, (error) => {
-      this.logger.error('[CONVS-DETAIL] - onConfirmEditCanned - ERROR  ', error)
-    }, () => {
-      this.logger.log('[CONVS-DETAIL] - onConfirmEditCanned * COMPLETE *')
-    })
-  }
 
   closeListCannedResponse(){
     this.logger.log('[CONVS-DETAIL] close list canned . . .  ')
@@ -1517,27 +1321,23 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     return await modal.present()
   }
 
-  hasClickedOpenCannedResponses($event) {
-    this.logger.log('[CONVS-DETAIL] - hasClickedOpenCannedResponses ', $event)
+  onClickOpenCannedResponses($event) {
+    this.logger.log('[CONVS-DETAIL] - onClickOpenCannedResponses ', $event)
     const elTextArea = this.rowTextArea['el']
     const textArea = elTextArea.getElementsByTagName('ion-textarea')[0]
-
-    this.logger.log('[CONVS-DETAIL] hasClickedOpenCannedResponses  textArea ', textArea)
-    // console.log("[CONVS-DETAIL] hasClickedOpenCannedResponses  textArea value", textArea.value)
-    var lastChar = textArea.value[textArea.value.length - 1]
-    // console.log('[CONVS-DETAIL] hasClickedOpenCannedResponses lastChar', lastChar)
-    if (lastChar !== '/') {
-      this.insertAtCursor(textArea, '/')
+    if($event && elTextArea){
+      this.logger.log('[CONVS-DETAIL] onClickOpenCannedResponses  textArea ', textArea)
+      // console.log("[CONVS-DETAIL] onClickOpenCannedResponses  textArea value", textArea.value)
+      var lastChar = textArea.value[textArea.value.length - 1]
+      // console.log('[CONVS-DETAIL] onClickOpenCannedResponses lastChar', lastChar)
+      if (lastChar !== '/') {
+        this.insertAtCursor(textArea, '/')
+      }
+      this.setCaretPosition(textArea)
+    }else{
+      this.HIDE_CANNED_RESPONSES = true
+      console.log('[CONVS-DETAIL] - onClickOpenCannedResponses CLOSE', textArea.value)
     }
-    // console.log('[CONVS-DETAIL] hasClickedOpenCannedResponses textArea.value', textArea.value)
-    // setTimeout(() => {
-    //   // if (textArea.value === '/') {
-    //     // textArea.focus();
-    //     textArea.setFocus();
-    //   // }
-    // }, 1500);
-
-    this.setCaretPosition(textArea)
   }
 
   setCaretPosition(ctrl) {
@@ -1589,40 +1389,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     }
   }
 
-  @HostListener('document:keydown', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) {
-    // this.logger.log("CONVERSATION-DETAIL handleKeyboardEvent  event.key ", event.key);
-
-    if (this.tagsCannedFilter.length > 0) {
-      if (event.key === 'ArrowDown') {
-        this.arrowkeyLocation++
-        if (this.arrowkeyLocation === this.tagsCannedFilter.length) {
-          this.arrowkeyLocation--
-        }
-        // this.replaceTagInMessage(this.tagsCannedFilter[this.arrowkeyLocation])
-      } else if (event.key === 'ArrowUp') {
-        if (this.arrowkeyLocation > 0) {
-          this.arrowkeyLocation--
-        } else if (this.arrowkeyLocation < 0) {
-          this.arrowkeyLocation++
-        }
-        // this.replaceTagInMessage(this.tagsCannedFilter[this.arrowkeyLocation])
-      }
-
-      if (event.key === 'Enter') {
-        const canned_selected = this.tagsCannedFilter[this.arrowkeyLocation]
-        this.logger.log(
-          '[CONVS-DETAIL] replaceTagInMessage  canned_selected ',
-          canned_selected,
-        )
-        if (canned_selected) {
-          this.replaceTagInMessage(canned_selected, 'enter')
-          // event.preventDefault();
-          // return false;
-        }
-      }
-    }
-  }
+  
   // ----------------------------------------------------------
   // ./end CANNED RESPONSES methods
   // ----------------------------------------------------------
@@ -1904,41 +1671,25 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
     this.logger.log('[CONVS-DETAIL] ----> FILE - DROP ev ', ev)
     const fileList = ev.dataTransfer.files
-    this.logger.log(
-      '[CONVS-DETAIL] ----> FILE - DROP ev.dataTransfer.files ',
-      fileList,
-    )
+    this.logger.log('[CONVS-DETAIL] ----> FILE - DROP ev.dataTransfer.files ',fileList)
     this.isHovering = false
-    this.logger.log(
-      '[CONVS-DETAIL] ----> FILE - DROP isHovering ',
-      this.isHovering,
-    )
+    this.logger.log('[CONVS-DETAIL] ----> FILE - DROP isHovering ',this.isHovering)
     if (fileList.length > 0) {
       const file: File = fileList[0]
       this.logger.log('[CONVS-DETAIL] ----> FILE - DROP file ', file)
 
       var mimeType = fileList[0].type
-      this.logger.log(
-        '[CONVS-DETAIL] ----> FILE - DROP mimeType files ',
-        mimeType,
-      )
+      this.logger.log('[CONVS-DETAIL] ----> FILE - DROP mimeType files ', mimeType)
 
       // if (mimeType.startsWith("image") || mimeType.startsWith("application")) {
       // this.logger.log('[CONVS-DETAIL] ----> FILE - DROP mimeType files: ', this.appConfigProvider.getConfig().fileUploadAccept);
       // this.checkAcceptedFile(mimeType);
       const isAccepted = this.checkAcceptedFile(mimeType)
-      this.logger.log(
-        '[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept isAcceptFile FILE - DROP',
-        isAccepted,
-      )
+      this.logger.log('[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept isAcceptFile FILE - DROP',isAccepted)
       if (isAccepted === true) {
         this.handleDropEvent(ev)
       } else {
-        this.logger.log(
-          '[CONVS-DETAIL] ----> FILE - DROP mimeType files ',
-          mimeType,
-          'NOT SUPPORTED FILE TYPE',
-        )
+        this.logger.log( '[CONVS-DETAIL] ----> FILE - DROP mimeType files ', mimeType,'NOT SUPPORTED FILE TYPE')
         this.presentToastOnlyImageFilesAreAllowedToDrag()
       }
     }
@@ -1955,10 +1706,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     ev.stopPropagation()
     this.logger.log('[CONVS-DETAIL] ----> FILE - (dragover) allowDrop ev ', ev)
     this.isHovering = true
-    this.logger.log(
-      '[CONVS-DETAIL] ----> FILE - (dragover) allowDrop isHovering ',
-      this.isHovering,
-    )
+    this.logger.log('[CONVS-DETAIL] ----> FILE - (dragover) allowDrop isHovering ',this.isHovering)
   }
 
   // DRAG LEAVE (WHEN LEAVE FROM THE DROP ZONE)
@@ -1967,17 +1715,12 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     ev.stopPropagation()
     this.logger.log('[CONVS-DETAIL] ----> FILE - (dragleave) drag ev ', ev)
     this.isHovering = false
-    this.logger.log(
-      '[CONVS-DETAIL] ----> FILE - FILE - (dragleave) drag his.isHovering ',
-      this.isHovering,
-    )
+    this.logger.log('[CONVS-DETAIL] ----> FILE - FILE - (dragleave) drag his.isHovering ',this.isHovering)
   }
 
   async presentToastOnlyImageFilesAreAllowedToDrag() {
     const toast = await this.toastController.create({
-      message: this.translationMap.get(
-        'FAILED_TO_UPLOAD_THE_FORMAT_IS_NOT_SUPPORTED',
-      ),
+      message: this.translationMap.get('FAILED_TO_UPLOAD_THE_FORMAT_IS_NOT_SUPPORTED'),
       duration: 5000,
       color: 'danger',
       cssClass: 'toast-custom-class',
