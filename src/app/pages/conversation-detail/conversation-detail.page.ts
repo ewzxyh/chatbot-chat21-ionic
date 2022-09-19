@@ -809,8 +809,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
   returnSendMessage(e: any) {
     this.logger.log('[CONVS-DETAIL] - returnSendMessage event', e, ' - conversationWith', this.conversationWith)
-
-    this.logger.log('[CONVS-DETAIL] - returnSendMessage event message', e.message)
     try {
       let message = ''
       if (e.message) {
@@ -832,12 +830,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
    * @param metadata
    * @param additional_attributes
    */
-  sendMessage(
-    msg: string,
-    type: string,
-    metadata?: any,
-    additional_attributes?: any,
-  ) {
+  sendMessage(msg: string, type: string, metadata?: any, additional_attributes?: any) {
     this.logger.log('[CONVS-DETAIL] - SEND MESSAGE - MSG: ', msg)
     this.logger.log('[CONVS-DETAIL] - SEND MESSAGE - type: ', type)
     this.logger.log('[CONVS-DETAIL] - SEND MESSAGE - metadata: ', metadata)
@@ -875,18 +868,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         msg = `[${metadata.name}](${metadata.src})`
       }
     }
-
-    // else if (type === 'image') {
-    //   if (msg) {
-    //     // msg = msg + '<br>' + 'File: ' + metadata.src;
-    //     msg = metadata.name + '\n' + msg
-
-    //   } else {
-
-    //     msg = metadata.name
-    //   }
-
-    // }
 
     metadata ? (metadata = metadata) : (metadata = '')
     this.logger.log('[CONVS-DETAIL] - SEND MESSAGE msg: ', msg, ' - messages: ', this.messages, ' - loggedUser: ', this.loggedUser)
@@ -1336,7 +1317,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       this.setCaretPosition(textArea)
     }else{
       this.HIDE_CANNED_RESPONSES = true
-      console.log('[CONVS-DETAIL] - onClickOpenCannedResponses CLOSE', textArea.value)
     }
   }
 
