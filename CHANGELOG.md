@@ -3,6 +3,7 @@
 ### 3.0.76-rc.2
 - added: canned component to manage canned responses
 - bug-fixed: if more than oe '/' is present in message-text-area and a canned is selected, replace canned text on the last '/' character in the message string
+- bug-fixed: close canned component if user click again on canned-icon-button
 
 ### 3.0.76-rc.1
 - changed: senderFullName in list conversation for guest users with guest#uuid[0..5]
