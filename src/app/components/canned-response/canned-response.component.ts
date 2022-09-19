@@ -153,7 +153,7 @@ export class CannedResponseComponent implements OnInit {
         // "<div class='cannedContent'><div class='cannedTitle nocannedTitle #noCannedTitle'>" + this.translationMap.get('THERE_ARE_NO_CANNED_RESPONSES_AVAILABLE') + ".</div><div class='cannedText'>" + this.translationMap.get('TO_CREATE_THEM_GO_TO_THE_PROJECT') + '</div></div>'
         // <div class='cannedText no-canned-available-text'>" + this.translationMap.get('AddNewCannedResponse') + '</div>
         title: this.translationMap.get('THERE_ARE_NO_CANNED_RESPONSES_AVAILABLE') ,
-        text: 'There are no canned responses available',
+        text: '',
       }
       // } else if (this.USER_ROLE === 'agent') {
       //   nocanned = {
