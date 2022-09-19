@@ -1,5 +1,9 @@
 # chat21-ionic ver 3.0
 
+### 3.0.76-rc.2
+- added: canned component to manage canned responses
+- bug-fixed: if more than oe '/' is present in message-text-area and a canned is selected, replace canned text on the last '/' character in the message string
+
 ### 3.0.76-rc.1
 - changed: senderFullName in list conversation for guest users with guest#uuid[0..5]
 - added: multi-language to MEMBER_LEFT_GROUP and LEAD_UPDATED info messages
