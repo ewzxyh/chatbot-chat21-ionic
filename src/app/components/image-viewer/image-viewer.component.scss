@@ -3,7 +3,7 @@
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1050; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
+    // padding-top: 100px; /* Location of the box */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
@@ -13,13 +13,48 @@
     background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
   }
   
+.modal-header{
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row-reverse;
+  margin: 20px;
+
+  /* The Close Button */
+  .button{
+    transition: 0.3s;
+    border-radius: 50px;
+    padding:7px 8.5px
+  }
+
+  svg {
+    background-color: transparent;
+    fill: rgba(255,255,255,.5);
+  }
+
+  .button:hover,
+  .button:focus {
+    // color: #bbb;
+    background-color: rgba(255,255,255,.3);
+    text-decoration: none;
+    cursor: pointer;
+    svg {
+        fill: rgba(255,255,255, 1);
+    }
+  }
+
+}
   /* Modal Content (Image) */
   .modal-content {
     margin: auto;
     display: block;
-    // width: 80%;
-    // max-width: 700px;
     padding: 0px 5px;
+    height: 82%;
+
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: scale-down;
+    }
   }
   
   /* Caption of Modal Image (Image Text) - Same Width as the Image */
@@ -31,7 +66,7 @@
     text-align: center;
     color: #ccc;
     padding: 10px 0;
-    height: 150px;
+    // height: 150px;
   }
   
   /* Add Animation - Zoom in the Modal */
@@ -45,59 +80,8 @@
     to {transform:scale(1)}
   }
   
-  /* The Close Button */
-  .close {
-    position: absolute;
-    top: 15px;
-    right: 35px;
-    // color: #f1f1f1;
-    // font-size: 40px;
-    // font-weight: bold;
-    transition: 0.3s;
-    border-radius: 50px;
-    padding:7px 8.5px
-  }
+  
 
-  .close svg {
-    background-color: transparent;
-    fill: rgba(255,255,255,.5);
-  }
-
-  .close:hover,
-  .close:focus {
-    // color: #bbb;
-    background-color: rgba(255,255,255,.3);
-    text-decoration: none;
-    cursor: pointer;
-    svg {
-        fill: rgba(255,255,255, 1);
-    }
-  }
-
-  .download-image {
-    position: absolute;
-    top: 15px;
-    right: 78px;
-    transition: 0.3s;
-    border-radius: 50px;
-    padding:7px 8.5px
-  }
-
-  .download-image svg {
-    background-color: transparent;
-    fill: rgba(255,255,255,.5);
-  }
-
-  .download-image:hover,
-  .download-image:focus {
-   
-    background-color: rgba(255,255,255,.3);
-    text-decoration: none;
-    cursor: pointer;
-    svg {
-        fill: rgba(255,255,255, 1);
-    }
-  }
   
   /* 100% Image Width on Smaller Screens */
   @media only screen and (max-width: 700px){
