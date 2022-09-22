@@ -771,9 +771,9 @@ export class ConversationListPage implements OnInit {
       }
     }
 
-    if(conversation.conversation_with_fullname === 'Guest '){
-      conversation.conversation_with_fullname = 'guest' + '#' + this.getUUidConversation(conversation.uid)
-    }
+    // if(conversation.conversation_with_fullname === 'Guest '){
+    //   conversation.conversation_with_fullname = 'guest' + '#' + this.getUUidConversation(conversation.uid)
+    // }
 
   }
 
