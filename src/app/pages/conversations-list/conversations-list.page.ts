@@ -88,9 +88,6 @@ export class ConversationListPage implements OnInit {
   public IFRAME_URL: any
   public hasClickedOpenUnservedConvIframe: boolean = false
   public lastProjectId: string
-  public isOnline: boolean = true
-  public checkInternet: boolean
-
   public displayNewConvsItem: boolean = true
   public archiveActionNotAllowed: boolean = false
 
@@ -172,7 +169,6 @@ export class ConversationListPage implements OnInit {
   // @ Lifehooks
   // -----------------------------------------------
   ngOnInit() {
-    this.watchToConnectionStatus()
     this.getAppConfigToHideDiplayBtns()
     
   }
@@ -217,20 +213,6 @@ export class ConversationListPage implements OnInit {
     }
 
 
-  }
-
-  watchToConnectionStatus() {
-    this.networkService.checkInternetFunc().subscribe((isOnline) => {
-      this.checkInternet = isOnline
-      this.logger.log('[ION-LIST-CONVS-COMP] - watchToConnectionStatus - isOnline', this.checkInternet)
-
-      // checking internet connection
-      if (this.checkInternet == true) {
-        this.isOnline = true
-      } else {
-        this.isOnline = false
-      }
-    })
   }
 
   ionViewWillEnter() {
