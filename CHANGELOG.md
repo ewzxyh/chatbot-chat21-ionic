@@ -1,5 +1,8 @@
 # chat21-ionic ver 3.0
 
+### 3.0.76-rc.3
+- bug-fixed: image-preview when agent click on image, don't fit the screen size
+
 ### 3.0.76-rc.2
 - added: canned component to manage canned responses
 - bug-fixed: if more than oe '/' is present in message-text-area and a canned is selected, replace canned text on the last '/' character in the message string
