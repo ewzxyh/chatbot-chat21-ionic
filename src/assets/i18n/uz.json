@@ -68,6 +68,7 @@
     "INFO_SUPPORT_CHAT_CLOSED": "Chat yopildi",
     "INFO_SUPPORT_LEAD_UPDATED":"Etakchi yangilandi",
     "INFO_SUPPORT_MEMBER_LEFT_GROUP":"guruhdan olib tashlandi",
+    "INFO_SUPPORT_MEMBER_ABANDONED_GROUP":"suhbatni tark etdi",
     "INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU": "Sizga yangi qoʻllab-quvvatlash soʻrovi tayinlandi",
     "LABEL_PROFILE": "Profil",
     "LABEL_CLOSE": "Yopiq",

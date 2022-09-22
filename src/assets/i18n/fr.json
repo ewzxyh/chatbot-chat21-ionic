@@ -67,6 +67,7 @@
   "INFO_SUPPORT_CHAT_CLOSED": "Chat fermé",
   "INFO_SUPPORT_LEAD_UPDATED":"Prospect mis à jour",
   "INFO_SUPPORT_MEMBER_LEFT_GROUP":"supprimé du groupe",
+  "INFO_SUPPORT_MEMBER_ABANDONED_GROUP":"a quitté la conversation",
   "INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU": "Une nouvelle demande de support vous a été attribuée",
   "LABEL_PROFILE": "Profil",
   "LABEL_CLOSE": "Fermé",

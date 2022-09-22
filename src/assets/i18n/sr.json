@@ -67,6 +67,7 @@
         "INFO_SUPPORT_CHAT_CLOSED": "Ћаскање је затворено",
         "INFO_SUPPORT_LEAD_UPDATED":"Лид је ажуриран",
         "INFO_SUPPORT_MEMBER_LEFT_GROUP":"уклоњен из групе",
+        "INFO_SUPPORT_MEMBER_ABANDONED_GROUP":"је напустио разговор",
         "INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU": "Додељен вам је нови захтев за подршку",
         "LABEL_PROFILE": "Профил",
         "LABEL_CLOSE": "Затворено",

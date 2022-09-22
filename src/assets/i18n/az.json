@@ -67,6 +67,7 @@
     "INFO_SUPPORT_CHAT_CLOSED": "Çat bağlandı",
     "INFO_SUPPORT_LEAD_UPDATED":"Rəqəm yeniləndi",
     "INFO_SUPPORT_MEMBER_LEFT_GROUP":"qrupdan çıxarıldı",
+    "INFO_SUPPORT_MEMBER_ABANDONED_GROUP":"söhbəti tərk etdi",
     "INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU": "Sizə yeni dəstək sorğusu təyin edilib",
     "LABEL_PROFILE": "Profil",
     "LABEL_CLOSE": "Bağlı",

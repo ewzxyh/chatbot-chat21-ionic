@@ -67,6 +67,7 @@
   "INFO_SUPPORT_CHAT_CLOSED": "sohbet kapatıldı",
   "INFO_SUPPORT_LEAD_UPDATED":"Potansiyel müşteri güncellendi",
   "INFO_SUPPORT_MEMBER_LEFT_GROUP":"gruptan kaldırıldı",
+  "INFO_SUPPORT_MEMBER_ABANDONED_GROUP":"konuşmayı bıraktı",
   "INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU": "Size yeni bir destek talebi atandı",
   "LABEL_PROFILE": "Profil",
   "LABEL_CLOSE": "Kapalı",

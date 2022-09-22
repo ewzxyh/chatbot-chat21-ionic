@@ -67,6 +67,7 @@
   "INFO_SUPPORT_CHAT_CLOSED": "Чат закрыт",
   "INFO_SUPPORT_LEAD_UPDATED":"Интерес обновлен",
   "INFO_SUPPORT_MEMBER_LEFT_GROUP":"удален из группы",
+  "INFO_SUPPORT_MEMBER_ABANDONED_GROUP":"вышел из беседы",
   "INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU": "Вам назначен новый запрос в службу поддержки",
   "LABEL_PROFILE": "Профиль",
   "LABEL_CLOSE": "Закрыто",
