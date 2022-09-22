@@ -2,6 +2,8 @@
 
 ### 3.0.76-rc.3
 - bug-fixed: image-preview when agent click on image, don't fit the screen size
+- added: network-connection component to manage no connections
+- removed: no connection item in conversation-list page
 
 ### 3.0.76-rc.2
 - added: canned component to manage canned responses
