@@ -1,3 +1,4 @@
+import { NetworkOfflineComponent } from './../components/network-offline/network-offline.component';
 import { ContactsDirectoryComponent } from './../components/contacts-directory/contacts-directory.component';
 import { HtmlComponent } from './../chatlib/conversation-detail/message/html/html.component';
 import { BubbleOthersMessageComponent } from './../components/conversation-detail/bubble-others-message/bubble-others-message.component';
@@ -93,6 +94,7 @@ import { SafeHtmlPipe } from '../directives/safe-html.pipe';
     HtmlEntitiesEncodePipe,
     SafeHtmlPipe,
     OptionHeaderComponent,
+    NetworkOfflineComponent
   ],
   exports: [
     // MessageTextAreaComponent,
@@ -127,8 +129,8 @@ import { SafeHtmlPipe } from '../directives/safe-html.pipe';
     InfoSupportGroupComponent,
     InfoDirectComponent,
     InfoGroupComponent,
-
-    OptionHeaderComponent
+    OptionHeaderComponent,
+    NetworkOfflineComponent
 
   ],
   imports: [

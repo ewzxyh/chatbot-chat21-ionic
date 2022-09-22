@@ -99,6 +99,7 @@
   "LABEL_CLOSED": "Kapalı",
   "LABEL_INFO": "Bilgiler",
   "ALERT_NOTIFICATION": "Uyarı: bildirim gönderme devre dışıdır, tarayıcı ayarlarını bildirim göndermeye izin verecek şekilde değiştirir.",
+  "ALERT_NO_CONNECTION":"Özür dileriz. Ağa bağlanırken bazı sorunlar oluştu",
   "LABEL_EXTERNAL_ID": "Harici Kimlik",
   "LABEL_IAT": "Bende",
   "LABEL_REQUEST_DETAIL": "Detay iste",

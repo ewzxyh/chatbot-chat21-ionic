@@ -99,6 +99,7 @@
     "LABEL_CLOSED": "Chiuse",
     "LABEL_INFO": "Informazioni",
     "ALERT_NOTIFICATION": "Attenzione: l'invio di notifiche è disabilitato, modifica le impostazioni del browser per consentire l'invio di notifiche.",
+    "ALERT_NO_CONNECTION":"Ci scusiamo. Si sono verificati problemi di connessione alla rete",
     "LABEL_EXTERNAL_ID": "External Id",
     "LABEL_IAT": "Iat",
     "LABEL_REQUEST_DETAIL": "Dettaglio richiesta",

@@ -99,6 +99,7 @@
   "LABEL_CLOSED": "Abgeschlossen",
   "LABEL_INFO": "Informationen",
   "ALERT_NOTIFICATION": "Warnung: Das Senden von Benachrichtigungen ist deaktiviert, ändert die Browsereinstellungen, um das Senden von Benachrichtigungen zuzulassen.",
+  "ALERT_NO_CONNECTION": "Wir entschuldigen uns. Beim Verbinden mit dem Netzwerk ist ein Problem aufgetreten",
   "LABEL_EXTERNAL_ID": "Externe ID",
   "LABEL_IAT": "Iat",
   "LABEL_REQUEST_DETAIL": "Einzelheiten anfordern",

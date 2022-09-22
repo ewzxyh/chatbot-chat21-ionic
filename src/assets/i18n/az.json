@@ -99,6 +99,7 @@
     "LABEL_CLOSED": "Bağlı",
     "LABEL_INFO": "Məlumatlar",
     "ALERT_NOTIFICATION": "Xəbərdarlıq: bildirişlərin göndərilməsi deaktiv edilib, bildirişlərin göndərilməsinə icazə vermək üçün brauzer parametrlərini dəyişir.",
+    "ALERT_NO_CONNECTION":"Üzr istəyirik. Şəbəkəyə qoşulma zamanı problem yarandı",
     "LABEL_EXTERNAL_ID": "Xarici İd",
     "LABEL_IAT": "İt",
     "LABEL_REQUEST_DETAIL": "Təfərrüat tələb edin",

@@ -99,6 +99,7 @@
         "LABEL_CLOSED": "مغلق",
         "LABEL_INFO": "معلومات",
         "ALERT_NOTIFICATION": "تحذير: إرسال الإخطارات معطل ، يغير إعدادات المتصفح للسماح بإرسال الإشعارات.",
+        "ALERT_NO_CONNECTION":"اعتذارنا. حدثت مشكلة في الاتصال بالشبكة",
         "LABEL_EXTERNAL_ID": "معرف خارجي",
         "LABEL_IAT": "إيات",
         "LABEL_REQUEST_DETAIL": "طلب التفاصيل",
