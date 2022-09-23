@@ -235,7 +235,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   // @ Lifehooks
   // -----------------------------------------------------------
   ngOnInit() {
-    // this.logger.log('[CONVS-DETAIL] > ngOnInit - window.location: ', window.location);
+    this.logger.log('[CONVS-DETAIL] > ngOnInit - window.location: ', window.location);
     // this.logger.log('[CONVS-DETAIL] > ngOnInit - fileUploadAccept: ', this.appConfigProvider.getConfig().fileUploadAccept);
     // const accept_files = this.appConfigProvider.getConfig().fileUploadAccept;
     // this.logger.log('[CONVS-DETAIL] > ngOnInit - fileUploadAccept typeof accept_files ', typeof accept_files);
@@ -256,6 +256,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     this.getOSCODE();
     this.getStoredProjectAndUserRole();
     this.listenToDsbrdPostMsgs();
+    
   }
 
   listenToDsbrdPostMsgs() {
@@ -613,14 +614,12 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       'YES_CANNED_RESPONSES',
       'THERE_ARE_NO_CANNED_RESPONSES_AVAILABLE',
       'TO_CREATE_THEM_GO_TO_THE_PROJECT',
-      "AddNewCannedResponse"
+      "AddNewCannedResponse",
+      "LABEL_LOADING"
     ]
 
     this.translationMap = this.customTranslateService.translateLanguage(keys)
-    this.logger.log(
-      '[CONVS-DETAIL] x this.translationMap ',
-      this.translationMap,
-    )
+    this.logger.log('[CONVS-DETAIL] x this.translationMap ',this.translationMap)
   }
 
   // --------------------------------------------------------
@@ -1305,19 +1304,23 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
   onClickOpenCannedResponses($event) {
     this.logger.log('[CONVS-DETAIL] - onClickOpenCannedResponses ', $event)
-    const elTextArea = this.rowTextArea['el']
-    const textArea = elTextArea.getElementsByTagName('ion-textarea')[0]
-    if($event && elTextArea){
-      this.logger.log('[CONVS-DETAIL] onClickOpenCannedResponses  textArea ', textArea)
-      // console.log("[CONVS-DETAIL] onClickOpenCannedResponses  textArea value", textArea.value)
-      var lastChar = textArea.value[textArea.value.length - 1]
-      // console.log('[CONVS-DETAIL] onClickOpenCannedResponses lastChar', lastChar)
-      if (lastChar !== '/') {
-        this.insertAtCursor(textArea, '/')
+    this.HIDE_CANNED_RESPONSES = !this.HIDE_CANNED_RESPONSES
+
+    //HIDE_CANNED_RESPONSES: true --> not show CANNED component
+    //HIDE_CANNED_RESPONSES: false --> show CANNED component and place '/' char in textarea
+    if(!this.HIDE_CANNED_RESPONSES){
+      const elTextArea = this.rowTextArea['el']
+      const textArea = elTextArea.getElementsByTagName('ion-textarea')[0]
+      if($event && elTextArea){
+        this.logger.log('[CONVS-DETAIL] onClickOpenCannedResponses  textArea ', textArea)
+        // console.log("[CONVS-DETAIL] onClickOpenCannedResponses  textArea value", textArea.value)
+        var lastChar = textArea.value[textArea.value.length - 1]
+        // console.log('[CONVS-DETAIL] onClickOpenCannedResponses lastChar', lastChar)
+        if (lastChar !== '/') {
+          this.insertAtCursor(textArea, '/')
+        }
+        this.setCaretPosition(textArea)
       }
-      this.setCaretPosition(textArea)
-    }else{
-      this.HIDE_CANNED_RESPONSES = true
     }
   }
 
