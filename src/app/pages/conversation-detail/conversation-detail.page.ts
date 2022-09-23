@@ -131,6 +131,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
   public messageStr: string;
   public tagsCannedFilter: Array<any>= [];
+  public tagsCannedCount: number;
   public HIDE_CANNED_RESPONSES: boolean = true
 
   public window: any = window
@@ -1242,6 +1243,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     this.logger.log('[CONVS-DETAIL] onLoadedCannedResponses --> ',event)
     if(event && event.length > 0 ){
       this.tagsCannedFilter = event
+      this.tagsCannedCount = event.length
     } 
   }
 
