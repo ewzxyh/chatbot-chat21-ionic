@@ -1,5 +1,5 @@
 <div id="canned">
-  <ion-list class="canned-list" *ngIf="tagsCannedFilter.length > 0">
+  <div class="canned-list" *ngIf="tagsCannedFilter.length > 0">
     <ion-item button="true" [ngClass]="{'is_active_item': i == arrowkeyLocation}" lines="none"
       class="canned-item no-ripple border" id="{{'canned-item_'+ i }}"
       *ngFor="let canned of tagsCannedFilter; let i = index;"
@@ -17,10 +17,17 @@
       <span class="add-canned-response-add-icon">+</span>
      <label class="add-canned-response-label" >{{translationMap?.get('AddNewCannedResponse')}}</label> 
     </ion-item>
-  </ion-list>
-  <!-- <ion-list class="canned-list" *ngIf="tagsCannedFilter.length === 0 && HIDE_CANNED_RESPONSES === false">
-    <ion-item button="true" >
-      There are no canned responses available
-    </ion-item>
-  </ion-list> -->
+  </div>
+  <!--  -->
+  <div  class="loader" *ngIf="tagsCannedFilter.length === 0">
+    <div class="box">
+      <div class="container">
+        <span class="circle"></span>
+        <span class="circle"></span>
+        <span class="circle"></span>
+        <span class="circle"></span>
+      </div>
+      <div class="label">{{translationMap.get('LABEL_LOADING')}}</div>
+    </div>
+  </div>
 </div>

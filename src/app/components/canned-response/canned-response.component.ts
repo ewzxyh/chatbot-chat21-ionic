@@ -1,3 +1,4 @@
+import { AppStorageService } from 'src/chat21-core/providers/abstract/app-storage.service';
 import { Component, Input, OnInit, SimpleChange, ElementRef, Output, EventEmitter, HostListener } from '@angular/core';
 import { CreateCannedResponsePage } from 'src/app/pages/create-canned-response/create-canned-response.page';
 import { CannedResponsesService } from 'src/app/services/canned-responses/canned-responses.service';
@@ -24,6 +25,7 @@ export class CannedResponseComponent implements OnInit {
   @Output() onClickCanned = new EventEmitter<any>();
   @Output() onClickAddCannedResponse = new EventEmitter();
   public loggedUser: UserModel
+  public projectID: string;
   
   public tagsCanned: any = []
   public tagsCannedCount: number
@@ -36,6 +38,7 @@ export class CannedResponseComponent implements OnInit {
     public tiledeskAuthService: TiledeskAuthService,
     public tiledeskService: TiledeskService,
     public cannedResponsesService: CannedResponsesService,
+    public appStorageService: AppStorageService,
     public el: ElementRef
   ) { }
 
@@ -45,8 +48,36 @@ export class CannedResponseComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChange){
     this.logger.debug('[CANNED] - loadTagsCanned strSearch ', this.currentString)
+    if(changes && changes['conversationWith'] && (changes['conversationWith'].previousValue !== changes['conversationWith'].currentValue)){
+      this.projectID = this.getProjectIdSelectedConversation(this.conversationWith)
+      this.loadStoredCanned(this.projectID)
+    }
     if(this.currentString !== undefined){
       this.loadTagsCanned(this.currentString, this.conversationWith)
+    }
+  }
+
+  getProjectIdSelectedConversation(conversationWith: string): string{
+    const conversationWith_segments = conversationWith.split('-')
+    // Removes the last element of the array if is = to the separator
+    if (conversationWith_segments[conversationWith_segments.length - 1] === '') {
+      conversationWith_segments.pop()
+    }
+
+    this.logger.log('[CANNED] - getProjectIdSelectedConversation conversationWith_segments ', conversationWith_segments)
+    let projectId = ''
+    if (conversationWith_segments.length === 4) {
+      projectId = conversationWith_segments[2]
+      this.logger.log('[CANNED] - getProjectIdSelectedConversation projectId ', projectId)
+    }
+    return projectId
+  }
+
+
+  loadStoredCanned(projectId){
+    let storedCanned = this.appStorageService.getItem(projectId+'_canned')
+    if(storedCanned){
+      this.tagsCannedFilter = JSON.parse(storedCanned)
     }
   }
 
@@ -57,19 +88,9 @@ export class CannedResponseComponent implements OnInit {
     this.logger.log('[CANNED] - loadTagsCanned strSearch ', strSearch)
     this.logger.log('[CANNED] - loadTagsCanned conversationWith ', conversationWith)
 
-    const conversationWith_segments = conversationWith.split('-')
-    // Removes the last element of the array if is = to the separator
-    if (conversationWith_segments[conversationWith_segments.length - 1] === '') {
-      conversationWith_segments.pop()
-    }
-
-    this.logger.log('[CANNED] - loadTagsCanned conversationWith_segments ', conversationWith_segments)
-    let projectId = ''
-
-    if (conversationWith_segments.length === 4) {
-      projectId = conversationWith_segments[2]
-      this.logger.log('[CANNED] - loadTagsCanned projectId ', projectId)
-      this.getAndShowCannedResponses(strSearch, projectId)
+    if (this.projectID) {
+      this.logger.log('[CANNED] - loadTagsCanned projectId ', this.projectID)
+      this.getAndShowCannedResponses(strSearch, this.projectID)
     } else {
       this.getProjectIdByConversationWith(strSearch, this.conversationWith)
     }
@@ -165,6 +186,7 @@ export class CannedResponseComponent implements OnInit {
       // }
       this.tagsCannedFilter.push(nocanned)
     }
+    this.appStorageService.setItem(this.projectID+'_canned', JSON.stringify(this.tagsCannedFilter))
     this.onLoadedCannedResponses.emit(this.tagsCannedFilter)
   }
 
