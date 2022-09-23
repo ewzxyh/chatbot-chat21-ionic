@@ -1,4 +1,10 @@
 # chat21-ionic ver 3.0
+ù
+### 3.0.76-rc.4
+- bug-fixed: if canned component is opened and press twice the canned icon, canned-component not opens
+- bug-fixed: bot images not resized
+- added: caching of canned responses per project
+- aded: loader in canned-component
 
 ### 3.0.76-rc.3
 - bug-fixed: image-preview when agent click on image, don't fit the screen size
