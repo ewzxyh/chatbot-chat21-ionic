@@ -1,3 +1,5 @@
+import { FormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { NetworkOfflineComponent } from './../components/network-offline/network-offline.component';
 import { ContactsDirectoryComponent } from './../components/contacts-directory/contacts-directory.component';
 import { HtmlComponent } from './../chatlib/conversation-detail/message/html/html.component';
@@ -140,6 +142,8 @@ import { SafeHtmlPipe } from '../directives/safe-html.pipe';
     CommonModule,
     IonicModule,
     MomentModule,
+    NgSelectModule,
+    FormsModule,
     TooltipModule.forRoot(DefaultTooltipOptions as TooltipOptions)
 
   ],

@@ -61,7 +61,7 @@ export class WebsocketService {
     })
   }
 
-  public updateCurrentUserAvailability(token: string, projectId: string, user_is_available: boolean) {
+  public updateCurrentUserAvailability(token: string, projectId: string, user_is_available: boolean, profile_status: string) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Accept': 'application/json',
@@ -70,7 +70,10 @@ export class WebsocketService {
       })
     };
 
-    const body = { 'user_available': user_is_available };
+    const body = { 
+      'user_available': user_is_available,
+      'profileStatus': profile_status
+    };
 
     const url = this.apiUrl + projectId + '/project_users/';
 
