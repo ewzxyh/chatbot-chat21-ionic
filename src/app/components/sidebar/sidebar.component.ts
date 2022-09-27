@@ -25,11 +25,10 @@ export class SidebarComponent implements OnInit {
   private logger: LoggerService = LoggerInstance.getInstance();
 
   USER_ROLE: string = 'agent'
-  SIDEBAR_IS_SMALL = true
   IS_AVAILABLE: boolean;
-  user: any;
+  IS_INACTIVE: boolean;
   IS_BUSY: boolean;
-
+  
   isVisibleAPP: boolean;
   isVisibleANA: boolean;
   isVisibleACT: boolean;
@@ -319,22 +318,24 @@ export class SidebarComponent implements OnInit {
   }
 
   listenTocurrentProjectUserUserAvailability$() {
-    this.wsService.currentProjectUserAvailability$.subscribe((projectUser) => {
-      this.logger.log('[SIDEBAR] - $UBSC TO WS USER AVAILABILITY & BUSY STATUS RES ', projectUser);
+    this.wsService.currentProjectUserAvailability$.subscribe((data) => {
+      this.logger.log('[SIDEBAR] - $UBSC TO WS USER AVAILABILITY & BUSY STATUS RES ', data);
 
-      this.IS_AVAILABLE = projectUser['user_available']
-      this.IS_BUSY = projectUser['isBusy']
-      // if (project.id_project._id === projectUser['id_project']) {
-      //   project['ws_projct_user_available'] = projectUser['user_available'];
-      //   project['ws_projct_user_isBusy'] = projectUser['isBusy']
-      //   if (this.translationMap) {
-      //     if (projectUser['user_available'] === true) {
-      //       this.avaialble_status_for_tooltip = this.translationMap.get('CHANGE_TO_YOUR_STATUS_TO_UNAVAILABLE')
-      //     } else {
-      //       this.avaialble_status_for_tooltip = this.translationMap.get('CHANGE_TO_YOUR_STATUS_TO_AVAILABLE')
-      //     }
-      //   }
-      // }
+      if (data !== null) {
+        if (data['user_available'] === false && data['profileStatus'] === "inactive") {
+            this.IS_AVAILABLE = false;
+            this.IS_INACTIVE = true;
+            // console.log('[SIDEBAR] - GET WS CURRENT-USER - data - IS_INACTIVE ' , this.IS_INACTIVE) 
+        } else if (data['user_available'] === false && (data['profileStatus'] === '' || !data['profileStatus'] )) {
+            this.IS_AVAILABLE = false;
+            this.IS_INACTIVE = false;
+            // console.log('[SIDEBAR] - GET WS CURRENT-USER - data - IS_AVAILABLE ' , this.IS_AVAILABLE) 
+        } else if (data['user_available'] === true && (data['profileStatus'] === '' || !data['profileStatus'])) {
+            this.IS_AVAILABLE = true;
+            this.IS_INACTIVE = false;
+            // console.log('[SIDEBAR] - GET WS CURRENT-USER - data - IS_AVAILABLE ' , this.IS_AVAILABLE) 
+        }
+      }
 
     }, (error) => {
       this.logger.error('[SIDEBAR] - $UBSC TO WS USER AVAILABILITY & BUSY STATUS error ', error);

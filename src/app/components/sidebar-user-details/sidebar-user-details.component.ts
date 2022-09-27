@@ -56,6 +56,16 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
   version: string
   company_name: string = 'Tiledesk'
   DASHBOARD_URL: string;
+
+  selectedStatus: any;
+  teammateStatus = [
+    { id: 1, name: 'Available', avatar: 'assets/images/teammate-status/avaible.svg', label: "LABEL_AVAILABLE" },
+    { id: 2, name: 'Unavailable', avatar: 'assets/images/teammate-status/unavaible.svg', label: "LABEL_NOT_AVAILABLE" },
+    { id: 3, name: 'Inactive', avatar: 'assets/images/teammate-status/inactive.svg', label: "LABEL_INACTIVE" },
+  ];
+
+  translationsMap: Map<string, string> = new Map();
+
   constructor(
     private translate: TranslateService,
     public tiledeskAuthService: TiledeskAuthService,
@@ -204,7 +214,10 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
       'Busy',
       'LABEL_LOGOUT',
       'SubscriptionPaymentProblem',
-      'ThePlanHasExpired'
+      'ThePlanHasExpired',
+      "LABEL_AVAILABLE",
+      "LABEL_NOT_AVAILABLE",
+      "LABEL_INACTIVE"
     ]
 
     this.translate.get(keys).subscribe((text: string) => {
@@ -215,6 +228,14 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
       this.LOGOUT_msg = text['LABEL_LOGOUT']
       this.SUBSCRIPTION_PAYMENT_PROBLEM_msg = text['SubscriptionPaymentProblem']
       this.THE_PLAN_HAS_EXPIRED_msg = text['ThePlanHasExpired']
+
+      this.translationsMap.set('LABEL_AVAILABLE',text['LABEL_AVAILABLE'])
+                          .set('LABEL_NOT_AVAILABLE', text['LABEL_NOT_AVAILABLE'] )
+                          .set('LABEL_INACTIVE', text['LABEL_INACTIVE'])
+
+      this.teammateStatus.forEach(element => {
+        element.label = this.translationsMap.get(element.label)
+      });
       
     });
   }
@@ -360,7 +381,20 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
         this.logger.log('[SIDEBAR-USER-DETAILS] - $UBSC TO WS USER AVAILABILITY & BUSY STATUS RES ', projectUser);
 
         if (projectUser) {
-          this.IS_AVAILABLE = projectUser['user_available']
+          if (projectUser['user_available'] === false && projectUser['profileStatus'] === 'inactive') {
+            // console.log('teammateStatus ', this.teammateStatus) 
+            this.selectedStatus = this.teammateStatus[2].id;
+             console.log('[SIDEBAR-USER-DETAILS] - PROFILE_STATUS selected option', this.teammateStatus[2].name);
+            this.teammateStatus = this.teammateStatus.slice(0)
+          } else if (projectUser['user_available'] === false && (projectUser['profileStatus'] === '' || !projectUser['profileStatus'])) {
+            this.selectedStatus = this.teammateStatus[1].id;
+             console.log('[SIDEBAR-USER-DETAILS] - PROFILE_STATUS selected option', this.teammateStatus[1].name);
+            this.teammateStatus = this.teammateStatus.slice(0)
+          } else if (projectUser['user_available'] === true && (projectUser['profileStatus'] === '' || !projectUser['profileStatus'])) {
+            this.selectedStatus = this.teammateStatus[0].id
+            this.teammateStatus = this.teammateStatus.slice(0)
+            console.log('[SIDEBAR-USER-DETAILS] - PROFILE_STATUS selected option', this.teammateStatus[0].name);
+          }
           this.IS_BUSY = projectUser['isBusy']
           this.USER_ROLE = projectUser['role']
           this.translateUserRole(this.USER_ROLE)
@@ -376,7 +410,7 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
   translateUserRole(role) {
     this.translate.get(role).subscribe((text: string) => {
         this.USER_ROLE_LABEL = text
-      });
+    });
   }
 
 
@@ -386,10 +420,21 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
 
 
 
-  changeAvailabilityStateInUserDetailsSidebar(available) {
-    this.logger.log('[SIDEBAR-USER-DETAILS] - changeAvailabilityState projectid', this.project._id, ' available 1: ', available);
+  changeAvailabilityStateInUserDetailsSidebar(selectedStatusID) {
+    this.logger.log('[SIDEBAR-USER-DETAILS] - changeAvailabilityState projectid', this.project._id, ' available 1: ', selectedStatusID);
+    
+    let IS_AVAILABLE = null
+    let profilestatus = ''
+    if (selectedStatusID === 1) {
+      IS_AVAILABLE = true
+    } else if (selectedStatusID === 2) {
+      IS_AVAILABLE = false
+    } else if (selectedStatusID === 3) {
+      IS_AVAILABLE = false
+      profilestatus = 'inactive'
+    }
 
-    this.wsService.updateCurrentUserAvailability(this.tiledeskToken, this.project._id, available)
+    this.wsService.updateCurrentUserAvailability(this.tiledeskToken, this.project._id, IS_AVAILABLE, profilestatus)
       .subscribe((projectUser: any) => {
 
         this.logger.log('[SIDEBAR-USER-DETAILS] - PROJECT-USER UPDATED ', projectUser)

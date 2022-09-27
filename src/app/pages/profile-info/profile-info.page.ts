@@ -106,12 +106,12 @@ export class ProfileInfoPage implements OnInit {
     const keys = [
       'LABEL_AVAILABLE',
       'LABEL_NOT_AVAILABLE',
+      'LABEL_INACTIVE',
       'LABEL_TODAY',
       'LABEL_TOMORROW',
       'LABEL_TO',
       'LABEL_LAST_ACCESS',
       'ARRAY_DAYS',
-      'LABEL_ACTIVE_NOW',
       'LABEL_IS_WRITING',
       'LABEL_LOGOUT'
     ];

@@ -57,20 +57,36 @@
     </div>
 
     <section class="availability-section">
-        <mat-slide-toggle (change)="changeAvailabilityStateInUserDetailsSidebar(IS_AVAILABLE = !IS_AVAILABLE)"
+        <!-- <mat-slide-toggle (change)="changeAvailabilityStateInUserDetailsSidebar(IS_AVAILABLE = !IS_AVAILABLE)"
             class="custom-mat-slide-toggle" [checked]="IS_AVAILABLE" labelPosition="before">
 
             <span *ngIf="IS_AVAILABLE"
                 style="font-weight: 400 !important; text-transform: capitalize; font-size:14px; color:#a9afbb">
                 {{IS_AVAILABLE_msg}}
-                <!-- {{translationMap?.get('Available') }} -->
             </span>
             <span *ngIf="!IS_AVAILABLE"
                 style="font-weight: 400 !important;text-transform: capitalize;font-size:14px; color:#a9afbb">
                 {{IS_UNAVAILABLE_msg}}
-                <!-- {{translationMap?.get('Unavailable') }} -->
             </span>
-        </mat-slide-toggle>
+        </mat-slide-toggle> -->
+
+        <ng-select style="text-align: left;" 
+            (change)="changeAvailabilityStateInUserDetailsSidebar(selectedStatus)" 
+            [(ngModel)]="selectedStatus" 
+            class="teammate-status-in-drawer" 
+            [items]="teammateStatus" 
+            bindLabel="name" bindValue="id"
+            [clearable]="false"
+            [searchable]="false">
+            <ng-template ng-label-tmp let-item="item">
+                <img style="width: 15px;height: 15px;position: relative; top: -1px;" height="15" width="15" [src]="item.avatar" />
+                <span id="sidebaravatar_{{item.name}}" style="text-transform: capitalize; margin-left:8px">  {{item.label}} </span>
+            </ng-template>
+            <ng-template ng-option-tmp let-item="item" let-index="index">
+                <img style="width: 15px;height: 15px;position: relative; top: -1px;" height="15" width="15" [src]="item.avatar" />
+                <span id="sidebaravatar_{{item.name}}" style="text-transform: capitalize; margin-left:8px">  {{item.label}} </span>
+            </ng-template>
+        </ng-select>
     </section>
 
     <hr class="first-divider">
