@@ -1,5 +1,10 @@
 # chat21-ionic ver 3.0
 
+### 3.0.77-rc.1
+- added: new sidebar-user-details and sidebar components
+- changed: updateCurrentUserAvailability body http request to manage Inactive state 
+- removed label 'LABEL_ACTIVE_NOW'
+
 ## 3.0.76 in PROD
 
 ### 3.0.76-rc.4
