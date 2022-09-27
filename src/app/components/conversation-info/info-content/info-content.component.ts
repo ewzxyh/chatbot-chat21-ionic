@@ -341,7 +341,6 @@ export class InfoContentComponent implements OnInit {
 //       'LABEL_TO',
 //       'LABEL_LAST_ACCESS',
 //       'ARRAY_DAYS',
-//       'LABEL_ACTIVE_NOW'
 //     ];
 //     this.translationMap = this.translateService.translateLanguage(keys);
 //   }

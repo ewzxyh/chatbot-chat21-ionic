@@ -122,7 +122,7 @@ export class UserPresenceComponent implements OnInit, OnDestroy {
     this.logger.log('[USER-PRESENCE-COMP] userIsOnLine - userId: ', userId, ' - isOnline: ', isOnline);
     this.online = isOnline;
     if (isOnline) {
-      this.status = this.translationMap.get('LABEL_ACTIVE_NOW');
+      this.status = this.translationMap.get('LABEL_AVAILABLE');
     } else {
       this.status = this.translationMap.get('LABEL_NOT_AVAILABLE');
       if (this.lastConnectionDate && this.lastConnectionDate.trim() !== '') {
