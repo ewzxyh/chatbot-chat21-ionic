@@ -66,7 +66,7 @@
                 </span>
               </ng-template>
 
-              <div class="availabily-and-busy-wpr">
+              <!-- <div class="availabily-and-busy-wpr">
                 <div class="availabily---wpr" tooltip="{{avaialble_status_for_tooltip}}" [options]="tooltipOptions">
                   <div class="onoffswitch"
                     (click)="$event.stopPropagation();changeAvailabilityState(project?.id_project?._id, project?.ws_projct_user_available)">
@@ -77,12 +77,12 @@
                 </div>
 
 
-                <!-- (click)="$event.stopPropagation();changeAvailabilityState(project?.id_project?._id, project?.ws_projct_user_available)" -->
+                <!- - (click)="$event.stopPropagation();changeAvailabilityState(project?.id_project?._id, project?.ws_projct_user_available)" - ->
                 <span *ngIf="project?.ws_projct_user_available === true" class="availibility-status-text"
                   [ngClass]="{'online-text-color' : project?.ws_projct_user_available === true, 'offline-text-color' : project?.ws_projct_user_available === false}">
                   {{translationMap?.get('Available') }}
                 </span>
-                <!-- (click)="$event.stopPropagation();changeAvailabilityState(project?.id_project?._id, project?.ws_projct_user_available)" -->
+                <!- - (click)="$event.stopPropagation();changeAvailabilityState(project?.id_project?._id, project?.ws_projct_user_available)" - ->
                 <span *ngIf="project?.ws_projct_user_available === false" class="availibility-status-text"
                   [ngClass]="{'online-text-color' : project?.ws_projct_user_available === true, 'offline-text-color' : project?.ws_projct_user_available === false}">
                   {{translationMap?.get('Unavailable')}}
@@ -90,25 +90,13 @@
 
                 <div class="project-item--isBusy-icon-wpr" *ngIf="project?.ws_projct_user_isBusy === true" tooltip="{{translationMap?.get('Busy')}}"
                 [options]="tooltipOptions" placement="top" >
-                  <!-- <span class="material-icons project-item--isBusy-icon">
-                      access_time
-                    </span> -->
                   <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="16px"
                     viewBox="0 0 24 24" width="16px" fill="#FEB92C">
-                    <g>
-                      <path d="M0,0h24v24H0V0z" fill="none" />
-                    </g>
-                    <g>
-                      <path
-                        d="M11.99,2C6.47,2,2,6.48,2,12s4.47,10,9.99,10C17.52,22,22,17.52,22,12S17.52,2,11.99,2z M15.29,16.71L11,12.41V7h2v4.59 l3.71,3.71L15.29,16.71z" />
-                    </g>
+                    <g><path d="M0,0h24v24H0V0z" fill="none" /></g>
+                    <g><path d="M11.99,2C6.47,2,2,6.48,2,12s4.47,10,9.99,10C17.52,22,22,17.52,22,12S17.52,2,11.99,2z M15.29,16.71L11,12.41V7h2v4.59 l3.71,3.71L15.29,16.71z" /></g>
                   </svg>
                 </div>
-                <!-- <span *ngIf="project?.ws_projct_user_isBusy === true"
-                  class="project-item--isBusy-busy-text text-pulse-animation">
-                  {{translationMap?.get('Busy')}}
-                </span> -->
-              </div>
+              </div> -->
             </div>
 
             <div *ngIf="IS_ON_MOBILE_DEVICE === true" class="flex-child-view-all-convs">

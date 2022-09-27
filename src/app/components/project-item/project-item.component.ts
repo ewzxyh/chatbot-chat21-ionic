@@ -278,7 +278,7 @@ export class ProjectItemComponent implements OnInit {
     available = !available
     this.logger.log('[PROJECT-ITEM] - changeAvailabilityState projectid', projectid, ' available: ', available);
 
-    this.wsService.updateCurrentUserAvailability(this.tiledeskToken, projectid, available).subscribe((projectUser: any) => {
+    this.wsService.updateCurrentUserAvailability(this.tiledeskToken, projectid, available, "").subscribe((projectUser: any) => {
 
         this.logger.log('[PROJECT-ITEM] - PROJECT-USER UPDATED ', projectUser)
         // NOTIFY TO THE USER SERVICE WHEN THE AVAILABLE / UNAVAILABLE BUTTON IS CLICKED
