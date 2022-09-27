@@ -18,14 +18,22 @@
         </div>
         <!-- [ngStyle] = "{ 'left': platformName === 'ios' ? '63px' : ''  }" -->
         <div *ngIf="isDirect" class="user-presence" [ngClass]="{ 'user-presence-ios': platformName === 'ios' }">
-          <app-user-presence [idUser]=conversationAvatar.conversation_with [translationMap]=translationMap
-            [borderColor]=borderColor [fontColor]=fontColor>
+          <app-user-presence 
+            [idUser]=conversationAvatar.conversation_with 
+            [translationMap]=translationMap
+            [borderColor]=borderColor 
+            [fontColor]=fontColor>
           </app-user-presence>
         </div>
 
         <div *ngIf="conversationAvatar" class="user-typing">
-          <app-user-typing [idConversation]=conversationAvatar.uid [idCurrentUser]=idLoggedUser [isDirect]=isDirect
-            [translationMap]=translationMap [color]=fontColor [membersConversation]=membersConversation>
+          <app-user-typing 
+            [idConversation]=conversationAvatar.uid 
+            [idCurrentUser]=idLoggedUser 
+            [isDirect]=isDirect
+            [translationMap]=translationMap 
+            [color]=fontColor 
+            [membersConversation]=membersConversation>
           </app-user-typing>
         </div>
 

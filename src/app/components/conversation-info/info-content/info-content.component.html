@@ -1,9 +1,9 @@
 <ion-content [style.display]="openInfoConversation ? 'block' : 'none'">
 
   <app-info-direct *ngIf="panelType === 'direct-panel'" 
-  [member]=member 
-  [translationMap]=translationMap
-  [conversationWith]= "conversationWith">
+    [member]=member 
+    [translationMap]=translationMap
+    [conversationWith]= "conversationWith">
   </app-info-direct>
 
   <app-info-group *ngIf="panelType === 'group-panel' && IS_GROUP_PANEL === true"
