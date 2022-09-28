@@ -25,10 +25,10 @@ export class SidebarComponent implements OnInit {
   private logger: LoggerService = LoggerInstance.getInstance();
 
   USER_ROLE: string = 'agent'
+  SIDEBAR_IS_SMALL = true
   IS_AVAILABLE: boolean;
   IS_INACTIVE: boolean;
-  IS_BUSY: boolean;
-  
+  IS_BUSY: boolean; 
   isVisibleAPP: boolean;
   isVisibleANA: boolean;
   isVisibleACT: boolean;
