@@ -34,7 +34,7 @@
     </div>
 
     <div class="user-details-user-isbusy" *ngIf="IS_BUSY === true" style="cursor:pointer"
-        matTooltipClass="custom-mat-tooltip" matTooltip="{{IS_BUSY_msg}}" #tooltip="matTooltip"
+        matTooltipClass="custom-mat-tooltip" matTooltip="{{translationsMap.get('LABEL_BUSY')}}" #tooltip="matTooltip"
         matTooltipPosition='right' matTooltipHideDelay="100">
         <span class="material-icons user-details-user-isbusy-icon">access_time</span>
     </div>
@@ -52,7 +52,7 @@
         <h3>{{ USER_ROLE_LABEL }} </h3>
 
         <div class="user-details-view-profile" (click)="goToUserProfile()"> 
-            {{EditProfileLabel}}
+            {{translationsMap.get('EditProfileLabel')}}
         </div>
     </div>
 
@@ -101,12 +101,12 @@
                 style="color:#f44336; position:relative; top: -1px;display: inline-block;">
                 <i *ngIf="project?.plan_name !== 'enterprise'" class="material-icons" style="vertical-align: middle; color:#f44336; cursor:pointer;    
                     font-size: 16px;" matTooltipClass="custom-mat-tooltip"
-                    matTooltip="{{ SUBSCRIPTION_PAYMENT_PROBLEM_msg }}" #tooltip="matTooltip" matTooltipPosition='right'
+                    matTooltip="{{ translationsMap.get('SubscriptionPaymentProblem') }}" #tooltip="matTooltip" matTooltipPosition='right'
                     matTooltipHideDelay="100">
                     error_outline
                 </i>
                 <i *ngIf="project?.plan_name === 'enterprise'" class="material-icons" style="vertical-align: middle; color:#f44336; cursor:pointer;    
-                    font-size: 16px;" matTooltipClass="custom-mat-tooltip" matTooltip="{{ THE_PLAN_HAS_EXPIRED_msg }}"
+                    font-size: 16px;" matTooltipClass="custom-mat-tooltip" matTooltip="{{ translationsMap.get('ThePlanHasExpired') }}"
                     #tooltip="matTooltip" matTooltipPosition='right' matTooltipHideDelay="100">
                     error_outline
                 </i>
@@ -130,7 +130,7 @@
                 logout
             </i>
             <div class="user-details-logout-text"> 
-                 {{LOGOUT_msg}} 
+                 {{translationsMap.get('LABEL_LOGOUT')}} 
             </div>
         </div>
     </section>

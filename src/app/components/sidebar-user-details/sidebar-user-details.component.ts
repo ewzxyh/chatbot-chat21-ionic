@@ -32,17 +32,6 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
   IS_AVAILABLE: boolean;
   USER_ROLE: boolean;
   USER_ROLE_LABEL: string;
-  EditProfileLabel: string;
-  IS_BUSY_msg: string;
-  IS_AVAILABLE_msg: string;
-  IS_UNAVAILABLE_msg: string;
-  SUBSCRIPTION_PAYMENT_PROBLEM_msg: string;
-  THE_PLAN_HAS_EXPIRED_msg: string;
-  PAYD_PLAN_NAME_PRO_msg: string;
-  PAYD_PLAN_NAME_ENTERPRISE_msg: string;
-  PRO_PLAN_TRIAL_msg: string;
-  FREE_PLAN_msg: string;
-  LOGOUT_msg: string;
   profile_name_translated: string;
   SubscriptionPaymentProblem: string;
   user: any
@@ -209,9 +198,7 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
   translateLabels() {
     let keys= [
       'EditProfile',
-      'Available',
-      'Unavailable',
-      'Busy',
+      'LABEL_BUSY',
       'LABEL_LOGOUT',
       'SubscriptionPaymentProblem',
       'ThePlanHasExpired',
@@ -221,17 +208,15 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
     ]
 
     this.translate.get(keys).subscribe((text: string) => {
-      this.EditProfileLabel = text['EditProfile'];
-      this.IS_AVAILABLE_msg = text['Available']
-      this.IS_UNAVAILABLE_msg = text['Unavailable']
-      this.IS_BUSY_msg = text['Busy']
-      this.LOGOUT_msg = text['LABEL_LOGOUT']
-      this.SUBSCRIPTION_PAYMENT_PROBLEM_msg = text['SubscriptionPaymentProblem']
-      this.THE_PLAN_HAS_EXPIRED_msg = text['ThePlanHasExpired']
 
       this.translationsMap.set('LABEL_AVAILABLE',text['LABEL_AVAILABLE'])
                           .set('LABEL_NOT_AVAILABLE', text['LABEL_NOT_AVAILABLE'] )
                           .set('LABEL_INACTIVE', text['LABEL_INACTIVE'])
+                          .set('EditProfile', text['EditProfile'])
+                          .set('LABEL_BUSY', text['LABEL_BUSY'])
+                          .set('LABEL_LOGOUT', text['LABEL_LOGOUT'])
+                          .set('SubscriptionPaymentProblem', text['SubscriptionPaymentProblem'])
+                          .set('ThePlanHasExpired', text['ThePlanHasExpired'])
 
       this.teammateStatus.forEach(element => {
         element.label = this.translationsMap.get(element.label)
@@ -269,48 +254,6 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
       this.isVisiblePAY = false;
     }
   }
-
-  getEditProfileTranslation() {
-    this.translate.get('EditProfile').subscribe((text: string) => {
-        this.EditProfileLabel = text
-      });
-  }
-
-  getAvailableTranslation() {
-    this.translate.get('Available').subscribe((text: string) => {
-        this.IS_AVAILABLE_msg = text
-    });
-  }
-  getUnavailableTranslation() {
-    this.translate.get('Unavailable').subscribe((text: string) => {
-        this.IS_UNAVAILABLE_msg = text
-    });
-  }
-
-  getIsBusyTranslation() {
-    this.translate.get('Busy').subscribe((text: string) => {
-        this.IS_BUSY_msg = text
-    });
-  }
-
-  getLogoutTranslation() {
-    this.translate.get('LABEL_LOGOUT').subscribe((text: string) => {
-        this.LOGOUT_msg = text
-    });
-  }
-
-  getSubscriptionPaymentProblemTranslation() {
-    this.translate.get('SubscriptionPaymentProblem').subscribe((text: string) => {
-        this.SUBSCRIPTION_PAYMENT_PROBLEM_msg = text
-    });
-  }
-
-  getThePlanHasExpiredTranslation() {
-    this.translate.get('ThePlanHasExpired').subscribe((text: string) => {
-        this.THE_PLAN_HAS_EXPIRED_msg = text
-    });
-  }
-
 
   listenToCurrentStoredProject() {
     this.events.subscribe('storage:last_project', projectObjct => {

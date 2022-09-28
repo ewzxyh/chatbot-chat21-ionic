@@ -128,9 +128,9 @@ export class ProjectItemComponent implements OnInit {
 
   public translations() {
     const keys = [
-      'Available',
-      'Unavailable',
-      'Busy',
+      'LABEL_AVAILABLE',
+      'LABEL_NOT_AVAILABLE',
+      'LABEL_BUSY',
       'VIEW_ALL_CONVERSATIONS',
       'CONVERSATIONS_IN_QUEUE',
       'CONVERSATION_IN_QUEUE',
