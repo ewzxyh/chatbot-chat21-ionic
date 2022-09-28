@@ -1,5 +1,8 @@
 # chat21-ionic ver 3.0
 
+### 3.0.77-rc.3
+- bug-fixed: with env 
+
 ### 3.0.77-rc.2
 - bug-fixed: on ng-select focused element show blue border
 - removed: unused labels and translations
