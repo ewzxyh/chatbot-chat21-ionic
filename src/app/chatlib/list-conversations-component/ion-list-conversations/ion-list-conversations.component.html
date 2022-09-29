@@ -80,42 +80,57 @@
   <div tabindex="0"></div>
 
   <!-- <div [class.selected]="conversation.uid === uidConvSelected"></div> -->
-  <ion-avatar item-start>
-    <!-- [style.background-color]="conversation.color"  -->
-    <div #avatarPlaceholder class="avatar-placeholder"
-      [ngStyle]="{'background':  'linear-gradient(rgb(255,255,255) -125%,' + conversation.color + ')'}"
-      [innerHTML]="conversation.avatar"></div>
-    <div *ngIf="conversation.image" #avatarImage class="avatar-profile"
-      [style.background-image]="'url(' + conversation.image + ')'"></div>
-    <!-- <div *ngIf="getImageAvatar(conversation.sender)" #avatarImage class="avatar-profile" [style.background-image]="'url(' + getImageAvatar(conversation.sender) + ')'"></div> -->
-  </ion-avatar>
-  <ion-label>
-    <div class="conversation_with truncate">{{conversation.conversation_with_fullname}}</div>
-    <div class="conversation_message truncate-conv-msg" [ngClass]="{'truncate-on-desktop': !isApp}">
-
-      <!-- -------------------------------------------------------------------------- -->
-      <!-- if conversation type is image display the image icon before the message -->
-      <!-- -------------------------------------------------------------------------- -->
-      <!-- <div *ngIf="conversation.type === 'image'" class="icon-image-before-msg-wpr">
-        <ion-icon name="image-outline" class="icon-image-before-msg"></ion-icon>
+  <div>
+    <ion-avatar item-start>
+      <!-- [style.background-color]="conversation.color"  -->
+      <div #avatarPlaceholder class="avatar-placeholder"
+        [ngStyle]="{'background':  'linear-gradient(rgb(255,255,255) -125%,' + conversation.color + ')'}"
+        [innerHTML]="conversation.avatar"></div>
+      <div *ngIf="conversation.image" #avatarImage class="avatar-profile"
+        [style.background-image]="'url(' + conversation.image + ')'"></div>
+      <!-- <div *ngIf="getImageAvatar(conversation.sender)" #avatarImage class="avatar-profile" [style.background-image]="'url(' + getImageAvatar(conversation.sender) + ')'"></div> -->
+    </ion-avatar>
+  </div>
+  <div class="conv-container">
+    <ion-label>
+      <div class="conversation_project truncate">
+        <svg xmlns="http://www.w3.org/2000/svg" data-v-78d18411="" width="12" height="12" fill="none" viewBox="0 0 24 24" class="inbox-icon"><path d="M22.002 12C22.002 6.477 17.524 2 12 2 6.476 1.999 2 6.477 2 12.001c0 5.186 3.947 9.45 9.001 9.952V20.11c-.778-.612-1.478-1.905-1.939-3.61h1.94V15H8.737a18.969 18.969 0 0 1-.135-5h6.794c.068.64.105 1.31.105 2h1.5c0-.684-.033-1.353-.095-2h3.358c.154.64.237 1.31.237 2h1.5ZM4.786 16.5h2.722l.102.396c.317 1.17.748 2.195 1.27 3.015a8.532 8.532 0 0 1-4.094-3.41ZM3.736 10h3.358a20.847 20.847 0 0 0-.095 2c0 1.043.075 2.051.217 3H4.043a8.483 8.483 0 0 1-.544-3c0-.682.08-1.347.232-1.983L3.736 10Zm5.122-5.902.023-.008C8.16 5.222 7.611 6.748 7.298 8.5H4.25c.905-2 2.56-3.587 4.608-4.402Zm3.026-.594L12 3.5l.126.006c1.262.126 2.48 2.125 3.045 4.995H8.83c.568-2.878 1.79-4.88 3.055-4.996Zm3.343.76-.107-.174.291.121a8.533 8.533 0 0 1 4.339 4.29h-3.048c-.298-1.665-.806-3.125-1.475-4.237Z M12 19a1 1 0 0 0 1 1h3v2h-.5a.5.5 0 1 0 0 1h4a.5.5 0 0 0 0-1H19v-2h3a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1h-9a1 1 0 0 0-1 1v5Z" fill="currentColor"/></svg>
+        <span *ngIf="conversation?.attributes?.project_name" class="truncate">{{conversation?.attributes?.project_name}}</span>
+        <span *ngIf="!conversation?.attributes?.project_name" class="truncate">{{conversation?.attributes?.projectId}}</span>
       </div>
-      <p [class.not-read]="conversation.is_new" class="truncate" [ngClass]="{'truncate-on-desktop': !isApp}"
-        [innerHTML]="conversation.last_message_text"></p> -->
+      <div style="display: flex;">
+        <span class="conversation_with truncate" [class.not-read]="conversation.is_new">
+          {{conversation.conversation_with_fullname}}
+        </span>
+      </div>
+      <div class="conversation_message truncate-conv-msg" [ngClass]="{'truncate-on-desktop': !isApp}">
+  
+        <!-- -------------------------------------------------------------------------- -->
+        <!-- if conversation type is image display the image icon before the message -->
+        <!-- -------------------------------------------------------------------------- -->
+        <!-- <div *ngIf="conversation.type === 'image'" class="icon-image-before-msg-wpr">
+          <ion-icon name="image-outline" class="icon-image-before-msg"></ion-icon>
+        </div>
+        <p [class.not-read]="conversation.is_new" class="truncate" [ngClass]="{'truncate-on-desktop': !isApp}"
+          [innerHTML]="conversation.last_message_text"></p> -->
+  
+        <!-- <div *ngIf="conversation.type === 'image'" class="icon-image-before-msg-wpr"> -->
+        <ion-icon *ngIf="conversation.type === 'image' && conversation.type !== 'file' " name="image-outline"
+          class="icon-image-before-msg"></ion-icon>
+        <ion-icon *ngIf="conversation.type === 'file'  && conversation.type !== 'image'" name="attach-outline"
+          class="icon-attach-before-msg"></ion-icon>
+        <!-- </div> -->
+        <!-- [innerHTML]="conversation.last_message_text" -->
+        <span [class.not-read]="conversation.is_new">
+          {{ conversation.last_message_text }}
+        </span>
+      </div>
+    </ion-label>
+  </div>
 
-      <!-- <div *ngIf="conversation.type === 'image'" class="icon-image-before-msg-wpr"> -->
-      <ion-icon *ngIf="conversation.type === 'image' && conversation.type !== 'file' " name="image-outline"
-        class="icon-image-before-msg"></ion-icon>
-      <ion-icon *ngIf="conversation.type === 'file'  && conversation.type !== 'image'" name="attach-outline"
-        class="icon-attach-before-msg"></ion-icon>
-      <!-- </div> -->
-      <!-- [innerHTML]="conversation.last_message_text" -->
-      <span [class.not-read]="conversation.is_new">
-        {{ conversation.last_message_text }}
-      </span>
-    </div>
-  </ion-label>
-
-  <ion-note *ngIf="!conversation.archived" class="conversation_time">{{conversation.timestamp | amTimeAgo}}</ion-note>
+  <ion-note *ngIf="!conversation.archived" class="conversation_time" [ngClass]="{'is-on-mobile': isApp}">
+    {{conversation.timestamp | amTimeAgo}}
+  </ion-note>
 
   <ion-buttons slot="end">
     <ion-button *ngIf="!conversation.archived" [tooltip]="archiveTooltip"  [options]="tooltip_options" placement="bottom"  content-type="template"

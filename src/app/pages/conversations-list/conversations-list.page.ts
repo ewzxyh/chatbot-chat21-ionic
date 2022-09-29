@@ -753,6 +753,13 @@ export class ConversationListPage implements OnInit {
       }
     }
 
+    if(conversation.attributes && conversation.attributes['projectId']){
+      let project = localStorage.getItem(conversation.attributes['projectId'])
+      if(project){
+        project = JSON.parse(project)
+        conversation.attributes.project_name = project['name']
+      }
+    }
     // if(conversation.conversation_with_fullname === 'Guest '){
     //   conversation.conversation_with_fullname = 'guest' + '#' + this.getUUidConversation(conversation.uid)
     // }
