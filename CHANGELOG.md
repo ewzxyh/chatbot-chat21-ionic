@@ -1,5 +1,10 @@
 # chat21-ionic ver 3.0
 
+### 3.0.78-rc.1
+- changed: conversation-list page width increased
+- changed: background changed in info-message component
+- changed: project-item UI
+- changed: conversation-list page UI
 
 ## 3.0.77 in PROD
 
