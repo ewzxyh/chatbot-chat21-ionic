@@ -37,7 +37,7 @@
     [idLoggedUser]="loggedUser.uid"
     [conversationUid]="conversationWith"
     [conversationAvatar]="conversationAvatar" 
-    [translationMap]="translationMap"
+    [translationsMap]="translationsHeaderMap"
     [isOpenInfoConversation]="isOpenInfoConversation" 
     [conv_type]="conv_type"
     (eventOpenCloseInfoConversation)="returnOpenCloseInfoConversation($event)">
@@ -155,7 +155,7 @@
               [conversationWith]="conversationWith"
               [conversationWithFullname]="conversationWithFullname"
               [currentString]="messageStr"
-              [translationMap]="translationMap"
+              [translationMap]="translationsMap"
               (onLoadedCannedResponses)="onLoadedCannedResponses($event)"
               (onClickCanned)="replaceTagInMessage($event)"
               (onClickAddCannedResponse)="presentCreateCannedResponseModal()">
@@ -211,7 +211,7 @@
               [loggedUser]="loggedUser" 
               [conversationWith]="conversationWith" 
               [tagsCannedFilter]="tagsCannedFilter"
-              [translationMap]="translationMap"
+              [translationMap]="translationsMap"
               [fileUploadAccept]="appConfigProvider.getConfig().fileUploadAccept"
               [isOpenInfoConversation]="isOpenInfoConversation" 
               [dropEvent]="dropEvent"
@@ -230,7 +230,7 @@
         [ngClass]="{'info-convs-apps-sidebar-wide': appsidebarIsWide === true}">
           <app-info-content 
             [openInfoConversation]="openInfoConversation" 
-            [translationMap]="translationMap"
+            [translationMap]="translationsMap"
             [loggedUser]="loggedUser" 
             [tenant]="tenant" 
             [groupDetail]="groupDetail">
