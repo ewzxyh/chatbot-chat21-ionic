@@ -22,7 +22,7 @@ import { ModalController } from '@ionic/angular'
 import { EventsService } from 'src/app/services/events-service'
 import { CreateTicketPage } from 'src/app/pages/create-ticket/create-ticket.page'
 import { TiledeskService } from 'src/app/services/tiledesk/tiledesk.service'
-import { TYPE_DIRECT } from 'src/chat21-core/utils/constants'
+import { TYPE_DIRECT, TYPE_SUPPORT_GROUP } from 'src/chat21-core/utils/constants'
 
 @Component({
   selector: 'app-header-conversation-detail',
@@ -36,7 +36,7 @@ export class HeaderConversationDetailComponent implements OnInit, OnChanges {
   @Input() conv_type: string
   @Input() isOpenInfoConversation: boolean = true
   @Input() isMobile: boolean
-  @Input() translationMap: Map<string, string>
+  @Input() translationsMap: Map<string, string>
   @Output() eventOpenCloseInfoConversation = new EventEmitter<boolean>()
   conversationWithFullname: string
   openInfoConversation = true
@@ -51,6 +51,8 @@ export class HeaderConversationDetailComponent implements OnInit, OnChanges {
   conv_closed: boolean = false;
   IS_ON_IOS_MOBILE_DEVICE: boolean
   private logger: LoggerService = LoggerInstance.getInstance()
+
+  TYPE_SUPPORT_GROUP = TYPE_SUPPORT_GROUP
 
   constructor(
     public imageRepoService: ImageRepoService,
