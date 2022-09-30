@@ -120,7 +120,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   public nameUserTypingNow: string
 
   public heightMessageTextArea = ''
-  public translationMap: Map<string, string>
+  public translationsMap: Map<string, string>
+  public translationsHeaderMap: Map<string, string>
   public conversationAvatar: any
   public membersConversation: any
   public member: UserModel
@@ -336,7 +337,12 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         //   this.updateConversationBadge()
         // }
         if(conv.uid && conv.uid === this.conversationWith){
-          this.conversationAvatar = setConversationAvatar(conv.conversation_with,conv.conversation_with_fullname,conv.channel_type)
+          this.conversationAvatar = setConversationAvatar(
+            conv.conversation_with,
+            conv.conversation_with_fullname,
+            conv.channel_type,
+            conv.attributes['projectId'],
+            conv.attributes['project_name'])
         }
 
       }
@@ -616,11 +622,28 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       'THERE_ARE_NO_CANNED_RESPONSES_AVAILABLE',
       'TO_CREATE_THEM_GO_TO_THE_PROJECT',
       "AddNewCannedResponse",
-      "LABEL_LOADING"
+      "LABEL_LOADING",
+      "DIRECT_CHAT",
+      "GROUP_CHAT",
     ]
 
-    this.translationMap = this.customTranslateService.translateLanguage(keys)
-    this.logger.log('[CONVS-DETAIL] x this.translationMap ',this.translationMap)
+    let keysHeader = [
+      'DIRECT_CHAT',
+      'GROUP_CHAT',
+      'LABEL_IS_WRITING',
+      'LABEL_AVAILABLE',
+      'LABEL_NOT_AVAILABLE',
+      'LABEL_INACTIVE',
+      'LABEL_TODAY',
+      'LABEL_TOMORROW',
+      'LABEL_TO',
+      'LABEL_LAST_ACCESS',
+      'ARRAY_DAYS',
+    ]
+
+    this.translationsMap = this.customTranslateService.translateLanguage(keys)
+    this.translationsHeaderMap = this.customTranslateService.translateLanguage(keysHeader)
+    this.logger.log('[CONVS-DETAIL] x this.translationMap ',this.translationsMap)
   }
 
   // --------------------------------------------------------
@@ -749,6 +772,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
             conv.conversation_with,
             conv.conversation_with_fullname,
             conv.channel_type,
+            conv.attributes['projectId'],
+            conv.attributes['project_name']
           )
         }
         if(!conv){
@@ -761,6 +786,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
                 conv.conversation_with,
                 conv.conversation_with_fullname,
                 conv.channel_type,
+                conv.attributes['projectId'],
+                conv.attributes['project_name']
               )
               let duration = getDateDifference(conv.timestamp, Date.now())
               duration.days > 10? this.disableTextarea = true: this.disableTextarea = false
@@ -779,6 +806,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
             conv.conversation_with,
             conv.conversation_with_fullname,
             conv.channel_type,
+            conv.attributes['projectId'],
+            conv.attributes['project_name']
           )
           let duration = getDateDifference(conv.timestamp, Date.now())
           duration.days > 10? this.disableTextarea = true: this.disableTextarea = false
@@ -790,6 +819,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
                 conv.conversation_with,
                 conv.conversation_with_fullname,
                 conv.channel_type,
+                conv.attributes['projectId'],
+                conv.attributes['project_name']
               )
             }
             this.logger.log('[CONVS-DETAIL] - setHeaderContent > conversationAvatar: ', this.conversationAvatar)
@@ -1024,7 +1055,9 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       this.conversationAvatar = setConversationAvatar(
         this.conversationWith,
         this.conversationWithFullname,
-        this.channelType
+        this.channelType,
+        this.conversation.attributes['projectId'],
+        this.conversation.attributes['project_name']
       )
       
     }
@@ -1706,7 +1739,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
   async presentToastOnlyImageFilesAreAllowedToDrag() {
     const toast = await this.toastController.create({
-      message: this.translationMap.get('FAILED_TO_UPLOAD_THE_FORMAT_IS_NOT_SUPPORTED'),
+      message: this.translationsMap.get('FAILED_TO_UPLOAD_THE_FORMAT_IS_NOT_SUPPORTED'),
       duration: 5000,
       color: 'danger',
       cssClass: 'toast-custom-class',
