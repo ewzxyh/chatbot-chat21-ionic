@@ -163,6 +163,8 @@
   "WAITING_TIME_FOUND": "Ekip genellikle $reply_time",
   "WAITING_TIME_NOT_FOUND": "Ekip en kısa sürede cevap verecektir",
   "CLOSED": "KAPALI",
+  "DIRECT_CHAT":"Doğrudan sohbet",
+  "GROUP_CHAT":"Grup Sohbeti",
   "PleaseSelectChatToStartMessaging": "Mesajlaşmaya başlamak için lütfen bir sohbet seçin",
   "FromThisAreNew": "------------------",
   "Preview": "Ön izleme",

@@ -163,6 +163,8 @@
         "WAITING_TIME_FOUND": "Тим обично одговара у $reply_time",
         "WAITING_TIME_NOT_FOUND": "Тим ће одговорити у најкраћем могућем року",
         "CLOSED": "ЗАТВОРЕНО",
+        "DIRECT_CHAT":"Директно ћаскање",
+        "GROUP_CHAT":"Групно ћаскање",
         "PleaseSelectChatToStartMessaging": "Изаберите ћаскање да бисте започели размену порука",
         "FromThisAreNew": "------------------",
         "Preview": "Преглед",

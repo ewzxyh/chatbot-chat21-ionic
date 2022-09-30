@@ -164,6 +164,8 @@
     "WAITING_TIME_FOUND": "Jamoa odatda $reply_timebilan javob beradi",
     "WAITING_TIME_NOT_FOUND": "Jamoa imkon qadar tezroq javob beradi",
     "CLOSED": "YOPIQ",
+    "DIRECT_CHAT":"To'g'ridan-to'g'ri suhbat",
+    "GROUP_CHAT":"Guruh suhbati",
     "PleaseSelectChatToStartMessaging": "Xabar yozishni boshlash uchun chatni tanlang",
     "FromThisAreNew": "------------------",
     "Preview": "Ko‘rib chiqish",

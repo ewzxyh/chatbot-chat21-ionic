@@ -163,6 +163,8 @@
   "WAITING_TIME_FOUND": "Команда обычно отвечает $reply_time",
   "WAITING_TIME_NOT_FOUND": "Команда ответит как можно скорее",
   "CLOSED": "ЗАКРЫТО",
+  "DIRECT_CHAT":"Прямой чат",
+  "GROUP_CHAT":"Групповой чат",
   "PleaseSelectChatToStartMessaging": "Пожалуйста, выберите чат, чтобы начать обмен сообщениями",
   "FromThisAreNew": "------------------",
   "Preview": "Предварительный просмотр",

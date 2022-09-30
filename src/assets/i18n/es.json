@@ -163,6 +163,8 @@
   "WAITING_TIME_FOUND": "El equipo normalmente responde en $reply_time",
   "WAITING_TIME_NOT_FOUND": "El equipo responderá lo antes posible",
   "CLOSED": "CERRADO",
+  "DIRECT_CHAT":"Chat directo",
+  "GROUP_CHAT":"Grupo de chat",
   "PleaseSelectChatToStartMessaging": "Por favor, selecciona un chat para empezar a enviar mensajes",
   "FromThisAreNew": "------------------",
   "Preview": "Vista previa",

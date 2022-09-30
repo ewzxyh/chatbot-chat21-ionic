@@ -163,6 +163,8 @@
     "WAITING_TIME_FOUND": "Команда зазвичай відповідає $ час відповіді",
     "WAITING_TIME_NOT_FOUND": "Команда відповість якомога швидше",
     "CLOSED": "ЗАЧИНЕНО",
+    "DIRECT_CHAT":"Прямий чат",
+    "GROUP_CHAT":"Груповий чат",
     "PleaseSelectChatToStartMessaging": "Виберіть чат, щоб почати обмін повідомленнями",
     "FromThisAreNew": "------------------",
     "Preview": "Попередній перегляд",

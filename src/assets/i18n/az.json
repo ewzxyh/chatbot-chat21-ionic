@@ -163,6 +163,8 @@
     "WAITING_TIME_FOUND": "Komanda adətən $reply_timeilə cavab verir",
     "WAITING_TIME_NOT_FOUND": "Komanda mümkün qədər tez cavab verəcəkdir",
     "CLOSED": "BAĞLI",
+    "DIRECT_CHAT":"Birbaşa söhbət",
+    "GROUP_CHAT":"Qrup söhbəti",
     "PleaseSelectChatToStartMessaging": "Mesajlaşmaya başlamaq üçün söhbət seçin",
     "FromThisAreNew": "------------------",
     "Preview": "Önizləmə",

@@ -163,6 +163,8 @@
     "WAITING_TIME_FOUND": "Teamet svarar vanligtvis med $reply_time",
     "WAITING_TIME_NOT_FOUND": "Teamet kommer att svara så snart som möjligt",
     "CLOSED": "STÄNGD",
+    "DIRECT_CHAT":"Direkt chatt",
+    "GROUP_CHAT":"Gruppchatt",
     "PleaseSelectChatToStartMessaging": "Välj en chatt för att börja skicka meddelanden",
     "FromThisAreNew": "------------------",
     "Preview": "Förhandsvisning",
