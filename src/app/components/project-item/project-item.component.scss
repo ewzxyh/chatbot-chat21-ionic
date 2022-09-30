@@ -225,7 +225,7 @@
     -webkit-transition: all 0.2s ease-in;
     transition: all 0.2s ease-in;
     margin: 6px;
-    background-color: rgba(24, 119, 242, 0.1);
+    // background-color: rgba(24, 119, 242, 0.1);
     border-radius: 5px;
 }
 
@@ -309,16 +309,15 @@
     overflow: hidden !important;
     text-overflow: ellipsis !important;
     font-family: Helvetica, Helvetica, Arial, sans-serif;
-    font-size: 14px;
+    font-size: 16px; //14px;
     position: relative;
-    top: -1px;
     cursor: pointer;
+    a {
+        color: #779bbb
+    }
 }
 
 
-.project-name-project-for-panel-on-desktop {
-    width: 217px
-}
 
 // .project-name-project-for-panel:hover span {
 //     color: rgba(0, 0, 0, 0.35);
@@ -331,8 +330,8 @@
     
 }
 .project---name:hover {
-    // color: rgba(0, 0, 0, 0.35);
-    font-weight: 600;
+    color: rgb(100, 131, 158);
+    // font-weight: 600;
 }
 
 .view-all-convs-icon:hover {
@@ -459,7 +458,7 @@
         pointer-events: none;
         width: 30px;
         height: auto;
-        fill: rgb(107,107,107);
+        fill: #779bbb; //rgb(107,107,107);
         margin-top: 7px;
     }
 }

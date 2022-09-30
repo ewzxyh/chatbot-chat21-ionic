@@ -2,7 +2,7 @@
 
     <!-- <div class="pinned-project">Pinned project </div> margin-left:4px -->
     <div *ngIf="project?.id_project?.status !== 0" class="flex-container-project-for-panel project-row">
-      <div class="flex-child-left" [tooltip]="conversationsInQueue" [options]="tooltipOptions" placement="top"
+      <div class="flex-child-left" [tooltip]="conversationsInQueueOnProjectName" [options]="tooltipOptions" placement="top"
         content-type="template" (click)="openUnservedConvs()">
         <div class="unassigned-notifications-icon-wpr">
           <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false" class="style-scope yt-icon">
@@ -21,41 +21,13 @@
         </div>
       </div>
 
-      <ng-template #conversationsInQueue>
-        <span *ngIf="unservedRequestCount > 1">
-          {{ unservedRequestCount }}
-          {{translationMap?.get('CONVERSATIONS_IN_QUEUE') }}
-        </span>
-        <span *ngIf="unservedRequestCount === 1">
-          {{ unservedRequestCount }}
-          {{translationMap?.get('CONVERSATION_IN_QUEUE') }}
-        </span>
-        <span *ngIf="unservedRequestCount === 0">
-          {{translationMap?.get('NO_CONVERSATION_IN_QUEUE') }}
-
-        </span>
-      </ng-template>
-
 
       <div class="flex-child-right">
-        <div class="project-name-project-for-panel" [ngClass]="{'project-name-project-for-panel-on-desktop': IS_ON_MOBILE_DEVICE === false}" [tooltip]="conversationsInQueueOnProjectName"
+        <div class="project-name-project-for-panel" [tooltip]="conversationsInQueueOnProjectName"
           [options]="tooltipOptions" placement="top" content-type="template" (click)="openUnservedConvs()">
-          <div class="project---name"> {{ project?.id_project?.name }} </div>
+          <div class="project---name"> <a>{{ project?.id_project?.name }}</a> </div>
         </div>
-        <ng-template #conversationsInQueueOnProjectName>
-          <span *ngIf="unservedRequestCount > 1">
-            {{ unservedRequestCount }}
-            {{translationMap?.get('CONVERSATIONS_IN_QUEUE') }}
-          </span>
-          <span *ngIf="unservedRequestCount === 1">
-            {{ unservedRequestCount }}
-            {{translationMap?.get('CONVERSATION_IN_QUEUE') }}
-          </span>
-          <span *ngIf="unservedRequestCount === 0">
-            {{translationMap?.get('NO_CONVERSATION_IN_QUEUE') }}
-          </span>
-        </ng-template>
-
+        
         <!-- <div class="availabily-and-busy-wpr">
           <div class="availabily---wpr" tooltip="{{avaialble_status_for_tooltip}}" [options]="tooltipOptions">
             <div class="onoffswitch"
@@ -125,3 +97,11 @@ c0.9-1.1,1.2-2.3,1.2-3.7V4h4.9v6.1c0,1.3,0.5,2.7,1.2,3.7H8.3z" />
 
 
 </div>
+
+
+<ng-template #conversationsInQueueOnProjectName>
+  <span *ngIf="unservedRequestCount > 0">
+    ({{ unservedRequestCount }})
+    {{translationMap?.get('UnassignedConversations') }}
+  </span>
+</ng-template>
