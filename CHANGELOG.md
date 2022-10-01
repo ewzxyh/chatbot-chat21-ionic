@@ -1,5 +1,12 @@
 # chat21-ionic ver 3.0
 
+### 3.0.78-rc.2
+- changed: project item UI and tooltip msg
+- changed: conversation UI in conversations list component
+- changed: conversation detail header component
+- added: open/close info-conversation moved from conversation-header to conversation detail component
+- bug-fixed: canned responses opens in incorrect mode
+
 ### 3.0.78-rc.1
 - changed: conversation-list page width increased
 - changed: background changed in info-message component

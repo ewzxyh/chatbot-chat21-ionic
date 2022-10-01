@@ -10,7 +10,7 @@
 
       <div *ngIf="conversationAvatar" class="avatar-and-typing-wpr" [ngClass]="{'mobile': isMobile}">
         <!-- [ngStyle] = "{ 'left': platformName === 'ios' ? '55px' : ''  }" -->
-        <div class="avatar-container" (click)="onOpenCloseInfoConversation()" style="cursor: pointer"
+        <div class="avatar-container" style="cursor: pointer"
           [ngClass]="{ 'avatar-container-ios': platformName === 'ios' }">
           <app-avatar-profile 
             [itemAvatar]=conversationAvatar>
@@ -95,12 +95,9 @@
         <span style="text-transform: capitalize; margin-left: 5px;"> {{ 'Resolve' | translate}} </span>
       </ion-button>
 
-      <ion-button *ngIf="!openInfoConversation" ion-button fill="clear" (click)="onOpenCloseInfoConversation()">
-        <!-- <ion-icon slot="icon-only" name="alert-circle-outline"></ion-icon> -->
-        <ion-icon slot="icon-only" name="information-circle-outline"></ion-icon>
-        <!-- <ion-icon slot="icon-only"  name="information-outline"></ion-icon> -->
-
-      </ion-button>
+      <!-- <ion-button *ngIf="!openInfoConversation" ion-button fill="clear" (click)="onOpenCloseInfoConversation()">
+       <ion-icon slot="icon-only" name="information-circle-outline"></ion-icon>
+      </ion-button> -->
       <!-- <ion-button *ngIf="openInfoConversation" ion-button fill="clear" (click)="onOpenCloseInfoConversation()">
         <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
       </ion-button> -->
