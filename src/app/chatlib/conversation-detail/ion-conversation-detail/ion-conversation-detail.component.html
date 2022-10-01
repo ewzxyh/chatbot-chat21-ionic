@@ -52,8 +52,19 @@
 <!-- ----------------------------------------------------------- -->
 <!--  nk - no tag ionic -->
 <!-- ----------------------------------------------------------- -->
+<div class="manage_conversation_info_container" [ngClass]="{'close': !openInfoConversation, 'mobile': isMobile}">
+  <ion-button fill="clear" *ngIf="openInfoConversation" (click)="onOpenCloseInfoConversationFN()">
+    <ion-icon name="arrow-forward-outline"></ion-icon>
+    {{translationMap.get('LABEL_CLOSE_GROUP')}}
+  </ion-button>
+  <ion-button fill="clear" *ngIf="!openInfoConversation" (click)="onOpenCloseInfoConversationFN()">
+    <ion-icon name="arrow-back-outline"></ion-icon>
+    {{translationMap.get('LABEL_OPEN_INFO_CONVERSATION')}}
+  </ion-button>
+</div>
 
 <div class="conversation-wpr" style="height: 100%;">
+  
   <div *ngFor="let message of messages; let i = index; let first = first; trackBy: trackByFn">
 
     <ng-container *ngIf="first || (messages[i - 1].timestamp | date:'d') !== (message.timestamp | date:'d')">
