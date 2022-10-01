@@ -130,6 +130,9 @@ ion-header {
 
 .avatar-and-typing-wpr{
     display: flex;
+    &.mobile{
+        margin-left: 25px;
+    }
 }
 
 .avatar-container {
@@ -210,8 +213,4 @@ ion-header {
 .avatar-container-ios {
     left: 55px;
     top: 10px;
-}
-
-.resolve-conv-margin-right {
-    margin-right: 52px;
 }

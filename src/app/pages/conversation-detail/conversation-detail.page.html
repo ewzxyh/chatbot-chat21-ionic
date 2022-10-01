@@ -38,9 +38,7 @@
     [conversationUid]="conversationWith"
     [conversationAvatar]="conversationAvatar" 
     [translationsMap]="translationsHeaderMap"
-    [isOpenInfoConversation]="isOpenInfoConversation" 
-    [conv_type]="conv_type"
-    (eventOpenCloseInfoConversation)="returnOpenCloseInfoConversation($event)">
+    [conv_type]="conv_type">
   </app-header-conversation-detail>
 
   <ion-content id="conv-details">
@@ -125,7 +123,9 @@
                   [senderId]="loggedUser.uid"
                   [baseLocation]="window?.location?.origin"
                   [areVisibleCAR]="areVisibleCAR" 
-                  [supportMode]= "supportMode" 
+                  [supportMode]= "supportMode"
+                  [isMobile]="isMobile" 
+                  [translationMap]="translationsContentMap"
                   [stylesMap]="styleMap"
                   (onBeforeMessageRender)="onBeforeMessageRenderFN($event)"
                   (onAfterMessageRender)="onAfterMessageRenderFN($event)"
@@ -133,7 +133,8 @@
                   (onScrollContent)="returnOnScrollContent($event)" 
                   (onMenuOptionShow)="returnOnMenuOption($event)"
                   (onElementRendered)="onElementRenderedFN($event)"
-                  (onAddUploadingBubble)="addUploadingBubbleEvent($event)">
+                  (onAddUploadingBubble)="addUploadingBubbleEvent($event)"
+                  (onOpenCloseInfoConversation)="onOpenCloseInfoConversation($event)">
                 </ion-conversation-detail>
 
               </ion-content>
@@ -213,7 +214,7 @@
               [tagsCannedFilter]="tagsCannedFilter"
               [translationMap]="translationsMap"
               [fileUploadAccept]="appConfigProvider.getConfig().fileUploadAccept"
-              [isOpenInfoConversation]="isOpenInfoConversation" 
+              [isOpenInfoConversation]="openInfoConversation" 
               [dropEvent]="dropEvent"
               [disableTextarea]="disableTextarea"
               (eventChangeTextArea)="returnChangeTextArea($event)"

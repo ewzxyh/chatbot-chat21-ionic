@@ -113,15 +113,15 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   public lastConnectionDate: string
   public showMessageWelcome: boolean
   public openInfoConversation = false
-  public openInfoMessage: boolean // check is open info message
   public isMobile = false
   public isLessThan991px = false // nk added
   public isTyping = false
   public nameUserTypingNow: string
 
   public heightMessageTextArea = ''
-  public translationsMap: Map<string, string>
-  public translationsHeaderMap: Map<string, string>
+  public translationsMap: Map<string, string> = new Map()
+  public translationsHeaderMap: Map<string, string> = new Map() 
+  public translationsContentMap: Map<string, string> = new Map()
   public conversationAvatar: any
   public membersConversation: any
   public member: UserModel
@@ -149,7 +149,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   //SOUND
   setTimeoutSound: any;
   audio: any;
-  isOpenInfoConversation: boolean;
   USER_HAS_OPENED_CLOSE_INFO_CONV: boolean = false;
   isHovering: boolean = false;
   conversation_count: number;
@@ -494,7 +493,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
     this.messages = [] // list messages of conversation
     this.isFileSelected = false // indicates if a file has been selected (image to upload)
-    this.openInfoMessage = false // indicates whether the info message panel is open
 
     if (checkPlatformIsMobile()) {
       this.isMobile = true
@@ -510,13 +508,11 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       if (checkWindowWidthIsLessThan991px()) {
         this.logger.log('[CONVS-DETAIL] - initialize -> checkWindowWidthIsLessThan991px ', checkWindowWidthIsLessThan991px())
         this.openInfoConversation = false // indica se è aperto il box info conversazione
-        this.isOpenInfoConversation = false
-        this.logger.log('[CONVS-DETAIL] - initialize -> openInfoConversation ', this.openInfoConversation, ' -> isOpenInfoConversation ', this.isOpenInfoConversation)
+        this.logger.log('[CONVS-DETAIL] - initialize -> openInfoConversation ', this.openInfoConversation)
       } else {
         this.logger.log('[CONVS-DETAIL] - initialize -> checkWindowWidthIsLessThan991px ', checkWindowWidthIsLessThan991px())
         this.openInfoConversation = true
-        this.isOpenInfoConversation = true
-        this.logger.log('[CONVS-DETAIL] - initialize -> openInfoConversation ', this.openInfoConversation, ' -> isOpenInfoConversation ', this.isOpenInfoConversation)
+        this.logger.log('[CONVS-DETAIL] - initialize -> openInfoConversation ', this.openInfoConversation)
       }
     }
 
@@ -569,22 +565,12 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     })
   }
 
-  returnOpenCloseInfoConversation(openInfoConversation: boolean) {
-    this.logger.log('[CONVS-DETAIL] returnOpenCloseInfoConversation - openInfoConversation ', openInfoConversation)
-    this.resizeTextArea()
-    this.openInfoMessage = false
-    this.openInfoConversation = openInfoConversation
-    this.isOpenInfoConversation = openInfoConversation
-    this.USER_HAS_OPENED_CLOSE_INFO_CONV = true
-  }
-
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     const newInnerWidth = event.target.innerWidth
     if (newInnerWidth < 991) {
       if (this.USER_HAS_OPENED_CLOSE_INFO_CONV === false) {
         this.openInfoConversation = false
-        this.isOpenInfoConversation = false
       }
     }
   }
@@ -627,7 +613,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       "GROUP_CHAT",
     ]
 
-    let keysHeader = [
+    const keysHeader = [
       'DIRECT_CHAT',
       'GROUP_CHAT',
       'LABEL_IS_WRITING',
@@ -641,8 +627,14 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       'ARRAY_DAYS',
     ]
 
+    const keysContentDetail = [
+      'LABEL_OPEN_INFO_CONVERSATION',
+      'LABEL_CLOSE_GROUP'
+    ]
+
     this.translationsMap = this.customTranslateService.translateLanguage(keys)
     this.translationsHeaderMap = this.customTranslateService.translateLanguage(keysHeader)
+    this.translationsContentMap = this.customTranslateService.translateLanguage(keysContentDetail)
     this.logger.log('[CONVS-DETAIL] x this.translationMap ',this.translationsMap)
   }
 
@@ -1530,6 +1522,13 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     }
   }
 
+  onOpenCloseInfoConversation(event){
+    this.logger.log('[CONVS-DETAIL] onOpenCloseInfoConversation - openInfoConversation ', event)
+    this.resizeTextArea()
+    this.openInfoConversation = event
+    this.USER_HAS_OPENED_CLOSE_INFO_CONV = true
+  }
+
   // -------------- START SCROLL/RESIZE  -------------- //
   /** */
   resizeTextArea() {
@@ -1631,6 +1630,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       this.heightMessageTextArea = '57' // NK edited
     }
   }
+
   checkAcceptedFile(draggedFileMimeType) {
     let isAcceptFile = false
     this.logger.log('[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept: ',this.appConfigProvider.getConfig().fileUploadAccept)

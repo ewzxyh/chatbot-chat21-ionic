@@ -6,9 +6,9 @@
       </ion-back-button>
     </ion-buttons>
 
-    <ion-title [class.info-open]="openInfoConversation || openInfoMessage">
+    <ion-title>
 
-      <div *ngIf="conversationAvatar" class="avatar-and-typing-wpr" >
+      <div *ngIf="conversationAvatar" class="avatar-and-typing-wpr" [ngClass]="{'mobile': isMobile}">
         <!-- [ngStyle] = "{ 'left': platformName === 'ios' ? '55px' : ''  }" -->
         <div class="avatar-container" (click)="onOpenCloseInfoConversation()" style="cursor: pointer"
           [ngClass]="{ 'avatar-container-ios': platformName === 'ios' }">
@@ -88,7 +88,7 @@
       </ion-button> -->
 
       <ion-button *ngIf="conversationUid?.startsWith('support-group') && conv_type !== 'archived'" ion-button fill="clear" color="primary" size="small" 
-      (click)="closeConversation()" [ngClass]="{'resolve-conv-margin-right': !isMobile}" [disabled]="conv_closed === true">
+        (click)="closeConversation()" [disabled]="conv_closed === true">
         <!-- <ion-icon slot="icon-only" name="alert-circle-outline"></ion-icon> -->
         <ion-icon name="archive-outline"></ion-icon>
         <!-- <ion-icon slot="icon-only"  name="information-outline"></ion-icon> -->
@@ -101,9 +101,9 @@
         <!-- <ion-icon slot="icon-only"  name="information-outline"></ion-icon> -->
 
       </ion-button>
-      <ion-button *ngIf="openInfoConversation" ion-button fill="clear" (click)="onOpenCloseInfoConversation()">
+      <!-- <ion-button *ngIf="openInfoConversation" ion-button fill="clear" (click)="onOpenCloseInfoConversation()">
         <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
-      </ion-button>
+      </ion-button> -->
 
     </ion-buttons>
 

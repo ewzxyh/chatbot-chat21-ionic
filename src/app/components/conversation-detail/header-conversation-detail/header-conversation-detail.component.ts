@@ -34,14 +34,11 @@ export class HeaderConversationDetailComponent implements OnInit, OnChanges {
   @Input() idLoggedUser: string
   @Input() conversationUid: string
   @Input() conv_type: string
-  @Input() isOpenInfoConversation: boolean = true
   @Input() isMobile: boolean
   @Input() translationsMap: Map<string, string>
-  @Output() eventOpenCloseInfoConversation = new EventEmitter<boolean>()
   conversationWithFullname: string
   openInfoConversation = true
-  openInfoMessage = true
-
+  
   isDirect = false
   isTyping = false
   borderColor = '#ffffff'
@@ -93,8 +90,7 @@ export class HeaderConversationDetailComponent implements OnInit, OnChanges {
     this.logger.log('[CONVS-DETAIL][HEADER] - (ngOnChanges) -  conversationAvatar', this.conversationAvatar)
     if (this.conversationAvatar) {
       this.conversationAvatar.imageurl = this.imageRepoService.getImagePhotoUrl(this.conversationAvatar.uid)
-    } 
-    this.openInfoConversation = this.isOpenInfoConversation
+    }
   }
 
   // ----------------------------------------------------
@@ -133,18 +129,6 @@ export class HeaderConversationDetailComponent implements OnInit, OnChanges {
         this.conv_closed = true;
       }
     });
-  }
-
-
-
-  onOpenCloseInfoConversation() {
-    this.openInfoMessage = false
-    this.openInfoConversation = !this.openInfoConversation
-    this.logger.log(
-      '[CONVS-DETAIL][HEADER] - onOpenCloseInfoConversation - openInfoConversation ',
-      this.openInfoConversation,
-    )
-    this.eventOpenCloseInfoConversation.emit(this.openInfoConversation)
   }
 
   /** */
