@@ -1172,7 +1172,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         setTimeout(() => {
           if (this.conversationWith.startsWith('support-group')) {
             const pos = message.lastIndexOf('/')
-            this.logger.log('[CONVS-DETAIL] - returnChangeTextArea - canned responses pos of / (using lastIndexOf) ', pos)
+            this.logger.log('[CONVS-DETAIL] - returnChangeTextArea - canned responses pos of / (using lastIndexOf) ', message, pos)
 
             if (pos === -1) {
               // this.tagsCannedFilter = []
@@ -1197,7 +1197,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
               // --------------------------------------------
               // Load canned responses
               // --------------------------------------------
-              this.HIDE_CANNED_RESPONSES = false
+              // this.HIDE_CANNED_RESPONSES = false
               this.messageStr = strSearch
               // ------------------------------------------------------------------------------------------------------------------------------------------
               // Hide / display Canned when the SLASH has POSITION POS 0 and checking if there is a space after the SLASH (in this case it will be hidden)
@@ -1226,13 +1226,17 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
                   this.logger.log('[CONVS-DETAIL] - returnChangeTextArea  --> beforeSlash', beforeSlash)
                   this.logger.log('[CONVS-DETAIL] - returnChangeTextArea  --> afterSlash', afterSlash)
 
+                  console.log('bbbbbbb', beforeSlash[beforeSlash.length-1].indexOf(' '), afterSlash === '', this.HIDE_CANNED_RESPONSES)
 
-                  if(beforeSlash[beforeSlash.length-1].indexOf(' ') >= 0 && afterSlash[0] === ''){
+                  if(beforeSlash[beforeSlash.length-1].indexOf(' ') >= 0 && afterSlash === ''){
                     this.HIDE_CANNED_RESPONSES = false
-                  } else if(beforeSlash[beforeSlash.length-1].indexOf(' ') < 0 && afterSlash[0] === '' ){
+                    console.log('bbbbbbb 1111', beforeSlash[beforeSlash.length-1])
+                  } else if(beforeSlash[beforeSlash.length-1].indexOf(' ') < 0 && afterSlash === '' ){
                     this.HIDE_CANNED_RESPONSES = true
-                  } else if(beforeSlash[beforeSlash.length-1].indexOf(' ') >= 0 && afterSlash[0] === ' '){
+                    console.log('bbbbbbb 22222', beforeSlash[beforeSlash.length-1])
+                  } else if(beforeSlash[beforeSlash.length-1].indexOf(' ') >= 0 && afterSlash === ' '){
                     this.HIDE_CANNED_RESPONSES = true
+                    console.log('bbbbbbb 33333', beforeSlash[beforeSlash.length-1])
                     // this.tagsCannedFilter = []
                   }
                 }
