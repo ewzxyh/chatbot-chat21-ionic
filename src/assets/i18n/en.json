@@ -44,6 +44,7 @@
   "LABEL_VIDEO_CHAT": "Video call",
   "LABEL_LEAVE_GROUP": "Leave the group",
   "LABEL_CLOSE_GROUP": "Close",
+  "LABEL_OPEN_INFO_CONVERSATION":"Open conversation details",
   "ALERT_TITLE": "Attention!",
   "CLOSE_ALERT_CONFIRM_LABEL": "OK",
   "CLOSE_ALERT_CANCEL_LABEL": "CANCEL",

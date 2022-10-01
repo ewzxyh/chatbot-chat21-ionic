@@ -44,6 +44,7 @@
         "LABEL_VIDEO_CHAT": "Видео позив",
         "LABEL_LEAVE_GROUP": "Напусти групу",
         "LABEL_CLOSE_GROUP": "Затвори",
+        "LABEL_OPEN_INFO_CONVERSATION":"Отворите детаље разговора",
         "ALERT_TITLE": "УПОЗОРЕЊЕ",
         "CLOSE_ALERT_CONFIRM_LABEL": "ок",
         "CLOSE_ALERT_CANCEL_LABEL": "ПОНИШТИТИ, ОТКАЗАТИ",

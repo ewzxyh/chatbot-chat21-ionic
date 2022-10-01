@@ -44,6 +44,7 @@
     "LABEL_VIDEO_CHAT": "مكالمة فيديو",
     "LABEL_LEAVE_GROUP": "اترك المجموعة",
     "LABEL_CLOSE_GROUP": "اغلاق",
+    "LABEL_OPEN_INFO_CONVERSATION":"افتح تفاصيل المحادثة",
     "ALERT_TITLE": "انتباه!",
     "CLOSE_ALERT_CONFIRM_LABEL": "موافق",
     "CLOSE_ALERT_CANCEL_LABEL": "إلغاء",

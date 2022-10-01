@@ -44,6 +44,7 @@
     "LABEL_VIDEO_CHAT": "Відеодзвінок",
     "LABEL_LEAVE_GROUP": "Вийти з групи",
     "LABEL_CLOSE_GROUP": "Закрити",
+    "LABEL_OPEN_INFO_CONVERSATION":"Відкрити деталі розмови",
     "ALERT_TITLE": "Увага!",
     "CLOSE_ALERT_CONFIRM_LABEL": "добре",
     "CLOSE_ALERT_CANCEL_LABEL": "СКАСУВАТИ",
