@@ -115,15 +115,12 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   public openInfoConversation = false
   public isMobile = false
   public isLessThan991px = false // nk added
-  public isTyping = false
-  public nameUserTypingNow: string
 
   public heightMessageTextArea = ''
   public translationsMap: Map<string, string> = new Map()
   public translationsHeaderMap: Map<string, string> = new Map() 
   public translationsContentMap: Map<string, string> = new Map()
   public conversationAvatar: any
-  public membersConversation: any
   public member: UserModel
   public urlConversationSupportGroup: any
   public isFileSelected: boolean
@@ -168,6 +165,15 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   public msgCount: number;
   public disableTextarea: boolean;
   appsidebarIsWide: boolean;
+
+  // ========== begin:: typying =======
+  public isTypings = false;
+  public isDirect = false;
+  public idUserTypingNow: string;
+  public nameUserTypingNow: string;
+  private setTimeoutWritingMessages;
+  membersConversation = ['SYSTEM'];
+  // ========== end:: typying =======
 
   /**
    * Constructor
@@ -237,21 +243,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   // -----------------------------------------------------------
   ngOnInit() {
     this.logger.log('[CONVS-DETAIL] > ngOnInit - window.location: ', window.location);
-    // this.logger.log('[CONVS-DETAIL] > ngOnInit - fileUploadAccept: ', this.appConfigProvider.getConfig().fileUploadAccept);
-    // const accept_files = this.appConfigProvider.getConfig().fileUploadAccept;
-    // this.logger.log('[CONVS-DETAIL] > ngOnInit - fileUploadAccept typeof accept_files ', typeof accept_files);
-    // const accept_files_array = accept_files.split(',')
-    // this.logger.log('[CONVS-DETAIL] > ngOnInit - fileUploadAccept accept_files_array ', accept_files_array);
-    // this.logger.log('[CONVS-DETAIL] > ngOnInit - fileUploadAccept accept_files_array typeof: ', typeof accept_files_array);
 
-    // accept_files_array.forEach(accept_file => {
-    //   this.logger.log('[CONVS-DETAIL] > ngOnInit - fileUploadAccept accept_file ', accept_file);
-    //   const accept_file_segment = accept_file.split('/')
-    //   this.logger.log('[CONVS-DETAIL] > ngOnInit - fileUploadAccept accept_file_segment ', accept_file_segment);
-    //   if (accept_file_segment[1] === '*') {
-
-    //   }
-    // });
     this.getConversations();
     this.watchToConnectionStatus();
     this.getOSCODE();
@@ -531,6 +523,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     this.addEventsKeyboard()
     this.startConversation()
     this.updateConversationBadge() // AGGIORNO STATO DELLA CONVERSAZIONE A 'LETTA' (is_new = false)
+  
+    this.initializeTyping();
   }
 
   _getProjectIdByConversationWith(conversationWith: string) {
@@ -589,7 +583,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       'LABEL_TO',
       'LABEL_LAST_ACCESS',
       'ARRAY_DAYS',
-      'LABEL_IS_WRITING',
+      
       'LABEL_INFO_ADVANCED',
       'ID_CONVERSATION',
       'UPLOAD_FILE_ERROR',
@@ -629,7 +623,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
     const keysContentDetail = [
       'LABEL_OPEN_INFO_CONVERSATION',
-      'LABEL_CLOSE_GROUP'
+      'LABEL_CLOSE_GROUP',
+      'LABEL_IS_WRITING',
     ]
 
     this.translationsMap = this.customTranslateService.translateLanguage(keys)
@@ -998,6 +993,22 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       })
       const subscribe = { key: subscriptionKey, value: subscription }
       this.subscriptions.push(subscribe)
+    }
+
+    subscriptionKey = 'conversationTyping';
+    subscription = this.subscriptions.find(item => item.key === subscriptionKey);
+    if (!subscription) {
+      subscription =  this.typingService.BSIsTyping.pipe(takeUntil(this.unsubscribe$)).subscribe((data: any) => {
+        this.logger.debug('[CONVS-DETAIL] ***** BSIsTyping *****', data);
+        if (data) {
+          const isTypingUid = data.uid; //support-group-...
+          if (this.conversationWith === isTypingUid) {
+            that.subscribeTypings(data);
+          }
+        }
+      });
+      const subscribe = {key: subscriptionKey, value: subscription };
+      this.subscriptions.push(subscribe);
     }
 
     // subscriptionKey = 'onGroupChange';
@@ -1684,6 +1695,63 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       return isAcceptFile
     }
   }
+
+
+  initializeTyping() {
+    this.logger.debug('[CONVS-DETAIL] membersconversation', this.membersConversation)
+    this.membersConversation.push(this.loggedUser.uid)
+    //this.setSubscriptions();
+    this.typingService.isTyping(this.conversationWith, this.loggedUser.uid, this.isDirect);
+    
+  }
+
+  /** */
+  subscribeTypings(data: any) {
+    const that = this;
+    try {
+      const key = data.uidUserTypingNow;
+      const waitTime = data.waitTime
+      this.nameUserTypingNow = null;
+      this.idUserTypingNow = null;
+
+      if (data.nameUserTypingNow) {
+        this.nameUserTypingNow = data.nameUserTypingNow;
+      }
+      if (data.uidUserTypingNow){
+        this.idUserTypingNow = data.uidUserTypingNow
+      }
+      this.logger.debug('[CONV-COMP] subscribeTypings data:', data);
+      const userTyping = this.membersConversation.includes(key);
+      if ( !userTyping && key) {
+        this.isTypings = true;
+        setTimeout(function () {
+          that.scrollBottom(0)
+        }, 0);
+        // clearTimeout(this.setTimeoutWritingMessages);
+        this.setTimeoutWritingMessages = setTimeout(() => {
+            that.isTypings = false;
+        }, waitTime);
+        // this.initiTimeout(waitTime)
+      }
+    } catch (error) {
+      this.logger.error('[CONV-COMP] error: ', error);
+    }
+
+  }
+
+  initiTimeout(waitTime){
+    const that = this;
+    this.setTimeoutWritingMessages = setTimeout(() => {
+      that.isTypings = false;
+    }, waitTime);
+  }
+
+  resetTimeout(){
+    this.isTypings = false
+    this.setTimeoutWritingMessages = null;
+    clearTimeout(this.setTimeoutWritingMessages)
+  }
+
   // -------------------------------------------------------------
   // DRAG FILE
   // -------------------------------------------------------------

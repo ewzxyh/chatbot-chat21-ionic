@@ -167,6 +167,18 @@
     </div>
   </div>
 
+  <div *ngIf="isTypings" class="msg_container base_receive typing_container">
+    <!-- !isSameSender(idUserTypingNow, i) -->
+    <!-- <div *ngIf="nameUserTypingNow">{{nameUserTypingNow}}</div> -->
+    <user-typing
+      [themeColor]="'var(--basic-gray)'"
+      [translationMap]="translationMap"
+      [idUserTypingNow]="idUserTypingNow"
+      [nameUserTypingNow]="nameUserTypingNow">
+    </user-typing>
+    <div class="typing_info" *ngIf="nameUserTypingNow"> gab {{translationMap.get('LABEL_IS_WRITING')}}</div>
+  </div>
+
 </div>
 
 <!-- fileType > {{fileType }} uploadProgress {{uploadProgress}} -->

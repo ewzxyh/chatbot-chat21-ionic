@@ -17,11 +17,18 @@ export class ConversationContentComponent implements OnInit {
   @Input() messages: MessageModel[]
   @Input() senderId: string;
   @Input() baseLocation: string;
+  @Input() isConversationArchived: boolean;
+  @Input() isTypings: boolean;
+  @Input() idUserTypingNow: string;
+  @Input() nameUserTypingNow: string;
+  @Input() typingLocation: string;
+  @Input() fullscreenMode: boolean;
   @Input() translationMap: Map<string, string>;
   @Input() stylesMap: Map<string, string>;
   @Output() onBeforeMessageRender = new EventEmitter();
   @Output() onAfterMessageRender = new EventEmitter();
-  @Output() onMenuOptionShow = new EventEmitter();
+  @Output() onMenuOptionShow = new EventEmitter<boolean>();
+  @Output() onEmojiiPickerShow = new EventEmitter<boolean>()
   @Output() onAttachmentButtonClicked = new EventEmitter();
   @Output() onScrollContent = new EventEmitter();
 

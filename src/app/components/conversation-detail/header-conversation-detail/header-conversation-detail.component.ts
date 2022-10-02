@@ -1,3 +1,4 @@
+import { TYPE_GROUP } from './../../../../chat21-core/utils/constants';
 import {
   Component,
   OnInit,
@@ -40,16 +41,15 @@ export class HeaderConversationDetailComponent implements OnInit, OnChanges {
   openInfoConversation = true
   
   isDirect = false
-  isTyping = false
   borderColor = '#ffffff'
   fontColor = '#949494'
-  membersConversation = ['SYSTEM']
   platformName: string
   conv_closed: boolean = false;
   IS_ON_IOS_MOBILE_DEVICE: boolean
   private logger: LoggerService = LoggerInstance.getInstance()
 
   TYPE_SUPPORT_GROUP = TYPE_SUPPORT_GROUP
+  TYPE_GROUP = TYPE_GROUP
 
   constructor(
     public imageRepoService: ImageRepoService,
@@ -100,8 +100,6 @@ export class HeaderConversationDetailComponent implements OnInit, OnChanges {
     this.getPlatformName()
     if ( this.conversationAvatar && this.conversationAvatar.channelType === TYPE_DIRECT ) {
       this.isDirect = true
-    } else if (this.idLoggedUser) {
-      this.membersConversation.push(this.idLoggedUser)
     }
   }
 
