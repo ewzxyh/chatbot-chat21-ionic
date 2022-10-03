@@ -154,8 +154,8 @@
         color="close-conversation" name="archive-outline" item-end></ion-icon>
 
         <ng-template #archiveTooltip>
-          <span *ngIf="conversation?.recipient.startsWith('support-group')"> {{ resolve_btn_tooltip}} </span>
-          <span *ngIf="!conversation?.recipient.startsWith('support-group')"> {{ archive_btn_tooltip }} </span>
+          <span *ngIf="conversation?.recipient.startsWith('support-group')"> {{ translationsMap?.get('Resolve')}} </span>
+          <span *ngIf="!conversation?.recipient.startsWith('support-group')"> {{ translationsMap?.resolve('Archive') }} </span>
         </ng-template>
     </ion-button>
     <!-- <ion-button *ngIf="conversation.archived" class="close-conversation-button" ion-button clear item-end disabled padding>
