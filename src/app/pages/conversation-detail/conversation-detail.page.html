@@ -96,10 +96,15 @@
             </ng-template>
 
             <ng-template #content_messages>
-              <ion-content #ionContentChatArea appScrollbarTheme class="ionContentChatArea" (drop)="drop($event)"
-                (dragover)="allowDrop($event)" (dragleave)="drag($event)" [scrollEvents]="true"
-                (ionScrollStart)="logScrollStart($event)" (ionScroll)="logScrolling($event)"
-                (ionScrollEnd)="logScrollEnd($event)" [class.active]="showIonContent">
+              <ion-content #ionContentChatArea appScrollbarTheme class="ionContentChatArea" 
+                (drop)="drop($event)"
+                (dragover)="allowDrop($event)" 
+                (dragleave)="drag($event)" 
+                [scrollEvents]="true"
+                (ionScrollStart)="logScrollStart($event)" 
+                (ionScroll)="logScrolling($event)"
+                (ionScrollEnd)="logScrollEnd($event)" 
+                [class.active]="showIonContent">
 
                 <!-- ----------------------------------------------------------- -->
                 <!-- DROPZONE -->
@@ -159,6 +164,7 @@
               [conversationWith]="conversationWith"
               [conversationWithFullname]="conversationWithFullname"
               [currentString]="messageStr"
+              [stylesMap]="styleMap"
               [translationMap]="translationsMap"
               (onLoadedCannedResponses)="onLoadedCannedResponses($event)"
               (onClickCanned)="replaceTagInMessage($event)"

@@ -1,12 +1,11 @@
 // @import '../../../../../sass/variables';
 
 div {
-    --bck-msg-sent: #62a8ea;
-    --col-msg-sent:#ffffff;
-    --light-white: #f7f7f7;
-    --black: #1a1a1a;
-    --gray: #aaaaaa;
-    --blue: rgb(42, 106, 193);
+    --backgroundColor: --basic-blue;
+    --textColor: --bck-msg-sent;
+    --hoverBackgroundColor: --bck-msg-sent;
+    --hoverTextColor: --basic-blue;
+    --buttonFontSize: --button-in-msg-font-size;
 }
 
 .button-in-msg {
@@ -15,32 +14,32 @@ div {
     max-width: 300px;
     min-width: inherit;
     cursor: pointer;
-    border: 1px solid var(--blue);
+    border: 1px solid var(--textColor);
     border-radius: 20px;
     margin: 3px;
-    background: transparent;
+    background: var(--backgroundColor);
     overflow: hidden;
     font-family: 'Muli', sans-serif;
-    font-size: 15px;
+    font-size: var(--buttonFontSize);
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
     white-space: nowrap;
     letter-spacing: -0.24px;
     -webkit-font-smoothing: antialiased;
-    color: var(--blue);
+    color: var(--textColor);
     line-height: 16px;
 }
 
 .action {
-    background: white;
+    background: var(--backgroundColor);
     transition: background-color .6s ease;
     &:focus,
     &:hover {
-        color: white;
-        background:  var(--blue);
+        color: var(--hoverTextColor);
+        background:  var(--hoverBackgroundColor);
         .icon-button-action {
             svg {
-                fill: white;
+                fill:  var(--hoverTextColor);
             }
         }
     }
@@ -80,4 +79,12 @@ div {
     //         height: 200px;
     //     }
     // }
+}
+
+
+.disabled {
+    // border: 1px solid #999999;
+    // background-color: #cccccc;
+    // color: #666666;
+    pointer-events: none;
 }

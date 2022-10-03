@@ -4,6 +4,10 @@
     height: auto;
     padding: 0;
     margin: 0;
+
+    ion-icon{
+        color: var(--basic-blue);
+    }
     .buttons-left {
         position: absolute;
         left: 0;
@@ -163,10 +167,6 @@
 
 .upload-image-btn .button-native {
     border-radius: 50%;
-}
-
-.send-msg-activated {
-    color: #3880ff !important;
 }
 
 .send-msg-disabled {

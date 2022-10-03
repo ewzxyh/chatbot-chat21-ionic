@@ -172,7 +172,7 @@ ion-item {
         width: 10px;
         height: 10px;
         border-radius: 50%;
-        background-color: rgb(22, 92, 238);
+        background-color: var(--basic-blue);
         position: absolute;
         right: 6px;
         bottom: 8px;
@@ -249,7 +249,7 @@ ion-item:hover {
 
 .ion-selected {
     --background: rgba(24, 119, 242, 0.04);
-    border-right: 4px solid #1876f2;
+    border-right: 4px solid var(--basic-blue);
 }
 
 .time-in-archived {

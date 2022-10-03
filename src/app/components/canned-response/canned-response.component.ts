@@ -20,6 +20,7 @@ export class CannedResponseComponent implements OnInit {
   @Input() conversationWith: string;
   @Input() conversationWithFullname: string;
   @Input() currentString: string;
+  @Input() stylesMap: Map<string, string>;
   @Input() translationMap: Map<string, string>;
   @Output() onLoadedCannedResponses = new EventEmitter<[any]>();
   @Output() onClickCanned = new EventEmitter<any>();

@@ -7,18 +7,13 @@
     --basic-green: #0A7D41;
     --dark-green: #005f3b;
     --light-green: #8cc841;
-    
     --light-gray: #F2F2F2;
     --basic-gray: #666666;
     --dark-gray: #363636;
-    
-
     --light-blue: #C9E4F6;
     --basic-blue: #2a69c1;
     --bubble-blue: rgb(0, 153, 255);
-    --bubble-lightyellow: rgb(255, 247, 237);
-    --bubble-privateMsg: rgb(254, 214, 168);
-    --bubble-privateMsgColor: rgb(47, 57, 65);
+    
 
     --basic-yellow: #FFC627;
     --basic-red: #EB1E23;
@@ -29,11 +24,21 @@
     --bck-msg-received: #f0f2f7;
     --col-msg-received: #06132b;
 
+    --bubble-lightyellow: rgb(255, 247, 237);
+    --bubble-privateMsg: rgb(254, 214, 168);
+    --bubble-privateMsgColor: rgb(47, 57, 65);
+
     --light-white: #f7f7f7;
     --black: #1a1a1a;
     --gray: #aaaaaa;
 
     --header-height: 60px;
 
+    --button-in-msg-font-size: 15px;
+    --buttonBackgroundColor: #ffffff;
+    --buttonTextColor: #2a6ac1;
+    --buttonHoverBackgroundColor: #2a6ac1;
+    --buttonHoverTextColor: #ffffff;
+
     
-  }
+}

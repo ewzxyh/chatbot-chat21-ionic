@@ -659,11 +659,17 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   }
 
   private setStyleMap(){
-      this.styleMap.set('themeColor', 'var(--basic-gray)')
+      this.styleMap.set('themeColor', 'var(--basic-blue)')
                     .set('bubbleReceivedBackground','var(--bck-msg-received)')
                     .set('bubbleReceivedTextColor', 'var(--col-msg-received)')
                     .set('bubbleSentBackground', 'var(--bck-msg-sent)')
                     .set('bubbleSentTextColor', 'var(--col-msg-sent)')
+                    .set('buttonFontSize','var(--button-in-msg-font-size)')
+                    .set('buttonBackgroundColor', 'var(--buttonBackgroundColor)')
+                    .set('buttonTextColor', 'var(--buttonTextColor)')
+                    .set('buttonHoverBackgroundColor', 'var(--buttonHoverBackgroundColor)')
+                    .set('buttonHoverTextColor', 'var(--buttonHoverTextColor)')
+  
   }
   // -------------------------------------------------------------------------------------
   // * retrieving the handler from chatManager
