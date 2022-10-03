@@ -5,7 +5,7 @@ ion-header {
     border-color: var(--light-gray);
     border-bottom-width: thin;
     ion-toolbar{
-        height: --header-height;
+        height: var(--header-height);
         .flex-container{
             display: flex;
         }
