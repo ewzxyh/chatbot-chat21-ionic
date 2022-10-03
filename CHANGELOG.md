@@ -1,5 +1,11 @@
 # chat21-ionic ver 3.0
 
+### 3.0.78-rc.3
+- changed: user-typing location moved from conversation-header to conversation-detail component
+- changed: replace includes with startsWith for check what type of conversation is in project info conversation-list component
+- added: styleMap integrations to some elements	
+- bug-fixed: no tooltip showed if no unserved request are present
+
 ### 3.0.78-rc.2
 - changed: project item UI and tooltip msg
 - changed: conversation UI in conversations list component
