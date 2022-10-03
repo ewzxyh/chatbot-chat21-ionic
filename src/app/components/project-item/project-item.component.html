@@ -100,7 +100,7 @@ c0.9-1.1,1.2-2.3,1.2-3.7V4h4.9v6.1c0,1.3,0.5,2.7,1.2,3.7H8.3z" />
 
 
 <ng-template #conversationsInQueueOnProjectName>
-  <span *ngIf="unservedRequestCount > 0">
+  <span>
     ({{ unservedRequestCount }})
     {{translationMap?.get('UnassignedConversations') }}
   </span>
