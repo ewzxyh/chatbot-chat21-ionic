@@ -92,9 +92,12 @@
       <chat-bubble-message class="messages msg_sent" id="message_msg_sent" style="position: relative;" 
         [ngClass]="{'has-metadata': (isImage(message) || isFrame(message)), 'privateMsg': (message?.attributes && message?.attributes?.subtype === 'private')}" 
         [class.emoticon]="isEmojii(message?.text)"
+        [ngStyle]="{'background': stylesMap.get('bubbleSentBackground'), 'color': stylesMap.get('bubbleSentTextColor')}"
         [ngClass]="{'button-in-msg' : message.metadata && message.metadata.button}"
         [message]="message" 
-        [textColor]="'col-msg-sent'"
+        [fontColor]="stylesMap.get('bubbleSentTextColor')"
+        [fontSize]="stylesMap.get('fontSize')"
+        [fontFamily]="stylesMap.get('fontFamily')"
         [addAsCannedResponseTooltipText]="addAsCannedResponseTooltipText" 
         [areVisibleCAR]="areVisibleCAR"
         [supportMode]="supportMode"
@@ -132,8 +135,11 @@
       <chat-bubble-message class="messages msg_receive" id="message_msg_receive" style="position: relative;"
         [ngClass]="{'has-metadata': (isImage(message) || isFrame(message)), 'privateMsg': (message?.attributes && message?.attributes?.subtype === 'private')}" 
         [class.emoticon]="isEmojii(message?.text)"
+        [ngStyle]="{'background': stylesMap?.get('bubbleReceivedBackground'), 'color': stylesMap.get('bubbleReceivedTextColor')}"
         [message]="message" 
-        [textColor]="'black'"
+        [fontColor]="stylesMap?.get('bubbleReceivedTextColor')"
+        [fontSize]="stylesMap?.get('fontSize')"
+        [fontFamily]="stylesMap?.get('fontFamily')"
         [addAsCannedResponseTooltipText]="addAsCannedResponseTooltipText" 
         [areVisibleCAR]="areVisibleCAR"
         [supportMode]="supportMode"
@@ -171,12 +177,12 @@
     <!-- !isSameSender(idUserTypingNow, i) -->
     <!-- <div *ngIf="nameUserTypingNow">{{nameUserTypingNow}}</div> -->
     <user-typing
-      [themeColor]="'var(--basic-gray)'"
+      [themeColor]="stylesMap?.get('themeColor')"
       [translationMap]="translationMap"
       [idUserTypingNow]="idUserTypingNow"
       [nameUserTypingNow]="nameUserTypingNow">
     </user-typing>
-    <div class="typing_info" *ngIf="nameUserTypingNow"> gab {{translationMap.get('LABEL_IS_WRITING')}}</div>
+    <div class="typing_info" *ngIf="nameUserTypingNow"> {{nameUserTypingNow}} {{translationMap.get('LABEL_IS_WRITING')}}</div>
   </div>
 
 </div>

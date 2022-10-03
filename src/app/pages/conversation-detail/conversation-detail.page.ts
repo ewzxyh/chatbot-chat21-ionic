@@ -471,6 +471,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     this.loggedUser = this.tiledeskAuthService.getCurrentUser()
     this.logger.log('[CONVS-DETAIL] - initialize -> loggedUser: ', this.loggedUser)
     this.translations()
+    this.setStyleMap()
     // this.conversationSelected = localStorage.getItem('conversationSelected');
     this.showButtonToBottom = false
     this.showMessageWelcome = false
@@ -657,6 +658,13 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     return this.customTranslateService.translateLanguage(keys)
   }
 
+  private setStyleMap(){
+      this.styleMap.set('themeColor', 'var(--basic-gray)')
+                    .set('bubbleReceivedBackground','var(--bck-msg-received)')
+                    .set('bubbleReceivedTextColor', 'var(--col-msg-received)')
+                    .set('bubbleSentBackground', 'var(--bck-msg-sent)')
+                    .set('bubbleSentTextColor', 'var(--col-msg-sent)')
+  }
   // -------------------------------------------------------------------------------------
   // * retrieving the handler from chatManager
   // * if it DOESN'T EXIST I create a handler and connect and store it in the chatmanager

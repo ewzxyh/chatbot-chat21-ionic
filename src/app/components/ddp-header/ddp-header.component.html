@@ -1,4 +1,4 @@
-<ion-toolbar style="height:60px" [ngClass]="{'bottom-border-on-mobile':IS_ON_MOBILE_DEVICE === true }">
+<ion-toolbar [ngClass]="{'bottom-border-on-mobile':IS_ON_MOBILE_DEVICE === true }">
 
   <ion-buttons *ngIf="IS_ON_MOBILE_DEVICE === true || supportMode === false" slot="start" style="height:60px">
     <ion-button ion-button icon-only fill="clear" (click)="onOpenProfileInfo($event)">
