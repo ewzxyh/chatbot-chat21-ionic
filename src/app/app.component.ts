@@ -102,7 +102,6 @@ export class AppComponent implements OnInit {
   public missingConnectionToast: any
   public executedInitializeAppByWatchConnection: boolean = false;
   private isInitialized: boolean = false;
-  private hasToSoundUnservedRequestCount: boolean = false;
   private version: string;
   IS_ONLINE: boolean;
   IS_ON_MOBILE_DEVICE: boolean;
@@ -1125,7 +1124,6 @@ export class AppComponent implements OnInit {
     if (hasClickedLogout === true) {
       this.appStorageService.removeItem('conversations')
       this.isInitialized = false;
-      this.hasToSoundUnservedRequestCount = false;
       // ----------------------------------------------
       // PUSH NOTIFICATIONS
       // ----------------------------------------------
@@ -1150,12 +1148,9 @@ export class AppComponent implements OnInit {
 
   subscribeUnservedRequestCount = (unservedRequestCount) => {
     if(unservedRequestCount && unservedRequestCount > 0){
-      this.logger.debug("hasToSoundUnservedRequestCount::::", this.hasToSoundUnservedRequestCount, this.isInitialized)
-      if(this.hasToSoundUnservedRequestCount){
+      this.logger.debug("appIsInitialized::::",this.isInitialized)
+      if(this.isInitialized){
         this.manageTabNotification(unservedRequestCount) //sound and alternate title
-      } else {
-        //not sound the first time
-        this.hasToSoundUnservedRequestCount = true
       }
     }
   }
