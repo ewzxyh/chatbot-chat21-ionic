@@ -3,6 +3,7 @@
 ### 3.0.78-rc.4
 - bug-fixed: unassigned request not sound the if is the first at all
 - bug-fixed: translations missed
+- bug-fixed: direct info not showed in conversation-header component
 - removed: conversation-footer border top
 - changed: colors to message-text-area icons and message-attachment components
 
