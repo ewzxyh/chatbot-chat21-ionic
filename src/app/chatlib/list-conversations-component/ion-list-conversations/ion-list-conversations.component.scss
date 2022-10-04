@@ -159,7 +159,7 @@ ion-item {
             font-size: 10px;
             --padding-start: 0px;
             --padding-end: 0px;
-            color: rgba(153, 153, 153, 1);
+            color: var(--basic-blue);//rgba(153, 153, 153, 1);
             background-color: transparent;
             border-radius: 50%; // nk
             &:hover {

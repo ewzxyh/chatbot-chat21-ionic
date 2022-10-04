@@ -65,10 +65,11 @@
 
     ion-button {
         text-transform: unset;
+        color: var(--basic-blue);
         &:hover {
             --background-hover: transparent;
             text-decoration: underline;
-            text-decoration-color: var(--ion-color-primary);
+            text-decoration-color: var(--basic-blue);
         }
     }
 

@@ -120,6 +120,9 @@ ion-header {
     }
     
     ion-buttons {
+        ion-icon , span{
+            color: var(--basic-blue)
+        }
         button {
             max-width: 30px;
             padding: 0;

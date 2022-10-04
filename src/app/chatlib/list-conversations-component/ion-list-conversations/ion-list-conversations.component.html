@@ -160,13 +160,12 @@
       [ngClass]="{'hide': !isApp, 'button-on-desktop': !isApp, 'button-on-mobile': isApp  }"
       id="{{ 'close_conversation_button' + conversation.uid }}" class="close-conversation-button" ion-button clear
       item-end (click)="closeConversation(conversation);$event.stopPropagation();" padding>
-      <ion-icon slot="icon-only" style="display:block;" id="{{ 'close_button_icon' + conversation.uid }}"
-        color="close-conversation" name="archive-outline" item-end></ion-icon>
+      <ion-icon slot="icon-only" style="display:block;" id="{{ 'close_button_icon' + conversation.uid }}" name="archive-outline" item-end></ion-icon>
 
-        <ng-template #archiveTooltip>
-          <span *ngIf="conversation?.recipient.startsWith('support-group')"> {{ translationsMap?.get('Resolve')}} </span>
-          <span *ngIf="!conversation?.recipient.startsWith('support-group')"> {{ translationsMap?.resolve('Archive') }} </span>
-        </ng-template>
+      <ng-template #archiveTooltip>
+        <span *ngIf="conversation?.recipient.startsWith('support-group')"> {{ translationsMap?.get('Resolve')}} </span>
+        <span *ngIf="!conversation?.recipient.startsWith('support-group')"> {{ translationsMap?.get('Archive') }} </span>
+      </ng-template>
     </ion-button>
     <!-- <ion-button *ngIf="conversation.archived" class="close-conversation-button" ion-button clear item-end disabled padding>
       <!- - <ion-icon  style="display:block;" id="{{ 'close_button_icon' + conversation.uid }}" color="close-conversation" name="archive-outline" item-end></ion-icon> - ->
