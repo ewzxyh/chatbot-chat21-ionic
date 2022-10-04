@@ -37,8 +37,10 @@
     [idLoggedUser]="loggedUser.uid"
     [conversationUid]="conversationWith"
     [conversationAvatar]="conversationAvatar" 
-    [translationsMap]="translationsHeaderMap"
-    [conv_type]="conv_type">
+    [translationMap]="translationMap"
+    [isOpenInfoConversation]="isOpenInfoConversation" 
+    [conv_type]="conv_type"
+    (eventOpenCloseInfoConversation)="returnOpenCloseInfoConversation($event)">
   </app-header-conversation-detail>
 
   <ion-content id="conv-details">
@@ -96,15 +98,10 @@
             </ng-template>
 
             <ng-template #content_messages>
-              <ion-content #ionContentChatArea appScrollbarTheme class="ionContentChatArea" 
-                (drop)="drop($event)"
-                (dragover)="allowDrop($event)" 
-                (dragleave)="drag($event)" 
-                [scrollEvents]="true"
-                (ionScrollStart)="logScrollStart($event)" 
-                (ionScroll)="logScrolling($event)"
-                (ionScrollEnd)="logScrollEnd($event)" 
-                [class.active]="showIonContent">
+              <ion-content #ionContentChatArea appScrollbarTheme class="ionContentChatArea" (drop)="drop($event)"
+                (dragover)="allowDrop($event)" (dragleave)="drag($event)" [scrollEvents]="true"
+                (ionScrollStart)="logScrollStart($event)" (ionScroll)="logScrolling($event)"
+                (ionScrollEnd)="logScrollEnd($event)" [class.active]="showIonContent">
 
                 <!-- ----------------------------------------------------------- -->
                 <!-- DROPZONE -->
@@ -128,12 +125,7 @@
                   [senderId]="loggedUser.uid"
                   [baseLocation]="window?.location?.origin"
                   [areVisibleCAR]="areVisibleCAR" 
-                  [supportMode]= "supportMode"
-                  [isMobile]="isMobile"
-                  [isTypings]="isTypings"
-                  [idUserTypingNow]="idUserTypingNow"
-                  [nameUserTypingNow]="nameUserTypingNow" 
-                  [translationMap]="translationsContentMap"
+                  [supportMode]= "supportMode" 
                   [stylesMap]="styleMap"
                   (onBeforeMessageRender)="onBeforeMessageRenderFN($event)"
                   (onAfterMessageRender)="onAfterMessageRenderFN($event)"
@@ -141,8 +133,7 @@
                   (onScrollContent)="returnOnScrollContent($event)" 
                   (onMenuOptionShow)="returnOnMenuOption($event)"
                   (onElementRendered)="onElementRenderedFN($event)"
-                  (onAddUploadingBubble)="addUploadingBubbleEvent($event)"
-                  (onOpenCloseInfoConversation)="onOpenCloseInfoConversation($event)">
+                  (onAddUploadingBubble)="addUploadingBubbleEvent($event)">
                 </ion-conversation-detail>
 
               </ion-content>
@@ -164,8 +155,7 @@
               [conversationWith]="conversationWith"
               [conversationWithFullname]="conversationWithFullname"
               [currentString]="messageStr"
-              [stylesMap]="styleMap"
-              [translationMap]="translationsMap"
+              [translationMap]="translationMap"
               (onLoadedCannedResponses)="onLoadedCannedResponses($event)"
               (onClickCanned)="replaceTagInMessage($event)"
               (onClickAddCannedResponse)="presentCreateCannedResponseModal()">
@@ -221,9 +211,9 @@
               [loggedUser]="loggedUser" 
               [conversationWith]="conversationWith" 
               [tagsCannedFilter]="tagsCannedFilter"
-              [translationMap]="translationsMap"
+              [translationMap]="translationMap"
               [fileUploadAccept]="appConfigProvider.getConfig().fileUploadAccept"
-              [isOpenInfoConversation]="openInfoConversation" 
+              [isOpenInfoConversation]="isOpenInfoConversation" 
               [dropEvent]="dropEvent"
               [disableTextarea]="disableTextarea"
               (eventChangeTextArea)="returnChangeTextArea($event)"
@@ -240,7 +230,7 @@
         [ngClass]="{'info-convs-apps-sidebar-wide': appsidebarIsWide === true}">
           <app-info-content 
             [openInfoConversation]="openInfoConversation" 
-            [translationMap]="translationsMap"
+            [translationMap]="translationMap"
             [loggedUser]="loggedUser" 
             [tenant]="tenant" 
             [groupDetail]="groupDetail">

@@ -33,52 +33,6 @@
     }
 }
 
-.manage_conversation_info_container{
-    height: 34px;
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    position: fixed;
-    transition: transform 300ms ease-in-out 0s;
-    transform: translate(0px);
-    right: 300px;
-    top: 60px;
-    z-index:10;
-    background: linear-gradient(to right, rgba(226, 232, 239, 0) 128px, rgb(226, 232, 239) 128px);
-    
-    &.close{
-        right: 0px;
-    }
-
-    &.mobile{
-        right: 0px;
-    }
-    &::before{
-        content: "";
-        width: 102px;
-        height: 34px;
-        background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSJub25lIiBoZWlnaHQ9IjM0IiB2aWV3Qm94PSIwIDAgMTAyIDM0IiB3aWR0aD0iMTAyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogICAgPHBhdGggZD0ibTEwMiAwaC0xMDJsLjA3MTQwOC40MTk3NTNjMTEuMzE5MTkyLS4wMTU1NTggMjIuMjg4MTkyIDMuOTIwMzM3IDMxLjAxMjA5MiAxMS4xMjc2NDdsNy40ODk0IDYuNTAyIDEuNjUwOCAxLjQyMjkgNi42OTU1IDUuNzhjNi41Mzc0IDUuNjQwNSAxNC44ODU3IDguNzQ1MSAyMy41MjI3IDguNzQ3N2gzMS41NTQxeiIKICAgICAgICAgIGZpbGw9IiNlMmU4ZWYiLz4KPC9zdmc+);
-        position: relative;
-        left: 50px;
-        z-index: -1;
-    }
-
-    ion-button {
-        text-transform: unset;
-        color: var(--basic-blue);
-        &:hover {
-            --background-hover: transparent;
-            text-decoration: underline;
-            text-decoration-color: var(--basic-blue);
-        }
-    }
-
-    ion-icon{
-        margin: 5px;
-    }
-}
-
-
 ion-item {
     --padding-end: 0px;
     --inner-padding-end: 0px;
@@ -106,31 +60,10 @@ ion-item {
 
 .message_sender_fullname {
     font-size: 0.9em;
-    margin: 0 0 1px 20px;
+    margin: 0 0 1px 10px;
     // color: var(--gray);
     font-weight: 500;
     color: #080f1a;
-}
-
-.typing_container{
-    display:flex;
-    align-items: center;
-
-    user-typing {
-        text-align: right;
-    }
-    .typing_info{  
-        color: var(--basic-gray);
-        margin-left: 10px;
-        font-size: 12px;
-        animation: blinker 1s linear infinite;
-
-        @keyframes blinker {
-            50% {
-              opacity: 0;
-            }
-          }
-    }
 }
 
 .messages {
@@ -180,7 +113,7 @@ ion-item {
 /** recive message **/
 .base_receive {
     // padding: 0px 0px 6px 0px;
-    padding: 0px 0px 15px 10px; // edited to display the date at the bottom of the "message bubble"
+    padding: 0px 0px 15px 0px; // edited to display the date at the bottom of the "message bubble"
     /* avatar */
     .content-avatar {
         position: relative;
@@ -209,8 +142,8 @@ ion-item {
     }
     /* message */
     .msg_receive {
-        background-color: var(--bck-msg-received);
-        color: var(--col-msg-received);
+        background-color: var(--light-white);
+        color: #1a1a1a;
         // max-width: 260px;
         max-width: calc(100% - 70px);
         min-width: 14px;
@@ -234,64 +167,63 @@ ion-item {
     .has-metadata {
         max-width: 100% !important;
     }
-
 }
 
 .time {
     margin-bottom: 20px;
 }
 
- /* LOADING */
-/*http://tobiasahlin.com/spinkit/*/
-#chat21-spinner {
-    display: none;
-    width: 70px;
+// Loading Spinner
+.spinner {
+    // margin: 100px auto 0;
+    width: 90px;
     min-height: 20px;
-    margin: 20px auto 0;
+    padding: 7px;
     text-align: center;
 }
-#chat21-spinner.active {
-    display: block;
-}
-#chat21-spinner > div {
-    width: 12px;
-    height: 12px;
-    background-color: var(--bubble-blue);
+
+.spinner > div {
+    width: 10px;
+    height: 10px;
+    background-color: rgb(255, 255, 255);
+
     border-radius: 100%;
     display: inline-block;
     -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
     animation: sk-bouncedelay 1.4s infinite ease-in-out both;
 }
-#chat21-spinner .chat21-bounce1 {
+
+.spinner .bounce1 {
     -webkit-animation-delay: -0.32s;
     animation-delay: -0.32s;
 }
-#chat21-spinner .chat21-bounce2 {
+
+.spinner .bounce2 {
     -webkit-animation-delay: -0.16s;
     animation-delay: -0.16s;
 }
-#chat21-spinner span {
-    display: block;
-    margin: 0.5em 0 0 0;
-    color: var(--col-msg-sent);
-    /* text-transform: uppercase; */
-    font-family: 'Roboto', sans-serif;
-    -webkit-animation: pulse 2000ms linear infinite;
-    -moz-animation: pulse 2000ms linear infinite;
-    animation: pulse 2000ms linear infinite;
-    text-align: center;
-}
+
 @-webkit-keyframes sk-bouncedelay {
-    0%, 80%, 100% { -webkit-transform: scale(0) }
-    40% { -webkit-transform: scale(1.0) }
+    0%,
+    80%,
+    100% {
+        -webkit-transform: scale(0);
+    }
+    40% {
+        -webkit-transform: scale(1);
+    }
 }
+
 @keyframes sk-bouncedelay {
-    0%, 80%, 100% { 
-    -webkit-transform: scale(0);
-    transform: scale(0);
-    } 40% { 
-    -webkit-transform: scale(1.0);
-    transform: scale(1.0);
+    0%,
+    80%,
+    100% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
+    40% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
     }
 }
 

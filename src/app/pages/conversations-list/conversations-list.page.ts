@@ -502,6 +502,22 @@ export class ConversationListPage implements OnInit {
     this.logger.log('[CONVS-LIST-PAGE] - subscribeLoggedUserLogout uidConvSelected ',this.uidConvSelected)
   }
 
+  // ------------------------------------------------------------------------------------
+  // @ SUBSCRIBE TO CONVERSATION CHANGED  ??????????? SEEMS NOT USED ?????????????????
+  // ------------------------------------------------------------------------------------
+  conversationsChanged = (conversations: ConversationModel[]) => {
+    this.numberOpenConv = this.conversationsHandlerService.countIsNew()
+    this.logger.log('[CONVS-LIST-PAGE] - conversationsChanged - NUMB OF CONVERSATIONS: ',this.numberOpenConv)
+    // console.log('conversationsChanged »»»»»»»»» uidConvSelected', that.conversations[0], that.uidConvSelected);
+    if (this.uidConvSelected && !this.conversationSelected) {
+      const conversationSelected = this.conversations.find((item) => item.uid === this.uidConvSelected)
+      if (conversationSelected) {
+        this.conversationSelected = conversationSelected
+        this.setUidConvSelected(this.uidConvSelected)
+      }
+    }
+  }
+
   /**
    * ::: subscribeChangedConversationSelected :::
    * evento richiamato quando si seleziona un utente nell'elenco degli user
@@ -638,7 +654,7 @@ export class ConversationListPage implements OnInit {
    * ::: setUidConvSelected :::
    */
   setUidConvSelected(uidConvSelected: string, conversationType?: string) {
-    this.logger.log('[CONVS-LIST-PAGE] setuidCOnvSelected', uidConvSelected, conversationType)
+    this.logger.log('[CONVS-LIST-PAGE] setuidCOnvSelected', uidConvSelected)
     this.uidConvSelected = uidConvSelected
     // this.conversationsHandlerService.uidConvSelected = uidConvSelected;
     if (uidConvSelected) {
@@ -737,13 +753,6 @@ export class ConversationListPage implements OnInit {
       }
     }
 
-    if(conversation.attributes && conversation.attributes['projectId']){
-      let project = localStorage.getItem(conversation.attributes['projectId'])
-      if(project){
-        project = JSON.parse(project)
-        conversation.attributes.project_name = project['name']
-      }
-    }
     // if(conversation.conversation_with_fullname === 'Guest '){
     //   conversation.conversation_with_fullname = 'guest' + '#' + this.getUUidConversation(conversation.uid)
     // }

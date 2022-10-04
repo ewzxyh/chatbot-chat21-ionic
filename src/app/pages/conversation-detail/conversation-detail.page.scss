@@ -25,6 +25,8 @@
     font-size: 24px;
 }
 
+
+
 #canned > ion-list > ion-item.canned-item.add-canned-response-wpr:hover > span {
     color: #1877f2;
 }
@@ -324,7 +326,7 @@ ion-content {
         position: absolute;
         bottom: 0;
         width: calc(100% - 0px);
-        // border-top: 1px solid #e2e2e2;
+        border-top: 1px solid #e2e2e2;
     }
 
     #chatArea {

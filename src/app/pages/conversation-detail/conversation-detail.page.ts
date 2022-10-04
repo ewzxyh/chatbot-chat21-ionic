@@ -113,14 +113,16 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   public lastConnectionDate: string
   public showMessageWelcome: boolean
   public openInfoConversation = false
+  public openInfoMessage: boolean // check is open info message
   public isMobile = false
   public isLessThan991px = false // nk added
+  public isTyping = false
+  public nameUserTypingNow: string
 
   public heightMessageTextArea = ''
-  public translationsMap: Map<string, string> = new Map()
-  public translationsHeaderMap: Map<string, string> = new Map() 
-  public translationsContentMap: Map<string, string> = new Map()
+  public translationMap: Map<string, string>
   public conversationAvatar: any
+  public membersConversation: any
   public member: UserModel
   public urlConversationSupportGroup: any
   public isFileSelected: boolean
@@ -146,6 +148,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   //SOUND
   setTimeoutSound: any;
   audio: any;
+  isOpenInfoConversation: boolean;
   USER_HAS_OPENED_CLOSE_INFO_CONV: boolean = false;
   isHovering: boolean = false;
   conversation_count: number;
@@ -165,15 +168,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   public msgCount: number;
   public disableTextarea: boolean;
   appsidebarIsWide: boolean;
-
-  // ========== begin:: typying =======
-  public isTypings = false;
-  public isDirect = false;
-  public idUserTypingNow: string;
-  public nameUserTypingNow: string;
-  private setTimeoutWritingMessages;
-  membersConversation = ['SYSTEM'];
-  // ========== end:: typying =======
 
   /**
    * Constructor
@@ -243,7 +237,21 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   // -----------------------------------------------------------
   ngOnInit() {
     this.logger.log('[CONVS-DETAIL] > ngOnInit - window.location: ', window.location);
+    // this.logger.log('[CONVS-DETAIL] > ngOnInit - fileUploadAccept: ', this.appConfigProvider.getConfig().fileUploadAccept);
+    // const accept_files = this.appConfigProvider.getConfig().fileUploadAccept;
+    // this.logger.log('[CONVS-DETAIL] > ngOnInit - fileUploadAccept typeof accept_files ', typeof accept_files);
+    // const accept_files_array = accept_files.split(',')
+    // this.logger.log('[CONVS-DETAIL] > ngOnInit - fileUploadAccept accept_files_array ', accept_files_array);
+    // this.logger.log('[CONVS-DETAIL] > ngOnInit - fileUploadAccept accept_files_array typeof: ', typeof accept_files_array);
 
+    // accept_files_array.forEach(accept_file => {
+    //   this.logger.log('[CONVS-DETAIL] > ngOnInit - fileUploadAccept accept_file ', accept_file);
+    //   const accept_file_segment = accept_file.split('/')
+    //   this.logger.log('[CONVS-DETAIL] > ngOnInit - fileUploadAccept accept_file_segment ', accept_file_segment);
+    //   if (accept_file_segment[1] === '*') {
+
+    //   }
+    // });
     this.getConversations();
     this.watchToConnectionStatus();
     this.getOSCODE();
@@ -328,12 +336,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         //   this.updateConversationBadge()
         // }
         if(conv.uid && conv.uid === this.conversationWith){
-          this.conversationAvatar = setConversationAvatar(
-            conv.conversation_with,
-            conv.conversation_with_fullname,
-            conv.channel_type,
-            conv.attributes['projectId'],
-            conv.attributes['project_name'])
+          this.conversationAvatar = setConversationAvatar(conv.conversation_with,conv.conversation_with_fullname,conv.channel_type)
         }
 
       }
@@ -471,7 +474,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     this.loggedUser = this.tiledeskAuthService.getCurrentUser()
     this.logger.log('[CONVS-DETAIL] - initialize -> loggedUser: ', this.loggedUser)
     this.translations()
-    this.setStyleMap()
     // this.conversationSelected = localStorage.getItem('conversationSelected');
     this.showButtonToBottom = false
     this.showMessageWelcome = false
@@ -486,6 +488,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
     this.messages = [] // list messages of conversation
     this.isFileSelected = false // indicates if a file has been selected (image to upload)
+    this.openInfoMessage = false // indicates whether the info message panel is open
 
     if (checkPlatformIsMobile()) {
       this.isMobile = true
@@ -501,11 +504,13 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       if (checkWindowWidthIsLessThan991px()) {
         this.logger.log('[CONVS-DETAIL] - initialize -> checkWindowWidthIsLessThan991px ', checkWindowWidthIsLessThan991px())
         this.openInfoConversation = false // indica se è aperto il box info conversazione
-        this.logger.log('[CONVS-DETAIL] - initialize -> openInfoConversation ', this.openInfoConversation)
+        this.isOpenInfoConversation = false
+        this.logger.log('[CONVS-DETAIL] - initialize -> openInfoConversation ', this.openInfoConversation, ' -> isOpenInfoConversation ', this.isOpenInfoConversation)
       } else {
         this.logger.log('[CONVS-DETAIL] - initialize -> checkWindowWidthIsLessThan991px ', checkWindowWidthIsLessThan991px())
         this.openInfoConversation = true
-        this.logger.log('[CONVS-DETAIL] - initialize -> openInfoConversation ', this.openInfoConversation)
+        this.isOpenInfoConversation = true
+        this.logger.log('[CONVS-DETAIL] - initialize -> openInfoConversation ', this.openInfoConversation, ' -> isOpenInfoConversation ', this.isOpenInfoConversation)
       }
     }
 
@@ -524,8 +529,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     this.addEventsKeyboard()
     this.startConversation()
     this.updateConversationBadge() // AGGIORNO STATO DELLA CONVERSAZIONE A 'LETTA' (is_new = false)
-  
-    this.initializeTyping();
   }
 
   _getProjectIdByConversationWith(conversationWith: string) {
@@ -560,12 +563,22 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     })
   }
 
+  returnOpenCloseInfoConversation(openInfoConversation: boolean) {
+    this.logger.log('[CONVS-DETAIL] returnOpenCloseInfoConversation - openInfoConversation ', openInfoConversation)
+    this.resizeTextArea()
+    this.openInfoMessage = false
+    this.openInfoConversation = openInfoConversation
+    this.isOpenInfoConversation = openInfoConversation
+    this.USER_HAS_OPENED_CLOSE_INFO_CONV = true
+  }
+
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     const newInnerWidth = event.target.innerWidth
     if (newInnerWidth < 991) {
       if (this.USER_HAS_OPENED_CLOSE_INFO_CONV === false) {
         this.openInfoConversation = false
+        this.isOpenInfoConversation = false
       }
     }
   }
@@ -584,7 +597,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       'LABEL_TO',
       'LABEL_LAST_ACCESS',
       'ARRAY_DAYS',
-      
+      'LABEL_IS_WRITING',
       'LABEL_INFO_ADVANCED',
       'ID_CONVERSATION',
       'UPLOAD_FILE_ERROR',
@@ -603,36 +616,11 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       'THERE_ARE_NO_CANNED_RESPONSES_AVAILABLE',
       'TO_CREATE_THEM_GO_TO_THE_PROJECT',
       "AddNewCannedResponse",
-      "LABEL_LOADING",
-      "DIRECT_CHAT",
-      "GROUP_CHAT",
+      "LABEL_LOADING"
     ]
 
-    const keysHeader = [
-      'DIRECT_CHAT',
-      'GROUP_CHAT',
-      'LABEL_IS_WRITING',
-      'LABEL_AVAILABLE',
-      'LABEL_NOT_AVAILABLE',
-      'LABEL_INACTIVE',
-      'LABEL_TODAY',
-      'LABEL_TOMORROW',
-      'LABEL_TO',
-      'LABEL_LAST_ACCESS',
-      'ARRAY_DAYS',
-      'Resolve',
-    ]
-
-    const keysContentDetail = [
-      'LABEL_OPEN_INFO_CONVERSATION',
-      'LABEL_CLOSE_GROUP',
-      'LABEL_IS_WRITING',
-    ]
-
-    this.translationsMap = this.customTranslateService.translateLanguage(keys)
-    this.translationsHeaderMap = this.customTranslateService.translateLanguage(keysHeader)
-    this.translationsContentMap = this.customTranslateService.translateLanguage(keysContentDetail)
-    this.logger.log('[CONVS-DETAIL] x this.translationMap ',this.translationsMap)
+    this.translationMap = this.customTranslateService.translateLanguage(keys)
+    this.logger.log('[CONVS-DETAIL] x this.translationMap ',this.translationMap)
   }
 
   // --------------------------------------------------------
@@ -659,19 +647,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     return this.customTranslateService.translateLanguage(keys)
   }
 
-  private setStyleMap(){
-      this.styleMap.set('themeColor', 'var(--basic-blue)')
-                    .set('bubbleReceivedBackground','var(--bck-msg-received)')
-                    .set('bubbleReceivedTextColor', 'var(--col-msg-received)')
-                    .set('bubbleSentBackground', 'var(--bck-msg-sent)')
-                    .set('bubbleSentTextColor', 'var(--col-msg-sent)')
-                    .set('buttonFontSize','var(--button-in-msg-font-size)')
-                    .set('buttonBackgroundColor', 'var(--buttonBackgroundColor)')
-                    .set('buttonTextColor', 'var(--buttonTextColor)')
-                    .set('buttonHoverBackgroundColor', 'var(--buttonHoverBackgroundColor)')
-                    .set('buttonHoverTextColor', 'var(--buttonHoverTextColor)')
-  
-  }
   // -------------------------------------------------------------------------------------
   // * retrieving the handler from chatManager
   // * if it DOESN'T EXIST I create a handler and connect and store it in the chatmanager
@@ -774,8 +749,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
             conv.conversation_with,
             conv.conversation_with_fullname,
             conv.channel_type,
-            conv.attributes['projectId'],
-            conv.attributes['project_name']
           )
         }
         if(!conv){
@@ -788,8 +761,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
                 conv.conversation_with,
                 conv.conversation_with_fullname,
                 conv.channel_type,
-                conv.attributes['projectId'],
-                conv.attributes['project_name']
               )
               let duration = getDateDifference(conv.timestamp, Date.now())
               duration.days > 10? this.disableTextarea = true: this.disableTextarea = false
@@ -808,8 +779,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
             conv.conversation_with,
             conv.conversation_with_fullname,
             conv.channel_type,
-            conv.attributes['projectId'],
-            conv.attributes['project_name']
           )
           let duration = getDateDifference(conv.timestamp, Date.now())
           duration.days > 10? this.disableTextarea = true: this.disableTextarea = false
@@ -821,8 +790,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
                 conv.conversation_with,
                 conv.conversation_with_fullname,
                 conv.channel_type,
-                conv.attributes['projectId'],
-                conv.attributes['project_name']
               )
             }
             this.logger.log('[CONVS-DETAIL] - setHeaderContent > conversationAvatar: ', this.conversationAvatar)
@@ -1010,22 +977,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       this.subscriptions.push(subscribe)
     }
 
-    subscriptionKey = 'conversationTyping';
-    subscription = this.subscriptions.find(item => item.key === subscriptionKey);
-    if (!subscription) {
-      subscription =  this.typingService.BSIsTyping.pipe(takeUntil(this.unsubscribe$)).subscribe((data: any) => {
-        this.logger.debug('[CONVS-DETAIL] ***** BSIsTyping *****', data);
-        if (data) {
-          const isTypingUid = data.uid; //support-group-...
-          if (this.conversationWith === isTypingUid) {
-            that.subscribeTypings(data);
-          }
-        }
-      });
-      const subscribe = {key: subscriptionKey, value: subscription };
-      this.subscriptions.push(subscribe);
-    }
-
     // subscriptionKey = 'onGroupChange';
     // subscription = this.subscriptions.find(item => item.key === subscriptionKey);
     // if (!subscription) {
@@ -1073,9 +1024,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       this.conversationAvatar = setConversationAvatar(
         this.conversationWith,
         this.conversationWithFullname,
-        this.channelType,
-        this.conversation.attributes['projectId'],
-        this.conversation.attributes['project_name']
+        this.channelType
       )
       
     }
@@ -1252,17 +1201,13 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
                   this.logger.log('[CONVS-DETAIL] - returnChangeTextArea  --> beforeSlash', beforeSlash)
                   this.logger.log('[CONVS-DETAIL] - returnChangeTextArea  --> afterSlash', afterSlash)
 
-                  console.log('bbbbbbb', beforeSlash[beforeSlash.length-1].indexOf(' '), afterSlash === '', this.HIDE_CANNED_RESPONSES)
 
                   if(beforeSlash[beforeSlash.length-1].indexOf(' ') >= 0 && afterSlash === ''){
                     this.HIDE_CANNED_RESPONSES = false
-                    console.log('bbbbbbb 1111', beforeSlash[beforeSlash.length-1])
                   } else if(beforeSlash[beforeSlash.length-1].indexOf(' ') < 0 && afterSlash === '' ){
                     this.HIDE_CANNED_RESPONSES = true
-                    console.log('bbbbbbb 22222', beforeSlash[beforeSlash.length-1])
                   } else if(beforeSlash[beforeSlash.length-1].indexOf(' ') >= 0 && afterSlash === ' '){
                     this.HIDE_CANNED_RESPONSES = true
-                    console.log('bbbbbbb 33333', beforeSlash[beforeSlash.length-1])
                     // this.tagsCannedFilter = []
                   }
                 }
@@ -1552,13 +1497,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     }
   }
 
-  onOpenCloseInfoConversation(event){
-    this.logger.log('[CONVS-DETAIL] onOpenCloseInfoConversation - openInfoConversation ', event)
-    this.resizeTextArea()
-    this.openInfoConversation = event
-    this.USER_HAS_OPENED_CLOSE_INFO_CONV = true
-  }
-
   // -------------- START SCROLL/RESIZE  -------------- //
   /** */
   resizeTextArea() {
@@ -1660,7 +1598,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       this.heightMessageTextArea = '57' // NK edited
     }
   }
-
   checkAcceptedFile(draggedFileMimeType) {
     let isAcceptFile = false
     this.logger.log('[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept: ',this.appConfigProvider.getConfig().fileUploadAccept)
@@ -1710,63 +1647,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       return isAcceptFile
     }
   }
-
-
-  initializeTyping() {
-    this.logger.debug('[CONVS-DETAIL] membersconversation', this.membersConversation)
-    this.membersConversation.push(this.loggedUser.uid)
-    //this.setSubscriptions();
-    this.typingService.isTyping(this.conversationWith, this.loggedUser.uid, this.isDirect);
-    
-  }
-
-  /** */
-  subscribeTypings(data: any) {
-    const that = this;
-    try {
-      const key = data.uidUserTypingNow;
-      const waitTime = data.waitTime
-      this.nameUserTypingNow = null;
-      this.idUserTypingNow = null;
-
-      if (data.nameUserTypingNow) {
-        this.nameUserTypingNow = data.nameUserTypingNow;
-      }
-      if (data.uidUserTypingNow){
-        this.idUserTypingNow = data.uidUserTypingNow
-      }
-      this.logger.debug('[CONV-COMP] subscribeTypings data:', data);
-      const userTyping = this.membersConversation.includes(key);
-      if ( !userTyping && key) {
-        this.isTypings = true;
-        setTimeout(function () {
-          that.scrollBottom(0)
-        }, 0);
-        // clearTimeout(this.setTimeoutWritingMessages);
-        this.setTimeoutWritingMessages = setTimeout(() => {
-            that.isTypings = false;
-        }, waitTime);
-        // this.initiTimeout(waitTime)
-      }
-    } catch (error) {
-      this.logger.error('[CONV-COMP] error: ', error);
-    }
-
-  }
-
-  initiTimeout(waitTime){
-    const that = this;
-    this.setTimeoutWritingMessages = setTimeout(() => {
-      that.isTypings = false;
-    }, waitTime);
-  }
-
-  resetTimeout(){
-    this.isTypings = false
-    this.setTimeoutWritingMessages = null;
-    clearTimeout(this.setTimeoutWritingMessages)
-  }
-
   // -------------------------------------------------------------
   // DRAG FILE
   // -------------------------------------------------------------
@@ -1826,7 +1706,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
   async presentToastOnlyImageFilesAreAllowedToDrag() {
     const toast = await this.toastController.create({
-      message: this.translationsMap.get('FAILED_TO_UPLOAD_THE_FORMAT_IS_NOT_SUPPORTED'),
+      message: this.translationMap.get('FAILED_TO_UPLOAD_THE_FORMAT_IS_NOT_SUPPORTED'),
       duration: 5000,
       color: 'danger',
       cssClass: 'toast-custom-class',

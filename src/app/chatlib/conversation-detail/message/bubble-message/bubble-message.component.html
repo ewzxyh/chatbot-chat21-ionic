@@ -50,7 +50,7 @@
 
       <chat-text *ngIf="message?.type !=='html'"
         [text]="message?.text" 
-        [color]="fontColor" 
+        [color]="textColor" 
         [message]="message"
         (onBeforeMessageRender)="returnOnBeforeMessageRender($event)"
         (onAfterMessageRender)="returnOnAfterMessageRender($event)">

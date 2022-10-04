@@ -132,10 +132,9 @@ export class ProjectItemComponent implements OnInit {
       'LABEL_NOT_AVAILABLE',
       'LABEL_BUSY',
       'VIEW_ALL_CONVERSATIONS',
-      'UnassignedConversations',
-      // 'CONVERSATIONS_IN_QUEUE',
-      // 'CONVERSATION_IN_QUEUE',
-      // 'NO_CONVERSATION_IN_QUEUE',
+      'CONVERSATIONS_IN_QUEUE',
+      'CONVERSATION_IN_QUEUE',
+      'NO_CONVERSATION_IN_QUEUE',
       'PINNED_PROJECT',
       'CHANGE_PINNED_PROJECT',
       "CHANGE_TO_YOUR_STATUS_TO_AVAILABLE",
@@ -312,7 +311,6 @@ export class ProjectItemComponent implements OnInit {
           }
         });
         //not sound if unservedRequest is already chached and web-sk is closed and restart again
-        // this.logger.log('updateUnservedRequestCount::: count , unservedRequestCount ', count , this.unservedRequestCount)
         if(count > this.unservedRequestCount ){  
           this.events.publish('unservedRequest:count', count)
         }

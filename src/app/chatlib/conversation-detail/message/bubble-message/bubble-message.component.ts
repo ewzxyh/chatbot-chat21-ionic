@@ -18,9 +18,7 @@ import { ModalController } from '@ionic/angular';
 export class BubbleMessageComponent implements OnInit, OnChanges {
 
   @Input() message: MessageModel;
-  @Input() fontColor: string;
-  @Input() fontSize: string;
-  @Input() fontFamily: string;
+  @Input() textColor: string;
   @Input() areVisibleCAR: boolean;
   @Input() supportMode: boolean;
   @Output() onBeforeMessageRender = new EventEmitter();

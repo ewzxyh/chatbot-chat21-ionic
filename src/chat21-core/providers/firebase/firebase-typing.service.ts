@@ -12,11 +12,11 @@ import 'firebase/database';
 import { TypingService } from '../abstract/typing.service';
 import { CustomLogger } from '../logger/customLogger';
 import { LoggerInstance } from '../logger/loggerInstance';
-import { TIME_TYPING_MESSAGE } from 'src/chat21-core/utils/constants';
 
 
 export class TypingModel {
  
+
   constructor(
       public uid: string,
       public timestamp: any,
@@ -35,11 +35,14 @@ export class FirebaseTypingService extends TypingService {
   BSIsTyping: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   BSSetTyping: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
+  // public params
+  // public tenant: string;
+  private tenant: string;
+
+  // private params
   private urlNodeTypings: string;
   private setTimeoutWritingMessages: any;
-  private tenant: string;
   private logger: LoggerService = LoggerInstance.getInstance();
-  private ref: firebase.database.Query;
 
   constructor() {
     super();
@@ -61,11 +64,10 @@ export class FirebaseTypingService extends TypingService {
       urlTyping = this.urlNodeTypings + idCurrentUser + '/' + idConversation;
     }
     this.logger.debug('[FIREBASETypingSERVICE] urlTyping: ', urlTyping);
-    this.ref = firebase.database().ref(urlTyping);
-    this.ref.on('child_changed', (childSnapshot) => {
+    const ref = firebase.database().ref(urlTyping);
+    ref.on('child_changed', (childSnapshot) => {
       const precence: TypingModel = childSnapshot.val();
-      this.logger.debug('[FIREBASETypingSERVICE] child_changed: ', precence);
-      this.BSIsTyping.next({uid: idConversation, uidUserTypingNow: precence.uid, nameUserTypingNow: precence.name, waitTime: TIME_TYPING_MESSAGE});
+      this.BSIsTyping.next({uid: idConversation, uidUserTypingNow: precence.uid, nameUserTypingNow: precence.name});
     });
   }
 

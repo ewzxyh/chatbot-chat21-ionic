@@ -1,10 +1,11 @@
 // @import '../../../../../sass/variables';
 div {
-    --backgroundColor: --basic-blue;
-    --textColor: --bck-msg-sent;
-    --hoverBackgroundColor: --bck-msg-sent;
-    --hoverTextColor: --basic-blue;
-    --buttonFontSize: --button-in-msg-font-size;
+    --bck-msg-sent: #62a8ea;
+    --col-msg-sent:#ffffff;
+    --light-white: #f7f7f7;
+    --black: #1a1a1a;
+    --gray: #aaaaaa;
+    --blue: rgb(42, 106, 193);
 }
 
 
@@ -14,19 +15,19 @@ div {
     max-width: 300px;
     min-width: inherit;
     cursor: pointer;
-    border: 1px solid var(--textColor); //$blue
+    border: 1px solid var(--blue);
     border-radius: 20px;
     margin: 3px;
-    background: var(--backgroundColor);
+    background: transparent;
     overflow: hidden;
     font-family: 'Muli', sans-serif;
-    font-size: var(--buttonFontSize);
+    font-size: 15px;
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
     white-space: nowrap;
     letter-spacing: -0.24px;
     -webkit-font-smoothing: antialiased;
-    color: var(--textColor); //$blue
+    color: var(--blue);
     line-height: 16px;
 }
 
@@ -35,11 +36,11 @@ div {
     transition: background-color .6s ease;
     &:focus,
     &:hover {
-        color: var(--hoverTextColor);
-        background: var(--hoverBackgroundColor);
+        color: white;
+        background: var(--blue);
         .icon-button-action {
             svg {
-                fill: --black;
+                fill: var(--black);
             }
         }
     }

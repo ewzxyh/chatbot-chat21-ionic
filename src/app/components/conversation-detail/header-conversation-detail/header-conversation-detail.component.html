@@ -6,64 +6,46 @@
       </ion-back-button>
     </ion-buttons>
 
-    <ion-title>
+    <ion-title [class.info-open]="openInfoConversation || openInfoMessage">
 
-      <div *ngIf="conversationAvatar" class="avatar-and-typing-wpr" [ngClass]="{'mobile': isMobile}">
+      <div *ngIf="conversationAvatar" class="avatar-and-typing-wpr" >
         <!-- [ngStyle] = "{ 'left': platformName === 'ios' ? '55px' : ''  }" -->
-        <div class="avatar-container" style="cursor: pointer"
+        <div *ngIf="conversationAvatar" class="avatar-container" (click)="onOpenCloseInfoConversation()" style="cursor: pointer"
           [ngClass]="{ 'avatar-container-ios': platformName === 'ios' }">
           <app-avatar-profile 
             [itemAvatar]=conversationAvatar>
           </app-avatar-profile>
         </div>
-        <div class="info-container">
-
-          <!-- [ngClass] = "{ 'tile-info-with-ios': platformName === 'ios' ? '82px' : ''82px''  }" -->
-          <!-- (click)="onOpenCloseInfoConversation()" -->
-          <div class="tile-info-with" 
-            [ngClass]="{ 'tile-info-with-ios': platformName === 'ios' }">
-            <span class="tile-username">{{ conversationAvatar.conversation_with_fullname | truncate:50 }} </span>
-            <!-- <span class="tile-username">{{ conversation_with_fullname }} </span> -->
-          </div>
- 
-          <!-- [ngStyle] = "{ 'left': platformName === 'ios' ? '63px' : ''  }" -->
-          <div *ngIf="isDirect" class="user-presence" [ngClass]="{ 'user-presence-ios': platformName === 'ios' }">
-            <app-user-presence 
-              [idUser]=conversationAvatar.conversation_with 
-              [translationMap]=translationsMap
-              [borderColor]=borderColor 
-              [fontColor]=fontColor>
-            </app-user-presence>
-          </div>
-
-          <div class="subtitle-info">
-            <div class="conversation_project">
-              <!-- DIRECT CONV -->
-              <div *ngIf="isDirect">
-                <svg xmlns="http://www.w3.org/2000/svg" height="15"  width="15" viewBox="0 0 24 24" fill="#000000"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                <span  class="truncate">{{translationsMap.get('DIRECT_CHAT')}}</span>
-              </div>
-              <!-- GROUP CONV -->
-              <div *ngIf="conversationUid?.startsWith(TYPE_GROUP)">
-                <svg xmlns="http://www.w3.org/2000/svg" height="15"  width="15" viewBox="0 0 24 24" fill="#000000"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-                <span  class="truncate">{{translationsMap.get('GROUP_CHAT')}}</span>
-              </div>
-              <!-- SUPPORT-GROUP CONV -->
-              <div  *ngIf="conversationUid?.startsWith(TYPE_SUPPORT_GROUP)">
-                <svg xmlns="http://www.w3.org/2000/svg" data-v-78d18411="" width="15" height="15" fill="none" viewBox="0 0 24 24" class="inbox-icon"><path d="M22.002 12C22.002 6.477 17.524 2 12 2 6.476 1.999 2 6.477 2 12.001c0 5.186 3.947 9.45 9.001 9.952V20.11c-.778-.612-1.478-1.905-1.939-3.61h1.94V15H8.737a18.969 18.969 0 0 1-.135-5h6.794c.068.64.105 1.31.105 2h1.5c0-.684-.033-1.353-.095-2h3.358c.154.64.237 1.31.237 2h1.5ZM4.786 16.5h2.722l.102.396c.317 1.17.748 2.195 1.27 3.015a8.532 8.532 0 0 1-4.094-3.41ZM3.736 10h3.358a20.847 20.847 0 0 0-.095 2c0 1.043.075 2.051.217 3H4.043a8.483 8.483 0 0 1-.544-3c0-.682.08-1.347.232-1.983L3.736 10Zm5.122-5.902.023-.008C8.16 5.222 7.611 6.748 7.298 8.5H4.25c.905-2 2.56-3.587 4.608-4.402Zm3.026-.594L12 3.5l.126.006c1.262.126 2.48 2.125 3.045 4.995H8.83c.568-2.878 1.79-4.88 3.055-4.996Zm3.343.76-.107-.174.291.121a8.533 8.533 0 0 1 4.339 4.29h-3.048c-.298-1.665-.806-3.125-1.475-4.237Z M12 19a1 1 0 0 0 1 1h3v2h-.5a.5.5 0 1 0 0 1h4a.5.5 0 0 0 0-1H19v-2h3a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1h-9a1 1 0 0 0-1 1v5Z" fill="currentColor"/></svg>
-                <span *ngIf="conversationAvatar?.project_name" class="truncate">{{conversationAvatar?.project_name}}</span>
-                <span *ngIf="!conversationAvatar?.project_name" class="truncate">{{conversationAvatar?.projectId}}</span>
-              </div>
-            </div>
-
-          </div>
+        <!-- [ngStyle] = "{ 'left': platformName === 'ios' ? '63px' : ''  }" -->
+        <div *ngIf="isDirect" class="user-presence" [ngClass]="{ 'user-presence-ios': platformName === 'ios' }">
+          <app-user-presence 
+            [idUser]=conversationAvatar.conversation_with 
+            [translationMap]=translationMap
+            [borderColor]=borderColor 
+            [fontColor]=fontColor>
+          </app-user-presence>
         </div>
-        
 
-        
+        <div *ngIf="conversationAvatar" class="user-typing">
+          <app-user-typing 
+            [idConversation]=conversationAvatar.uid 
+            [idCurrentUser]=idLoggedUser 
+            [isDirect]=isDirect
+            [translationMap]=translationMap 
+            [color]=fontColor 
+            [membersConversation]=membersConversation>
+          </app-user-typing>
+        </div>
 
       </div>
-      
+      <!-- [ngClass] = "{ 'tile-info-with-ios': platformName === 'ios' ? '82px' : ''82px''  }" -->
+      <!-- (click)="onOpenCloseInfoConversation()" -->
+      <div *ngIf="conversationAvatar" class="tile-info-with" 
+        [ngClass]="{ 'tile-info-with-ios': platformName === 'ios' }">
+        <span class="tile-username">{{ conversationAvatar.conversation_with_fullname | truncate:50 }} </span>
+        <!-- <span class="tile-username">{{ conversation_with_fullname }} </span> -->
+
+      </div>
 
       <!-- <div *ngIf="conversationWithFullname" class="tile-info-with" (click)="onOpenCloseInfoConversation()">        
         <span class="tile-username">{{ conversationWithFullname }} </span>
@@ -78,20 +60,23 @@
         <span style="text-transform: capitalize; margin-left: 5px;"> {{ 'Crea ticket' | translate}} </span>
       </ion-button> -->
 
-      <ion-button *ngIf="conversationUid?.startsWith('support-group') && conv_type !== 'archived'" ion-button fill="clear" size="small" 
-        (click)="closeConversation()" [disabled]="conv_closed === true">
+      <ion-button *ngIf="conversationUid?.startsWith('support-group') && conv_type !== 'archived'" ion-button fill="clear" color="primary" size="small" 
+      (click)="closeConversation()" [ngClass]="{'resolve-conv-margin-right': !isMobile}" [disabled]="conv_closed === true">
         <!-- <ion-icon slot="icon-only" name="alert-circle-outline"></ion-icon> -->
         <ion-icon name="archive-outline"></ion-icon>
         <!-- <ion-icon slot="icon-only"  name="information-outline"></ion-icon> -->
-        <span style="text-transform: capitalize; margin-left: 5px;"> {{translationsMap?.get('Resolve')}} </span>
+        <span style="text-transform: capitalize; margin-left: 5px;"> {{ 'Resolve' | translate}} </span>
       </ion-button>
 
-      <!-- <ion-button *ngIf="!openInfoConversation" ion-button fill="clear" (click)="onOpenCloseInfoConversation()">
-       <ion-icon slot="icon-only" name="information-circle-outline"></ion-icon>
-      </ion-button> -->
-      <!-- <ion-button *ngIf="openInfoConversation" ion-button fill="clear" (click)="onOpenCloseInfoConversation()">
+      <ion-button *ngIf="!openInfoConversation" ion-button fill="clear" (click)="onOpenCloseInfoConversation()">
+        <!-- <ion-icon slot="icon-only" name="alert-circle-outline"></ion-icon> -->
+        <ion-icon slot="icon-only" name="information-circle-outline"></ion-icon>
+        <!-- <ion-icon slot="icon-only"  name="information-outline"></ion-icon> -->
+
+      </ion-button>
+      <ion-button *ngIf="openInfoConversation" ion-button fill="clear" (click)="onOpenCloseInfoConversation()">
         <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
-      </ion-button> -->
+      </ion-button>
 
     </ion-buttons>
 

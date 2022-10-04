@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 
 @Component({
@@ -9,37 +9,16 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChang
 export class TextButtonComponent implements OnInit {
 
   @Input() button: any;
-  @Input() isConversationArchived: boolean;
-  @Input() fontSize: string;
-  @Input() backgroundColor: string;
-  @Input() textColor: string;
-  @Input() hoverBackgroundColor: string;
-  @Input() hoverTextColor: string;
+  @Input() themeColor: string;
+  @Input() foregroundColor: string;
   @Output() onButtonClicked = new EventEmitter();
-
   public type: string = "text"
   constructor(private elementRef: ElementRef) { }
 
   ngOnInit() {
-  }
-
-  ngOnChanges(changes: SimpleChanges){
     //decomment if element should have same color of themeColor and fregroundColor
-    if(this.fontSize) this.elementRef.nativeElement.querySelector('.text').style.setProperty('--buttonFontSize', this.fontSize);
-    if(this.backgroundColor) this.elementRef.nativeElement.querySelector('.text').style.setProperty('--backgroundColor', this.backgroundColor);
-    if(this.textColor) this.elementRef.nativeElement.querySelector('.text').style.setProperty('--textColor', this.textColor);
-    if(this.hoverBackgroundColor) this.elementRef.nativeElement.querySelector('.text').style.setProperty('--hoverBackgroundColor', this.hoverBackgroundColor);
-    if(this.hoverTextColor) this.elementRef.nativeElement.querySelector('.text').style.setProperty('--hoverTextColor', this.hoverTextColor);
-  }
-
-  onMouseOver(event){
-    // if(this.backgroundColor) this.elementRef.nativeElement.querySelector('.text').style.background = this.textColor
-    // if(this.textColor) this.elementRef.nativeElement.querySelector('.text').style.color = this.backgroundColor
-  }
-
-  onMouseOut(event){
-    // this.elementRef.nativeElement.querySelector('.text').style.color = '';
-    // this.elementRef.nativeElement.querySelector('.text').style.background = ''
+    // this.elementRef.nativeElement.style.setProperty('--themeColor', this.themeColor);
+    // this.elementRef.nativeElement.style.setProperty('--foregroundColor', this.foregroundColor);
   }
 
   actionButtonText(){

@@ -9,8 +9,8 @@
 }
 ion-item {
     cursor: pointer;
-    height: 90px; //70px;
-    --min-height: 90px; //70px;
+    height: 70px;
+    --min-height: 70px;
     position: relative;
     display: flex;
     text-decoration: none;
@@ -19,13 +19,6 @@ ion-item {
     --padding-start: 0;
     --inner-padding-end: 0;
     --background-hover: #000000 !important;
-    border-radius: 16px;
-    margin: 4px 5px;
-    .conv-container{
-        width: 84%;
-        height: 100%;
-        padding: 12px 0;
-    }
     .selected {
         // border-radius: 10px;
         // padding-left: 8px;
@@ -40,13 +33,12 @@ ion-item {
     ion-avatar {
         position: relative;
         padding: 0;
-        margin: 20px 8px 0px 8px;//0 12px 0 8px;
-        height: 40px; //50px;
-        width: 40px; //50px;
-        min-width: 40px; //50px;
-        min-height: 40px; //50px;
-        line-height: 40px; //50px;
-        align-self: end;
+        margin: 0 12px 0 8px;
+        height: 50px;
+        width: 50px;
+        min-width: 50px;
+        min-height: 50px;
+        line-height: 50px;
         .avatar-placeholder {
             position: absolute;
             top: 0;
@@ -55,7 +47,7 @@ ion-item {
             height: 100%;
             border-radius: 50%;
             text-align: center;
-            font-size: 15px; //20px;
+            font-size: 20px;
             color: #ffffff;
             font-weight: 500;
         }
@@ -78,46 +70,22 @@ ion-item {
         justify-content: center;
         min-width: 0;
         padding: 0;
-        margin: 0;
         font-family: Helvetica, Helvetica, Arial, sans-serif;
         line-height: 1.28;
         text-rendering: optimizeLegibility;
-        .conversation_project{
-            display: inline-flex;
-            align-items: center;
-            line-height: 1.2rem;
-            font-weight: 500;
-            color: #779bbb;
-            font-size: 10px;
-            max-width: 90%;
-            svg {
-                fill:#779bbb;
-                vertical-align: sub;
-            }
-            span{
-                padding-left: 5px
-            }
-        }
         .conversation_with {
             color: rgba(0, 0, 0, 1);
             font-size: 15px;
             font-weight: 400;
             line-height: 1.4;
-            width: 70% !important;
-            &.not-read {
-                font-weight: 600;
-                color: #3c4858; //#1876f2;
-            }
         }
-        
         .conversation_message {
             p {
-                color: #6e6f73; //#3c4858;
-                font-size: 15px;
+                color: rgba(153, 153, 153, 1);
+                font-size: 13px;
                 font-weight: 400;
                 height: 18px;
                 vertical-align: middle;
-                align-self: center;
                 &.not-read {
                     font-weight: 600;
                     color: #1876f2;
@@ -125,13 +93,13 @@ ion-item {
             }
 
             span {
-                color: rgb(60, 72, 88);
-                font-size: 12px;
+                color: rgba(153, 153, 153, 1);
+                font-size: 13px;
                 font-weight: 400;
                 height: 18px;
                 &.not-read {
                     font-weight: 600;
-                    color: #3c4858; //#1876f2;
+                    color: #1876f2;
                 }
             }
         }
@@ -139,15 +107,8 @@ ion-item {
     ion-note {
         position: absolute;
         right: 8px;
-        top: 40px;
+        top: 4px;
         font-size: 10px;
-        display: flex;
-        flex-direction: column;
-        color: #6e6f73;
-
-        &.is-on-mobile{
-            top: 10px;
-        }
     }
     ion-buttons {
         margin: 0;
@@ -159,7 +120,7 @@ ion-item {
             font-size: 10px;
             --padding-start: 0px;
             --padding-end: 0px;
-            color: var(--basic-blue);//rgba(153, 153, 153, 1);
+            color: rgba(153, 153, 153, 1);
             background-color: transparent;
             border-radius: 50%; // nk
             &:hover {
@@ -172,17 +133,17 @@ ion-item {
         width: 10px;
         height: 10px;
         border-radius: 50%;
-        background-color: var(--basic-blue);
+        background-color: rgb(22, 92, 238);
         position: absolute;
         right: 6px;
         bottom: 8px;
     }
 
     .notification_point-on-desktop {
-        bottom: 22px !important;
+        bottom: 29px !important;
     }
     .notification_point-on-mobile {
-        bottom: 22px !important;
+        bottom: 29px !important;
         right: 8px;
     }
 }
@@ -248,8 +209,7 @@ ion-item:hover {
 }
 
 .ion-selected {
-    --background: rgba(24, 119, 242, 0.04);
-    border-right: 4px solid var(--basic-blue);
+    --background: rgb(231, 241, 255);
 }
 
 .time-in-archived {

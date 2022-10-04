@@ -52,19 +52,8 @@
 <!-- ----------------------------------------------------------- -->
 <!--  nk - no tag ionic -->
 <!-- ----------------------------------------------------------- -->
-<div class="manage_conversation_info_container" [ngClass]="{'close': !openInfoConversation, 'mobile': isMobile}">
-  <ion-button fill="clear" *ngIf="openInfoConversation" (click)="onOpenCloseInfoConversationFN()">
-    <ion-icon name="arrow-forward-outline"></ion-icon>
-    {{translationMap.get('LABEL_CLOSE_GROUP')}}
-  </ion-button>
-  <ion-button fill="clear" *ngIf="!openInfoConversation" (click)="onOpenCloseInfoConversationFN()">
-    <ion-icon name="arrow-back-outline"></ion-icon>
-    {{translationMap.get('LABEL_OPEN_INFO_CONVERSATION')}}
-  </ion-button>
-</div>
 
 <div class="conversation-wpr" style="height: 100%;">
-  
   <div *ngFor="let message of messages; let i = index; let first = first; trackBy: trackByFn">
 
     <ng-container *ngIf="first || (messages[i - 1].timestamp | date:'d') !== (message.timestamp | date:'d')">
@@ -92,12 +81,9 @@
       <chat-bubble-message class="messages msg_sent" id="message_msg_sent" style="position: relative;" 
         [ngClass]="{'has-metadata': (isImage(message) || isFrame(message)), 'privateMsg': (message?.attributes && message?.attributes?.subtype === 'private')}" 
         [class.emoticon]="isEmojii(message?.text)"
-        [ngStyle]="{'background': stylesMap.get('bubbleSentBackground'), 'color': stylesMap.get('bubbleSentTextColor')}"
         [ngClass]="{'button-in-msg' : message.metadata && message.metadata.button}"
         [message]="message" 
-        [fontColor]="stylesMap.get('bubbleSentTextColor')"
-        [fontSize]="stylesMap.get('fontSize')"
-        [fontFamily]="stylesMap.get('fontFamily')"
+        [textColor]="'col-msg-sent'"
         [addAsCannedResponseTooltipText]="addAsCannedResponseTooltipText" 
         [areVisibleCAR]="areVisibleCAR"
         [supportMode]="supportMode"
@@ -120,6 +106,8 @@
       class="message_sender_fullname">
       {{message.sender_fullname}}
     </div>
+
+
     <div role="messaggio" *ngIf="messageType(MESSAGE_TYPE_OTHERS, message)" class="msg_container base_receive">
 
       <!-- <chat-avatar-image class="slide-in-left"  
@@ -133,11 +121,8 @@
       <chat-bubble-message class="messages msg_receive" id="message_msg_receive" style="position: relative;"
         [ngClass]="{'has-metadata': (isImage(message) || isFrame(message)), 'privateMsg': (message?.attributes && message?.attributes?.subtype === 'private')}" 
         [class.emoticon]="isEmojii(message?.text)"
-        [ngStyle]="{'background': stylesMap?.get('bubbleReceivedBackground'), 'color': stylesMap.get('bubbleReceivedTextColor')}"
         [message]="message" 
-        [fontColor]="stylesMap?.get('bubbleReceivedTextColor')"
-        [fontSize]="stylesMap?.get('fontSize')"
-        [fontFamily]="stylesMap?.get('fontFamily')"
+        [textColor]="'black'"
         [addAsCannedResponseTooltipText]="addAsCannedResponseTooltipText" 
         [areVisibleCAR]="areVisibleCAR"
         [supportMode]="supportMode"
@@ -162,24 +147,13 @@
 
   <!-- uploadProgress -> {{ uploadProgress }} -->
   <div *ngIf="uploadProgress !== 100" class="msg_container base_sent" style="margin-right: 20px;">
-    <div class="chat21-spinner active" id="chat21-spinner" style="margin: 0px 6px 0px;">
-      <div class="chat21-bounce1" [ngStyle]="{'background-color': stylesMap.get('themeColor')}"></div>
-      <div class="chat21-bounce2" [ngStyle]="{'background-color': stylesMap.get('themeColor'), 'opacity': 0.4}"></div>
-      <div class="chat21-bounce3" [ngStyle]="{'background-color': stylesMap.get('themeColor'), 'opacity': 0.6}"></div>
-      <!-- <span [ngStyle]="{'color': stylesMap.get('themeColor')}">{{translationMap.get('LABEL_LOADING')}}</span> -->
+    <div class="messages msg_sent">
+      <div class="spinner">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+      </div>
     </div>
-  </div>
-
-  <div *ngIf="isTypings" class="msg_container base_receive typing_container">
-    <!-- !isSameSender(idUserTypingNow, i) -->
-    <!-- <div *ngIf="nameUserTypingNow">{{nameUserTypingNow}}</div> -->
-    <user-typing
-      [themeColor]="stylesMap?.get('themeColor')"
-      [translationMap]="translationMap"
-      [idUserTypingNow]="idUserTypingNow"
-      [nameUserTypingNow]="nameUserTypingNow">
-    </user-typing>
-    <div class="typing_info" *ngIf="nameUserTypingNow"> {{nameUserTypingNow}} {{translationMap.get('LABEL_IS_WRITING')}}</div>
   </div>
 
 </div>

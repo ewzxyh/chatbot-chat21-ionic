@@ -1,5 +1,5 @@
 import { ConversationContentComponent } from '../conversation-content/conversation-content.component';
-import { ChangeDetectorRef, Component, Input, OnInit, Output, EventEmitter, SimpleChange, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
 
 import { MESSAGE_TYPE_INFO, MESSAGE_TYPE_MINE, MESSAGE_TYPE_OTHERS } from 'src/chat21-core/utils/constants';
@@ -24,17 +24,14 @@ export class IonConversationDetailComponent extends ConversationContentComponent
   @Input() channelType: string;
   @Input() areVisibleCAR: boolean;
   @Input() supportMode: boolean;
-  @Input() isMobile: boolean;
   @Output() onElementRendered = new EventEmitter<{element: string, status: boolean}>();
   @Output() onAddUploadingBubble = new EventEmitter<boolean>();
-  @Output() onOpenCloseInfoConversation = new EventEmitter<boolean>();
-  
+
   public public_Key: any
   public uploadProgress: number = 100
   public fileType: any
   public browserLang: string;
   public addAsCannedResponseTooltipText: string;
-  public openInfoConversation: boolean = true;
   isImage = isImage;
   isFile = isFile;
   isFrame = isFrame;
@@ -69,11 +66,6 @@ export class IonConversationDetailComponent extends ConversationContentComponent
   ngOnInit() {
     this.listenToUploadFileProgress();
     this.setMomentLocaleAndGetTranslation();
-    
-  }
-
-  ngOnChanges(changes: SimpleChanges){
-    this.isMobile? this.openInfoConversation = false: null;
   }
 
 
@@ -142,11 +134,6 @@ export class IonConversationDetailComponent extends ConversationContentComponent
   onElementRenderedFN(event) {
     this.logger.log('[CONVS-DETAIL][ION-CONVS-DETAIL] - onElementRenderedFN:::ionic', event)
     this.onElementRendered.emit(event)
-  }
-
-  onOpenCloseInfoConversationFN(){
-    this.openInfoConversation = !this.openInfoConversation
-    this.onOpenCloseInfoConversation.emit(this.openInfoConversation)
   }
 
   /**

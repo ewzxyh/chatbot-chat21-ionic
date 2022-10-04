@@ -1,5 +1,3 @@
-import { TYPE_GROUP, TYPE_SUPPORT_GROUP } from './../../../../chat21-core/utils/constants';
-import { TYPE_DIRECT } from 'src/chat21-core/utils/constants';
 import { Component, EventEmitter, Input, IterableDiffers, KeyValueDiffers, OnInit, Output, SimpleChange } from '@angular/core';
 import { ConversationModel } from 'src/chat21-core/models/conversation';
 import { ImageRepoService } from 'src/chat21-core/providers/abstract/image-repo.service';
@@ -16,7 +14,6 @@ import { AppConfigProvider } from 'src/app/services/app-config';
 import { DomSanitizer } from '@angular/platform-browser'
 import { TiledeskAuthService } from 'src/chat21-core/providers/tiledesk/tiledesk-auth.service';
 import { AlertController } from '@ionic/angular';
-import { CustomTranslateService } from 'src/chat21-core/providers/custom-translate.service';
 // import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service';
 // import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance';
 
@@ -38,8 +35,6 @@ export class IonListConversationsComponent extends ListConversationsComponent im
   public currentYear: any;
   public browserLang: string;
 
-  public translationsMap: Map<string, string> = new Map()
-
   public PROJECT_FOR_PANEL: any;
   public archive_btn_tooltip: string;
   public resolve_btn_tooltip: string;
@@ -57,10 +52,6 @@ export class IonListConversationsComponent extends ListConversationsComponent im
     'hideDelayAfterClick': 3000,
     'hide-delay': 100
   };
-
-  TYPE_DIRECT = TYPE_DIRECT;
-  TYPE_GROUP = TYPE_GROUP;
-  TYPE_SUPPORT_GROUP = TYPE_SUPPORT_GROUP;
   /**
    * 
    * @param iterableDiffers 
@@ -72,7 +63,6 @@ export class IonListConversationsComponent extends ListConversationsComponent im
     public kvDiffers: KeyValueDiffers,
     public platform: Platform,
     private translate: TranslateService,
-    private translateService: CustomTranslateService,
     private networkService: NetworkService,
     private appConfigProvider: AppConfigProvider,
     private sanitizer: DomSanitizer,
@@ -82,6 +72,7 @@ export class IonListConversationsComponent extends ListConversationsComponent im
   ) {
     super(iterableDiffers, kvDiffers)
     this.setMomentLocale();
+
 
     // if (this.browserLang) {
 
@@ -132,11 +123,16 @@ export class IonListConversationsComponent extends ListConversationsComponent im
       'ALERT_TITLE',
       'ActionNotAllowed',
       'CLOSE_ALERT_CONFIRM_LABEL',
-      'YouAreNoLongerAmongTheTeammatesManagingThisConversation',
-      'GROUP_CHAT',
-      'DIRECT_CHAT'
+      'YouAreNoLongerAmongTheTeammatesManagingThisConversation'
     ]
-    this.translationsMap = this.translateService.translateLanguage(translationKeys)
+    this.translate.get(['Resolve', 'Archive', 'ALERT_TITLE']).subscribe((translations: string) => {
+        this.resolve_btn_tooltip = translations['Resolve'];
+        this.archive_btn_tooltip = translations['Archive'];
+        this.alert_lbl = translations['ALERT_TITLE']
+        this.actionNotAllowed_lbl = translations['ActionNotAllowed']
+        this.ok_lbl = translations['CLOSE_ALERT_CONFIRM_LABEL']
+        this.youAreNoLongerAmongTheTeammatesManagingThisConversation_lbl = translations['YouAreNoLongerAmongTheTeammatesManagingThisConversation']
+    });
   }
 
   setMomentLocale() {

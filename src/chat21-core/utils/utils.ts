@@ -590,10 +590,8 @@ export function setConversationAvatar(
   conversationWith: string,
   conversationWithFullname: string,
   conversationChannelType: string,
-  projectId?: string,
-  project_name?: string,
   width?: string,
-  height?: string,
+  height?: string
 ): any {
   const conversationWidth = (width) ? width : '40px';
   const conversationHeight = (height) ? height : '40px';
@@ -604,8 +602,6 @@ export function setConversationAvatar(
     channelType: conversationChannelType,
     avatar: avatarPlaceholder(conversationWithFullname),
     color: getColorBck(conversationWithFullname),
-    projectId: projectId,
-    project_name: project_name,
     width: conversationWidth,
     height: conversationHeight
   };
