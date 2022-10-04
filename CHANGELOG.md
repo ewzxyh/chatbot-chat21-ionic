@@ -1,30 +1,9 @@
 # chat21-ionic ver 3.0
 
-### 3.0.78-rc.4
+## 3.0.78 in PROD
 - bug-fixed: unassigned request not sound the if is the first at all
-- bug-fixed: translations missed
-- bug-fixed: direct info not showed in conversation-header component
-- removed: conversation-footer border top
-- changed: colors to message-text-area icons and message-attachment components
-
-### 3.0.78-rc.3
-- changed: user-typing location moved from conversation-header to conversation-detail component
-- changed: replace includes with startsWith for check what type of conversation is in project info conversation-list component
-- added: styleMap integrations to some elements	
-- bug-fixed: no tooltip showed if no unserved request are present
-
-### 3.0.78-rc.2
-- changed: project item UI and tooltip msg
-- changed: conversation UI in conversations list component
-- changed: conversation detail header component
-- added: open/close info-conversation moved from conversation-header to conversation detail component
 - bug-fixed: canned responses opens in incorrect mode
 
-### 3.0.78-rc.1
-- changed: conversation-list page width increased
-- changed: background changed in info-message component
-- changed: project-item UI
-- changed: conversation-list page UI
 
 ## 3.0.77 in PROD
 
