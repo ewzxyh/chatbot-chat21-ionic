@@ -105,7 +105,7 @@ ion-item {
 
 .message_sender_fullname {
     font-size: 0.9em;
-    margin: 0 0 1px 10px;
+    margin: 0 0 1px 20px;
     // color: var(--gray);
     font-weight: 500;
     color: #080f1a;
@@ -179,7 +179,7 @@ ion-item {
 /** recive message **/
 .base_receive {
     // padding: 0px 0px 6px 0px;
-    padding: 0px 0px 15px 0px; // edited to display the date at the bottom of the "message bubble"
+    padding: 0px 0px 15px 10px; // edited to display the date at the bottom of the "message bubble"
     /* avatar */
     .content-avatar {
         position: relative;
