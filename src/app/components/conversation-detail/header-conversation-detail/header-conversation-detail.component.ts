@@ -72,7 +72,6 @@ export class HeaderConversationDetailComponent implements OnInit, OnChanges {
     this.logger.log('[CONVS-DETAIL][HEADER] - (ngOnInit) - conversationAvatar', this.conversationAvatar,)
     this.logger.log('[CONVS-DETAIL][HEADER] - (ngOnInit) -  conv_type', this.conv_type)
     this.listenToConversationHasBeenClosed()
-    this.initialize();
     // this.isOniOSMobileDevice()
   }
 
@@ -90,6 +89,7 @@ export class HeaderConversationDetailComponent implements OnInit, OnChanges {
     this.logger.log('[CONVS-DETAIL][HEADER] - (ngOnChanges) -  conversationAvatar', this.conversationAvatar)
     if (this.conversationAvatar) {
       this.conversationAvatar.imageurl = this.imageRepoService.getImagePhotoUrl(this.conversationAvatar.uid)
+      this.initialize()
     }
   }
 

@@ -620,6 +620,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       'LABEL_TO',
       'LABEL_LAST_ACCESS',
       'ARRAY_DAYS',
+      'Resolve',
     ]
 
     const keysContentDetail = [

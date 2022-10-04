@@ -1,5 +1,11 @@
 # chat21-ionic ver 3.0
 
+### 3.0.78-rc.4
+- bug-fixed: unassigned request not sound the if is the first at all
+- bug-fixed: translations missed
+- removed: conversation-footer border top
+- changed: colors to message-text-area icons and message-attachment components
+
 ### 3.0.78-rc.3
 - changed: user-typing location moved from conversation-header to conversation-detail component
 - changed: replace includes with startsWith for check what type of conversation is in project info conversation-list component

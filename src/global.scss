@@ -796,7 +796,7 @@ select:-webkit-autofill:focus {
 // select teammate status in user detail drawer
 .teammate-status-in-drawer {
 
-    .ng-select {
+    &.ng-select {
 
         .ng-select-container {
             background-color: #2d323e;
