@@ -5,6 +5,8 @@
   "LABEL_AVAILABLE": "имеется в наличии",
   "LABEL_NOT_AVAILABLE": "недоступно",
   "LABEL_INACTIVE":"неактивный",
+  "LABEL_ONLINE":"онлайн",
+  "LABEL_OFFLINE":"не в сети",
   "LABEL_NO_MSG_HERE": "До сих пор нет сообщения здесь...",
   "LABEL_TODAY": "сегодня",
   "LABEL_TOMORROW": "вчерашний день",

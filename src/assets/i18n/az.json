@@ -5,6 +5,8 @@
     "LABEL_AVAILABLE": "mövcuddur",
     "LABEL_NOT_AVAILABLE": "Mövcud deyil",
     "LABEL_INACTIVE":"qeyri-aktiv",
+    "LABEL_ONLINE":"onlayn",
+    "LABEL_OFFLINE":"oflayn",
     "LABEL_NO_MSG_HERE": "Burada hələ mesaj yoxdur...",
     "LABEL_TODAY": "bu gün",
     "LABEL_TOMORROW": "dünən",

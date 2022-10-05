@@ -5,6 +5,8 @@
     "LABEL_AVAILABLE": "disponibile",
     "LABEL_NOT_AVAILABLE": "non disponibile",
     "LABEL_INACTIVE":"inattivo",
+    "LABEL_ONLINE":"in linea",
+    "LABEL_OFFLINE":"disconnesso",
     "LABEL_NO_MSG_HERE": "Ancora nessun messaggio qui...",
     "LABEL_TODAY": "oggi",
     "LABEL_TOMORROW": "ieri",

@@ -6,6 +6,8 @@
     "LABEL_AVAILABLE": "mavjud",
     "LABEL_NOT_AVAILABLE": "mavjud emas",
     "LABEL_INACTIVE":"harakatsiz",
+    "LABEL_ONLINE":"onlayn",
+    "LABEL_OFFLINE":"oflayn",
     "LABEL_NO_MSG_HERE": "Bu yerda hali xabar yo'q...",
     "LABEL_TODAY": "Bugun",
     "LABEL_TOMORROW": "kecha",

@@ -5,6 +5,8 @@
     "LABEL_AVAILABLE": "қолжетімді",
     "LABEL_NOT_AVAILABLE": "жоқ",
     "LABEL_INACTIVE":"белсенді емес",
+    "LABEL_ONLINE":"желіде",
+    "LABEL_OFFLINE":"желіден тыс",
     "LABEL_NO_MSG_HERE": "Бұл жерде әлі хабар жоқ...",
     "LABEL_TODAY": "бүгін",
     "LABEL_TOMORROW": "кеше",

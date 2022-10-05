@@ -5,6 +5,8 @@
     "LABEL_AVAILABLE": "доступний",
     "LABEL_NOT_AVAILABLE": "недоступний",
     "LABEL_INACTIVE":"неактивний",
+    "LABEL_ONLINE":"онлайн",
+    "LABEL_OFFLINE":"офлайн",
     "LABEL_NO_MSG_HERE": "Тут досі немає повідомлення...",
     "LABEL_TODAY": "сьогодні",
     "LABEL_TOMORROW": "вчора",

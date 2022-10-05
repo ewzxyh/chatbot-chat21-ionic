@@ -5,6 +5,8 @@
     "LABEL_AVAILABLE": "tillgängligt",
     "LABEL_NOT_AVAILABLE": "inte tillgänglig",
     "LABEL_INACTIVE":"inaktiv",
+    "LABEL_ONLINE":"uppkopplad",
+    "LABEL_OFFLINE":"off-line",
     "LABEL_NO_MSG_HERE": "Fortfarande inget meddelande här...",
     "LABEL_TODAY": "i dag",
     "LABEL_TOMORROW": "i går",

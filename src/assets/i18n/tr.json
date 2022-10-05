@@ -5,6 +5,8 @@
   "LABEL_AVAILABLE": "mevcut",
   "LABEL_NOT_AVAILABLE": "müsait değil",
   "LABEL_INACTIVE":"etkin değil",
+  "LABEL_ONLINE":"internet üzerinden",
+  "LABEL_OFFLINE":"çevrimdışı",
   "LABEL_NO_MSG_HERE": "Hala mesaj yok...",
   "LABEL_TODAY": "bugün",
   "LABEL_TOMORROW": "dün",

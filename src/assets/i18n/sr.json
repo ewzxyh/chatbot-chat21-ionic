@@ -5,6 +5,8 @@
         "LABEL_AVAILABLE": "на располагању",
         "LABEL_NOT_AVAILABLE": "није доступно",
         "LABEL_INACTIVE":"неактиван",
+        "LABEL_ONLINE":"онлајн",
+        "LABEL_OFFLINE":"одсутан",
         "LABEL_NO_MSG_HERE": "Још увек нема поруке овде...",
         "LABEL_TODAY": "данас",
         "LABEL_TOMORROW": "јуче",
