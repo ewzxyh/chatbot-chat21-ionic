@@ -814,6 +814,10 @@ export function redirect2(router, IDConv, conversationSelected) {
 /** */
 export function checkPlatformIsMobile() {
   // console.log('UTILS - checkPlatformIsMobile:: ', window.innerWidth);
+  // if (/Android|iPhone/i.test(window.navigator.userAgent)) {
+  //   return true
+  // }
+  // return false
   if (window.innerWidth < 768) {
     return true;
   }
