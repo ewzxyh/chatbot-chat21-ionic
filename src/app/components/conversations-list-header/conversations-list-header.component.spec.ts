@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { DdpHeaderComponent } from './ddp-header.component';
+import { ConversationsListHeader } from './conversations-list-header.component';
 
-describe('DdpHeaderComponent', () => {
-  let component: DdpHeaderComponent;
-  let fixture: ComponentFixture<DdpHeaderComponent>;
+describe('ConversationsListHeader', () => {
+  let component: ConversationsListHeader;
+  let fixture: ComponentFixture<ConversationsListHeader>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DdpHeaderComponent ],
+      declarations: [ ConversationsListHeader ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(DdpHeaderComponent);
+    fixture = TestBed.createComponent(ConversationsListHeader);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

@@ -4,22 +4,22 @@ import { EventsService } from 'src/app/services/events-service'
 import { CreateTicketPage } from 'src/app/pages/create-ticket/create-ticket.page'
 import { CustomTranslateService } from 'src/chat21-core/providers/custom-translate.service'
 @Component({
-  selector: 'app-ddp-header',
-  templateUrl: './ddp-header.component.html',
-  styleUrls: ['./ddp-header.component.scss'],
+  selector: 'conversations-list-header',
+  templateUrl: './conversations-list-header.component.html',
+  styleUrls: ['./conversations-list-header.component.scss'],
 })
-export class DdpHeaderComponent implements OnInit {
+export class ConversationsListHeader implements OnInit {
   
   @Input() numberOpenConv: number
   @Input() supportMode: boolean
   @Input() archived_btn: boolean
   @Input() writeto_btn: boolean
-  @Input() sound_btn: string
+  @Input() sound_btn: string;
+  @Input() isMobile: boolean;
   @Output() onSoundChange = new EventEmitter<string>()
   @Output() openContactsDirectory = new EventEmitter()
   @Output() openProfileInfo = new EventEmitter()
 
-  IS_ON_MOBILE_DEVICE: boolean
   createTicketModal = null
   public translationMap: Map<string, string>;
   tooltipOptions = {
@@ -36,7 +36,7 @@ export class DdpHeaderComponent implements OnInit {
     public modalController: ModalController,
     private translateService: CustomTranslateService,
   ) {
-    this.isOnMobileDevice();
+
     this.translations();
     // this.listenToCloseCreateTicketModal() // published from create ticket page
   }
@@ -67,15 +67,6 @@ export class DdpHeaderComponent implements OnInit {
   //     });
   //   }
   // }
-
-  isOnMobileDevice() {
-    this.IS_ON_MOBILE_DEVICE = false
-    if (/Android|iPhone/i.test(window.navigator.userAgent)) {
-      this.IS_ON_MOBILE_DEVICE = true
-    }
-    // console.log('[DDP-HEADER] IS_ON_MOBILE_DEVICE', this.IS_ON_MOBILE_DEVICE)
-    return this.IS_ON_MOBILE_DEVICE
-  }
 
   ngOnInit() {
     // console.log('DDP HEADER SUPPORT MODE ', this.supportMode)

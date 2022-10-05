@@ -21,7 +21,7 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 
 import { AvatarProfileComponent } from 'src/app/components/utils/avatar-profile/avatar-profile.component';
-import { DdpHeaderComponent } from 'src/app/components/ddp-header/ddp-header.component';
+import { ConversationsListHeader } from 'src/app/components/conversations-list-header/conversations-list-header.component';
 
 import { UserPresenceComponent } from 'src/app/components/utils/user-presence/user-presence.component';
 import { UserTypingComponent } from 'src/chat21-core/utils/user-typing/user-typing.component';
@@ -59,7 +59,7 @@ import { SafeHtmlPipe } from '../directives/safe-html.pipe';
   declarations: [
     // MessageTextAreaComponent,
     AvatarProfileComponent,
-    DdpHeaderComponent,
+    ConversationsListHeader,
     UserPresenceComponent,
     UserTypingComponent,
     ListConversationsComponent,
@@ -102,7 +102,7 @@ import { SafeHtmlPipe } from '../directives/safe-html.pipe';
     // MessageTextAreaComponent,
     AutofocusDirective,
     AvatarProfileComponent,
-    DdpHeaderComponent,
+    ConversationsListHeader,
     ImageViewerComponent,
     SidebarComponent,
     SidebarUserDetailsComponent,
