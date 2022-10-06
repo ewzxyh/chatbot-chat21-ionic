@@ -1,5 +1,20 @@
 # chat21-ionic ver 3.0
 
+### 3.0.79-rc.1
+- added: LABEL_ONLINE, LABEL_OFFLINE translations
+- changed: renamed ddp-header with conversations-list-header
+- changed: unified control to mobile/desktop app
+- changed: LABEL_AVAILABLE/NOT_AVAILABLE with LABEL_ONLINE/OFFLINE in user-presence component	
+- changed: icon to user-presence
+- changed: UI for conversation-list, conversation-detail and info-group for desktop and mobile
+- changed: renamed option-header component with header-conversations-list-archived
+- changed: contacts-directory UI
+- bug-fixed: if app is opened and user press width expand, move correctly the right position
+
+## 3.0.78 in PROD 
+- bug-fixed: unassigned request not sound the if is the first at all
+- bug-fixed: canned responses opens in incorrect mode
+
 ### 3.0.78-rc.4
 - bug-fixed: unassigned request not sound the if is the first at all
 - bug-fixed: translations missed
