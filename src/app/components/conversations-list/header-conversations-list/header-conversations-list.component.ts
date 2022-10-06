@@ -4,11 +4,11 @@ import { EventsService } from 'src/app/services/events-service'
 import { CreateTicketPage } from 'src/app/pages/create-ticket/create-ticket.page'
 import { CustomTranslateService } from 'src/chat21-core/providers/custom-translate.service'
 @Component({
-  selector: 'conversations-list-header',
-  templateUrl: './conversations-list-header.component.html',
-  styleUrls: ['./conversations-list-header.component.scss'],
+  selector: 'header-conversations-list',
+  templateUrl: './header-conversations-list.component.html',
+  styleUrls: ['./header-conversations-list.component.scss'],
 })
-export class ConversationsListHeader implements OnInit {
+export class HeaderConversationsList implements OnInit {
   
   @Input() numberOpenConv: number
   @Input() supportMode: boolean

@@ -1,0 +1,14 @@
+ion-toolbar {
+    height: var(--header-height);   
+    &:not(.mobile){
+        --background: var(--list-bkg-color);
+        border: none;
+    }
+    &.mobile{
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    ion-button{
+        --color: var(--basic-blue);
+    }
+}

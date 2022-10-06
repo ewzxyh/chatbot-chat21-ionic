@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { ConversationsListHeader } from './conversations-list-header.component';
+import { HeaderConversationsList } from './header-conversations-list.component';
 
 describe('ConversationsListHeader', () => {
-  let component: ConversationsListHeader;
-  let fixture: ComponentFixture<ConversationsListHeader>;
+  let component: HeaderConversationsList;
+  let fixture: ComponentFixture<HeaderConversationsList>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ConversationsListHeader ],
+      declarations: [ HeaderConversationsList ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ConversationsListHeader);
+    fixture = TestBed.createComponent(HeaderConversationsList);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

@@ -2,13 +2,14 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 
 @Component({
-  selector: 'app-option-header',
-  templateUrl: './option-header.component.html',
-  styleUrls: ['./option-header.component.scss'],
+  selector: 'header-conversations-list-archived',
+  templateUrl: './header-conversations-list-archived.component.html',
+  styleUrls: ['./header-conversations-list-archived.component.scss'],
 })
-export class OptionHeaderComponent implements OnInit {
+export class HeaderConversationsListArchived implements OnInit {
 
   @Input() headerTitle: string
+  @Input() isMobile: boolean;
   @Output() onBackButton = new EventEmitter<boolean>();
   static UserPresenceComponent: any[] | any;
 
