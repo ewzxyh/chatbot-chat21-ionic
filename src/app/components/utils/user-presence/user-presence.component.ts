@@ -17,11 +17,10 @@ import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance'
 })
 
 export class UserPresenceComponent implements OnInit, OnDestroy {
+  
   @Input() idUser: string;
+  @Input() isMobile: boolean;
   @Input() translationMap: Map<string, string>;
-  @Input() fontColor: string;
-  @Input() borderColor: string;
-
 
   public online = true;
   public status = '';
@@ -47,9 +46,6 @@ export class UserPresenceComponent implements OnInit, OnDestroy {
 
   /** */
   initialize() {
-    if (this.translationMap) {
-      this.status = this.translationMap.get('LABEL_ACTIVE_NOW');
-    }
     this.logger.log('[USER-PRESENCE-COMP] - initialize - this.translationMap', this.translationMap);
     this.logger.log('[USER-PRESENCE-COMP] - initialize - this.status', this.status);
     this.logger.log('[USER-PRESENCE-COMP] - initialize - idUser ->', this.idUser);
@@ -122,11 +118,11 @@ export class UserPresenceComponent implements OnInit, OnDestroy {
     this.logger.log('[USER-PRESENCE-COMP] userIsOnLine - userId: ', userId, ' - isOnline: ', isOnline);
     this.online = isOnline;
     if (isOnline) {
-      this.status = this.translationMap.get('LABEL_AVAILABLE');
+      this.status = this.translationMap.get('LABEL_ONLINE');
     } else {
-      this.status = this.translationMap.get('LABEL_NOT_AVAILABLE');
+      this.status = this.translationMap.get('LABEL_OFFLINE');
       if (this.lastConnectionDate && this.lastConnectionDate.trim() !== '') {
-        this.status = this.lastConnectionDate;
+        this.status = this.status + ' (' + this.lastConnectionDate + ')'
       }
     }
   }
@@ -141,7 +137,7 @@ export class UserPresenceComponent implements OnInit, OnDestroy {
       this.logger.log('[USER-PRESENCE-COMP] userLastConnection - lastConnectionDate', lastConnectionDate);
       this.lastConnectionDate = lastConnectionDate;
       if (this.online === false) {
-        this.status = this.lastConnectionDate;
+        this.status = this.translationMap.get('LABEL_OFFLINE') + ' (' + this.lastConnectionDate + ')'
       }
     }
   }
