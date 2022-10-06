@@ -87,9 +87,9 @@ ion-content {
         top: 0;
         overflow: hidden;
         background-color: white;
-        
+
         &:not(.mobile){
-            border-radius: 16px;
+            border-radius: var(--border-radius-content);;
             position: unset;
             
         }
@@ -169,6 +169,12 @@ ion-content {
 
 .chat-area-apps-sidebar-wide {
     min-width: calc(100% - 600px) !important;
+}
+
+:host #conv-details .chat-area-apps-sidebar-wide ion-conversation-detail ::ng-deep {
+    div.manage_conversation_info_container{
+        right: calc(300px + 300px + var(--padding-conversation-detail));
+    }
 }
 
 .info-convs-apps-sidebar-wide {
