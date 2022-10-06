@@ -91,6 +91,8 @@ export class ConversationListPage implements OnInit {
   public displayNewConvsItem: boolean = true
   public archiveActionNotAllowed: boolean = false
 
+  public isMobile: boolean = false;
+
   tooltipOptions = {
     'show-delay': 1500,
     'tooltip-class': 'chat-tooltip',
@@ -121,6 +123,7 @@ export class ConversationListPage implements OnInit {
     private networkService: NetworkService,
     private appStorageService: AppStorageService
   ) {
+    this.checkPlatform();
     this.listenToAppCompConvsLengthOnInitConvs()
     this.listenToLogoutEvent()
     this.listenGoOnline()
@@ -130,6 +133,16 @@ export class ConversationListPage implements OnInit {
     this.listenSupportConvIdHasChanged()
     // this.listenDirectConvIdHasChanged();
     this.listenToCloseConvFromHeaderConversation()
+  }
+
+  private checkPlatform(){
+    if (checkPlatformIsMobile()) {
+      this.isMobile = true
+      this.logger.log('[CONVS-LIST-PAGE] - initialize -> checkPlatformIsMobile isMobile? ', this.isMobile)
+    } else {
+      this.isMobile = false
+      this.logger.log('[CONVS-LIST-PAGE] - initialize -> checkPlatformIsMobile isMobile? ', this.isMobile)
+    }
   }
 
   listenSupportConvIdHasChanged() {
