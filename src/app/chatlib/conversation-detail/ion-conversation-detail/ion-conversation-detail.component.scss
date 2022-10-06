@@ -53,6 +53,10 @@
     &.mobile{
         right: 0px;
     }
+    &:not(.mobile){
+        right: calc(300px + var(--padding-conversation-detail));
+        top: calc(60px + var(--padding-conversation-detail));
+    }
     &::before{
         content: "";
         width: 102px;

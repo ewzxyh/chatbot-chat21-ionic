@@ -4,6 +4,9 @@ ion-header {
   border-bottom-style: solid;
   border-color: var(--light-gray);
   border-bottom-width: thin;
+  &:not(.mobile){
+    border: none;
+  }
 }
 
 ion-content {
@@ -11,6 +14,9 @@ ion-content {
   --offset-bottom: auto!important;
   --overflow: hidden;
   overflow: scroll;
+  &:not(.mobile){
+    background: var(--list-bkg-color);
+  }
 
   &::-webkit-scrollbar {
     width: 6px;
@@ -40,6 +46,7 @@ ion-list {
   list-style-type: none;
   margin: 0;
   padding: 0;
+  background: transparent;
 
   ion-item {
     cursor: pointer;
@@ -51,6 +58,7 @@ ion-list {
     padding-right: 8px;
     --padding-start: 0;
     --inner-padding-end: 0;
+    --background: transparent;
     .selected {
       border-radius: 10px;
       padding-left: 8px;

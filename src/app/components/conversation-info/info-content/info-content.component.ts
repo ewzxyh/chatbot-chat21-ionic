@@ -28,11 +28,12 @@ import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance'
 
 export class InfoContentComponent implements OnInit {
   @Input() openInfoConversation: boolean;
-  @Input() translationMap: Map<string, string>;
   // @Input() member: UserModel;
   @Input() loggedUser: UserModel
   @Input() tenant: string
-  @Input() groupDetail: any
+  @Input() groupDetail: any;
+  @Input() isMobile: boolean;
+  @Input() translationMap: Map<string, string>;
 
 
   public member: UserModel;

@@ -1,14 +1,15 @@
-<ion-header no-border class="ion-no-border">
-  <app-ddp-header *ngIf="conversationType ==='active'" 
+<ion-header no-border class="ion-no-border" [class.mobile]="isMobile">
+  <conversations-list-header *ngIf="conversationType ==='active'" 
     [numberOpenConv]="numberOpenConv" 
     [supportMode]="supportMode"
     [archived_btn]="archived_btn"
     [writeto_btn]="writeto_btn"
     [sound_btn]="sound_btn"
+    [isMobile]="isMobile"
     (onSoundChange)="onSoundChange($event)"
     (openContactsDirectory)=openContactsDirectory($event) 
     (openProfileInfo)=openProfileInfo($event)>
-  </app-ddp-header>
+  </conversations-list-header>
 
   <app-option-header *ngIf="conversationType !=='active'" 
     [headerTitle]=headerTitle
@@ -16,7 +17,7 @@
   </app-option-header>
 </ion-header>
 <!-- appScrollbarTheme -->
-<ion-content id="convs-list" #ioncontentconvlist class="list-avatar-page" >
+<ion-content id="convs-list" #ioncontentconvlist class="list-avatar-page" [class.mobile]="isMobile">
   <!-- class="ps" style="position: relative; max-width: 600px; max-height: 100%;" [perfectScrollbar]="config" -->
   <div id="scrollbar2">
     <ion-list>

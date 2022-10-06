@@ -1,23 +1,29 @@
 <span *ngIf="conversationWith && loggedUser; then showConversation else showPlaceholder"></span>
 <ng-template #showPlaceholder>
+
+  <ion-header no-border class="ion-no-border" [class.mobile]="isMobile">
+    <ion-toolbar [class.mobile]="isMobile">
+
+    </ion-toolbar>
+  </ion-header>
   <!-- class="splash-page" -->
-  <ion-content padding>
+  <ion-content padding id="contentPlaceholder" [class.mobile]="isMobile"> 
     <!-- <div padding class="image-splash-page"></div>
     <div padding class="title-splash-page">
       text new conversation + button
     </div> -->
+    
 
-    <ion-grid style="height: 100%;">
-      <ion-row class="ion-justify-content-center ion-align-items-center" style="height: 100%; flex-direction: column">
+    <ion-grid class="grid_content" [class.mobile]="isMobile">
+      <ion-row class="row_content ion-justify-content-center ion-align-items-center" style="flex-direction: column">
         <span *ngIf="isOnline === true  && !showSpinner"
-          style="color: #92949c; font-size: 16px;line-height: 18px;margin-top: -160px;">
+          style="color: #92949c; font-size: 16px;line-height: 18px;">
           <span *ngIf="conversation_count > 0 ">
             {{'PleaseSelectChatToStartMessaging' | translate }}
           </span>
           <span *ngIf="conversation_count === 0" style="line-height: 1.2;color: #4b5258;
         font-weight: 500;">
             {{'ALL_CONVS_SERVED' | translate}}
-
           </span>
 
         </span>
@@ -41,9 +47,9 @@
     [conv_type]="conv_type">
   </app-header-conversation-detail>
 
-  <ion-content id="conv-details">
-    <ion-grid class="grid_content">
-      <ion-row class="row_content">
+  <ion-content id="conv-details" [class.mobile]="isMobile">
+    <ion-grid class="grid_content" [class.mobile]="isMobile">
+      <ion-row class="row_content" [class.mobile]="isMobile">
         <ion-col id="chatArea" [class.mobile]="isMobile" [class.open]="openInfoConversation"
         [ngClass]="{'chat-area-apps-sidebar-wide': appsidebarIsWide === true}">
 
@@ -104,7 +110,7 @@
                 (ionScrollStart)="logScrollStart($event)" 
                 (ionScroll)="logScrolling($event)"
                 (ionScrollEnd)="logScrollEnd($event)" 
-                [class.active]="showIonContent">
+                [class.active]="true">
 
                 <!-- ----------------------------------------------------------- -->
                 <!-- DROPZONE -->
@@ -240,10 +246,11 @@
         [ngClass]="{'info-convs-apps-sidebar-wide': appsidebarIsWide === true}">
           <app-info-content 
             [openInfoConversation]="openInfoConversation" 
-            [translationMap]="translationsMap"
             [loggedUser]="loggedUser" 
             [tenant]="tenant" 
-            [groupDetail]="groupDetail">
+            [groupDetail]="groupDetail"
+            [isMobile]="isMobile"
+            [translationMap]="translationsMap">
           </app-info-content>
         </ion-col>
 

@@ -19,6 +19,7 @@ ion-item {
     --padding-start: 0;
     --inner-padding-end: 0;
     --background-hover: #000000 !important;
+    --background: transparent;
     border-radius: 16px;
     margin: 4px 5px;
     .conv-container{
@@ -248,7 +249,7 @@ ion-item:hover {
 }
 
 .ion-selected {
-    --background: rgba(24, 119, 242, 0.04);
+    background: var(--list-bkg-color-selected);
     border-right: 4px solid var(--basic-blue);
 }
 

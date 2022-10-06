@@ -1,11 +1,18 @@
 
 ion-header {
-    --ion-background-color: #fff;
-    border-bottom-style: solid;
-    border-color: var(--light-gray);
-    border-bottom-width: thin;
+    border: none;
+    &.mobile{
+        --ion-background-color: #fff;
+        border-bottom-style: solid;
+        border-color: var(--light-gray);
+        border-bottom-width: thin;
+    }
+    
     ion-toolbar{
         height: var(--header-height);
+        &:not(.mobile){
+            --background: var(--list-bkg-color);
+        }
         .flex-container{
             display: flex;
         }
@@ -69,14 +76,27 @@ ion-header {
         }
     }
     .tile-info-with {
-        // position: relative;
-        // display: inline-block;
-        // vertical-align: middle;
-        // margin: -6px 0px 0 6px;
-        // position: absolute;
-        // margin-left: 12px;
-        
-        // cursor: pointer;
+        display: flex;
+
+        .tile-username {
+            display: inline-block;
+            font-size: 18px;
+            margin: 0;
+            padding: 0;
+    
+            color: #1f2d3d;
+            font-weight: 400; //600;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+            -webkit-text-size-adjust: none;
+            -moz-text-size-adjust: none;
+            -ms-text-size-adjust: none;
+            text-size-adjust: none;
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
     }
     .tile-point {
         width: 10px;
@@ -87,25 +107,7 @@ ion-header {
         margin-right: 5px;
         vertical-align: middle;
     }
-    .tile-username {
-        display: inline-block;
-        font-size: 18px;
-        margin: 0;
-        padding: 0;
-
-        color: #1f2d3d;
-        font-weight: 400; //600;
-        -webkit-font-smoothing: antialiased;
-        text-rendering: optimizeLegibility;
-        -webkit-text-size-adjust: none;
-        -moz-text-size-adjust: none;
-        -ms-text-size-adjust: none;
-        text-size-adjust: none;
-        -webkit-user-select: text;
-        -moz-user-select: text;
-        -ms-user-select: text;
-        user-select: text;
-    }
+    
 
     .tile-last-activity {
         color: var(--light-gray);
@@ -142,8 +144,8 @@ ion-header {
     background-color: #fff;
     color: #fff;
     text-align: center;
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     // position: absolute;
     // top: 0;
     // left: 20px;
@@ -163,6 +165,7 @@ ion-header {
     flex-direction: column;
     justify-content: center;
     margin-left: 12px;
+    width: 80%;
 }
 
 .user-presence {
