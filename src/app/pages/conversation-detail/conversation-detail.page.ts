@@ -264,21 +264,21 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       // console.log('[CONVS-DETAIL] HAS CLICKED ENLARGE SIDEBAR WIDE chatAreaEle ', chatAreaEle)
 
       if (event && event.data && event.data.action && event.data.action === 'openAppsSidebarWideMode' && event.data.parameter === true) {
-        this.logger.log('[CONVS-DETAIL] HERE YES 1')
+        this.logger.log('[CONVS-DETAIL] openAppsSidebarWideMode EVENT-> open' )
         this.appsidebarIsWide = true
         // chat21InfoConversationEle.classList.add("info-convs-apps-sidebar-wide");
         // chatAreaEle.classList.add("chat-area-apps-sidebar-wide");
       }
 
       if (event && event.data && event.data.action && event.data.action === 'openAppsSidebarWideMode' && event.data.parameter === false) {
-        this.logger.log('[CONVS-DETAIL] HERE YES 2')
+        this.logger.log('[CONVS-DETAIL] openAppsSidebarWideMode EVENT-> close')
         this.appsidebarIsWide = false
         // chat21InfoConversationEle.classList.remove("info-convs-apps-sidebar-wide");
         // chatAreaEle.classList.remove("chat-area-apps-sidebar-wide");
       }
 
       if (event && event.data && event.data.action && event.data.action === 'closeAppsSidebarWideMode' && event.data.parameter === true) {
-        this.logger.log('[CONVS-DETAIL] HERE YES 3')
+        this.logger.log('[CONVS-DETAIL] closeAppsSidebarWideMode EVENT-> close')
         this.appsidebarIsWide = false
         // chat21InfoConversationEle.classList.remove("info-convs-apps-sidebar-wide");
         // chatAreaEle.classList.remove("chat-area-apps-sidebar-wide");

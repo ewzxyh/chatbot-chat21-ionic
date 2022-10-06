@@ -17,7 +17,9 @@ import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance'
   styleUrls: ['./contacts-directory.page.scss'],
 })
 export class ContactsDirectoryPage implements OnInit {
+  
   @Input() token: string;
+  @Input() isMobile: boolean;
   // @Input() user: string;
 
   public contacts: Array<UserModel>;

@@ -20,7 +20,7 @@ ion-item {
     --inner-padding-end: 0;
     --background-hover: #000000 !important;
     --background: transparent;
-    border-radius: 16px;
+    border-radius: var(--border-radius-item);
     margin: 4px 5px;
     .conv-container{
         width: 84%;

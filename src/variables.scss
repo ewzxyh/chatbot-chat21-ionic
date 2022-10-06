@@ -1,4 +1,4 @@
-:root {
+body {
     /* Color palette */
     --white: #ffffff;
     --black: #000000;
@@ -33,6 +33,8 @@
     --gray: #aaaaaa;
 
     --header-height: 60px;
+    --list-bkg-color: #f8fafc;
+    --list-bkg-color-selected: rgba(24, 119, 242, 0.12); //rgba(24, 119, 242, 0.04);
 
     --button-in-msg-font-size: 15px;
     --buttonBackgroundColor: #ffffff;
@@ -40,5 +42,9 @@
     --buttonHoverBackgroundColor: #2a6ac1;
     --buttonHoverTextColor: #ffffff;
 
+    --padding-conversation-detail: 10px;
+
+    --border-radius-item: 16px;
+    --border-radius-content: 16px
     
 }

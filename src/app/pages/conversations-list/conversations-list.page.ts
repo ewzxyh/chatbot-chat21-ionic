@@ -833,6 +833,7 @@ export class ConversationListPage implements OnInit {
     if (checkPlatformIsMobile()) {
       presentModal(this.modalController, ContactsDirectoryPage, {
         token: TOKEN,
+        isMobile: this.isMobile
       })
     } else {
       this.navService.push(ContactsDirectoryPage, { token: TOKEN })
