@@ -21,32 +21,32 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 
 import { AvatarProfileComponent } from 'src/app/components/utils/avatar-profile/avatar-profile.component';
-import { ConversationsListHeader } from 'src/app/components/conversations-list-header/conversations-list-header.component';
+import { HeaderConversationsList } from 'src/app/components/conversations-list/header-conversations-list/header-conversations-list.component';
+import { HeaderConversationsListArchived } from 'src/app/components/conversations-list/header-conversations-list-archived/header-conversations-list-archived.component';
 
 import { UserPresenceComponent } from 'src/app/components/utils/user-presence/user-presence.component';
 import { UserTypingComponent } from 'src/chat21-core/utils/user-typing/user-typing.component';
 import { ListConversationsComponent } from '../chatlib/list-conversations-component/list-conversations/list-conversations.component';
 import { MomentModule } from 'angular2-moment';
-import { AvatarComponent } from '../chatlib/conversation-detail/message/avatar/avatar.component';
-import { MarkedPipe } from '../directives/marked.pipe';
-import { AutofocusDirective } from '../directives/autofocus.directive';
-import { HtmlEntitiesEncodePipe } from '../directives/html-entities-encode.pipe';
-import { IonConversationDetailComponent } from '../chatlib/conversation-detail/ion-conversation-detail/ion-conversation-detail.component';
-import { BubbleMyMessageComponent } from '../components/conversation-detail/bubble-my-message/bubble-my-message.component';
-import { BubbleDayMessageComponent } from '../components/conversation-detail/bubble-day-message/bubble-day-message.component';
-import { BubbleSystemMessageComponent } from '../components/conversation-detail/bubble-system-message/bubble-system-message.component';
-import { InfoContentComponent } from '../components/conversation-info/info-content/info-content.component';
-import { InfoSupportGroupComponent } from '../components/conversation-info/info-support-group/info-support-group.component';
-import { InfoDirectComponent } from '../components/conversation-info/info-direct/info-direct.component';
-import { AdvancedInfoAccordionComponent } from '../components/conversation-info/advanced-info-accordion/advanced-info-accordion.component';
-import { InfoGroupComponent } from '../components/conversation-info/info-group/info-group.component';
+import { AvatarComponent } from 'src/app/chatlib/conversation-detail/message/avatar/avatar.component';
+import { MarkedPipe } from 'src/app/directives/marked.pipe';
+import { AutofocusDirective } from 'src/app/directives/autofocus.directive';
+import { HtmlEntitiesEncodePipe } from 'src/app/directives/html-entities-encode.pipe';
+import { IonConversationDetailComponent } from 'src/app/chatlib/conversation-detail/ion-conversation-detail/ion-conversation-detail.component';
+import { BubbleMyMessageComponent } from 'src/app/components/conversation-detail/bubble-my-message/bubble-my-message.component';
+import { BubbleDayMessageComponent } from 'src/app/components/conversation-detail/bubble-day-message/bubble-day-message.component';
+import { BubbleSystemMessageComponent } from 'src/app/components/conversation-detail/bubble-system-message/bubble-system-message.component';
+import { InfoContentComponent } from 'src/app/components/conversation-info/info-content/info-content.component';
+import { InfoSupportGroupComponent } from 'src/app/components/conversation-info/info-support-group/info-support-group.component';
+import { InfoDirectComponent } from 'src/app/components/conversation-info/info-direct/info-direct.component';
+import { AdvancedInfoAccordionComponent } from 'src/app/components/conversation-info/advanced-info-accordion/advanced-info-accordion.component';
+import { InfoGroupComponent } from 'src/app/components/conversation-info/info-group/info-group.component';
 import { TooltipModule, TooltipOptions } from 'ng2-tooltip-directive';
-import { OptionHeaderComponent } from '../components/conversation-detail/option-header/option-header.component';
-import { MessageAttachmentComponent } from '../chatlib/conversation-detail/message/message-attachment/message-attachment.component';
-import { ImageViewerComponent } from '../components/image-viewer/image-viewer.component';
-import { SidebarComponent } from '../components/sidebar/sidebar.component';
-import { SidebarUserDetailsComponent } from '../components/sidebar-user-details/sidebar-user-details.component';
-import { ProjectItemComponent } from '../components/project-item/project-item.component';
+import { MessageAttachmentComponent } from 'src/app/chatlib/conversation-detail/message/message-attachment/message-attachment.component';
+import { ImageViewerComponent } from 'src/app/components/image-viewer/image-viewer.component';
+import { SidebarComponent } from 'src/app/components/sidebar/sidebar.component';
+import { SidebarUserDetailsComponent } from 'src/app/components/sidebar-user-details/sidebar-user-details.component';
+import { ProjectItemComponent } from 'src/app/components/project-item/project-item.component';
 import { DefaultTooltipOptions } from 'src/chat21-core/utils/utils';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -59,7 +59,7 @@ import { SafeHtmlPipe } from '../directives/safe-html.pipe';
   declarations: [
     // MessageTextAreaComponent,
     AvatarProfileComponent,
-    ConversationsListHeader,
+    HeaderConversationsList,
     UserPresenceComponent,
     UserTypingComponent,
     ListConversationsComponent,
@@ -95,14 +95,14 @@ import { SafeHtmlPipe } from '../directives/safe-html.pipe';
     AutofocusDirective,
     HtmlEntitiesEncodePipe,
     SafeHtmlPipe,
-    OptionHeaderComponent,
+    HeaderConversationsListArchived,
     NetworkOfflineComponent
   ],
   exports: [
     // MessageTextAreaComponent,
     AutofocusDirective,
     AvatarProfileComponent,
-    ConversationsListHeader,
+    HeaderConversationsList,
     ImageViewerComponent,
     SidebarComponent,
     SidebarUserDetailsComponent,
@@ -131,7 +131,7 @@ import { SafeHtmlPipe } from '../directives/safe-html.pipe';
     InfoSupportGroupComponent,
     InfoDirectComponent,
     InfoGroupComponent,
-    OptionHeaderComponent,
+    HeaderConversationsListArchived,
     NetworkOfflineComponent
 
   ],
