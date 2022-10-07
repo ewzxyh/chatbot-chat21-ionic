@@ -1,4 +1,4 @@
-import { tranlatedLanguage, URL_SOUND_LIST_CONVERSATION } from './../chat21-core/utils/constants';
+import { tranlatedLanguage, URL_SOUND_CONVERSATION_ADDED, URL_SOUND_LIST_CONVERSATION } from './../chat21-core/utils/constants';
 import { ArchivedConversationsHandlerService } from 'src/chat21-core/providers/abstract/archivedconversations-handler.service';
 import { AppStorageService } from 'src/chat21-core/providers/abstract/app-storage.service';
 
@@ -86,11 +86,13 @@ export class AppComponent implements OnInit {
   public authModal: any;
 
   private audio: any;
+  private audio_NewConv: any;
   private setIntervalTime: any;
   private setTimeoutSound: any;
   private isTabVisible: boolean = true;
   private isSoundEnabled: boolean;
   private hasPlayed: boolean;
+  private hasPlayedConversation: boolean;
   private tabTitle: string;
   private setTimeoutConversationsEvent: any;
   private logger: LoggerService = LoggerInstance.getInstance();
@@ -831,6 +833,10 @@ export class AppComponent implements OnInit {
     this.audio.src = chatBaseUrl + URL_SOUND_LIST_CONVERSATION;
     this.audio.load();
 
+    this.audio_NewConv = new Audio();
+    this.audio_NewConv.src = chatBaseUrl + URL_SOUND_CONVERSATION_ADDED;
+    this.audio_NewConv.load();
+
     const sound_status = localStorage.getItem('dshbrd----sound')
     if(sound_status && sound_status !== 'undefined'){
       this.isSoundEnabled = sound_status === 'enabled'? true: false
@@ -840,7 +846,7 @@ export class AppComponent implements OnInit {
 
   }
 
-  private manageTabNotification(badgeNotificationCount?: number) {
+  private manageTabNotification(sound_type: string, badgeNotificationCount?: number) {
     if (!this.isTabVisible) {
       // TAB IS HIDDEN --> manage title and SOUND
       let badgeNewConverstionNumber = badgeNotificationCount? badgeNotificationCount : this.conversationsHandlerService.countIsNew()
@@ -864,7 +870,9 @@ export class AppComponent implements OnInit {
       this.isSoundEnabled = sound_status === 'enabled'? true: false
     }
     this.logger.debug('[APP-COMP] manageTabNotification can saund?', this.isInitialized, this.isSoundEnabled)
-    if(this.isInitialized && this.isSoundEnabled) this.soundMessage()
+    if(this.isInitialized && this.isSoundEnabled) {
+      sound_type === 'conv_added'? this.soundConversationAdded(): this.soundMessage();
+    }
   }
 
   soundMessage() {
@@ -880,7 +888,7 @@ export class AppComponent implements OnInit {
     // }, 4000);
 
     //play sound every 4s from the fist time you receive a conversation added/changed
-    if(!this.hasPlayed){
+    if(!this.hasPlayed && !this.hasPlayedConversation){
       that.audio.play().then(() => {
         that.hasPlayed = true
         that.logger.debug('[APP-COMP] ****** soundMessage played *****');
@@ -889,6 +897,22 @@ export class AppComponent implements OnInit {
         }, 4000);
       }).catch((error: any) => {
         that.logger.error('[APP-COMP] ***soundMessage error*', error);
+      });
+    }
+  }
+
+  soundConversationAdded(){
+    const that = this;
+    console.log('soundConversationAdded ENABLEDDDD-->', this.hasPlayed)
+    if(!this.hasPlayedConversation ){
+      that.audio_NewConv.play().then(() => {
+        that.hasPlayedConversation = true
+        that.logger.debug('[APP-COMP] ****** soundConversationAdded played *****');
+        setTimeout(() => {
+          that.hasPlayedConversation = false
+        }, 4000);
+      }).catch((error: any) => {
+        that.logger.error('[APP-COMP] ***soundConversationAdded error*', error);
       });
     }
   }
@@ -943,7 +967,7 @@ export class AppComponent implements OnInit {
     this.conversationsHandlerService.conversationAdded.subscribe((conversation: ConversationModel) => {
       // this.logger.log('[APP-COMP] ***** subscribeConversationAdded *****', conversation);
       if (conversation && conversation.is_new === true) {
-        this.manageTabNotification()
+        this.manageTabNotification('conv_added')
       }
       if(conversation) this.updateConversationsOnStorage()
     });
@@ -961,7 +985,7 @@ export class AppComponent implements OnInit {
         this.logger.log('[APP-COMP] ***** subscribeConversationChangedDetailed currentUser: ', currentUser);
         if (changes.value && changes.value.sender !== currentUser.uid) {
           if(changes.value.is_new === changes.previousValue.is_new){
-            this.manageTabNotification();
+            this.manageTabNotification('new_message');
           }
         }
       }
@@ -1325,5 +1349,26 @@ export class AppComponent implements OnInit {
       this.isSoundEnabled = event.newValue === 'enabled'? true: false
     }
   }
+
+
+  // @HostListener('mouseenter', ['$event']) 
+  // onMouseEnter(event: any) {
+  //   console.log('HostListener onMouseEnter-->', event)
+  // }
+
+  // @HostListener('mouseleave', ['$event']) 
+  // onMouseLeave(event: any) {
+  //   console.log('HostListener onMouseLeave-->', event)
+  // }
+
+  // @HostListener('focus', ['$event']) 
+  // onFocus(event: any) {
+  //   console.log('HostListener onFocus-->', event)
+  // }
+
+  // @HostListener('blur', ['$event']) 
+  // onBlur(event: any) {
+  //   console.log('HostListener onBlur-->', event)
+  // }
 }
 
