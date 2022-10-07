@@ -141,7 +141,7 @@ ion-header {
 }
 
 .avatar-container {
-    background-color: #fff;
+    // background-color: #fff;
     color: #fff;
     text-align: center;
     width: 44px;
@@ -158,6 +158,12 @@ ion-header {
     border-width: 0px;
     line-height: 40px;
     display: inline-block;
+    cursor: pointer;
+}
+
+.avatar-container-ios {
+    left: 55px;
+    top: 10px;
 }
 
 .info-container{
@@ -216,7 +222,4 @@ ion-header {
     left: 63px;
 }
 
-.avatar-container-ios {
-    left: 55px;
-    top: 10px;
-}
+

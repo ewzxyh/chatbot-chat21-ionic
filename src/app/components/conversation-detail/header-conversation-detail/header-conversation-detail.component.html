@@ -10,8 +10,7 @@
 
       <div *ngIf="conversationAvatar" class="avatar-and-typing-wpr" [ngClass]="{'mobile': isMobile}">
         <!-- [ngStyle] = "{ 'left': platformName === 'ios' ? '55px' : ''  }" -->
-        <div class="avatar-container" style="cursor: pointer"
-          [ngClass]="{ 'avatar-container-ios': platformName === 'ios' }">
+        <div class="avatar-container" [ngClass]="{ 'avatar-container-ios': platformName === 'ios' }">
           <app-avatar-profile 
             [itemAvatar]=conversationAvatar>
           </app-avatar-profile>
