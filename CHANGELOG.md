@@ -1,5 +1,9 @@
 # chat21-ionic ver 3.0
 
+### 3.0.79-rc.2
+- added: new sound if new conversation is triggered in agent's chat
+- changed: header UI of header-conversation-detail and unassigned-conversations components
+
 ### 3.0.79-rc.1
 - added: LABEL_ONLINE, LABEL_OFFLINE translations
 - changed: renamed ddp-header with conversations-list-header
