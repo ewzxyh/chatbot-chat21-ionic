@@ -3,7 +3,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { NetworkOfflineComponent } from './../components/network-offline/network-offline.component';
 import { ContactsDirectoryComponent } from './../components/contacts-directory/contacts-directory.component';
 import { HtmlComponent } from './../chatlib/conversation-detail/message/html/html.component';
-import { BubbleOthersMessageComponent } from './../components/conversation-detail/bubble-others-message/bubble-others-message.component';
 
 import { TextComponent } from '../chatlib/conversation-detail/message/text/text.component';
 import { ReturnReceiptComponent } from '../chatlib/conversation-detail/message/return-receipt/return-receipt.component';
@@ -33,9 +32,6 @@ import { MarkedPipe } from 'src/app/directives/marked.pipe';
 import { AutofocusDirective } from 'src/app/directives/autofocus.directive';
 import { HtmlEntitiesEncodePipe } from 'src/app/directives/html-entities-encode.pipe';
 import { IonConversationDetailComponent } from 'src/app/chatlib/conversation-detail/ion-conversation-detail/ion-conversation-detail.component';
-import { BubbleMyMessageComponent } from 'src/app/components/conversation-detail/bubble-my-message/bubble-my-message.component';
-import { BubbleDayMessageComponent } from 'src/app/components/conversation-detail/bubble-day-message/bubble-day-message.component';
-import { BubbleSystemMessageComponent } from 'src/app/components/conversation-detail/bubble-system-message/bubble-system-message.component';
 import { InfoContentComponent } from 'src/app/components/conversation-info/info-content/info-content.component';
 import { InfoSupportGroupComponent } from 'src/app/components/conversation-info/info-support-group/info-support-group.component';
 import { InfoDirectComponent } from 'src/app/components/conversation-info/info-direct/info-direct.component';
@@ -82,10 +78,6 @@ import { SafeHtmlPipe } from '../directives/safe-html.pipe';
     ReturnReceiptComponent,
     TextComponent,
     HtmlComponent,
-    BubbleDayMessageComponent,
-    BubbleSystemMessageComponent,
-    BubbleMyMessageComponent,
-    BubbleOthersMessageComponent,
     InfoContentComponent,
     InfoSupportGroupComponent,
     InfoDirectComponent,
@@ -123,10 +115,6 @@ import { SafeHtmlPipe } from '../directives/safe-html.pipe';
     InfoMessageComponent,
     ReturnReceiptComponent,
     TextComponent,
-    BubbleDayMessageComponent,
-    BubbleSystemMessageComponent,
-    BubbleMyMessageComponent,
-    BubbleOthersMessageComponent,
     InfoContentComponent,
     InfoSupportGroupComponent,
     InfoDirectComponent,

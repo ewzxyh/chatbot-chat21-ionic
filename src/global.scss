@@ -362,19 +362,7 @@ app-message-text-area {
     z-index: 99999; // nk
     background: #fff; // nk
 }
-app-bubble-day-message {
-    width: 100%;
-}
-app-bubble-system-message {
-    max-width: 80%;
-    margin: 0 auto;
-}
-app-bubble-my-message {
-    width: 100%;
-}
-app-bubble-others-message {
-    width: 100%;
-}
+
 app-conversation-info {
     height: calc(100% - 60px);
 }
