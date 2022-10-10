@@ -48,12 +48,15 @@
     
     &.close{
         right: 0px;
+        &:not(.mobile){
+            top: calc(60px + var(--padding-conversation-detail));
+        }
     }
 
     &.mobile{
         right: 0px;
     }
-    &:not(.mobile){
+    &:not(.mobile):not(.close){
         right: calc(300px + var(--padding-conversation-detail));
         top: calc(60px + var(--padding-conversation-detail));
     }
