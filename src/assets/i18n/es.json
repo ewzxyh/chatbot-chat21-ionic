@@ -70,7 +70,7 @@
   "INFO_SUPPORT_CHAT_CLOSED": "Chat cerrado",
   "INFO_SUPPORT_LEAD_UPDATED":"Cliente potencial actualizado",
   "INFO_SUPPORT_MEMBER_LEFT_GROUP":"eliminado del grupo",
-  "INFO_SUPPORT_MEMBER_ABANDONED_GROUP":"abandonó la conversación",
+  "INFO_SUPPORT_MEMBER_ABANDONED_GROUP":"ha abandonado la conversación",
   "INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU":"Se le ha asignado una nueva solicitud de soporte",
   "LABEL_PROFILE": "Perfil",
   "LABEL_CLOSE": "Cerrado",

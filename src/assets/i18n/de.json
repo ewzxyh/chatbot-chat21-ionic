@@ -70,7 +70,7 @@
   "INFO_SUPPORT_CHAT_CLOSED": "Chat geschlossen",
   "INFO_SUPPORT_LEAD_UPDATED":"Leitung aktualisiert",
   "INFO_SUPPORT_MEMBER_LEFT_GROUP":"aus der Gruppe entfernt",
-  "INFO_SUPPORT_MEMBER_ABANDONED_GROUP":"verließ das Gespräch",
+  "INFO_SUPPORT_MEMBER_ABANDONED_GROUP":"hat die Unterhaltung verlassen",
   "INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU": "Ihnen wurde eine neue Support-Anfrage zugewiesen",
   "LABEL_PROFILE": "Profil",
   "LABEL_CLOSE": "Abgeschlossen",
