@@ -6,6 +6,7 @@ ion-header {
   border-bottom-width: thin;
   &:not(.mobile){
     border: none;
+    background: var(--list-bkg-color);
   }
 }
 
