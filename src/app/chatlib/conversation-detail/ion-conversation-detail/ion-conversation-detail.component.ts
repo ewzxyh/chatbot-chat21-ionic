@@ -1,3 +1,4 @@
+import { MessageModel } from 'src/chat21-core/models/message';
 import { ConversationContentComponent } from '../conversation-content/conversation-content.component';
 import { ChangeDetectorRef, Component, Input, OnInit, Output, EventEmitter, SimpleChange, SimpleChanges } from '@angular/core';
 
@@ -13,6 +14,8 @@ import { TiledeskAuthService } from 'src/chat21-core/providers/tiledesk/tiledesk
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { AppConfigProvider } from 'src/app/services/app-config';
+import { ModalController } from '@ionic/angular';
+import { CreateCannedResponsePage } from 'src/app/pages/create-canned-response/create-canned-response.page';
 @Component({
   selector: 'ion-conversation-detail',
   templateUrl: './ion-conversation-detail.component.html',
@@ -61,6 +64,7 @@ export class IonConversationDetailComponent extends ConversationContentComponent
     public tiledeskAuthService: TiledeskAuthService,
     private translate: TranslateService,
     public appConfigProvider: AppConfigProvider,
+    public modalController: ModalController,
   ) {
     super(cdref, uploadService)
 
@@ -159,5 +163,25 @@ export class IonConversationDetailComponent extends ConversationContentComponent
     // console.log('[CONVS-DETAIL][ION-CONVS-DETAIL] - trackByFn index', index)
     // console.log('[CONVS-DETAIL][ION-CONVS-DETAIL] - trackByFn item', item)
     return item.uid || index;
+  }
+
+
+  async presentCreateCannedResponseModal(message: MessageModel): Promise<any> {
+    this.logger.log('[BUBBLE-MESSAGE] PRESENT CREATE CANNED RESPONSE MODAL ')
+    const attributes = {
+       message: message,
+    }
+    const modal: HTMLIonModalElement = await this.modalController.create({
+      component: CreateCannedResponsePage,
+      componentProps: attributes,
+      swipeToClose: false,
+      backdropDismiss: false,
+    })
+    modal.onDidDismiss().then((dataReturned: any) => {
+      // 
+      this.logger.log('[BUBBLE-MESSAGE] ', dataReturned.data)
+    })
+
+    return await modal.present()
   }
 }

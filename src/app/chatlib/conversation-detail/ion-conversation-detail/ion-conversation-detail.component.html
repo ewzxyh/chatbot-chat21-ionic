@@ -88,6 +88,17 @@
     <!-- message SENDER:: -->
     <div role="messaggio" *ngIf="messageType(MESSAGE_TYPE_MINE, message)" class="msg_container base_sent">
 
+      <div class="message-date-hover"> {{message.timestamp | date:'HH:mm' }} </div>
+
+      <ng-container *ngIf="areVisibleCAR && supportMode">
+        <ion-button shape="round" size="small" class="btn-add-msg canned" ion-button fill="clear"
+          (click)="presentCreateCannedResponseModal(message)" [tooltip]="addAsCannedResponseTooltipText"
+          [options]="tooltipOptions" placement="bottom">
+          <ion-icon slot="icon-only" name="flash-outline" style="font-size: 1em;"> </ion-icon>
+          <span class="add-canned-response-add-icon">+</span>
+        </ion-button>
+      </ng-container>
+
       <!--backgroundColor non viene ancora usato -->
       <chat-bubble-message class="messages msg_sent" id="message_msg_sent" style="position: relative;" 
         [ngClass]="{'has-metadata': (isImage(message) || isFrame(message)), 'privateMsg': (message?.attributes && message?.attributes?.subtype === 'private')}" 
@@ -98,9 +109,6 @@
         [fontColor]="stylesMap.get('bubbleSentTextColor')"
         [fontSize]="stylesMap.get('fontSize')"
         [fontFamily]="stylesMap.get('fontFamily')"
-        [addAsCannedResponseTooltipText]="addAsCannedResponseTooltipText" 
-        [areVisibleCAR]="areVisibleCAR"
-        [supportMode]="supportMode"
         (onBeforeMessageRender)="onBeforeMessageRenderFN($event)"
         (onAfterMessageRender)="onAfterMessageRenderFN($event)" 
         (onElementRendered)="onElementRenderedFN($event)">
@@ -115,11 +123,14 @@
 
     </div>
 
-    <!-- message RECIPIENT:: -->
-    <div role="messaggio" *ngIf="messageType(MESSAGE_TYPE_OTHERS, message) && isChannelTypeGroup(channelType) && !isSameSender(message?.sender, i)"
-      class="message_sender_fullname">
-      {{message.sender_fullname}}
+    <!-- message RECIPIENT + TIME :: -->
+    <div class="msg_container base_receive" *ngIf="messageType(MESSAGE_TYPE_OTHERS, message) && isChannelTypeGroup(channelType) && !isSameSender(message?.sender, i)">
+      <div role="messaggio" class="message_sender_fullname">
+        {{message.sender_fullname}}
+      </div>
+      <div class="message-date"> {{message.timestamp | date:'HH:mm' }} </div>
     </div>
+    <!-- message RECIPIENT :: -->
     <div role="messaggio" *ngIf="messageType(MESSAGE_TYPE_OTHERS, message)" class="msg_container base_receive">
 
       <!-- <chat-avatar-image class="slide-in-left"  
@@ -129,8 +140,7 @@
       </chat-avatar-image> -->
 
       <!--backgroundColor non viene ancora usato -->
-
-      <chat-bubble-message class="messages msg_receive" id="message_msg_receive" style="position: relative;"
+      <chat-bubble-message class="messages msg_receive" id="message_msg_receive"
         [ngClass]="{'has-metadata': (isImage(message) || isFrame(message)), 'privateMsg': (message?.attributes && message?.attributes?.subtype === 'private')}" 
         [class.emoticon]="isEmojii(message?.text)"
         [ngStyle]="{'background': stylesMap?.get('bubbleReceivedBackground'), 'color': stylesMap.get('bubbleReceivedTextColor')}"
@@ -138,13 +148,28 @@
         [fontColor]="stylesMap?.get('bubbleReceivedTextColor')"
         [fontSize]="stylesMap?.get('fontSize')"
         [fontFamily]="stylesMap?.get('fontFamily')"
-        [addAsCannedResponseTooltipText]="addAsCannedResponseTooltipText" 
-        [areVisibleCAR]="areVisibleCAR"
-        [supportMode]="supportMode"
         (onBeforeMessageRender)="onBeforeMessageRenderFN($event)"
         (onAfterMessageRender)="onAfterMessageRenderFN($event)" 
         (onElementRendered)="onElementRenderedFN($event)">
       </chat-bubble-message>
+
+      <ng-container *ngIf="areVisibleCAR && supportMode">
+        <ion-button shape="round" size="small" class="btn-add-msg canned" ion-button fill="clear"
+          (click)="presentCreateCannedResponseModal(message)" [tooltip]="addAsCannedResponseTooltipText"
+          [options]="tooltipOptions" placement="bottom">
+          <ion-icon slot="icon-only" name="flash-outline" style="font-size: 1em;"> </ion-icon>
+          <span class="add-canned-response-add-icon">+</span>
+        </ion-button>
+      </ng-container>
+      <!-- <ng-container *ngIf="supportMode">
+        <ion-button shape="round" size="small" class="btn-add-msg emoji" ion-button fill="clear"
+          (click)="presentEmojiiModal()" tooltip="{{addAsCannedResponseTooltipText}}"
+          [options]="tooltipOptions" placement="bottom">
+          <ion-icon slot="icon-only" name="happy-outline" style="font-size: 1em;"> </ion-icon>
+        </ion-button>
+      </ng-container> -->
+
+      <div class="message-date-hover" *ngIf="(isChannelTypeGroup(channelType) && isSameSender(message?.sender, i)) || !isChannelTypeGroup(channelType)"> {{message.timestamp | date:'HH:mm' }} </div>
     </div>
 
     <!-- message type:: button &&  -->
