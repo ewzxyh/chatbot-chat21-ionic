@@ -21,15 +21,13 @@ export class BubbleMessageComponent implements OnInit, OnChanges {
   @Input() fontColor: string;
   @Input() fontSize: string;
   @Input() fontFamily: string;
-  @Input() areVisibleCAR: boolean;
-  @Input() supportMode: boolean;
   @Output() onBeforeMessageRender = new EventEmitter();
   @Output() onAfterMessageRender = new EventEmitter();
   @Output() onElementRendered = new EventEmitter<{element: string, status: boolean}>();
+  
   isImage = isImage;
   isFile = isFile;
   isFrame = isFrame;
-  @Input() addAsCannedResponseTooltipText : string;
   public browserLang: string;
 
   tooltipOptions = {
@@ -194,25 +192,6 @@ export class BubbleMessageComponent implements OnInit, OnChanges {
 
   onElementRenderedFN(event){
     this.onElementRendered.emit({element: event.element, status: event.status})
-  }
-
-  async presentCreateCannedResponseModal(): Promise<any> {
-    this.logger.log('[BUBBLE-MESSAGE] PRESENT CREATE CANNED RESPONSE MODAL ')
-    const attributes = {
-       message: this.message,
-    }
-    const modal: HTMLIonModalElement = await this.modalController.create({
-      component: CreateCannedResponsePage,
-      componentProps: attributes,
-      swipeToClose: false,
-      backdropDismiss: false,
-    })
-    modal.onDidDismiss().then((dataReturned: any) => {
-      // 
-      this.logger.log('[BUBBLE-MESSAGE] ', dataReturned.data)
-    })
-
-    return await modal.present()
   }
 
 

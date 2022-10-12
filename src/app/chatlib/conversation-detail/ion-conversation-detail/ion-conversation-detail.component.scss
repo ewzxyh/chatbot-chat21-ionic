@@ -113,7 +113,7 @@ ion-item {
 
 .message_sender_fullname {
     font-size: 0.9em;
-    margin: 0 0 1px 20px;
+    margin: 0px 10px 0px 10px;
     // color: var(--gray);
     font-weight: 500;
     color: #080f1a;
@@ -156,12 +156,16 @@ ion-item {
     align-items: flex-end;
     justify-content: flex-end;
     // padding: 2px 0px 4px 40px;
-    padding: 2px 0px 14px 40px; // edited to display the date at the bottom of the "message bubble"
+    padding: 0px 0px 6px 40px;
+
+    &:hover .message-date-hover, &:hover .btn-add-msg{
+        display: block;
+    }
+
     .msg_sent {
         background-color: var(--bubble-blue);
         color: var(--col-msg-sent);
-        margin-right: 4px;
-        margin-left: 4px;
+        margin: 0px 0px 0px 0px;
         max-width: calc(100% - 70px);
         min-width: 14px;
         border-top-right-radius: 8px;
@@ -186,8 +190,17 @@ ion-item {
 
 /** recive message **/
 .base_receive {
-    // padding: 0px 0px 6px 0px;
-    padding: 0px 0px 15px 10px; // edited to display the date at the bottom of the "message bubble"
+    padding: 0px 20px 6px 0px;
+    .message-date{
+        color: #647491;
+        font-size: 12px;
+        align-self: center;
+    }
+    
+
+    &:hover .message-date-hover, &:hover .btn-add-msg{
+        display: block;
+    }
     /* avatar */
     .content-avatar {
         position: relative;
@@ -221,7 +234,7 @@ ion-item {
         // max-width: 260px;
         max-width: calc(100% - 70px);
         min-width: 14px;
-        margin: 0 20px 4px 10px;
+        margin: 0 0px 0px 10px;
         height: fit-content;
         width: auto;
         border-top-left-radius: 8px;
@@ -244,8 +257,37 @@ ion-item {
 
 }
 
-.time {
-    margin-bottom: 20px;
+.message-date-hover{
+    color: #647491;
+    font-size: 12px;
+    align-self: center;
+
+    display: none;
+    
+}
+
+.btn-add-msg {
+    border-radius: 50%;
+    --padding-end: 7px;
+    --padding-start: 7px;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.13);
+    display: none;
+    align-self: center;
+    margin: 0px 5px;
+
+    ion-icon{
+        font-size: 1.2em;
+        color: var(--basic-blue)
+    }
+
+    .add-canned-response-add-icon{
+        color: var(--basic-blue);
+        cursor: pointer;
+        position: relative;
+        top: 6px;
+        left: -6px;
+        font-size: 9px;
+    }
 }
 
  /* LOADING */
@@ -320,28 +362,6 @@ ion-item {
     // left: -26px;
 }
 
-:host .base_receive .msg_receive ::ng-deep div > div > div > ion-button.canned {
-    display: none;
-    position: absolute;
-    top: -3px;
-    right: -31px;
-}
-
-:host .base_receive .msg_receive ::ng-deep div > div > div >ion-button.emoji {
-    display: none;
-    position: absolute;
-    top: -3px;
-    right: -51px;
-}
-
-// :host .base_receive .msg_receive:hover ::ng-deep div > div > ion-button {
-:host .base_receive:hover .msg_receive ::ng-deep div > div > div > ion-button {
-    display: block;
-    // position: absolute;
-    // top: -11px;
-    // left: 91px;
-}
-
 // ---------------------------------------------------------
 // Long date divider
 // ---------------------------------------------------------
@@ -370,24 +390,6 @@ ion-item {
     color: #64748b;
 }
 
-// ---------------------------------------------------------
-// message date
-// ---------------------------------------------------------
-:host .base_sent .msg_sent ::ng-deep div > div > div > .message-date {
-    position: absolute;
-    bottom: -11px;
-    color: #64748b;
-    font-size: 10px;
-    right: 0px;
-}
-
-:host .base_receive .msg_receive ::ng-deep div > div > .message-date {
-    position: absolute;
-    bottom: -11px;
-    color: #64748b;
-    font-size: 10px;
-    left: 0px;
-}
 // ---------------------------------------------------------
 // emoticon
 // ---------------------------------------------------------
