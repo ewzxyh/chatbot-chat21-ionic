@@ -9,7 +9,7 @@ import { LoaderPreviewPage } from 'src/app/pages/loader-preview/loader-preview.p
 // Services 
 import { UploadService } from 'src/chat21-core/providers/abstract/upload.service';
 // utils
-import { TYPE_MSG_TEXT } from 'src/chat21-core/utils/constants';
+import { TYPE_MSG_TEXT, TYPE_SUPPORT_GROUP } from 'src/chat21-core/utils/constants';
 // Models
 import { UploadModel } from 'src/chat21-core/models/upload';
 import { Observable } from 'rxjs';
@@ -62,16 +62,12 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
   public messageString: string;
   public HAS_PASTED: boolean = false;
   public toastMsg: string;
-  public TEXAREA_PLACEHOLDER: string;
-  public LONG_TEXAREA_PLACEHOLDER: string;
-  public SHORT_TEXAREA_PLACEHOLDER: string;
-  public SHORTER_TEXAREA_PLACEHOLDER: string;
-  public currentWindowWidth: any;
   private logger: LoggerService = LoggerInstance.getInstance();
   public countClicks: number = 0;
   public openCanned: boolean = false;
-  public IS_SUPPORT_GROUP_CONVERSATION: boolean;
   public IS_ON_MOBILE_DEVICE: boolean;
+
+  TYPE_SUPPORT_GROUP = TYPE_SUPPORT_GROUP;
   TYPE_MSG_TEXT = TYPE_MSG_TEXT;
   msg: string
 
@@ -118,15 +114,8 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
     if (this.areVisibleCAR === false) {
       this.emojiPerLine = 7
     }
-    // this.events.subscribe((cannedmessage) => {
-    //   this.logger.log("[CONVS-DETAIL] [MSG-TEXT-AREA] events.subscribe cannedmessage ", cannedmessage);
-    // })
 
-    // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] LONG_TEXAREA_PLACEHOLDER ", this.LONG_TEXAREA_PLACEHOLDER);
-    // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] SHORT_TEXAREA_PLACEHOLDER ", this.SHORT_TEXAREA_PLACEHOLDER);
-    // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] SHORTER_TEXAREA_PLACEHOLDER ", this.SHORTER_TEXAREA_PLACEHOLDER);
     this.listenToNewCannedResponseCreated()
-    this.getWindowWidth();
     this.isOnMobileDevice()
   }
 
@@ -147,15 +136,8 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
       // this.SHORT_TEXAREA_PLACEHOLDER = this.translationMap.get('LABEL_ENTER_MSG_SHORT')
       // this.SHORTER_TEXAREA_PLACEHOLDER = this.translationMap.get('LABEL_ENTER_MSG_SHORTER')
 
-      this.TEXAREA_PLACEHOLDER = this.translationMap.get('LABEL_ENTER_MSG_SHORT')
-
     }
 
-    if (this.conversationWith.startsWith("support-group")) {
-      this.IS_SUPPORT_GROUP_CONVERSATION = true
-    } else {
-      this.IS_SUPPORT_GROUP_CONVERSATION = false
-    }
     // this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] ngOnChanges supportMode ', this.supportMode)
     // this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] ngOnChanges disableTextarea ', this.disableTextarea)
     // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngOnChanges DROP EVENT ", this.dropEvent);
@@ -206,36 +188,6 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
     }
   }
 
-
-  getWindowWidth(): any {
-    this.currentWindowWidth = window.innerWidth;
-
-
-    // if (this.currentWindowWidth >= 844 && this.isOpenInfoConversation === false && this.conversationWith.startsWith("support-group")) {
-    //   this.TEXAREA_PLACEHOLDER = this.LONG_TEXAREA_PLACEHOLDER;
-    //   this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] currentWindowWidth', this.currentWindowWidth, ' - DISPLAY LONG_TEXAREA_PLACEHOLDER ');
-    // } else if (this.currentWindowWidth >= 844 && this.isOpenInfoConversation === true && this.conversationWith.startsWith("support-group")) {
-    //   this.TEXAREA_PLACEHOLDER = this.SHORT_TEXAREA_PLACEHOLDER;
-    // } else if (this.currentWindowWidth < 844 && this.isOpenInfoConversation === false && this.conversationWith.startsWith("support-group")) {
-    //   this.TEXAREA_PLACEHOLDER = this.SHORT_TEXAREA_PLACEHOLDER;
-    // } else if (this.currentWindowWidth < 844 && this.isOpenInfoConversation === true && this.conversationWith.startsWith("support-group")) {
-    //   this.TEXAREA_PLACEHOLDER = this.SHORTER_TEXAREA_PLACEHOLDER;
-    // } else if (!this.conversationWith.startsWith("support-group")) {
-    //   this.TEXAREA_PLACEHOLDER = this.SHORT_TEXAREA_PLACEHOLDER;
-    // }
-
-    // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] checkPlatformIsMobile() ", checkPlatformIsMobile());
-    if (checkPlatformIsMobile() === true) {
-
-      if (this.currentWindowWidth <= 430 && this.currentWindowWidth >= 274) {
-        this.TEXAREA_PLACEHOLDER = this.SHORT_TEXAREA_PLACEHOLDER;
-
-      } else if (this.currentWindowWidth <= 273) {
-        this.TEXAREA_PLACEHOLDER = this.SHORTER_TEXAREA_PLACEHOLDER;
-      }
-    }
-  }
-
   // -------------------------------------------------------------------------------------------
   // Change the placeholder of the 'send message' textarea according to the width of the window  
   // -------------------------------------------------------------------------------------------
@@ -243,37 +195,6 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
   onResize(event) {
     // this.getIfTexareaIsEmpty('onResize')
     //  console.log("[CONVS-DETAIL][MSG-TEXT-AREA]  event.target.innerWidth; ", event.target.innerWidth);
-
-
-
-    // if (event.target.innerWidth >= 844 && this.isOpenInfoConversation === false && this.conversationWith.startsWith("support-group")) {
-    //   this.TEXAREA_PLACEHOLDER = this.LONG_TEXAREA_PLACEHOLDER;
-    // } else if (event.target.innerWidth >= 844 && this.isOpenInfoConversation === true && this.conversationWith.startsWith("support-group")) {
-    //   this.TEXAREA_PLACEHOLDER = this.SHORT_TEXAREA_PLACEHOLDER;
-    // } else if (event.target.innerWidth < 844 && this.isOpenInfoConversation === false && this.conversationWith.startsWith("support-group")) {
-    //   this.TEXAREA_PLACEHOLDER = this.SHORT_TEXAREA_PLACEHOLDER;
-    // } else if (event.target.innerWidth < 844 && this.isOpenInfoConversation === true && this.conversationWith.startsWith("support-group")) {
-    //   this.TEXAREA_PLACEHOLDER = this.SHORTER_TEXAREA_PLACEHOLDER;
-    // } else if (!this.conversationWith.startsWith("support-group")) {
-    //   this.TEXAREA_PLACEHOLDER = this.SHORT_TEXAREA_PLACEHOLDER;
-    // }
-
-    // this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] checkPlatformIsMobile() ', checkPlatformIsMobile());
-    if (checkPlatformIsMobile() === true) {
-
-      if (event.target.innerWidth <= 430 && event.target.innerWidth >= 274) {
-        this.TEXAREA_PLACEHOLDER = this.SHORT_TEXAREA_PLACEHOLDER;
-      } else if (this.currentWindowWidth <= 273) {
-        this.TEXAREA_PLACEHOLDER = this.SHORTER_TEXAREA_PLACEHOLDER;
-      }
-
-    }
-
-    // if (checkPlatformIsMobile && event.target.innerWidth <= 430) {
-    //   this.TEXAREA_PLACEHOLDER = this.SHORT_TEXAREA_PLACEHOLDER;
-    // } else if (checkPlatformIsMobile && event.target.innerWidth > 430) { 
-    //   this.TEXAREA_PLACEHOLDER = this.LONG_TEXAREA_PLACEHOLDER;
-    // }
   }
 
 
