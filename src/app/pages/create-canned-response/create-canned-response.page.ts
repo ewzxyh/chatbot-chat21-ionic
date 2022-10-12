@@ -1,3 +1,4 @@
+import { CannedResponsesService } from 'src/app/services/canned-responses/canned-responses.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
@@ -38,6 +39,7 @@ export class CreateCannedResponsePage implements OnInit {
     private translate: TranslateService,
     public tiledeskAuthService: TiledeskAuthService,
     public tiledeskService: TiledeskService,
+    public cannedResponsesService: CannedResponsesService,
     private menu: MenuController,
     public events: EventsService,
     private route: ActivatedRoute,
@@ -181,19 +183,17 @@ export class CreateCannedResponsePage implements OnInit {
     this.logger.log('[CREATE-CANNED-RES] - CREATE CANNED RESP - MSG ', canned_response_message);
     this.logger.log('[CREATE-CANNED-RES] - CREATE CANNED RESP - TITLE ', canned_response_title);
 
-    this.tiledeskService.createCannedResponse(canned_response_message.trim(), canned_response_title.trim(), this.prjctID, this.tiledeskToken)
-      .subscribe((responses: any) => {
-        this.logger.log('[CREATE-CANNED-RES] - CREATE CANNED RESP - RES ', responses);
-
-      }, (error) => {
-        this.logger.error('[CREATE-CANNED-RES]- CREATE CANNED RESP - ERROR  ', error);
-        this.showSpinnerCreateCannedResponse = false;
-      }, () => {
-        this.logger.log('[CREATE-CANNED-RES] - CREATE CANNED RESP * COMPLETE *');
-        this.showSpinnerCreateCannedResponse = false;
-        this.closeModalCreateCannedResponseModal()
-        this.events.publish('newcannedresponse:created', true);
-      });
+    this.cannedResponsesService.add(this.tiledeskToken, this.prjctID, canned_response_title.trim(), canned_response_message.trim()).subscribe((responses: any) => {
+      this.logger.log('[CREATE-CANNED-RES] - CREATE CANNED RESP - RES ', responses);
+    }, (error) => {
+      this.logger.error('[CREATE-CANNED-RES]- CREATE CANNED RESP - ERROR  ', error);
+      this.showSpinnerCreateCannedResponse = false;
+    }, () => {
+      this.logger.log('[CREATE-CANNED-RES] - CREATE CANNED RESP * COMPLETE *');
+      this.showSpinnerCreateCannedResponse = false;
+      this.closeModalCreateCannedResponseModal()
+      this.events.publish('newcannedresponse:created', true);
+    });
   }
 
   openAddPersonalisationMenu() {

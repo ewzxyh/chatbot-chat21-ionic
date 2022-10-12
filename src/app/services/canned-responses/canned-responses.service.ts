@@ -43,6 +43,32 @@ export class CannedResponsesService {
     }))
   }
 
+  // -------------------------------------------------------------------------------------
+  // @ Create - Save (POST) new canned response
+  // -------------------------------------------------------------------------------------
+  public add(token: string, projectid: string, title: string, message: string) {
+    const url =  this.apiUrl  + projectid + '/canned/'
+    this.logger.log('[TILEDESK-SERVICE] - CREATE CANNED-RES - URL', url); 
+    
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: token
+      })
+    };
+
+    const body = {
+      title: title,
+      text: message
+    }
+
+    return this.http.post(url, JSON.stringify(body), httpOptions).pipe(map((res: any) => {
+      this.logger.log('[TILEDESK-SERVICE] - CREATE CANNED-RES - RES ', res);
+      return res
+    }))
+      
+  }
+
   public edit(token: string, projectid: string, canned: any){
     const cannedResponsesURL = this.apiUrl + projectid + "/canned/"+ canned._id;
     this.logger.log('[CANNED-RESPONSES-SERVICE] editCannedResponses - URL ', cannedResponsesURL);

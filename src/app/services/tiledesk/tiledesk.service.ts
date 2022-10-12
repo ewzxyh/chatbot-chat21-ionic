@@ -252,31 +252,7 @@ export class TiledeskService {
   }
   
 
-  // -------------------------------------------------------------------------------------
-  // @ Create - Save (POST) new canned response
-  // -------------------------------------------------------------------------------------
-  public createCannedResponse(message: string, title: string, project_id: string, token: string) {
-    this.logger.log('[TILEDESK-SERVICE] - CREATE CANNED-RES - token', token); 
-    const url =  this.apiUrl  + project_id + '/canned/'
-    this.logger.log('[TILEDESK-SERVICE] - CREATE CANNED-RES - URL', url); 
-    
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        Authorization: token
-      })
-    };
-
-    const body = { 'text': message, 'title': title };
-
-    this.logger.log('[TILEDESK-SERVICE] CREATE CANNED-RES - BODY ', body);
-
-    return this.http.post(url, JSON.stringify(body), httpOptions).pipe(map((res: any) => {
-      this.logger.log('[TILEDESK-SERVICE] - CREATE CANNED-RES - RES ', res);
-      return res
-    }))
-      
-  }
+  
 
   // .post(url, JSON.stringify(body), options)
   // .map((res) => res.json());
