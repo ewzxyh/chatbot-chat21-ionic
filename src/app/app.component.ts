@@ -1045,6 +1045,7 @@ export class AppComponent implements OnInit {
 
       this.initConversationsHandler(currentUser.uid);
       this.initArchivedConversationsHandler(currentUser.uid);
+      this.initSignInSegment(currentUser)
     }
     this.checkPlatform();
     try {
@@ -1289,6 +1290,40 @@ export class AppComponent implements OnInit {
       }
     } catch (err) {
       this.logger.error('Get local storage dshbrd----foregroundcount ', err)
+    }
+  }
+
+  initSignInSegment(user){
+    try {
+      window['analytics'].page("Chat Auth Page, Signin", {
+        "properties": {
+          "title": 'Signin'
+        }
+      });
+    } catch (err) {
+      this.logger.error('Signin page error', err);
+    }
+
+    try {
+      window['analytics'].identify(user.uid, {
+        name: user.firstname + ' ' + user.lastname,
+        email: user.email,
+        logins: 5,
+
+      });
+    } catch (err) {
+      this.logger.error('track signin event error', err);
+    }
+    // Segments
+    try {
+      window['analytics'].track('Signed In', {
+        "properties": {
+          "username": user.firstname + ' ' + user.lastname,
+          "userId": user.uid
+        }
+      });
+    } catch (err) {
+      this.logger.error('track signin event error', err);
     }
   }
 
