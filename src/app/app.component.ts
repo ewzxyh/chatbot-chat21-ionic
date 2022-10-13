@@ -846,6 +846,13 @@ export class AppComponent implements OnInit {
 
   }
 
+  onSoundChange(event){
+    if(event && event !== undefined){
+      localStorage.setItem('dshbrd----sound', event)
+      this.isSoundEnabled = event === 'enabled'? true: false
+    }
+  }
+
   private manageTabNotification(sound_type: string, badgeNotificationCount?: number) {
     if (!this.isTabVisible) {
       // TAB IS HIDDEN --> manage title and SOUND

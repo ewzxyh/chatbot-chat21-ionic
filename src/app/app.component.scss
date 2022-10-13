@@ -1,8 +1,19 @@
 .split-pane-md.split-pane-visible > .split-pane-side {
     min-width: 360px; //312px;
     display: block; // Safari bug fix
-    margin-left: 60px;
+    margin-left: var(--sidebar-width);
     --border: 0px;
+}
+
+.split-pane-md:not(.mobile){
+    height: calc( 100% - var(--nav-bar-heigth));
+    margin-top: var(--nav-bar-heigth);
+}
+
+.navbar{
+    display: flex;
+    position: fixed;
+    top: 0px;
 }
 
 .sidebar-visible {
@@ -20,6 +31,10 @@
 .router-outlet-margin-left {
     left: 60px
 }
+
+// ion-nav {
+//     background-color: var(--list-bkg-color);
+// }
 
 // @media (min-width: 768px) {
 //     .split-pane-md.split-pane-visible > .split-pane-side {

@@ -5,6 +5,12 @@
 
     <app-network-offline></app-network-offline>
 
+
+    <app-navbar *ngIf="!IS_ON_MOBILE_DEVICE"
+      [isSoundEnabled]="isSoundEnabled"
+      (onSoundChange)="onSoundChange($event)">
+    </app-navbar>
+
     <div class="sidebar" [ngClass]="{'hide-sidebar': IS_ONLINE === false || IS_ON_MOBILE_DEVICE === true || SUPPORT_MODE === false}">
       <app-sidebar></app-sidebar>
     </div>
@@ -13,7 +19,7 @@
       <app-sidebar-user-details> </app-sidebar-user-details>
     </div>
  
-    <ion-split-pane when="md" contentId="main">
+    <ion-split-pane when="md" contentId="main" [ngClass]="{'mobile': IS_ON_MOBILE_DEVICE}">
       <!-- 'sidebar-visible': IS_ONLINE === true && SUPPORT_MODE === true, -->
       <ion-nav #sidebarNav [root]="sidebarPage" [ngClass]="{'sidebar-hidden': IS_ON_MOBILE_DEVICE === true || SUPPORT_MODE === false}"></ion-nav>
       <!--  our side menu  -->

@@ -1,3 +1,4 @@
+import { NavbarComponent } from './../components/navbar/navbar.component';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NetworkOfflineComponent } from './../components/network-offline/network-offline.component';
@@ -61,6 +62,7 @@ import { SafeHtmlPipe } from '../directives/safe-html.pipe';
     ListConversationsComponent,
     IonListConversationsComponent,
     ImageViewerComponent,
+    NavbarComponent,
     SidebarComponent,
     SidebarUserDetailsComponent,
     ProjectItemComponent,
@@ -96,6 +98,7 @@ import { SafeHtmlPipe } from '../directives/safe-html.pipe';
     AvatarProfileComponent,
     HeaderConversationsList,
     ImageViewerComponent,
+    NavbarComponent,
     SidebarComponent,
     SidebarUserDetailsComponent,
     ProjectItemComponent,
