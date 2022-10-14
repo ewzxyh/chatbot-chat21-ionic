@@ -91,7 +91,7 @@ export class AppComponent implements OnInit {
   private setIntervalTime: any;
   private setTimeoutSound: any;
   private isTabVisible: boolean = true;
-  private isSoundEnabled: boolean;
+  public isSoundEnabled: boolean;
   private hasPlayed: boolean;
   private hasPlayedConversation: boolean;
   private tabTitle: string;

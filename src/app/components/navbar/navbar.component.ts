@@ -170,13 +170,9 @@ export class NavbarComponent implements OnInit {
     window.open(url, '_blank');
   }
 
-  goToHome(id_project: string, project_name: string,
-    project_profile_name: string,
-    project_trial_expired: string,
-    project_trial_days_left: number,
-    activeOperatingHours: boolean) {
+  goToHome(id_project: string, project_name: string,) {
     // this.logger.log('!NAVBAR  goToHome prjct ', prjct)
-    this.logger.log('[NAVBAR] goToHome id_project ', id_project, 'project_name', project_name, 'project_trial_expired ', project_trial_expired, 'project_trial_days_left ', project_trial_days_left, ' activeOperatingHours ', activeOperatingHours)
+    this.logger.log('[NAVBAR] goToHome id_project ', id_project, 'project_name', project_name)
     // RUNS ONLY IF THE THE USER CLICK OVER A PROJECT WITH THE ID DIFFERENT FROM THE CURRENT PROJECT ID
     const baseUrl = this.appConfigProvider.getConfig().dashboardUrl
     if (id_project !== this.project.id_project.id) {

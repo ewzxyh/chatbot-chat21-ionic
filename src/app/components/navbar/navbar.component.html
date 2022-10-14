@@ -62,12 +62,7 @@
                 -->
                 <!-- *ngFor="let prjct of projects?.slice().reverse() | slice:0:5; let i=index" -->
                 <li *ngFor="let prjct of projects?.slice() | slice:0:5; let i=index" style="cursor: pointer">
-                  <a (click)="goToHome(
-                  prjct?.id_project?._id, prjct?.id_project?.name,
-                  prjct?.id_project?.profile?.name, 
-                  prjct?.id_project?.trialExpired, 
-                  prjct?.id_project?.trialDaysLeft, 
-                  prjct?.id_project?.activeOperatingHours)"
+                  <a (click)="goToHome(prjct?.id_project?._id, prjct?.id_project?.name)"
                     [ngClass]="{'li-selected' : prjct?.id_project?._id === project?.id_project?.id }">
   
                     <span> {{ prjct?.id_project?.name }} </span>
