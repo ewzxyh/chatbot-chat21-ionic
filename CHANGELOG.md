@@ -1,5 +1,15 @@
 # chat21-ionic ver 3.0
 
+### 3.0.79-rc.3
+- added: segment analytics for SignIn-SignOut-Resolved-MsgAdded-ConvAdded
+- added: navbar component if not mobile
+- added: NAVBAR translations
+- changed: minor improvements on UI
+- changed: ion-split-pane UI if mobile
+- changed: moved hover 'add canned' button from bubble-message to ion-conversation-detail component
+- changed: moved addNewCanned to tiledesk service to canned-responses service
+- bug-fixed: open/close detail icon not aligned correctly on click 'close'
+
 ### 3.0.79-rc.2
 - added: new sound if new conversation is triggered in agent's chat
 - changed: header UI of header-conversation-detail and unassigned-conversations components
