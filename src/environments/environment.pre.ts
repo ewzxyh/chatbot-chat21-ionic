@@ -28,6 +28,7 @@ export const environment = {
     apiUrl: 'CHANGEIT',
     baseImageUrl: 'CHANGEIT',
     dashboardUrl: 'CHANGEIT',
+    testsiteBaseUrl:'CHANGEIT',
     wsUrl: 'CHANGEIT',
     wsUrlRel: 'CHANGEIT',
     storage_prefix: 'chat_sv5',
