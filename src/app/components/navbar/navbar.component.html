@@ -1,12 +1,12 @@
 <ion-navbar class="navbar navbar-absolute">
   <div class="container-fluid">
-      <div class="navbar-left">
+      <!-- <div class="navbar-left">
         left
-      </div>
+      </div> -->
       <div class="navbar-right">
         <!-- test site -->
         <ng-container *ngIf="project">
-          <button class="btn btn-success-no-boxshadow simulate-visitor-btn" (click)="testWidgetPage()">
+          <button class="btn simulate-visitor-btn btn-success-no-boxshadow " (click)="testWidgetPage()">
             <i class="material-icons" style="padding-top: 0px;font-size: 24px;">play_arrow</i>
             {{translationsMap.get('NAVBAR.SIMULATE_VISITOR')}}
           </button>
@@ -68,7 +68,7 @@
                   prjct?.id_project?.trialExpired, 
                   prjct?.id_project?.trialDaysLeft, 
                   prjct?.id_project?.activeOperatingHours)"
-                    [ngClass]="{'li-selected' : prjct?.id_project?._id === projectId }">
+                    [ngClass]="{'li-selected' : prjct?.id_project?._id === project?.id_project?.id }">
   
                     <span> {{ prjct?.id_project?.name }} </span>
                   </a>

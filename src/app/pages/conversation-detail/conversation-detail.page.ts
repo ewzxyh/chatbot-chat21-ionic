@@ -1,5 +1,5 @@
 import { TYPE_DIRECT } from 'src/chat21-core/utils/constants';
-import { TYPE_SUPPORT_GROUP, URL_SOUND_LIST_CONVERSATION } from './../../../chat21-core/utils/constants'
+import { URL_SOUND_LIST_CONVERSATION } from './../../../chat21-core/utils/constants'
 import {
   Component,
   OnInit,

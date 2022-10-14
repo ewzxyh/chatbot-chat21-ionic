@@ -11,7 +11,7 @@
     <div *ngIf="numberOpenConv > 0" class="number-open-conv">({{numberOpenConv}})</div>
   </ion-title>
 
-  <ion-buttons slot="start">
+  <ion-buttons slot="start" *ngIf="isMobile">
     <ion-button *ngIf="sound_btn==='enabled'" ion-button fill="clear" (click)="onSoundChangeFN('disabled')">
       <ion-icon slot="icon-only" name="volume-high-outline" ></ion-icon>
     </ion-button>
