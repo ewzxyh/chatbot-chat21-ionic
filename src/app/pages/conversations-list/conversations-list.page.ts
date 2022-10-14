@@ -1,6 +1,6 @@
 import { AppStorageService } from 'src/chat21-core/providers/abstract/app-storage.service';
 import { ArchivedConversationsHandlerService } from 'src/chat21-core/providers/abstract/archivedconversations-handler.service'
-import { Component, OnInit, ViewChild } from '@angular/core'
+import { Component, isDevMode, OnInit, ViewChild } from '@angular/core'
 import { IonContent, ModalController } from '@ionic/angular'
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router'
 // config
@@ -47,6 +47,7 @@ import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance'
 import { NetworkService } from 'src/app/services/network-service/network.service'
 import { Subject } from 'rxjs'
 import { takeUntil } from 'rxjs/operators'
+import { TYPE_DIRECT } from 'src/chat21-core/utils/constants';
 
 @Component({
   selector: 'app-conversations-list',
@@ -479,6 +480,7 @@ export class ConversationListPage implements OnInit {
         if (conversation) {
           this.onImageLoaded(conversation)
           this.onConversationLoaded(conversation)
+          !isDevMode() && conversation.is_new? this.segmentNewConversationAdded(conversation) : null;
         }
     })
 
@@ -513,27 +515,6 @@ export class ConversationListPage implements OnInit {
     this.uidConvSelected = null
     this.logger.log('[CONVS-LIST-PAGE] - subscribeLoggedUserLogout conversations ',this.conversations)
     this.logger.log('[CONVS-LIST-PAGE] - subscribeLoggedUserLogout uidConvSelected ',this.uidConvSelected)
-  }
-
-  /**
-   * ::: subscribeChangedConversationSelected :::
-   * evento richiamato quando si seleziona un utente nell'elenco degli user
-   * apro dettaglio conversazione
-   */
-  // --------------------------------
-  // !!!!!! IS USED? ?????
-  // ------------------------------
-  subscribeChangedConversationSelected = (user: UserModel, type: string) => {
-    this.logger.log('[CONVS-LIST-PAGE]  ************** subscribeUidConvSelectedChanged navigateByUrl',user, type)
-    this.uidConvSelected = user.uid
-    this.logger.log('[CONVS-LIST-PAGE]  ************** uidConvSelected ', this.uidConvSelected)
-    // this.conversationsHandlerService.uidConvSelected = user.uid;
-    const conversationSelected = this.conversations.find( (item) => item.uid === this.uidConvSelected)
-    if (conversationSelected) {
-      this.logger.log('[CONVS-LIST-PAGE] --> uidConvSelected: ',this.conversationSelected, this.uidConvSelected)
-      this.conversationSelected = conversationSelected
-    }
-    // this.router.navigateByUrl('conversation-detail/' + user.uid + '?conversationWithFullname=' + user.fullname);
   }
 
   /**
@@ -988,6 +969,54 @@ export class ConversationListPage implements OnInit {
       indexes.push(i)
     }
     return indexes
+  }
+
+  private segmentNewConversationAdded(conversation: ConversationModel){
+    let user = this.tiledeskAuthService.getCurrentUser()
+    try {
+      window['analytics'].page("Chat List Conversations Page, Conversation Added", {});
+    } catch (err) {
+      this.logger.error('Event:Conversation Added [page] error', err);
+    }
+
+    try {
+      window['analytics'].identify(user.uid, {
+        name: user.firstname + ' ' + user.lastname,
+        email: user.email,
+        logins: 5,
+      });
+    } catch (err) {
+      this.logger.error('Event:Conversation Added [identify] error', err);
+    }
+
+    try {
+      window['analytics'].track('Conversation Added', {
+        "username": user.firstname + ' ' + user.lastname,
+        "userId": user.uid,
+        "conversation_id": conversation.uid,
+        "channel_type": conversation.channel_type,
+        "conversation_with": conversation.conversation_with,
+        "conversation_with_fullname": conversation.conversation_with_fullname,
+        "department_name":(conversation.channel_type !== TYPE_DIRECT)? conversation.attributes.departmentName: null,
+        "department_id":(conversation.channel_type !== TYPE_DIRECT)? conversation.attributes.departmentId: null,
+      },
+      {
+        "context": {
+          "groupId": (conversation.channel_type !== TYPE_DIRECT)? conversation.attributes.projectId: null
+        }
+      });
+    } catch (err) {
+      this.logger.error('Event:Conversation Added [track] error', err);
+    }
+
+    try {
+      window['analytics'].group(conversation.attributes.projectId, {
+        name: (conversation.attributes.project_name)? conversation.attributes.project_name : null,
+        // plan: projectProfileName,
+      });
+    } catch (err) {
+      this.logger.error('Event:Conversation Added [group] error', err);
+    }
   }
 
   // ------------------------------------------------------------------

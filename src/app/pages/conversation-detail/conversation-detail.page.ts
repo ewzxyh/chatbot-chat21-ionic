@@ -1,4 +1,5 @@
-import { URL_SOUND_LIST_CONVERSATION } from './../../../chat21-core/utils/constants'
+import { TYPE_DIRECT } from 'src/chat21-core/utils/constants';
+import { TYPE_SUPPORT_GROUP, URL_SOUND_LIST_CONVERSATION } from './../../../chat21-core/utils/constants'
 import {
   Component,
   OnInit,
@@ -10,6 +11,7 @@ import {
   HostListener,
   ChangeDetectorRef,
   Renderer2,
+  isDevMode
 } from '@angular/core'
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router'
 import {
@@ -151,8 +153,9 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   conversation_count: number;
   showSpinner: boolean = true;
   dropEvent: any;
-  conversation: any;
+  conversation: ConversationModel;
   USER_ROLE: string;
+
   isMine = isMine
   isInfo = isInfo
   isFirstMessage = isFirstMessage
@@ -760,6 +763,18 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     }
   }
 
+  onConversationLoaded(conversation): ConversationModel{
+    if(conversation.attributes && conversation.attributes['projectId']){
+      let project = localStorage.getItem(conversation.attributes['projectId'])
+      if(project){
+        project = JSON.parse(project)
+        conversation.attributes.project_name = project['name']
+      }
+
+      return conversation
+    }
+  }
+
   setHeaderContent() {
     //   this.logger.log('[CONVS-DETAIL] - setHeaderContent conversationWith', this.conversationWith)
     //   this.logger.log('[CONVS-DETAIL] - setHeaderContent conversationsHandlerService', this.conversationsHandlerService)
@@ -769,6 +784,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       this.conversationsHandlerService.getConversationDetail(this.conversationWith, (conv) => {
         this.logger.debug('[CONV-COMP] setHeaderContent getConversationDetail: conversationsHandlerService ', this.conversationWith, conv, this.conv_type)
         if (conv) {
+          this.conversation = this.onConversationLoaded(conv)
           this.conversationAvatar = setConversationAvatar(
             conv.conversation_with,
             conv.conversation_with_fullname,
@@ -783,6 +799,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
             this.logger.debug('[CONV-COMP] setHeaderContent getConversationDetail: archivedConversationsHandlerService', this.conversationWith, conv)
             if (conv) {
               console.log('[CONVS-DETAIL] - setHeaderContent getConversationDetail (archived)', this.conversationWith, 'CONVS', conv)
+              this.conversation = this.onConversationLoaded(conv)
               this.conversationAvatar = setConversationAvatar(
                 conv.conversation_with,
                 conv.conversation_with_fullname,
@@ -802,7 +819,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       this.logger.debug('[CONV-COMP] setHeaderContent getConversationDetail: archivedConversationsHandlerService', this.conversationWith, this.conv_type)
       this.archivedConversationsHandlerService.getConversationDetail(this.conversationWith, (conv) => {
         if (conv) {
-
+          this.conversation = this.onConversationLoaded(conv)
           this.conversationAvatar = setConversationAvatar(
             conv.conversation_with,
             conv.conversation_with_fullname,
@@ -816,6 +833,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         if(!conv){
           this.conversationsHandlerService.getConversationDetail(this.conversationWith, (conv) => {
             if (conv) {
+              this.conversation = this.onConversationLoaded(conv)
               this.conversationAvatar = setConversationAvatar(
                 conv.conversation_with,
                 conv.conversation_with_fullname,
@@ -917,6 +935,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         this.channelType,
         attributes,
       )
+
+      isDevMode()? null : this.segmentNewAgentMessage(this.conversation)
     }
   }
   // ----------------------------------------------------------
@@ -1764,6 +1784,55 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     this.isTypings = false
     this.setTimeoutWritingMessages = null;
     clearTimeout(this.setTimeoutWritingMessages)
+  }
+
+
+  segmentNewAgentMessage(conversation: ConversationModel){
+    let user = this.loggedUser
+    try {
+      window['analytics'].page("Chat Conversation Detail Page, Message Added", {});
+    } catch (err) {
+      this.logger.error('Event:Message Added [page] error', err);
+    }
+
+    try {
+      window['analytics'].identify(user.uid, {
+        name: user.firstname + ' ' + user.lastname,
+        email: user.email,
+        logins: 5,
+      });
+    } catch (err) {
+      this.logger.error('Event:Message Added [identify] error', err);
+    }
+
+    try {
+      window['analytics'].track('Message Added', {
+        "username": user.firstname + ' ' + user.lastname,
+        "userId": user.uid,
+        "conversation_id": conversation.uid,
+        "channel_type": conversation.channel_type,
+        "conversation_with": conversation.conversation_with,
+        "conversation_with_fullname": conversation.conversation_with_fullname,
+        "department_name":(conversation.channel_type !== TYPE_DIRECT)? conversation.attributes.departmentName: null,
+        "department_id":(conversation.channel_type !== TYPE_DIRECT)? conversation.attributes.departmentId: null,
+      },
+      {
+        "context": {
+          "groupId": (conversation.channel_type !== TYPE_DIRECT)? conversation.attributes.projectId: null
+        }
+      });
+    } catch (err) {
+      this.logger.error('Event:Message Added [track] error', err);
+    }
+
+    try {
+      window['analytics'].group(conversation.attributes.projectId, {
+        name: (conversation.attributes.project_name)? conversation.attributes.project_name : null,
+        // plan: projectProfileName,
+      });
+    } catch (err) {
+      this.logger.error('Event:Message Added [group] error', err);
+    }
   }
 
   // -------------------------------------------------------------
