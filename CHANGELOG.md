@@ -1,9 +1,11 @@
 # chat21-ionic ver 3.0
 
+## 3.0.79 in PROD
+- added: segment analytics
+
 ## 3.0.78 in PROD
 - bug-fixed: unassigned request not sound the if is the first at all
 - bug-fixed: canned responses opens in incorrect mode
-
 
 ## 3.0.77 in PROD
 
