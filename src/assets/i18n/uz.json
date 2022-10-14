@@ -269,5 +269,13 @@
     "First_name_of_agent": "Agentning ismi",
     "EnterCannedResponseTitle": "Tayyor javob sarlavhasini kiriting",
     "WriteMsgToSendToYourVisitors": "Mehmonlaringizga yuborish uchun konservalangan javob xabarini yozing",
-    "EditProfile": "Profilni tahrirlash"
+    "EditProfile": "Profilni tahrirlash",
+    "NAVBAR":{
+        "SIMULATE_VISITOR":"Mehmonni simulyatsiya qilish",
+        "PROJECT_SETTINGS":"Loyiha sozlamalari",
+        "VIEW_ALL_PROJECTS":"Barcha loyihalarni ko'rish",
+        "ADD_PROJECT":"Loyiha qo'shish",
+        "RECENT_PROJECTS":"So'nggi loyihalar",
+        "OTHER_PROJECTS":"Boshqa loyihalar"
+    }
 }

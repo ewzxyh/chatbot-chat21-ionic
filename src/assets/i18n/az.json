@@ -268,5 +268,13 @@
     "First_name_of_agent": "Agentin adı",
     "EnterCannedResponseTitle": "Hazır cavab başlığını daxil edin",
     "WriteMsgToSendToYourVisitors": "Ziyarətçilərinizə göndərmək üçün konservləşdirilmiş cavab mesajı yazın",
-    "EditProfile": "Profilə düzəliş et"
+    "EditProfile": "Profilə düzəliş et",
+    "NAVBAR":{
+        "SIMULATE_VISITOR":"Ziyarətçini simulyasiya edin",
+        "PROJECT_SETTINGS":"Layihə parametrləri",
+        "VIEW_ALL_PROJECTS":"Bütün layihələrə baxın",
+        "ADD_PROJECT":"Layihə əlavə edin",
+        "RECENT_PROJECTS":"Son layihələr",
+        "OTHER_PROJECTS":"Digər layihələr"
+      }
 }

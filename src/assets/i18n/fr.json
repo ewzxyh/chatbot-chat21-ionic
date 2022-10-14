@@ -268,5 +268,13 @@
   "First_name_of_agent": "Prénom du mandataire",
   "EnterCannedResponseTitle": "Saisissez le titre de la réponse standardisée",
   "WriteMsgToSendToYourVisitors": "Rédigez un message de réponse standardisé à envoyer à vos visiteurs",
-  "EditProfile": "Editer le profil"
+  "EditProfile": "Editer le profil",
+  "NAVBAR":{
+    "SIMULATE_VISITOR":"Simuler un visiteur",
+    "PROJECT_SETTINGS":"Paramètres du projet",
+    "VIEW_ALL_PROJECTS":"Voir tous les projets",
+    "ADD_PROJECT":"Ajouter un projet",
+    "RECENT_PROJECTS":"Les projets récents",
+    "OTHER_PROJECTS":"Autres projets"
+  }
 }

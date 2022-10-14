@@ -268,5 +268,13 @@
   "First_name_of_agent": "Nome do agente",
   "EnterCannedResponseTitle": "Insira o título da resposta predeterminada",
   "WriteMsgToSendToYourVisitors": "Escreva uma mensagem de resposta pronta para enviar aos seus visitantes",
-  "EditProfile": "Editar Perfil"
+  "EditProfile": "Editar Perfil",
+  "NAVBAR":{
+    "SIMULATE_VISITOR":"Simular visitante",
+    "PROJECT_SETTINGS":"Configurações do projeto",
+    "VIEW_ALL_PROJECTS":"Ver todos os projetos",
+    "ADD_PROJECT":"Adicionar projeto",
+    "RECENT_PROJECTS":"Projetos Recentes",
+    "OTHER_PROJECTS":"Outros projetos"
+  }
 }

@@ -268,5 +268,13 @@
   "First_name_of_agent": "Имя агента",
   "EnterCannedResponseTitle": "Введите готовый заголовок ответа",
   "WriteMsgToSendToYourVisitors": "Напишите готовое ответное сообщение для отправки своим посетителям",
-  "EditProfile": "Редактировать профиль"
+  "EditProfile": "Редактировать профиль",
+  "NAVBAR":{
+    "SIMULATE_VISITOR":"Имитация посетителя",
+    "PROJECT_SETTINGS":"Настройки проекта",
+    "VIEW_ALL_PROJECTS":"Посмотреть все проекты",
+    "ADD_PROJECT":"Добавить проект",
+    "RECENT_PROJECTS":"Недавние Проекты",
+    "OTHER_PROJECTS":"Другие проекты"
+  }
 }

@@ -268,5 +268,13 @@
     "First_name_of_agent": "Ім'я агента",
     "EnterCannedResponseTitle": "Введіть назву готової відповіді",
     "WriteMsgToSendToYourVisitors": "Напишіть готове повідомлення-відповідь, щоб надіслати його відвідувачам",
-    "EditProfile": "Редагувати профіль"
+    "EditProfile": "Редагувати профіль",
+    "NAVBAR":{
+        "SIMULATE_VISITOR":"Імітація відвідувача",
+        "PROJECT_SETTINGS":"Налаштування проекту",
+        "VIEW_ALL_PROJECTS":"Переглянути всі проекти",
+        "ADD_PROJECT":"Додати проект",
+        "RECENT_PROJECTS":"Останні проекти",
+        "OTHER_PROJECTS":"Інші проекти"
+    }
 }

@@ -268,5 +268,13 @@
   "First_name_of_agent": "Ajanın adı",
   "EnterCannedResponseTitle": "Hazır yanıt başlığını girin",
   "WriteMsgToSendToYourVisitors": "Ziyaretçilerinize göndermek için hazır bir yanıt mesajı yazın",
-  "EditProfile": "Profili Düzenle"
+  "EditProfile": "Profili Düzenle",
+  "NAVBAR":{
+    "SIMULATE_VISITOR":"Ziyaretçiyi simüle et",
+    "PROJECT_SETTINGS":"Proje ayarları",
+    "VIEW_ALL_PROJECTS":"Tüm projeleri görüntüle",
+    "ADD_PROJECT":"Proje ekle",
+    "RECENT_PROJECTS":"Son Projeler",
+    "OTHER_PROJECTS":"Diğer projeler"
+  }
 }

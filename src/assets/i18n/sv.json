@@ -268,5 +268,13 @@
     "First_name_of_agent": "Agentens förnamn",
     "EnterCannedResponseTitle": "Ange standardsvarstitel",
     "WriteMsgToSendToYourVisitors": "Skriv ett standardsvarsmeddelande att skicka till dina besökare",
-    "EditProfile": "Redigera profil"
+    "EditProfile": "Redigera profil",
+    "NAVBAR":{
+        "SIMULATE_VISITOR":"Simulera besökare",
+        "PROJECT_SETTINGS":"Projektinställningar",
+        "VIEW_ALL_PROJECTS":"Se alla projekt",
+        "ADD_PROJECT":"Lägg till projekt",
+        "RECENT_PROJECTS":"Nyliga projekt",
+        "OTHER_PROJECTS":"Andra projekt"
+    }
 }

@@ -268,5 +268,13 @@
   "First_name_of_agent": "Vorname des Betreuers",
   "EnterCannedResponseTitle": "Titel der Vordefinierten Anfrage eingeben",
   "WriteMsgToSendToYourVisitors": "Verfassen Sie eine vordefinierte Antwort für Ihre Besucher",
-  "EditProfile": "Profil bearbeiten"
+  "EditProfile": "Profil bearbeiten",
+  "NAVBAR":{
+    "SIMULATE_VISITOR":"Besucher simulieren",
+    "PROJECT_SETTINGS":"Projekt Einstellungen",
+    "VIEW_ALL_PROJECTS":"Alle Projekte anzeigen",
+    "ADD_PROJECT":"Projekt hinzufügen",
+    "RECENT_PROJECTS":"Letzte Projekte",
+    "OTHER_PROJECTS":"Weitere Projekte"
+  }
 }

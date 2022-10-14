@@ -268,5 +268,13 @@
     "First_name_of_agent": "Агенттің аты-жөні",
     "EnterCannedResponseTitle": "Сақталған жауап тақырыбын енгізіңіз",
     "WriteMsgToSendToYourVisitors": "Келушілеріңізге жіберу үшін консервіленген жауап хабарын жазыңыз",
-    "EditProfile": "Профильді өңдеу"
+    "EditProfile": "Профильді өңдеу",
+    "NAVBAR":{
+        "SIMULATE_VISITOR":"Келушіге ұқсаңыз",
+        "PROJECT_SETTINGS":"Жоба параметрлері",
+        "VIEW_ALL_PROJECTS":"Барлық жобаларды көру",
+        "ADD_PROJECT":"Жоба қосу",
+        "RECENT_PROJECTS":"Соңғы жобалар",
+        "OTHER_PROJECTS":"Басқа жобалар"
+    }
 }

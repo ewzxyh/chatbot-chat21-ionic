@@ -268,5 +268,13 @@
   "First_name_of_agent": "First name of agent",
   "EnterCannedResponseTitle": "Enter canned response title",
   "WriteMsgToSendToYourVisitors": "Write a canned response message to send to your visitors",
-  "EditProfile": "Edit profile"
+  "EditProfile": "Edit profile",
+  "NAVBAR":{
+    "SIMULATE_VISITOR":"Simulate visitor",
+    "PROJECT_SETTINGS":"Project settings",
+    "VIEW_ALL_PROJECTS":"View all projects",
+    "ADD_PROJECT":"Add project",
+    "RECENT_PROJECTS":"Recent projects",
+    "OTHER_PROJECTS":"Other projects"
+  }
 }

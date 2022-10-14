@@ -268,5 +268,13 @@
   "First_name_of_agent": "الاسم الأول للوكيل",
   "EnterCannedResponseTitle": "أدخل عنوان الرد الجاهز",
   "WriteMsgToSendToYourVisitors": "اكتب رسالة رد جاهزة لإرسالها إلى الزائرين",
-  "EditProfile": "تعديل الملف الشخصي"
+  "EditProfile": "تعديل الملف الشخصي",
+  "NAVBAR":{
+    "SIMULATE_VISITOR":"محاكاة الزائر",
+    "PROJECT_SETTINGS":"إعدادات المشروع",
+    "VIEW_ALL_PROJECTS":"عرض جميع المشاريع",
+    "ADD_PROJECT":"أضف المشروع",
+    "RECENT_PROJECTS":"مشاريع حديثه",
+    "OTHER_PROJECTS":"مشاريع أخرى"
+  }
 }
