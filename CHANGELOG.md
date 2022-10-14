@@ -1,5 +1,8 @@
 # chat21-ionic ver 3.0
 
+### 3.0.79-rc.4
+- bug-fixed: testsiteBaseUrl wrong value env property
+
 ### 3.0.79-rc.3
 - added: segment analytics for SignIn-SignOut-Resolved-MsgAdded-ConvAdded
 - added: navbar component if not mobile
