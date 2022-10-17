@@ -92,13 +92,15 @@ export class ConversationListPage implements OnInit {
   public displayNewConvsItem: boolean = true
   public archiveActionNotAllowed: boolean = false
 
+  public isInitialized: boolean = false;
+
   tooltipOptions = {
     'show-delay': 1500,
     'tooltip-class': 'chat-tooltip',
-    theme: 'light',
-    shadow: false,
+    'theme': 'light',
+    'shadow': false,
     'hide-delay-mobile': 0,
-    hideDelayAfterClick: 3000,
+    'hideDelayAfterClick': 3000,
     'hide-delay': 200,
   }
 
@@ -123,6 +125,7 @@ export class ConversationListPage implements OnInit {
     private appStorageService: AppStorageService
   ) {
     this.listenToAppCompConvsLengthOnInitConvs()
+    this.listenToAppIsInitialized()
     this.listenToLogoutEvent()
     this.listenGoOnline()
     this.listenGoOffline()
@@ -391,6 +394,14 @@ export class ConversationListPage implements OnInit {
     })
   }
 
+  listenToAppIsInitialized(){
+    this.events.subscribe( 'appComp:appIsInitialized', (isInitialized) => {
+      this.logger.log( '[CONVS-LIST-PAGE]-CONVS isInitialized', isInitialized)
+      this.isInitialized = isInitialized
+    })
+  }
+
+
   listenGoOnline() {
     this.events.subscribe('go:online', (goonline) => {
       this.logger.info('[CONVS-LIST-PAGE] - listen To go:online - goonline',goonline)
@@ -480,16 +491,17 @@ export class ConversationListPage implements OnInit {
     })
 
     this.conversationsHandlerService.conversationRemoved.subscribe((conversation: ConversationModel) => {
-        this.logger.log('[CONVS-LIST-PAGE] ***** conversationsRemoved *****',conversation)
+        // this.logger.log('[CONVS-LIST-PAGE] ***** conversationsRemoved *****',conversation)
     })
 
     this.archivedConversationsHandlerService.archivedConversationAdded.subscribe((conversation: ConversationModel) => {
-        this.logger.log('[CONVS-LIST-PAGE] ***** archivedConversationAdded *****',conversation)
+        // this.logger.log('[CONVS-LIST-PAGE] ***** archivedConversationAdded *****',conversation)
         // that.conversationsChanged(conversations);
         if (conversation) {
           this.onImageLoaded(conversation)
           this.onConversationLoaded(conversation)
-          !isDevMode() && conversation.is_new? this.segmentNewConversationAdded(conversation) : null;
+          !isDevMode() && conversation.is_new && this.isInitialized? this.segmentNewConversationAdded(conversation) : null;
+
 
         }
     })
@@ -970,9 +982,9 @@ export class ConversationListPage implements OnInit {
   private segmentNewConversationAdded(conversation: ConversationModel){
     let user = this.tiledeskAuthService.getCurrentUser()
     try {
-      window['analytics'].page("Chat List Conversations Page, Conversation Added", {});
+      window['analytics'].page("Chat List Conversations Page, Agent added to conversation", {});
     } catch (err) {
-      this.logger.error('Event:Conversation Added [page] error', err);
+      this.logger.error('Event:Agent added to conversation [page] error', err);
     }
 
     try {
@@ -982,36 +994,39 @@ export class ConversationListPage implements OnInit {
         logins: 5,
       });
     } catch (err) {
-      this.logger.error('Event:Conversation Added [identify] error', err);
+      this.logger.error('Event:Agent added to conversation [identify] error', err);
     }
 
     try {
-      window['analytics'].track('Conversation Added', {
+      window['analytics'].track('Agent added to conversation', {
         "username": user.firstname + ' ' + user.lastname,
         "userId": user.uid,
         "conversation_id": conversation.uid,
         "channel_type": conversation.channel_type,
         "conversation_with": conversation.conversation_with,
         "conversation_with_fullname": conversation.conversation_with_fullname,
-        "department_name":(conversation.channel_type !== TYPE_DIRECT)? conversation.attributes.departmentName: null,
-        "department_id":(conversation.channel_type !== TYPE_DIRECT)? conversation.attributes.departmentId: null,
+        "project_id":(conversation.channel_type !== TYPE_DIRECT)? conversation.uid.split('-')[2]: null,
+        "project_name":(conversation.channel_type !== TYPE_DIRECT && conversation.attributes && conversation.attributes.departmentId)? conversation.attributes.departmentId: null,
       },
       {
         "context": {
-          "groupId": (conversation.channel_type !== TYPE_DIRECT)? conversation.attributes.projectId: null
+          "groupId": (conversation.channel_type !== TYPE_DIRECT)? conversation.uid.split('-')[2]: null
         }
       });
     } catch (err) {
-      this.logger.error('Event:Conversation Added [track] error', err);
+      this.logger.error('Event:Agent added to conversation [track] error', err);
     }
 
-    try {
-      window['analytics'].group(conversation.attributes.projectId, {
-        name: (conversation.attributes.project_name)? conversation.attributes.project_name : null,
-        // plan: projectProfileName,
-      });
-    } catch (err) {
-      this.logger.error('Event:Conversation Added [group] error', err);
+    if(conversation.channel_type !== TYPE_DIRECT){
+      try {
+        window['analytics'].group(conversation.uid.split('-')[2], {
+          name: (conversation.attributes && conversation.attributes.project_name)? conversation.attributes.project_name : null,
+          // plan: projectProfileName,
+        });
+      } catch (err) {
+        this.logger.error('Event:Agent added to conversation [group] error', err);
+      }
+
     }
   }
 
