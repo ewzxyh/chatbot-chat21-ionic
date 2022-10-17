@@ -25,7 +25,7 @@
       <div class="flex-child-right">
         <div class="project-name-project-for-panel" [tooltip]="conversationsInQueueOnProjectName"
           [options]="tooltipOptions" placement="top" content-type="template" (click)="openUnservedConvs()">
-          <div class="project---name"> <a>{{ project?.id_project?.name }}</a> </div>
+          <div class="unassigned_label"> <a>{{ translationMap?.get('UnassignedConversations') }}</a> </div>
         </div>
         
         <!-- <div class="availabily-and-busy-wpr">

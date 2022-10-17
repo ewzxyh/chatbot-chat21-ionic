@@ -1724,10 +1724,11 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
   initializeTyping() {
     this.logger.debug('[CONVS-DETAIL] membersconversation', this.membersConversation)
-    this.membersConversation.push(this.loggedUser.uid)
-    //this.setSubscriptions();
-    this.typingService.isTyping(this.conversationWith, this.loggedUser.uid, this.isDirect);
-    
+    if(this.loggedUser){
+      this.membersConversation.push(this.loggedUser.uid)
+      //this.setSubscriptions();
+      this.typingService.isTyping(this.conversationWith, this.loggedUser.uid, this.isDirect);
+    }
   }
 
   /** */

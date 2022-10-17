@@ -303,7 +303,7 @@
     color: #1e2129;
     font-weight: 400;
     margin-left: 10px;
-    width: 185px ;
+    width: 250px;
     // width: 220px !important;
     white-space: nowrap !important;
     overflow: hidden !important;
@@ -325,11 +325,11 @@
 //     width: fit-content;
 //     display: block;
 // }
-.project---name {
+.unassigned_label {
     width: fit-content;
     
 }
-.project---name:hover {
+.unassigned_label:hover {
     color: rgb(100, 131, 158);
     // font-weight: 600;
 }
