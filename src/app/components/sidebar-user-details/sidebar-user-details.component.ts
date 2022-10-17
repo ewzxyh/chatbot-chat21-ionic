@@ -327,16 +327,16 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
           if (projectUser['user_available'] === false && projectUser['profileStatus'] === 'inactive') {
             // console.log('teammateStatus ', this.teammateStatus) 
             this.selectedStatus = this.teammateStatus[2].id;
-             console.log('[SIDEBAR-USER-DETAILS] - PROFILE_STATUS selected option', this.teammateStatus[2].name);
+            this.logger.debug('[SIDEBAR-USER-DETAILS] - PROFILE_STATUS selected option', this.teammateStatus[2].name);
             this.teammateStatus = this.teammateStatus.slice(0)
           } else if (projectUser['user_available'] === false && (projectUser['profileStatus'] === '' || !projectUser['profileStatus'])) {
             this.selectedStatus = this.teammateStatus[1].id;
-             console.log('[SIDEBAR-USER-DETAILS] - PROFILE_STATUS selected option', this.teammateStatus[1].name);
+            this.logger.debug('[SIDEBAR-USER-DETAILS] - PROFILE_STATUS selected option', this.teammateStatus[1].name);
             this.teammateStatus = this.teammateStatus.slice(0)
           } else if (projectUser['user_available'] === true && (projectUser['profileStatus'] === '' || !projectUser['profileStatus'])) {
             this.selectedStatus = this.teammateStatus[0].id
             this.teammateStatus = this.teammateStatus.slice(0)
-            console.log('[SIDEBAR-USER-DETAILS] - PROFILE_STATUS selected option', this.teammateStatus[0].name);
+            this.logger.debug('[SIDEBAR-USER-DETAILS] - PROFILE_STATUS selected option', this.teammateStatus[0].name);
           }
           this.IS_BUSY = projectUser['isBusy']
           this.USER_ROLE = projectUser['role']

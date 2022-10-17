@@ -619,7 +619,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] handleKeyboardEvent  event.key ", event);
+    // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] handleKeyboardEvent  event.key ", event);
     // Note: on mac keyboard "metakey" matches "cmd"
     
     if (event.key === 'Enter' && event.altKey || event.key === 'Enter' && event.ctrlKey || event.key === 'Enter' && event.metaKey) {

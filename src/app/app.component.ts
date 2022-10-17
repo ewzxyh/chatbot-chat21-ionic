@@ -1156,6 +1156,7 @@ export class AppComponent implements OnInit {
 
 
     if (hasClickedLogout === true) {
+      isDevMode()? null: this.segmentSignedOut()
       this.appStorageService.removeItem('conversations')
       this.isInitialized = false;
       // ----------------------------------------------
@@ -1169,7 +1170,7 @@ export class AppComponent implements OnInit {
 
           if (res === 'success') {
             that.removePresenceAndLogout();
-            isDevMode()? null: that.segmentSignedOut()
+            
           } else {
             that.removePresenceAndLogout();
             // that.presentToast();
@@ -1392,7 +1393,7 @@ export class AppComponent implements OnInit {
         "conversation_with":(conversation.channel_type !== TYPE_DIRECT)? null: conversation.conversation_with,
         "conversation_with_fullname": (conversation.channel_type !== TYPE_DIRECT)? null: conversation.conversation_with_fullname,
         "department_name":(conversation.channel_type !== TYPE_DIRECT)? conversation.attributes.departmentName: null,
-        "department_id":(conversation.channel_type !== TYPE_DIRECT)? conversation.attributes.departmentId: null,
+        "department_id":(conversation.channel_type !== TYPE_DIRECT)? conversation.attributes.departmentId: null
       },
       { "context": {
           "groupId": (conversation.channel_type !== TYPE_DIRECT)? conversation.attributes.projectId: null
@@ -1402,13 +1403,15 @@ export class AppComponent implements OnInit {
       this.logger.error('Event:Chat Resolved [track] error', err);
     }
 
-    try {
-      window['analytics'].group(conversation.attributes.projectId, {
-        name: (conversation.attributes.project_name)? conversation.attributes.project_name : null,
-        // plan: projectProfileName,
-      });
-    } catch (err) {
-      this.logger.error('Event:Chat Resolved [group] error', err);
+    if(conversation.channel_type !== TYPE_DIRECT){
+      try {
+        window['analytics'].group(conversation.attributes.projectId, {
+          name: (conversation.attributes.project_name)? conversation.attributes.project_name : null,
+          // plan: projectProfileName,
+        });
+      } catch (err) {
+        this.logger.error('Event:Chat Resolved [group] error', err);
+      }
     }
   }
 

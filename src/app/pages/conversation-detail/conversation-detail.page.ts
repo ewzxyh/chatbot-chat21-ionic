@@ -1701,26 +1701,17 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         if (accept_file_segment[1] === '*') {
           if (draggedFileMimeType.startsWith(accept_file_segment[0])) {
             isAcceptFile = true
-            this.logger.log(
-              '[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept isAcceptFile',
-              isAcceptFile,
-            )
+            this.logger.log('[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept isAcceptFile',isAcceptFile)
             return isAcceptFile
           } else {
             isAcceptFile = false
-            this.logger.log(
-              '[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept isAcceptFile',
-              isAcceptFile,
-            )
+            this.logger.log('[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept isAcceptFile',isAcceptFile)
             return isAcceptFile
           }
         } else if (accept_file_segment[1] !== '*') {
           if (draggedFileMimeType === accept_file) {
             isAcceptFile = true
-            this.logger.log(
-              '[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept isAcceptFile',
-              isAcceptFile,
-            )
+            this.logger.log('[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept isAcceptFile',isAcceptFile)
             return isAcceptFile
           }
         }
