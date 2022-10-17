@@ -910,7 +910,6 @@ export class AppComponent implements OnInit {
 
   soundConversationAdded(){
     const that = this;
-    console.log('soundConversationAdded ENABLEDDDD-->', this.hasPlayed)
     if(!this.hasPlayedConversation ){
       that.audio_NewConv.play().then(() => {
         that.hasPlayedConversation = true
@@ -1048,7 +1047,7 @@ export class AppComponent implements OnInit {
 
       this.initConversationsHandler(currentUser.uid);
       this.initArchivedConversationsHandler(currentUser.uid);
-      isDevMode()? null: this.segmentSignIn(currentUser)
+      isDevMode()? null: this.segmentSignIn()
     }
     this.checkPlatform();
     try {
@@ -1070,8 +1069,6 @@ export class AppComponent implements OnInit {
     if (this.SUPPORT_MODE === true) {
       this.webSocketClose()
     }
-    const currentUser = this.tiledeskAuthService.getCurrentUser();
-    isDevMode()? null: this.segmentSignedOut(currentUser)
     // this.isOnline = false;
     // this.conversationsHandlerService.conversations = [];
     this.chatManager.setTiledeskToken(null);
@@ -1172,6 +1169,7 @@ export class AppComponent implements OnInit {
 
           if (res === 'success') {
             that.removePresenceAndLogout();
+            isDevMode()? null: that.segmentSignedOut()
           } else {
             that.removePresenceAndLogout();
             // that.presentToast();
@@ -1274,6 +1272,7 @@ export class AppComponent implements OnInit {
       that.logger.debug('[APP-COMP] updateConversationsOnStorage: reset timer and save conversations -> ', this.conversationsHandlerService.conversations.length)
       that.appStorageService.setItem('conversations', JSON.stringify(that.conversationsHandlerService.conversations))
       that.isInitialized = true;
+      this.events.publish('appComp:appIsInitialized', true)
     }, 10000);
   }
 
@@ -1298,7 +1297,8 @@ export class AppComponent implements OnInit {
     }
   }
 
-  segmentSignIn(user: UserModel){
+  private segmentSignIn(){
+    let user = this.tiledeskAuthService.getCurrentUser()
     try {
       window['analytics'].page("Chat Auth Page, Signin", {});
     } catch (err) {
@@ -1327,7 +1327,8 @@ export class AppComponent implements OnInit {
   }
 
 
-  segmentSignedOut(user: UserModel){
+  private segmentSignedOut(){
+    let user = this.tiledeskAuthService.getCurrentUser()
     try {
       window['analytics'].page("Chat Auth Page, Signed Out", {});
     } catch (err) {
@@ -1363,7 +1364,7 @@ export class AppComponent implements OnInit {
     }
   }
 
-  segmentResolved(conversation: ConversationModel){
+  private segmentResolved(conversation: ConversationModel){
     let user = this.tiledeskAuthService.getCurrentUser();
     try {
       window['analytics'].page("Chat List Conversations Page, Chat Resolved", {});

@@ -771,8 +771,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         conversation.attributes.project_name = project['name']
       }
 
-      return conversation
     }
+    return conversation
   }
 
   setHeaderContent() {
@@ -1790,9 +1790,9 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   segmentNewAgentMessage(conversation: ConversationModel){
     let user = this.loggedUser
     try {
-      window['analytics'].page("Chat Conversation Detail Page, Message Added", {});
+      window['analytics'].page("Chat Conversation Detail Page, Message Sent", {});
     } catch (err) {
-      this.logger.error('Event:Message Added [page] error', err);
+      this.logger.error('Event:Message Sent [page] error', err);
     }
 
     try {
@@ -1802,11 +1802,11 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         logins: 5,
       });
     } catch (err) {
-      this.logger.error('Event:Message Added [identify] error', err);
+      this.logger.error('Event:Message Sent [identify] error', err);
     }
 
     try {
-      window['analytics'].track('Message Added', {
+      window['analytics'].track('Message Sent', {
         "username": user.firstname + ' ' + user.lastname,
         "userId": user.uid,
         "conversation_id": conversation.uid,
@@ -1822,7 +1822,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         }
       });
     } catch (err) {
-      this.logger.error('Event:Message Added [track] error', err);
+      this.logger.error('Event:Message Sent [track] error', err);
     }
 
     try {
@@ -1831,7 +1831,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         // plan: projectProfileName,
       });
     } catch (err) {
-      this.logger.error('Event:Message Added [group] error', err);
+      this.logger.error('Event:Message Sent [group] error', err);
     }
   }
 
