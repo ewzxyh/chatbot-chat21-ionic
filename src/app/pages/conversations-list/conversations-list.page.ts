@@ -478,6 +478,7 @@ export class ConversationListPage implements OnInit {
         if (conversation) {
           this.onImageLoaded(conversation)
           this.onConversationLoaded(conversation)
+          !isDevMode() && conversation.is_new && this.isInitialized? this.segmentNewConversationAdded(conversation) : null;
         }
     })
 
@@ -500,9 +501,6 @@ export class ConversationListPage implements OnInit {
         if (conversation) {
           this.onImageLoaded(conversation)
           this.onConversationLoaded(conversation)
-          !isDevMode() && conversation.is_new && this.isInitialized? this.segmentNewConversationAdded(conversation) : null;
-
-
         }
     })
   }
