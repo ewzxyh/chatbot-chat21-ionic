@@ -1005,7 +1005,6 @@ export class ConversationListPage implements OnInit {
         "conversation_id": conversation.uid,
         "channel_type": conversation.channel_type,
         "conversation_with": conversation.conversation_with,
-        "conversation_with_fullname": conversation.conversation_with_fullname,
         "project_id":(conversation.channel_type !== TYPE_DIRECT)? conversation.uid.split('-')[2]: null,
         "project_name":(conversation.channel_type !== TYPE_DIRECT && conversation.attributes && conversation.attributes.departmentId)? conversation.attributes.departmentId: null,
       },
