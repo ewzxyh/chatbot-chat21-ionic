@@ -1362,7 +1362,6 @@ export class AppComponent implements OnInit {
         "conversation_id": conversation.uid,
         "channel_type": conversation.channel_type,
         "conversation_with":(conversation.channel_type !== TYPE_DIRECT)? null: conversation.conversation_with,
-        "conversation_with_fullname": (conversation.channel_type !== TYPE_DIRECT)? null: conversation.conversation_with_fullname,
         "department_name":(conversation.channel_type !== TYPE_DIRECT)? conversation.attributes.departmentName: null,
         "department_id":(conversation.channel_type !== TYPE_DIRECT)? conversation.attributes.departmentId: null
       },
