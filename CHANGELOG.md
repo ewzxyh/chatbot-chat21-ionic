@@ -1,7 +1,7 @@
 # chat21-ionic ver 3.0
 
 ## 3.0.79 in PROD
-- added: segment analytics
+- added: segment analytics events
 
 ## 3.0.78 in PROD
 - bug-fixed: unassigned request not sound the if is the first at all
