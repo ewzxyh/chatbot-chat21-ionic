@@ -698,15 +698,35 @@ export function isURL(str: string) {
   }
 }
 
-// export function isHostname() {
-
-
-//   if (environment.supportMode === true) {
-
-//     return true
-//   }
-//   return false
-// }
+export function convertColorToRGBA(color, opacity) {
+  let result = color;
+  // console.log('convertColorToRGBA' + color, opacity);
+  if ( color.indexOf('#') > -1 ) {
+    color = color.replace('#', '');
+    const r = parseInt(color.substring(0, 2), 16);
+    const g = parseInt(color.substring(2, 4), 16);
+    const b = parseInt(color.substring(4, 6), 16);
+    result = 'rgba(' + r + ',' + g + ',' + b + ',' + opacity / 100 + ')';
+  } else if ( color.indexOf('rgba') > -1 ) {
+    const rgb = color.split(',');
+    const r = rgb[0].substring(5);
+    const g = rgb[1];
+    const b = rgb[2];
+    // const b = rgb[2].substring(1, rgb[2].length - 1);
+    result = 'rgba(' + r + ',' + g + ',' + b + ',' + opacity / 100 + ')';
+  } else if ( color.indexOf('rgb(') > -1 ) {
+    const rgb = color.split(',');
+    // console.log(rgb);
+    const r = rgb[0].substring(4);
+    const g = rgb[1];
+    const b = rgb[2].substring(0, rgb[2].length - 1);
+    // console.log(b);
+    // console.log(rgb[2].length);
+    result = 'rgba(' + r + ',' + g + ',' + b + ',' + opacity / 100 + ')';
+  }
+  // console.log('convertColorToRGBA' + color + result);
+  return result;
+}
 
 export function getParameterByName(name: string) {
   var url = window.location.href;
