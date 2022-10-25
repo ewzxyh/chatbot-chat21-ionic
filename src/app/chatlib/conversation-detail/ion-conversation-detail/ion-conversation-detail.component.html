@@ -124,12 +124,12 @@
     </div>
 
     <!-- message RECIPIENT + TIME :: -->
-    <div class="msg_container base_receive" *ngIf="messageType(MESSAGE_TYPE_OTHERS, message) && isChannelTypeGroup(channelType) && !isSameSender(message?.sender, i)">
+    <!-- <div class="msg_container base_receive" *ngIf="messageType(MESSAGE_TYPE_OTHERS, message) && isChannelTypeGroup(channelType) && !isSameSender(message?.sender, i)">
       <div role="messaggio" class="message_sender_fullname">
         {{message.sender_fullname}}
       </div>
       <div class="message-date"> {{message.timestamp | date:'HH:mm' }} </div>
-    </div>
+    </div> -->
     <!-- message RECIPIENT :: -->
     <div role="messaggio" *ngIf="messageType(MESSAGE_TYPE_OTHERS, message)" class="msg_container base_receive">
 
@@ -144,6 +144,7 @@
         [ngClass]="{'has-metadata': (isImage(message) || isFrame(message)), 'privateMsg': (message?.attributes && message?.attributes?.subtype === 'private')}" 
         [class.emoticon]="isEmojii(message?.text)"
         [ngStyle]="{'background': stylesMap?.get('bubbleReceivedBackground'), 'color': stylesMap.get('bubbleReceivedTextColor')}"
+        [isSameSender]="isSameSender(message?.sender, i)"
         [message]="message" 
         [fontColor]="stylesMap?.get('bubbleReceivedTextColor')"
         [fontSize]="stylesMap?.get('fontSize')"
@@ -169,7 +170,7 @@
         </ion-button>
       </ng-container> -->
 
-      <div class="message-date-hover" *ngIf="(isChannelTypeGroup(channelType) && isSameSender(message?.sender, i)) || !isChannelTypeGroup(channelType)"> {{message.timestamp | date:'HH:mm' }} </div>
+      <div class="message-date-hover" *ngIf="isChannelTypeGroup(channelType)"> {{message.timestamp | date:'HH:mm' }} </div>
     </div>
 
     <!-- message type:: button &&  -->

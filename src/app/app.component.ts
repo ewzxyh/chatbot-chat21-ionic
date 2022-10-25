@@ -1,3 +1,4 @@
+
 import { TYPE_DIRECT, TYPE_SUPPORT_GROUP } from 'src/chat21-core/utils/constants';
 import { tranlatedLanguage, URL_SOUND_CONVERSATION_ADDED, URL_SOUND_LIST_CONVERSATION } from './../chat21-core/utils/constants';
 import { ArchivedConversationsHandlerService } from 'src/chat21-core/providers/abstract/archivedconversations-handler.service';
@@ -969,7 +970,7 @@ export class AppComponent implements OnInit {
     this.events.subscribe('uidConvSelected:changed', this.subscribeChangedConversationSelected);
     this.events.subscribe('profileInfoButtonClick:logout', this.subscribeProfileInfoButtonLogOut);
     this.events.subscribe('unservedRequest:count', this.subscribeUnservedRequestCount)
-
+    this.events.subscribe('convList:onConversationSelected', this.subscribeConversationSelected)
     this.conversationsHandlerService.conversationAdded.subscribe((conversation: ConversationModel) => {
       // this.logger.log('[APP-COMP] ***** subscribeConversationAdded *****', conversation);
       if (conversation && conversation.is_new === true) {
@@ -1188,6 +1189,12 @@ export class AppComponent implements OnInit {
       if(this.isInitialized){
         this.manageTabNotification(unservedRequestCount) //sound and alternate title
       }
+    }
+  }
+
+  subscribeConversationSelected= (conversation: ConversationModel) => {
+    if(conversation && conversation.is_new){
+      this.audio_NewConv.pause()
     }
   }
 
