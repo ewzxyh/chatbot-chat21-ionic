@@ -2,9 +2,9 @@
 
 
 ### 3.0.80-rc.1
-- changed: moved sender_fullname inside bubble-message component	5690403c	Gabriele Panico <redacted@example.invalid>	25 ott 2022, 15:04
-- changed: publish onConversationSelect event to stop audio after agent has clicked on it	178b0444	Gabriele Panico <redacted@example.invalid>	25 ott 2022, 15:05
-- bug-fixed: /null  loading flag_url in sidebar-user-detail	53b26070	Gabriele Panico <redacted@example.invalid>	25 ott 2022, 15:06
+- changed: moved sender_fullname inside bubble-message component
+- changed: publish onConversationSelect event to stop audio after agent has clicked on it
+- bug-fixed: /null  loading flag_url in sidebar-user-detail
 
 ### 3.0.79 in PROD
 - added: segment analytics events
