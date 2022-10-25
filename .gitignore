@@ -16,3 +16,5 @@ env.pre
 src/firebase-messaging-sw.js
 deploy_prod.sh
 deploy_pre.sh
+deploy_amazon_beta.sh
+deploy_amazon_prod.sh
