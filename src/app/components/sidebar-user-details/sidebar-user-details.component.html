@@ -5,7 +5,7 @@
         <span class="user-details-dshbrd-lang-code" style="text-transform: uppercase;color: #647491;">
             {{chat_lang}}
         </span>
-        <img [src]="flag_url" style="width: auto;height: 19px; position: relative;top: 1px;">
+        <img *ngIf="flag_url" [src]="flag_url" style="width: auto;height: 19px; position: relative;top: 1px;">
 
     </div>
 
@@ -79,11 +79,11 @@
             [clearable]="false"
             [searchable]="false">
             <ng-template ng-label-tmp let-item="item">
-                <img style="width: 15px;height: 15px;position: relative; top: 1px;" height="15" width="15" [src]="item.avatar" />
+                <img style="width: 15px;height: 15px;position: relative; top: 1px;" height="15" width="15" [src]="item?.avatar" />
                 <span id="sidebaravatar_{{item.name}}" style="text-transform: capitalize; margin-left:8px">  {{item.label}} </span>
             </ng-template>
             <ng-template ng-option-tmp let-item="item" let-index="index">
-                <img style="width: 15px;height: 15px;position: relative; top: 1px;" height="15" width="15" [src]="item.avatar" />
+                <img style="width: 15px;height: 15px;position: relative; top: 1px;" height="15" width="15" [src]="item?.avatar" />
                 <span id="sidebaravatar_{{item.name}}" style="text-transform: capitalize; margin-left:8px">  {{item.label}} </span>
             </ng-template>
         </ng-select>
