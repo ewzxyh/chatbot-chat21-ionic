@@ -672,6 +672,7 @@ export class ConversationListPage implements OnInit {
       this.navigateByUrl('active', conversation.uid)
       this.conversationsHandlerService.uidConvSelected = conversation.uid
       this.logger.log('[CONVS-LIST-PAGE] onConversationSelected active conversation.uid ', conversation.uid)
+      this.events.publish('convList:onConversationSelected', conversation)
     }
   }
 
