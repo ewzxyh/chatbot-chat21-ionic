@@ -78,6 +78,8 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
     // this.listenOpenUserSidebarEvent();
   }
 
+  ngOnChanges() {  }
+
   subcribeToAuthStateChanged() {
     this.messagingAuthService.BSAuthStateChanged.subscribe((state) => {
       this.logger.log('[SIDEBAR-USER-DETAILS] BSAuthStateChanged ', state)
@@ -355,13 +357,6 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
         this.USER_ROLE_LABEL = text
     });
   }
-
-
-  ngOnChanges() {  }
-
-
-
-
 
   changeAvailabilityStateInUserDetailsSidebar(selectedStatusID) {
     this.logger.log('[SIDEBAR-USER-DETAILS] - changeAvailabilityState projectid', this.project._id, ' available 1: ', selectedStatusID);

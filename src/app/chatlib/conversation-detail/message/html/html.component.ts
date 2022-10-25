@@ -1,4 +1,3 @@
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Component, ElementRef, Input, OnInit, SimpleChange, SimpleChanges, ViewChild, ViewEncapsulation } from '@angular/core';
 
 @Component({

@@ -1,5 +1,4 @@
-import {
-  Component, OnInit, Input, ViewChild, ElementRef,  HostListener, AfterViewInit} from '@angular/core'
+import {Component, OnInit, Input, ViewChild, ElementRef,  HostListener, AfterViewInit} from '@angular/core'
 import { TYPE_MSG_IMAGE } from 'src/chat21-core/utils/constants'
 import { ModalController } from '@ionic/angular'
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
