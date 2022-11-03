@@ -40,7 +40,7 @@ export class TiledeskService {
     // console.log('CLOUD FUNCT CLOSE SUPPORT GROUP REQUEST BODY ', body);
     // https://tiledesk-server-pre.herokuapp.com/
     // const url = 'https://tiledesk-server-pre.herokuapp.com/' + this.project_id + '/requests/' + group_id + '/close';
-    const url = this.apiUrl + projectid + '/requests/' + supportgroupid + '/close';
+    const url = this.apiUrl + projectid + '/requests/' + supportgroupid + '/close'+'?forceArchive=true';
 
     this.logger.log('[TILEDESK-SERVICE] - closeSupportGroup URL ', url);
     return this.http.put(url, body, httpOptions).pipe(map((res: any) => {
