@@ -1323,7 +1323,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
   replaceTagInMessage(canned, event?) {
     const elTextArea = this.rowTextArea['el']
-    const textArea = elTextArea.getElementsByTagName('ion-textarea')[0]
+    const textArea = elTextArea.getElementsByTagName('ion-textarea')[0] as HTMLInputElement;
     // console.log('[CONVS-DETAIL] replaceTagInMessage  textArea ', textArea)
     // console.log('[CONVS-DETAIL] replaceTagInMessage  textArea value', textArea.value,)
 
@@ -1336,18 +1336,20 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     this.logger.log('[CONVS-DETAIL] replaceTagInMessage  canned text ', canned.text)
 
     // replace text
-    var strTEMP = textArea.value.replace(/\/$/ig, canned.text)
+    var strTEMP = textArea.value.replace(/\/.*/ig, canned.text)
     strTEMP = this.replacePlaceholderInCanned(strTEMP)
     this.logger.log('[CONVS-DETAIL] replaceTagInMessage strSearch ', strTEMP)
     // strTEMP = this.replacePlaceholderInCanned(strTEMP);
     // textArea.value = '';
     // that.messageString = strTEMP;
     textArea.value = strTEMP
-    setTimeout(() => {
-      // textArea.focus();
-      textArea.setFocus()
-      // this.resizeTextArea()
-    }, 200)
+    this.insertAtCursor(textArea, '')
+    this.setCaretPosition(textArea)
+    // setTimeout(() => {
+    //   // textArea.focus();
+    //   textArea.setFocus()
+    //   // this.resizeTextArea()
+    // }, 200)
     
   }
 

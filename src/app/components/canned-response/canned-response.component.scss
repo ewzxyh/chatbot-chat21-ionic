@@ -94,11 +94,12 @@
         width: 100%;
     }
 
-    ion-input {
+    ion-input, ion-textarea {
         --padding-bottom: 0px;
         --padding-top: 0px;
         &.text{
             font-style: italic;
+            margin-top: 2px;
         }
         &.title {
             font-weight: 500;
@@ -106,6 +107,11 @@
     }
     .native-input[disabled] {
         opacity: 10 !important;
+        cursor: pointer;
+    }
+    .native-textarea[disabled] {
+        opacity: 10 !important;
+        cursor: pointer;
     }
     ion-icon {
         zoom: 0.7;
