@@ -9,8 +9,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class FrameComponent implements OnInit {
 
   @Input() metadata: any;
-  @Input() width: string;
-  @Input() height: string;
+  @Input() width: number;
+  @Input() height: number;
   @Output() onElementRendered = new EventEmitter<{element: string, status: boolean}>();
   
   url: any;
