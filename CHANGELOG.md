@@ -1,5 +1,8 @@
 # chat21-ionic ver 3.0
 
+## 3.0.80 in PROD
+- bug-fixed: if search a canned response, after clicked it does not replaced into text-area
+
 ## 3.0.79 in PROD
 - added: segment analytics events
 
