@@ -1,16 +1,15 @@
 <!-- [ngClass]="{'button-in-msg' : message.metadata && message.metadata.button}" -->
 <!-- [ngStyle]="{'padding': (isImage(message) || isFrame(message))?'0px':'0 8px'}" -->
 <!-- isImage >{{isImage(message) }}    message.metadata.width {{message?.metadata?.width }}  -->
-<div id="bubble-message"
-  [ngStyle]="{'padding': (isImage(message) || isFrame(message))?'0px':'0 8px', 'width': (isImage(message) || isFrame(message))? sizeImage?.width + 'px' : null }"
-  class="messages primary-color">
+<!-- 'width': (isImage(message) || isFrame(message))? sizeImage?.width : null -->
+<div id="bubble-message" [ngStyle]="{'padding': (isImage(message) || isFrame(message))?'0px':'0 8px' }"  class="messages primary-color">
 
 
   <div>
 
     <div *ngIf="messageType(MESSAGE_TYPE_OTHERS, message) && !isSameSender" 
       [style.color]="convertColorToRGBA(fontColor, 65)"
-      [ngStyle]="{'margin': (isImage(message) || isFrame(message))? '10px 16px 0px 16px': '10px 8px 0px 8px'}" class="message_sender_fullname">
+      [ngStyle]="{'margin': (isImage(message) || isFrame(message))? '10px 16px 8px 16px': '10px 8px 0px 8px'}" class="message_sender_fullname">
       {{message?.sender_fullname}}
     </div>
     <!-- message type:: image -->
@@ -35,8 +34,8 @@
     <!-- [height]="getMetadataSize(message.metadata).height"> -->
     <chat-frame *ngIf="isFrame(message)" 
       [metadata]="message.metadata" 
-      [width]="message.metadata.width"
-      [height]="message.metadata.height"
+      [width]="sizeImage?.width"
+      [height]="sizeImage?.width"
       (onElementRendered)="onElementRenderedFN($event)">
     </chat-frame>
 
