@@ -69,7 +69,6 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
   public currentWindowWidth: any;
   private logger: LoggerService = LoggerInstance.getInstance();
   public countClicks: number = 0;
-  public openCanned: boolean = false;
   public IS_SUPPORT_GROUP_CONVERSATION: boolean;
   public IS_ON_MOBILE_DEVICE: boolean;
   TYPE_MSG_TEXT = TYPE_MSG_TEXT;
@@ -579,8 +578,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
   }
 
   openCannedResponses() {
-    this.openCanned = !this.openCanned
-    this.onClickOpenCannedResponses.emit(this.openCanned);
+    this.onClickOpenCannedResponses.emit();
   }
 
 

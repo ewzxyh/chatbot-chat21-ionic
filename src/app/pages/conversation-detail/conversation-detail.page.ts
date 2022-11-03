@@ -1338,11 +1338,10 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     if(!this.HIDE_CANNED_RESPONSES){
       const elTextArea = this.rowTextArea['el']
       const textArea = elTextArea.getElementsByTagName('ion-textarea')[0]
-      if($event && elTextArea){
-        this.logger.log('[CONVS-DETAIL] onClickOpenCannedResponses  textArea ', textArea)
+      if(elTextArea){
         // console.log("[CONVS-DETAIL] onClickOpenCannedResponses  textArea value", textArea.value)
         var lastChar = textArea.value[textArea.value.length - 1]
-        // console.log('[CONVS-DETAIL] onClickOpenCannedResponses lastChar', lastChar)
+        this.logger.log('[CONVS-DETAIL] onClickOpenCannedResponses  lastChar --- textArea ', lastChar, textArea)
         if (lastChar !== '/') {
           this.insertAtCursor(textArea, '/')
         }
