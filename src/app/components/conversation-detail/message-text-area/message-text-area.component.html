@@ -96,7 +96,8 @@
             [perLine]="emojiPerLine" 
             [style.visibility]="showEmojiPicker?'visible':'hidden'"  
             [include]="emojiiCategories"
-            [color]="emojiColor" 
+            [color]="emojiColor"
+            [custom]="customEmojis"
             [ngClass]="{'emoji-mart-desktop': !IS_ON_MOBILE_DEVICE, 'emoji-mart-mobile': IS_ON_MOBILE_DEVICE }"
             (emojiSelect)="addEmoji($event)">
           </emoji-mart>

@@ -84,7 +84,26 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
   addWhiteSpaceBefore: boolean;
   emojiPerLine: number = 9
   emojiColor: string ="#3880ff"
-  emojiiCategories = [ 'recent', 'people', 'nature', 'activity']
+  emojiiCategories = [ 'recent', 'people', 'nature', 'activity'] //, 'custom']
+
+  customEmojis = [
+    {
+      name: 'Customer-Service',
+      shortNames: ['customer'],
+      text: 'ee',
+      emoticons: [],
+      keywords: ['github'],
+      imageUrl: 'https://tiledesk.com/wp-content/uploads/2022/11/Customer-Service.png',
+    },
+    {
+      name: 'Octocat',
+      shortNames: ['octocat'],
+      text: 'rr',
+      emoticons: [],
+      keywords: ['github'],
+      imageUrl: 'https://tiledesk.com/wp-content/uploads/2022/11/FAQ-Chatbot.png',
+    }
+  ];
   /**
    * Constructor
    * @param chooser 
