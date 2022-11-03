@@ -64,7 +64,6 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
   public toastMsg: string;
   private logger: LoggerService = LoggerInstance.getInstance();
   public countClicks: number = 0;
-  public openCanned: boolean = false;
   public IS_ON_MOBILE_DEVICE: boolean;
 
   TYPE_SUPPORT_GROUP = TYPE_SUPPORT_GROUP;
@@ -500,8 +499,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
   }
 
   openCannedResponses() {
-    this.openCanned = !this.openCanned
-    this.onClickOpenCannedResponses.emit(this.openCanned);
+    this.onClickOpenCannedResponses.emit();
   }
 
 

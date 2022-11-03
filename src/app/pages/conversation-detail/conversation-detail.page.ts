@@ -1271,17 +1271,12 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
                   this.logger.log('[CONVS-DETAIL] - returnChangeTextArea  --> beforeSlash', beforeSlash)
                   this.logger.log('[CONVS-DETAIL] - returnChangeTextArea  --> afterSlash', afterSlash)
 
-                  console.log('bbbbbbb', beforeSlash[beforeSlash.length-1].indexOf(' '), afterSlash === '', this.HIDE_CANNED_RESPONSES)
-
                   if(beforeSlash[beforeSlash.length-1].indexOf(' ') >= 0 && afterSlash === ''){
                     this.HIDE_CANNED_RESPONSES = false
-                    console.log('bbbbbbb 1111', beforeSlash[beforeSlash.length-1])
                   } else if(beforeSlash[beforeSlash.length-1].indexOf(' ') < 0 && afterSlash === '' ){
                     this.HIDE_CANNED_RESPONSES = true
-                    console.log('bbbbbbb 22222', beforeSlash[beforeSlash.length-1])
                   } else if(beforeSlash[beforeSlash.length-1].indexOf(' ') >= 0 && afterSlash === ' '){
                     this.HIDE_CANNED_RESPONSES = true
-                    console.log('bbbbbbb 33333', beforeSlash[beforeSlash.length-1])
                     // this.tagsCannedFilter = []
                   }
                 }
@@ -1389,11 +1384,10 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     if(!this.HIDE_CANNED_RESPONSES){
       const elTextArea = this.rowTextArea['el']
       const textArea = elTextArea.getElementsByTagName('ion-textarea')[0]
-      if($event && elTextArea){
-        this.logger.log('[CONVS-DETAIL] onClickOpenCannedResponses  textArea ', textArea)
+      if(elTextArea){
         // console.log("[CONVS-DETAIL] onClickOpenCannedResponses  textArea value", textArea.value)
         var lastChar = textArea.value[textArea.value.length - 1]
-        // console.log('[CONVS-DETAIL] onClickOpenCannedResponses lastChar', lastChar)
+        this.logger.log('[CONVS-DETAIL] onClickOpenCannedResponses  lastChar  --- textArea ', lastChar, textArea)
         if (lastChar !== '/') {
           this.insertAtCursor(textArea, '/')
         }

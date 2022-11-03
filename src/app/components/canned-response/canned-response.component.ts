@@ -192,17 +192,16 @@ export class CannedResponseComponent implements OnInit {
   }
 
   filterItems(items, searchTerm) {
-    this.logger.log('[CANNED] filterItems tagsCannedClone ', items, ' searchTerm: ', searchTerm)
+    // this.logger.log('[CANNED] filterItems tagsCannedClone ', items, ' searchTerm: ', searchTerm)
     //this.logger.log("filterItems::: ",searchTerm);
     return items.filter((item) => {
-      //this.logger.log("filterItems::: ", item.title.toString().toLowerCase());
-      this.logger.log('[CANNED] filtered tagsCannedClone item ', item)
+      // this.logger.log('[CANNED] filtered tagsCannedClone item ', item)
       return item.title.toString().toLowerCase().indexOf(searchTerm.toString().toLowerCase()) > -1
     })
   }
 
   replacePlaceholderInCanned(str) {
-    this.logger.log('[CANNED] - replacePlaceholderInCanned str ', str)
+    // this.logger.log('[CANNED] - replacePlaceholderInCanned str ', str)
     str = str.replace('$recipient_name', this.conversationWithFullname)
     if (this.loggedUser && this.loggedUser.fullname) {
       str = str.replace('$agent_name', this.loggedUser.fullname)
