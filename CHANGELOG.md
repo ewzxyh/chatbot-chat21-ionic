@@ -1,5 +1,16 @@
 # chat21-ionic ver 3.0
 
+### 3.0.81-rc.1
+- added: remove bubble-message background if is image or iframe and no text is in message
+- added: new sound if unassigned request arrive
+- added: animation on hover an image
+- added: parameter to /close to forse the closing of a conversation
+- added: v.0.1.12.1 chatclient.js
+- changed: info-message UI, image UI, frame UI
+- bug-fixed: if click on canned icon, then close and clear '/' char, if click again on canned icon, '/' was not added to message text-area
+
+### 3.0.80 in PROD
+- bug-fixed: if search a canned response, after clicked it does not replaced into text-area
 
 ### 3.0.80-rc.1
 - changed: moved sender_fullname inside bubble-message component
