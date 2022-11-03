@@ -434,6 +434,7 @@ select:-webkit-autofill:focus {
 .canned-list {
     .native-input[disabled] {
         opacity: 10 !important;
+        cursor: pointer;
     }
 }
 

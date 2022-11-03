@@ -1282,18 +1282,23 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     this.logger.log('[CONVS-DETAIL] replaceTagInMessage  canned text ', canned.text)
 
     // replace text
-    var strTEMP = textArea.value.replace(/\/$/ig, canned.text)
+    var strTEMP = textArea.value.replace(/\/.*/ig, canned.text)
     strTEMP = this.replacePlaceholderInCanned(strTEMP)
-    this.logger.log('[CONVS-DETAIL] replaceTagInMessage strSearch ', strTEMP)
+    this.logger.log('[CONVS-DETAIL] replaceTagInMessage strSearch before', strTEMP, textArea)
     // strTEMP = this.replacePlaceholderInCanned(strTEMP);
     // textArea.value = '';
     // that.messageString = strTEMP;
     textArea.value = strTEMP
-    setTimeout(() => {
-      // textArea.focus();
-      textArea.setFocus()
-      // this.resizeTextArea()
-    }, 200)
+    this.logger.log('[CONVS-DETAIL] replaceTagInMessage strSearch after', strTEMP, textArea)
+    this.insertAtCursor(textArea, '')
+    this.setCaretPosition(textArea)
+    // setTimeout(() => {
+    //   // textArea.focus();
+    //   textArea.selectionEnd = textArea.value.length;
+    //   textArea.setFocus()
+    //   // this.resizeTextArea()
+    //   // this.setCaretPosition(textArea)
+    // }, 200)
     
   }
 
