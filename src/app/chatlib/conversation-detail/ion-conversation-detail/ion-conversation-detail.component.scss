@@ -176,6 +176,9 @@ ion-item {
             color: var(--bubble-privateMsgColor)
         }
     }
+    .no-background{
+        background: transparent!important;
+    }
     .emoticon {
         background: unset !important;
         font-size: 4em;
@@ -245,7 +248,9 @@ ion-item {
             color: var(--bubble-privateMsgColor)
         }
     }
-
+    .no-background{
+        background: transparent!important;
+    }
     .emoticon {
         background: unset !important;
         font-size: 4em;

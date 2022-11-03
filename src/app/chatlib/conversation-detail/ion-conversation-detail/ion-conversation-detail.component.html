@@ -102,6 +102,7 @@
       <!--backgroundColor non viene ancora usato -->
       <chat-bubble-message class="messages msg_sent" id="message_msg_sent" style="position: relative;" 
         [ngClass]="{'has-metadata': (isImage(message) || isFrame(message)), 'privateMsg': (message?.attributes && message?.attributes?.subtype === 'private')}" 
+        [class.no-background]="(isImage(message) || isFrame(message)) && message?.text.trim() === '' "  
         [class.emoticon]="isEmojii(message?.text)"
         [ngStyle]="{'background': stylesMap.get('bubbleSentBackground'), 'color': stylesMap.get('bubbleSentTextColor')}"
         [ngClass]="{'button-in-msg' : message.metadata && message.metadata.button}"
@@ -142,6 +143,7 @@
       <!--backgroundColor non viene ancora usato -->
       <chat-bubble-message class="messages msg_receive" id="message_msg_receive"
         [ngClass]="{'has-metadata': (isImage(message) || isFrame(message)), 'privateMsg': (message?.attributes && message?.attributes?.subtype === 'private')}" 
+        [class.no-background]="(isImage(message) || isFrame(message)) && message?.text.trim() === '' "  
         [class.emoticon]="isEmojii(message?.text)"
         [ngStyle]="{'background': stylesMap?.get('bubbleReceivedBackground'), 'color': stylesMap.get('bubbleReceivedTextColor')}"
         [isSameSender]="isSameSender(message?.sender, i)"
