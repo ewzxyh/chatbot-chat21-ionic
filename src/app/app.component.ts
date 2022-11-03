@@ -1,5 +1,5 @@
 
-import { TYPE_DIRECT, TYPE_SUPPORT_GROUP } from 'src/chat21-core/utils/constants';
+import { TYPE_DIRECT, TYPE_SUPPORT_GROUP, URL_SOUND_CONVERSATION_UNASSIGNED } from 'src/chat21-core/utils/constants';
 import { tranlatedLanguage, URL_SOUND_CONVERSATION_ADDED, URL_SOUND_LIST_CONVERSATION } from './../chat21-core/utils/constants';
 import { ArchivedConversationsHandlerService } from 'src/chat21-core/providers/abstract/archivedconversations-handler.service';
 import { AppStorageService } from 'src/chat21-core/providers/abstract/app-storage.service';
@@ -89,12 +89,14 @@ export class AppComponent implements OnInit {
 
   private audio: any;
   private audio_NewConv: any;
+  private audio_Unassigned: any;
   private setIntervalTime: any;
   private setTimeoutSound: any;
   private isTabVisible: boolean = true;
   public isSoundEnabled: boolean;
   private hasPlayed: boolean;
   private hasPlayedConversation: boolean;
+  private hasPlayedConversationUnassigned: boolean;
   private tabTitle: string;
   private setTimeoutConversationsEvent: any;
   private logger: LoggerService = LoggerInstance.getInstance();
@@ -838,6 +840,10 @@ export class AppComponent implements OnInit {
     this.audio_NewConv.src = chatBaseUrl + URL_SOUND_CONVERSATION_ADDED;
     this.audio_NewConv.load();
 
+    this.audio_Unassigned = new Audio();
+    this.audio_Unassigned.src = chatBaseUrl + URL_SOUND_CONVERSATION_UNASSIGNED;
+    this.audio_Unassigned.load();
+
     const sound_status = localStorage.getItem('dshbrd----sound')
     if(sound_status && sound_status !== 'undefined'){
       this.isSoundEnabled = sound_status === 'enabled'? true: false
@@ -879,7 +885,24 @@ export class AppComponent implements OnInit {
     }
     this.logger.debug('[APP-COMP] manageTabNotification can saund?', this.isInitialized, this.isSoundEnabled)
     if(this.isInitialized && this.isSoundEnabled) {
-      sound_type === 'conv_added'? this.soundConversationAdded(): this.soundMessage();
+      switch(sound_type){
+        case 'conv_added': {
+          this.soundConversationAdded();
+          break;
+        }
+        case 'new_message': {
+          this.soundMessage();
+          break;
+        }
+        case 'conv_unassigned': {
+          this.soundConversationUnassigned();
+          break;
+        }
+        default:{
+          this.soundMessage();
+          break;
+        }
+      }
     }
   }
 
@@ -920,6 +943,21 @@ export class AppComponent implements OnInit {
         }, 4000);
       }).catch((error: any) => {
         that.logger.error('[APP-COMP] ***soundConversationAdded error*', error);
+      });
+    }
+  }
+
+  soundConversationUnassigned(){
+    const that = this;
+    if(!this.hasPlayedConversationUnassigned ){
+      that.audio_Unassigned.play().then(() => {
+        that.hasPlayedConversationUnassigned = true
+        that.logger.debug('[APP-COMP] ****** soundConversationUnassigned played *****');
+        setTimeout(() => {
+          that.hasPlayedConversationUnassigned = false
+        }, 4000);
+      }).catch((error: any) => {
+        that.logger.error('[APP-COMP] ***soundConversationUnassigned error*', error);
       });
     }
   }
@@ -1185,9 +1223,9 @@ export class AppComponent implements OnInit {
 
   subscribeUnservedRequestCount = (unservedRequestCount) => {
     if(unservedRequestCount && unservedRequestCount > 0){
-      this.logger.debug("appIsInitialized::::",this.isInitialized)
+      this.logger.debug("subscribeUnservedRequestCount appIsInitialized::::",this.isInitialized)
       if(this.isInitialized){
-        this.manageTabNotification(unservedRequestCount) //sound and alternate title
+        this.manageTabNotification('conv_unassigned', unservedRequestCount) //sound and alternate title
       }
     }
   }
