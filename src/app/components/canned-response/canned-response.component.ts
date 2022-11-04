@@ -163,7 +163,7 @@ export class CannedResponseComponent implements OnInit {
       canned.text = this.replacePlaceholderInCanned(canned.text);
       canned.disabled = true
     });
-    if (this.tagsCannedCount === 0) {
+    if (this.tagsCannedFilter && this.tagsCannedFilter.length === 0) {
       // const button = this.renderer.createElement('button');
       // const buttonText = this.renderer.createText('Click me');
       // this.renderer.appendChild(button, buttonText);
