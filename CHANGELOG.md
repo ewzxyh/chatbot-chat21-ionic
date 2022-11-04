@@ -1,5 +1,8 @@
 # chat21-ionic ver 3.0
 
+## 3.0.81 in PROD
+- bug-fixed: if search for a string that not correspond with an existing canned, was shown loader ever
+
 ## 3.0.80 in PROD
 - bug-fixed: if search a canned response, after clicked it does not replaced into text-area
 
