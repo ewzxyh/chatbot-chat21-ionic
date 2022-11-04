@@ -696,14 +696,10 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       this.logger.log('[CONVS-DETAIL] - initConversationHandler (else) - this.messages: ', this.messages)
       this.logger.log('[CONVS-DETAIL] - initConversationHandler (else) - this.showMessageWelcome: ', this.showMessageWelcome)
     }
-    this.logger.log('[CONVS-DETAIL] - initConversationHandler (else) - message ', this.messages, ' showIonContent', this.showIonContent)
   }
 
   initGroupsHandler() {
-    if (
-      this.conversationWith.startsWith('support-group') ||
-      this.conversationWith.startsWith('group-')
-    ) {
+    if (this.conversationWith.startsWith('support-group') || this.conversationWith.startsWith('group-')) {
       this.groupService.initialize(this.tenant, this.loggedUser.uid)
       this.logger.log('[CONVS-DETAIL] - initGroupsHandler - tenant', this.tenant, ' loggedUser UID', this.loggedUser.uid)
     }
