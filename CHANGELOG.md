@@ -1,5 +1,9 @@
 # chat21-ionic ver 3.0
 
+### 3.0.81-rc.3
+- bug-fixed: if window width is less then 991px, move 'Close detail' icon to right
+- changed: removed segment from index.html and loaded dynamically only if in not production
+
 ### 3.0.81-rc.2
 - changed: canned loader
 - bug-fixed: if search for a string that not correspond with an existing canned, was shown loader ever
