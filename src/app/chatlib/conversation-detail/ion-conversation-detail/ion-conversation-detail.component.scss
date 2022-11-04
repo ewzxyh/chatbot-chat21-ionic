@@ -47,7 +47,8 @@
     background: linear-gradient(to right, rgba(226, 232, 239, 0) 128px, rgb(226, 232, 239) 128px);
     
     &.close{
-        right: 0px;
+        right: var(--padding-conversation-detail);
+        border-top-right-radius: var(--border-radius-content);
         &:not(.mobile){
             top: calc(60px + var(--padding-conversation-detail));
         }
@@ -166,7 +167,7 @@ ion-item {
         background-color: var(--bubble-blue);
         color: var(--col-msg-sent);
         margin: 0px 0px 0px 0px;
-        max-width: calc(100% - 70px);
+        max-width: calc(100% - 85px);
         min-width: 14px;
         border-top-right-radius: 8px;
         border-bottom-right-radius: 0px;
@@ -235,7 +236,7 @@ ion-item {
         background-color: var(--bck-msg-received);
         color: var(--col-msg-received);
         // max-width: 260px;
-        max-width: calc(100% - 70px);
+        max-width: calc(100% - 85px);
         min-width: 14px;
         margin: 0 0px 0px 10px;
         height: fit-content;
@@ -273,8 +274,8 @@ ion-item {
 
 .btn-add-msg {
     border-radius: 50%;
-    --padding-end: 7px;
-    --padding-start: 7px;
+    --padding-end: 5px;
+    --padding-start: 5px;
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.13);
     display: none;
     align-self: center;

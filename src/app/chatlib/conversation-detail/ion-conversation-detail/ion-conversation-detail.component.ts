@@ -28,6 +28,7 @@ export class IonConversationDetailComponent extends ConversationContentComponent
   @Input() areVisibleCAR: boolean;
   @Input() supportMode: boolean;
   @Input() isMobile: boolean;
+  @Input() openInfoConversation: boolean;
   @Output() onElementRendered = new EventEmitter<{element: string, status: boolean}>();
   @Output() onAddUploadingBubble = new EventEmitter<boolean>();
   @Output() onOpenCloseInfoConversation = new EventEmitter<boolean>();
@@ -37,7 +38,7 @@ export class IonConversationDetailComponent extends ConversationContentComponent
   public fileType: any
   public browserLang: string;
   public addAsCannedResponseTooltipText: string;
-  public openInfoConversation: boolean = true;
+  // public openInfoConversation: boolean = true;
   isImage = isImage;
   isFile = isFile;
   isFrame = isFrame;
