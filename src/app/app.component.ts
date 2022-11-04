@@ -39,7 +39,7 @@ import { LoginPage } from './pages/authentication/login/login.page';
 import { ConversationListPage } from './pages/conversations-list/conversations-list.page';
 
 // utils
-import { checkPlatformIsMobile, isGroup, getParameterByName, searchIndexInArrayForUid, compareValues } from '../chat21-core/utils/utils';
+import { checkPlatformIsMobile, isGroup, getParameterByName, searchIndexInArrayForUid, compareValues, stripTags } from '../chat21-core/utils/utils';
 import { STORAGE_PREFIX, PLATFORM_MOBILE, PLATFORM_DESKTOP, CHAT_ENGINE_FIREBASE, AUTH_STATE_OFFLINE, AUTH_STATE_ONLINE } from '../chat21-core/utils/constants';
 import { environment } from '../environments/environment';
 import { UserModel } from '../chat21-core/models/user';
@@ -340,6 +340,7 @@ export class AppComponent implements OnInit {
 
 
     this.initializeApp('oninit');
+    this.initSegment()
     this.listenToPostMsgs();
   }
 
@@ -1341,6 +1342,20 @@ export class AppComponent implements OnInit {
     } catch (err) {
       this.logger.error('Get local storage dshbrd----foregroundcount ', err)
     }
+  }
+
+  private initSegment(){
+    if(!isDevMode()){
+      var head  = document.getElementsByTagName('head')[0];
+      var script  = document.createElement('script');
+      script.type="text/javascript";
+      script.text =`!function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on","addSourceMiddleware","addIntegrationMiddleware","setAnonymousId","addDestinationMiddleware"];analytics.factory=function(e){return function(){var t=Array.prototype.slice.call(arguments);t.unshift(e);analytics.push(t);return analytics}};for(var e=0;e<analytics.methods.length;e++){var key=analytics.methods[e];analytics[key]=analytics.factory(key)}analytics.load=function(key,e){var t=document.createElement("script");t.type="text/javascript";t.async=!0;t.src="https://cdn.segment.com/analytics.js/v1/" + key + "/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n);analytics._loadOptions=e};analytics._writeKey="qaTU0wG6VH6xPAhOzD2kneI70Txg1fTB";;analytics.SNIPPET_VERSION="4.15.3";
+                    analytics.load("qaTU0wG6VH6xPAhOzD2kneI70Txg1fTB");
+                    analytics.page();
+                    }}();`
+      console.log('initttttt segmentttt', script)
+      head.appendChild(script);
+    } 
   }
 
   private segmentSignIn(){
