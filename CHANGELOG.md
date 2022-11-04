@@ -1,5 +1,9 @@
 # chat21-ionic ver 3.0
 
+### 3.0.81-rc.2
+- changed: canned loader
+- bug-fixed: if search for a string that not correspond with an existing canned, was shown loader ever
+
 ### 3.0.81-rc.1
 - added: remove bubble-message background if is image or iframe and no text is in message
 - added: new sound if unassigned request arrive
