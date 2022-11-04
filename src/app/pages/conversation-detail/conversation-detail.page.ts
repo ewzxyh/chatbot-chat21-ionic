@@ -720,14 +720,10 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       this.logger.log('[CONVS-DETAIL] - initConversationHandler (else) - this.messages: ', this.messages)
       this.logger.log('[CONVS-DETAIL] - initConversationHandler (else) - this.showMessageWelcome: ', this.showMessageWelcome)
     }
-    this.logger.log('[CONVS-DETAIL] - initConversationHandler (else) - message ', this.messages, ' showIonContent', this.showIonContent)
   }
 
   initGroupsHandler() {
-    if (
-      this.conversationWith.startsWith('support-group') ||
-      this.conversationWith.startsWith('group-')
-    ) {
+    if (this.conversationWith.startsWith('support-group') || this.conversationWith.startsWith('group-')) {
       this.groupService.initialize(this.tenant, this.loggedUser.uid)
       this.logger.log('[CONVS-DETAIL] - initGroupsHandler - tenant', this.tenant, ' loggedUser UID', this.loggedUser.uid)
     }
@@ -948,37 +944,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     const that = this
     let subscription: any
     let subscriptionKey: string
-
-    // subscriptionKey = 'BSConversationsChanged'
-    // subscription = this.subscriptions.find((item) => item.key === subscriptionKey)
-    // if (!subscription) {
-    //   subscription = this.conversationsHandlerService.conversationChanged.subscribe((data: ConversationModel) => {
-    //     this.logger.log('[CONVS-DETAIL] subscribe BSConversationsChanged data ', data, ' this.loggedUser.uid:', this.loggedUser.uid)
-
-    //     if (data && data.sender !== this.loggedUser.uid) {
-    //       this.logger.log('[CONVS-DETAIL] subscribe to BSConversationsChange data sender ', data.sender)
-    //       this.logger.log('[CONVS-DETAIL] subscribe to BSConversationsChange this.loggedUser.uid ', this.loggedUser.uid)
-    //       this.logger.log('[CONVS-DETAIL] subscribe to BSConversationsChange is_new ', data.is_new)
-    //       this.logger.log('[CONVS-DETAIL] subscribe to  BSConversationsChange showButtonToBottom ', this.showButtonToBottom)
-    //       // UPDATE THE CONVERSATION TO 'READ' IF IT IS ME WHO WRITES THE LAST MESSAGE OF THE CONVERSATION
-    //       // AND IF THE POSITION OF THE SCROLL IS AT THE END
-    //       if (!this.showButtonToBottom && data.is_new) {
-    //         // ARE AT THE END
-    //         this.updateConversationBadge()
-    //       }
-    //       if(data.uid === this.conversationWith){
-    //         this.conversationAvatar = setConversationAvatar(
-    //           data.conversation_with,
-    //           data.conversation_with_fullname,
-    //           data.channel_type,
-    //         )
-    //       }
-
-    //     }
-    //   })
-    //   const subscribe = { key: subscriptionKey, value: subscription }
-    //   this.subscriptions.push(subscribe)
-    // }
 
     subscriptionKey = 'messageAdded'
     subscription = this.subscriptions.find((item) => item.key === subscriptionKey)
