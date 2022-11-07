@@ -1,7 +1,7 @@
 @import '../variables.scss';
 
 .split-pane-md.split-pane-visible > .split-pane-side {
-    min-width: 360px; //312px;
+    min-width: 320px; //360px; //312px;
     display: block; // Safari bug fix
     margin-left: var(--sidebar-width);
     --border: 0px;
