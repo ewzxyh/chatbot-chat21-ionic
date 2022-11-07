@@ -1,5 +1,12 @@
 # chat21-ionic ver 3.0
 
+### 3.0.82-rc.1
+- changed: forceArchive to force while calling /close API URL
+- changed: chat21Client.js from 1.12.1 to 1.12.2
+- changed: list conversations component with from 360px to 320px
+
+### 3.0.81 in PROD
+
 ### 3.0.81-rc.3
 - bug-fixed: if window width is less then 991px, move 'Close detail' icon to right
 - changed: removed segment from index.html and loaded dynamically only if in not production
