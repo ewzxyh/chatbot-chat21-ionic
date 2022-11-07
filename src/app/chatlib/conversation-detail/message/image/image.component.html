@@ -5,7 +5,8 @@
   <img id="myImg" 
     class="message-contentX message-content-imageX" 
     [ngClass]="{'isLoadingImage': loading}"
-    [ngStyle]="{ 'width': width , 'height': height }" 
+    [width]="width"
+    [height]="height"
     [src]="metadata.src" 
     (load)="onLoaded($event)" 
     (click)="openImageViewerModal(metadata.src, metadata.name)" />

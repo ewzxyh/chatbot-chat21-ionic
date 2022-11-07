@@ -22,6 +22,7 @@ ion-item {
     --background: transparent;
     border-radius: var(--border-radius-item);
     margin: 4px 5px;
+    transition: none;
     .conv-container{
         width: 84%;
         height: 100%;
