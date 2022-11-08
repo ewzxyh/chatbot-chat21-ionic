@@ -467,7 +467,6 @@ export class AppComponent implements OnInit {
       this.statusBar.styleDefault();
       this.navService.init(this.sidebarNav, this.detailNav);
       // this.persistence = appconfig.authPersistence;
-      // this.appStorageService.initialize(environment.storage_prefix, this.persistence, '')
       this.tiledeskAuthService.initialize(this.appConfigProvider.getConfig().apiUrl);
       this.messagingAuthService.initialize();
 
