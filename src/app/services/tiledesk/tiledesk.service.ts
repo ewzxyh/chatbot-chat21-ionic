@@ -36,11 +36,13 @@ export class TiledeskService {
       })
     };
 
-    const body = {};
+    const body = {
+      force: true
+    };
     // console.log('CLOUD FUNCT CLOSE SUPPORT GROUP REQUEST BODY ', body);
     // https://tiledesk-server-pre.herokuapp.com/
     // const url = 'https://tiledesk-server-pre.herokuapp.com/' + this.project_id + '/requests/' + group_id + '/close';
-    const url = this.apiUrl + projectid + '/requests/' + supportgroupid + '/close'+'?force=true';
+    const url = this.apiUrl + projectid + '/requests/' + supportgroupid + '/close';
 
     this.logger.log('[TILEDESK-SERVICE] - closeSupportGroup URL ', url);
     return this.http.put(url, body, httpOptions).pipe(map((res: any) => {
