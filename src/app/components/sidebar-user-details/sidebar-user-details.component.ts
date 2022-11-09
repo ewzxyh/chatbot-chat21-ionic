@@ -121,10 +121,13 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
   verifyImageURL(image_url, callBack) {
     const img = new Image();
     img.src = image_url;
+    console.log('imageeeeee existtt', image_url, img.src)
     img.onload = function () {
+      console.log('imageeeeee existtt callback success', image_url)
       callBack(true);
     };
     img.onerror = function () {
+      console.log('imageeeeee existtt callback error', image_url)
       callBack(false);
     };
   }
