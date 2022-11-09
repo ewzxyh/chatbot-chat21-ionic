@@ -1353,7 +1353,6 @@ export class AppComponent implements OnInit {
                     analytics.load("qaTU0wG6VH6xPAhOzD2kneI70Txg1fTB");
                     analytics.page();
                     }}();`
-      console.log('initttttt segmentttt', script)
       head.appendChild(script);
     } 
   }
