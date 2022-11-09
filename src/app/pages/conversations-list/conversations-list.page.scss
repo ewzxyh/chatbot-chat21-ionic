@@ -15,6 +15,13 @@ ion-content {
   --offset-bottom: auto!important;
   --overflow: hidden;
   overflow: scroll;
+
+  /* For Firefox */
+  @-moz-document url-prefix() {
+    scrollbar-width: none;
+  }
+  
+  
   &:not(.mobile){
     background: var(--list-bkg-color);
   }
