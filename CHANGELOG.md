@@ -1,9 +1,15 @@
 # chat21-ionic ver 3.0
 
+### 3.0.82-rc.3
+- bug-fixed: incorrect dashboard urls in navbar
+- changed: used logger in mqtt auth service
+
 ### 3.0.82-rc.2
 - changed: 'force' parameter to /close post as body content
 - changed: enabled MTT 
 - changed: position of 'LogOut' button in sidebar-user-detail component
+- bug-fixed: removed scrollbar on firefox browser in conversation-list, contacts-directory pages
+
 ### 3.0.82-rc.1
 - changed: forceArchive to force while calling /close API URL
 - changed: chat21Client.js from 1.12.1 to 1.12.2
