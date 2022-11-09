@@ -161,12 +161,13 @@ export class NavbarComponent implements OnInit {
     const baseUrl = this.appConfigProvider.getConfig().dashboardUrl
     let url = baseUrl
     if(event === 'projectSettings'){
-      url = baseUrl + 'project/' + this.project.id_project.id + '/project-settings/general'
+      url = baseUrl + '#/project/' + this.project.id_project.id + '/project-settings/general' + '?token=' + this.tiledeskToken
     }else if(event ==='allProjects'){
-      url = baseUrl + 'project/'
+      url = baseUrl + '#/projects/' + '?token=' + this.tiledeskToken
     }else if('addProject'){
-      url = baseUrl + 'create-new-project/' 
+      url = baseUrl + '#/create-new-project/' + '?token=' + this.tiledeskToken
     }
+    console.log('onClickDropdownOption-->', url)
     window.open(url, '_blank');
   }
 
@@ -180,7 +181,7 @@ export class NavbarComponent implements OnInit {
       // this.unsubscribe$.next();
       // this.unsubscribe$.complete();
 
-      const url = this.appConfigProvider.getConfig().dashboardUrl + `/project/${id_project}/home`
+      const url = this.appConfigProvider.getConfig().dashboardUrl + `#/project/${id_project}/home`
       window.open(url, '_blank');
 
     }
