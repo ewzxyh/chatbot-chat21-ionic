@@ -1,5 +1,9 @@
 # chat21-ionic ver 3.0
 
+### 3.0.82-rc.6
+- bug-fixed: axios is undefined in chat21Client.js
+- bug-fixed: if userImage not exist in sidebar--user-detail, no info of fillColor exist
+
 ### 3.0.82-rc.3
 - bug-fixed: incorrect dashboard urls in navbar
 - changed: used logger in mqtt auth service

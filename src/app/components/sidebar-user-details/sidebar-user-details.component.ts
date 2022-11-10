@@ -145,7 +145,6 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
       currentUser['fullname_initial'] = 'N/A'
       currentUser['fillColour'] = 'rgb(98, 100, 167)'
     }
-    console.log('this.userrrr', this.user)
   }
 
   // listenOpenUserSidebarEvent() {
