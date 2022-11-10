@@ -41,7 +41,7 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
 
   isVisiblePAY: boolean;
   public_Key: any
-  USER_PHOTO_PROFILE_EXIST: boolean;
+  USER_PHOTO_PROFILE_EXIST: boolean = false;
   version: string
   company_name: string = 'Tiledesk'
   DASHBOARD_URL: string;
@@ -90,7 +90,7 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
           const currentUser = JSON.parse(storedCurrentUser);
           this.logger.log('[SIDEBAR-USER-DETAILS] - subcribeToAuthStateChanged - currentUser ', currentUser)
           if (currentUser) {
-            this.user = currentUser;
+            this.user = this.createUserAvatar(currentUser);
             this.getCurrentChatLangAndTranslateLabels(this.user);
             this.photo_profile_URL = this.imageRepoService.getImagePhotoUrl(this.user.uid)
             this.logger.log('[SIDEBAR-USER-DETAILS] photo_profile_URL ', this.photo_profile_URL);
@@ -105,7 +105,7 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
 
   checkIfExistPhotoProfile(imageUrl) {
     this.verifyImageURL(imageUrl, (imageExists) => {
-
+      
       if (imageExists === true) {
         this.USER_PHOTO_PROFILE_EXIST = true;
         this.logger.log('[SIDEBAR-USER-DETAILS] photo_profile_URL IMAGE EXIST ', imageExists)
@@ -121,15 +121,29 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
   verifyImageURL(image_url, callBack) {
     const img = new Image();
     img.src = image_url;
-    console.log('imageeeeee existtt', image_url, img.src)
     img.onload = function () {
-      console.log('imageeeeee existtt callback success', image_url)
       callBack(true);
     };
     img.onerror = function () {
-      console.log('imageeeeee existtt callback error', image_url)
       callBack(false);
     };
+  }
+
+  createUserAvatar(currentUser) {
+    this.logger.log('[SIDEBAR] - createProjectUserAvatar ', currentUser)
+    let fullname = ''
+    if (currentUser && currentUser.firstname && currentUser.lastname) {
+      fullname = currentUser.firstname + ' ' + currentUser.lastname
+      currentUser['fullname_initial'] = avatarPlaceholder(fullname)
+      currentUser['fillColour'] = getColorBck(fullname)
+    } else if (currentUser && currentUser.firstname) {
+      fullname = currentUser.firstname
+      currentUser['fullname_initial'] = avatarPlaceholder(fullname)
+      currentUser['fillColour'] = getColorBck(fullname)
+    } else {
+      currentUser['fullname_initial'] = 'N/A'
+      currentUser['fillColour'] = 'rgb(98, 100, 167)'
+    }
   }
 
   // listenOpenUserSidebarEvent() {

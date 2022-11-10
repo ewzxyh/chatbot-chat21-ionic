@@ -25,9 +25,9 @@
             onerror="this.src='assets/images/no_image_user.png'" />
 
         <div *ngIf="!USER_PHOTO_PROFILE_EXIST" class="user-img-in-sidebar-user-details"
-            [ngStyle]="{'background':  'linear-gradient(rgb(255,255,255) -125%,' + user?.color + ')'}">
+            [ngStyle]="{'background':  'linear-gradient(rgb(255,255,255) -125%,' + user?.fillColour + ')'}">
             <span id="sidebaravatar-altenative-user-avatar" class="sidebar-user-details-altenative-user-avatar">
-                {{ user?.avatar }}
+                {{ user?.fullname_initial }}
             </span>
         </div>
 
