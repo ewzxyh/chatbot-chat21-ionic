@@ -90,7 +90,8 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
           const currentUser = JSON.parse(storedCurrentUser);
           this.logger.log('[SIDEBAR-USER-DETAILS] - subcribeToAuthStateChanged - currentUser ', currentUser)
           if (currentUser) {
-            this.user = this.createUserAvatar(currentUser);
+            this.user = currentUser
+            this.createUserAvatar(this.user);
             this.getCurrentChatLangAndTranslateLabels(this.user);
             this.photo_profile_URL = this.imageRepoService.getImagePhotoUrl(this.user.uid)
             this.logger.log('[SIDEBAR-USER-DETAILS] photo_profile_URL ', this.photo_profile_URL);
