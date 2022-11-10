@@ -1057,8 +1057,8 @@ class Chat21Client {
 }
 
 function isBrowser() {
-    // return true;
-    return false;
+    return true;
+    // return false;
 }
 
 export { Chat21Client }; // Browser
