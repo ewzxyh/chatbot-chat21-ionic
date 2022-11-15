@@ -112,9 +112,16 @@
 
       <div class="text-message" [ngClass]="{'text-message-no-cr': areVisibleCAR === false || supportMode === false}">
         <ion-textarea id="ion-textarea" #messageTextArea #message_text_area #textArea rows="1"
-          [placeholder]="translationMap?.get('LABEL_ENTER_MSG_SHORT')" autosize="false" auto-grow="true" autofocus="true" [value]=""
-          [(ngModel)]="messageString" (ionChange)="ionChange($event);" [disabled]="disableTextarea"
-          (keydown.enter)="onKeydown($event, messageString)" (paste)="onPaste($event)">
+          [placeholder]="translationMap?.get('LABEL_ENTER_MSG_SHORT')" 
+          autosize="false" 
+          auto-grow="true" 
+          autofocus="true" 
+          [value]=""
+          [disabled]="disableTextarea"
+          [(ngModel)]="messageString" 
+          (ionChange)="ionChange($event);" 
+          (keydown.enter)="onKeydown($event, messageString)" 
+          (paste)="onPaste($event)">
         </ion-textarea>
       </div>
 

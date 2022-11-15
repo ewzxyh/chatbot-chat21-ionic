@@ -60,3 +60,26 @@
     text-align: center;
     margin-top: 8px;
 }
+
+.info-accordion-container{
+    margin-left: 8px !important;
+    margin-right: 8px !important;
+
+    margin-top: 12px !important;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: rgba(0, 27, 71, 0.08) 0px 3px;
+
+    display: flex;
+    .info-accordion{
+        padding: 16px 12px !important;
+        cursor: pointer;
+        position: relative;
+        transition: all 0.2s ease-in-out 0s;
+
+        &:hover{
+            background-color: #f5f7f9;
+        }
+    }
+
+}

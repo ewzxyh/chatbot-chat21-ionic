@@ -23,7 +23,6 @@ export class InfoSupportGroupComponent implements OnInit {
     // this.logger.log('ngOnDestroy ConversationDetailPage: ');
     this.logger.log('InfoSupportGroupComponent - ngOnDestroy ');
 
-
   }
 
 }

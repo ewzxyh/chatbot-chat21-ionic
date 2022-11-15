@@ -26,8 +26,6 @@ export class InfoDirectComponent implements OnInit, AfterViewInit, OnChanges {
 
   ngOnInit() {
     this.logger.log('InfoDirectComponent - ngOnInit');
-  
-    this.initialize();
   }
 
   ngAfterViewInit() {
@@ -41,12 +39,11 @@ export class InfoDirectComponent implements OnInit, AfterViewInit, OnChanges {
     this.logger.log('InfoDirectComponent - ngOnDestroy ' );
     // this.unsubscribe$.next();
     // this.unsubscribe$.complete();
-   
-
   }
 
   ngOnChanges(){
     if(this.member){
+      this.initialize();
       this.member.imageurl = this.imageRepoService.getImagePhotoUrl(this.conversationWith)
     }
   }
