@@ -804,7 +804,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
                 conv.attributes['project_name']
               )
               let duration = getDateDifference(conv.timestamp, Date.now())
-              duration.days > 10? this.disableTextarea = true: this.disableTextarea = false
+              duration.days > 10 && conv.channel_type !== TYPE_DIRECT? this.disableTextarea = true: this.disableTextarea = false
             }
           })
         }
@@ -824,7 +824,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
             conv.attributes['project_name']
           )
           let duration = getDateDifference(conv.timestamp, Date.now())
-          duration.days > 10? this.disableTextarea = true: this.disableTextarea = false
+          duration.days > 10 && conv.channel_type !== TYPE_DIRECT? this.disableTextarea = true: this.disableTextarea = false
         }
         if(!conv){
           this.conversationsHandlerService.getConversationDetail(this.conversationWith, (conv) => {
