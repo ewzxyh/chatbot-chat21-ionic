@@ -764,8 +764,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
                 conv.channel_type,
               )
               let duration = getDateDifference(conv.timestamp, Date.now())
-              duration.days > 10? this.disableTextarea = true: this.disableTextarea = false
-            }
+              duration.days > 10 && conv.channel_type !== TYPE_DIRECT? this.disableTextarea = true: this.disableTextarea = false            }
           })
         }
         this.logger.log('[CONVS-DETAIL] - setHeaderContent > conversationAvatar: ', this.conversationAvatar)
@@ -782,8 +781,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
             conv.channel_type,
           )
           let duration = getDateDifference(conv.timestamp, Date.now())
-          duration.days > 10? this.disableTextarea = true: this.disableTextarea = false
-        }
+          duration.days > 10 && conv.channel_type !== TYPE_DIRECT? this.disableTextarea = true: this.disableTextarea = false        }
         if(!conv){
           this.conversationsHandlerService.getConversationDetail(this.conversationWith, (conv) => {
             if (conv) {
