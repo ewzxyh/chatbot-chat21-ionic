@@ -1,5 +1,9 @@
 # chat21-ionic ver 3.0
 
+## 3.0.82 in PROD
+- bug-fixed: do not disable textArea if is a direct archived conversation
+- bug-fixed: canned item not fire click event on Firefox browser
+
 ## 3.0.81 in PROD
 - bug-fixed: if search for a string that not correspond with an existing canned, was shown loader ever
 
