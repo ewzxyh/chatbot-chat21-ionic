@@ -1,5 +1,9 @@
 # chat21-ionic ver 3.0
 
+### 3.0.82-rc.7
+- bug-fixed: do not disable textArea if is a direct archived conversation
+- bug-fixed: canned item not fire click event on Firefox browser
+
 ### 3.0.82-rc.6
 - bug-fixed: axios is undefined in chat21Client.js
 - bug-fixed: if userImage not exist in sidebar--user-detail, no info of fillColor exist
