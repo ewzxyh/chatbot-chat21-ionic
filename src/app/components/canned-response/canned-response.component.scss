@@ -103,6 +103,10 @@
         &.title {
             font-weight: 500;
         }
+        &.readonly{
+            cursor: pointer;
+            pointer-events: none;
+        }
     }
     .native-input[disabled] {
         opacity: 10 !important;
