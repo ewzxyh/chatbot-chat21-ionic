@@ -121,7 +121,7 @@ ion-content {
         padding: 0;
         &.open {
             max-width: auto;
-            min-width: calc(100% - 300px);
+            min-width: calc(100% - 320px);
             &.mobile {
                 max-width: 0;
                 width: 0;
@@ -141,8 +141,8 @@ ion-content {
         display: block;
         overflow: hidden;
         &.open {
-            max-width: 300px;
-            min-width: 300px;
+            max-width: 320px;
+            min-width: 320px;
             display: block;
             -webkit-animation: slide-left 0.2s linear both;
             animation: slide-left 0.2s linear both;

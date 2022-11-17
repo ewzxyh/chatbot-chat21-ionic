@@ -41,7 +41,7 @@
     position: fixed;
     transition: transform 300ms ease-in-out 0s;
     transform: translate(0px);
-    right: 300px;
+    right: 320px;
     top: 60px;
     z-index:10;
     background: linear-gradient(to right, rgba(226, 232, 239, 0) 128px, rgb(226, 232, 239) 128px);
@@ -58,7 +58,7 @@
         right: 0px;
     }
     &:not(.mobile):not(.close){
-        right: calc(300px + var(--padding-conversation-detail));
+        right: calc(320px + var(--padding-conversation-detail));
         top: calc(60px + var(--padding-conversation-detail));
     }
     &::before{
