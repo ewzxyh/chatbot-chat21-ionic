@@ -19,18 +19,18 @@
         </ion-item>
       </div> -->
       <div class="field-wrapper" id="div_input_topic" #div_input_topic>
-        <input type="text" formControlName="topic" >
-        <div class="field-placeholder"><span>Topic</span></div>
+        <input type="text" formControlName="subject" >
+        <div class="field-placeholder"><span>{{translationMap?.get('SUBJECT')}}</span></div>
       </div>
 
-      <ion-label class="message-placeholder">Message</ion-label>
+      <ion-label class="message-placeholder">{{translationMap?.get('MESSAGE')}}</ion-label>
       <div class="field-wrapper-email">
         <ion-textarea 
-          formControlName="topic"
+          formControlName="message"
           autosize="false" 
           auto-grow="true" 
           autofocus="true" 
-          placeholder="Enter your message here...">
+          placeholder="{{translationMap?.get('MESSAGE_PLACEHOLDER')}}">
         </ion-textarea>
         <div class="info-wrapper">
           <ion-label>Powered by</ion-label>
@@ -39,7 +39,7 @@
       </div>
 
       <div class="field-wrapper-submit">
-        <ion-button ion-button fill="clear" type="submit">Invia</ion-button>
+        <ion-button ion-button fill="clear" type="submit">{{translationMap?.get('LABEL_SEND')}}</ion-button>
       </div>
     </form>
   </div>

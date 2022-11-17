@@ -12,6 +12,7 @@ import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance'
 export class SendEmailModal implements OnInit {
 
   @Input() enableBackdropDismiss: any
+  @Input() translationMap: Map<string, string>;
   @Input() msg: string;
   @Output() onSubmitForm = new EventEmitter<{}>();
 
@@ -29,13 +30,13 @@ export class SendEmailModal implements OnInit {
     this.logger.log('[SEND-EMAIL-MODAL] Hello!')
     this.emailFormGroup = this.buildFormGroup();
     this.emailFormGroup.valueChanges.subscribe((value)=> {
-      value.topic !== ''? this.input_topic.nativeElement.classList.add('hasValue') : this.input_topic.nativeElement.classList.remove('hasValue')
+      value.subject !== ''? this.input_topic.nativeElement.classList.add('hasValue') : this.input_topic.nativeElement.classList.remove('hasValue')
     })
   }
 
   buildFormGroup(): FormGroup{
     return this.formBuilder.group({
-      topic: ['', [Validators.required]],
+      subject: ['', [Validators.required]],
       message: ['', Validators.required]
     })
   }
@@ -44,7 +45,8 @@ export class SendEmailModal implements OnInit {
   }
 
   onSubmit(){
-    console.log('formrrrr', this.emailFormGroup.value)
+    this.logger.log('[SEND-EMAIL-MODAL] onSubmit -->',this.emailFormGroup.value)
+    this.viewCtrl.dismiss({form: this.emailFormGroup.value})
   }
 
 }

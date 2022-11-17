@@ -413,7 +413,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
 
   private async presentEmailModal(): Promise<any>{
     this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] openEmailModal');
-    const attributes = { enableBackdropDismiss: false, msg: this.msg };
+    const attributes = { enableBackdropDismiss: false, msg: this.msg, translationMap: this.translationMap};
     const modal: HTMLIonModalElement =
       await this.modalController.create({
         component: SendEmailModal,

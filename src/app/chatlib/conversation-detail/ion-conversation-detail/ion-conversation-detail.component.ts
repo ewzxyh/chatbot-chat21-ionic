@@ -15,7 +15,7 @@ import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { AppConfigProvider } from 'src/app/services/app-config';
 import { ModalController } from '@ionic/angular';
-import { CreateCannedResponsePage } from 'src/app/pages/create-canned-response/create-canned-response.page';
+import { CreateCannedResponsePage } from 'src/app/modals/create-canned-response/create-canned-response.page';
 @Component({
   selector: 'ion-conversation-detail',
   templateUrl: './ion-conversation-detail.component.html',
