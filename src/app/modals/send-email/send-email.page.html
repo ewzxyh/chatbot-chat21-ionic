@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{'ComposeEmail' | translate}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button ion-button fill="clear" (click)="onClose()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="content-container">
+    <form [formGroup]="emailFormGroup" (ngSubmit)="onSubmit()">
+      <!-- <div class="form-group row">
+        <ion-item lines="none">
+          <ion-label position="floating">Oggetto</ion-label>
+          <ion-input type="text"  formControlName="topic"></ion-input>
+        </ion-item>
+      </div> -->
+      <div class="field-wrapper" id="div_input_topic" #div_input_topic>
+        <input type="text" formControlName="topic" >
+        <div class="field-placeholder"><span>Topic</span></div>
+      </div>
+
+      <ion-label class="message-placeholder">Message</ion-label>
+      <div class="field-wrapper-email">
+        <ion-textarea 
+          formControlName="topic"
+          autosize="false" 
+          auto-grow="true" 
+          autofocus="true" 
+          placeholder="Enter your message here...">
+        </ion-textarea>
+        <div class="info-wrapper">
+          <ion-label>Powered by</ion-label>
+          <img src="/src/assets/logo.png">
+        </div>
+      </div>
+
+      <div class="field-wrapper-submit">
+        <ion-button ion-button fill="clear" type="submit">Invia</ion-button>
+      </div>
+    </form>
+  </div>
+</ion-content>

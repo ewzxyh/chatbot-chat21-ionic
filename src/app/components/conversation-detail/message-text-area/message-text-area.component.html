@@ -1,40 +1,28 @@
-<!-- <ion-grid>
-  <ion-row id="message-text-area">
+<ion-grid>
+  <div class="footer-options-container">
+    <!-- CHAT-OPTION -->
+    <div class="section-option" (click)="onOpenSection('chat')">
+      <ion-button fill="clear" [class.active]="section==='chat'">
+        <ion-icon name="chatbubbles"></ion-icon>
+        {{translationMap.get('CHAT')}}
+      </ion-button>
+    </div>
+    <!-- EMAIL-OPTION -->
+    <div class="section-option" (click)="onOpenSection('email')">
+      <ion-button fill="clear" [class.active]="section==='email'">
+        <ion-icon name="mail-open"></ion-icon>
+        {{translationMap.get('EMAIL')}}
+      </ion-button>
+    </div>
+  </div>
+
+  <ion-row id="message-email" [style.display]="section==='email'? 'flex': 'none'">
     <ion-col col-auto>
-      <div class="buttons-left">
-
-        <ion-button ion-button fill="clear" class="upload-image-btn">
-          <ion-icon slot="icon-only" lazy="true" name="attach-outline"
-            style="font-size: 30px;transform: rotate(42deg);"></ion-icon>
-          <input #fileInput type="file" (change)="onFileSelected($event)" capture="camera" id="file-input"
-            [accept]="fileUploadAccept">
-        </ion-button>
-      </div>
-
-      <div class="text-message">
-        <ion-textarea id="ion-textarea" #messageTextArea #message_text_area #textArea rows="1"
-          [placeholder]="TEXAREA_PLACEHOLDER" autosize="false" auto-grow="true" autofocus="true" [value]=""
-          [(ngModel)]="messageString" (ionChange)="ionChange($event);"
-          (keydown.enter)="onKeydown($event, messageString)" (paste)="onPaste($event)">
-        </ion-textarea>
-      </div>
-
-      <div class="buttons-right">
-        <ion-button [disabled]="conversationEnabled === false" class="send-button right active" ion-button fill="clear"
-          (click)="sendMessage(messageString)">
-          <ion-icon
-            [ngClass]="{'send-msg-disabled': conversationEnabled === false,'send-msg-activated': conversationEnabled === true }"
-            slot="icon-only" name="send"></ion-icon>
-        </ion-button>
-      </div>
+      <div class="placeholder" (click)="onOpenEmailModal()">{{translationMap.get('EMAIL_PLACEHOLDER')}}</div>
     </ion-col>
   </ion-row>
-</ion-grid> -->
 
-<!-- --------------------------------------------------------------------------------------------------------------------- -->
-<!-- ----------new -->
-<ion-grid>
-  <ion-row id="message-text-area">
+  <ion-row id="message-text-area" [style.display]="section==='chat'? 'flex': 'none'">
 
     <ion-col col-auto>
 

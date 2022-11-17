@@ -1,3 +1,4 @@
+import { SendEmailModal } from './../../../modals/send-email/send-email.page';
 import { UserModel } from 'src/chat21-core/models/user';
 import { Component, OnInit, Output, EventEmitter, Input, AfterViewInit, ViewChild, ElementRef, OnChanges, HostListener, Renderer2, SimpleChange, SimpleChanges } from '@angular/core';
 
@@ -5,7 +6,7 @@ import { Chooser } from '@ionic-native/chooser/ngx';
 import { IonTextarea, ModalController, ToastController } from '@ionic/angular';
 
 // Pages
-import { LoaderPreviewPage } from 'src/app/pages/loader-preview/loader-preview.page';
+import { LoaderPreviewPage } from 'src/app/modals/loader-preview/loader-preview.page';
 // Services 
 import { UploadService } from 'src/chat21-core/providers/abstract/upload.service';
 // utils
@@ -69,6 +70,8 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
   TYPE_SUPPORT_GROUP = TYPE_SUPPORT_GROUP;
   TYPE_MSG_TEXT = TYPE_MSG_TEXT;
   msg: string
+
+  section: string= 'chat'
 
   tooltipOptions = {
     'show-delay': 500,
@@ -278,6 +281,16 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
 
   }
 
+  onOpenSection(section:string){
+    console.log('open section -->', section)
+    this.section = section
+  }
+
+  onOpenEmailModal(){
+    this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] - onOpenEmailModal');
+    this.presentEmailModal()
+  }
+
 
   /**
  * 
@@ -393,6 +406,23 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
       } else {
         that.fileInput.nativeElement.value = '';
       }
+    });
+
+    return await modal.present();
+  }
+
+  private async presentEmailModal(): Promise<any>{
+    this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] openEmailModal');
+    const attributes = { enableBackdropDismiss: false, msg: this.msg };
+    const modal: HTMLIonModalElement =
+      await this.modalController.create({
+        component: SendEmailModal,
+        componentProps: attributes,
+        swipeToClose: false,
+        backdropDismiss: true
+      });
+    modal.onDidDismiss().then((detail: any) => {
+      console.log('modal dismissedddd', detail)
     });
 
     return await modal.present();
