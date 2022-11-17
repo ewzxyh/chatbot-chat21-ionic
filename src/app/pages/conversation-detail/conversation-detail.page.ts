@@ -50,7 +50,7 @@ import { CannedResponsesService } from '../../services/canned-responses/canned-r
 import { compareValues, getDateDifference, htmlEntities } from '../../../chat21-core/utils/utils'
 import { ImageRepoService } from 'src/chat21-core/providers/abstract/image-repo.service'
 import { PresenceService } from 'src/chat21-core/providers/abstract/presence.service'
-import { CreateCannedResponsePage } from 'src/app/pages/create-canned-response/create-canned-response.page'
+import { CreateCannedResponsePage } from 'src/app/modals/create-canned-response/create-canned-response.page'
 // utils
 import {
   TYPE_MSG_TEXT,
@@ -609,6 +609,14 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       "LABEL_LOADING",
       "DIRECT_CHAT",
       "GROUP_CHAT",
+
+      "LABEL_CHAT",
+      "LABEL_EMAIL",
+      "EMAIL_PLACEHOLDER",
+      "SUBJECT",
+      "MESSAGE",
+      "MESSAGE_PLACEHOLDER",
+      "LABEL_SEND"
     ]
 
     const keysHeader = [
