@@ -22,6 +22,12 @@
     "Sunday"
   ],
   "LABEL_SEND": "Send",
+  "LABEL_CHAT":"Chat",
+  "EMAIL_PLACEHOLDER":"Draft available here - click to edit",
+  "EMAIL_NOT_FOUND_PLACEHOLDER":"This user has not provided an email address. Update the visitor's address to send an email",
+  "SUBJECT":"Subject",
+  "MESSAGE":"Message",
+  "MESSAGE_PLACEHOLDER":"Type your message...",
   "ID_CONVERSATION": "Id conversation",
   "LABEL_CREATED_THE": "group created on",
   "LABEL_INFO_ATTRIBUTE": "Attributes",

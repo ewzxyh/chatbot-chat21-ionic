@@ -23,6 +23,12 @@
         "yakshanba"
     ],
     "LABEL_SEND": "Yuborish",
+    "LABEL_CHAT":"Chat",
+    "EMAIL_PLACEHOLDER":"Qoralama bu yerda mavjud - tahrirlash uchun bosing",
+    "EMAIL_NOT_FOUND_PLACEHOLDER":"Bu foydalanuvchi elektron pochta manzilini ko'rsatmagan. Elektron pochta xabarini yuborish uchun tashrif buyuruvchining manzilini yangilang",
+    "SUBJECT":"Mavzu",
+    "MESSAGE":"Xabar",
+    "MESSAGE_PLACEHOLDER":"Xabaringizni yozing...",
     "ID_CONVERSATION": "Id suhbati",
     "LABEL_CREATED_THE": "kuni yaratilgan guruh",
     "LABEL_INFO_ATTRIBUTE": "Atributlar",

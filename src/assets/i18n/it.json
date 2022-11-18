@@ -22,6 +22,12 @@
         "Domenica"
     ],
     "LABEL_SEND": "Invia",
+    "LABEL_CHAT":"Chat",
+    "EMAIL_PLACEHOLDER":"Bozza disponibile qui - clicca per modificare",
+    "EMAIL_NOT_FOUND_PLACEHOLDER":"Questo utente non ha fornito un indirizzo email. Aggiorna l'indirizzo del visitatore per inviare un'e-mail",
+    "SUBJECT":"Oggetto",
+    "MESSAGE":"Messaggio",
+    "MESSAGE_PLACEHOLDER":"Digita il tuo messaggio...",
     "ID_CONVERSATION": "Id conversazione",
     "LABEL_CREATED_THE": "gruppo creato il ",
     "LABEL_INFO_ATTRIBUTE": "Attributi",

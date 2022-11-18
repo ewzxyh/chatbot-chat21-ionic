@@ -22,6 +22,12 @@
       "Pazar"
   ],
   "LABEL_SEND": "Göndermek",
+  "LABEL_CHAT":"Sohbet",
+  "EMAIL_PLACEHOLDER":"Taslak burada mevcut - düzenlemek için tıklayın",
+  "EMAIL_NOT_FOUND_PLACEHOLDER":"Bu kullanıcı bir e-posta adresi sağlamadı. E-posta göndermek için ziyaretçinin adresini güncelleyin",
+  "SUBJECT":"Ders",
+  "MESSAGE":"İleti",
+  "MESSAGE_PLACEHOLDER":"Mesajını yaz...",
   "ID_CONVERSATION": "ID konuşma",
   "LABEL_CREATED_THE": "grup oluşturuldu",
   "LABEL_INFO_ATTRIBUTE": "Öznitellikler",

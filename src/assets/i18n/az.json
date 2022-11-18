@@ -22,6 +22,12 @@
         "bazar günü"
     ],
     "LABEL_SEND": "Göndər",
+    "LABEL_CHAT":"Söhbət",
+    "EMAIL_PLACEHOLDER":"Qaralama burada mövcuddur - redaktə etmək üçün klikləyin",
+    "EMAIL_NOT_FOUND_PLACEHOLDER":"Bu istifadəçi e-poçt ünvanı təqdim etməyib. E-poçt göndərmək üçün ziyarətçinin ünvanını yeniləyin",
+    "SUBJECT":"Mövzu",
+    "MESSAGE":"Mesaj",
+    "MESSAGE_PLACEHOLDER":"Mesajınızı yazın...",
     "ID_CONVERSATION": "Kimlik söhbəti",
     "LABEL_CREATED_THE": "tarixində yaradılmış qrup",
     "LABEL_INFO_ATTRIBUTE": "Atributlar",

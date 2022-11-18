@@ -22,6 +22,12 @@
     "Sonntag"
   ],
   "LABEL_SEND": "Senden",
+  "LABEL_CHAT":"Plaudern",
+  "EMAIL_PLACEHOLDER":"Entwurf hier verfügbar - zum Bearbeiten klicken",
+  "EMAIL_NOT_FOUND_PLACEHOLDER":"Dieser Benutzer hat keine E-Mail-Adresse angegeben. Aktualisieren Sie die Adresse des Besuchers, um eine E-Mail zu senden",
+  "SUBJECT":"Thema",
+  "MESSAGE":"Nachricht",
+  "MESSAGE_PLACEHOLDER":"Geben Sie Ihre Nachricht ein...",
   "ID_CONVERSATION": "ID-Gespräch",
   "LABEL_CREATED_THE": "Gruppe erstellt am",
   "LABEL_INFO_ATTRIBUTE": "Attribute",

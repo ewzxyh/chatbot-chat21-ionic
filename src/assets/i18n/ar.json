@@ -22,6 +22,12 @@
       "الأحد"
   ],
   "LABEL_SEND": "إرسال",
+  "LABEL_CHAT":"دردشة",
+  "EMAIL_PLACEHOLDER":"المسودة متاحة هنا - انقر للتعديل",
+  "EMAIL_NOT_FOUND_PLACEHOLDER":"لم يقدم هذا المستخدم عنوان بريد إلكتروني. قم بتحديث عنوان الزائر لإرسال بريد إلكتروني",
+  "SUBJECT":"موضوعات",
+  "MESSAGE":"رسالة",
+  "MESSAGE_PLACEHOLDER":"...اكتب رسالتك",
   "ID_CONVERSATION": "معرف محادثة",
   "LABEL_CREATED_THE": "تم إنشاء المجموعة في",
   "LABEL_INFO_ATTRIBUTE": "صفات",

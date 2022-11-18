@@ -22,6 +22,12 @@
       "Domingo"
   ],
   "LABEL_SEND": "Mandar",
+  "LABEL_CHAT":"Bater papo",
+  "EMAIL_PLACEHOLDER":"Rascunho disponível aqui - clique para editar",
+  "EMAIL_NOT_FOUND_PLACEHOLDER":"Este usuário não forneceu um endereço de e-mail. Atualize o endereço do visitante para enviar um e-mail",
+  "SUBJECT":"Sujeito",
+  "MESSAGE":"Mensagem",
+  "MESSAGE_PLACEHOLDER":"Digite sua mensagem...",
   "ID_CONVERSATION": "Conversa de identificação",
   "LABEL_CREATED_THE": "grupo criado em",
   "LABEL_INFO_ATTRIBUTE": "Atributos",
