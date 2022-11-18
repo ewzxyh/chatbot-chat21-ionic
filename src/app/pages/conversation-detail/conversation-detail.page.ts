@@ -1574,7 +1574,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   }
 
   onOpenCloseInfoConversation(event){
-    this.logger.log('[CONVS-DETAIL] onOpenCloseInfoConversation - openInfoConversation ', event)
+    this.logger.debug('[CONVS-DETAIL] onOpenCloseInfoConversation - openInfoConversation ', event)
     this.resizeTextArea()
     this.openInfoConversation = event
     this.USER_HAS_OPENED_CLOSE_INFO_CONV = true
@@ -1583,17 +1583,17 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   onOpenFooterSection(event: string){
     const tiledeskToken= this.tiledeskAuthService.getTiledeskToken();
     const projectId = this.getProjectIdSelectedConversation(this.conversationWith)
-    this.logger.log('[CONVS-DETAIL] onOpenFooterSection - section ', event)
+    this.logger.debug('[CONVS-DETAIL] onOpenFooterSection - section ', event)
     if(event === 'email'){
       this.tiledeskService.getRequest(this.conversationWith, projectId, tiledeskToken).subscribe((request: any)=>{
-        console.log('[CONVS-DETAIL] onOpenFooterSection - selected REQUEST detail', request)
+        this.logger.debug('[CONVS-DETAIL] onOpenFooterSection - selected REQUEST detail', request)
         if(request.lead && request.lead.email){
           this.userHasEmail = true
         }
       }, (error)=>{
         this.logger.error('[CONVS-DETAIL] - onOpenFooterSection - GET REQUEST DETAIL - ERROR  ', error)
       }, ()=>{
-        this.logger.log('[CONVS-DETAIL] - onOpenFooterSection - GET REQUEST DETAIL * COMPLETE *')
+        this.logger.debug('[CONVS-DETAIL] - onOpenFooterSection - GET REQUEST DETAIL * COMPLETE *')
       })
     }
   }

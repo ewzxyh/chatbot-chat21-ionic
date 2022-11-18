@@ -277,7 +277,6 @@ onMouseOverEmailSection(){
   }
 
   onOpenSection(section:string){
-    console.log('open section -->', section)
     this.section = section
     this.onOpenFooterSection.emit(section)
   }
@@ -666,7 +665,7 @@ onMouseOverEmailSection(){
     // Note: on mac keyboard "metakey" matches "cmd"
 
     //do not move cursor on ArrowDown/ArrowUp
-    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+    if ((event.key === 'ArrowDown' || event.key === 'ArrowUp')&& !event.shiftKey) {
       this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] HAS PRESSED event.key', event.key);
       event.preventDefault();
     }
@@ -679,49 +678,5 @@ onMouseOverEmailSection(){
     }
 
   }
-
-
-  /* NOT USED */
-  // getIfTexareaIsEmpty(calledby: string) {
-  //   let elemTexarea = <HTMLElement>document.querySelector('#ion-textarea');
-  //   this.logger.log("[CONVS-DETAIL] [MSG-TEXT-AREA] elemTexarea ", elemTexarea)
-  //   if (this.messageString == null || this.messageString == '') {
-
-
-  //     if (elemTexarea) {
-  //       this.logger.log("[CONVS-DETAIL] [MSG-TEXT-AREA] messageString is empty - called By ", calledby)
-  //       elemTexarea.style.height = "30px !important";
-  //       elemTexarea.style.overflow = "hidden !important";
-  //     }
-  //   } else {
-
-  //     if (elemTexarea) {
-  //       this.logger.log("[CONVS-DETAIL] [MSG-TEXT-AREA] messageString not empty - called By ", calledby)
-  //       elemTexarea.style.height = null;
-  //       elemTexarea.style.overflow = null;
-  //     }
-  //   }
-  // }
-
-
-
-
-  // attualmente non usata
-  // dovrebbe scattare quando termina il caricamento dell'immagine per inviare il messaggio
-  // private setSubscriptions() {
-  //   const that = this;
-  //   const subscribeBSStateUpload = this.uploadService.BSStateUpload.subscribe((data: any) => {
-  //     this.logger.log('***** BSStateUpload *****', data);
-  //     if (data) {
-  //       let message = data.message;
-  //       let type_message = data.type_message;
-  //       let metadata = data.metadata;
-  //       this.logger.log('***** message *****', message);
-  //       this.logger.log('***** type_message *****', type_message);
-  //       this.logger.log('***** metadata *****', metadata);
-  //       //this.eventSendMessage.emit({ message: messageString, type: TYPE_MSG_TEXT });
-  //     }
-  //   });
-  // }
 
 }
