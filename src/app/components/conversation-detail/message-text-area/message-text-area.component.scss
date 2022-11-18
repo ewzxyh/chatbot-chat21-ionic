@@ -50,8 +50,15 @@
         overflow: auto;
         // min-height: 30px;
         min-height: 37px; // NK edited
-        max-height: 184px;
-        padding: 9px 20px 9px
+        max-height: 37px; //184px;
+        padding: 9px 20px 9px;
+        cursor: pointer;
+
+        &.noEmail{
+            color: red;
+            cursor: not-allowed;
+            font-size: 12px
+        }
     }
 }
 #message-text-area {

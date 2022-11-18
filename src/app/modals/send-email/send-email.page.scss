@@ -99,7 +99,7 @@ ion-input:focus{
 .field-wrapper-email{
     background-color: #f1f4f7;
     border: 0;
-    border-radius: 0;
+    border-radius: 6px;
     padding: 34px;
     font-size: 16px;
     overflow: hidden;
@@ -133,11 +133,15 @@ ion-label.message-placeholder{
     -webkit-box-align: center;
     align-items: center;
     margin-top: 20px;
-    padding-bottom: 30px;
+    // padding-bottom: 30px;
     position: relative;
     text-align: center;
     color: rgb(98, 112, 139);
     font-size: 13px;
+
+    img{
+        max-width: 35%;
+    }
 }
 
 .field-wrapper-submit{
