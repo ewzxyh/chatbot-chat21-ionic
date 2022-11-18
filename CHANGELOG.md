@@ -1,5 +1,9 @@
 # chat21-ionic ver 3.0
 
+## 3.0.83 in PROD
+- bug-fixed: canned item is not visible (missing scroll position) if ArrowDown keyboard button is pressed
+- bug-fixed: if ArrowUp keyboard button is pressed, text-area cursor moved left and canned not substituted correctly
+
 ## 3.0.82 in PROD
 - bug-fixed: do not disable textArea if is a direct archived conversation
 - bug-fixed: canned item not fire click event on Firefox browser
