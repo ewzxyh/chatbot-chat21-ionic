@@ -268,7 +268,7 @@ export class CannedResponseComponent implements OnInit {
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    this.logger.log("CONVERSATION-DETAIL handleKeyboardEvent  event.key ", event);
+    // this.logger.log("CONVERSATION-DETAIL handleKeyboardEvent  event.key ", event);
 
     if (this.tagsCannedFilter.length > 0) {
       if (event.key === 'ArrowDown') {
@@ -288,8 +288,9 @@ export class CannedResponseComponent implements OnInit {
 
       // set the focus on current canned 
       setTimeout(() => {
-        this.el.nativeElement.querySelector('#canned-item_'+this.arrowkeyLocation).focus()
-      }, 500);
+        this.el.nativeElement.querySelector('.canned-list').scrollTop = this.arrowkeyLocation * 59 // 59px is the height of the single element
+        // this.el.nativeElement.querySelector('#canned-item_'+this.arrowkeyLocation).scrollIntoView({ behavior: 'smooth' })
+      }, 0);
 
       if (event.key === 'Enter') {
         const canned_selected = this.tagsCannedFilter[this.arrowkeyLocation]
