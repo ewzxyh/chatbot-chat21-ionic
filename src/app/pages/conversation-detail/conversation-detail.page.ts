@@ -123,8 +123,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   public translationsHeaderMap: Map<string, string> = new Map() 
   public translationsContentMap: Map<string, string> = new Map()
   public conversationAvatar: any
+  public userHasEmail: boolean = false;
   public member: UserModel
-  public urlConversationSupportGroup: any
   public isFileSelected: boolean
   public showIonContent = false
   public conv_type: string
@@ -335,6 +335,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
             conv.conversation_with,
             conv.conversation_with_fullname,
             conv.channel_type,
+            null,
             conv.attributes['projectId'],
             conv.attributes['project_name'])
         }
@@ -563,6 +564,22 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     })
   }
 
+  getProjectIdSelectedConversation(conversationWith: string): string{
+    const conversationWith_segments = conversationWith.split('-')
+    // Removes the last element of the array if is = to the separator
+    if (conversationWith_segments[conversationWith_segments.length - 1] === '') {
+      conversationWith_segments.pop()
+    }
+
+    this.logger.log('[CONVS-DETAIL] - getProjectIdSelectedConversation conversationWith_segments ', conversationWith_segments)
+    let projectId = ''
+    if (conversationWith_segments.length === 4) {
+      projectId = conversationWith_segments[2]
+      this.logger.log('[CONVS-DETAIL] - getProjectIdSelectedConversation projectId ', projectId)
+    }
+    return projectId
+  }
+
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     const newInnerWidth = event.target.innerWidth
@@ -613,6 +630,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       "LABEL_CHAT",
       "LABEL_EMAIL",
       "EMAIL_PLACEHOLDER",
+      "EMAIL_NOT_FOUND_PLACEHOLDER",
       "SUBJECT",
       "MESSAGE",
       "MESSAGE_PLACEHOLDER",
@@ -744,12 +762,12 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     }
 
     //TODO: servono ???
-    if (this.loggedUser && this.loggedUser.email) {
-      attributes.userEmail = this.loggedUser.email
-    }
-    if (this.loggedUser && this.loggedUser.fullname) {
-      attributes.userFullname = this.loggedUser.fullname
-    }
+    // if (this.loggedUser && this.loggedUser.email) {
+    //   attributes.userEmail = this.loggedUser.email
+    // }
+    // if (this.loggedUser && this.loggedUser.fullname) {
+    //   attributes.userFullname = this.loggedUser.fullname
+    // }
 
     return attributes
   }
@@ -793,6 +811,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
             conv.conversation_with,
             conv.conversation_with_fullname,
             conv.channel_type,
+            null,
             conv.attributes['projectId'],
             conv.attributes['project_name']
           )
@@ -808,6 +827,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
                 conv.conversation_with,
                 conv.conversation_with_fullname,
                 conv.channel_type,
+                null,
                 conv.attributes['projectId'],
                 conv.attributes['project_name']
               )
@@ -828,6 +848,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
             conv.conversation_with,
             conv.conversation_with_fullname,
             conv.channel_type,
+            null,
             conv.attributes['projectId'],
             conv.attributes['project_name']
           )
@@ -842,6 +863,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
                 conv.conversation_with,
                 conv.conversation_with_fullname,
                 conv.channel_type,
+                null,
                 conv.attributes['projectId'],
                 conv.attributes['project_name']
               )
@@ -1066,14 +1088,25 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         this.conversationWith,
         this.conversationWithFullname,
         this.channelType,
+        null,
         this.conversation.attributes['projectId'],
         this.conversation.attributes['project_name']
       )
+      this.conversation.attributes['requester']['fullName']= userFullname
       
     }
     if (msg.attributes && msg.attributes['updateUserEmail']) {
       const userEmail = msg.attributes['updateUserEmail'];
       this.logger.debug('[CONVS-DETAIL] newMessageAdded --> userEmail', userEmail)
+      this.conversationAvatar = setConversationAvatar(
+        this.conversationWith,
+        this.conversationWithFullname,
+        this.channelType,
+        userEmail,
+        this.conversation.attributes['projectId'],
+        this.conversation.attributes['project_name']
+      )
+      
     }
   }
 
@@ -1545,6 +1578,24 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     this.resizeTextArea()
     this.openInfoConversation = event
     this.USER_HAS_OPENED_CLOSE_INFO_CONV = true
+  }
+
+  onOpenFooterSection(event: string){
+    const tiledeskToken= this.tiledeskAuthService.getTiledeskToken();
+    const projectId = this.getProjectIdSelectedConversation(this.conversationWith)
+    this.logger.log('[CONVS-DETAIL] onOpenFooterSection - section ', event)
+    if(event === 'email'){
+      this.tiledeskService.getRequest(this.conversationWith, projectId, tiledeskToken).subscribe((request: any)=>{
+        console.log('[CONVS-DETAIL] onOpenFooterSection - selected REQUEST detail', request)
+        if(request.lead && request.lead.email){
+          this.userHasEmail = true
+        }
+      }, (error)=>{
+        this.logger.error('[CONVS-DETAIL] - onOpenFooterSection - GET REQUEST DETAIL - ERROR  ', error)
+      }, ()=>{
+        this.logger.log('[CONVS-DETAIL] - onOpenFooterSection - GET REQUEST DETAIL * COMPLETE *')
+      })
+    }
   }
 
   // -------------- START SCROLL/RESIZE  -------------- //

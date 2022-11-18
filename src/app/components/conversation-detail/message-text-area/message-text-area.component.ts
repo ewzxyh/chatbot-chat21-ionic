@@ -1,3 +1,4 @@
+import { TiledeskService } from 'src/app/services/tiledesk/tiledesk.service';
 import { SendEmailModal } from './../../../modals/send-email/send-email.page';
 import { UserModel } from 'src/chat21-core/models/user';
 import { Component, OnInit, Output, EventEmitter, Input, AfterViewInit, ViewChild, ElementRef, OnChanges, HostListener, Renderer2, SimpleChange, SimpleChanges } from '@angular/core';
@@ -48,7 +49,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
   @Input() tagsCannedCount: number;
   @Input() areVisibleCAR: boolean;
   @Input() supportMode: boolean;
-  @Input() events: Observable<void>;
+  @Input() userHasEmail: boolean;
   @Input() fileUploadAccept: string
   @Input() isOpenInfoConversation: boolean;
   @Input() translationMap: Map<string, string>;
@@ -58,6 +59,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
   @Output() eventSendMessage = new EventEmitter<object>();
   @Output() onClickOpenCannedResponses = new EventEmitter<boolean>();
   @Output() onPresentModalScrollToBottom = new EventEmitter<boolean>();
+  @Output() onOpenFooterSection = new EventEmitter<string>();
 
   public conversationEnabled = false;
   public messageString: string;
@@ -120,7 +122,8 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
     public uploadService: UploadService,
     public toastController: ToastController,
     private renderer: Renderer2,
-    public eventsService: EventsService
+    public eventsService: EventsService,
+    public tiledeskService: TiledeskService
   ) { }
 
   // ---------------------------------------------------------
@@ -158,24 +161,13 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
       // this.SHORTER_TEXAREA_PLACEHOLDER = this.translationMap.get('LABEL_ENTER_MSG_SHORTER')
 
     }
-
-    // this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] ngOnChanges supportMode ', this.supportMode)
-    // this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] ngOnChanges disableTextarea ', this.disableTextarea)
-    // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngOnChanges DROP EVENT ", this.dropEvent);
-    // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngOnChanges tagsCannedFilter ", this.tagsCannedFilter);
-    // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngOnChanges areVisibleCAR; ", this.areVisibleCAR);
-
-
     this.logger.log('[CONVS-DETAIL] - returnChangeTextArea ngOnChanges in [MSG-TEXT-AREA]  this.tagsCannedFilter.length ', this.tagsCannedFilter.length)
 
     // use case drop
     if (this.dropEvent) {
       this.presentModal(this.dropEvent)
     }
-    // if (this.isOpenInfoConversation === true) {
-    // this.getIfTexareaIsEmpty('ngOnChanges')
-    // this.getWindowWidth();
-    // }
+
   }
 
   // ngAfterViewInit() {
@@ -218,7 +210,10 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
     //  console.log("[CONVS-DETAIL][MSG-TEXT-AREA]  event.target.innerWidth; ", event.target.innerWidth);
   }
 
-
+onMouseOverEmailSection(){
+  console.log('onMouseOverEmailSectionnnn', this.userHasEmail)
+  this.onOpenFooterSection.emit('email')
+}
 
 
   onPaste(event: any) {
@@ -284,6 +279,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
   onOpenSection(section:string){
     console.log('open section -->', section)
     this.section = section
+    this.onOpenFooterSection.emit(section)
   }
 
   onOpenEmailModal(){
@@ -413,7 +409,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
 
   private async presentEmailModal(): Promise<any>{
     this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] openEmailModal');
-    const attributes = { enableBackdropDismiss: false, msg: this.msg, translationMap: this.translationMap};
+    const attributes = { enableBackdropDismiss: false, msg: this.messageString, translationMap: this.translationMap};
     const modal: HTMLIonModalElement =
       await this.modalController.create({
         component: SendEmailModal,
@@ -668,7 +664,12 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
   handleKeyboardEvent(event: KeyboardEvent) {
     // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] handleKeyboardEvent  event.key ", event);
     // Note: on mac keyboard "metakey" matches "cmd"
-    
+
+    //do not move cursor on ArrowDown/ArrowUp
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] HAS PRESSED event.key', event.key);
+      event.preventDefault();
+    }
     if (event.key === 'Enter' && event.altKey || event.key === 'Enter' && event.ctrlKey || event.key === 'Enter' && event.metaKey) {
       this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] HAS PRESSED COMBO KEYS this.messageString', this.messageString);
       if (this.messageString !== undefined && this.messageString.trim() !== '') {

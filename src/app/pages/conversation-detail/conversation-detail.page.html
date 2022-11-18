@@ -222,21 +222,23 @@
             <!-- [tagsCannedFilter]="tagsCannedFilter" -->
             <!-- openInfoConversation   {{openInfoConversation}} - isMobile {{isMobile}} -->
             <app-message-text-area *ngIf="(openInfoConversation === false && isMobile === true) || (openInfoConversation === true && isMobile === false) || (openInfoConversation === false && isMobile === false)"
-              [tagsCannedCount]="tagsCannedCount" 
-              [areVisibleCAR]="areVisibleCAR" 
-              [supportMode]="supportMode"
               [loggedUser]="loggedUser" 
               [conversationWith]="conversationWith" 
               [tagsCannedFilter]="tagsCannedFilter"
-              [translationMap]="translationsMap"
+              [tagsCannedCount]="tagsCannedCount" 
+              [areVisibleCAR]="areVisibleCAR" 
+              [supportMode]="supportMode"
+              [userHasEmail]="userHasEmail"
               [fileUploadAccept]="appConfigProvider.getConfig().fileUploadAccept"
               [isOpenInfoConversation]="openInfoConversation" 
+              [translationMap]="translationsMap"
               [dropEvent]="dropEvent"
               [disableTextarea]="disableTextarea"
               (eventChangeTextArea)="returnChangeTextArea($event)"
               (onClickOpenCannedResponses)="onClickOpenCannedResponses($event)"
               (eventSendMessage)="returnSendMessage($event)" 
-              (onPresentModalScrollToBottom)="onPresentModalScrollToBottom($event)">
+              (onPresentModalScrollToBottom)="onPresentModalScrollToBottom($event)"
+              (onOpenFooterSection)="onOpenFooterSection($event)">
             </app-message-text-area>
             <!-- [events]="eventsReplaceTexareaText.asObservable()" -->
           </ion-row>
