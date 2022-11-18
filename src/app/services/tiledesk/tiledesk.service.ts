@@ -51,6 +51,26 @@ export class TiledeskService {
     }))
   }
 
+    // ---------------------------------------------
+  // @ GET request by id
+  // ---------------------------------------------
+  public getRequest(request_id: string, project_id: string, token: string) {
+    const url = this.apiUrl + project_id + '/requests/'+request_id
+    this.logger.log('[TILEDESK-SERVICE] - CREATE NEW LEAD url ', url);
+   
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: token
+      })
+    };
+
+    return this.http.get(url, httpOptions).pipe(map((res: any) => {
+      this.logger.log('[TILEDESK-SERVICE] - CREATE NEW LEAD RES ', res);
+      return res
+    }))
+  }
+
   // http://tiledesk-server-pre.herokuapp.com/requests_util/lookup/id_project/support-group-60ffe291f725db00347661ef-b4cb6875785c4a23b27244fe498eecf44
   public getProjectIdByConvRecipient(token: string ,conversationWith: string ) {
     const lookupUrl = this.apiUrl + 'requests_util/lookup/id_project/' + conversationWith;
