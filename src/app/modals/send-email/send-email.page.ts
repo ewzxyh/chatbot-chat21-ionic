@@ -32,6 +32,9 @@ export class SendEmailModal implements OnInit {
     this.emailFormGroup.valueChanges.subscribe((value)=> {
       value.subject !== ''? this.input_topic.nativeElement.classList.add('hasValue') : this.input_topic.nativeElement.classList.remove('hasValue')
     })
+    if(this.msg && (this.msg !== '' || this.msg !== null)){
+      this.emailFormGroup.patchValue({ message: this.msg})
+    }
   }
 
   buildFormGroup(): FormGroup{
