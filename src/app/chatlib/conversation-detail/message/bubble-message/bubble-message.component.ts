@@ -8,7 +8,6 @@ import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance'
 import { TranslateService } from '@ngx-translate/core';
 import { TiledeskAuthService } from 'src/chat21-core/providers/tiledesk/tiledesk-auth.service';
 import * as moment from 'moment';
-import { CreateCannedResponsePage } from 'src/app/pages/create-canned-response/create-canned-response.page'
 import { ModalController } from '@ionic/angular';
 import { convertColorToRGBA } from 'src/chat21-core/utils/utils';
 @Component({

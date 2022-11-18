@@ -172,9 +172,7 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
   closeUserDetailSidePanel() {
     var element = document.getElementById('user-details');
     element.classList.remove("active");
-    this.logger.log('[SIDEBAR-USER-DETAILS] element', element);
-    // this.HAS_CLICKED_OPEN_USER_DETAIL === true
-    // this.onCloseUserDetailsSidebar.emit(false);
+    // this.logger.log('[SIDEBAR-USER-DETAILS] element', element);
   }
 
 
