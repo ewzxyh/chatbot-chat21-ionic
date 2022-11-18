@@ -286,6 +286,11 @@ export class CannedResponseComponent implements OnInit {
         // this.replaceTagInMessage(this.tagsCannedFilter[this.arrowkeyLocation])
       }
 
+      // set the focus on current canned 
+      setTimeout(() => {
+        this.el.nativeElement.querySelector('.canned-list').scrollTop = this.arrowkeyLocation * 59 //59 is the height of the single element
+      }, 0);
+
       if (event.key === 'Enter') {
         const canned_selected = this.tagsCannedFilter[this.arrowkeyLocation]
         this.logger.log('[CONVS-DETAIL] replaceTagInMessage  canned_selected ',canned_selected)

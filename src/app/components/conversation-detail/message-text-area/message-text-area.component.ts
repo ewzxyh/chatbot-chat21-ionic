@@ -699,6 +699,12 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
     this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] handleKeyboardEvent  event.key ", event);
     // Note: on mac keyboard "metakey" matches "cmd"
     
+    //do not move cursor on ArrowDown/ArrowUp
+    if ((event.key === 'ArrowDown' || event.key === 'ArrowUp') && !event.shiftKey) {
+      this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] HAS PRESSED event.key', event.key);
+      event.preventDefault();
+    }
+
     if (event.key === 'Enter' && event.altKey || event.key === 'Enter' && event.ctrlKey || event.key === 'Enter' && event.metaKey) {
       this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] HAS PRESSED COMBO KEYS this.messageString', this.messageString);
       if (this.messageString !== undefined && this.messageString.trim() !== '') {
