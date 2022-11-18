@@ -1,6 +1,6 @@
 import { AppStorageService } from 'src/chat21-core/providers/abstract/app-storage.service';
 import { Component, Input, OnInit, SimpleChange, ElementRef, Output, EventEmitter, HostListener } from '@angular/core';
-import { CreateCannedResponsePage } from 'src/app/pages/create-canned-response/create-canned-response.page';
+import { CreateCannedResponsePage } from 'src/app/modals/create-canned-response/create-canned-response.page';
 import { CannedResponsesService } from 'src/app/services/canned-responses/canned-responses.service';
 import { TiledeskService } from 'src/app/services/tiledesk/tiledesk.service';
 import { UserModel } from 'src/chat21-core/models/user';
@@ -285,6 +285,11 @@ export class CannedResponseComponent implements OnInit {
         }
         // this.replaceTagInMessage(this.tagsCannedFilter[this.arrowkeyLocation])
       }
+
+      // set the focus on current canned 
+      setTimeout(() => {
+        this.el.nativeElement.querySelector('#canned-item_'+this.arrowkeyLocation).focus()
+      }, 500);
 
       if (event.key === 'Enter') {
         const canned_selected = this.tagsCannedFilter[this.arrowkeyLocation]
