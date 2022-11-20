@@ -3,7 +3,7 @@ import { ConversationContentComponent } from '../conversation-content/conversati
 import { ChangeDetectorRef, Component, Input, OnInit, Output, EventEmitter, SimpleChange, SimpleChanges } from '@angular/core';
 
 
-import { MESSAGE_TYPE_INFO, MESSAGE_TYPE_MINE, MESSAGE_TYPE_OTHERS } from 'src/chat21-core/utils/constants';
+import { MESSAGE_TYPE_INFO, MESSAGE_TYPE_MINE, MESSAGE_TYPE_OTHERS, TYPE_MSG_EMAIL } from 'src/chat21-core/utils/constants';
 import { isChannelTypeGroup, isEmojii, isFirstMessage, isInfo, isMine, messageType } from 'src/chat21-core/utils/utils-message';
 import { UploadService } from 'src/chat21-core/providers/abstract/upload.service';
 import { isFile, isFrame, isImage } from 'src/chat21-core/utils/utils-message';
@@ -53,6 +53,7 @@ export class IonConversationDetailComponent extends ConversationContentComponent
   MESSAGE_TYPE_INFO = MESSAGE_TYPE_INFO;
   MESSAGE_TYPE_MINE = MESSAGE_TYPE_MINE;
   MESSAGE_TYPE_OTHERS = MESSAGE_TYPE_OTHERS;
+  TYPE_MSG_EMAIL = TYPE_MSG_EMAIL;
   logger: LoggerService = LoggerInstance.getInstance()
   /**
    * Constructor

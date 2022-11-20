@@ -888,13 +888,13 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     this.logger.log('[CONVS-DETAIL] - returnSendMessage event', e, ' - conversationWith', this.conversationWith)
     try {
       let message = ''
-      if (e.message) {
-        message = e.message
+      if (e.msg) {
+        message = e.msg
       }
       const type = e.type
       const metadata = e.metadata
-
-      this.sendMessage(message, type, metadata)
+      const attributes = e.attributes
+      this.sendMessage(message, type, metadata, attributes)
     } catch (err) {
       this.logger.error('[CONVS-DETAIL] - returnSendMessage error: ', err)
     }

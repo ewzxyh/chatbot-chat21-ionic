@@ -11,7 +11,7 @@ import { LoaderPreviewPage } from 'src/app/modals/loader-preview/loader-preview.
 // Services 
 import { UploadService } from 'src/chat21-core/providers/abstract/upload.service';
 // utils
-import { TYPE_MSG_TEXT, TYPE_SUPPORT_GROUP } from 'src/chat21-core/utils/constants';
+import { TYPE_MSG_EMAIL, TYPE_MSG_TEXT, TYPE_SUPPORT_GROUP } from 'src/chat21-core/utils/constants';
 // Models
 import { UploadModel } from 'src/chat21-core/models/upload';
 import { Observable } from 'rxjs';
@@ -55,8 +55,8 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
   @Input() translationMap: Map<string, string>;
   @Input() dropEvent: any;
   @Input() disableTextarea: boolean;
-  @Output() eventChangeTextArea = new EventEmitter<object>();
-  @Output() eventSendMessage = new EventEmitter<object>();
+  @Output() eventChangeTextArea = new EventEmitter<{msg: string, offsetHeight: number}>();
+  @Output() eventSendMessage = new EventEmitter<{msg: string, type: string, metadata?: Object, attributes?: Object}>();
   @Output() onClickOpenCannedResponses = new EventEmitter<boolean>();
   @Output() onPresentModalScrollToBottom = new EventEmitter<boolean>();
   @Output() onOpenFooterSection = new EventEmitter<string>();
@@ -386,7 +386,7 @@ onMouseOverEmailSection(){
             //   messageString = metadata.name
             // }
 
-            that.eventSendMessage.emit({ message: messageString, type: type, metadata: metadata });
+            that.eventSendMessage.emit({ msg: messageString, type: type, metadata: metadata });
 
             that.fileInput.nativeElement.value = '';
             this.dropEvent = null
@@ -417,7 +417,15 @@ onMouseOverEmailSection(){
         backdropDismiss: true
       });
     modal.onDidDismiss().then((detail: any) => {
-      console.log('modal dismissedddd', detail)
+      this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] send Email detail returned-->', detail);
+      const form = detail.data.form
+      if (form&& form.message && form.message.trim() !== '') {
+        const text = '<b>' + form.subject + '</b>\r\n' + form.message
+        const attributes = {
+          channel: TYPE_MSG_EMAIL
+        }
+        this.eventSendMessage.emit({ msg: text, type: TYPE_MSG_TEXT, metadata: null, attributes: attributes });
+      }
     });
 
     return await modal.present();
@@ -555,7 +563,7 @@ onMouseOverEmailSection(){
     this.messageString = '';
     // text = text.replace(/(\r\n|\n|\r)/gm, '');
     if (text && text.trim() !== '') {
-      this.eventSendMessage.emit({ message: text, type: TYPE_MSG_TEXT });
+      this.eventSendMessage.emit({ msg: text, type: TYPE_MSG_TEXT });
     }
   }
 

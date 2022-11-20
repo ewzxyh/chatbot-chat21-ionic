@@ -45,6 +45,7 @@ export const TYPE_MSG_TEXT = 'text';
 export const TYPE_MSG_IMAGE = 'image';
 export const TYPE_MSG_FILE = 'file';
 export const TYPE_MSG_BUTTON = 'button';
+export const TYPE_MSG_EMAIL = 'email';
 
 export const MAX_WIDTH_IMAGES = 300;
 export const MIN_WIDTH_IMAGES = 130;

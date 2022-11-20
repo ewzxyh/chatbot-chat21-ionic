@@ -190,6 +190,23 @@ ion-item {
     .has-metadata {
         max-width: 100% !important;
     }
+
+    .email-logo{
+        background-color: var(--list-bkg-color);
+        position: relative;
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        justify-content: center;
+        bottom: -5px;
+        left: 9px;
+        z-index: 2;
+        width: 20px;
+        height: 16px;
+        border-radius: 3px;
+        color: rgb(135, 150, 175);
+    }
 }
 
 /** recive message **/

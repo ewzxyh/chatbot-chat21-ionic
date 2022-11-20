@@ -100,7 +100,13 @@
       </ng-container>
 
       <!--backgroundColor non viene ancora usato -->
-      <chat-bubble-message class="messages msg_sent" id="message_msg_sent" style="position: relative;" 
+      <div style="display: contents;">
+
+        <div class="email-logo" *ngIf="message.attributes.channel && message.attributes.channel === TYPE_MSG_EMAIL">
+          <ion-icon name="mail"></ion-icon>
+        </div>
+
+        <chat-bubble-message class="messages msg_sent" id="message_msg_sent" style="position: relative;" 
         [ngClass]="{'has-metadata': (isImage(message) || isFrame(message)), 'privateMsg': (message?.attributes && message?.attributes?.subtype === 'private')}" 
         [class.no-background]="(isImage(message) || isFrame(message)) && message?.text.trim() === '' "  
         [class.emoticon]="isEmojii(message?.text)"
@@ -114,6 +120,7 @@
         (onAfterMessageRender)="onAfterMessageRenderFN($event)" 
         (onElementRendered)="onElementRenderedFN($event)">
       </chat-bubble-message>
+      </div>
 
       <!-- icon status message -->
       <chat-return-receipt 
@@ -121,6 +128,8 @@
         [message]="message" 
         [senderId]="senderId">
       </chat-return-receipt>
+
+      
 
     </div>
 
