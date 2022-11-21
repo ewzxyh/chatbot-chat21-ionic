@@ -634,7 +634,9 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       "SUBJECT",
       "MESSAGE",
       "MESSAGE_PLACEHOLDER",
-      "LABEL_SEND"
+      "LABEL_SEND",
+      "SEND_EMAIL_SUCCESS",
+      "SEND_EMAIL_ERROR"
     ]
 
     const keysHeader = [
@@ -1190,6 +1192,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       }
 
       this.heightMessageTextArea = height.toString() //e.target.scrollHeight + 20;
+      this.scrollBottom(0)
       const message = e.msg
       this.logger.log('[CONVS-DETAIL] returnChangeTextArea heightMessageTextArea ', this.heightMessageTextArea)
 
