@@ -1668,48 +1668,50 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
   segmentNewAgentMessage(conversation: ConversationModel){
     let user = this.loggedUser
-    try {
-      window['analytics'].page("Chat Conversation Detail Page, Message Sent", {});
-    } catch (err) {
-      this.logger.error('Event:Message Sent [page] error', err);
-    }
-
-    try {
-      window['analytics'].identify(user.uid, {
-        name: user.firstname + ' ' + user.lastname,
-        email: user.email,
-        logins: 5,
-      });
-    } catch (err) {
-      this.logger.error('Event:Message Sent [identify] error', err);
-    }
-
-    try {
-      window['analytics'].track('Message Sent', {
-        "username": user.firstname + ' ' + user.lastname,
-        "userId": user.uid,
-        "conversation_id": conversation.uid,
-        "channel_type": conversation.channel_type,
-        "conversation_with": conversation.conversation_with,
-        "department_name":(conversation.channel_type !== TYPE_DIRECT)? conversation.attributes.departmentName: null,
-        "department_id":(conversation.channel_type !== TYPE_DIRECT)? conversation.attributes.departmentId: null,
-      },
-      {
-        "context": {
-          "groupId": (conversation.channel_type !== TYPE_DIRECT)? conversation.attributes.projectId: null
-        }
-      });
-    } catch (err) {
-      this.logger.error('Event:Message Sent [track] error', err);
-    }
-
-    try {
-      window['analytics'].group(conversation.attributes.projectId, {
-        name: (conversation.attributes.project_name)? conversation.attributes.project_name : null,
-        // plan: projectProfileName,
-      });
-    } catch (err) {
-      this.logger.error('Event:Message Sent [group] error', err);
+    if(window['analytics']){
+      try {
+        window['analytics'].page("Chat Conversation Detail Page, Message Sent", {});
+      } catch (err) {
+        this.logger.error('Event:Message Sent [page] error', err);
+      }
+  
+      try {
+        window['analytics'].identify(user.uid, {
+          name: user.firstname + ' ' + user.lastname,
+          email: user.email,
+          logins: 5,
+        });
+      } catch (err) {
+        this.logger.error('Event:Message Sent [identify] error', err);
+      }
+  
+      try {
+        window['analytics'].track('Message Sent', {
+          "username": user.firstname + ' ' + user.lastname,
+          "userId": user.uid,
+          "conversation_id": conversation.uid,
+          "channel_type": conversation.channel_type,
+          "conversation_with": conversation.conversation_with,
+          "department_name":(conversation.channel_type !== TYPE_DIRECT)? conversation.attributes.departmentName: null,
+          "department_id":(conversation.channel_type !== TYPE_DIRECT)? conversation.attributes.departmentId: null,
+        },
+        {
+          "context": {
+            "groupId": (conversation.channel_type !== TYPE_DIRECT)? conversation.attributes.projectId: null
+          }
+        });
+      } catch (err) {
+        this.logger.error('Event:Message Sent [track] error', err);
+      }
+  
+      try {
+        window['analytics'].group(conversation.attributes.projectId, {
+          name: (conversation.attributes.project_name)? conversation.attributes.project_name : null,
+          // plan: projectProfileName,
+        });
+      } catch (err) {
+        this.logger.error('Event:Message Sent [group] error', err);
+      }
     }
   }
   
