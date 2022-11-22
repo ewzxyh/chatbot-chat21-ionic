@@ -1,5 +1,8 @@
 # chat21-ionic ver 3.0
 
+## 3.0.84 in PROD
+- bug-fixed: handle window['analytics] errors
+
 ## 3.0.83 in PROD
 - bug-fixed: canned item is not visible (missing scroll position) if ArrowDown keyboard button is pressed
 - bug-fixed: if ArrowUp keyboard button is pressed, text-area cursor moved left and canned not substituted correctly
