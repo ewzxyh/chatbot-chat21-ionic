@@ -111,7 +111,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   public groupDetail: GroupModel
   public messageSelected: any
   public channelType: string
-  public online: boolean
+  public leadIsOnline: boolean
   public lastConnectionDate: string
   public showMessageWelcome: boolean
   public openInfoConversation = false
@@ -123,7 +123,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   public translationsHeaderMap: Map<string, string> = new Map() 
   public translationsContentMap: Map<string, string> = new Map()
   public conversationAvatar: any
-  public userHasEmail: boolean = false;
+  public leadInfo: {lead_id: string, hasEmail: boolean , email: string, projectId: string};
   public member: UserModel
   public isFileSelected: boolean
   public showIonContent = false
@@ -513,9 +513,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       }
     }
 
-    this.online = false
-    this.lastConnectionDate = ''
-
     // init handler vengono prima delle sottoscrizioni!
     // this.initConversationsHandler(); // nk
     if (this.conversationWith) {
@@ -524,6 +521,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       this.initConversationHandler()
       this.initGroupsHandler()
       this.initSubscriptions()
+      this.getLeadDetail()
     }
     this.addEventsKeyboard()
     this.startConversation()
@@ -817,6 +815,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
             conv.attributes['projectId'],
             conv.attributes['project_name']
           )
+          
         }
         if(!conv){
           this.logger.debug('[CONV-COMP] setHeaderContent getConversationDetail: conv not exist --> search in archived list', this.conversationWith, this.conv_type)
@@ -884,6 +883,24 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     // this.logger.log('[CONVS-DETAIL] - setHeaderContent > conversationAvatar: ', this.conversationAvatar);
   }
 
+
+  getLeadDetail(){
+    const tiledeskToken= this.tiledeskAuthService.getTiledeskToken();
+    const projectId = this.getProjectIdSelectedConversation(this.conversationWith)
+    this.logger.debug('[CONVS-DETAIL] onOpenFooterSection - section ', projectId, tiledeskToken)
+    this.tiledeskService.getRequest(this.conversationWith, projectId, tiledeskToken).subscribe((request: any)=>{
+      this.logger.debug('[CONVS-DETAIL] onOpenFooterSection - selected REQUEST detail', request)
+      if(request.lead && request.lead.email){
+        this.leadInfo = {lead_id: request.lead.lead_id, hasEmail: true, email: request.lead.email, projectId: projectId}
+        this.presenceService.userIsOnline(this.leadInfo.lead_id);
+      }
+    }, (error)=>{
+      this.logger.error('[CONVS-DETAIL] - onOpenFooterSection - GET REQUEST DETAIL - ERROR  ', error)
+    }, ()=>{
+      this.logger.debug('[CONVS-DETAIL] - onOpenFooterSection - GET REQUEST DETAIL * COMPLETE *')
+    })
+    
+  }
 
 
   returnSendMessage(e: any) {
@@ -963,7 +980,11 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         this.channelType,
         attributes,
       )
-
+      
+      if(!this.leadIsOnline){
+        // sendMessageAsEmail
+        // this.tiledeskService.sendEmail()
+      }
       isDevMode()? null : this.segmentNewAgentMessage(this.conversation)
     }
   }
@@ -1039,6 +1060,23 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         }
       });
       const subscribe = {key: subscriptionKey, value: subscription };
+      this.subscriptions.push(subscribe);
+    }
+
+    subscriptionKey = 'BSIsOnline';
+    subscription = this.subscriptions.find(item => item.key === subscriptionKey);
+    if (!subscription) {
+      subscription = this.presenceService.BSIsOnline.subscribe((data: any) => {
+        this.logger.log('[USER-PRESENCE-COMP] $subs to BSIsOnline - data ', data);
+        if (data) {
+          const userId = data.uid;
+          const isOnline = data.isOnline;
+          if (this.leadInfo.lead_id === userId) {
+            this.leadIsOnline = isOnline;
+          }
+        }
+      });
+      const subscribe = { key: subscriptionKey, value: subscription };
       this.subscriptions.push(subscribe);
     }
 
@@ -1584,20 +1622,9 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   }
 
   onOpenFooterSection(event: string){
-    const tiledeskToken= this.tiledeskAuthService.getTiledeskToken();
-    const projectId = this.getProjectIdSelectedConversation(this.conversationWith)
     this.logger.debug('[CONVS-DETAIL] onOpenFooterSection - section ', event)
     if(event === 'email'){
-      this.tiledeskService.getRequest(this.conversationWith, projectId, tiledeskToken).subscribe((request: any)=>{
-        this.logger.debug('[CONVS-DETAIL] onOpenFooterSection - selected REQUEST detail', request)
-        if(request.lead && request.lead.email){
-          this.userHasEmail = true
-        }
-      }, (error)=>{
-        this.logger.error('[CONVS-DETAIL] - onOpenFooterSection - GET REQUEST DETAIL - ERROR  ', error)
-      }, ()=>{
-        this.logger.debug('[CONVS-DETAIL] - onOpenFooterSection - GET REQUEST DETAIL * COMPLETE *')
-      })
+      this.getLeadDetail()
     }
   }
 
@@ -1804,48 +1831,50 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
   segmentNewAgentMessage(conversation: ConversationModel){
     let user = this.loggedUser
-    try {
-      window['analytics'].page("Chat Conversation Detail Page, Message Sent", {});
-    } catch (err) {
-      this.logger.error('Event:Message Sent [page] error', err);
-    }
-
-    try {
-      window['analytics'].identify(user.uid, {
-        name: user.firstname + ' ' + user.lastname,
-        email: user.email,
-        logins: 5,
-      });
-    } catch (err) {
-      this.logger.error('Event:Message Sent [identify] error', err);
-    }
-
-    try {
-      window['analytics'].track('Message Sent', {
-        "username": user.firstname + ' ' + user.lastname,
-        "userId": user.uid,
-        "conversation_id": conversation.uid,
-        "channel_type": conversation.channel_type,
-        "conversation_with": conversation.conversation_with,
-        "department_name":(conversation.channel_type !== TYPE_DIRECT)? conversation.attributes.departmentName: null,
-        "department_id":(conversation.channel_type !== TYPE_DIRECT)? conversation.attributes.departmentId: null,
-      },
-      {
-        "context": {
-          "groupId": (conversation.channel_type !== TYPE_DIRECT)? conversation.attributes.projectId: null
-        }
-      });
-    } catch (err) {
-      this.logger.error('Event:Message Sent [track] error', err);
-    }
-
-    try {
-      window['analytics'].group(conversation.attributes.projectId, {
-        name: (conversation.attributes.project_name)? conversation.attributes.project_name : null,
-        // plan: projectProfileName,
-      });
-    } catch (err) {
-      this.logger.error('Event:Message Sent [group] error', err);
+    if(window['analytics']){
+      try {
+        window['analytics'].page("Chat Conversation Detail Page, Message Sent", {});
+      } catch (err) {
+        this.logger.error('Event:Message Sent [page] error', err);
+      }
+  
+      try {
+        window['analytics'].identify(user.uid, {
+          name: user.firstname + ' ' + user.lastname,
+          email: user.email,
+          logins: 5,
+        });
+      } catch (err) {
+        this.logger.error('Event:Message Sent [identify] error', err);
+      }
+  
+      try {
+        window['analytics'].track('Message Sent', {
+          "username": user.firstname + ' ' + user.lastname,
+          "userId": user.uid,
+          "conversation_id": conversation.uid,
+          "channel_type": conversation.channel_type,
+          "conversation_with": conversation.conversation_with,
+          "department_name":(conversation.channel_type !== TYPE_DIRECT)? conversation.attributes.departmentName: null,
+          "department_id":(conversation.channel_type !== TYPE_DIRECT)? conversation.attributes.departmentId: null,
+        },
+        {
+          "context": {
+            "groupId": (conversation.channel_type !== TYPE_DIRECT)? conversation.attributes.projectId: null
+          }
+        });
+      } catch (err) {
+        this.logger.error('Event:Message Sent [track] error', err);
+      }
+  
+      try {
+        window['analytics'].group(conversation.attributes.projectId, {
+          name: (conversation.attributes.project_name)? conversation.attributes.project_name : null,
+          // plan: projectProfileName,
+        });
+      } catch (err) {
+        this.logger.error('Event:Message Sent [group] error', err);
+      }
     }
   }
 
