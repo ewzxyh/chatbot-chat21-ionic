@@ -983,49 +983,51 @@ export class ConversationListPage implements OnInit {
 
   private segmentNewConversationAdded(conversation: ConversationModel){
     let user = this.tiledeskAuthService.getCurrentUser()
-    try {
-      window['analytics'].page("Chat List Conversations Page, Agent added to conversation", {});
-    } catch (err) {
-      this.logger.error('Event:Agent added to conversation [page] error', err);
-    }
-
-    try {
-      window['analytics'].identify(user.uid, {
-        name: user.firstname + ' ' + user.lastname,
-        email: user.email,
-        logins: 5,
-      });
-    } catch (err) {
-      this.logger.error('Event:Agent added to conversation [identify] error', err);
-    }
-
-    try {
-      window['analytics'].track('Agent added to conversation', {
-        "username": user.firstname + ' ' + user.lastname,
-        "userId": user.uid,
-        "conversation_id": conversation.uid,
-        "channel_type": conversation.channel_type,
-        "conversation_with": conversation.conversation_with,
-        "project_id":(conversation.channel_type !== TYPE_DIRECT)? conversation.uid.split('-')[2]: null,
-        "project_name":(conversation.channel_type !== TYPE_DIRECT && conversation.attributes && conversation.attributes.departmentId)? conversation.attributes.departmentId: null,
-      },
-      {
-        "context": {
-          "groupId": (conversation.channel_type !== TYPE_DIRECT)? conversation.uid.split('-')[2]: null
-        }
-      });
-    } catch (err) {
-      this.logger.error('Event:Agent added to conversation [track] error', err);
-    }
-
-    if(conversation.channel_type !== TYPE_DIRECT){
+    if(window['analytics']){
       try {
-        window['analytics'].group(conversation.uid.split('-')[2], {
-          name: (conversation.attributes && conversation.attributes.project_name)? conversation.attributes.project_name : null,
-          // plan: projectProfileName,
+        window['analytics'].page("Chat List Conversations Page, Agent added to conversation", {});
+      } catch (err) {
+        this.logger.error('Event:Agent added to conversation [page] error', err);
+      }
+  
+      try {
+        window['analytics'].identify(user.uid, {
+          name: user.firstname + ' ' + user.lastname,
+          email: user.email,
+          logins: 5,
         });
       } catch (err) {
-        this.logger.error('Event:Agent added to conversation [group] error', err);
+        this.logger.error('Event:Agent added to conversation [identify] error', err);
+      }
+  
+      try {
+        window['analytics'].track('Agent added to conversation', {
+          "username": user.firstname + ' ' + user.lastname,
+          "userId": user.uid,
+          "conversation_id": conversation.uid,
+          "channel_type": conversation.channel_type,
+          "conversation_with": conversation.conversation_with,
+          "project_id":(conversation.channel_type !== TYPE_DIRECT)? conversation.uid.split('-')[2]: null,
+          "project_name":(conversation.channel_type !== TYPE_DIRECT && conversation.attributes && conversation.attributes.departmentId)? conversation.attributes.departmentId: null,
+        },
+        {
+          "context": {
+            "groupId": (conversation.channel_type !== TYPE_DIRECT)? conversation.uid.split('-')[2]: null
+          }
+        });
+      } catch (err) {
+        this.logger.error('Event:Agent added to conversation [track] error', err);
+      }
+  
+      if(conversation.channel_type !== TYPE_DIRECT){
+        try {
+          window['analytics'].group(conversation.uid.split('-')[2], {
+            name: (conversation.attributes && conversation.attributes.project_name)? conversation.attributes.project_name : null,
+            // plan: projectProfileName,
+          });
+        } catch (err) {
+          this.logger.error('Event:Agent added to conversation [group] error', err);
+        }
       }
     }
   }

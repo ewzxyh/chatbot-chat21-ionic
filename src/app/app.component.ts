@@ -1359,116 +1359,122 @@ export class AppComponent implements OnInit {
 
   private segmentSignIn(){
     let user = this.tiledeskAuthService.getCurrentUser()
-    try {
-      window['analytics'].page("Chat Auth Page, Signin", {});
-    } catch (err) {
-      this.logger.error('Event:Signed In [page] error', err);
-    }
-
-    try {
-      window['analytics'].identify(user.uid, {
-        name: user.firstname + ' ' + user.lastname,
-        email: user.email,
-        logins: 5,
-
-      });
-    } catch (err) {
-      this.logger.error('Event:Signed In [identify] error', err);
-    }
-    // Segments
-    try {
-      window['analytics'].track('Signed In', {
-        "username": user.firstname + ' ' + user.lastname,
-        "userId": user.uid
-      });
-    } catch (err) {
-      this.logger.error('Event:Signed In [track] error', err);
+    if(window['analytics']){
+      try {
+        window['analytics'].page("Chat Auth Page, Signin", {});
+      } catch (err) {
+        this.logger.error('Event:Signed In [page] error', err);
+      }
+  
+      try {
+        window['analytics'].identify(user.uid, {
+          name: user.firstname + ' ' + user.lastname,
+          email: user.email,
+          logins: 5,
+  
+        });
+      } catch (err) {
+        this.logger.error('Event:Signed In [identify] error', err);
+      }
+      // Segments
+      try {
+        window['analytics'].track('Signed In', {
+          "username": user.firstname + ' ' + user.lastname,
+          "userId": user.uid
+        });
+      } catch (err) {
+        this.logger.error('Event:Signed In [track] error', err);
+      }
     }
   }
 
 
   private segmentSignedOut(){
     let user = this.tiledeskAuthService.getCurrentUser()
-    try {
-      window['analytics'].page("Chat Auth Page, Signed Out", {});
-    } catch (err) {
-      this.logger.error('Event:Signed Out [page] error', err);
-    }
-
-    try {
-      window['analytics'].identify(user.uid, {
-        name: user.firstname + ' ' + user.lastname,
-        email: user.email,
-        logins: 5,
-
-      });
-    } catch (err) {
-      this.logger.error('Event:Signed Out [identify] error', err);
-    }
-
-    try {
-      window['analytics'].track('Signed Out', {
-        "username": user.firstname + ' ' + user.lastname,
-        "userId": user.uid
-      });
-    } catch (err) {
-      this.logger.error('Event:Signed Out [track] error', err);
-    }
-
-    try {
-      // setTimeout(() => {
-      window['analytics'].reset()
-      // }, 0);
-    } catch (err) {
-      this.logger.error('Event:reset error', err);
+    if(window['analytics']){
+      try {
+        window['analytics'].page("Chat Auth Page, Signed Out", {});
+      } catch (err) {
+        this.logger.error('Event:Signed Out [page] error', err);
+      }
+  
+      try {
+        window['analytics'].identify(user.uid, {
+          name: user.firstname + ' ' + user.lastname,
+          email: user.email,
+          logins: 5,
+  
+        });
+      } catch (err) {
+        this.logger.error('Event:Signed Out [identify] error', err);
+      }
+  
+      try {
+        window['analytics'].track('Signed Out', {
+          "username": user.firstname + ' ' + user.lastname,
+          "userId": user.uid
+        });
+      } catch (err) {
+        this.logger.error('Event:Signed Out [track] error', err);
+      }
+  
+      try {
+        // setTimeout(() => {
+        window['analytics'].reset()
+        // }, 0);
+      } catch (err) {
+        this.logger.error('Event:reset error', err);
+      }
     }
   }
 
   private segmentResolved(conversation: ConversationModel){
     let user = this.tiledeskAuthService.getCurrentUser();
-    try {
-      window['analytics'].page("Chat List Conversations Page, Chat Resolved", {});
-    } catch (err) {
-      this.logger.error('Event:Chat Resolved [page] error', err);
-    }
-
-    try {
-      window['analytics'].identify(user.uid, {
-        name: user.firstname + ' ' + user.lastname,
-        email: user.email,
-        logins: 5,
-
-      });
-    } catch (err) {
-      this.logger.error('Event:Chat Resolved [identify] error', err);
-    }
-
-    try {
-      window['analytics'].track('Chat Resolved', {
-        "username": user.firstname + ' ' + user.lastname,
-        "userId": user.uid,
-        "conversation_id": conversation.uid,
-        "channel_type": conversation.channel_type,
-        "conversation_with":(conversation.channel_type !== TYPE_DIRECT)? null: conversation.conversation_with,
-        "department_name":(conversation.channel_type !== TYPE_DIRECT)? conversation.attributes.departmentName: null,
-        "department_id":(conversation.channel_type !== TYPE_DIRECT)? conversation.attributes.departmentId: null
-      },
-      { "context": {
-          "groupId": (conversation.channel_type !== TYPE_DIRECT)? conversation.attributes.projectId: null
-        }
-      });
-    } catch (err) {
-      this.logger.error('Event:Chat Resolved [track] error', err);
-    }
-
-    if(conversation.channel_type !== TYPE_DIRECT){
+    if(window['analytics']){
       try {
-        window['analytics'].group(conversation.attributes.projectId, {
-          name: (conversation.attributes.project_name)? conversation.attributes.project_name : null,
-          // plan: projectProfileName,
+        window['analytics'].page("Chat List Conversations Page, Chat Resolved", {});
+      } catch (err) {
+        this.logger.error('Event:Chat Resolved [page] error', err);
+      }
+  
+      try {
+        window['analytics'].identify(user.uid, {
+          name: user.firstname + ' ' + user.lastname,
+          email: user.email,
+          logins: 5,
+  
         });
       } catch (err) {
-        this.logger.error('Event:Chat Resolved [group] error', err);
+        this.logger.error('Event:Chat Resolved [identify] error', err);
+      }
+  
+      try {
+        window['analytics'].track('Chat Resolved', {
+          "username": user.firstname + ' ' + user.lastname,
+          "userId": user.uid,
+          "conversation_id": conversation.uid,
+          "channel_type": conversation.channel_type,
+          "conversation_with":(conversation.channel_type !== TYPE_DIRECT)? null: conversation.conversation_with,
+          "department_name":(conversation.channel_type !== TYPE_DIRECT)? conversation.attributes.departmentName: null,
+          "department_id":(conversation.channel_type !== TYPE_DIRECT)? conversation.attributes.departmentId: null
+        },
+        { "context": {
+            "groupId": (conversation.channel_type !== TYPE_DIRECT)? conversation.attributes.projectId: null
+          }
+        });
+      } catch (err) {
+        this.logger.error('Event:Chat Resolved [track] error', err);
+      }
+  
+      if(conversation.channel_type !== TYPE_DIRECT){
+        try {
+          window['analytics'].group(conversation.attributes.projectId, {
+            name: (conversation.attributes.project_name)? conversation.attributes.project_name : null,
+            // plan: projectProfileName,
+          });
+        } catch (err) {
+          this.logger.error('Event:Chat Resolved [group] error', err);
+        }
       }
     }
   }
