@@ -26,7 +26,7 @@
       <ion-label class="message-placeholder">{{translationMap?.get('MESSAGE')}}</ion-label>
       <div class="field-wrapper-email">
         <ion-textarea 
-          formControlName="message"
+          formControlName="text"
           autosize="false" 
           auto-grow="true" 
           autofocus="true" 
@@ -39,7 +39,7 @@
       </div>
 
       <div class="field-wrapper-submit">
-        <ion-button ion-button fill="clear" type="submit">{{translationMap?.get('LABEL_SEND')}}</ion-button>
+        <ion-button [disabled]="emailFormGroup.invalid" ion-button fill="clear" type="submit">{{translationMap?.get('LABEL_SEND')}}</ion-button>
       </div>
     </form>
   </div>

@@ -1,8 +1,11 @@
+import { TiledeskAuthService } from 'src/chat21-core/providers/tiledesk/tiledesk-auth.service';
+import { TiledeskService } from 'src/app/services/tiledesk/tiledesk.service';
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
+import { ModalController, ToastController } from '@ionic/angular';
 import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service';
 import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance';
+import { UserModel } from 'src/chat21-core/models/user';
 
 @Component({
   selector: 'send-email-modal',
@@ -12,8 +15,11 @@ import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance'
 export class SendEmailModal implements OnInit {
 
   @Input() enableBackdropDismiss: any
-  @Input() translationMap: Map<string, string>;
+  @Input() conversationWith: string;
   @Input() msg: string;
+  @Input() email: string;
+  @Input() projectId: string;
+  @Input() translationMap: Map<string, string>;
   @Output() onSubmitForm = new EventEmitter<{}>();
 
   @ViewChild('div_input_topic', {static: true}) input_topic: ElementRef;
@@ -24,6 +30,9 @@ export class SendEmailModal implements OnInit {
   constructor(
     public viewCtrl: ModalController,
     private formBuilder: FormBuilder,
+    private tiledeskService: TiledeskService,
+    private tiledeskAuthService: TiledeskAuthService,
+    private toastController: ToastController
   ) { }
 
   ngOnInit() {
@@ -40,7 +49,9 @@ export class SendEmailModal implements OnInit {
   buildFormGroup(): FormGroup{
     return this.formBuilder.group({
       subject: ['', [Validators.required]],
-      message: ['', Validators.required]
+      text: ['', Validators.required],
+      to: this.email,
+      request_id: this.conversationWith
     })
   }
   async onClose() {
@@ -48,8 +59,31 @@ export class SendEmailModal implements OnInit {
   }
 
   onSubmit(){
-    this.logger.log('[SEND-EMAIL-MODAL] onSubmit -->',this.emailFormGroup.value)
-    this.viewCtrl.dismiss({form: this.emailFormGroup.value})
+    this.logger.log('[SEND-EMAIL-MODAL] onSubmit -->',this.emailFormGroup)
+    const tiledeskToken = this.tiledeskAuthService.getTiledeskToken()
+    this.tiledeskService.sendEmail(tiledeskToken, this.projectId, this.emailFormGroup.value).subscribe((res)=> {
+      console.log('[SEND-EMAIL-MODAL] subscribe to sendEmail API response -->', res)
+      if(res && res.queued){
+        this.viewCtrl.dismiss({form: this.emailFormGroup.value})
+        this.presentToast(this.translationMap.get('SEND_EMAIL_SUCCESS'), 'success')
+      }
+    },(error)=> {
+      this.logger.error('[SEND-EMAIL-MODAL] subscribe to sendEmail API CALL  - ERROR  ', error)
+      this.presentToast(this.translationMap.get('SEND_EMAIL_ERROR'), 'danger')
+    }, ()=> {
+      this.logger.log('[SEND-EMAIL-MODAL] subscribe to sendEmail API CALL /* COMPLETE */')
+    })
+    
+  }
+
+  async presentToast(text, color) {
+    const toast = await this.toastController.create({
+      message: text,
+      duration: 2000,
+      color: color,
+      // position: 'bottom'
+    });
+    toast.present();
   }
 
 }

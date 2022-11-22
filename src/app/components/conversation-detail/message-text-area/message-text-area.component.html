@@ -18,8 +18,8 @@
 
   <ion-row id="message-email" [style.display]="section==='email'? 'flex': 'none'">
     <ion-col col-auto>
-      <div *ngIf="userHasEmail" class="placeholder" (click)="onOpenEmailModal()">{{translationMap.get('EMAIL_PLACEHOLDER')}}</div>
-      <div *ngIf="!userHasEmail" class="placeholder noEmail">{{translationMap.get('EMAIL_NOT_FOUND_PLACEHOLDER')}}</div>
+      <div *ngIf="leadInfo?.hasEmail" class="placeholder" (click)="onOpenEmailModal()">{{translationMap.get('EMAIL_PLACEHOLDER')}}</div>
+      <div *ngIf="!leadInfo?.hasEmail" class="placeholder noEmail">{{translationMap.get('EMAIL_NOT_FOUND_PLACEHOLDER')}}</div>
     </ion-col>
   </ion-row>
 

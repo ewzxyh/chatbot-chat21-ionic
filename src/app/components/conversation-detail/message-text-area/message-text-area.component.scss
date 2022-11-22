@@ -24,6 +24,7 @@
             --padding-start: 0px;
             --ripple-color: transparent;
             text-transform: unset;
+            height: 25px;
             &.active{
                 color: var(--basic-blue);
             }

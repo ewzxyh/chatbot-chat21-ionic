@@ -49,7 +49,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
   @Input() tagsCannedCount: number;
   @Input() areVisibleCAR: boolean;
   @Input() supportMode: boolean;
-  @Input() userHasEmail: boolean;
+  @Input() leadInfo: {lead_id: string, hasEmail: boolean, email: string, projectId: string};
   @Input() fileUploadAccept: string
   @Input() isOpenInfoConversation: boolean;
   @Input() translationMap: Map<string, string>;
@@ -122,8 +122,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
     public uploadService: UploadService,
     public toastController: ToastController,
     private renderer: Renderer2,
-    public eventsService: EventsService,
-    public tiledeskService: TiledeskService
+    public eventsService: EventsService
   ) { }
 
   // ---------------------------------------------------------
@@ -209,11 +208,6 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
     // this.getIfTexareaIsEmpty('onResize')
     //  console.log("[CONVS-DETAIL][MSG-TEXT-AREA]  event.target.innerWidth; ", event.target.innerWidth);
   }
-
-onMouseOverEmailSection(){
-  console.log('onMouseOverEmailSectionnnn', this.userHasEmail)
-  this.onOpenFooterSection.emit('email')
-}
 
 
   onPaste(event: any) {
@@ -408,7 +402,13 @@ onMouseOverEmailSection(){
 
   private async presentEmailModal(): Promise<any>{
     this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] openEmailModal');
-    const attributes = { enableBackdropDismiss: false, msg: this.messageString, translationMap: this.translationMap};
+    const attributes = { 
+      enableBackdropDismiss: false, 
+      conversationWith: this.conversationWith, 
+      msg: this.messageString,
+      email: this.leadInfo.email,
+      projectId: this.leadInfo.projectId,
+      translationMap: this.translationMap};
     const modal: HTMLIonModalElement =
       await this.modalController.create({
         component: SendEmailModal,
@@ -420,7 +420,7 @@ onMouseOverEmailSection(){
       this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] send Email detail returned-->', detail);
       const form = detail.data.form
       if (form&& form.message && form.message.trim() !== '') {
-        const text = '<b>' + form.subject + '</b>\r\n' + form.message
+        const text = '**' + form.subject + '**\r\n' + form.message
         const attributes = {
           channel: TYPE_MSG_EMAIL
         }
@@ -439,7 +439,8 @@ onMouseOverEmailSection(){
     const message = e.detail.value
     this.logger.log("[CONVS-DETAIL] [MSG-TEXT-AREA] ionChange message ", message);
     // this.logger.log("[CONVS-DETAIL] [MSG-TEXT-AREA] ionChange  this.messageString ", this.messageString);
-    const height = e.target.offsetHeight + 20; // nk added +20
+    const footerSelectionHeight = 33 
+    const height = e.target.offsetHeight + footerSelectionHeight + 20; // nk added +20
     // this.logger.log("[CONVS-DETAIL] [MSG-TEXT-AREA] ionChange text-area height ", height);
     // this.getIfTexareaIsEmpty('ionChange')
     try {
