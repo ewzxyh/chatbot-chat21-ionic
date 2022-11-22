@@ -71,7 +71,6 @@ export class TiledeskService {
     }))
   }
 
-  // http://tiledesk-server-pre.herokuapp.com/requests_util/lookup/id_project/support-group-60ffe291f725db00347661ef-b4cb6875785c4a23b27244fe498eecf44
   public getProjectIdByConvRecipient(token: string ,conversationWith: string ) {
     const lookupUrl = this.apiUrl + 'requests_util/lookup/id_project/' + conversationWith;
 
@@ -245,7 +244,7 @@ export class TiledeskService {
     // -----------------------------------------------------------------------------------------
   // @ Create ticket
   // -----------------------------------------------------------------------------------------
-  createInternalRequest(requester_id: string, request_id: string, subject: string, message: string, departmentid: string, participantid: string, ticketpriority: string, project_id: string, token: string) {
+  public createInternalRequest(requester_id: string, request_id: string, subject: string, message: string, departmentid: string, participantid: string, ticketpriority: string, project_id: string, token: string) {
     
     const url = this.apiUrl + project_id + '/requests/' + request_id + '/messages'
     this.logger.log('[WS-REQUESTS-SERV] - CREATE INTERNAL REQUEST URL ', url)
@@ -272,7 +271,28 @@ export class TiledeskService {
       return res
     }))
   }
+
+  public sendEmail(token: string, projectid: string, form: { to: string, subject: string, text: string, request_id: string}) {
+    
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: token
+      })
+    };
+
+    const body = form;
+
+    const url = this.apiUrl + projectid + '/emails/send';
+    this.logger.log('[TILEDESK-SERVICE] - sendEmail URL ', url);
+    return this.http.post(url, body, httpOptions).pipe(map((res: any) => {
+        this.logger.log('[TILEDESK-SERVICE] - sendEmail - RES ', res);
+        return res
+    }))
+  }
   
+
 
   
 
