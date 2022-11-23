@@ -44,7 +44,7 @@ export class HeaderConversationDetailComponent implements OnInit, OnChanges {
   borderColor = '#ffffff'
   fontColor = '#949494'
   platformName: string
-  conv_closed: boolean = false;
+  // conv_closed: boolean = false;
   IS_ON_IOS_MOBILE_DEVICE: boolean
   private logger: LoggerService = LoggerInstance.getInstance()
 
@@ -71,7 +71,7 @@ export class HeaderConversationDetailComponent implements OnInit, OnChanges {
     this.logger.log('[CONVS-DETAIL][HEADER] - (ngOnInit) - idLoggedUser', this.idLoggedUser,)
     this.logger.log('[CONVS-DETAIL][HEADER] - (ngOnInit) - conversationAvatar', this.conversationAvatar,)
     this.logger.log('[CONVS-DETAIL][HEADER] - (ngOnInit) -  conv_type', this.conv_type)
-    this.listenToConversationHasBeenClosed()
+    // this.listenToConversationHasBeenClosed()
     // this.isOniOSMobileDevice()
   }
 
@@ -114,20 +114,20 @@ export class HeaderConversationDetailComponent implements OnInit, OnChanges {
     }
   }
 
-  closeConversation() {
-    this.logger.log('[CONVS-DETAIL][HEADER] click on RESOLVE this.events', this.events) 
-    this.events.publish('conversation:closed', this.conversationUid)
-  }
+  // closeConversation() {
+  //   this.logger.log('[CONVS-DETAIL][HEADER] click on RESOLVE this.events', this.events) 
+  //   this.events.publish('conversation:closed', this.conversationUid)
+  // }
 
-  listenToConversationHasBeenClosed() {
-    this.events.subscribe('conversationhasbeenclosed', (convId) => {
-      // console.log('[CONVS-DETAIL][HEADER] conversationhasbeenclosed  convId', convId)
-      if (convId === this.conversationUid) {
-        this.logger.log('[CONVS-DETAIL][HEADER] the conversation was closed',)
-        this.conv_closed = true;
-      }
-    });
-  }
+  // listenToConversationHasBeenClosed() {
+  //   this.events.subscribe('conversationhasbeenclosed', (convId) => {
+  //     // console.log('[CONVS-DETAIL][HEADER] conversationhasbeenclosed  convId', convId)
+  //     if (convId === this.conversationUid) {
+  //       this.logger.log('[CONVS-DETAIL][HEADER] the conversation was closed',)
+  //       this.conv_closed = true;
+  //     }
+  //   });
+  // }
 
   /** */
   pushPage(event) { }
