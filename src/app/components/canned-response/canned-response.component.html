@@ -5,8 +5,8 @@
       *ngFor="let canned of tagsCannedFilter; let i = index;"
       (click)="onClickCannedFN(canned, $event)">
       <div class="cannedContent">
-        <ion-input [(ngModel)]="canned.title" class="title" id="{{'titleCanned_'+canned._id}}" [class.readonly]="canned?.disabled"></ion-input>
-        <ion-input [(ngModel)]="canned.text" *ngIf="canned.text" class="text truncate" [class.readonly]="canned?.disabled"></ion-input>
+        <ion-input [(ngModel)]="canned.title" class="title" id="{{'titleCanned_'+canned._id}}" [class.readonly]="canned?.disabled" [readonly]="canned?.disabled"></ion-input>
+        <ion-input [(ngModel)]="canned.text" *ngIf="canned.text" class="text truncate" [class.readonly]="canned?.disabled" [readonly]="canned?.disabled"></ion-input>
       </div>
       <ion-icon class="canned-item-icon"  name="checkmark-sharp" slot=end *ngIf="canned.createdBy === loggedUser.uid && !canned.disabled" (click)="onConfirmEditCanned(canned, $event)"></ion-icon>
       <ion-icon class="canned-item-icon"  name="pencil-sharp" slot=end *ngIf="canned.createdBy === loggedUser.uid && canned.disabled" (click)="onEditCanned(canned, $event)"></ion-icon>
