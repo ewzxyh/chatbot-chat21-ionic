@@ -210,17 +210,13 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     public archivedConversationsHandlerService: ArchivedConversationsHandlerService,
     public conversationHandlerService: ConversationHandlerService,
     public groupService: GroupsHandlerService,
-    public contactsService: ContactsService,
     public conversationHandlerBuilderService: ConversationHandlerBuilderService,
     public cannedResponsesService: CannedResponsesService,
-    public imageRepoService: ImageRepoService,
     public presenceService: PresenceService,
     public toastController: ToastController,
     public tiledeskService: TiledeskService,
     private networkService: NetworkService,
     private events: EventsService,
-    private renderer: Renderer2,
-    private el: ElementRef
   ) {
     // Change list on date change
     this.route.paramMap.subscribe((params) => {
