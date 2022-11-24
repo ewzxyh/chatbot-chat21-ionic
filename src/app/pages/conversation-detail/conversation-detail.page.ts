@@ -634,7 +634,9 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       "MESSAGE_PLACEHOLDER",
       "LABEL_SEND",
       "SEND_EMAIL_SUCCESS",
-      "SEND_EMAIL_ERROR"
+      "SEND_EMAIL_ERROR",
+      "SUBJECT_OFFLINE_MESSAGE",
+      "SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE"
     ]
 
     const keysHeader = [
@@ -887,21 +889,41 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   getLeadDetail(){
     const tiledeskToken= this.tiledeskAuthService.getTiledeskToken();
     const projectId = this.getProjectIdSelectedConversation(this.conversationWith)
-    this.logger.debug('[CONVS-DETAIL] onOpenFooterSection - section ', projectId, tiledeskToken)
+    this.logger.debug('[CONVS-DETAIL] getLeadDetail - section ', projectId)
     this.tiledeskService.getRequest(this.conversationWith, projectId, tiledeskToken).subscribe((request: any)=>{
-      this.logger.debug('[CONVS-DETAIL] onOpenFooterSection - selected REQUEST detail', request)
+      this.logger.debug('[CONVS-DETAIL] getLeadDetail - selected REQUEST detail', request)
       if(request.lead && request.lead.email){
         this.leadInfo = {lead_id: request.lead.lead_id, hasEmail: true, email: request.lead.email, projectId: projectId}
         this.presenceService.userIsOnline(this.leadInfo.lead_id);
       }
     }, (error)=>{
-      this.logger.error('[CONVS-DETAIL] - onOpenFooterSection - GET REQUEST DETAIL - ERROR  ', error)
+      this.logger.error('[CONVS-DETAIL] - getLeadDetail - GET REQUEST DETAIL - ERROR  ', error)
     }, ()=>{
-      this.logger.debug('[CONVS-DETAIL] - onOpenFooterSection - GET REQUEST DETAIL * COMPLETE *')
+      this.logger.debug('[CONVS-DETAIL] - getLeadDetail - GET REQUEST DETAIL * COMPLETE *')
     })
     
   }
 
+  sendEmail(message: string){
+    const tiledeskToken= this.tiledeskAuthService.getTiledeskToken();
+    const emailFormGroup = {
+      to: this.leadInfo.email,
+      subject: this.translationsMap.get('SUBJECT_OFFLINE_MESSAGE'),
+      text: message,
+      request_id: this.conversationWith
+    }
+    this.tiledeskService.sendEmail(tiledeskToken, this.leadInfo.projectId, emailFormGroup).subscribe((res)=> {
+      console.log('[SEND-EMAIL-MODAL] subscribe to sendEmail API response -->', res)
+      if(res && res.queued){
+        this.presentToast(this.translationsMap.get('SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE'), 'success', '', 2000)
+      }
+    },(error)=> {
+      this.logger.error('[SEND-EMAIL-MODAL] subscribe to sendEmail API CALL  - ERROR  ', error)
+      this.presentToast(this.translationsMap.get('SEND_EMAIL_ERROR'), 'danger', '', 2000)
+    }, ()=> {
+      this.logger.log('[SEND-EMAIL-MODAL] subscribe to sendEmail API CALL /* COMPLETE */')
+    })
+  }
 
   returnSendMessage(e: any) {
     this.logger.log('[CONVS-DETAIL] - returnSendMessage event', e, ' - conversationWith', this.conversationWith)
@@ -981,9 +1003,9 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         attributes,
       )
       
-      if(!this.leadIsOnline){
-        // sendMessageAsEmail
-        // this.tiledeskService.sendEmail()
+      if(!this.leadIsOnline && this.leadInfo.email){
+        this.logger.log('[CONVS-DETAIL] - SEND MESSAGE --> SENDING EMAIL', msg, this.leadInfo.email)
+        this.sendEmail(msg)
       }
       isDevMode()? null : this.segmentNewAgentMessage(this.conversation)
     }
@@ -1071,7 +1093,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         if (data) {
           const userId = data.uid;
           const isOnline = data.isOnline;
-          if (this.leadInfo.lead_id === userId) {
+          if (this.leadInfo && this.leadInfo.lead_id === userId) {
             this.leadIsOnline = isOnline;
           }
         }
@@ -1132,8 +1154,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         this.conversation.attributes['projectId'],
         this.conversation.attributes['project_name']
       )
-      this.conversation.attributes['requester']['fullName']= userFullname
-      
     }
     if (msg.attributes && msg.attributes['updateUserEmail']) {
       const userEmail = msg.attributes['updateUserEmail'];
@@ -1146,6 +1166,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         this.conversation.attributes['projectId'],
         this.conversation.attributes['project_name']
       )
+      this.getLeadDetail()
       
     }
   }
@@ -1907,7 +1928,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         this.handleDropEvent(ev)
       } else {
         this.logger.log( '[CONVS-DETAIL] ----> FILE - DROP mimeType files ', mimeType,'NOT SUPPORTED FILE TYPE')
-        this.presentToastOnlyImageFilesAreAllowedToDrag()
+        this.presentToast(this.translationsMap.get('FAILED_TO_UPLOAD_THE_FORMAT_IS_NOT_SUPPORTED'), 'danger','toast-custom-class', 5000 )
+        // this.presentToastOnlyImageFilesAreAllowedToDrag()
       }
     }
   }
@@ -1935,14 +1957,15 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     this.logger.log('[CONVS-DETAIL] ----> FILE - FILE - (dragleave) drag his.isHovering ',this.isHovering)
   }
 
-  async presentToastOnlyImageFilesAreAllowedToDrag() {
+  async presentToast(message: string, color: string, cssClass: string, duration: number = 2000, position: 'top' | 'bottom' | 'middle'= 'bottom'){
     const toast = await this.toastController.create({
-      message: this.translationsMap.get('FAILED_TO_UPLOAD_THE_FORMAT_IS_NOT_SUPPORTED'),
-      duration: 5000,
-      color: 'danger',
-      cssClass: 'toast-custom-class',
-    })
-    toast.present()
+      message: message,
+      duration: duration,
+      color: color,
+      position: position,
+      cssClass: cssClass,
+    });
+    toast.present();
   }
 }
 // END ALL //
