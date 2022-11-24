@@ -811,6 +811,7 @@ export class ConversationListPage implements OnInit {
       this.router.navigateByUrl(pageUrl.replace(/\(/g, '%28').replace(/\)/g, '%29').replace( /#/g, "%23" ), {replaceUrl: true})
     }
   }
+  
 
   // ---------------------------------------------------------
   // Opens the list of contacts for direct convs
