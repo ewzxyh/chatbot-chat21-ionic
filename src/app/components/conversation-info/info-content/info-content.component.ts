@@ -52,8 +52,6 @@ export class InfoContentComponent implements OnInit {
   public IS_GROUP_PANEL: boolean = false
 
   constructor(
-    public archivedConversationsHandlerService: ArchivedConversationsHandlerService,
-    public conversationsHandlerService: ConversationsHandlerService,
     public tiledeskAuthService: TiledeskAuthService,
     private route: ActivatedRoute,
     public contactsService: ContactsService,
