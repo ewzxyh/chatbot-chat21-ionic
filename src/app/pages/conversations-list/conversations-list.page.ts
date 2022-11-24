@@ -797,7 +797,7 @@ export class ConversationListPage implements OnInit {
       let pageUrl = 'conversation-detail/' + this.uidConvSelected + '/' + this.conversationSelected.conversation_with_fullname + '/' + converationType
       this.logger.log('[CONVS-LIST-PAGE] pageURL', pageUrl)
         // replace(/\(/g, '%28').replace(/\)/g, '%29') -> used for the encoder of any round brackets
-      this.router.navigateByUrl(pageUrl.replace(/\(/g, '%28').replace(/\)/g, '%29').replace( /#/g, "%23" ))
+      this.router.navigateByUrl(pageUrl.replace(/\(/g, '%28').replace(/\)/g, '%29').replace( /#/g, "%23" ), {replaceUrl: true})
     } else {
       this.logger.log('[CONVS-LIST-PAGE] navigateByUrl this.conversationSelected conversation_with_fullname ', this.conversationSelected.conversation_with_fullname)
       this.logger.log('[CONVS-LIST-PAGE] checkPlatformIsMobile(): ', checkPlatformIsMobile())
@@ -808,7 +808,7 @@ export class ConversationListPage implements OnInit {
       }
       this.logger.log('[CONVS-LIST-PAGE] setUidConvSelected navigateByUrl--->: ', pageUrl)
       // replace(/\(/g, '%28').replace(/\)/g, '%29') -> used for the encoder of any round brackets
-      this.router.navigateByUrl(pageUrl.replace(/\(/g, '%28').replace(/\)/g, '%29').replace( /#/g, "%23" ))
+      this.router.navigateByUrl(pageUrl.replace(/\(/g, '%28').replace(/\)/g, '%29').replace( /#/g, "%23" ), {replaceUrl: true})
     }
   }
 
