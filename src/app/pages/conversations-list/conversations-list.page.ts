@@ -812,7 +812,6 @@ export class ConversationListPage implements OnInit {
     }
   }
   
-
   // ---------------------------------------------------------
   // Opens the list of contacts for direct convs
   // ---------------------------------------------------------
