@@ -1,5 +1,35 @@
 # chat21-ionic ver 3.0
 
+### 3.0.86-rc.1
+- added: send-email modal on Email footer option click
+- added: handle window['analytics'] error
+- added: send Offline message email if lead is offline and conversation is still open
+- changed: info-conversation width from 300px to 320px
+- changed: z-index of element when canned-list is open
+- changed: chat21client.js file to 1.12.3
+- changed: disable email section for direct conversations
+- changed: do not reload right side bar conversation-info component
+- bug-fixed: canned element is not focused on arrowDown keyboard action
+- bug-fixed: if scroll over canned element, focus on text-area is missed
+- bug-fixed: on text-area change, scroll conversation-detail if needed
+- removed: 'Resolve' conversation button from header-conversation detail component
+
+## 3.0.85 in PROD
+- bug-fixed: remove focus from last edited canned
+- changed: do not cache right side-bar conversation-info component
+- changed: chat21client.js file to 1.12.3
+
+## 3.0.84 in PROD
+- bug-fixed: handle window['analytics] errors
+
+## 3.0.83 in PROD
+- bug-fixed: canned item is not visible (missing scroll position) if ArrowDown keyboard button is pressed
+- bug-fixed: if ArrowUp keyboard button is pressed, text-area cursor moved left and canned not substituted correctly
+
+## 3.0.82 in PROD
+- bug-fixed: do not disable textArea if is a direct archived conversation
+- bug-fixed: canned item not fire click event on Firefox browser
+
 ### 3.0.82-rc.7
 - bug-fixed: do not disable textArea if is a direct archived conversation
 - bug-fixed: canned item not fire click event on Firefox browser
