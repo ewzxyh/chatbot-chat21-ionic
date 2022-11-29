@@ -5,6 +5,8 @@
     "LABEL_AVAILABLE": "mövcuddur",
     "LABEL_NOT_AVAILABLE": "Mövcud deyil",
     "LABEL_INACTIVE":"qeyri-aktiv",
+    "LABEL_ONLINE":"onlayn",
+    "LABEL_OFFLINE":"oflayn",
     "LABEL_NO_MSG_HERE": "Burada hələ mesaj yoxdur...",
     "LABEL_TODAY": "bu gün",
     "LABEL_TOMORROW": "dünən",
@@ -20,6 +22,16 @@
         "bazar günü"
     ],
     "LABEL_SEND": "Göndər",
+    "LABEL_CHAT":"Söhbət",
+    "EMAIL_PLACEHOLDER":"Qaralama burada mövcuddur - redaktə etmək üçün klikləyin",
+    "EMAIL_NOT_FOUND_PLACEHOLDER":"Bu istifadəçi e-poçt ünvanı təqdim etməyib. E-poçt göndərmək üçün ziyarətçinin ünvanını yeniləyin",
+    "SUBJECT":"Mövzu",
+    "MESSAGE":"Mesaj",
+    "MESSAGE_PLACEHOLDER":"Mesajınızı yazın...",
+    "SEND_EMAIL_SUCCESS":"E-poçt uğurla göndərildi ✌🏻",
+    "SEND_EMAIL_ERROR":"⚠️ DİQQƏT ⚠️ E-poçt göndərilərkən xəta baş verdi. Yenidən cəhd edin",
+    "SUBJECT_OFFLINE_MESSAGE":"Tiledesk Offline mesajı 💬",
+    "SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE":"Mesaj e-poçt vasitəsilə də göndərilib 📩",
     "ID_CONVERSATION": "Kimlik söhbəti",
     "LABEL_CREATED_THE": "tarixində yaradılmış qrup",
     "LABEL_INFO_ATTRIBUTE": "Atributlar",
@@ -44,6 +56,7 @@
     "LABEL_VIDEO_CHAT": "Video zəng",
     "LABEL_LEAVE_GROUP": "Qrupu tərk edin",
     "LABEL_CLOSE_GROUP": "Yaxın",
+    "LABEL_OPEN_INFO_CONVERSATION":"Söhbət təfərrüatlarını açın",
     "ALERT_TITLE": "Diqqət!",
     "CLOSE_ALERT_CONFIRM_LABEL": "tamam",
     "CLOSE_ALERT_CANCEL_LABEL": "LƏĞV EDİN",
@@ -163,6 +176,8 @@
     "WAITING_TIME_FOUND": "Komanda adətən $reply_timeilə cavab verir",
     "WAITING_TIME_NOT_FOUND": "Komanda mümkün qədər tez cavab verəcəkdir",
     "CLOSED": "BAĞLI",
+    "DIRECT_CHAT":"Birbaşa söhbət",
+    "GROUP_CHAT":"Qrup söhbəti",
     "PleaseSelectChatToStartMessaging": "Mesajlaşmaya başlamaq üçün söhbət seçin",
     "FromThisAreNew": "------------------",
     "Preview": "Önizləmə",
@@ -263,5 +278,13 @@
     "First_name_of_agent": "Agentin adı",
     "EnterCannedResponseTitle": "Hazır cavab başlığını daxil edin",
     "WriteMsgToSendToYourVisitors": "Ziyarətçilərinizə göndərmək üçün konservləşdirilmiş cavab mesajı yazın",
-    "EditProfile": "Profilə düzəliş et"
+    "EditProfile": "Profilə düzəliş et",
+    "NAVBAR":{
+        "SIMULATE_VISITOR":"Ziyarətçini simulyasiya edin",
+        "PROJECT_SETTINGS":"Layihə parametrləri",
+        "VIEW_ALL_PROJECTS":"Bütün layihələrə baxın",
+        "ADD_PROJECT":"Layihə əlavə edin",
+        "RECENT_PROJECTS":"Son layihələr",
+        "OTHER_PROJECTS":"Digər layihələr"
+      }
 }

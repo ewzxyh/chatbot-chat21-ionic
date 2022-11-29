@@ -16,6 +16,7 @@ export class UnassignedConversationsPage implements OnInit {
 
   @Input() iframe_URL: any;
   @Input() callerBtn: string;
+  @Input() isMobile: boolean;
   // @Input() prjctsxpanel_url: any;
   // @Input() unassigned_convs_url: any;
 

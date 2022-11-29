@@ -43,8 +43,13 @@ export const CHANNEL_TYPE_GROUP = 'group';
 // TYPES MESSAGES
 export const TYPE_MSG_TEXT = 'text';
 export const TYPE_MSG_IMAGE = 'image';
+export const TYPE_MSG_FILE = 'file';
+export const TYPE_MSG_BUTTON = 'button';
+export const TYPE_MSG_EMAIL = 'email';
+
 export const MAX_WIDTH_IMAGES = 300;
 export const MIN_WIDTH_IMAGES = 130;
+export const TIME_TYPING_MESSAGE = 2000;
 export const TYPE_DIRECT = 'direct';
 export const TYPE_GROUP = 'group';
 export const SYSTEM = 'system';
@@ -69,7 +74,8 @@ export const TOUCHING_OPERATOR = "TOUCHING_OPERATOR";
 // URLS
 // export const URL_SOUND = 'assets/sounds/pling.mp3';
 export const URL_SOUND_LIST_CONVERSATION = '/assets/sounds/pling.mp3';
-export const URL_SOUND_CONVERSATION_DETAIL = '/assets/sounds/justsaying.mp3';
+export const URL_SOUND_CONVERSATION_ADDED = '/assets/sounds/wheep-wheep.mp3';
+export const URL_SOUND_CONVERSATION_UNASSIGNED = '/assets/sounds/interface-start.mp3'
 // export const CHAT_SEND_BY_EMAIL_LINK =
 // 'mailto:?subject=Transcript Chat Conversation&body=Salve,%0D%0A%0D%0Adi
 // seguito potrà scaricare il transcript della conversazione intercorsa con il nostro servizio di

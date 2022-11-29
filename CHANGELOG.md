@@ -1,5 +1,19 @@
 # chat21-ionic ver 3.0
 
+### 3.0.86-rc.1
+- added: send-email modal on Email footer option click
+- added: handle window['analytics'] error
+- added: send Offline message email if lead is offline and conversation is still open
+- changed: info-conversation width from 300px to 320px
+- changed: z-index of element when canned-list is open
+- changed: chat21client.js file to 1.12.3
+- changed: disable email section for direct conversations
+- changed: do not reload right side bar conversation-info component
+- bug-fixed: canned element is not focused on arrowDown keyboard action
+- bug-fixed: if scroll over canned element, focus on text-area is missed
+- bug-fixed: on text-area change, scroll conversation-detail if needed
+- removed: 'Resolve' conversation button from header-conversation detail component
+
 ## 3.0.85 in PROD
 - bug-fixed: remove focus from last edited canned
 - changed: do not cache right side-bar conversation-info component
@@ -16,18 +30,116 @@
 - bug-fixed: do not disable textArea if is a direct archived conversation
 - bug-fixed: canned item not fire click event on Firefox browser
 
-## 3.0.81 in PROD
+### 3.0.82-rc.7
+- bug-fixed: do not disable textArea if is a direct archived conversation
+- bug-fixed: canned item not fire click event on Firefox browser
+
+### 3.0.82-rc.6
+- bug-fixed: axios is undefined in chat21Client.js
+- bug-fixed: if userImage not exist in sidebar--user-detail, no info of fillColor exist
+
+### 3.0.82-rc.3
+- bug-fixed: incorrect dashboard urls in navbar
+- changed: used logger in mqtt auth service
+
+### 3.0.82-rc.2
+- changed: 'force' parameter to /close post as body content
+- changed: enabled MTT 
+- changed: position of 'LogOut' button in sidebar-user-detail component
+- bug-fixed: removed scrollbar on firefox browser in conversation-list, contacts-directory pages
+
+### 3.0.82-rc.1
+- changed: forceArchive to force while calling /close API URL
+- changed: chat21Client.js from 1.12.1 to 1.12.2
+- changed: list conversations component with from 360px to 320px
+
+### 3.0.81 in PROD
+
+### 3.0.81-rc.3
+- bug-fixed: if window width is less then 991px, move 'Close detail' icon to right
+- changed: removed segment from index.html and loaded dynamically only if in not production
+
+### 3.0.81-rc.2
+- changed: canned loader
 - bug-fixed: if search for a string that not correspond with an existing canned, was shown loader ever
 
-## 3.0.80 in PROD
+### 3.0.81-rc.1
+- added: remove bubble-message background if is image or iframe and no text is in message
+- added: new sound if unassigned request arrive
+- added: animation on hover an image
+- added: parameter to /close to forse the closing of a conversation
+- added: v.0.1.12.1 chatclient.js
+- changed: info-message UI, image UI, frame UI
+- bug-fixed: if click on canned icon, then close and clear '/' char, if click again on canned icon, '/' was not added to message text-area
+
+### 3.0.80 in PROD
 - bug-fixed: if search a canned response, after clicked it does not replaced into text-area
 
-## 3.0.79 in PROD
+### 3.0.80-rc.1
+- changed: moved sender_fullname inside bubble-message component
+- changed: publish onConversationSelect event to stop audio after agent has clicked on it
+- bug-fixed: /null  loading flag_url in sidebar-user-detail
+
+### 3.0.79 in PROD
 - added: segment analytics events
 
-## 3.0.78 in PROD
+### 3.0.79-rc.4
+- bug-fixed: testsiteBaseUrl wrong value env property
+
+### 3.0.79-rc.3
+- added: segment analytics for SignIn-SignOut-Resolved-MsgAdded-ConvAdded
+- added: navbar component if not mobile
+- added: NAVBAR translations
+- changed: minor improvements on UI
+- changed: ion-split-pane UI if mobile
+- changed: moved hover 'add canned' button from bubble-message to ion-conversation-detail component
+- changed: moved addNewCanned to tiledesk service to canned-responses service
+- bug-fixed: open/close detail icon not aligned correctly on click 'close'
+
+### 3.0.79-rc.2
+- added: new sound if new conversation is triggered in agent's chat
+- changed: header UI of header-conversation-detail and unassigned-conversations components
+
+### 3.0.79-rc.1
+- added: LABEL_ONLINE, LABEL_OFFLINE translations
+- changed: renamed ddp-header with conversations-list-header
+- changed: unified control to mobile/desktop app
+- changed: LABEL_AVAILABLE/NOT_AVAILABLE with LABEL_ONLINE/OFFLINE in user-presence component	
+- changed: icon to user-presence
+- changed: UI for conversation-list, conversation-detail and info-group for desktop and mobile
+- changed: renamed option-header component with header-conversations-list-archived
+- changed: contacts-directory UI
+- bug-fixed: if app is opened and user press width expand, move correctly the right position
+
+## 3.0.78 in PROD 
 - bug-fixed: unassigned request not sound the if is the first at all
 - bug-fixed: canned responses opens in incorrect mode
+
+### 3.0.78-rc.4
+- bug-fixed: unassigned request not sound the if is the first at all
+- bug-fixed: translations missed
+- bug-fixed: direct info not showed in conversation-header component
+- removed: conversation-footer border top
+- changed: colors to message-text-area icons and message-attachment components
+
+### 3.0.78-rc.3
+- changed: user-typing location moved from conversation-header to conversation-detail component
+- changed: replace includes with startsWith for check what type of conversation is in project info conversation-list component
+- added: styleMap integrations to some elements	
+- bug-fixed: no tooltip showed if no unserved request are present
+
+### 3.0.78-rc.2
+- changed: project item UI and tooltip msg
+- changed: conversation UI in conversations list component
+- changed: conversation detail header component
+- added: open/close info-conversation moved from conversation-header to conversation detail component
+- bug-fixed: canned responses opens in incorrect mode
+
+### 3.0.78-rc.1
+- changed: conversation-list page width increased
+- changed: background changed in info-message component
+- changed: project-item UI
+- changed: conversation-list page UI
 
 ## 3.0.77 in PROD
 

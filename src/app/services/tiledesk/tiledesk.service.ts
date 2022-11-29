@@ -51,7 +51,26 @@ export class TiledeskService {
     }))
   }
 
-  // http://tiledesk-server-pre.herokuapp.com/requests_util/lookup/id_project/support-group-60ffe291f725db00347661ef-b4cb6875785c4a23b27244fe498eecf44
+    // ---------------------------------------------
+  // @ GET request by id
+  // ---------------------------------------------
+  public getRequest(request_id: string, project_id: string, token: string) {
+    const url = this.apiUrl + project_id + '/requests/'+request_id
+    this.logger.log('[TILEDESK-SERVICE] - CREATE NEW LEAD url ', url);
+   
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: token
+      })
+    };
+
+    return this.http.get(url, httpOptions).pipe(map((res: any) => {
+      this.logger.log('[TILEDESK-SERVICE] - CREATE NEW LEAD RES ', res);
+      return res
+    }))
+  }
+
   public getProjectIdByConvRecipient(token: string ,conversationWith: string ) {
     const lookupUrl = this.apiUrl + 'requests_util/lookup/id_project/' + conversationWith;
 
@@ -225,7 +244,7 @@ export class TiledeskService {
     // -----------------------------------------------------------------------------------------
   // @ Create ticket
   // -----------------------------------------------------------------------------------------
-  createInternalRequest(requester_id: string, request_id: string, subject: string, message: string, departmentid: string, participantid: string, ticketpriority: string, project_id: string, token: string) {
+  public createInternalRequest(requester_id: string, request_id: string, subject: string, message: string, departmentid: string, participantid: string, ticketpriority: string, project_id: string, token: string) {
     
     const url = this.apiUrl + project_id + '/requests/' + request_id + '/messages'
     this.logger.log('[WS-REQUESTS-SERV] - CREATE INTERNAL REQUEST URL ', url)
@@ -252,33 +271,30 @@ export class TiledeskService {
       return res
     }))
   }
-  
 
-  // -------------------------------------------------------------------------------------
-  // @ Create - Save (POST) new canned response
-  // -------------------------------------------------------------------------------------
-  public createCannedResponse(message: string, title: string, project_id: string, token: string) {
-    this.logger.log('[TILEDESK-SERVICE] - CREATE CANNED-RES - token', token); 
-    const url =  this.apiUrl  + project_id + '/canned/'
-    this.logger.log('[TILEDESK-SERVICE] - CREATE CANNED-RES - URL', url); 
+  public sendEmail(token: string, projectid: string, form: { to: string, subject: string, text: string, request_id: string}) {
     
     const httpOptions = {
       headers: new HttpHeaders({
+        'Accept': 'application/json',
         'Content-Type': 'application/json',
         Authorization: token
       })
     };
 
-    const body = { 'text': message, 'title': title };
+    const body = form;
 
-    this.logger.log('[TILEDESK-SERVICE] CREATE CANNED-RES - BODY ', body);
-
-    return this.http.post(url, JSON.stringify(body), httpOptions).pipe(map((res: any) => {
-      this.logger.log('[TILEDESK-SERVICE] - CREATE CANNED-RES - RES ', res);
-      return res
+    const url = this.apiUrl + projectid + '/emails/send';
+    this.logger.log('[TILEDESK-SERVICE] - sendEmail URL ', url);
+    return this.http.post(url, body, httpOptions).pipe(map((res: any) => {
+        this.logger.log('[TILEDESK-SERVICE] - sendEmail - RES ', res);
+        return res
     }))
-      
   }
+  
+
+
+  
 
   // .post(url, JSON.stringify(body), options)
   // .map((res) => res.json());

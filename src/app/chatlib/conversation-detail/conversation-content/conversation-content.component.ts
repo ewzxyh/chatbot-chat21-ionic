@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, SimpleChanges } from '@angular/core';
-import { MessageModel } from '../../../../chat21-core/models/message';
-import { isPopupUrl, popupUrl, stripTags } from '../../../../chat21-core/utils/utils';
-import { MSG_STATUS_SENT, MSG_STATUS_RETURN_RECEIPT, MSG_STATUS_SENT_SERVER, MAX_WIDTH_IMAGES, MESSAGE_TYPE_INFO, MESSAGE_TYPE_MINE, MESSAGE_TYPE_OTHERS } from '../../../../chat21-core/utils/constants';
+import { MessageModel } from 'src/chat21-core/models/message';
+import { isPopupUrl, popupUrl, stripTags } from 'src/chat21-core/utils/utils';
+import { MSG_STATUS_SENT, MSG_STATUS_RETURN_RECEIPT, MSG_STATUS_SENT_SERVER, MAX_WIDTH_IMAGES, MESSAGE_TYPE_INFO, MESSAGE_TYPE_MINE, MESSAGE_TYPE_OTHERS } from 'src/chat21-core/utils/constants';
 import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service';
 import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance';
 import { UploadService } from 'src/chat21-core/providers/abstract/upload.service';
@@ -17,11 +17,18 @@ export class ConversationContentComponent implements OnInit {
   @Input() messages: MessageModel[]
   @Input() senderId: string;
   @Input() baseLocation: string;
+  @Input() isConversationArchived: boolean;
+  @Input() isTypings: boolean;
+  @Input() idUserTypingNow: string;
+  @Input() nameUserTypingNow: string;
+  @Input() typingLocation: string;
+  @Input() fullscreenMode: boolean;
   @Input() translationMap: Map<string, string>;
   @Input() stylesMap: Map<string, string>;
   @Output() onBeforeMessageRender = new EventEmitter();
   @Output() onAfterMessageRender = new EventEmitter();
-  @Output() onMenuOptionShow = new EventEmitter();
+  @Output() onMenuOptionShow = new EventEmitter<boolean>();
+  @Output() onEmojiiPickerShow = new EventEmitter<boolean>()
   @Output() onAttachmentButtonClicked = new EventEmitter();
   @Output() onScrollContent = new EventEmitter();
 

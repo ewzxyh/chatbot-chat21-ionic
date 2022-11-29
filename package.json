@@ -1,7 +1,7 @@
 {
     "name": "@chat21/chat21-ionic",
     "author": "Tiledesk SRL",
-    "version": "3.0.85",
+    "version": "3.0.86-rc.1",
     "license": "MIT License",
     "homepage": "https://tiledesk.com/",
     "repository": {
@@ -42,6 +42,7 @@
         "@ng-select/ng-select": "^3.7.3",
         "@ngx-translate/core": "^12.1.2",
         "@ngx-translate/http-loader": "^4.0.0",
+        "@types/marked": "^1.1.0",
         "angular2-moment": "^1.9.0",
         "autolinker": "^3.14.2",
         "cordova-android": "9.1.0",
@@ -59,7 +60,7 @@
         "core-js": "^2.5.4",
         "file-saver": "^2.0.5",
         "firebase": "^8.6.7",
-        "marked": "^2.0.1",
+        "marked": "^2.1.3",
         "material-icons": "^1.11.2",
         "moment": "^2.24.0",
         "moment-timezone": "^0.5.28",

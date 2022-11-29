@@ -8,7 +8,7 @@ import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@
 export class ImageComponent implements OnInit {
 
   @Input() metadata: any;
-  @Input() width: string;
+  @Input() width: number;
   @Input() height: number;
   @Output() onElementRendered = new EventEmitter<{element: string, status: boolean}>();
 

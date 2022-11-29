@@ -1,3 +1,5 @@
+import { TiledeskService } from 'src/app/services/tiledesk/tiledesk.service';
+import { SendEmailModal } from './../../../modals/send-email/send-email.page';
 import { UserModel } from 'src/chat21-core/models/user';
 import { Component, OnInit, Output, EventEmitter, Input, AfterViewInit, ViewChild, ElementRef, OnChanges, HostListener, Renderer2, SimpleChange, SimpleChanges } from '@angular/core';
 
@@ -5,15 +7,13 @@ import { Chooser } from '@ionic-native/chooser/ngx';
 import { IonTextarea, ModalController, ToastController } from '@ionic/angular';
 
 // Pages
-import { LoaderPreviewPage } from 'src/app/pages/loader-preview/loader-preview.page';
+import { LoaderPreviewPage } from 'src/app/modals/loader-preview/loader-preview.page';
 // Services 
 import { UploadService } from 'src/chat21-core/providers/abstract/upload.service';
 // utils
-import { TYPE_MSG_TEXT } from 'src/chat21-core/utils/constants';
+import { TYPE_MSG_EMAIL, TYPE_MSG_TEXT, TYPE_SUPPORT_GROUP } from 'src/chat21-core/utils/constants';
 // Models
 import { UploadModel } from 'src/chat21-core/models/upload';
-import { Observable } from 'rxjs';
-import { checkPlatformIsMobile } from 'src/chat21-core/utils/utils';
 
 // Logger
 import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service';
@@ -43,36 +43,36 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
 
   @Input() loggedUser: UserModel;
   @Input() conversationWith: string;
+  @Input() channelType: string;
   @Input() tagsCannedFilter: any;
   @Input() tagsCannedCount: number;
   @Input() areVisibleCAR: boolean;
   @Input() supportMode: boolean;
-  @Input() events: Observable<void>;
+  @Input() leadInfo: {lead_id: string, hasEmail: boolean, email: string, projectId: string};
   @Input() fileUploadAccept: string
   @Input() isOpenInfoConversation: boolean;
   @Input() translationMap: Map<string, string>;
   @Input() dropEvent: any;
   @Input() disableTextarea: boolean;
-  @Output() eventChangeTextArea = new EventEmitter<object>();
-  @Output() eventSendMessage = new EventEmitter<object>();
+  @Output() eventChangeTextArea = new EventEmitter<{msg: string, offsetHeight: number}>();
+  @Output() eventSendMessage = new EventEmitter<{msg: string, type: string, metadata?: Object, attributes?: Object}>();
   @Output() onClickOpenCannedResponses = new EventEmitter<boolean>();
   @Output() onPresentModalScrollToBottom = new EventEmitter<boolean>();
+  @Output() onOpenFooterSection = new EventEmitter<string>();
 
   public conversationEnabled = false;
   public messageString: string;
   public HAS_PASTED: boolean = false;
   public toastMsg: string;
-  public TEXAREA_PLACEHOLDER: string;
-  public LONG_TEXAREA_PLACEHOLDER: string;
-  public SHORT_TEXAREA_PLACEHOLDER: string;
-  public SHORTER_TEXAREA_PLACEHOLDER: string;
-  public currentWindowWidth: any;
   private logger: LoggerService = LoggerInstance.getInstance();
   public countClicks: number = 0;
-  public IS_SUPPORT_GROUP_CONVERSATION: boolean;
   public IS_ON_MOBILE_DEVICE: boolean;
+
+  TYPE_SUPPORT_GROUP = TYPE_SUPPORT_GROUP;
   TYPE_MSG_TEXT = TYPE_MSG_TEXT;
   msg: string
+
+  section: string= 'chat'
 
   tooltipOptions = {
     'show-delay': 500,
@@ -88,7 +88,26 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
   addWhiteSpaceBefore: boolean;
   emojiPerLine: number = 9
   emojiColor: string ="#3880ff"
-  emojiiCategories = [ 'recent', 'people', 'nature', 'activity']
+  emojiiCategories = [ 'recent', 'people', 'nature', 'activity'] //, 'custom']
+
+  customEmojis = [
+    {
+      name: 'Customer-Service',
+      shortNames: ['customer'],
+      text: 'ee',
+      emoticons: [],
+      keywords: ['github'],
+      imageUrl: 'https://tiledesk.com/wp-content/uploads/2022/11/Customer-Service.png',
+    },
+    {
+      name: 'Octocat',
+      shortNames: ['octocat'],
+      text: 'rr',
+      emoticons: [],
+      keywords: ['github'],
+      imageUrl: 'https://tiledesk.com/wp-content/uploads/2022/11/FAQ-Chatbot.png',
+    }
+  ];
   /**
    * Constructor
    * @param chooser 
@@ -117,15 +136,8 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
     if (this.areVisibleCAR === false) {
       this.emojiPerLine = 7
     }
-    // this.events.subscribe((cannedmessage) => {
-    //   this.logger.log("[CONVS-DETAIL] [MSG-TEXT-AREA] events.subscribe cannedmessage ", cannedmessage);
-    // })
 
-    // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] LONG_TEXAREA_PLACEHOLDER ", this.LONG_TEXAREA_PLACEHOLDER);
-    // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] SHORT_TEXAREA_PLACEHOLDER ", this.SHORT_TEXAREA_PLACEHOLDER);
-    // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] SHORTER_TEXAREA_PLACEHOLDER ", this.SHORTER_TEXAREA_PLACEHOLDER);
     this.listenToNewCannedResponseCreated()
-    this.getWindowWidth();
     this.isOnMobileDevice()
   }
 
@@ -146,32 +158,14 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
       // this.SHORT_TEXAREA_PLACEHOLDER = this.translationMap.get('LABEL_ENTER_MSG_SHORT')
       // this.SHORTER_TEXAREA_PLACEHOLDER = this.translationMap.get('LABEL_ENTER_MSG_SHORTER')
 
-      this.TEXAREA_PLACEHOLDER = this.translationMap.get('LABEL_ENTER_MSG_SHORT')
-
     }
-
-    if (this.conversationWith.startsWith("support-group")) {
-      this.IS_SUPPORT_GROUP_CONVERSATION = true
-    } else {
-      this.IS_SUPPORT_GROUP_CONVERSATION = false
-    }
-    // this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] ngOnChanges supportMode ', this.supportMode)
-    // this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] ngOnChanges disableTextarea ', this.disableTextarea)
-    // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngOnChanges DROP EVENT ", this.dropEvent);
-    // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngOnChanges tagsCannedFilter ", this.tagsCannedFilter);
-    // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ngOnChanges areVisibleCAR; ", this.areVisibleCAR);
-
-
     this.logger.log('[CONVS-DETAIL] - returnChangeTextArea ngOnChanges in [MSG-TEXT-AREA]  this.tagsCannedFilter.length ', this.tagsCannedFilter.length)
 
     // use case drop
     if (this.dropEvent) {
       this.presentModal(this.dropEvent)
     }
-    // if (this.isOpenInfoConversation === true) {
-    // this.getIfTexareaIsEmpty('ngOnChanges')
-    // this.getWindowWidth();
-    // }
+
   }
 
   // ngAfterViewInit() {
@@ -205,36 +199,6 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
     }
   }
 
-
-  getWindowWidth(): any {
-    this.currentWindowWidth = window.innerWidth;
-
-
-    // if (this.currentWindowWidth >= 844 && this.isOpenInfoConversation === false && this.conversationWith.startsWith("support-group")) {
-    //   this.TEXAREA_PLACEHOLDER = this.LONG_TEXAREA_PLACEHOLDER;
-    //   this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] currentWindowWidth', this.currentWindowWidth, ' - DISPLAY LONG_TEXAREA_PLACEHOLDER ');
-    // } else if (this.currentWindowWidth >= 844 && this.isOpenInfoConversation === true && this.conversationWith.startsWith("support-group")) {
-    //   this.TEXAREA_PLACEHOLDER = this.SHORT_TEXAREA_PLACEHOLDER;
-    // } else if (this.currentWindowWidth < 844 && this.isOpenInfoConversation === false && this.conversationWith.startsWith("support-group")) {
-    //   this.TEXAREA_PLACEHOLDER = this.SHORT_TEXAREA_PLACEHOLDER;
-    // } else if (this.currentWindowWidth < 844 && this.isOpenInfoConversation === true && this.conversationWith.startsWith("support-group")) {
-    //   this.TEXAREA_PLACEHOLDER = this.SHORTER_TEXAREA_PLACEHOLDER;
-    // } else if (!this.conversationWith.startsWith("support-group")) {
-    //   this.TEXAREA_PLACEHOLDER = this.SHORT_TEXAREA_PLACEHOLDER;
-    // }
-
-    // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] checkPlatformIsMobile() ", checkPlatformIsMobile());
-    if (checkPlatformIsMobile() === true) {
-
-      if (this.currentWindowWidth <= 430 && this.currentWindowWidth >= 274) {
-        this.TEXAREA_PLACEHOLDER = this.SHORT_TEXAREA_PLACEHOLDER;
-
-      } else if (this.currentWindowWidth <= 273) {
-        this.TEXAREA_PLACEHOLDER = this.SHORTER_TEXAREA_PLACEHOLDER;
-      }
-    }
-  }
-
   // -------------------------------------------------------------------------------------------
   // Change the placeholder of the 'send message' textarea according to the width of the window  
   // -------------------------------------------------------------------------------------------
@@ -242,40 +206,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
   onResize(event) {
     // this.getIfTexareaIsEmpty('onResize')
     //  console.log("[CONVS-DETAIL][MSG-TEXT-AREA]  event.target.innerWidth; ", event.target.innerWidth);
-
-
-
-    // if (event.target.innerWidth >= 844 && this.isOpenInfoConversation === false && this.conversationWith.startsWith("support-group")) {
-    //   this.TEXAREA_PLACEHOLDER = this.LONG_TEXAREA_PLACEHOLDER;
-    // } else if (event.target.innerWidth >= 844 && this.isOpenInfoConversation === true && this.conversationWith.startsWith("support-group")) {
-    //   this.TEXAREA_PLACEHOLDER = this.SHORT_TEXAREA_PLACEHOLDER;
-    // } else if (event.target.innerWidth < 844 && this.isOpenInfoConversation === false && this.conversationWith.startsWith("support-group")) {
-    //   this.TEXAREA_PLACEHOLDER = this.SHORT_TEXAREA_PLACEHOLDER;
-    // } else if (event.target.innerWidth < 844 && this.isOpenInfoConversation === true && this.conversationWith.startsWith("support-group")) {
-    //   this.TEXAREA_PLACEHOLDER = this.SHORTER_TEXAREA_PLACEHOLDER;
-    // } else if (!this.conversationWith.startsWith("support-group")) {
-    //   this.TEXAREA_PLACEHOLDER = this.SHORT_TEXAREA_PLACEHOLDER;
-    // }
-
-    // this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] checkPlatformIsMobile() ', checkPlatformIsMobile());
-    if (checkPlatformIsMobile() === true) {
-
-      if (event.target.innerWidth <= 430 && event.target.innerWidth >= 274) {
-        this.TEXAREA_PLACEHOLDER = this.SHORT_TEXAREA_PLACEHOLDER;
-      } else if (this.currentWindowWidth <= 273) {
-        this.TEXAREA_PLACEHOLDER = this.SHORTER_TEXAREA_PLACEHOLDER;
-      }
-
-    }
-
-    // if (checkPlatformIsMobile && event.target.innerWidth <= 430) {
-    //   this.TEXAREA_PLACEHOLDER = this.SHORT_TEXAREA_PLACEHOLDER;
-    // } else if (checkPlatformIsMobile && event.target.innerWidth > 430) { 
-    //   this.TEXAREA_PLACEHOLDER = this.LONG_TEXAREA_PLACEHOLDER;
-    // }
   }
-
-
 
 
   onPaste(event: any) {
@@ -336,6 +267,16 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
     }, 100);
     this.presentModal(e);
 
+  }
+
+  onOpenSection(section:string){
+    this.section = section
+    this.onOpenFooterSection.emit(section)
+  }
+
+  onOpenEmailModal(){
+    this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] - onOpenEmailModal');
+    this.presentEmailModal()
   }
 
 
@@ -438,7 +379,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
             //   messageString = metadata.name
             // }
 
-            that.eventSendMessage.emit({ message: messageString, type: type, metadata: metadata });
+            that.eventSendMessage.emit({ msg: messageString, type: type, metadata: metadata });
 
             that.fileInput.nativeElement.value = '';
             this.dropEvent = null
@@ -458,6 +399,37 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
     return await modal.present();
   }
 
+  private async presentEmailModal(): Promise<any>{
+    this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] openEmailModal');
+    const attributes = { 
+      enableBackdropDismiss: false, 
+      conversationWith: this.conversationWith, 
+      msg: this.messageString,
+      email: this.leadInfo.email,
+      projectId: this.leadInfo.projectId,
+      translationMap: this.translationMap};
+    const modal: HTMLIonModalElement =
+      await this.modalController.create({
+        component: SendEmailModal,
+        componentProps: attributes,
+        swipeToClose: false,
+        backdropDismiss: true
+      });
+    modal.onDidDismiss().then((detail: any) => {
+      this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] send Email detail returned-->', detail);
+      const form = detail.data.form
+      if (form&& form.message && form.message.trim() !== '') {
+        const text = '**' + form.subject + '**\r\n' + form.message
+        const attributes = {
+          channel: TYPE_MSG_EMAIL
+        }
+        this.eventSendMessage.emit({ msg: text, type: TYPE_MSG_TEXT, metadata: null, attributes: attributes });
+      }
+    });
+
+    return await modal.present();
+  }
+
 
   ionChange(e: any) {
     this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ionChange event ", e);
@@ -466,7 +438,8 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
     const message = e.detail.value
     this.logger.log("[CONVS-DETAIL] [MSG-TEXT-AREA] ionChange message ", message);
     // this.logger.log("[CONVS-DETAIL] [MSG-TEXT-AREA] ionChange  this.messageString ", this.messageString);
-    const height = e.target.offsetHeight + 20; // nk added +20
+    const footerSelectionHeight = 33 
+    const height = e.target.offsetHeight + footerSelectionHeight + 20; // nk added +20
     // this.logger.log("[CONVS-DETAIL] [MSG-TEXT-AREA] ionChange text-area height ", height);
     // this.getIfTexareaIsEmpty('ionChange')
     try {
@@ -590,7 +563,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
     this.messageString = '';
     // text = text.replace(/(\r\n|\n|\r)/gm, '');
     if (text && text.trim() !== '') {
-      this.eventSendMessage.emit({ message: text, type: TYPE_MSG_TEXT });
+      this.eventSendMessage.emit({ msg: text, type: TYPE_MSG_TEXT });
     }
   }
 
@@ -696,15 +669,14 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] handleKeyboardEvent  event.key ", event);
+    // this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] handleKeyboardEvent  event.key ", event);
     // Note: on mac keyboard "metakey" matches "cmd"
-    
+
     //do not move cursor on ArrowDown/ArrowUp
-    if ((event.key === 'ArrowDown' || event.key === 'ArrowUp') && !event.shiftKey) {
+    if ((event.key === 'ArrowDown' || event.key === 'ArrowUp')&& !event.shiftKey) {
       this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] HAS PRESSED event.key', event.key);
       event.preventDefault();
     }
-
     if (event.key === 'Enter' && event.altKey || event.key === 'Enter' && event.ctrlKey || event.key === 'Enter' && event.metaKey) {
       this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] HAS PRESSED COMBO KEYS this.messageString', this.messageString);
       if (this.messageString !== undefined && this.messageString.trim() !== '') {
@@ -714,49 +686,5 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
     }
 
   }
-
-
-  /* NOT USED */
-  // getIfTexareaIsEmpty(calledby: string) {
-  //   let elemTexarea = <HTMLElement>document.querySelector('#ion-textarea');
-  //   this.logger.log("[CONVS-DETAIL] [MSG-TEXT-AREA] elemTexarea ", elemTexarea)
-  //   if (this.messageString == null || this.messageString == '') {
-
-
-  //     if (elemTexarea) {
-  //       this.logger.log("[CONVS-DETAIL] [MSG-TEXT-AREA] messageString is empty - called By ", calledby)
-  //       elemTexarea.style.height = "30px !important";
-  //       elemTexarea.style.overflow = "hidden !important";
-  //     }
-  //   } else {
-
-  //     if (elemTexarea) {
-  //       this.logger.log("[CONVS-DETAIL] [MSG-TEXT-AREA] messageString not empty - called By ", calledby)
-  //       elemTexarea.style.height = null;
-  //       elemTexarea.style.overflow = null;
-  //     }
-  //   }
-  // }
-
-
-
-
-  // attualmente non usata
-  // dovrebbe scattare quando termina il caricamento dell'immagine per inviare il messaggio
-  // private setSubscriptions() {
-  //   const that = this;
-  //   const subscribeBSStateUpload = this.uploadService.BSStateUpload.subscribe((data: any) => {
-  //     this.logger.log('***** BSStateUpload *****', data);
-  //     if (data) {
-  //       let message = data.message;
-  //       let type_message = data.type_message;
-  //       let metadata = data.metadata;
-  //       this.logger.log('***** message *****', message);
-  //       this.logger.log('***** type_message *****', type_message);
-  //       this.logger.log('***** metadata *****', metadata);
-  //       //this.eventSendMessage.emit({ message: messageString, type: TYPE_MSG_TEXT });
-  //     }
-  //   });
-  // }
 
 }

@@ -5,6 +5,8 @@
   "LABEL_AVAILABLE": "disponible",
   "LABEL_NOT_AVAILABLE": "indisponible",
   "LABEL_INACTIVE":"inactif",
+  "LABEL_ONLINE":"en línea",
+  "LABEL_OFFLINE":"hors ligne",
   "LABEL_NO_MSG_HERE": "Toujours pas de message ici...",
   "LABEL_TODAY": "aujourd'hui",
   "LABEL_TOMORROW": "hier",
@@ -20,6 +22,16 @@
       "Dimanche"
   ],
   "LABEL_SEND": "Envoyer",
+  "LABEL_CHAT":"Chatter",
+  "EMAIL_PLACEHOLDER":"Brouillon disponible ici - cliquez pour modifier",
+  "EMAIL_NOT_FOUND_PLACEHOLDER":"Cet utilisateur n'a pas fourni d'adresse e-mail. Mettre à jour l'adresse du visiteur pour envoyer un e-mail",
+  "SUBJECT":"Matière",
+  "MESSAGE":"Message",
+  "MESSAGE_PLACEHOLDER":"Tapez votre message...",
+  "SEND_EMAIL_SUCCESS":"E-mail envoyé avec succès ✌🏻",
+  "SEND_EMAIL_ERROR":"⚠️ ATTENTION ⚠️ Une erreur s'est produite lors de l'envoi de l'e-mail. Veuillez réessayer",
+  "SUBJECT_OFFLINE_MESSAGE":"Message hors ligne de Tiledesk 💬",
+  "SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE":"Message également envoyé par mail 📩",
   "ID_CONVERSATION": "Conversation sur l'identifiant",
   "LABEL_CREATED_THE": "groupe créé le",
   "LABEL_INFO_ATTRIBUTE": "Les attributs",
@@ -44,6 +56,7 @@
   "LABEL_VIDEO_CHAT": "Appel vidéo",
   "LABEL_LEAVE_GROUP": "Quitter le groupe",
   "LABEL_CLOSE_GROUP": "Fermer",
+  "LABEL_OPEN_INFO_CONVERSATION":"Ouvrir les détails de la conversation",
   "ALERT_TITLE": "Attention!",
   "CLOSE_ALERT_CONFIRM_LABEL": "d'accord",
   "CLOSE_ALERT_CANCEL_LABEL": "ANNULER",
@@ -163,6 +176,8 @@
   "WAITING_TIME_FOUND": "L'équipe répond généralement en $reply_time",
   "WAITING_TIME_NOT_FOUND": "L'équipe vous répondra dans les plus brefs délais",
   "CLOSED": "FERMÉ",
+  "DIRECT_CHAT":"Chat direct",
+  "GROUP_CHAT":"Chat de groupe",
   "PleaseSelectChatToStartMessaging": "Veuillez sélectionner un chat pour commencer à envoyer des messages",
   "FromThisAreNew": "------------------",
   "Preview": "Aperçu",
@@ -263,5 +278,13 @@
   "First_name_of_agent": "Prénom du mandataire",
   "EnterCannedResponseTitle": "Saisissez le titre de la réponse standardisée",
   "WriteMsgToSendToYourVisitors": "Rédigez un message de réponse standardisé à envoyer à vos visiteurs",
-  "EditProfile": "Editer le profil"
+  "EditProfile": "Editer le profil",
+  "NAVBAR":{
+    "SIMULATE_VISITOR":"Simuler un visiteur",
+    "PROJECT_SETTINGS":"Paramètres du projet",
+    "VIEW_ALL_PROJECTS":"Voir tous les projets",
+    "ADD_PROJECT":"Ajouter un projet",
+    "RECENT_PROJECTS":"Les projets récents",
+    "OTHER_PROJECTS":"Autres projets"
+  }
 }

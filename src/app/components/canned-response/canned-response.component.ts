@@ -1,6 +1,6 @@
 import { AppStorageService } from 'src/chat21-core/providers/abstract/app-storage.service';
 import { Component, Input, OnInit, SimpleChange, ElementRef, Output, EventEmitter, HostListener } from '@angular/core';
-import { CreateCannedResponsePage } from 'src/app/pages/create-canned-response/create-canned-response.page';
+import { CreateCannedResponsePage } from 'src/app/modals/create-canned-response/create-canned-response.page';
 import { CannedResponsesService } from 'src/app/services/canned-responses/canned-responses.service';
 import { TiledeskService } from 'src/app/services/tiledesk/tiledesk.service';
 import { UserModel } from 'src/chat21-core/models/user';
@@ -20,6 +20,7 @@ export class CannedResponseComponent implements OnInit {
   @Input() conversationWith: string;
   @Input() conversationWithFullname: string;
   @Input() currentString: string;
+  @Input() stylesMap: Map<string, string>;
   @Input() translationMap: Map<string, string>;
   @Output() onLoadedCannedResponses = new EventEmitter<[any]>();
   @Output() onClickCanned = new EventEmitter<any>();
@@ -194,7 +195,6 @@ export class CannedResponseComponent implements OnInit {
     // this.logger.log('[CANNED] filterItems tagsCannedClone ', items, ' searchTerm: ', searchTerm)
     //this.logger.log("filterItems::: ",searchTerm);
     return items.filter((item) => {
-      //this.logger.log("filterItems::: ", item.title.toString().toLowerCase());
       // this.logger.log('[CANNED] filtered tagsCannedClone item ', item)
       return item.title.toString().toLowerCase().indexOf(searchTerm.toString().toLowerCase()) > -1
     })
@@ -268,7 +268,7 @@ export class CannedResponseComponent implements OnInit {
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    this.logger.log("CONVERSATION-DETAIL handleKeyboardEvent  event.key ", event);
+    // this.logger.log("CONVERSATION-DETAIL handleKeyboardEvent  event.key ", event);
 
     if (this.tagsCannedFilter.length > 0) {
       if (event.key === 'ArrowDown') {
@@ -288,7 +288,8 @@ export class CannedResponseComponent implements OnInit {
 
       // set the focus on current canned 
       setTimeout(() => {
-        this.el.nativeElement.querySelector('.canned-list').scrollTop = this.arrowkeyLocation * 59 //59 is the height of the single element
+        this.el.nativeElement.querySelector('.canned-list').scrollTop = this.arrowkeyLocation * 59 // 59px is the height of the single element
+        // this.el.nativeElement.querySelector('#canned-item_'+this.arrowkeyLocation).scrollIntoView({ behavior: 'smooth' })
       }, 0);
 
       if (event.key === 'Enter') {

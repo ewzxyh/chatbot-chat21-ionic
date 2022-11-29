@@ -4,6 +4,10 @@ ion-header {
   border-bottom-style: solid;
   border-color: var(--light-gray);
   border-bottom-width: thin;
+  &:not(.mobile){
+    border: none;
+    background: var(--list-bkg-color);
+  }
 }
 
 ion-content {
@@ -11,6 +15,16 @@ ion-content {
   --offset-bottom: auto!important;
   --overflow: hidden;
   overflow: scroll;
+
+  /* For Firefox */
+  @-moz-document url-prefix() {
+    scrollbar-width: none;
+  }
+  
+  
+  &:not(.mobile){
+    background: var(--list-bkg-color);
+  }
 
   &::-webkit-scrollbar {
     width: 6px;
@@ -40,10 +54,11 @@ ion-list {
   list-style-type: none;
   margin: 0;
   padding: 0;
+  background: transparent;
 
   ion-item {
     cursor: pointer;
-    height: 64px;
+    // height: 64px;
     position: relative;
     display: flex;
     text-decoration: none;
@@ -51,6 +66,7 @@ ion-list {
     padding-right: 8px;
     --padding-start: 0;
     --inner-padding-end: 0;
+    --background: transparent;
     .selected {
       border-radius: 10px;
       padding-left: 8px;
@@ -324,7 +340,7 @@ ion-list {
   padding-left: 0px !important ;
   padding-right: 0px !important;
   // height: 55px !important;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  // border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   --background-hover: #ffffff;
   cursor:default !important;
 }

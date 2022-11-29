@@ -11,6 +11,11 @@
     // -webkit-animation: heartbeat 1.5s ease-in-out both;
     // animation: heartbeat 1.5s ease-in-out both;
 
+    .message_sender_fullname{
+        font-size: 12px;
+        font-weight: 600;
+    }
+
     p {
         font-size: 1.4em;
         margin: 0;
@@ -48,16 +53,7 @@
 
 }
 // > .button-native
-.btn-add-msg {
-    border-radius: 50%;
-    --padding-end: 7px;
-    --padding-start: 7px;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.6);
 
-    ion-icon{
-        font-size: 1.2em;
-    }
-}
 
 
 

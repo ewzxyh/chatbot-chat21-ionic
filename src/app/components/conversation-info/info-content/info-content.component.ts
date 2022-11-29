@@ -28,11 +28,12 @@ import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance'
 
 export class InfoContentComponent implements OnInit {
   @Input() openInfoConversation: boolean;
-  @Input() translationMap: Map<string, string>;
   // @Input() member: UserModel;
   @Input() loggedUser: UserModel
   @Input() tenant: string
-  @Input() groupDetail: any
+  @Input() groupDetail: any;
+  @Input() isMobile: boolean;
+  @Input() translationMap: Map<string, string>;
 
 
   public member: UserModel;
@@ -52,6 +53,8 @@ export class InfoContentComponent implements OnInit {
   public IS_GROUP_PANEL: boolean = false
 
   constructor(
+    public archivedConversationsHandlerService: ArchivedConversationsHandlerService,
+    public conversationsHandlerService: ConversationsHandlerService,
     public tiledeskAuthService: TiledeskAuthService,
     private route: ActivatedRoute,
     public contactsService: ContactsService,
@@ -60,9 +63,6 @@ export class InfoContentComponent implements OnInit {
     public tiledeskService: TiledeskService
 
   ) {
-    this.logger.log('[INFO-CONTENT-COMP] HELLO (CONSTUCTOR) !!!!!');
-    // this.loggedUser = this.authService.getCurrentUser();
-    // this.logger.log('INFO-CONTENT-COMP loggedUser: ', this.loggedUser);
 
     const appconfig = appConfigProvider.getConfig()
     // this.tenant = appconfig.tenant;
@@ -73,7 +73,6 @@ export class InfoContentComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       this.logger.log('[INFO-CONTENT-COMP] initialize params: ', params);
       this.conversationWith = params.get('IDConv');
-      this.logger.log('[INFO-CONTENT-COMP] - paramMap.subscribe conversationWith: ', this.conversationWith);
       this.conversationWithFullname = params.get('FullNameConv');
       this.conv_type = params.get('Convtype');
 

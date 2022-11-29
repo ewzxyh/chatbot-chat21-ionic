@@ -5,6 +5,8 @@
     "LABEL_AVAILABLE": "disponibile",
     "LABEL_NOT_AVAILABLE": "non disponibile",
     "LABEL_INACTIVE":"inattivo",
+    "LABEL_ONLINE":"in linea",
+    "LABEL_OFFLINE":"disconnesso",
     "LABEL_NO_MSG_HERE": "Ancora nessun messaggio qui...",
     "LABEL_TODAY": "oggi",
     "LABEL_TOMORROW": "ieri",
@@ -20,6 +22,16 @@
         "Domenica"
     ],
     "LABEL_SEND": "Invia",
+    "LABEL_CHAT":"Chat",
+    "EMAIL_PLACEHOLDER":"Bozza disponibile qui - clicca per modificare",
+    "EMAIL_NOT_FOUND_PLACEHOLDER":"Questo utente non ha fornito un indirizzo email. Aggiorna l'indirizzo del visitatore per inviare un'e-mail",
+    "SUBJECT":"Oggetto",
+    "MESSAGE":"Messaggio",
+    "MESSAGE_PLACEHOLDER":"Digita il tuo messaggio...",
+    "SEND_EMAIL_SUCCESS":"Email inviata con successo ✌🏻",
+    "SEND_EMAIL_ERROR":"⚠️ ATTENZIONE ⚠️Si è verificato un errore durante l'invio dell'email. Si prega di riprovare",
+    "SUBJECT_OFFLINE_MESSAGE":"Messaggio offline di Tiledesk 💬",
+    "SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE":"Messaggio inviato anche via mail 📩",
     "ID_CONVERSATION": "Id conversazione",
     "LABEL_CREATED_THE": "gruppo creato il ",
     "LABEL_INFO_ATTRIBUTE": "Attributi",
@@ -44,6 +56,7 @@
     "LABEL_VIDEO_CHAT": "Video chiamata",
     "LABEL_LEAVE_GROUP": "Abbandona il gruppo",
     "LABEL_CLOSE_GROUP": "Chiudi",
+    "LABEL_OPEN_INFO_CONVERSATION":"Apri i dettagli della conversazione",
     "ALERT_TITLE": "Attenzione!",
     "CLOSE_ALERT_CONFIRM_LABEL": "OK",
     "CLOSE_ALERT_CANCEL_LABEL": "ANNULLA",
@@ -163,6 +176,8 @@
     "WAITING_TIME_FOUND": "Il team tipicamente risponde in $reply_time",
     "WAITING_TIME_NOT_FOUND": "Vi risponderemo appena possibile",
     "CLOSED": "CHIUSA",
+    "DIRECT_CHAT":"Chat diretta",
+    "GROUP_CHAT":"Chat di gruppo",
     "PleaseSelectChatToStartMessaging": "Seleziona una chat per iniziare a messaggiare",
     "FromThisAreNew": "------------------",
     "Preview": "Anteprima",
@@ -263,5 +278,13 @@
     "First_name_of_agent": "Nome dell'agente",
     "EnterCannedResponseTitle": "Inserisci il titolo della risposta predefinita",
     "WriteMsgToSendToYourVisitors": "Scrivi un messaggio di risposta predefinito da inviare ai tuoi visitatori",
-    "EditProfile": "Cambia profilo"
+    "EditProfile": "Cambia profilo",
+    "NAVBAR":{
+        "SIMULATE_VISITOR":"Simula visitatore",
+        "PROJECT_SETTINGS":"Impostazioni progetto",
+        "VIEW_ALL_PROJECTS":"Visualizza tutti i progetti",
+        "ADD_PROJECT":"Aggiungi progetto",
+        "RECENT_PROJECTS":"Progetti recenti",
+        "OTHER_PROJECTS":"Altri progetti"
+    }
 }

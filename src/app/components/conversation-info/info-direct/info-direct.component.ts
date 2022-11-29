@@ -15,8 +15,6 @@ export class InfoDirectComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() translationMap: Map<string, string>;
   @Input() conversationWith: string;
 
-  borderColor = '#ffffff';
-  fontColor = '#949494';
   advancedAttributes: Array<any> = [];
   private logger: LoggerService = LoggerInstance.getInstance();
 
@@ -28,8 +26,6 @@ export class InfoDirectComponent implements OnInit, AfterViewInit, OnChanges {
 
   ngOnInit() {
     this.logger.log('InfoDirectComponent - ngOnInit');
-  
-    this.initialize();
   }
 
   ngAfterViewInit() {
@@ -43,12 +39,11 @@ export class InfoDirectComponent implements OnInit, AfterViewInit, OnChanges {
     this.logger.log('InfoDirectComponent - ngOnDestroy ' );
     // this.unsubscribe$.next();
     // this.unsubscribe$.complete();
-   
-
   }
 
   ngOnChanges(){
     if(this.member){
+      this.initialize();
       this.member.imageurl = this.imageRepoService.getImagePhotoUrl(this.conversationWith)
     }
   }

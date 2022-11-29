@@ -8,16 +8,7 @@
         <div class="image-profile">
           <app-avatar-profile [itemAvatar]='member'></app-avatar-profile>
         </div>
-
-        <div class="user-presence">
-          <app-user-presence 
-            [idUser]='member.uid'
-            [translationMap]='translationMap' 
-            [borderColor]='borderColor'
-            [fontColor]='fontColor'>
-          </app-user-presence>
-        </div>
-        <!-- -> {{member |json}} -->
+        
         <div class="info-profile">
           <div class="name">
             <span class="read">{{member.fullname}}</span>
@@ -37,10 +28,12 @@
 
 
 
-  <app-advanced-info-accordion 
-  [advancedAttributes]="advancedAttributes"
-  [translationMap]="translationMap">
-  </app-advanced-info-accordion>
+  <div class="info-accordion-container">
+    <app-advanced-info-accordion class="info-accordion"
+      [advancedAttributes]="advancedAttributes"
+      [translationMap]="translationMap">
+    </app-advanced-info-accordion>
+  </div>
 
 
 </ion-content>

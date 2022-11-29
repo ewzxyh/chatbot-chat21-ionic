@@ -107,189 +107,6 @@ app-conversations-list {
     font-size: 13px;
 }
 
-// .popover-md .popover-content{
-//     width: auto!important;
-// }
-
-// ion-backdrop{
-//     display: block;
-//     background-color: #000000!important;
-//     width: 100%;
-//     height: 100%;
-//     opacity: 0.0!important;
-// }
-
-// ion-app, ion-nav, ion-tab, ion-tabs, .app-root, .ion-page {
-//     contain: none!important;
-// }
-
-// .avatar-profile {
-//     position: absolute;
-//     top: 0px;
-//     left: 0px;
-//     display: inline-block;
-//     width: 50px;
-//     height: 50px;
-//     background-color: transparent;
-//     background-size: cover;
-//     background-position: top center;
-//     border-radius: 50%;
-//     border-color: #c3c3c3;
-//     border-style: solid;
-//     border-width: 0px;
-// }
-// .chat21-avatar.big{
-//     width: 200px;
-//     height: 200px;
-// }
-
-// /* LOADING */
-// /*http://tobiasahlin.com/spinkit/*/
-// #chat21-spinner {
-//     min-height: 20px;
-//     display: none;
-//     margin: 20px auto 0;
-//     width: 70px;
-//     text-align: center;
-// }
-// #chat21-spinner.active {
-//     display: block;
-// }
-// #chat21-spinner > div {
-//     width: 12px;
-//     height: 12px;
-//     background-color: #2a69c1;
-//     border-radius: 100%;
-//     display: inline-block;
-//     -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
-//     animation: sk-bouncedelay 1.4s infinite ease-in-out both;
-// }
-// #chat21-spinner .chat21-bounce1 {
-//     -webkit-animation-delay: -0.32s;
-//     animation-delay: -0.32s;
-// }
-// #chat21-spinner .chat21-bounce2 {
-//     -webkit-animation-delay: -0.16s;
-//     animation-delay: -0.16s;
-// }
-// #chat21-spinner span {
-//     display: block;
-//     margin: 0.5em 0 0 0;
-//     color: #2a6ac1;
-//     /* text-transform: uppercase; */
-//     font-family: 'Roboto', sans-serif;
-//     -webkit-animation: pulse 2000ms linear infinite;
-//     -moz-animation: pulse 2000ms linear infinite;
-//     animation: pulse 2000ms linear infinite;
-//     text-align: center;
-//   }
-
-// @-webkit-keyframes sk-bouncedelay {
-//     0%, 80%, 100% { -webkit-transform: scale(0) }
-//     40% { -webkit-transform: scale(1.0) }
-// }
-
-// @keyframes sk-bouncedelay {
-//     0%, 80%, 100% {
-//     -webkit-transform: scale(0);
-//     transform: scale(0);
-//     } 40% {
-//     -webkit-transform: scale(1.0);
-//     transform: scale(1.0);
-//     }
-// }
-
-// .c21-right{
-//     float: right;
-// }
-// .c21-left{
-//     float: left;
-// }
-// .clearfix:after {
-//     display: block;
-//     clear: both;
-//     content: '';
-// }
-// .clear{
-//     clear: both;
-// }
-
-// /* END LOADIN */
-
-// .c21-alert {
-//     &.c21-alert-notification {
-//         display: inline-block;
-//         margin: 0 auto;
-//         position: fixed;
-//         -webkit-transition: all .5s ease-in-out 0s;
-//         transition: all .5s ease-in-out 0s;
-//         z-index: 1031;
-//         top: -100px;
-//         left: 0px;
-//         right: 0px;
-//         max-width: 450px;
-//         width: 80%;
-//         padding: 10px;
-//         cursor: pointer;
-//         display: block;
-//     }
-//     &.alert-danger {
-//         background-color: #f55a4e;
-//         color: #fff;
-//         border-radius: 3px;
-//         -webkit-box-shadow: 0 12px 20px -10px rgba(244,67,54,.28), 0 4px 20px 0 rgba(0,0,0,.12), 0 7px 8px -5px rgba(244,67,54,.2);
-//         box-shadow: 0 12px 20px -10px rgba(244,67,54,.28), 0 4px 20px 0 rgba(0,0,0,.12), 0 7px 8px -5px rgba(244,67,54,.2);
-//     }
-//     &.animated {
-//         top: 10px;
-//         -webkit-animation-duration: 1s;
-//         animation-duration: 1s;
-//         -webkit-animation-fill-mode: both;
-//         animation-fill-mode: both;
-//     }
-
-// }
-
-// ion-navbar {
-//     .toolbar-background{
-//         /* height: 55px; */
-//         box-shadow: inset 0px -1px 0px #f7f7f7;
-//     }
-
-// }
-
-// ion-toolbar {
-//     .toolbar-background {
-//         background-color: #ffffff;
-//     }
-//     .transparent{
-//         .toolbar-background {
-//             background-color: transparent;
-//         }
-//     }
-// }
-
-// .footer:before {
-//     height: 1px;
-// }
-// // .modal-page {
-// //     z-index: 1;
-// //     background-color: transparent;
-// //     opacity: 0;
-// //     transition: all 0.2s;
-// //     right: -100%;
-// //     &.open {
-// //         // background-color: $trasp-black;
-// //         opacity: 1;
-// //         transition: all 0.3s;
-// //         right: 0px;
-// //     }
-// // }
-
-// .split-pane-side {
-//     border-right: 1px solid rgba(169, 169, 169, 0.1)!important;
-// }
-
 // START GESTIONE SIDEBAR ESTERNA CON IFRAME //
 #tld-sidebar {
     position: absolute;
@@ -362,19 +179,7 @@ app-message-text-area {
     z-index: 99999; // nk
     background: #fff; // nk
 }
-app-bubble-day-message {
-    width: 100%;
-}
-app-bubble-system-message {
-    max-width: 80%;
-    margin: 0 auto;
-}
-app-bubble-my-message {
-    width: 100%;
-}
-app-bubble-others-message {
-    width: 100%;
-}
+
 app-conversation-info {
     height: calc(100% - 60px);
 }
@@ -423,16 +228,15 @@ select:-webkit-autofill:focus {
     font-weight: 300;
 }
 
-// da rivedere
-// :host ::ng-deep tiledeskwidget-bubble-message > div > div > tiledeskwidget-image > div > img {
-//     display: none !important;
-// }
-
 /*
  * Canned responses
  * -------------------------------------------- */
 .canned-list {
     .native-input[disabled] {
+        opacity: 10 !important;
+        cursor: pointer;
+    }
+    .native-textarea[disabled] {
         opacity: 10 !important;
         cursor: pointer;
     }
@@ -481,18 +285,7 @@ select:-webkit-autofill:focus {
     line-height: 42px;
 }
 /* End rules for the member list refactoring in the "info-group.component.html" (replacement of ion-grid with ion-list) */
-.missing-connection-toast {
-    --background: #fdd764;
-    --color: #2e3939;
-    font-weight: 500;
-    font-size: 16px;
-}
 
-.missing-connection-toast::part(message) {
-    // display: none;
-    display: flex;
-    align-items: center;
-}
 
 // User details Sidebar
 .user-details-sidebar {
@@ -795,64 +588,68 @@ select:-webkit-autofill:focus {
 }
 
 // select teammate status in user detail drawer
-.ng-select.teammate-status-in-drawer {
+.teammate-status-in-drawer {
 
-    .ng-select-container {
-        background-color: #2d323e;
-        color: #fff;
-        border: 1px solid #2d323e;
-    }
-    &.ng-select-opened{
+    &.ng-select {
+
         .ng-select-container {
             background-color: #2d323e;
-            border: 1px solid #2d323e;
-        }
-    }
-
-    &.ng-select-focused:not(.ng-select-opened){
-         >.ng-select-container{
-            border: 1px solid #2d323e;
-            box-shadow: unset;
-         }
-    }
-
-    
-}
-
-.ng-dropdown-panel {
-    background-color: #2d323e;
-    border: 1px solid #2d323e;
-
-    &.ng-select-bottom {
-        border: 1px solid #2d323e;
-        margin-top: 8px;
-        border-top-right-radius: 4px;
-        border-top-left-radius: 4px;
-    }
-
-    .ng-dropdown-panel-items {
-        .ng-option {
-            background-color: #2d323e;
             color: #fff;
-
-            &.ng-option-marked {
-                background-color: rgba(30, 33, 41, 0.3);
-                color: #fff;
-            }
-
-            &.ng-option-selected {
+            border: 1px solid #2d323e;
+        }
+        &.ng-select-opened{
+            .ng-select-container {
                 background-color: #2d323e;
-                color: #fff;
-            }
-
-            &.ng-option-marked.ng-option-selected{
-                background-color: rgba(30, 33, 41, 0.3);
-                color: #fff;
+                border: 1px solid #2d323e;
             }
         }
+    
+        &.ng-select-focused:not(.ng-select-opened){
+             >.ng-select-container{
+                border: 1px solid #2d323e;
+                box-shadow: unset;
+             }
+        }
+    
         
     }
+
+    .ng-dropdown-panel {
+        background-color: #2d323e;
+        border: 1px solid #2d323e;
+    
+        &.ng-select-bottom {
+            border: 1px solid #2d323e;
+            margin-top: 8px;
+            border-top-right-radius: 4px;
+            border-top-left-radius: 4px;
+        }
+    
+        .ng-dropdown-panel-items {
+            .ng-option {
+                background-color: #2d323e;
+                color: #fff;
+    
+                &.ng-option-marked {
+                    background-color: rgba(30, 33, 41, 0.3);
+                    color: #fff;
+                }
+    
+                &.ng-option-selected {
+                    background-color: #2d323e;
+                    color: #fff;
+                }
+    
+                &.ng-option-marked.ng-option-selected{
+                    background-color: rgba(30, 33, 41, 0.3);
+                    color: #fff;
+                }
+            }
+            
+        }
+    }
 }
+
 
 
 /* *** SMALL SIDEBAR STYLE ***  */
@@ -936,5 +733,12 @@ ul.dropdown-menu > li > a {
 // ng-select custom class in Create ticket modal
 .ng-select.create-ticket-custom-select {
     margin-top: 5px !important;
+}
+
+
+
+//MODALS
+.modal-wrapper{
+    border-radius: 16px !important;
 }
 

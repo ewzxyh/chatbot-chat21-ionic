@@ -1,3 +1,4 @@
+import { ConversationModel } from 'src/chat21-core/models/conversation';
 import { EventsService } from './../../services/events-service';
 import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
 import { WebsocketService } from 'src/app/services/websocket/websocket.service';
@@ -11,6 +12,8 @@ import { TiledeskAuthService } from 'src/chat21-core/providers/tiledesk/tiledesk
 import { TiledeskService } from 'src/app/services/tiledesk/tiledesk.service';
 import { WebSocketJs } from 'src/app/services/websocket/websocket-js';
 import { AppConfigProvider } from 'src/app/services/app-config';
+import { ConvertRequestToConversation } from 'src/chat21-core/utils/convertRequestToConversation';
+import { compareValues } from 'src/chat21-core/utils/utils';
 
 @Component({
   selector: 'app-project-item',
@@ -28,6 +31,7 @@ export class ProjectItemComponent implements OnInit {
   tiledeskToken: string;
 
   unservedRequestCount: number = 0;
+  unservedConversations: ConversationModel[] = [];
   currentUserRequestCount: number;
   ROLE_IS_AGENT: boolean;
   currentUserId: string;
@@ -54,7 +58,8 @@ export class ProjectItemComponent implements OnInit {
     public tiledeskService: TiledeskService,
     public webSocketJs: WebSocketJs,
     private appConfigProvider: AppConfigProvider,
-    public events: EventsService
+    public events: EventsService,
+    public convertRequestToConversation: ConvertRequestToConversation
   ) { }
 
   ngOnInit() {
@@ -132,9 +137,10 @@ export class ProjectItemComponent implements OnInit {
       'LABEL_NOT_AVAILABLE',
       'LABEL_BUSY',
       'VIEW_ALL_CONVERSATIONS',
-      'CONVERSATIONS_IN_QUEUE',
-      'CONVERSATION_IN_QUEUE',
-      'NO_CONVERSATION_IN_QUEUE',
+      'UnassignedConversations',
+      // 'CONVERSATIONS_IN_QUEUE',
+      // 'CONVERSATION_IN_QUEUE',
+      // 'NO_CONVERSATION_IN_QUEUE',
       'PINNED_PROJECT',
       'CHANGE_PINNED_PROJECT',
       "CHANGE_TO_YOUR_STATUS_TO_AVAILABLE",
@@ -307,10 +313,16 @@ export class ProjectItemComponent implements OnInit {
           if (r['status'] === 100) {
             if (this.hasmeInAgents(r['agents']) === true) {
               count = count + 1;
+              let conv = this.convertRequestToConversation.getConvFromRequest(r)
+              if(!this.unservedConversations.find((el) => {return el.uid === conv.uid})){
+                this.unservedConversations.push(conv)
+                this.unservedConversations.sort(compareValues('timestamp', 'desc'))
+              }
             }
           }
         });
         //not sound if unservedRequest is already chached and web-sk is closed and restart again
+        // this.logger.log('updateUnservedRequestCount::: count , unservedRequestCount ', count , this.unservedRequestCount)
         if(count > this.unservedRequestCount ){  
           this.events.publish('unservedRequest:count', count)
         }

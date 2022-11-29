@@ -5,8 +5,8 @@
       *ngFor="let canned of tagsCannedFilter; let i = index;"
       (click)="onClickCannedFN(canned, $event)">
       <div class="cannedContent">
-        <ion-input [(ngModel)]="canned.title" class="title" id="{{'titleCanned_'+canned._id}}" [class.readonly]="canned?.disabled" [readonly]="canned?.disabled"></ion-input>
-        <ion-input [(ngModel)]="canned.text" *ngIf="canned.text" class="text truncate" [class.readonly]="canned?.disabled" [readonly]="canned?.disabled"></ion-input>
+        <ion-input [class.readonly]="canned?.disabled" [readonly]="canned?.disabled" type="text" [(ngModel)]="canned.title" class="title" id="{{'titleCanned_'+canned._id}}" #title></ion-input>
+        <ion-input [class.readonly]="canned?.disabled" [readonly]="canned?.disabled" type="text" [(ngModel)]="canned.text"  class="text truncate"></ion-input>
       </div>
       <ion-icon class="canned-item-icon"  name="checkmark-sharp" slot=end *ngIf="canned.createdBy === loggedUser.uid && !canned.disabled" (click)="onConfirmEditCanned(canned, $event)"></ion-icon>
       <ion-icon class="canned-item-icon"  name="pencil-sharp" slot=end *ngIf="canned.createdBy === loggedUser.uid && canned.disabled" (click)="onEditCanned(canned, $event)"></ion-icon>
@@ -18,16 +18,16 @@
      <label class="add-canned-response-label" >{{translationMap?.get('AddNewCannedResponse')}}</label> 
     </ion-item>
   </div>
-    <!-- LOADER -->
-    <div class="loader" *ngIf="tagsCannedFilter.length === 0">
+  <!-- LOADER -->
+  <div class="loader" *ngIf="tagsCannedFilter.length === 0">
     <div class="box">
       <!-- <div class="container">
-        <span class="circle"></span>
-        <span class="circle"></span>
-        <span class="circle"></span>
-        <span class="circle"></span>
+        <span class="circle" [ngStyle]="{'background-color': stylesMap?.get('themeColor')}"></span>
+        <span class="circle" [ngStyle]="{'background-color': stylesMap?.get('themeColor')}"></span>
+        <span class="circle" [ngStyle]="{'background-color': stylesMap?.get('themeColor')}"></span>
+        <span class="circle" [ngStyle]="{'background-color': stylesMap?.get('themeColor')}"></span>
       </div> -->
-      <div class="spinner"></div>
+      <div class="spinner" [ngStyle]="{'border-top-color': stylesMap?.get('themeColor')}"></div>
       <div class="label">{{translationMap.get('LABEL_LOADING')}}</div>
     </div>
   </div>

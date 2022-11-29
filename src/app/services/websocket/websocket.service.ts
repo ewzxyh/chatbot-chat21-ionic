@@ -41,7 +41,7 @@ export class WebsocketService {
 
       self.webSocketJs.ref(path, 'subscriptionToWsCurrentUser_allProject',
         function (data, notification) {
-          // console.log("[WS-SERV] SUBSCR TO WS CURRENT PROJECT-USER AVAILABILITY - CREATE - data ", data);
+          console.log("[WS-SERV] SUBSCR TO WS CURRENT PROJECT-USER AVAILABILITY - CREATE - data ", data);
           resolve(data)
           // self.currentUserWsAvailability$.next(data.user_available);
           self.currentProjectUserAvailability$.next(data)

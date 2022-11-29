@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{'LABEL_EMAIL' | translate}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button ion-button fill="clear" (click)="onClose()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="content-container">
+    <form [formGroup]="emailFormGroup" (ngSubmit)="onSubmit()">
+      <!-- <div class="form-group row">
+        <ion-item lines="none">
+          <ion-label position="floating">Oggetto</ion-label>
+          <ion-input type="text"  formControlName="topic"></ion-input>
+        </ion-item>
+      </div> -->
+      <div class="field-wrapper" id="div_input_topic" #div_input_topic>
+        <input type="text" formControlName="subject" >
+        <div class="field-placeholder"><span>{{translationMap?.get('SUBJECT')}}</span></div>
+      </div>
+
+      <ion-label class="message-placeholder">{{translationMap?.get('MESSAGE')}}</ion-label>
+      <div class="field-wrapper-email">
+        <ion-textarea 
+          formControlName="text"
+          autosize="false" 
+          auto-grow="true" 
+          autofocus="true" 
+          placeholder="{{translationMap?.get('MESSAGE_PLACEHOLDER')}}">
+        </ion-textarea>
+        <div class="info-wrapper">
+          <ion-label>Powered by</ion-label>
+          <img src="https://support-pre.tiledesk.com/dashboard/assets/img/logos/tiledesk-logo_new_gray.svg">
+        </div>
+      </div>
+
+      <div class="field-wrapper-submit">
+        <ion-button [disabled]="emailFormGroup.invalid" ion-button fill="clear" type="submit">{{translationMap?.get('LABEL_SEND')}}</ion-button>
+      </div>
+    </form>
+  </div>
+</ion-content>

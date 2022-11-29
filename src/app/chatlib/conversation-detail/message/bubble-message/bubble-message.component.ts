@@ -1,15 +1,15 @@
 import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MessageModel } from 'src/chat21-core/models/message';
-import { MAX_WIDTH_IMAGES, MIN_WIDTH_IMAGES } from 'src/chat21-core/utils/constants';
+import { MAX_WIDTH_IMAGES, MESSAGE_TYPE_MINE, MESSAGE_TYPE_OTHERS, MIN_WIDTH_IMAGES } from 'src/chat21-core/utils/constants';
 import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service';
-import { isFile, isFrame, isImage } from 'src/chat21-core/utils/utils-message';
+import { isFile, isFrame, isImage, messageType } from 'src/chat21-core/utils/utils-message';
 import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance';
 import { TranslateService } from '@ngx-translate/core';
 import { TiledeskAuthService } from 'src/chat21-core/providers/tiledesk/tiledesk-auth.service';
 import * as moment from 'moment';
-import { CreateCannedResponsePage } from 'src/app/pages/create-canned-response/create-canned-response.page'
 import { ModalController } from '@ionic/angular';
+import { convertColorToRGBA } from 'src/chat21-core/utils/utils';
 @Component({
   selector: 'chat-bubble-message',
   templateUrl: './bubble-message.component.html',
@@ -18,16 +18,25 @@ import { ModalController } from '@ionic/angular';
 export class BubbleMessageComponent implements OnInit, OnChanges {
 
   @Input() message: MessageModel;
-  @Input() textColor: string;
-  @Input() areVisibleCAR: boolean;
-  @Input() supportMode: boolean;
+  @Input() isSameSender: boolean;
+  @Input() fontColor: string;
+  @Input() fontSize: string;
+  @Input() fontFamily: string;
   @Output() onBeforeMessageRender = new EventEmitter();
   @Output() onAfterMessageRender = new EventEmitter();
   @Output() onElementRendered = new EventEmitter<{element: string, status: boolean}>();
   isImage = isImage;
   isFile = isFile;
   isFrame = isFrame;
-  @Input() addAsCannedResponseTooltipText : string;
+  convertColorToRGBA = convertColorToRGBA
+
+  // ========== begin:: check message type functions ======= //
+  messageType = messageType;
+
+  MESSAGE_TYPE_MINE = MESSAGE_TYPE_MINE;
+  MESSAGE_TYPE_OTHERS = MESSAGE_TYPE_OTHERS;
+ // ========== end:: check message type functions ======= //
+ 
   public browserLang: string;
 
   tooltipOptions = {
@@ -192,25 +201,6 @@ export class BubbleMessageComponent implements OnInit, OnChanges {
 
   onElementRenderedFN(event){
     this.onElementRendered.emit({element: event.element, status: event.status})
-  }
-
-  async presentCreateCannedResponseModal(): Promise<any> {
-    this.logger.log('[BUBBLE-MESSAGE] PRESENT CREATE CANNED RESPONSE MODAL ')
-    const attributes = {
-       message: this.message,
-    }
-    const modal: HTMLIonModalElement = await this.modalController.create({
-      component: CreateCannedResponsePage,
-      componentProps: attributes,
-      swipeToClose: false,
-      backdropDismiss: false,
-    })
-    modal.onDidDismiss().then((dataReturned: any) => {
-      // 
-      this.logger.log('[BUBBLE-MESSAGE] ', dataReturned.data)
-    })
-
-    return await modal.present()
   }
 
 

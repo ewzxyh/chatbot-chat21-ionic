@@ -1,66 +1,56 @@
-<!-- <ion-grid>
-  <ion-row id="message-text-area">
+<ion-grid>
+  <div class="footer-options-container">
+    <!-- CHAT-OPTION -->
+    <div class="section-option" id="chat"  tooltip="{{translationMap?.get('LABEL_CHAT')}}" [options]="tooltipOptions" placement="top">
+      <ion-button fill="clear" (click)="onOpenSection('chat')" [class.active]="section==='chat'">
+        <ion-icon name="chatbubbles"></ion-icon>
+        {{translationMap.get('LABEL_CHAT')}}
+      </ion-button>
+    </div>
+    <!-- EMAIL-OPTION -->
+    <div class="section-option" id="email"  tooltip="{{translationMap?.get('LABEL_EMAIL')}}" [options]="tooltipOptions" placement="top">
+      <ion-button fill="clear" [class.active]="section==='email'" (click)="onOpenSection('email')" [disabled]="channelType === 'direct'">
+        <ion-icon name="mail-open"></ion-icon>
+        {{translationMap.get('LABEL_EMAIL')}}
+      </ion-button>
+    </div>
+  </div>
+
+  <ion-row id="message-email" [style.display]="section==='email'? 'flex': 'none'">
     <ion-col col-auto>
-      <div class="buttons-left">
-
-        <ion-button ion-button fill="clear" class="upload-image-btn">
-          <ion-icon slot="icon-only" lazy="true" name="attach-outline"
-            style="font-size: 30px;transform: rotate(42deg);"></ion-icon>
-          <input #fileInput type="file" (change)="onFileSelected($event)" capture="camera" id="file-input"
-            [accept]="fileUploadAccept">
-        </ion-button>
-      </div>
-
-      <div class="text-message">
-        <ion-textarea id="ion-textarea" #messageTextArea #message_text_area #textArea rows="1"
-          [placeholder]="TEXAREA_PLACEHOLDER" autosize="false" auto-grow="true" autofocus="true" [value]=""
-          [(ngModel)]="messageString" (ionChange)="ionChange($event);"
-          (keydown.enter)="onKeydown($event, messageString)" (paste)="onPaste($event)">
-        </ion-textarea>
-      </div>
-
-      <div class="buttons-right">
-        <ion-button [disabled]="conversationEnabled === false" class="send-button right active" ion-button fill="clear"
-          (click)="sendMessage(messageString)">
-          <ion-icon
-            [ngClass]="{'send-msg-disabled': conversationEnabled === false,'send-msg-activated': conversationEnabled === true }"
-            slot="icon-only" name="send"></ion-icon>
-        </ion-button>
-      </div>
+      <div *ngIf="leadInfo?.hasEmail" class="placeholder" (click)="onOpenEmailModal()">{{translationMap.get('EMAIL_PLACEHOLDER')}}</div>
+      <div *ngIf="!leadInfo?.hasEmail" class="placeholder noEmail">{{translationMap.get('EMAIL_NOT_FOUND_PLACEHOLDER')}}</div>
     </ion-col>
   </ion-row>
-</ion-grid> -->
 
-<!-- --------------------------------------------------------------------------------------------------------------------- -->
-<!-- ----------new -->
-<ion-grid>
-  <ion-row id="message-text-area">
+  <ion-row id="message-text-area" [style.display]="section==='chat'? 'flex': 'none'">
 
     <ion-col col-auto>
 
       <div class="start-buttons" style="position: absolute;display: flex; top: 2px;">
 
+        <!-- CANNED RESPONSES -->
         <ng-container *ngIf="areVisibleCAR && supportMode">
           <div class="canned-responses-btn-wpr" style="margin-left: -5px;"
             tooltip="{{translationMap?.get('CANNED_RESPONSES')}}" [options]="tooltipOptions" placement="top">
             <ion-button ion-button fill="clear" class="canned-responses-btn" (click)="openCannedResponses()"
-              [disabled]="!IS_SUPPORT_GROUP_CONVERSATION || disableTextarea">
+              [disabled]="!conversationWith?.startsWith(TYPE_SUPPORT_GROUP) || disableTextarea">
               <ion-icon slot="icon-only" lazy="true" name="flash-outline" style="font-size: 24px;"></ion-icon>
             </ion-button>
           </div>
-          <div *ngIf="IS_SUPPORT_GROUP_CONVERSATION  && tagsCannedCount === 0"
+          <div *ngIf="conversationWith?.startsWith(TYPE_SUPPORT_GROUP)  && tagsCannedCount === 0"
             tooltip="{{translationMap?.get('NO_CANNED_RESPONSES')}}" [options]="tooltipOptions" placement="top"
             class="no-canned-responses-btn-badge">
             <ion-icon name="alert-sharp" style="vertical-align: middle;"></ion-icon>
           </div>
-          <div *ngIf="IS_SUPPORT_GROUP_CONVERSATION  && tagsCannedCount > 0"
+          <div *ngIf="conversationWith?.startsWith(TYPE_SUPPORT_GROUP)  && tagsCannedCount > 0"
             tooltip="{{translationMap?.get('YES_CANNED_RESPONSES')}}" [options]="tooltipOptions" placement="top"
             class="canned-responses-btn-badge">
             <ion-icon name="information-sharp" style="vertical-align: middle;"></ion-icon>
           </div>
         </ng-container>
 
-
+        <!-- UPLOAD ATTACHMENT -->
         <div class="upload-image-btn-wpr" tooltip="{{translationMap?.get('UPLOAD')}}" [options]="tooltipOptions"
           placement="top">
           <ion-button ion-button fill="clear" class="upload-image-btn" [disabled]="disableTextarea">
@@ -95,7 +85,8 @@
             [perLine]="emojiPerLine" 
             [style.visibility]="showEmojiPicker?'visible':'hidden'"  
             [include]="emojiiCategories"
-            [color]="emojiColor" 
+            [color]="emojiColor"
+            [custom]="customEmojis"
             [ngClass]="{'emoji-mart-desktop': !IS_ON_MOBILE_DEVICE, 'emoji-mart-mobile': IS_ON_MOBILE_DEVICE }"
             (emojiSelect)="addEmoji($event)">
           </emoji-mart>
@@ -110,12 +101,18 @@
 
       <div class="text-message" [ngClass]="{'text-message-no-cr': areVisibleCAR === false || supportMode === false}">
         <ion-textarea id="ion-textarea" #messageTextArea #message_text_area #textArea rows="1"
-          [placeholder]="TEXAREA_PLACEHOLDER" autosize="false" auto-grow="true" autofocus="true" [value]=""
-          [(ngModel)]="messageString" (ionChange)="ionChange($event);" [disabled]="disableTextarea"
-          (keydown.enter)="onKeydown($event, messageString)" (paste)="onPaste($event)">
+          [placeholder]="translationMap?.get('LABEL_ENTER_MSG_SHORT')" 
+          autosize="false" 
+          auto-grow="true" 
+          autofocus="true" 
+          [value]=""
+          [disabled]="disableTextarea"
+          [(ngModel)]="messageString" 
+          (ionChange)="ionChange($event);" 
+          (keydown.enter)="onKeydown($event, messageString)" 
+          (paste)="onPaste($event)">
         </ion-textarea>
       </div>
-
       <div class="buttons-right">
         <ion-button [disabled]="conversationEnabled === false" class="send-button right active" ion-button fill="clear"
           (click)="sendMessage(messageString)">

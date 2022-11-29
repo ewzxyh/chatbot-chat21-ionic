@@ -21,10 +21,6 @@ import { ConversationDetailPage } from './conversation-detail.page';
 // tslint:disable-next-line: max-line-length
 import { HeaderConversationDetailComponent } from '../../components/conversation-detail/header-conversation-detail/header-conversation-detail.component';
 import { MessageTextAreaComponent } from '../../components/conversation-detail/message-text-area/message-text-area.component';
-import { BubbleDayMessageComponent } from '../../components/conversation-detail/bubble-day-message/bubble-day-message.component';
-import { BubbleSystemMessageComponent } from '../../components/conversation-detail/bubble-system-message/bubble-system-message.component';
-import { BubbleMyMessageComponent } from '../../components/conversation-detail/bubble-my-message/bubble-my-message.component';
-import { BubbleOthersMessageComponent } from '../../components/conversation-detail/bubble-others-message/bubble-others-message.component';
 // import { InfoContentComponent } from '../../components/conversation-info/info-content/info-content.component';
 // import { InfoDirectComponent } from '../../components/conversation-info/info-direct/info-direct.component';
 import { InfoContentComponent } from 'src/app/components/conversation-info/info-content/info-content.component';
@@ -65,10 +61,6 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
     HeaderConversationDetailComponent,
     MessageTextAreaComponent,
     CannedResponseComponent,
-    // BubbleDayMessageComponent,
-    // BubbleSystemMessageComponent,
-    // BubbleMyMessageComponent,
-    // BubbleOthersMessageComponent,
     // InfoContentComponent,
     // InfoSupportGroupComponent,
     // InfoDirectComponent,

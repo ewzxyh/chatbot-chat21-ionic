@@ -23,6 +23,7 @@ export class InfoGroupComponent implements OnInit, AfterViewInit, OnChanges {
   // objectKeys = Object.keys;
 
   @Input() groupDetail: any;
+  @Input() isMobile: boolean;
   // @Input() member_array: any;
   public displaySkeletonScreen: boolean = true;
   public member_array: any

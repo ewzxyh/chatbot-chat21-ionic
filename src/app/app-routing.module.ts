@@ -43,7 +43,7 @@ const routes: Routes = [
   },
   {
     path: 'loader-preview',
-    loadChildren: () => import('./pages/loader-preview/loader-preview.module').then( m => m.LoaderPreviewPageModule)
+    loadChildren: () => import('./modals/loader-preview/loader-preview.module').then( m => m.LoaderPreviewPageModule)
   },
   {
     path: 'unassigned-conversations',
@@ -59,8 +59,13 @@ const routes: Routes = [
   },
   {
     path: 'create-canned-response',
-    loadChildren: () => import('./pages/create-canned-response/create-canned-response.module').then( m => m.CreateCannedResponsePageModule)
+    loadChildren: () => import('./modals/create-canned-response/create-canned-response.module').then( m => m.CreateCannedResponsePageModule)
+  },
+  {
+    path: 'send-email',
+    loadChildren: () => import('./modals/send-email/send-email.module').then( m => m.SendEmailModalModule)
   }
+
 
 
 

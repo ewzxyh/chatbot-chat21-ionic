@@ -1,23 +1,29 @@
 <span *ngIf="conversationWith && loggedUser; then showConversation else showPlaceholder"></span>
 <ng-template #showPlaceholder>
+
+  <ion-header no-border class="ion-no-border" [class.mobile]="isMobile">
+    <ion-toolbar [class.mobile]="isMobile">
+
+    </ion-toolbar>
+  </ion-header>
   <!-- class="splash-page" -->
-  <ion-content padding>
+  <ion-content padding id="contentPlaceholder" [class.mobile]="isMobile"> 
     <!-- <div padding class="image-splash-page"></div>
     <div padding class="title-splash-page">
       text new conversation + button
     </div> -->
+    
 
-    <ion-grid style="height: 100%;">
-      <ion-row class="ion-justify-content-center ion-align-items-center" style="height: 100%; flex-direction: column">
+    <ion-grid class="grid_content" [class.mobile]="isMobile">
+      <ion-row class="row_content ion-justify-content-center ion-align-items-center" style="flex-direction: column">
         <span *ngIf="isOnline === true  && !showSpinner"
-          style="color: #92949c; font-size: 16px;line-height: 18px;margin-top: -160px;">
+          style="color: #92949c; font-size: 16px;line-height: 18px;">
           <span *ngIf="conversation_count > 0 ">
             {{'PleaseSelectChatToStartMessaging' | translate }}
           </span>
           <span *ngIf="conversation_count === 0" style="line-height: 1.2;color: #4b5258;
         font-weight: 500;">
             {{'ALL_CONVS_SERVED' | translate}}
-
           </span>
 
         </span>
@@ -37,15 +43,13 @@
     [idLoggedUser]="loggedUser.uid"
     [conversationUid]="conversationWith"
     [conversationAvatar]="conversationAvatar" 
-    [translationMap]="translationMap"
-    [isOpenInfoConversation]="isOpenInfoConversation" 
-    [conv_type]="conv_type"
-    (eventOpenCloseInfoConversation)="returnOpenCloseInfoConversation($event)">
+    [translationsMap]="translationsHeaderMap"
+    [conv_type]="conv_type">
   </app-header-conversation-detail>
 
-  <ion-content id="conv-details">
-    <ion-grid class="grid_content">
-      <ion-row class="row_content">
+  <ion-content id="conv-details" [class.mobile]="isMobile">
+    <ion-grid class="grid_content" [class.mobile]="isMobile">
+      <ion-row class="row_content" [class.mobile]="isMobile">
         <ion-col id="chatArea" [class.mobile]="isMobile" [class.open]="openInfoConversation"
         [ngClass]="{'chat-area-apps-sidebar-wide': appsidebarIsWide === true}">
 
@@ -98,10 +102,15 @@
             </ng-template>
 
             <ng-template #content_messages>
-              <ion-content #ionContentChatArea appScrollbarTheme class="ionContentChatArea" (drop)="drop($event)"
-                (dragover)="allowDrop($event)" (dragleave)="drag($event)" [scrollEvents]="true"
-                (ionScrollStart)="logScrollStart($event)" (ionScroll)="logScrolling($event)"
-                (ionScrollEnd)="logScrollEnd($event)" [class.active]="showIonContent">
+              <ion-content #ionContentChatArea appScrollbarTheme class="ionContentChatArea" 
+                (drop)="drop($event)"
+                (dragover)="allowDrop($event)" 
+                (dragleave)="drag($event)" 
+                [scrollEvents]="true"
+                (ionScrollStart)="logScrollStart($event)" 
+                (ionScroll)="logScrolling($event)"
+                (ionScrollEnd)="logScrollEnd($event)" 
+                [class.active]="true">
 
                 <!-- ----------------------------------------------------------- -->
                 <!-- DROPZONE -->
@@ -125,7 +134,13 @@
                   [senderId]="loggedUser.uid"
                   [baseLocation]="window?.location?.origin"
                   [areVisibleCAR]="areVisibleCAR" 
-                  [supportMode]= "supportMode" 
+                  [supportMode]= "supportMode"
+                  [isMobile]="isMobile"
+                  [isTypings]="isTypings"
+                  [openInfoConversation]="openInfoConversation"
+                  [idUserTypingNow]="idUserTypingNow"
+                  [nameUserTypingNow]="nameUserTypingNow" 
+                  [translationMap]="translationsContentMap"
                   [stylesMap]="styleMap"
                   (onBeforeMessageRender)="onBeforeMessageRenderFN($event)"
                   (onAfterMessageRender)="onAfterMessageRenderFN($event)"
@@ -133,7 +148,8 @@
                   (onScrollContent)="returnOnScrollContent($event)" 
                   (onMenuOptionShow)="returnOnMenuOption($event)"
                   (onElementRendered)="onElementRenderedFN($event)"
-                  (onAddUploadingBubble)="addUploadingBubbleEvent($event)">
+                  (onAddUploadingBubble)="addUploadingBubbleEvent($event)"
+                  (onOpenCloseInfoConversation)="onOpenCloseInfoConversation($event)">
                 </ion-conversation-detail>
 
               </ion-content>
@@ -155,7 +171,8 @@
               [conversationWith]="conversationWith"
               [conversationWithFullname]="conversationWithFullname"
               [currentString]="messageStr"
-              [translationMap]="translationMap"
+              [stylesMap]="styleMap"
+              [translationMap]="translationsMap"
               (onLoadedCannedResponses)="onLoadedCannedResponses($event)"
               (onClickCanned)="replaceTagInMessage($event)"
               (onClickAddCannedResponse)="presentCreateCannedResponseModal()">
@@ -205,21 +222,24 @@
             <!-- [tagsCannedFilter]="tagsCannedFilter" -->
             <!-- openInfoConversation   {{openInfoConversation}} - isMobile {{isMobile}} -->
             <app-message-text-area *ngIf="(openInfoConversation === false && isMobile === true) || (openInfoConversation === true && isMobile === false) || (openInfoConversation === false && isMobile === false)"
+              [loggedUser]="loggedUser" 
+              [conversationWith]="conversationWith" 
+              [channelType]="channelType"
+              [tagsCannedFilter]="tagsCannedFilter"
               [tagsCannedCount]="tagsCannedCount" 
               [areVisibleCAR]="areVisibleCAR" 
               [supportMode]="supportMode"
-              [loggedUser]="loggedUser" 
-              [conversationWith]="conversationWith" 
-              [tagsCannedFilter]="tagsCannedFilter"
-              [translationMap]="translationMap"
+              [leadInfo]="leadInfo"
               [fileUploadAccept]="appConfigProvider.getConfig().fileUploadAccept"
-              [isOpenInfoConversation]="isOpenInfoConversation" 
+              [isOpenInfoConversation]="openInfoConversation" 
+              [translationMap]="translationsMap"
               [dropEvent]="dropEvent"
               [disableTextarea]="disableTextarea"
               (eventChangeTextArea)="returnChangeTextArea($event)"
               (onClickOpenCannedResponses)="onClickOpenCannedResponses($event)"
               (eventSendMessage)="returnSendMessage($event)" 
-              (onPresentModalScrollToBottom)="onPresentModalScrollToBottom($event)">
+              (onPresentModalScrollToBottom)="onPresentModalScrollToBottom($event)"
+              (onOpenFooterSection)="onOpenFooterSection($event)">
             </app-message-text-area>
             <!-- [events]="eventsReplaceTexareaText.asObservable()" -->
           </ion-row>
@@ -230,10 +250,11 @@
         [ngClass]="{'info-convs-apps-sidebar-wide': appsidebarIsWide === true}">
           <app-info-content 
             [openInfoConversation]="openInfoConversation" 
-            [translationMap]="translationMap"
             [loggedUser]="loggedUser" 
             [tenant]="tenant" 
-            [groupDetail]="groupDetail">
+            [groupDetail]="groupDetail"
+            [isMobile]="isMobile"
+            [translationMap]="translationsMap">
           </app-info-content>
         </ion-col>
 

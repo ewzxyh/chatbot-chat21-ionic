@@ -92,6 +92,7 @@ export class ConversationListPage implements OnInit {
   public displayNewConvsItem: boolean = true
   public archiveActionNotAllowed: boolean = false
 
+  public isMobile: boolean = false;
   public isInitialized: boolean = false;
 
   tooltipOptions = {
@@ -122,8 +123,8 @@ export class ConversationListPage implements OnInit {
     public appConfigProvider: AppConfigProvider,
     public platform: Platform,
     private networkService: NetworkService,
-    private appStorageService: AppStorageService
   ) {
+    this.checkPlatform();
     this.listenToAppCompConvsLengthOnInitConvs()
     this.listenToAppIsInitialized()
     this.listenToLogoutEvent()
@@ -134,6 +135,16 @@ export class ConversationListPage implements OnInit {
     this.listenSupportConvIdHasChanged()
     // this.listenDirectConvIdHasChanged();
     this.listenToCloseConvFromHeaderConversation()
+  }
+
+  private checkPlatform(){
+    if (checkPlatformIsMobile()) {
+      this.isMobile = true
+      this.logger.log('[CONVS-LIST-PAGE] - initialize -> checkPlatformIsMobile isMobile? ', this.isMobile)
+    } else {
+      this.isMobile = false
+      this.logger.log('[CONVS-LIST-PAGE] - initialize -> checkPlatformIsMobile isMobile? ', this.isMobile)
+    }
   }
 
   listenSupportConvIdHasChanged() {
@@ -401,7 +412,6 @@ export class ConversationListPage implements OnInit {
     })
   }
 
-
   listenGoOnline() {
     this.events.subscribe('go:online', (goonline) => {
       this.logger.info('[CONVS-LIST-PAGE] - listen To go:online - goonline',goonline)
@@ -492,11 +502,11 @@ export class ConversationListPage implements OnInit {
     })
 
     this.conversationsHandlerService.conversationRemoved.subscribe((conversation: ConversationModel) => {
-        // this.logger.log('[CONVS-LIST-PAGE] ***** conversationsRemoved *****',conversation)
+        this.logger.log('[CONVS-LIST-PAGE] ***** conversationsRemoved *****',conversation)
     })
 
     this.archivedConversationsHandlerService.archivedConversationAdded.subscribe((conversation: ConversationModel) => {
-        // this.logger.log('[CONVS-LIST-PAGE] ***** archivedConversationAdded *****',conversation)
+        this.logger.log('[CONVS-LIST-PAGE] ***** archivedConversationAdded *****',conversation)
         // that.conversationsChanged(conversations);
         if (conversation) {
           this.onImageLoaded(conversation)
@@ -513,22 +523,6 @@ export class ConversationListPage implements OnInit {
     this.uidConvSelected = null
     this.logger.log('[CONVS-LIST-PAGE] - subscribeLoggedUserLogout conversations ',this.conversations)
     this.logger.log('[CONVS-LIST-PAGE] - subscribeLoggedUserLogout uidConvSelected ',this.uidConvSelected)
-  }
-
-  // ------------------------------------------------------------------------------------
-  // @ SUBSCRIBE TO CONVERSATION CHANGED  ??????????? SEEMS NOT USED ?????????????????
-  // ------------------------------------------------------------------------------------
-  conversationsChanged = (conversations: ConversationModel[]) => {
-    this.numberOpenConv = this.conversationsHandlerService.countIsNew()
-    this.logger.log('[CONVS-LIST-PAGE] - conversationsChanged - NUMB OF CONVERSATIONS: ',this.numberOpenConv)
-    // console.log('conversationsChanged »»»»»»»»» uidConvSelected', that.conversations[0], that.uidConvSelected);
-    if (this.uidConvSelected && !this.conversationSelected) {
-      const conversationSelected = this.conversations.find((item) => item.uid === this.uidConvSelected)
-      if (conversationSelected) {
-        this.conversationSelected = conversationSelected
-        this.setUidConvSelected(this.uidConvSelected)
-      }
-    }
   }
 
   /**
@@ -646,7 +640,7 @@ export class ConversationListPage implements OnInit {
    * ::: setUidConvSelected :::
    */
   setUidConvSelected(uidConvSelected: string, conversationType?: string) {
-    this.logger.log('[CONVS-LIST-PAGE] setuidCOnvSelected', uidConvSelected)
+    this.logger.log('[CONVS-LIST-PAGE] setuidCOnvSelected', uidConvSelected, conversationType)
     this.uidConvSelected = uidConvSelected
     // this.conversationsHandlerService.uidConvSelected = uidConvSelected;
     if (uidConvSelected) {
@@ -677,6 +671,7 @@ export class ConversationListPage implements OnInit {
       this.navigateByUrl('active', conversation.uid)
       this.conversationsHandlerService.uidConvSelected = conversation.uid
       this.logger.log('[CONVS-LIST-PAGE] onConversationSelected active conversation.uid ', conversation.uid)
+      this.events.publish('convList:onConversationSelected', conversation)
     }
   }
 
@@ -744,7 +739,14 @@ export class ConversationListPage implements OnInit {
         }
       }
     }
-
+    
+    if(conversation.attributes && conversation.attributes['projectId']){
+      let project = localStorage.getItem(conversation.attributes['projectId'])
+      if(project){
+        project = JSON.parse(project)
+        conversation.attributes.project_name = project['name']
+      }
+    }
     // if(conversation.conversation_with_fullname === 'Guest '){
     //   conversation.conversation_with_fullname = 'guest' + '#' + this.getUUidConversation(conversation.uid)
     // }
@@ -811,7 +813,7 @@ export class ConversationListPage implements OnInit {
       this.router.navigateByUrl(pageUrl.replace(/\(/g, '%28').replace(/\)/g, '%29').replace( /#/g, "%23" ), {replaceUrl: true})
     }
   }
-  
+
   // ---------------------------------------------------------
   // Opens the list of contacts for direct convs
   // ---------------------------------------------------------
@@ -821,6 +823,7 @@ export class ConversationListPage implements OnInit {
     if (checkPlatformIsMobile()) {
       presentModal(this.modalController, ContactsDirectoryPage, {
         token: TOKEN,
+        isMobile: this.isMobile
       })
     } else {
       this.navService.push(ContactsDirectoryPage, { token: TOKEN })
@@ -1024,7 +1027,6 @@ export class ConversationListPage implements OnInit {
         } catch (err) {
           this.logger.error('Event:Agent added to conversation [group] error', err);
         }
-  
       }
     }
   }

@@ -1,5 +1,3 @@
-import { TYPE_DIRECT } from 'src/chat21-core/utils/constants';
-import { TYPE_SUPPORT_GROUP, URL_SOUND_LIST_CONVERSATION } from './../../../chat21-core/utils/constants'
 import {
   Component,
   OnInit,
@@ -47,17 +45,19 @@ import { ArchivedConversationsHandlerService } from 'src/chat21-core/providers/a
 import { ConversationHandlerService } from 'src/chat21-core/providers/abstract/conversation-handler.service'
 import { ContactsService } from 'src/app/services/contacts/contacts.service'
 import { CannedResponsesService } from '../../services/canned-responses/canned-responses.service'
-import { compareValues, getDateDifference, htmlEntities } from '../../../chat21-core/utils/utils'
+import { compareValues, getDateDifference, htmlEntities } from 'src/chat21-core/utils/utils'
 import { ImageRepoService } from 'src/chat21-core/providers/abstract/image-repo.service'
 import { PresenceService } from 'src/chat21-core/providers/abstract/presence.service'
-import { CreateCannedResponsePage } from 'src/app/pages/create-canned-response/create-canned-response.page'
+import { CreateCannedResponsePage } from 'src/app/modals/create-canned-response/create-canned-response.page'
 // utils
 import {
   TYPE_MSG_TEXT,
   MESSAGE_TYPE_INFO,
   MESSAGE_TYPE_MINE,
   MESSAGE_TYPE_OTHERS,
-} from '../../../chat21-core/utils/constants'
+  URL_SOUND_LIST_CONVERSATION, 
+  TYPE_DIRECT 
+} from 'src/chat21-core/utils/constants'
 import {
   checkPlatformIsMobile,
   checkWindowWidthIsLessThan991px,
@@ -111,22 +111,20 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   public groupDetail: GroupModel
   public messageSelected: any
   public channelType: string
-  public online: boolean
+  public leadIsOnline: boolean
   public lastConnectionDate: string
   public showMessageWelcome: boolean
   public openInfoConversation = false
-  public openInfoMessage: boolean // check is open info message
   public isMobile = false
   public isLessThan991px = false // nk added
-  public isTyping = false
-  public nameUserTypingNow: string
 
   public heightMessageTextArea = ''
-  public translationMap: Map<string, string>
+  public translationsMap: Map<string, string> = new Map()
+  public translationsHeaderMap: Map<string, string> = new Map() 
+  public translationsContentMap: Map<string, string> = new Map()
   public conversationAvatar: any
-  public membersConversation: any
+  public leadInfo: {lead_id: string, hasEmail: boolean , email: string, projectId: string};
   public member: UserModel
-  public urlConversationSupportGroup: any
   public isFileSelected: boolean
   public showIonContent = false
   public conv_type: string
@@ -150,7 +148,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   //SOUND
   setTimeoutSound: any;
   audio: any;
-  isOpenInfoConversation: boolean;
   USER_HAS_OPENED_CLOSE_INFO_CONV: boolean = false;
   isHovering: boolean = false;
   conversation_count: number;
@@ -171,6 +168,15 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   public msgCount: number;
   public disableTextarea: boolean;
   appsidebarIsWide: boolean;
+
+  // ========== begin:: typying =======
+  public isTypings = false;
+  public isDirect = false;
+  public idUserTypingNow: string;
+  public nameUserTypingNow: string;
+  private setTimeoutWritingMessages;
+  membersConversation = ['SYSTEM'];
+  // ========== end:: typying =======
 
   /**
    * Constructor
@@ -210,13 +216,17 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     public archivedConversationsHandlerService: ArchivedConversationsHandlerService,
     public conversationHandlerService: ConversationHandlerService,
     public groupService: GroupsHandlerService,
+    public contactsService: ContactsService,
     public conversationHandlerBuilderService: ConversationHandlerBuilderService,
     public cannedResponsesService: CannedResponsesService,
+    public imageRepoService: ImageRepoService,
     public presenceService: PresenceService,
     public toastController: ToastController,
     public tiledeskService: TiledeskService,
     private networkService: NetworkService,
     private events: EventsService,
+    private renderer: Renderer2,
+    private el: ElementRef
   ) {
     // Change list on date change
     this.route.paramMap.subscribe((params) => {
@@ -236,21 +246,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   // -----------------------------------------------------------
   ngOnInit() {
     this.logger.log('[CONVS-DETAIL] > ngOnInit - window.location: ', window.location);
-    // this.logger.log('[CONVS-DETAIL] > ngOnInit - fileUploadAccept: ', this.appConfigProvider.getConfig().fileUploadAccept);
-    // const accept_files = this.appConfigProvider.getConfig().fileUploadAccept;
-    // this.logger.log('[CONVS-DETAIL] > ngOnInit - fileUploadAccept typeof accept_files ', typeof accept_files);
-    // const accept_files_array = accept_files.split(',')
-    // this.logger.log('[CONVS-DETAIL] > ngOnInit - fileUploadAccept accept_files_array ', accept_files_array);
-    // this.logger.log('[CONVS-DETAIL] > ngOnInit - fileUploadAccept accept_files_array typeof: ', typeof accept_files_array);
 
-    // accept_files_array.forEach(accept_file => {
-    //   this.logger.log('[CONVS-DETAIL] > ngOnInit - fileUploadAccept accept_file ', accept_file);
-    //   const accept_file_segment = accept_file.split('/')
-    //   this.logger.log('[CONVS-DETAIL] > ngOnInit - fileUploadAccept accept_file_segment ', accept_file_segment);
-    //   if (accept_file_segment[1] === '*') {
-
-    //   }
-    // });
     this.getConversations();
     this.watchToConnectionStatus();
     this.getOSCODE();
@@ -271,21 +267,21 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       // console.log('[CONVS-DETAIL] HAS CLICKED ENLARGE SIDEBAR WIDE chatAreaEle ', chatAreaEle)
 
       if (event && event.data && event.data.action && event.data.action === 'openAppsSidebarWideMode' && event.data.parameter === true) {
-        this.logger.log('[CONVS-DETAIL] HERE YES 1')
+        this.logger.log('[CONVS-DETAIL] openAppsSidebarWideMode EVENT-> open' )
         this.appsidebarIsWide = true
         // chat21InfoConversationEle.classList.add("info-convs-apps-sidebar-wide");
         // chatAreaEle.classList.add("chat-area-apps-sidebar-wide");
       }
 
       if (event && event.data && event.data.action && event.data.action === 'openAppsSidebarWideMode' && event.data.parameter === false) {
-        this.logger.log('[CONVS-DETAIL] HERE YES 2')
+        this.logger.log('[CONVS-DETAIL] openAppsSidebarWideMode EVENT-> close')
         this.appsidebarIsWide = false
         // chat21InfoConversationEle.classList.remove("info-convs-apps-sidebar-wide");
         // chatAreaEle.classList.remove("chat-area-apps-sidebar-wide");
       }
 
       if (event && event.data && event.data.action && event.data.action === 'closeAppsSidebarWideMode' && event.data.parameter === true) {
-        this.logger.log('[CONVS-DETAIL] HERE YES 3')
+        this.logger.log('[CONVS-DETAIL] closeAppsSidebarWideMode EVENT-> close')
         this.appsidebarIsWide = false
         // chat21InfoConversationEle.classList.remove("info-convs-apps-sidebar-wide");
         // chatAreaEle.classList.remove("chat-area-apps-sidebar-wide");
@@ -335,7 +331,13 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         //   this.updateConversationBadge()
         // }
         if(conv.uid && conv.uid === this.conversationWith){
-          this.conversationAvatar = setConversationAvatar(conv.conversation_with,conv.conversation_with_fullname,conv.channel_type)
+          this.conversationAvatar = setConversationAvatar(
+            conv.conversation_with,
+            conv.conversation_with_fullname,
+            conv.channel_type,
+            null,
+            conv.attributes['projectId'],
+            conv.attributes['project_name'])
         }
 
       }
@@ -473,6 +475,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     this.loggedUser = this.tiledeskAuthService.getCurrentUser()
     this.logger.log('[CONVS-DETAIL] - initialize -> loggedUser: ', this.loggedUser)
     this.translations()
+    this.setStyleMap()
     // this.conversationSelected = localStorage.getItem('conversationSelected');
     this.showButtonToBottom = false
     this.showMessageWelcome = false
@@ -487,7 +490,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
     this.messages = [] // list messages of conversation
     this.isFileSelected = false // indicates if a file has been selected (image to upload)
-    this.openInfoMessage = false // indicates whether the info message panel is open
 
     if (checkPlatformIsMobile()) {
       this.isMobile = true
@@ -503,18 +505,13 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       if (checkWindowWidthIsLessThan991px()) {
         this.logger.log('[CONVS-DETAIL] - initialize -> checkWindowWidthIsLessThan991px ', checkWindowWidthIsLessThan991px())
         this.openInfoConversation = false // indica se è aperto il box info conversazione
-        this.isOpenInfoConversation = false
-        this.logger.log('[CONVS-DETAIL] - initialize -> openInfoConversation ', this.openInfoConversation, ' -> isOpenInfoConversation ', this.isOpenInfoConversation)
+        this.logger.log('[CONVS-DETAIL] - initialize -> openInfoConversation ', this.openInfoConversation)
       } else {
         this.logger.log('[CONVS-DETAIL] - initialize -> checkWindowWidthIsLessThan991px ', checkWindowWidthIsLessThan991px())
         this.openInfoConversation = true
-        this.isOpenInfoConversation = true
-        this.logger.log('[CONVS-DETAIL] - initialize -> openInfoConversation ', this.openInfoConversation, ' -> isOpenInfoConversation ', this.isOpenInfoConversation)
+        this.logger.log('[CONVS-DETAIL] - initialize -> openInfoConversation ', this.openInfoConversation)
       }
     }
-
-    this.online = false
-    this.lastConnectionDate = ''
 
     // init handler vengono prima delle sottoscrizioni!
     // this.initConversationsHandler(); // nk
@@ -524,10 +521,13 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       this.initConversationHandler()
       this.initGroupsHandler()
       this.initSubscriptions()
+      this.getLeadDetail()
     }
     this.addEventsKeyboard()
     this.startConversation()
     this.updateConversationBadge() // AGGIORNO STATO DELLA CONVERSAZIONE A 'LETTA' (is_new = false)
+  
+    this.initializeTyping();
   }
 
   _getProjectIdByConversationWith(conversationWith: string) {
@@ -562,13 +562,20 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     })
   }
 
-  returnOpenCloseInfoConversation(openInfoConversation: boolean) {
-    this.logger.log('[CONVS-DETAIL] returnOpenCloseInfoConversation - openInfoConversation ', openInfoConversation)
-    this.resizeTextArea()
-    this.openInfoMessage = false
-    this.openInfoConversation = openInfoConversation
-    this.isOpenInfoConversation = openInfoConversation
-    this.USER_HAS_OPENED_CLOSE_INFO_CONV = true
+  getProjectIdSelectedConversation(conversationWith: string): string{
+    const conversationWith_segments = conversationWith.split('-')
+    // Removes the last element of the array if is = to the separator
+    if (conversationWith_segments[conversationWith_segments.length - 1] === '') {
+      conversationWith_segments.pop()
+    }
+
+    this.logger.log('[CONVS-DETAIL] - getProjectIdSelectedConversation conversationWith_segments ', conversationWith_segments)
+    let projectId = ''
+    if (conversationWith_segments.length === 4) {
+      projectId = conversationWith_segments[2]
+      this.logger.log('[CONVS-DETAIL] - getProjectIdSelectedConversation projectId ', projectId)
+    }
+    return projectId
   }
 
   @HostListener('window:resize', ['$event'])
@@ -577,7 +584,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     if (newInnerWidth < 991) {
       if (this.USER_HAS_OPENED_CLOSE_INFO_CONV === false) {
         this.openInfoConversation = false
-        this.isOpenInfoConversation = false
       }
     }
   }
@@ -596,7 +602,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       'LABEL_TO',
       'LABEL_LAST_ACCESS',
       'ARRAY_DAYS',
-      'LABEL_IS_WRITING',
+      
       'LABEL_INFO_ADVANCED',
       'ID_CONVERSATION',
       'UPLOAD_FILE_ERROR',
@@ -615,11 +621,48 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       'THERE_ARE_NO_CANNED_RESPONSES_AVAILABLE',
       'TO_CREATE_THEM_GO_TO_THE_PROJECT',
       "AddNewCannedResponse",
-      "LABEL_LOADING"
+      "LABEL_LOADING",
+      "DIRECT_CHAT",
+      "GROUP_CHAT",
+
+      "LABEL_CHAT",
+      "LABEL_EMAIL",
+      "EMAIL_PLACEHOLDER",
+      "EMAIL_NOT_FOUND_PLACEHOLDER",
+      "SUBJECT",
+      "MESSAGE",
+      "MESSAGE_PLACEHOLDER",
+      "LABEL_SEND",
+      "SEND_EMAIL_SUCCESS",
+      "SEND_EMAIL_ERROR",
+      "SUBJECT_OFFLINE_MESSAGE",
+      "SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE"
     ]
 
-    this.translationMap = this.customTranslateService.translateLanguage(keys)
-    this.logger.log('[CONVS-DETAIL] x this.translationMap ',this.translationMap)
+    const keysHeader = [
+      'DIRECT_CHAT',
+      'GROUP_CHAT',
+      'LABEL_IS_WRITING',
+      'LABEL_ONLINE',
+      'LABEL_OFFLINE',
+      'LABEL_TODAY',
+      'LABEL_TOMORROW',
+      'LABEL_TO',
+      'LABEL_LAST_ACCESS',
+      'ARRAY_DAYS',
+      'Resolve',
+    ]
+
+    const keysContentDetail = [
+      'LABEL_OPEN_INFO_CONVERSATION',
+      'LABEL_CLOSE_GROUP',
+      'LABEL_IS_WRITING',
+    ]
+
+    this.translationsMap = this.customTranslateService.translateLanguage(keys)
+    this.translationsHeaderMap = this.customTranslateService.translateLanguage(keysHeader)
+    this.translationsContentMap = this.customTranslateService.translateLanguage(keysContentDetail)
+    this.logger.log('[CONVS-DETAIL] x this.translationMap ',this.translationsMap)
   }
 
   // --------------------------------------------------------
@@ -646,6 +689,19 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     return this.customTranslateService.translateLanguage(keys)
   }
 
+  private setStyleMap(){
+      this.styleMap.set('themeColor', 'var(--basic-blue)')
+                    .set('bubbleReceivedBackground','var(--bck-msg-received)')
+                    .set('bubbleReceivedTextColor', 'var(--col-msg-received)')
+                    .set('bubbleSentBackground', 'var(--bck-msg-sent)')
+                    .set('bubbleSentTextColor', 'var(--col-msg-sent)')
+                    .set('buttonFontSize','var(--button-in-msg-font-size)')
+                    .set('buttonBackgroundColor', 'var(--buttonBackgroundColor)')
+                    .set('buttonTextColor', 'var(--buttonTextColor)')
+                    .set('buttonHoverBackgroundColor', 'var(--buttonHoverBackgroundColor)')
+                    .set('buttonHoverTextColor', 'var(--buttonHoverTextColor)')
+  
+  }
   // -------------------------------------------------------------------------------------
   // * retrieving the handler from chatManager
   // * if it DOESN'T EXIST I create a handler and connect and store it in the chatmanager
@@ -708,12 +764,12 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     }
 
     //TODO: servono ???
-    if (this.loggedUser && this.loggedUser.email) {
-      attributes.userEmail = this.loggedUser.email
-    }
-    if (this.loggedUser && this.loggedUser.fullname) {
-      attributes.userFullname = this.loggedUser.fullname
-    }
+    // if (this.loggedUser && this.loggedUser.email) {
+    //   attributes.userEmail = this.loggedUser.email
+    // }
+    // if (this.loggedUser && this.loggedUser.fullname) {
+    //   attributes.userFullname = this.loggedUser.fullname
+    // }
 
     return attributes
   }
@@ -731,6 +787,18 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     }
   }
 
+  onConversationLoaded(conversation): ConversationModel{
+    if(conversation.attributes && conversation.attributes['projectId']){
+      let project = localStorage.getItem(conversation.attributes['projectId'])
+      if(project){
+        project = JSON.parse(project)
+        conversation.attributes.project_name = project['name']
+      }
+
+    }
+    return conversation
+  }
+
   setHeaderContent() {
     //   this.logger.log('[CONVS-DETAIL] - setHeaderContent conversationWith', this.conversationWith)
     //   this.logger.log('[CONVS-DETAIL] - setHeaderContent conversationsHandlerService', this.conversationsHandlerService)
@@ -745,7 +813,11 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
             conv.conversation_with,
             conv.conversation_with_fullname,
             conv.channel_type,
+            null,
+            conv.attributes['projectId'],
+            conv.attributes['project_name']
           )
+          
         }
         if(!conv){
           this.logger.debug('[CONV-COMP] setHeaderContent getConversationDetail: conv not exist --> search in archived list', this.conversationWith, this.conv_type)
@@ -758,9 +830,13 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
                 conv.conversation_with,
                 conv.conversation_with_fullname,
                 conv.channel_type,
+                null,
+                conv.attributes['projectId'],
+                conv.attributes['project_name']
               )
               let duration = getDateDifference(conv.timestamp, Date.now())
-              duration.days > 10 && conv.channel_type !== TYPE_DIRECT? this.disableTextarea = true: this.disableTextarea = false            }
+              duration.days > 10 && conv.channel_type !== TYPE_DIRECT? this.disableTextarea = true: this.disableTextarea = false
+            }
           })
         }
         this.logger.log('[CONVS-DETAIL] - setHeaderContent > conversationAvatar: ', this.conversationAvatar)
@@ -775,9 +851,13 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
             conv.conversation_with,
             conv.conversation_with_fullname,
             conv.channel_type,
+            null,
+            conv.attributes['projectId'],
+            conv.attributes['project_name']
           )
           let duration = getDateDifference(conv.timestamp, Date.now())
-          duration.days > 10 && conv.channel_type !== TYPE_DIRECT? this.disableTextarea = true: this.disableTextarea = false        }
+          duration.days > 10 && conv.channel_type !== TYPE_DIRECT? this.disableTextarea = true: this.disableTextarea = false
+        }
         if(!conv){
           this.conversationsHandlerService.getConversationDetail(this.conversationWith, (conv) => {
             if (conv) {
@@ -786,6 +866,9 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
                 conv.conversation_with,
                 conv.conversation_with_fullname,
                 conv.channel_type,
+                null,
+                conv.attributes['projectId'],
+                conv.attributes['project_name']
               )
             }
             this.logger.log('[CONVS-DETAIL] - setHeaderContent > conversationAvatar: ', this.conversationAvatar)
@@ -803,18 +886,56 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   }
 
 
+  getLeadDetail(){
+    const tiledeskToken= this.tiledeskAuthService.getTiledeskToken();
+    const projectId = this.getProjectIdSelectedConversation(this.conversationWith)
+    this.logger.debug('[CONVS-DETAIL] getLeadDetail - section ', projectId)
+    this.tiledeskService.getRequest(this.conversationWith, projectId, tiledeskToken).subscribe((request: any)=>{
+      this.logger.debug('[CONVS-DETAIL] getLeadDetail - selected REQUEST detail', request)
+      if(request.lead && request.lead.email){
+        this.leadInfo = {lead_id: request.lead.lead_id, hasEmail: true, email: request.lead.email, projectId: projectId}
+        this.presenceService.userIsOnline(this.leadInfo.lead_id);
+      }
+    }, (error)=>{
+      this.logger.error('[CONVS-DETAIL] - getLeadDetail - GET REQUEST DETAIL - ERROR  ', error)
+    }, ()=>{
+      this.logger.debug('[CONVS-DETAIL] - getLeadDetail - GET REQUEST DETAIL * COMPLETE *')
+    })
+    
+  }
+
+  sendEmail(message: string){
+    const tiledeskToken= this.tiledeskAuthService.getTiledeskToken();
+    const emailFormGroup = {
+      to: this.leadInfo.email,
+      subject: this.translationsMap.get('SUBJECT_OFFLINE_MESSAGE'),
+      text: message,
+      request_id: this.conversationWith
+    }
+    this.tiledeskService.sendEmail(tiledeskToken, this.leadInfo.projectId, emailFormGroup).subscribe((res)=> {
+      console.log('[SEND-EMAIL-MODAL] subscribe to sendEmail API response -->', res)
+      if(res && res.queued){
+        this.presentToast(this.translationsMap.get('SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE'), 'success', '', 2000)
+      }
+    },(error)=> {
+      this.logger.error('[SEND-EMAIL-MODAL] subscribe to sendEmail API CALL  - ERROR  ', error)
+      this.presentToast(this.translationsMap.get('SEND_EMAIL_ERROR'), 'danger', '', 2000)
+    }, ()=> {
+      this.logger.log('[SEND-EMAIL-MODAL] subscribe to sendEmail API CALL /* COMPLETE */')
+    })
+  }
 
   returnSendMessage(e: any) {
     this.logger.log('[CONVS-DETAIL] - returnSendMessage event', e, ' - conversationWith', this.conversationWith)
     try {
       let message = ''
-      if (e.message) {
-        message = e.message
+      if (e.msg) {
+        message = e.msg
       }
       const type = e.type
       const metadata = e.metadata
-
-      this.sendMessage(message, type, metadata)
+      const attributes = e.attributes
+      this.sendMessage(message, type, metadata, attributes)
     } catch (err) {
       this.logger.error('[CONVS-DETAIL] - returnSendMessage error: ', err)
     }
@@ -881,7 +1002,11 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         this.channelType,
         attributes,
       )
-
+      
+      if(!this.leadIsOnline && this.leadInfo.email){
+        this.logger.log('[CONVS-DETAIL] - SEND MESSAGE --> SENDING EMAIL', msg, this.leadInfo.email)
+        this.sendEmail(msg)
+      }
       isDevMode()? null : this.segmentNewAgentMessage(this.conversation)
     }
   }
@@ -894,37 +1019,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     const that = this
     let subscription: any
     let subscriptionKey: string
-
-    // subscriptionKey = 'BSConversationsChanged'
-    // subscription = this.subscriptions.find((item) => item.key === subscriptionKey)
-    // if (!subscription) {
-    //   subscription = this.conversationsHandlerService.conversationChanged.subscribe((data: ConversationModel) => {
-    //     this.logger.log('[CONVS-DETAIL] subscribe BSConversationsChanged data ', data, ' this.loggedUser.uid:', this.loggedUser.uid)
-
-    //     if (data && data.sender !== this.loggedUser.uid) {
-    //       this.logger.log('[CONVS-DETAIL] subscribe to BSConversationsChange data sender ', data.sender)
-    //       this.logger.log('[CONVS-DETAIL] subscribe to BSConversationsChange this.loggedUser.uid ', this.loggedUser.uid)
-    //       this.logger.log('[CONVS-DETAIL] subscribe to BSConversationsChange is_new ', data.is_new)
-    //       this.logger.log('[CONVS-DETAIL] subscribe to  BSConversationsChange showButtonToBottom ', this.showButtonToBottom)
-    //       // UPDATE THE CONVERSATION TO 'READ' IF IT IS ME WHO WRITES THE LAST MESSAGE OF THE CONVERSATION
-    //       // AND IF THE POSITION OF THE SCROLL IS AT THE END
-    //       if (!this.showButtonToBottom && data.is_new) {
-    //         // ARE AT THE END
-    //         this.updateConversationBadge()
-    //       }
-    //       if(data.uid === this.conversationWith){
-    //         this.conversationAvatar = setConversationAvatar(
-    //           data.conversation_with,
-    //           data.conversation_with_fullname,
-    //           data.channel_type,
-    //         )
-    //       }
-
-    //     }
-    //   })
-    //   const subscribe = { key: subscriptionKey, value: subscription }
-    //   this.subscriptions.push(subscribe)
-    // }
 
     subscriptionKey = 'messageAdded'
     subscription = this.subscriptions.find((item) => item.key === subscriptionKey)
@@ -975,6 +1069,39 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       this.subscriptions.push(subscribe)
     }
 
+    subscriptionKey = 'conversationTyping';
+    subscription = this.subscriptions.find(item => item.key === subscriptionKey);
+    if (!subscription) {
+      subscription =  this.typingService.BSIsTyping.pipe(takeUntil(this.unsubscribe$)).subscribe((data: any) => {
+        this.logger.debug('[CONVS-DETAIL] ***** BSIsTyping *****', data);
+        if (data) {
+          const isTypingUid = data.uid; //support-group-...
+          if (this.conversationWith === isTypingUid) {
+            that.subscribeTypings(data);
+          }
+        }
+      });
+      const subscribe = {key: subscriptionKey, value: subscription };
+      this.subscriptions.push(subscribe);
+    }
+
+    subscriptionKey = 'BSIsOnline';
+    subscription = this.subscriptions.find(item => item.key === subscriptionKey);
+    if (!subscription) {
+      subscription = this.presenceService.BSIsOnline.subscribe((data: any) => {
+        this.logger.log('[USER-PRESENCE-COMP] $subs to BSIsOnline - data ', data);
+        if (data) {
+          const userId = data.uid;
+          const isOnline = data.isOnline;
+          if (this.leadInfo && this.leadInfo.lead_id === userId) {
+            this.leadIsOnline = isOnline;
+          }
+        }
+      });
+      const subscribe = { key: subscriptionKey, value: subscription };
+      this.subscriptions.push(subscribe);
+    }
+
     // subscriptionKey = 'onGroupChange';
     // subscription = this.subscriptions.find(item => item.key === subscriptionKey);
     // if (!subscription) {
@@ -994,18 +1121,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     // this.subscriptions.push(subscribe);
     // }
   }
-
-  onConversationLoaded(conversation): ConversationModel{
-    if(conversation.attributes && conversation.attributes['projectId']){
-      let project = localStorage.getItem(conversation.attributes['projectId'])
-      if(project){
-        project = JSON.parse(project)
-        conversation.attributes.project_name = project['name']
-      }
-    }
-    return conversation
-  }
-
 
   // -------------------------------------------------
   // addEventsKeyboard
@@ -1034,13 +1149,25 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       this.conversationAvatar = setConversationAvatar(
         this.conversationWith,
         this.conversationWithFullname,
-        this.channelType
+        this.channelType,
+        null,
+        this.conversation.attributes['projectId'],
+        this.conversation.attributes['project_name']
       )
-      
     }
     if (msg.attributes && msg.attributes['updateUserEmail']) {
       const userEmail = msg.attributes['updateUserEmail'];
       this.logger.debug('[CONVS-DETAIL] newMessageAdded --> userEmail', userEmail)
+      this.conversationAvatar = setConversationAvatar(
+        this.conversationWith,
+        this.conversationWithFullname,
+        this.channelType,
+        userEmail,
+        this.conversation.attributes['projectId'],
+        this.conversation.attributes['project_name']
+      )
+      this.getLeadDetail()
+      
     }
   }
 
@@ -1124,6 +1251,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       }
 
       this.heightMessageTextArea = height.toString() //e.target.scrollHeight + 20;
+      this.scrollBottom(0)
       const message = e.msg
       this.logger.log('[CONVS-DETAIL] returnChangeTextArea heightMessageTextArea ', this.heightMessageTextArea)
 
@@ -1211,7 +1339,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
                   this.logger.log('[CONVS-DETAIL] - returnChangeTextArea  --> beforeSlash', beforeSlash)
                   this.logger.log('[CONVS-DETAIL] - returnChangeTextArea  --> afterSlash', afterSlash)
 
-
                   if(beforeSlash[beforeSlash.length-1].indexOf(' ') >= 0 && afterSlash === ''){
                     this.HIDE_CANNED_RESPONSES = false
                   } else if(beforeSlash[beforeSlash.length-1].indexOf(' ') < 0 && afterSlash === '' ){
@@ -1259,7 +1386,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
   replaceTagInMessage(canned, event?) {
     const elTextArea = this.rowTextArea['el']
-    const textArea = elTextArea.getElementsByTagName('ion-textarea')[0]
+    const textArea = elTextArea.getElementsByTagName('ion-textarea')[0] as HTMLInputElement;
     // console.log('[CONVS-DETAIL] replaceTagInMessage  textArea ', textArea)
     // console.log('[CONVS-DETAIL] replaceTagInMessage  textArea value', textArea.value,)
 
@@ -1274,20 +1401,17 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     // replace text
     var strTEMP = textArea.value.replace(/\/.*/ig, canned.text)
     strTEMP = this.replacePlaceholderInCanned(strTEMP)
-    this.logger.log('[CONVS-DETAIL] replaceTagInMessage strSearch before', strTEMP, textArea)
+    this.logger.log('[CONVS-DETAIL] replaceTagInMessage strSearch ', strTEMP)
     // strTEMP = this.replacePlaceholderInCanned(strTEMP);
     // textArea.value = '';
     // that.messageString = strTEMP;
     textArea.value = strTEMP
-    this.logger.log('[CONVS-DETAIL] replaceTagInMessage strSearch after', strTEMP, textArea)
     this.insertAtCursor(textArea, '')
     this.setCaretPosition(textArea)
     // setTimeout(() => {
     //   // textArea.focus();
-    //   textArea.selectionEnd = textArea.value.length;
     //   textArea.setFocus()
     //   // this.resizeTextArea()
-    //   // this.setCaretPosition(textArea)
     // }, 200)
     
   }
@@ -1331,7 +1455,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       if(elTextArea){
         // console.log("[CONVS-DETAIL] onClickOpenCannedResponses  textArea value", textArea.value)
         var lastChar = textArea.value[textArea.value.length - 1]
-        this.logger.log('[CONVS-DETAIL] onClickOpenCannedResponses  lastChar --- textArea ', lastChar, textArea)
+        this.logger.log('[CONVS-DETAIL] onClickOpenCannedResponses  lastChar  --- textArea ', lastChar, textArea)
         if (lastChar !== '/') {
           this.insertAtCursor(textArea, '/')
         }
@@ -1511,6 +1635,20 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     }
   }
 
+  onOpenCloseInfoConversation(event){
+    this.logger.debug('[CONVS-DETAIL] onOpenCloseInfoConversation - openInfoConversation ', event)
+    this.resizeTextArea()
+    this.openInfoConversation = event
+    this.USER_HAS_OPENED_CLOSE_INFO_CONV = true
+  }
+
+  onOpenFooterSection(event: string){
+    this.logger.debug('[CONVS-DETAIL] onOpenFooterSection - section ', event)
+    if(event === 'email'){
+      this.getLeadDetail()
+    }
+  }
+
   // -------------- START SCROLL/RESIZE  -------------- //
   /** */
   resizeTextArea() {
@@ -1612,6 +1750,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       this.heightMessageTextArea = '57' // NK edited
     }
   }
+
   checkAcceptedFile(draggedFileMimeType) {
     let isAcceptFile = false
     this.logger.log('[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept: ',this.appConfigProvider.getConfig().fileUploadAccept)
@@ -1633,26 +1772,17 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         if (accept_file_segment[1] === '*') {
           if (draggedFileMimeType.startsWith(accept_file_segment[0])) {
             isAcceptFile = true
-            this.logger.log(
-              '[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept isAcceptFile',
-              isAcceptFile,
-            )
+            this.logger.log('[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept isAcceptFile',isAcceptFile)
             return isAcceptFile
           } else {
             isAcceptFile = false
-            this.logger.log(
-              '[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept isAcceptFile',
-              isAcceptFile,
-            )
+            this.logger.log('[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept isAcceptFile',isAcceptFile)
             return isAcceptFile
           }
         } else if (accept_file_segment[1] !== '*') {
           if (draggedFileMimeType === accept_file) {
             isAcceptFile = true
-            this.logger.log(
-              '[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept isAcceptFile',
-              isAcceptFile,
-            )
+            this.logger.log('[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept isAcceptFile',isAcceptFile)
             return isAcceptFile
           }
         }
@@ -1661,6 +1791,64 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       return isAcceptFile
     }
   }
+
+
+  initializeTyping() {
+    this.logger.debug('[CONVS-DETAIL] membersconversation', this.membersConversation)
+    if(this.loggedUser){
+      this.membersConversation.push(this.loggedUser.uid)
+      //this.setSubscriptions();
+      this.typingService.isTyping(this.conversationWith, this.loggedUser.uid, this.isDirect);
+    }
+  }
+
+  /** */
+  subscribeTypings(data: any) {
+    const that = this;
+    try {
+      const key = data.uidUserTypingNow;
+      const waitTime = data.waitTime
+      this.nameUserTypingNow = null;
+      this.idUserTypingNow = null;
+
+      if (data.nameUserTypingNow) {
+        this.nameUserTypingNow = data.nameUserTypingNow;
+      }
+      if (data.uidUserTypingNow){
+        this.idUserTypingNow = data.uidUserTypingNow
+      }
+      this.logger.debug('[CONV-COMP] subscribeTypings data:', data);
+      const userTyping = this.membersConversation.includes(key);
+      if ( !userTyping && key) {
+        this.isTypings = true;
+        setTimeout(function () {
+          that.scrollBottom(0)
+        }, 0);
+        // clearTimeout(this.setTimeoutWritingMessages);
+        this.setTimeoutWritingMessages = setTimeout(() => {
+            that.isTypings = false;
+        }, waitTime);
+        // this.initiTimeout(waitTime)
+      }
+    } catch (error) {
+      this.logger.error('[CONV-COMP] error: ', error);
+    }
+
+  }
+
+  initiTimeout(waitTime){
+    const that = this;
+    this.setTimeoutWritingMessages = setTimeout(() => {
+      that.isTypings = false;
+    }, waitTime);
+  }
+
+  resetTimeout(){
+    this.isTypings = false
+    this.setTimeoutWritingMessages = null;
+    clearTimeout(this.setTimeoutWritingMessages)
+  }
+
 
   segmentNewAgentMessage(conversation: ConversationModel){
     let user = this.loggedUser
@@ -1710,7 +1898,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       }
     }
   }
-  
+
   // -------------------------------------------------------------
   // DRAG FILE
   // -------------------------------------------------------------
@@ -1740,7 +1928,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         this.handleDropEvent(ev)
       } else {
         this.logger.log( '[CONVS-DETAIL] ----> FILE - DROP mimeType files ', mimeType,'NOT SUPPORTED FILE TYPE')
-        this.presentToastOnlyImageFilesAreAllowedToDrag()
+        this.presentToast(this.translationsMap.get('FAILED_TO_UPLOAD_THE_FORMAT_IS_NOT_SUPPORTED'), 'danger','toast-custom-class', 5000 )
+        // this.presentToastOnlyImageFilesAreAllowedToDrag()
       }
     }
   }
@@ -1768,14 +1957,15 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     this.logger.log('[CONVS-DETAIL] ----> FILE - FILE - (dragleave) drag his.isHovering ',this.isHovering)
   }
 
-  async presentToastOnlyImageFilesAreAllowedToDrag() {
+  async presentToast(message: string, color: string, cssClass: string, duration: number = 2000, position: 'top' | 'bottom' | 'middle'= 'bottom'){
     const toast = await this.toastController.create({
-      message: this.translationMap.get('FAILED_TO_UPLOAD_THE_FORMAT_IS_NOT_SUPPORTED'),
-      duration: 5000,
-      color: 'danger',
-      cssClass: 'toast-custom-class',
-    })
-    toast.present()
+      message: message,
+      duration: duration,
+      color: color,
+      position: position,
+      cssClass: cssClass,
+    });
+    toast.present();
   }
 }
 // END ALL //
