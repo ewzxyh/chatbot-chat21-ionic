@@ -1,5 +1,10 @@
 # chat21-ionic ver 3.0
 
+### 3.0.86 in PROD
+
+### 3.0.86-rc.2
+- bug-fixed: undefined reading 'channel' while render email icon in ion-conversation-detail component
+
 ### 3.0.86-rc.1
 - added: send-email modal on Email footer option click
 - added: handle window['analytics'] error
