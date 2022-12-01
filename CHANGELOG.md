@@ -2,6 +2,9 @@
 
 ### 3.0.86 in PROD
 
+### 3.0.86-rc.3
+- bug-fixed: cannot send message after email is queued successfully
+
 ### 3.0.86-rc.2
 - bug-fixed: undefined reading 'channel' while render email icon in ion-conversation-detail component
 
