@@ -915,7 +915,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       request_id: this.conversationWith
     }
     this.tiledeskService.sendEmail(tiledeskToken, this.leadInfo.projectId, emailFormGroup).subscribe((res)=> {
-      console.log('[SEND-EMAIL-MODAL] subscribe to sendEmail API response -->', res)
+      this.logger.debug('[SEND-EMAIL-MODAL] subscribe to sendEmail API response -->', res)
       if(res && res.queued){
         this.presentToast(this.translationsMap.get('SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE'), 'success', '', 2000)
       }

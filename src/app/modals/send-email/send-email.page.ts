@@ -42,7 +42,7 @@ export class SendEmailModal implements OnInit {
       value.subject !== ''? this.input_topic.nativeElement.classList.add('hasValue') : this.input_topic.nativeElement.classList.remove('hasValue')
     })
     if(this.msg && (this.msg !== '' || this.msg !== null)){
-      this.emailFormGroup.patchValue({ message: this.msg})
+      this.emailFormGroup.patchValue({ text: this.msg})
     }
   }
 
@@ -62,7 +62,7 @@ export class SendEmailModal implements OnInit {
     this.logger.log('[SEND-EMAIL-MODAL] onSubmit -->',this.emailFormGroup)
     const tiledeskToken = this.tiledeskAuthService.getTiledeskToken()
     this.tiledeskService.sendEmail(tiledeskToken, this.projectId, this.emailFormGroup.value).subscribe((res)=> {
-      console.log('[SEND-EMAIL-MODAL] subscribe to sendEmail API response -->', res)
+      this.logger.debug('[SEND-EMAIL-MODAL] subscribe to sendEmail API response -->', res)
       if(res && res.queued){
         this.viewCtrl.dismiss({form: this.emailFormGroup.value})
         this.presentToast(this.translationMap.get('SEND_EMAIL_SUCCESS'), 'success')

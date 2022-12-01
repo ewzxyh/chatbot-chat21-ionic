@@ -418,8 +418,8 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
     modal.onDidDismiss().then((detail: any) => {
       this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] send Email detail returned-->', detail);
       const form = detail.data.form
-      if (form&& form.message && form.message.trim() !== '') {
-        const text = '**' + form.subject + '**\r\n' + form.message
+      if (form&& form.text && form.text.trim() !== '') {
+        const text = '**' + form.subject + '**\r\n' + form.text
         const attributes = {
           channel: TYPE_MSG_EMAIL
         }
