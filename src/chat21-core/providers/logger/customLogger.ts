@@ -20,7 +20,7 @@ export class CustomLogger implements LoggerService {
         this.isLogEnabled = isLogEnabled;
         if (logLevel) {
             this.logLevel = LogLevel[logLevel.toUpperCase()];
-            console.log('LoggerService this.logLevel  ', this.logLevel)
+            // console.log('LoggerService this.logLevel  ', this.logLevel)
         }
     }
 

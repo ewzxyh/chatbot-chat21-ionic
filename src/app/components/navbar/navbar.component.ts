@@ -2,7 +2,7 @@ import { AppConfigProvider } from 'src/app/services/app-config';
 import { TiledeskAuthService } from 'src/chat21-core/providers/tiledesk/tiledesk-auth.service';
 import { EventsService } from 'src/app/services/events-service';
 import { ProjectsService } from './../../services/projects/projects.service';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service';
 import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance';
 import { Project } from 'src/chat21-core/models/projects';
@@ -22,7 +22,7 @@ export class NavbarComponent implements OnInit {
   private tiledeskToken: string;
 
   public projects: Project[];
-  public project: any;
+  public project: any = [];
   private USER_ROLE: string;
 
   public translationsMap: Map<string, string> = new Map();
@@ -37,7 +37,8 @@ export class NavbarComponent implements OnInit {
     private tiledeskAuthService: TiledeskAuthService,
     private appConfigProvider: AppConfigProvider,
     private translateService: CustomTranslateService, 
-    private events: EventsService,  
+    private events: EventsService,
+    private cdref: ChangeDetectorRef, 
   ) { }
 
   ngOnInit() {
@@ -45,6 +46,10 @@ export class NavbarComponent implements OnInit {
     this.getStoredProjectAndUserRole();
     this.initTranslations();
     this.getOSCODE();
+  }
+
+  ngAfterContentChecked() {
+    this.cdref.detectChanges();
   }
 
   initTranslations(){
