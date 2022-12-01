@@ -521,10 +521,10 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       this.initConversationHandler()
       this.initGroupsHandler()
       this.initSubscriptions()
+      this.startConversation()
       this.getLeadDetail()
     }
     this.addEventsKeyboard()
-    this.startConversation()
     this.updateConversationBadge() // AGGIORNO STATO DELLA CONVERSAZIONE A 'LETTA' (is_new = false)
   
     this.initializeTyping();
@@ -887,20 +887,22 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
 
   getLeadDetail(){
-    const tiledeskToken= this.tiledeskAuthService.getTiledeskToken();
-    const projectId = this.getProjectIdSelectedConversation(this.conversationWith)
-    this.logger.debug('[CONVS-DETAIL] getLeadDetail - section ', projectId)
-    this.tiledeskService.getRequest(this.conversationWith, projectId, tiledeskToken).subscribe((request: any)=>{
-      this.logger.debug('[CONVS-DETAIL] getLeadDetail - selected REQUEST detail', request)
-      if(request.lead && request.lead.email){
-        this.leadInfo = {lead_id: request.lead.lead_id, hasEmail: true, email: request.lead.email, projectId: projectId}
-        this.presenceService.userIsOnline(this.leadInfo.lead_id);
-      }
-    }, (error)=>{
-      this.logger.error('[CONVS-DETAIL] - getLeadDetail - GET REQUEST DETAIL - ERROR  ', error)
-    }, ()=>{
-      this.logger.debug('[CONVS-DETAIL] - getLeadDetail - GET REQUEST DETAIL * COMPLETE *')
-    })
+    if(this.channelType !== TYPE_DIRECT){
+      const tiledeskToken= this.tiledeskAuthService.getTiledeskToken();
+      const projectId = this.getProjectIdSelectedConversation(this.conversationWith)
+      this.logger.debug('[CONVS-DETAIL] getLeadDetail - section ', projectId)
+      this.tiledeskService.getRequest(this.conversationWith, projectId, tiledeskToken).subscribe((request: any)=>{
+        this.logger.debug('[CONVS-DETAIL] getLeadDetail - selected REQUEST detail', request)
+        if(request.lead && request.lead.email){
+          this.leadInfo = {lead_id: request.lead.lead_id, hasEmail: true, email: request.lead.email, projectId: projectId}
+          this.presenceService.userIsOnline(this.leadInfo.lead_id);
+        }
+      }, (error)=>{
+        this.logger.error('[CONVS-DETAIL] - getLeadDetail - GET REQUEST DETAIL - ERROR  ', error)
+      }, ()=>{
+        this.logger.debug('[CONVS-DETAIL] - getLeadDetail - GET REQUEST DETAIL * COMPLETE *')
+      })
+    }
     
   }
 
@@ -1002,8 +1004,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         this.channelType,
         attributes,
       )
-      
-      if(!this.leadIsOnline && this.leadInfo.email){
+
+      if(!this.leadIsOnline && this.leadInfo && this.leadInfo.email){
         this.logger.log('[CONVS-DETAIL] - SEND MESSAGE --> SENDING EMAIL', msg, this.leadInfo.email)
         this.sendEmail(msg)
       }
