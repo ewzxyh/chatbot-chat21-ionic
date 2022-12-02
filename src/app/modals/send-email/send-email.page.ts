@@ -46,6 +46,10 @@ export class SendEmailModal implements OnInit {
     }
   }
 
+  addFocus(){
+    this.input_topic.nativeElement.querySelector('input[formcontrolname="subject"]').focus()
+  }
+
   buildFormGroup(): FormGroup{
     return this.formBuilder.group({
       subject: ['', [Validators.required]],

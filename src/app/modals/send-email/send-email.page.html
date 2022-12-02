@@ -20,7 +20,7 @@
       </div> -->
       <div class="field-wrapper" id="div_input_topic" #div_input_topic>
         <input type="text" formControlName="subject" >
-        <div class="field-placeholder"><span>{{translationMap?.get('SUBJECT')}}</span></div>
+        <div class="field-placeholder" (click)="addFocus()"><span>{{translationMap?.get('SUBJECT')}}</span></div>
       </div>
 
       <ion-label class="message-placeholder">{{translationMap?.get('MESSAGE')}}</ion-label>
