@@ -417,13 +417,15 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
       });
     modal.onDidDismiss().then((detail: any) => {
       this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] send Email detail returned-->', detail);
-      const form = detail.data.form
-      if (form&& form.text && form.text.trim() !== '') {
-        const text = '**' + form.subject + '**\r\n' + form.text
-        const attributes = {
-          channel: TYPE_MSG_EMAIL
+      if(detail && detail.data){
+        const form = detail.data.form
+        if (form && form.text && form.text.trim() !== '') {
+          const text = '**' + form.subject + '**\r\n' + form.text
+          const attributes = {
+            channel: TYPE_MSG_EMAIL
+          }
+          this.eventSendMessage.emit({ msg: text, type: TYPE_MSG_TEXT, metadata: null, attributes: attributes });
         }
-        this.eventSendMessage.emit({ msg: text, type: TYPE_MSG_TEXT, metadata: null, attributes: attributes });
       }
     });
 
@@ -693,13 +695,5 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
     }
 
   }
-
-  // @HostListener('document:click', ['$event'])
-  // clickout(event) {
-  //   console.log('eventtttttttt', event.target.classList.value.includes(''), event.target.classList.value.includes('emoji-picker-btn'))
-  //   if((!event.target.classList.value.includes('emoji-picker-btn')) && this.showEmojiPicker){
-  //     this.showEmojiPicker = false
-  //   }
-  // }
 
 }
