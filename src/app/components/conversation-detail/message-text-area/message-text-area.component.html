@@ -87,6 +87,7 @@
             [include]="emojiiCategories"
             [color]="emojiColor"
             [custom]="customEmojis"
+            class="emoji-picker"
             [ngClass]="{'emoji-mart-desktop': !IS_ON_MOBILE_DEVICE, 'emoji-mart-mobile': IS_ON_MOBILE_DEVICE }"
             (emojiSelect)="addEmoji($event)">
           </emoji-mart>
@@ -109,6 +110,7 @@
           [disabled]="disableTextarea"
           [(ngModel)]="messageString" 
           (ionChange)="ionChange($event);" 
+          (ionFocus)="ionFocus()"
           (keydown.enter)="onKeydown($event, messageString)" 
           (paste)="onPaste($event)">
         </ion-textarea>

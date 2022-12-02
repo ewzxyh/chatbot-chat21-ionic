@@ -457,6 +457,13 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
     this.eventChangeTextArea.emit({ msg: message, offsetHeight: height });
   }
 
+  ionFocus(){
+    this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] ionFocus event ");
+    if(this.showEmojiPicker){
+      this.showEmojiPicker = false;
+    }
+  }
+
   // ------------------------------------------------------------------------
   // invoked by pressing the enter key on the message input field
   // if the message is not empty it is passed  to the control method
@@ -686,5 +693,13 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
     }
 
   }
+
+  // @HostListener('document:click', ['$event'])
+  // clickout(event) {
+  //   console.log('eventtttttttt', event.target.classList.value.includes(''), event.target.classList.value.includes('emoji-picker-btn'))
+  //   if((!event.target.classList.value.includes('emoji-picker-btn')) && this.showEmojiPicker){
+  //     this.showEmojiPicker = false
+  //   }
+  // }
 
 }
