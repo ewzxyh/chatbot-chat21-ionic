@@ -171,7 +171,8 @@ export class IonConversationDetailComponent extends ConversationContentComponent
   async presentCreateCannedResponseModal(message: MessageModel): Promise<any> {
     this.logger.log('[BUBBLE-MESSAGE] PRESENT CREATE CANNED RESPONSE MODAL ')
     const attributes = {
-       message: message,
+       message: message.text,
+       conversationWith: message.recipient
     }
     const modal: HTMLIonModalElement = await this.modalController.create({
       component: CreateCannedResponsePage,

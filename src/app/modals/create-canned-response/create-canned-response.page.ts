@@ -1,5 +1,5 @@
 import { CannedResponsesService } from 'src/app/services/canned-responses/canned-responses.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
@@ -10,6 +10,7 @@ import { TiledeskService } from 'src/app/services/tiledesk/tiledesk.service';
 import { MenuController } from '@ionic/angular';
 import { EventsService } from 'src/app/services/events-service';
 import { ActivatedRoute } from '@angular/router';
+import { CustomTranslateService } from 'src/chat21-core/providers/custom-translate.service';
 
 @Component({
   selector: 'app-create-canned-response',
@@ -17,13 +18,14 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./create-canned-response.page.scss'],
 })
 export class CreateCannedResponsePage implements OnInit {
-
-  public canned_response_title: string;
-  public canned_response_message: string;
-  validations_form: FormGroup;
+  
   @Input() message: any
   @Input() conversationWith: string;
-  logger: LoggerService = LoggerInstance.getInstance();
+
+  @ViewChild('div_input_topic', {static: true}) input_topic: ElementRef;
+  
+  cannedFormGroup: FormGroup;
+  private logger: LoggerService = LoggerInstance.getInstance();
 
   prjctID: string;
   tiledeskToken: string;
@@ -31,12 +33,13 @@ export class CreateCannedResponsePage implements OnInit {
   addWhiteSpaceBefore: boolean;
   mouseOverBtnAddRecipientNamePlaceholder: boolean = false;
   mouseOverBtnAddAgentNamePlaceholder: boolean = false;
-  conversation_id: string
+  translationsMap: Map<string, string> = new Map<string, string>()
   // public conversationWith: string;
   constructor(
     public modalController: ModalController,
     private formBuilder: FormBuilder,
     private translate: TranslateService,
+    private translateService: CustomTranslateService,
     public tiledeskAuthService: TiledeskAuthService,
     public tiledeskService: TiledeskService,
     public cannedResponsesService: CannedResponsesService,
@@ -57,23 +60,10 @@ export class CreateCannedResponsePage implements OnInit {
   ngOnInit() {
     // this.getCurrentProjectId();
     // console.log('[CREATE-CANNED-RES] - conversationWith ', this.conversationWith)
-    //  console.log('[CREATE-CANNED-RES] - message ', this.message)
-    if (this.message) {
-      this.conversation_id = this.message.recipient
-      this.logger.log('[CREATE-CANNED-RES] - conversationWith get from @input message (passed by bubble-message)', this.conversation_id)
-    } else {
-      this.logger.log('[CREATE-CANNED-RES] - @input message is UNDEFINED')
-    }
-    if (this.conversationWith) {
-      this.conversation_id = this.conversationWith;
-      this.logger.log('[CREATE-CANNED-RES] - conversationWith get from @input conversationWith (passed by conversation detail) ', this.conversation_id)
-    } else {
-      this.logger.log('[CREATE-CANNED-RES] - @input conversationWith is UNDEFINED')
-    }
-
+     console.log('[CREATE-CANNED-RES] - message ', this.message, this.conversationWith)
     this.tiledeskToken = this.tiledeskAuthService.getTiledeskToken()
     this.logger.log('[CREATE-CANNED-RES] tiledeskToken ', this.tiledeskToken)
-    this.getCurrentProjectId(this.conversation_id, this.tiledeskToken);
+    this.getCurrentProjectId(this.conversationWith, this.tiledeskToken);
 
     // const stored_project = localStorage.getItem('last_project')
     // const storedPrjctObjct = JSON.parse(stored_project)
@@ -82,11 +72,43 @@ export class CreateCannedResponsePage implements OnInit {
     //   this.prjctID = storedPrjctObjct.id_project.id
     //   this.logger.log('[CREATE-CANNED-RES] this.prjctID ', this.prjctID)
     // }
-   
 
+    let keys= [
+      'Title',
+      'EnterCannedResponseTitle',
+      'Message',
+      'WriteMsgToSendToYourVisitors',
+      'AddCustomization',
+      'Add',
+      'First_name_of_recipient',
+      'First_name_of_agent',
+      'SelectACustomizationToAddToYourMessage',
+      'recipient_name_desc',
+      'agent_name_desc'
+    ]
 
-    this.buildForm()
+    this.translationsMap = this.translateService.translateLanguage(keys)
+
+    this.cannedFormGroup = this.buildForm()
+    this.cannedFormGroup.valueChanges.subscribe((value)=> {
+      value.title !== ''? this.input_topic.nativeElement.classList.add('hasValue') : this.input_topic.nativeElement.classList.remove('hasValue')
+    });
+    if(this.message && (this.message !== '' || this.message !== null)){
+      this.cannedFormGroup.patchValue({ message: this.message})
+    }
   }
+
+  buildForm() : FormGroup{
+    return this.formBuilder.group({
+      title: ['', [Validators.required]],
+      message: ['', [Validators.required]]
+    });
+  }
+
+  addFocus(){
+    this.input_topic.nativeElement.querySelector('input[formcontrolname="title"]').focus()
+  }
+
 
   getCurrentProjectId(conversation_id, tiledeskToken) {
     const conversationWith_segments = conversation_id.split('-')
@@ -134,30 +156,7 @@ export class CreateCannedResponsePage implements OnInit {
   }
 
 
-  buildForm() {
-    this.validations_form = this.formBuilder.group({
-      title: new FormControl('', Validators.required),
-      message: new FormControl('', Validators.required),
-    });
-
-    this.setValues()
-  }
-
-  setValues() {
-    if (this.message && this.message.text) {
-      let cannedTitle = ''
-      const titleMaxCharacters = 37
-      if (this.message.text.length > titleMaxCharacters) {
-        cannedTitle = this.message.text.substring(0, titleMaxCharacters) + '...'
-      } else {
-        cannedTitle = this.message.text
-      }
-      this.logger.log('[CREATE-CANNED-RES] - cannedTitle  ', cannedTitle.trim())
-      this.logger.log('[CREATE-CANNED-RES] - cannedMsg  ', this.message.text.trim())
-      this.validations_form.controls['title'].setValue(cannedTitle);
-      this.validations_form.controls['message'].setValue(this.message.text);
-    }
-  }
+  
 
 
   validation_messages = {
@@ -169,21 +168,18 @@ export class CreateCannedResponsePage implements OnInit {
     ],
   };
 
-  onSubmit(values) {
-    this.logger.log('[CREATE-CANNED-RES] ON SUBMIT VALUES', values);
-    this.canned_response_title = values.title
-    this.canned_response_message = values.message
-    this.logger.log('[CREATE-CANNED-RES] ON SUBMIT canned_response_title', this.canned_response_title);
-    this.logger.log('[CREATE-CANNED-RES] ON SUBMIT canned_response_title', this.canned_response_message);
-    this.createResponse(this.canned_response_message, this.canned_response_title)
+  onSubmit() {
+    const canned = this.cannedFormGroup.value
+    this.logger.log('[CREATE-CANNED-RES] ON SUBMIT VALUES', canned);
+    this.createResponse(canned.message, canned.title)
   }
 
-  createResponse(canned_response_message, canned_response_title) {
+  createResponse(message: string, title: string) {
     this.showSpinnerCreateCannedResponse = true;
-    this.logger.log('[CREATE-CANNED-RES] - CREATE CANNED RESP - MSG ', canned_response_message);
-    this.logger.log('[CREATE-CANNED-RES] - CREATE CANNED RESP - TITLE ', canned_response_title);
+    this.logger.log('[CREATE-CANNED-RES] - CREATE CANNED RESP - MSG ', message);
+    this.logger.log('[CREATE-CANNED-RES] - CREATE CANNED RESP - TITLE ', title);
 
-    this.cannedResponsesService.add(this.tiledeskToken, this.prjctID, canned_response_title.trim(), canned_response_message.trim()).subscribe((responses: any) => {
+    this.cannedResponsesService.add(this.tiledeskToken, this.prjctID, title.trim(), message.trim()).subscribe((responses: any) => {
       this.logger.log('[CREATE-CANNED-RES] - CREATE CANNED RESP - RES ', responses);
     }, (error) => {
       this.logger.error('[CREATE-CANNED-RES]- CREATE CANNED RESP - ERROR  ', error);
@@ -201,50 +197,21 @@ export class CreateCannedResponsePage implements OnInit {
     this.menu.open('custom');
   }
 
-  addRecipientNamePlaceholderToTheMsg() {
+  addPlaceholdertoMsg(key) {
     this.menu.close('custom')
     this.menu.enable(false, 'custom');
-    this.insertCustomField('$recipient_name')
+    this.insertCustomField(key)
   }
-
-  onOverBtnAddRecipientNamePlaceholder() {
-    this.mouseOverBtnAddRecipientNamePlaceholder = true;
-    this.logger.log('[CREATE-CANNED-RES] - isOverRecipientName ', this.mouseOverBtnAddRecipientNamePlaceholder);
-  }
-
-  onOutBtnAddRecipientNamePlaceholder() {
-    this.mouseOverBtnAddRecipientNamePlaceholder = false;
-    this.logger.log('[CREATE-CANNED-RES] - isOutRecipientName ', this.mouseOverBtnAddRecipientNamePlaceholder);
-  }
-
-  addAgentNamePlaceholderToTheMsg() {
-    this.menu.close('custom')
-    this.menu.enable(false, 'custom');
-    this.insertCustomField('$agent_name')
-  }
-
-  onOverBtnAddAgentNamePlaceholder() {
-    this.mouseOverBtnAddAgentNamePlaceholder = true;
-    this.logger.log('[CREATE-CANNED-RES] - isOverAgentName ', this.mouseOverBtnAddAgentNamePlaceholder);
-  }
-
-  onOutBtnAddAgentNamePlaceholder() {
-    this.mouseOverBtnAddAgentNamePlaceholder = false;
-    this.logger.log('[CREATE-CANNED-RES] - isOutAgentName ', this.mouseOverBtnAddAgentNamePlaceholder);
-  }
-
-
-
 
 
   cannedResponseMessageChanged($event) {
-    this.logger.log('[CREATE-CANNED-RES] - ON MSG CHANGED ', $event);
+    // this.logger.log('[CREATE-CANNED-RES] - ON MSG CHANGED ', $event);
 
     if (/\s$/.test($event)) {
-      this.logger.log('[CREATE-CANNED-RES] - ON MSG CHANGED - string contains space at last');
+      // this.logger.log('[CREATE-CANNED-RES] - ON MSG CHANGED - string contains space at last');
       this.addWhiteSpaceBefore = false;
     } else {
-      this.logger.log('[CREATE-CANNED-RES] - ON MSG CHANGED - string does not contain space at last');
+      // this.logger.log('[CREATE-CANNED-RES] - ON MSG CHANGED - string does not contain space at last');
       // IS USED TO ADD A WHITE SPACE TO THE 'PERSONALIZATION' VALUE IF THE STRING DOES NOT CONTAIN SPACE AT LAST
       this.addWhiteSpaceBefore = true;
     }
@@ -252,7 +219,7 @@ export class CreateCannedResponsePage implements OnInit {
   }
 
   insertCustomField(customfieldValue: string) {
-    const elTextarea = <HTMLElement>document.querySelector('.canned-response-texarea');
+    const elTextarea = <HTMLElement>document.querySelector('#message');
     this.logger.log('[CREATE-CANNED-RES] - GET TEXT AREA - elTextarea ', elTextarea);
     if (elTextarea) {
       this.insertAtCursor(elTextarea, customfieldValue)
