@@ -5,12 +5,14 @@
     display: block; // Safari bug fix
     margin-left: var(--sidebar-width);
     --border: 0px;
+    background-color: var(--list-bkg-color);
 }
 
 .split-pane-md:not(.mobile){
     height: calc( 100% - var(--nav-bar-heigth));
     margin-top: var(--nav-bar-heigth);
 }
+
 
 .navbar{
     display: flex;
