@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header no-border class="ion-no-border">
   <ion-toolbar>
     <ion-title>{{'AddNewCannedResponse' | translate}}</ion-title>
 
@@ -75,9 +75,31 @@
         <div class="field-placeholder" (click)="addFocus()"><span>{{translationsMap?.get('Title')}}</span></div>
       </div>
 
+      
+
       <!-- Canned response message -->
       <ion-label class="message-placeholder">{{translationsMap?.get('Message')}}</ion-label>
-      <div class="field-wrapper-email">
+      <div class="field-wrapper" >
+        <textarea
+          id="message"
+          formControlName="message"
+          autosize="false" 
+          autoGrow="true" 
+          autofocus="true"
+          rows="5" 
+          (ngModelChange)="cannedResponseMessageChanged($event)"
+          placeholder="{{translationsMap?.get('WriteMsgToSendToYourVisitors')}}"></textarea>
+        <!-- <div class="field-placeholder" (click)="addFocus()"><span>{{translationsMap?.get('Title')}}</span></div> -->
+        
+        <div class="customizeBtn-container">
+          <ion-button ion-button fill="clear" size="small" (click)="openAddPersonalisationMenu()">
+            {{translationsMap?.get('AddCustomization')}}
+          </ion-button>
+        </div>
+      
+      </div>
+
+      <!-- <div class="field-wrapper-email">
         <ion-textarea
           id="message"
           formControlName="message"
@@ -88,15 +110,13 @@
           placeholder="{{translationsMap?.get('WriteMsgToSendToYourVisitors')}}">
         </ion-textarea>
 
-        <ion-button ion-button fill="clear" size="small" (click)="openAddPersonalisationMenu()">
-          <span style="color:#999999"> {{translationsMap?.get('AddCustomization')}} </span>
-        </ion-button>
+        
 
         <div class="info-wrapper">
           <ion-label>Powered by</ion-label>
           <img src="https://support-pre.tiledesk.com/dashboard/assets/img/logos/tiledesk-logo_new_gray.svg">
         </div>
-      </div>
+      </div> -->
 
       <div class="field-wrapper-submit">
         <ion-button [disabled]="cannedFormGroup.invalid" ion-button fill="clear" type="submit">{{translationsMap?.get('Add')}}</ion-button>

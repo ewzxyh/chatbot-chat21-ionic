@@ -107,18 +107,18 @@
         </div>
 
         <chat-bubble-message class="messages msg_sent" id="message_msg_sent" style="position: relative;" 
-        [ngClass]="{'has-metadata': (isImage(message) || isFrame(message)), 'privateMsg': (message?.attributes && message?.attributes?.subtype === 'private')}" 
-        [class.no-background]="(isImage(message) || isFrame(message)) && message?.text.trim() === '' "  
-        [class.emoticon]="isEmojii(message?.text)"
-        [ngStyle]="{'background': stylesMap.get('bubbleSentBackground'), 'color': stylesMap.get('bubbleSentTextColor')}"
-        [ngClass]="{'button-in-msg' : message.metadata && message.metadata.button}"
-        [message]="message" 
-        [fontColor]="stylesMap.get('bubbleSentTextColor')"
-        [fontSize]="stylesMap.get('fontSize')"
-        [fontFamily]="stylesMap.get('fontFamily')"
-        (onBeforeMessageRender)="onBeforeMessageRenderFN($event)"
-        (onAfterMessageRender)="onAfterMessageRenderFN($event)" 
-        (onElementRendered)="onElementRenderedFN($event)">
+          [ngClass]="{'has-metadata': (isImage(message) || isFrame(message)), 'privateMsg': (message?.attributes && message?.attributes?.subtype === 'private')}" 
+          [class.no-background]="(isImage(message) || isFrame(message)) && message?.text.trim() === '' "  
+          [class.emoticon]="isEmojii(message?.text)"
+          [ngStyle]="{'background': stylesMap.get('bubbleSentBackground'), 'color': stylesMap.get('bubbleSentTextColor')}"
+          [ngClass]="{'button-in-msg' : message.metadata && message.metadata.button}"
+          [message]="message" 
+          [fontColor]="stylesMap.get('bubbleSentTextColor')"
+          [fontSize]="stylesMap.get('fontSize')"
+          [fontFamily]="stylesMap.get('fontFamily')"
+          (onBeforeMessageRender)="onBeforeMessageRenderFN($event)"
+          (onAfterMessageRender)="onAfterMessageRenderFN($event)" 
+          (onElementRendered)="onElementRenderedFN($event)">
       </chat-bubble-message>
       </div>
 
