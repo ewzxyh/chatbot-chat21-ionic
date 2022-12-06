@@ -152,6 +152,11 @@ ion-item {
     // animation: heartbeat 1.5s ease-in-out both;
 }
 
+.bubble-container{
+    display: flex;
+    max-width: calc(100% - 85px);
+}
+
 /* send message */
 .base_sent {
     align-items: flex-end;
@@ -167,7 +172,7 @@ ion-item {
         background-color: var(--bubble-blue);
         color: var(--col-msg-sent);
         margin: 0px 0px 0px 0px;
-        max-width: calc(100% - 85px);
+        // max-width: calc(100% - 85px); //--> moved to bubble-container
         min-width: 14px;
         border-top-right-radius: 8px;
         border-bottom-right-radius: 0px;
@@ -207,11 +212,13 @@ ion-item {
         border-radius: 3px;
         color: rgb(135, 150, 175);
     }
+
 }
 
 /** recive message **/
 .base_receive {
     padding: 0px 20px 6px 0px;
+
     .message-date{
         color: #647491;
         font-size: 12px;
@@ -219,7 +226,9 @@ ion-item {
     }
     
 
-    &:hover .message-date-hover, &:hover .btn-add-msg{
+    &:hover .message-date-hover, 
+    &:hover .btn-add-msg, 
+    &:hover .options-container{
         display: block;
     }
     /* avatar */
@@ -253,7 +262,7 @@ ion-item {
         background-color: var(--bck-msg-received);
         color: var(--col-msg-received);
         // max-width: 260px;
-        max-width: calc(100% - 85px);
+        // max-width: calc(100% - 85px); //--> moved to bubble-container
         min-width: 14px;
         margin: 0 0px 0px 10px;
         height: fit-content;
@@ -278,6 +287,76 @@ ion-item {
         max-width: 100% !important;
     }
 
+    .options-container{
+        position: relative;
+        display: none;
+        -webkit-box-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        justify-content: center;
+        top: 0px;
+        right: 30px;
+        height: 16px;
+        margin: 5px;
+        z-index: 2;
+    }
+    .menu-logo{
+        // background-color: var(--list-bkg-color);
+        // box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.4);
+        // position: relative;
+        // display: flex;
+        // -webkit-box-align: center;
+        // align-items: center;
+        // -webkit-box-pack: center;
+        // justify-content: center;
+        // top: 0px;
+        // right: 30px;
+        // z-index: 2;
+        width: 20px;
+        border-radius: 3px;
+        color: rgb(135, 150, 175);
+    
+        &:hover{
+            cursor: pointer;
+        }
+    }
+
+    .copy-logo{
+        // background-color: var(--list-bkg-color);
+        // box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.4);
+        // position: relative;
+        // display: flex;
+        // -webkit-box-align: center;
+        // align-items: center;
+        // -webkit-box-pack: center;
+        // justify-content: center;
+        // top: 0px;
+        // right: 50px;
+        // z-index: 2;
+        width: 20px;
+        border-radius: 3px;
+        color: rgb(135, 150, 175);
+    
+        &:hover{
+            cursor: pointer;
+        }
+    }
+
+}
+
+.sourcePage-container{
+    margin: 0 0px 0px 10px;
+    display: none;
+    align-items: center;
+    color: rgb(135, 150, 175);
+    font-size: 12px;
+    svg{
+        fill: rgb(135, 150, 175);
+        margin-right: 5px;
+    }
+    &.show{
+        display: flex;
+    }
 }
 
 .message-date-hover{

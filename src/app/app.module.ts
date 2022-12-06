@@ -1,4 +1,3 @@
-import { SendEmailModal } from './modals/send-email/send-email.page';
 import { ConvertRequestToConversation } from './../chat21-core/utils/convertRequestToConversation';
 import { LogLevel, PUSH_ENGINE_FIREBASE, PUSH_ENGINE_MQTT } from './../chat21-core/utils/constants';
 import { CustomLogger } from 'src/chat21-core/providers/logger/customLogger';

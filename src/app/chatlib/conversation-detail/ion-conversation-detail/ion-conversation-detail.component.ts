@@ -1,3 +1,4 @@
+import { BubbleInfoPopoverComponent } from '../../../components/bubbleMessageInfo-popover/bubbleinfo-popover.component';
 import { MessageModel } from 'src/chat21-core/models/message';
 import { ConversationContentComponent } from '../conversation-content/conversation-content.component';
 import { ChangeDetectorRef, Component, Input, OnInit, Output, EventEmitter, SimpleChange, SimpleChanges } from '@angular/core';
@@ -14,8 +15,9 @@ import { TiledeskAuthService } from 'src/chat21-core/providers/tiledesk/tiledesk
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { AppConfigProvider } from 'src/app/services/app-config';
-import { ModalController } from '@ionic/angular';
+import { ModalController, PopoverController } from '@ionic/angular';
 import { CreateCannedResponsePage } from 'src/app/modals/create-canned-response/create-canned-response.page';
+
 @Component({
   selector: 'ion-conversation-detail',
   templateUrl: './ion-conversation-detail.component.html',
@@ -38,6 +40,8 @@ export class IonConversationDetailComponent extends ConversationContentComponent
   public fileType: any
   public browserLang: string;
   public addAsCannedResponseTooltipText: string;
+  public showSourceInfo: boolean = false;
+  public showSourceInfoIndex: number = 0;
   // public openInfoConversation: boolean = true;
   isImage = isImage;
   isFile = isFile;
@@ -67,6 +71,7 @@ export class IonConversationDetailComponent extends ConversationContentComponent
     private translate: TranslateService,
     public appConfigProvider: AppConfigProvider,
     public modalController: ModalController,
+    public popoverController: PopoverController
   ) {
     super(cdref, uploadService)
 
@@ -145,6 +150,21 @@ export class IonConversationDetailComponent extends ConversationContentComponent
     this.onAddUploadingBubble.emit(value);
   }
 
+  onClickBubbleMenu(event, message: MessageModel){
+    this.logger.log('[CONVS-DETAIL][ION-CONVS-DETAIL] - onClickBubbleMenu');
+    this.presentPopover(event, message)
+  }
+
+  onClickCopyMesage(event, message: MessageModel){
+    this.logger.log('[CONVS-DETAIL][ION-CONVS-DETAIL] - onClickCopyMesage');
+    navigator.clipboard.writeText(message.text)
+  }
+
+  onBubbleMessageClick(event: any, index: number){
+    this.showSourceInfo = !this.showSourceInfo
+    this.showSourceInfoIndex = index
+  }
+
   onElementRenderedFN(event) {
     this.logger.log('[CONVS-DETAIL][ION-CONVS-DETAIL] - onElementRenderedFN:::ionic', event)
     this.onElementRendered.emit(event)
@@ -186,5 +206,27 @@ export class IonConversationDetailComponent extends ConversationContentComponent
     })
 
     return await modal.present()
+  }
+
+  async presentPopover(ev: any, message: MessageModel) {
+    const attributes = {
+      message: message,
+      conversationWith: message.recipient
+   }
+    const popover = await this.popoverController.create({
+      component: BubbleInfoPopoverComponent,
+      cssClass: 'my-custom-class',
+      componentProps: attributes,
+      event: ev,
+      translucent: true,
+      keyboardClose: true,
+      showBackdrop: true
+    });
+    popover.onDidDismiss().then((dataReturned: any) => {
+      // 
+      this.logger.log('[BUBBLE-MESSAGE] ', dataReturned.data)
+    })
+
+    return await popover.present();
   }
 }

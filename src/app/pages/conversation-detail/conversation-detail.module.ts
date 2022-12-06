@@ -1,3 +1,5 @@
+import { BubbleInfoPopoverComponent } from '../../components/bubbleMessageInfo-popover/bubbleinfo-popover.component';
+import { BubbleMessageComponent } from './../../chatlib/conversation-detail/message/bubble-message/bubble-message.component';
 import { CannedResponseComponent } from './../../components/canned-response/canned-response.component';
 import { TruncatePipe } from './../../directives/truncate.pipe';
 import { IonConversationDetailComponent } from '../../chatlib/conversation-detail/ion-conversation-detail/ion-conversation-detail.component';
@@ -61,6 +63,7 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
     HeaderConversationDetailComponent,
     MessageTextAreaComponent,
     CannedResponseComponent,
+    BubbleInfoPopoverComponent,
     // InfoContentComponent,
     // InfoSupportGroupComponent,
     // InfoDirectComponent,

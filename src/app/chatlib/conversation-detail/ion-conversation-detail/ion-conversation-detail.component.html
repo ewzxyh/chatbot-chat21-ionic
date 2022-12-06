@@ -99,13 +99,14 @@
         </ion-button>
       </ng-container>
 
-      <!--backgroundColor non viene ancora usato -->
-      <div style="display: contents;">
+      
+      <div class="bubble-container">
 
         <div class="email-logo" *ngIf="message?.attributes?.channel && message?.attributes?.channel === TYPE_MSG_EMAIL">
           <ion-icon name="mail"></ion-icon>
         </div>
 
+        <!--backgroundColor non viene ancora usato -->
         <chat-bubble-message class="messages msg_sent" id="message_msg_sent" style="position: relative;" 
           [ngClass]="{'has-metadata': (isImage(message) || isFrame(message)), 'privateMsg': (message?.attributes && message?.attributes?.subtype === 'private')}" 
           [class.no-background]="(isImage(message) || isFrame(message)) && message?.text.trim() === '' "  
@@ -149,21 +150,35 @@
           [baseLocation]="baseLocation">
       </chat-avatar-image> -->
 
-      <!--backgroundColor non viene ancora usato -->
-      <chat-bubble-message class="messages msg_receive" id="message_msg_receive"
-        [ngClass]="{'has-metadata': (isImage(message) || isFrame(message)), 'privateMsg': (message?.attributes && message?.attributes?.subtype === 'private')}" 
-        [class.no-background]="(isImage(message) || isFrame(message)) && message?.text.trim() === '' "  
-        [class.emoticon]="isEmojii(message?.text)"
-        [ngStyle]="{'background': stylesMap?.get('bubbleReceivedBackground'), 'color': stylesMap.get('bubbleReceivedTextColor')}"
-        [isSameSender]="isSameSender(message?.sender, i)"
-        [message]="message" 
-        [fontColor]="stylesMap?.get('bubbleReceivedTextColor')"
-        [fontSize]="stylesMap?.get('fontSize')"
-        [fontFamily]="stylesMap?.get('fontFamily')"
-        (onBeforeMessageRender)="onBeforeMessageRenderFN($event)"
-        (onAfterMessageRender)="onAfterMessageRenderFN($event)" 
-        (onElementRendered)="onElementRenderedFN($event)">
-      </chat-bubble-message>
+      <div class="bubble-container">
+        
+        <!--backgroundColor non viene ancora usato -->
+        <chat-bubble-message class="messages msg_receive" id="message_msg_receive"
+          [ngClass]="{'has-metadata': (isImage(message) || isFrame(message)), 'privateMsg': (message?.attributes && message?.attributes?.subtype === 'private')}" 
+          [class.no-background]="(isImage(message) || isFrame(message)) && message?.text.trim() === '' "  
+          [class.emoticon]="isEmojii(message?.text)"
+          [ngStyle]="{'background': stylesMap?.get('bubbleReceivedBackground'), 'color': stylesMap.get('bubbleReceivedTextColor')}"
+          [isSameSender]="isSameSender(message?.sender, i)"
+          [message]="message" 
+          [fontColor]="stylesMap?.get('bubbleReceivedTextColor')"
+          [fontSize]="stylesMap?.get('fontSize')"
+          [fontFamily]="stylesMap?.get('fontFamily')"
+          (onBeforeMessageRender)="onBeforeMessageRenderFN($event)"
+          (onAfterMessageRender)="onAfterMessageRenderFN($event)" 
+          (onElementRendered)="onElementRenderedFN($event)"
+          (click)="onBubbleMessageClick($event, i)">
+        </chat-bubble-message>
+
+        <div class="options-container">
+          <div class="copy-logo" (click)="onClickCopyMesage($event, message)" *ngIf="message.text.trim() !== ''">
+            <ion-icon name="copy-outline"></ion-icon>
+          </div>
+          <!-- <div class="menu-logo" (click)="onClickBubbleMenu($event, message)">
+            <ion-icon name="caret-down"></ion-icon>
+          </div> -->
+        </div>
+
+      </div>
 
       <ng-container *ngIf="areVisibleCAR && supportMode">
         <ion-button shape="round" size="small" class="btn-add-msg canned" ion-button fill="clear"
@@ -182,6 +197,11 @@
       </ng-container> -->
 
       <div class="message-date-hover" *ngIf="isChannelTypeGroup(channelType)"> {{message.timestamp | date:'HH:mm' }} </div>
+    </div>
+    
+    <div class="base_receive sourcePage-container" *ngIf="messageType(MESSAGE_TYPE_OTHERS, message) && message?.attributes?.sourcePage" [class.show]="showSourceInfo && showSourceInfoIndex===i">
+      <svg xmlns="http://www.w3.org/2000/svg" height="15px" width="15px" viewBox="0 0 24 24"  fill="none"><path _ngcontent-wrg-c96="" d="M0 0h24v24H0V0z" fill="none"></path><path _ngcontent-wrg-c96="" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM4 12c0-.61.08-1.21.21-1.78L8.99 15v1c0 1.1.9 2 2 2v1.93C7.06 19.43 4 16.07 4 12zm13.89 5.4c-.26-.81-1-1.4-1.9-1.4h-1v-3c0-.55-.45-1-1-1h-6v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41C17.92 5.77 20 8.65 20 12c0 2.08-.81 3.98-2.11 5.4z"></path></svg>
+      <span title="{{message?.attributes?.sourcePage}}" class="truncate">{{message?.attributes?.sourcePage}}</span>
     </div>
 
     <!-- message type:: button &&  -->
