@@ -130,7 +130,7 @@ export class IonListConversationsComponent extends ListConversationsComponent im
     const translationKeys = [
       'Resolve',
       'Archive',
-      'JoinConversation',
+      'JOIN_CONVERSATION',
       'ALERT_TITLE',
       'ActionNotAllowed',
       'CLOSE_ALERT_CONFIRM_LABEL',

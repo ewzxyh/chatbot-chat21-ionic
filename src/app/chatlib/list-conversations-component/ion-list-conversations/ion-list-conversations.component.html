@@ -168,16 +168,18 @@
       </ng-template>
     </ion-button>
 
-    <ion-button *ngIf="conversation?.recipient.startsWith('support-group') && !conversation.archived" [tooltip]="joinTooltip"  [options]="tooltip_options" placement="bottom"  content-type="template"
+    <!-- <ion-button *ngIf="conversation?.recipient.startsWith('support-group') && !conversation.archived" [tooltip]="joinTooltip"  [options]="tooltip_options" placement="bottom"  content-type="template"
       [ngClass]="{'hide': !isApp, 'button-on-desktop': !isApp, 'button-on-mobile': isApp  }"
       id="{{ 'join_conversation_button' + conversation.uid }}" class="close-conversation-button" ion-button clear
       item-end (click)="joinConversation(conversation);$event.stopPropagation();" padding>
       <ion-icon slot="icon-only" style="display:block;" id="{{ 'join_button_icon' + conversation.uid }}" name="link-outline" item-end></ion-icon>
 
       <ng-template #joinTooltip>
-        <span>{{ translationsMap?.get('JoinConversation')}} </span>
+        <span>{{ translationsMap?.get('JOIN_CONVERSATION')}} </span>
       </ng-template>
-    </ion-button>
+    </ion-button> -->
+
+
     <!-- <ion-button *ngIf="conversation.archived" class="close-conversation-button" ion-button clear item-end disabled padding>
       <!- - <ion-icon  style="display:block;" id="{{ 'close_button_icon' + conversation.uid }}" color="close-conversation" name="archive-outline" item-end></ion-icon> - ->
       <i class="material-icons" id="{{ 'close_button_icon' + conversation.uid }}"  item-end> history </i>

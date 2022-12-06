@@ -236,7 +236,7 @@ export class IonConversationDetailComponent extends ConversationContentComponent
     const toast = await this.toastController.create({
       message: '<div style="display: flex">'+
                 '<ion-icon name="copy"></ion-icon> '+
-                '<span>Copied to clipboard. Paste it wherever you want</span>'+
+                `<span>${this.translationMap.get("COPY_MESSAGE_TOAST")}</span>`+
               '</div>',
       duration: 3000,
       color: 'light',

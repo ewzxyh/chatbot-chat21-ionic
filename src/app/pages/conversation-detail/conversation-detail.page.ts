@@ -636,7 +636,9 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       "SEND_EMAIL_SUCCESS",
       "SEND_EMAIL_ERROR",
       "SUBJECT_OFFLINE_MESSAGE",
-      "SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE"
+      "SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE",
+
+      
     ]
 
     const keysHeader = [
@@ -657,6 +659,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       'LABEL_OPEN_INFO_CONVERSATION',
       'LABEL_CLOSE_GROUP',
       'LABEL_IS_WRITING',
+      'COPY',
+      'COPY_MESSAGE_TOAST'
     ]
 
     this.translationsMap = this.customTranslateService.translateLanguage(keys)
