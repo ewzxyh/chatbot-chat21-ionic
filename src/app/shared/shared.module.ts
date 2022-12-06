@@ -1,3 +1,4 @@
+import { HeaderConversationsListUnassigned } from './../components/conversations-list/header-conversations-list-unassigned/header-conversations-list-unassigned.component';
 import { NavbarComponent } from './../components/navbar/navbar.component';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -90,6 +91,7 @@ import { SafeHtmlPipe } from '../directives/safe-html.pipe';
     HtmlEntitiesEncodePipe,
     SafeHtmlPipe,
     HeaderConversationsListArchived,
+    HeaderConversationsListUnassigned,
     NetworkOfflineComponent
   ],
   exports: [
@@ -123,6 +125,7 @@ import { SafeHtmlPipe } from '../directives/safe-html.pipe';
     InfoDirectComponent,
     InfoGroupComponent,
     HeaderConversationsListArchived,
+    HeaderConversationsListUnassigned,
     NetworkOfflineComponent
 
   ],
