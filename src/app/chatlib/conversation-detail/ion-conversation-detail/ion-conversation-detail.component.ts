@@ -15,7 +15,7 @@ import { TiledeskAuthService } from 'src/chat21-core/providers/tiledesk/tiledesk
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { AppConfigProvider } from 'src/app/services/app-config';
-import { ModalController, PopoverController } from '@ionic/angular';
+import { ModalController, PopoverController, ToastController } from '@ionic/angular';
 import { CreateCannedResponsePage } from 'src/app/modals/create-canned-response/create-canned-response.page';
 
 @Component({
@@ -71,7 +71,8 @@ export class IonConversationDetailComponent extends ConversationContentComponent
     private translate: TranslateService,
     public appConfigProvider: AppConfigProvider,
     public modalController: ModalController,
-    public popoverController: PopoverController
+    public popoverController: PopoverController,
+    public toastController: ToastController
   ) {
     super(cdref, uploadService)
 
@@ -158,6 +159,7 @@ export class IonConversationDetailComponent extends ConversationContentComponent
   onClickCopyMesage(event, message: MessageModel){
     this.logger.log('[CONVS-DETAIL][ION-CONVS-DETAIL] - onClickCopyMesage');
     navigator.clipboard.writeText(message.text)
+    this.presentToast()
   }
 
   onBubbleMessageClick(event: any, index: number){
@@ -228,5 +230,19 @@ export class IonConversationDetailComponent extends ConversationContentComponent
     })
 
     return await popover.present();
+  }
+
+  async presentToast(){
+    const toast = await this.toastController.create({
+      message: '<div style="display: flex">'+
+                '<ion-icon name="copy"></ion-icon> '+
+                '<span>Copied to clipboard. Paste it wherever you want</span>'+
+              '</div>',
+      duration: 3000,
+      color: 'light',
+      position: 'bottom',
+      cssClass: 'toast-copy'
+    });
+    toast.present();
   }
 }

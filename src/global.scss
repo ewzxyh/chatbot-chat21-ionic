@@ -742,3 +742,13 @@ ul.dropdown-menu > li > a {
     border-radius: 16px !important;
 }
 
+
+//TOAST
+.toast-copy{
+    --end: 0px;
+    --width: auto;
+    .toast-message{
+        display: flex !important;
+    }
+}
+
