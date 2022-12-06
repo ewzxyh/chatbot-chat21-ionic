@@ -2,6 +2,16 @@
 
 ### 3.0.86 in PROD
 
+### 3.0.86-rc.4
+- bug-fixed: close emoji-picker if focus is on message-text-area
+- bug-fixed: removed hover background bell icon
+- bug-fixed: input field not focused on click
+- bug-fixed: set list-bkg-color as default background color for ion-split--pane component
+- changed: create-canned-response UI
+- added: sourcePage info to incoming messages
+- added: copy icon to copy text to clipboard
+- added: popover option to incoming messages
+
 ### 3.0.86-rc.3
 - bug-fixed: cannot send message after email is queued successfully
 
