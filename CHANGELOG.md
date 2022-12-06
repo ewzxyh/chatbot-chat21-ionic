@@ -2,6 +2,16 @@
 
 ### 3.0.86 in PROD
 
+### 3.0.86-rc.6
+- bug-fixed: do not change showSourceInfo status if sourcePage info not exist
+- bug-fixed: last_project is undefined
+
+### 3.0.86-rc.5
+- added: header-conversations-list-unassigned component
+- added: toast after text is copied
+- added: unassigned header to conversations-list page and joinConversation options icon
+- removed: "Open" - "Close info detail" string from close/open info conversation detail
+
 ### 3.0.86-rc.4
 - bug-fixed: close emoji-picker if focus is on message-text-area
 - bug-fixed: removed hover background bell icon
