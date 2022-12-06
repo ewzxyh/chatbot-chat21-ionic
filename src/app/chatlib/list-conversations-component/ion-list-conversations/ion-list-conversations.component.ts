@@ -30,6 +30,7 @@ export class IonListConversationsComponent extends ListConversationsComponent im
   @Input() archiveActionNotAllowed: boolean;
   @Input() uidConvSelected: string;
   @Output() onCloseConversation = new EventEmitter<ConversationModel>();
+  @Output() onJoinConversation = new EventEmitter<ConversationModel>();
   @Output() onCloseAlert = new EventEmitter();
 
   convertMessage = convertMessage;
@@ -129,6 +130,7 @@ export class IonListConversationsComponent extends ListConversationsComponent im
     const translationKeys = [
       'Resolve',
       'Archive',
+      'JoinConversation',
       'ALERT_TITLE',
       'ActionNotAllowed',
       'CLOSE_ALERT_CONFIRM_LABEL',
@@ -216,6 +218,13 @@ export class IonListConversationsComponent extends ListConversationsComponent im
     var conversationId = conversation.uid;
     this.logger.log('[ION-LIST-CONVS-COMP] - closeConversation - conversationId ', conversationId)
     this.onCloseConversation.emit(conversation)
+    let currentIndex = this.listConversations.findIndex(conv => conv.uid === conversation.uid)
+  }
+
+  joinConversation(conversation: ConversationModel) {
+    var conversationId = conversation.uid;
+    this.logger.log('[ION-LIST-CONVS-COMP] - joinConversation - conversationId ', conversationId)
+    this.onJoinConversation.emit(conversation)
     let currentIndex = this.listConversations.findIndex(conv => conv.uid === conversation.uid)
   }
 

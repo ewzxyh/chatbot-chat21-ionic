@@ -64,6 +64,7 @@ export class ConversationListPage implements OnInit {
   public loggedUserUid: string
   public conversations: Array<ConversationModel> = []
   public archivedConversations: Array<ConversationModel> = []
+  public unassignedConversations: Array<ConversationModel> = []
   public uidConvSelected: string
   public conversationSelected: ConversationModel
   public uidReciverFromUrl: string
@@ -253,22 +254,33 @@ export class ConversationListPage implements OnInit {
     this.lastProjectId = projectid
   }
 
-  openUnsevedConversationIframe(event) {
+  openUnsevedConversationIframe(event:{event: string, data: ConversationModel[]}) {
     this.logger.log('[CONVS-LIST-PAGE] openUnsevedConversationIframe ', event)
     this.hasClickedOpenUnservedConvIframe = true
+    // if(event && event.data){
+    //   this.conversationType = 'unassigned'
+    //   this.unassignedConversations = event.data
+      
+    //   const keys = ['UnassignedConversations']
+    //   // const keys = ['History'];
+
+    //   this.headerTitle = this.translateService.translateLanguage(keys).get(keys[0])
+    // }
     this.logger.log('[CONVS-LIST-PAGE] - HAS CLIKED OPEN UNSERVED REQUEST IFRAME',this.hasClickedOpenUnservedConvIframe )
     const DASHBOARD_BASE_URL = this.appConfigProvider.getConfig().dashboardUrl
     // http://localhost:4204/#/projects-for-panel
     this.PROJECTS_FOR_PANEL_URL = DASHBOARD_BASE_URL + '#/projects-for-panel'
     this.UNASSIGNED_CONVS_URL = DASHBOARD_BASE_URL + '#/project/' + this.lastProjectId + '/unserved-request-for-panel'
 
-    if (event === 'pinbtn') {
+    if (event.event === 'pinbtn') {
       this.IFRAME_URL = this.PROJECTS_FOR_PANEL_URL
     } else {
       this.IFRAME_URL = this.UNASSIGNED_CONVS_URL
     }
     this.logger.log('[CONVS-LIST-PAGE] - HAS CLIKED OPEN UNSERVED REQUEST IFRAME > UNASSIGNED CONVS URL',this.UNASSIGNED_CONVS_URL )
     this.openUnassignedConversations(this.IFRAME_URL, event)
+
+
   }
 
   // ---------------------------------------------------------
@@ -649,6 +661,8 @@ export class ConversationListPage implements OnInit {
         conversationSelected = this.conversations.find((item) => item.uid === this.uidConvSelected)
       } else if (conversationType === 'archived') { 
         conversationSelected = this.archivedConversations.find((item) => item.uid === this.uidConvSelected)
+      } else if (conversationType === 'unassigned') { 
+        conversationSelected = this.unassignedConversations.find((item) => item.uid === this.uidConvSelected)
       }
       if (conversationSelected) {
         this.logger.log('[CONVS-LIST-PAGE] conversationSelected', conversationSelected)
@@ -871,6 +885,10 @@ export class ConversationListPage implements OnInit {
       this.logger.log('[CONVS-LIST-PAGE] hasclosedconversation  conversation', conversation)
       this.onCloseConversation(conversation)
     })
+  }
+
+  onJoinConversation(conversation: ConversationModel){
+    this.logger.log('[CONVS-LIST-PAGE] onJoinConversation  conversation', conversation)
   }
 
   // ----------------------------------------------------------------------------------------------

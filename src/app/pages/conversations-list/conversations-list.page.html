@@ -11,11 +11,18 @@
     (openProfileInfo)=openProfileInfo($event)>
   </header-conversations-list>
 
-  <header-conversations-list-archived *ngIf="conversationType !=='active'" 
+  <header-conversations-list-archived *ngIf="conversationType ==='archived'" 
     [headerTitle]=headerTitle
     [isMobile]="isMobile"
     (onBackButton)=onBackButtonFN($event)>
   </header-conversations-list-archived>
+
+  <header-conversations-list-unassigned *ngIf="conversationType ==='unassigned'"
+    [headerTitle]=headerTitle
+    [isMobile]="isMobile"
+    (onBackButton)=onBackButtonFN($event)>
+  </header-conversations-list-unassigned>
+
 </ion-header>
 
 <!-- appScrollbarTheme -->
@@ -39,7 +46,7 @@
         </ion-item>
 
       <span
-        *ngIf="(conversations.length > 0 && conversationType ==='active') || (archivedConversations.length > 0  && conversationType ==='archived');then contentConversations else contentMessageWelcome">
+        *ngIf="(conversations.length > 0 && conversationType ==='active') || (archivedConversations.length > 0  && conversationType ==='archived') || (unassignedConversations.length > 0  && conversationType ==='unassigned');then contentConversations else contentMessageWelcome">
         here is ignored
       </span>
 
@@ -73,6 +80,20 @@
           (onImageLoaded)="onImageLoaded($event)"
           (onConversationLoaded)="onConversationLoaded($event)">
         </ion-list-conversations>
+
+        <!-- ---------------------------------- -->
+        <!-- UNASSIGNED CONVERSATION LIST -->
+        <!-- ---------------------------------- -->
+        <ion-list-conversations *ngIf="conversationType ==='unassigned'" 
+          [listConversations]="unassignedConversations"
+          [stylesMap]="stylesMap" 
+          [translationMap]="translationMapConversation"
+          (onConversationSelected)=onConversationSelected($event)
+          (onCloseConversation)="onCloseConversation($event)" 
+          (onJoinConversation) ="onJoinConversation($event)"
+          (onImageLoaded)="onImageLoaded($event)"
+          (onConversationLoaded)="onConversationLoaded($event)">
+        </ion-list-conversations>
       </ng-template>
 
       <ng-template #contentMessageWelcome>
@@ -102,7 +123,7 @@
         </div>
 
         <div id="no-convs-wpr"
-          *ngIf="(!loadingIsActive && conversations.length === 0) || (!loadingIsActive && archivedConversations.length === 0) ">
+          *ngIf="(!loadingIsActive && conversations.length === 0) || (!loadingIsActive && archivedConversations.length === 0) || (!loadingIsActive && unassignedConversations.length === 0)">
           <ion-item id="no-convs" class="ion-text-center" lines="none">
             <ion-label class="ion-text-wrap" color="medium">
               {{ 'LABEL_MSG_PUSH_START_CHAT' | translate }}

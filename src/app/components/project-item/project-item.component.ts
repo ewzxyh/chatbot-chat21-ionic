@@ -87,10 +87,10 @@ export class ProjectItemComponent implements OnInit {
   }
 
   openUnservedConvs() {
-    this.openUnsevedConvsEvent.emit('notificationsorprjctbtn')
+    this.openUnsevedConvsEvent.emit({event: 'notificationsorprjctbtn', data: this.unservedConversations})
   }
   openUnservedConvsAndGoToProjectList() {
-    this.openUnsevedConvsEvent.emit('pinbtn')
+    this.openUnsevedConvsEvent.emit({event:'pinbtn', data: this.unservedConversations})
   }
 
   getStoredTokenAndConnectWS() {

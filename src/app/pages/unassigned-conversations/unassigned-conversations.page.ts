@@ -48,6 +48,10 @@ export class UnassignedConversationsPage implements OnInit {
     this.hideHotjarFeedbackBtn();
   }
 
+  ngOnDestroy(){
+    this.logger.log('[UNASSIGNED-CONVS-PAGE] - onDestroy called', this.iframe_URL);
+  }
+
   hideHotjarFeedbackBtn() {
     const hotjarFeedbackBtn = <HTMLElement>document.querySelector("#_hj_feedback_container > div > button")
     if (hotjarFeedbackBtn) {
