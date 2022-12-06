@@ -162,9 +162,11 @@ export class IonConversationDetailComponent extends ConversationContentComponent
     this.presentToast()
   }
 
-  onBubbleMessageClick(event: any, index: number){
-    this.showSourceInfo = !this.showSourceInfo
-    this.showSourceInfoIndex = index
+  onBubbleMessageClick(event: any, message: MessageModel, index: number){
+    if(message && message.attributes && message.attributes.sourcePage){
+      this.showSourceInfo = !this.showSourceInfo
+      this.showSourceInfoIndex = index
+    }
   }
 
   onElementRenderedFN(event) {
