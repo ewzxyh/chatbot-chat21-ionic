@@ -106,44 +106,6 @@ export class FirebaseAuthService extends MessagingAuthService {
 
   }
 
-  checkInternetConnection() {
-    this.logger.log('[FIREBASEAuthSERVICE] - checkInternetConnection');
-    // let connectSubscription = this.network.onConnect().subscribe(() => {
-    //   this.logger.log('[FIREBASEAuthSERVICE] - network connected!');
-    //   // We just got a connection but we need to wait briefly
-    //    // before we determine the connection type. Might need to wait.
-    //   // prior to doing any api requests as well.
-    //   setTimeout(() => {
-    //     if (this.network.type === 'wifi') {
-    //       this.logger.log('[FIREBASEAuthSERVICE] - we got a wifi connection, woohoo!');
-    //     }
-    //   }, 3000);
-    // });
-
-
-    // this.connectionService.monitor().subscribe(isConnected => {
-    //   this.isConnected = isConnected;
-    //   this.logger.log('[FIREBASEAuthSERVICE] - checkInternetConnection isConnected', isConnected);
-    //   if (this.isConnected) {
-    //     this.status = "ONLINE";
-
-    //     // this.onAuthStateChanged();
-    //     firebase.auth().onAuthStateChanged(user => {
-    //       this.logger.log('[FIREBASEAuthSERVICE] checkInternetConnection onAuthStateChanged', user)
-    //     })
-    //   }
-    //   else {
-    //     this.status = "OFFLINE";
-    //     // this.onAuthStateChanged();
-    //     firebase.auth().onAuthStateChanged(user => {
-    //       this.logger.log('[FIREBASEAuthSERVICE] checkInternetConnection onAuthStateChanged', user)
-    //     })
-    //   }
-    // })
-
-
-  }
-
   // createOnline$() {
   //   return merge<boolean>(
   //     fromEvent(window, 'offline').pipe(map(() => false)),
