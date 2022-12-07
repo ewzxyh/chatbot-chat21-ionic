@@ -1,3 +1,4 @@
+import { DomSanitizer } from '@angular/platform-browser';
 import {
   Component,
   OnInit,
@@ -225,8 +226,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     public tiledeskService: TiledeskService,
     private networkService: NetworkService,
     private events: EventsService,
-    private renderer: Renderer2,
-    private el: ElementRef
+    private sanitizer: DomSanitizer
   ) {
     // Change list on date change
     this.route.paramMap.subscribe((params) => {
@@ -247,11 +247,11 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   ngOnInit() {
     this.logger.log('[CONVS-DETAIL] > ngOnInit - window.location: ', window.location);
 
-    this.getConversations();
-    this.watchToConnectionStatus();
-    this.getOSCODE();
-    this.getStoredProjectAndUserRole();
-    this.listenToDsbrdPostMsgs();
+    // this.getConversations();
+    // this.watchToConnectionStatus();
+    // this.getOSCODE();
+    // this.getStoredProjectAndUserRole();
+    // this.listenToDsbrdPostMsgs();
     
   }
 
@@ -517,11 +517,12 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       this.initSubscriptions()
       this.startConversation()
       this.getLeadDetail()
+      this.initializeTyping();
     }
     this.addEventsKeyboard()
     this.updateConversationBadge() // AGGIORNO STATO DELLA CONVERSAZIONE A 'LETTA' (is_new = false)
   
-    this.initializeTyping();
+    
   }
 
   _getProjectIdByConversationWith(conversationWith: string) {
@@ -686,18 +687,27 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     ]
     return this.customTranslateService.translateLanguage(keys)
   }
-
   private setStyleMap(){
-      this.styleMap.set('themeColor', 'var(--basic-blue)')
-                    .set('bubbleReceivedBackground','var(--bck-msg-received)')
-                    .set('bubbleReceivedTextColor', 'var(--col-msg-received)')
-                    .set('bubbleSentBackground', 'var(--bck-msg-sent)')
-                    .set('bubbleSentTextColor', 'var(--col-msg-sent)')
-                    .set('buttonFontSize','var(--button-in-msg-font-size)')
-                    .set('buttonBackgroundColor', 'var(--buttonBackgroundColor)')
-                    .set('buttonTextColor', 'var(--buttonTextColor)')
-                    .set('buttonHoverBackgroundColor', 'var(--buttonHoverBackgroundColor)')
-                    .set('buttonHoverTextColor', 'var(--buttonHoverTextColor)')
+      // this.styleMap.set('themeColor', 'var(--basic-blue)')
+      //               .set('bubbleReceivedBackground','var(--bck-msg-received)')
+      //               .set('bubbleReceivedTextColor', 'var(--col-msg-received)')
+      //               .set('bubbleSentBackground', 'var(--bck-msg-sent)')
+      //               .set('bubbleSentTextColor', 'var(--col-msg-sent)')
+      //               .set('buttonFontSize','var(--button-in-msg-font-size)')
+      //               .set('buttonBackgroundColor', 'var(--buttonBackgroundColor)')
+      //               .set('buttonTextColor', 'var(--buttonTextColor)')
+      //               .set('buttonHoverBackgroundColor', 'var(--buttonHoverBackgroundColor)')
+      //               .set('buttonHoverTextColor', 'var(--buttonHoverTextColor)')
+       this.styleMap.set('themeColor', '#2a69c1')
+                    .set('bubbleReceivedBackground','#f0f2f7')
+                    .set('bubbleReceivedTextColor', '#06132b')
+                    .set('bubbleSentBackground', '#2a6ac1')
+                    .set('bubbleSentTextColor', '#ffffff')
+                    .set('buttonFontSize','15px')
+                    .set('buttonBackgroundColor', '#ffffff')
+                    .set('buttonTextColor', '#2a6ac1')
+                    .set('buttonHoverBackgroundColor', '#2a6ac1')
+                    .set('buttonHoverTextColor', ' #ffffff')
   
   }
   // -------------------------------------------------------------------------------------
@@ -793,6 +803,14 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         conversation.attributes.project_name = project['name']
       }
 
+    }else {
+      const projectId = this.getProjectIdSelectedConversation(this.conversationWith)
+      let project = localStorage.getItem(projectId)
+      if(project){
+        project = JSON.parse(project)
+        conversation.attributes.projectId = project['_id']
+        conversation.attributes.project_name = project['name']
+      }
     }
     return conversation
   }
@@ -1059,7 +1077,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     subscription = this.subscriptions.find((item) => item.key === subscriptionKey)
     if (!subscription) {
       subscription = this.conversationHandlerService.messageInfo.pipe(takeUntil(this.unsubscribe$)).subscribe((msg: any) => {
-        this.logger.log('[CONVS-DETAIL] subscribe to messageInfo - messageId ', msg)
+        this.logger.log('[CONVS-DETAIL] subscribe to messageInfo - messageId ', msg, this.conversation)
         if (msg) {
           that.updateLeadInfo(msg)
           // this.setHeaderContent()
