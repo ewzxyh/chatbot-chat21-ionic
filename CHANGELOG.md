@@ -1,5 +1,12 @@
 # chat21-ionic ver 3.0
 
+### 3.0.88-rc.1
+- bug-fixed: projectId is undefined
+- bug-fixed: typing subscription block UI on first conversation click
+
+### 3.0.87 in PROD
+- restored version 3.0.85
+
 ### 3.0.86 in PROD
 
 ### 3.0.86-rc.6
