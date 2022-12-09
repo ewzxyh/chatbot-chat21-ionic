@@ -29,7 +29,9 @@
     "testsiteBaseUrl": "https://widget-pre.tiledesk.com/v5/assets/twp/index.html",
     "wsUrl": "ws://localhost:3000/",
     "wsUrlRel": "${WS_URL_RELATIVE}",
+    "storage_prefix": "chat_sv5",
     "supportMode": false,
     "writeToButton": false,
-    "archivedButton": false
+    "archivedButton": false,
+    "emailSection": true
 }

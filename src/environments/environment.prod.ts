@@ -37,4 +37,5 @@ export const environment = {
     supportMode: false,
     writeToButton: false,
     archivedButton: false,
+    emailSection: true
 };
