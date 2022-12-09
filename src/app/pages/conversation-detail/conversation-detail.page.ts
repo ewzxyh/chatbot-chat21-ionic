@@ -247,12 +247,11 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   ngOnInit() {
     this.logger.log('[CONVS-DETAIL] > ngOnInit - window.location: ', window.location);
 
-    // this.getConversations();
-    // this.watchToConnectionStatus();
-    // this.getOSCODE();
-    // this.getStoredProjectAndUserRole();
-    // this.listenToDsbrdPostMsgs();
-    
+    this.getConversations();
+    this.watchToConnectionStatus();
+    this.getOSCODE();
+    this.getStoredProjectAndUserRole();
+    this.listenToDsbrdPostMsgs();    
   }
 
   listenToDsbrdPostMsgs() {
@@ -1021,7 +1020,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         attributes,
       )
 
-      if(!this.leadIsOnline && this.leadInfo && this.leadInfo.email){
+      let emailEnabled = this.appConfigProvider.getConfig().emailSection
+      if(emailEnabled && !this.leadIsOnline && this.leadInfo && this.leadInfo.email){
         this.logger.log('[CONVS-DETAIL] - SEND MESSAGE --> SENDING EMAIL', msg, this.leadInfo.email)
         this.sendEmail(msg)
       }
