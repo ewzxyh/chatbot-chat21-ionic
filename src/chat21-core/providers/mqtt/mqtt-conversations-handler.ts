@@ -254,58 +254,59 @@ export class MQTTConversationsHandler extends ConversationsHandlerService {
         const index = searchIndexInArrayForUid(this.conversations, conversation.conversation_with);
         if (index > -1) {
             // const conv = this.conversations[index];
-            // this.logger.log("Conversation to update found", conv);
+            this.logger.log("Conversation to update found", this.conversations[index]);
             this.updateConversationWithSnapshot(this.conversations[index], conversation);
             this.logger.debug('[MQTTConversationsHandler] conversationchanged.isnew', JSON.stringify(conversation))
-            this.conversations.sort(compareValues('timestamp', 'desc'));
             this.logger.log("this.conversations:" + JSON.stringify(this.conversations));
+            this.logger.log("Conversation updated --> ", this.conversations[index]);
             this.conversationChanged.next(this.conversations[index]);
+            this.conversations.sort(compareValues('timestamp', 'desc'));
         }
     }
 
     private updateConversationWithSnapshot(conv: ConversationModel, snap: any) {
         this.logger.debug('[MQTTConversationsHandler] updating conv', conv, 'with snap', snap)
         Object.keys(snap).forEach(k => {
-            this.logger.debug('[MQTTConversationsHandler] key:' + k);
+            // this.logger.debug('[MQTTConversationsHandler] key:' + k);
             if (k === 'is_new') {
-                this.logger.debug('[MQTTConversationsHandler] aggiorno key:' + k);
+                // this.logger.debug('[MQTTConversationsHandler] aggiorno key:' + k);
                 conv.is_new = snap[k];
             }
             if (k === 'text') {
-                this.logger.debug('[MQTTConversationsHandler] aggiorno key:' + k);
+                // this.logger.debug('[MQTTConversationsHandler] aggiorno key:' + k);
                 conv.last_message_text = snap[k];
                 conv.text = snap[k];
             }
             if (k === 'recipient') {
-                this.logger.debug('[MQTTConversationsHandler] aggiorno key:' + k);
+                // this.logger.debug('[MQTTConversationsHandler] aggiorno key:' + k);
                 conv.recipient = snap[k];
             }
             if (k === 'recipient_fullname') {
-                this.logger.debug('[MQTTConversationsHandler] aggiorno key:' + k);
+                // this.logger.debug('[MQTTConversationsHandler] aggiorno key:' + k);
                 conv.recipient_fullname = snap[k];
             }
             if (k === 'sender') {
-                this.logger.debug('[MQTTConversationsHandler] aggiorno key:' + k);
+                // this.logger.debug('[MQTTConversationsHandler] aggiorno key:' + k);
                 conv.sender = snap[k];
             }
             if (k === 'sender_fullname') {
-                this.logger.debug('[MQTTConversationsHandler] aggiorno key:' + k);
+                // this.logger.debug('[MQTTConversationsHandler] aggiorno key:' + k);
                 conv.sender_fullname = snap[k];
             }
             if (k === 'attributes') {
-                this.logger.debug('[MQTTConversationsHandler] aggiorno key:' + k);
+                // this.logger.debug('[MQTTConversationsHandler] aggiorno key:' + k);
                 conv.attributes = snap[k];
             }
             if (k === 'timestamp') {
-                this.logger.debug('[MQTTConversationsHandler] aggiorno key:' + k);
+                // this.logger.debug('[MQTTConversationsHandler] aggiorno key:' + k);
                 conv.timestamp = snap[k];
             }
             if (k === 'status') {
-                this.logger.debug('[MQTTConversationsHandler] aggiorno key:' + k);
+                // this.logger.debug('[MQTTConversationsHandler] aggiorno key:' + k);
                 conv.status = this.setStatusConversation(conv.sender, conv.uid);
             }
             if (k === 'type') {
-                this.logger.debug('[MQTTConversationsHandler] aggiorno key:' + k);
+                // this.logger.debug('[MQTTConversationsHandler] aggiorno key:' + k);
                 conv.type = snap[k];
             }
         });

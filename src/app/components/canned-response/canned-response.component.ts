@@ -7,6 +7,7 @@ import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service
 import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance';
 import { TiledeskAuthService } from 'src/chat21-core/providers/tiledesk/tiledesk-auth.service';
 import { compareValues, htmlEntities } from 'src/chat21-core/utils/utils';
+import { getProjectIdSelectedConversation } from 'src/chat21-core/utils/utils-message';
 
 @Component({
   selector: 'app-canned-response',
@@ -49,7 +50,7 @@ export class CannedResponseComponent implements OnInit {
   ngOnChanges(changes: SimpleChange){
     this.logger.debug('[CANNED] - loadTagsCanned strSearch ', this.currentString)
     if(changes && changes['conversationWith'] && (changes['conversationWith'].previousValue !== changes['conversationWith'].currentValue)){
-      this.projectID = this.getProjectIdSelectedConversation(this.conversationWith)
+      this.projectID = getProjectIdSelectedConversation(this.conversationWith)
       this.loadStoredCanned(this.projectID)
     }
     if(this.currentString !== undefined){
@@ -57,21 +58,21 @@ export class CannedResponseComponent implements OnInit {
     }
   }
 
-  getProjectIdSelectedConversation(conversationWith: string): string{
-    const conversationWith_segments = conversationWith.split('-')
-    // Removes the last element of the array if is = to the separator
-    if (conversationWith_segments[conversationWith_segments.length - 1] === '') {
-      conversationWith_segments.pop()
-    }
+  // getProjectIdSelectedConversation(conversationWith: string): string{
+  //   const conversationWith_segments = conversationWith.split('-')
+  //   // Removes the last element of the array if is = to the separator
+  //   if (conversationWith_segments[conversationWith_segments.length - 1] === '') {
+  //     conversationWith_segments.pop()
+  //   }
 
-    this.logger.log('[CANNED] - getProjectIdSelectedConversation conversationWith_segments ', conversationWith_segments)
-    let projectId = ''
-    if (conversationWith_segments.length === 4) {
-      projectId = conversationWith_segments[2]
-      this.logger.log('[CANNED] - getProjectIdSelectedConversation projectId ', projectId)
-    }
-    return projectId
-  }
+  //   this.logger.log('[CANNED] - getProjectIdSelectedConversation conversationWith_segments ', conversationWith_segments)
+  //   let projectId = ''
+  //   if (conversationWith_segments.length === 4) {
+  //     projectId = conversationWith_segments[2]
+  //     this.logger.log('[CANNED] - getProjectIdSelectedConversation projectId ', projectId)
+  //   }
+  //   return projectId
+  // }
 
 
   loadStoredCanned(projectId){

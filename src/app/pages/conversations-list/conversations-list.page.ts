@@ -48,6 +48,7 @@ import { NetworkService } from 'src/app/services/network-service/network.service
 import { Subject } from 'rxjs'
 import { takeUntil } from 'rxjs/operators'
 import { TYPE_DIRECT } from 'src/chat21-core/utils/constants';
+import { getProjectIdSelectedConversation } from 'src/chat21-core/utils/utils-message';
 
 @Component({
   selector: 'app-conversations-list',
@@ -505,7 +506,7 @@ export class ConversationListPage implements OnInit {
     })
 
     this.conversationsHandlerService.conversationChanged.subscribe((conversation: ConversationModel) => {
-        // this.logger.log('[CONVS-LIST-PAGE] ***** subscribeConversationChanged *****', conversation);
+        this.logger.log('[CONVS-LIST-PAGE] ***** subscribeConversationChanged *****', conversation);
         // that.conversationsChanged(conversations)
         if (conversation) {
           this.onImageLoaded(conversation)
@@ -758,6 +759,14 @@ export class ConversationListPage implements OnInit {
       let project = localStorage.getItem(conversation.attributes['projectId'])
       if(project){
         project = JSON.parse(project)
+        conversation.attributes.project_name = project['name']
+      }
+    }else{
+      const projectId = getProjectIdSelectedConversation(conversation.uid)
+      let project = localStorage.getItem(projectId)
+      if(project){
+        project = JSON.parse(project)
+        conversation.attributes.projectId = project['_id']
         conversation.attributes.project_name = project['name']
       }
     }

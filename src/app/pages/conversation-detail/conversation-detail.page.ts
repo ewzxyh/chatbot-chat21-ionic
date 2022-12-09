@@ -66,6 +66,7 @@ import {
   setChannelType,
 } from '../../../chat21-core/utils/utils'
 import {
+  getProjectIdSelectedConversation,
   isFirstMessage,
   isInfo,
   isMine,
@@ -558,21 +559,21 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     })
   }
 
-  getProjectIdSelectedConversation(conversationWith: string): string{
-    const conversationWith_segments = conversationWith.split('-')
-    // Removes the last element of the array if is = to the separator
-    if (conversationWith_segments[conversationWith_segments.length - 1] === '') {
-      conversationWith_segments.pop()
-    }
+  // getProjectIdSelectedConversation(conversationWith: string): string{
+  //   const conversationWith_segments = conversationWith.split('-')
+  //   // Removes the last element of the array if is = to the separator
+  //   if (conversationWith_segments[conversationWith_segments.length - 1] === '') {
+  //     conversationWith_segments.pop()
+  //   }
 
-    this.logger.log('[CONVS-DETAIL] - getProjectIdSelectedConversation conversationWith_segments ', conversationWith_segments)
-    let projectId = ''
-    if (conversationWith_segments.length === 4) {
-      projectId = conversationWith_segments[2]
-      this.logger.log('[CONVS-DETAIL] - getProjectIdSelectedConversation projectId ', projectId)
-    }
-    return projectId
-  }
+  //   this.logger.log('[CONVS-DETAIL] - getProjectIdSelectedConversation conversationWith_segments ', conversationWith_segments)
+  //   let projectId = ''
+  //   if (conversationWith_segments.length === 4) {
+  //     projectId = conversationWith_segments[2]
+  //     this.logger.log('[CONVS-DETAIL] - getProjectIdSelectedConversation projectId ', projectId)
+  //   }
+  //   return projectId
+  // }
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
@@ -805,7 +806,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       }
 
     }else {
-      const projectId = this.getProjectIdSelectedConversation(this.conversationWith)
+      const projectId = getProjectIdSelectedConversation(this.conversationWith)
       let project = localStorage.getItem(projectId)
       if(project){
         project = JSON.parse(project)
@@ -906,7 +907,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   getLeadDetail(){
     if(this.channelType !== TYPE_DIRECT){
       const tiledeskToken= this.tiledeskAuthService.getTiledeskToken();
-      const projectId = this.getProjectIdSelectedConversation(this.conversationWith)
+      const projectId = getProjectIdSelectedConversation(this.conversationWith)
       this.logger.debug('[CONVS-DETAIL] getLeadDetail - section ', projectId)
       this.tiledeskService.getRequest(this.conversationWith, projectId, tiledeskToken).subscribe((request: any)=>{
         this.logger.debug('[CONVS-DETAIL] getLeadDetail - selected REQUEST detail', request)
@@ -1021,7 +1022,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         this.channelType,
         attributes,
       )
-
 
       if(this.isEmailEnabled && !this.leadIsOnline && this.leadInfo && this.leadInfo.email){
         this.logger.log('[CONVS-DETAIL] - SEND MESSAGE --> SENDING EMAIL', msg, this.leadInfo.email)

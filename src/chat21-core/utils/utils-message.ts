@@ -166,4 +166,17 @@ export function hideInfoMessage(msg, infoMessageKeyEnabled): boolean{
   return true
 }
 
+export function getProjectIdSelectedConversation(conversationWith: string): string{
+  const conversationWith_segments = conversationWith.split('-')
+  // Removes the last element of the array if is = to the separator
+  if (conversationWith_segments[conversationWith_segments.length - 1] === '') {
+    conversationWith_segments.pop()
+  }
+  let projectId = ''
+  if (conversationWith_segments.length === 4) {
+    projectId = conversationWith_segments[2]
+  }
+  return projectId
+}
+
 
