@@ -42,9 +42,9 @@ export class NavbarComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.initTranslations();
     this.listenToUserGoOnline();
     this.getStoredProjectAndUserRole();
-    this.initTranslations();
     this.getOSCODE();
   }
 
