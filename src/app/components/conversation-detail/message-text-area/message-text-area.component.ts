@@ -49,7 +49,8 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
   @Input() areVisibleCAR: boolean;
   @Input() supportMode: boolean;
   @Input() leadInfo: {lead_id: string, hasEmail: boolean, email: string, projectId: string};
-  @Input() fileUploadAccept: string
+  @Input() fileUploadAccept: string;
+  @Input() emailSection: boolean;
   @Input() isOpenInfoConversation: boolean;
   @Input() translationMap: Map<string, string>;
   @Input() dropEvent: any;

@@ -8,7 +8,7 @@
       </ion-button>
     </div>
     <!-- EMAIL-OPTION -->
-    <div class="section-option" id="email"  tooltip="{{translationMap?.get('LABEL_EMAIL')}}" [options]="tooltipOptions" placement="top">
+    <div *ngIf="emailSection" class="section-option" id="email"  tooltip="{{translationMap?.get('LABEL_EMAIL')}}" [options]="tooltipOptions" placement="top">
       <ion-button fill="clear" [class.active]="section==='email'" (click)="onOpenSection('email')" [disabled]="channelType === 'direct'">
         <ion-icon name="mail-open"></ion-icon>
         {{translationMap.get('LABEL_EMAIL')}}
