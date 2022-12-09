@@ -1,5 +1,10 @@
 # chat21-ionic ver 3.0
 
+### 3.0.88-rc.2
+- added: enable email only if active by env parameter
+- added: emailSection env variable
+- added: CHAT_STORAGE_PREFIX, EMAIL_SECTION env parameters
+
 ### 3.0.88-rc.1
 - bug-fixed: projectId is undefined
 - bug-fixed: typing subscription block UI on first conversation click
