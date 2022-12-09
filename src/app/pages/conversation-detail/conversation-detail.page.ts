@@ -146,6 +146,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   public_Key: any;
   areVisibleCAR: boolean;
   supportMode: boolean;
+  isEmailEnabled: boolean;
   //SOUND
   setTimeoutSound: any;
   audio: any;
@@ -483,6 +484,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
     this.messages = [] // list messages of conversation
     this.isFileSelected = false // indicates if a file has been selected (image to upload)
+    this.isEmailEnabled = (this.appConfigProvider.getConfig().emailSection === 'true' || this.appConfigProvider.getConfig().emailSection === true)? true: false;
 
     if (checkPlatformIsMobile()) {
       this.isMobile = true
@@ -1020,8 +1022,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         attributes,
       )
 
-      let emailEnabled = this.appConfigProvider.getConfig().emailSection
-      if(emailEnabled && !this.leadIsOnline && this.leadInfo && this.leadInfo.email){
+
+      if(this.isEmailEnabled && !this.leadIsOnline && this.leadInfo && this.leadInfo.email){
         this.logger.log('[CONVS-DETAIL] - SEND MESSAGE --> SENDING EMAIL', msg, this.leadInfo.email)
         this.sendEmail(msg)
       }
