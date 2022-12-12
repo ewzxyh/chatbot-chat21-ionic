@@ -96,6 +96,11 @@ export class CreateCannedResponsePage implements OnInit {
     if(this.message && (this.message !== '' || this.message !== null)){
       this.cannedFormGroup.patchValue({ message: this.message})
     }
+
+    const that = this
+    setTimeout(() => {
+      that.addFocus()
+    }, 1500);
   }
 
   buildForm() : FormGroup{

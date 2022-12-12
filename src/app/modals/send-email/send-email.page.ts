@@ -44,6 +44,11 @@ export class SendEmailModal implements OnInit {
     if(this.msg && (this.msg !== '' || this.msg !== null)){
       this.emailFormGroup.patchValue({ text: this.msg})
     }
+
+    const that = this
+    setTimeout(() => {
+      that.addFocus()
+    }, 2000);
   }
 
   addFocus(){
