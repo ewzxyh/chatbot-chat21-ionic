@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { ModalController } from '@ionic/angular'
 import { EventsService } from 'src/app/services/events-service'
-import { CreateTicketPage } from 'src/app/pages/create-ticket/create-ticket.page'
+import { CreateTicketPage } from 'src/app/modals/create-ticket/create-ticket.page'
 import { CustomTranslateService } from 'src/chat21-core/providers/custom-translate.service'
 @Component({
   selector: 'header-conversations-list',
