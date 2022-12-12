@@ -139,7 +139,8 @@ export function isEmojii(message: any){
     if(!message) return false;
     const onlyEmojis = message.replace(new RegExp('[\u0000-\u1eeff]', 'g'), '')
     const visibleChars = message.replace(new RegExp('[\n\r\s]+|( )+', 'g'), '')
-    if(onlyEmojis === '' || visibleChars == '') return false
+    const chineseChars = message.replace(new RegExp('[\u4e00-\u9fa5]', 'g'), '')
+    if(onlyEmojis === '' || visibleChars == '' || chineseChars =='') return false
     return (onlyEmojis.length === visibleChars.length && onlyEmojis.length <= 2)
   } catch(e) {
     return false
