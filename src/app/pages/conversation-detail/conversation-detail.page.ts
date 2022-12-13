@@ -57,7 +57,8 @@ import {
   MESSAGE_TYPE_MINE,
   MESSAGE_TYPE_OTHERS,
   URL_SOUND_LIST_CONVERSATION, 
-  TYPE_DIRECT 
+  TYPE_DIRECT, 
+  TYPE_MSG_EMAIL
 } from 'src/chat21-core/utils/constants'
 import {
   checkPlatformIsMobile,
@@ -77,7 +78,7 @@ import {
 import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service'
 import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance'
 
-import { Subject } from 'rxjs'
+import { Observable, Subject } from 'rxjs'
 import { takeUntil } from 'rxjs/operators'
 import { TiledeskService } from '../../services/tiledesk/tiledesk.service'
 import { NetworkService } from '../../services/network-service/network.service'
@@ -924,7 +925,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     
   }
 
-  sendEmail(message: string){
+  sendEmail(message: string): Observable<boolean>{
     const tiledeskToken= this.tiledeskAuthService.getTiledeskToken();
     const emailFormGroup = {
       to: this.leadInfo.email,
@@ -932,17 +933,21 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       text: message,
       request_id: this.conversationWith
     }
+    let status = new Subject<boolean>();
     this.tiledeskService.sendEmail(tiledeskToken, this.leadInfo.projectId, emailFormGroup).subscribe((res)=> {
       this.logger.debug('[SEND-EMAIL-MODAL] subscribe to sendEmail API response -->', res)
       if(res && res.queued){
         this.presentToast(this.translationsMap.get('SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE'), 'success', '', 2000)
+        status.next(true)
       }
     },(error)=> {
       this.logger.error('[SEND-EMAIL-MODAL] subscribe to sendEmail API CALL  - ERROR  ', error)
       this.presentToast(this.translationsMap.get('SEND_EMAIL_ERROR'), 'danger', '', 2000)
+      status.next(false)
     }, ()=> {
       this.logger.log('[SEND-EMAIL-MODAL] subscribe to sendEmail API CALL /* COMPLETE */')
     })
+    return status.asObservable();
   }
 
   returnSendMessage(e: any) {
@@ -1011,21 +1016,40 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     this.logger.log('[CONVS-DETAIL] - SEND MESSAGE msg: ', msg, ' - messages: ', this.messages, ' - loggedUser: ', this.loggedUser)
 
     if ((msg && msg.trim() !== '') || type !== TYPE_MSG_TEXT) {
-      this.conversationHandlerService.sendMessage(
-        msg,
-        type,
-        metadata,
-        this.conversationWith,
-        this.conversationWithFullname,
-        this.loggedUser.uid,
-        fullname,
-        this.channelType,
-        attributes,
-      )
-
+      
       if(this.isEmailEnabled && !this.leadIsOnline && this.leadInfo && this.leadInfo.email){
         this.logger.log('[CONVS-DETAIL] - SEND MESSAGE --> SENDING EMAIL', msg, this.leadInfo.email)
-        this.sendEmail(msg)
+        this.sendEmail(msg).subscribe(status => {
+          if(status){
+            //SEND MESSAGE ALSO AS EMAIL
+            attributes['channel']= TYPE_MSG_EMAIL
+          }
+
+          this.conversationHandlerService.sendMessage(
+            msg,
+            type,
+            metadata,
+            this.conversationWith,
+            this.conversationWithFullname,
+            this.loggedUser.uid,
+            fullname,
+            this.channelType,
+            attributes,
+          )
+        })
+      }else {
+        //send STANDARD TEXT MESSAGE
+        this.conversationHandlerService.sendMessage(
+          msg,
+          type,
+          metadata,
+          this.conversationWith,
+          this.conversationWithFullname,
+          this.loggedUser.uid,
+          fullname,
+          this.channelType,
+          attributes,
+        )
       }
       isDevMode()? null : this.segmentNewAgentMessage(this.conversation)
     }
@@ -1161,7 +1185,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   }
 
   updateLeadInfo(msg){
-    if (msg.attributes && msg.attributes['updateUserFullname']) {
+    if (msg.attributes && msg.attributes.hasOwnProperty("updateUserFullname")) {
       const userFullname = msg.attributes['updateUserFullname'];
       this.logger.debug('[CONVS-DETAIL] newMessageAdded --> updateUserFullname', userFullname)
       this.conversationWithFullname = userFullname //update info for next sendMessage object
@@ -1175,7 +1199,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         this.conversation.attributes['project_name']
       )
     }
-    if (msg.attributes && msg.attributes['updateUserEmail']) {
+    if (msg.attributes && msg.attributes.hasOwnProperty("updateUserEmail")) {
       const userEmail = msg.attributes['updateUserEmail'];
       this.logger.debug('[CONVS-DETAIL] newMessageAdded --> userEmail', userEmail)
       this.conversationAvatar = setConversationAvatar(
@@ -1187,7 +1211,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         this.conversation.attributes['project_name']
       )
       this.getLeadDetail()
-      
     }
   }
 
