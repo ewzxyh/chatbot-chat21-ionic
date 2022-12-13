@@ -6,7 +6,7 @@
     <app-network-offline></app-network-offline>
 
 
-    <app-navbar *ngIf="!IS_ON_MOBILE_DEVICE"
+    <app-navbar *ngIf="!IS_ON_MOBILE_DEVICE && lang"
       [isSoundEnabled]="isSoundEnabled"
       (onSoundChange)="onSoundChange($event)">
     </app-navbar>

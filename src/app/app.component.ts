@@ -109,6 +109,7 @@ export class AppComponent implements OnInit {
   public executedInitializeAppByWatchConnection: boolean = false;
   private isInitialized: boolean = false;
   private version: string;
+  public lang: string; 
   IS_ONLINE: boolean;
   IS_ON_MOBILE_DEVICE: boolean;
   SUPPORT_MODE: boolean;
@@ -575,9 +576,11 @@ export class AppComponent implements OnInit {
     }
     else {
       this.logger.log('[APP-COMP] tranlatedLanguage not includes', chat_lang, ': ', tranlatedLanguage.includes(chat_lang))
+      chat_lang = 'en'
       this.translate.setDefaultLang('en');
       this.translate.use('en');
     }
+    this.lang=chat_lang
 
   }
 

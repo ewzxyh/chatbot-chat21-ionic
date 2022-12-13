@@ -49,6 +49,15 @@ ion-navbar{
 
 .navbar-left{
     float: left;
+
+    display: inline-flex;
+    align-items: center;
+
+    padding-left: 15px;
+}
+
+.title{
+    font-size: 18px;
 }
 
 .simulate-visitor-btn{

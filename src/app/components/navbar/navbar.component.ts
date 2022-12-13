@@ -59,7 +59,8 @@ export class NavbarComponent implements OnInit {
       "NAVBAR.VIEW_ALL_PROJECTS",
       "NAVBAR.ADD_PROJECT",
       "NAVBAR.RECENT_PROJECTS",
-      "NAVBAR.OTHER_PROJECTS"
+      "NAVBAR.OTHER_PROJECTS",
+      "LABEL_CHAT"
     ]
 
     this.translationsMap = this.translateService.translateLanguage(keys)
