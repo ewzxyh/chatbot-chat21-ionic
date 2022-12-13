@@ -17,7 +17,7 @@ import { Platform } from '@ionic/angular'
 
 import { ModalController } from '@ionic/angular'
 import { EventsService } from 'src/app/services/events-service'
-import { CreateTicketPage } from 'src/app/pages/create-ticket/create-ticket.page'
+import { CreateTicketPage } from 'src/app/modals/create-ticket/create-ticket.page'
 import { TiledeskService } from 'src/app/services/tiledesk/tiledesk.service'
 import { TYPE_DIRECT, TYPE_SUPPORT_GROUP } from 'src/chat21-core/utils/constants'
 
