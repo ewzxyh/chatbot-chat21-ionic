@@ -749,10 +749,11 @@ export class AppComponent implements OnInit {
       this.IS_ONLINE = false;
       // clearTimeout(this.timeModalLogin);
       // this.timeModalLogin = setTimeout(() => {
-      if (!this.hadBeenCalledOpenModal) {
-        this.authModal = this.presentModal('initAuthentication');
-        this.hadBeenCalledOpenModal = true;
-      }
+      // if (!this.hadBeenCalledOpenModal) {
+      //   this.authModal = this.presentModal('initAuthentication');
+      //   this.hadBeenCalledOpenModal = true;
+      // }
+      this.goToDashboardLogin()
       // }, 1000);
     }
   }
@@ -1119,15 +1120,13 @@ export class AppComponent implements OnInit {
     this.chatManager.goOffLine();
 
     this.router.navigateByUrl('conversation-detail/'); //redirect to basePage
-    // this.goToDashboardLogin()
+    this.goToDashboardLogin()
     
-    // clearTimeout(this.timeModalLogin);
-    // this.timeModalLogin = setTimeout(() => {
-    if (!this.hadBeenCalledOpenModal) {
-      this.authModal = this.presentModal('goOffLine');
-      this.hadBeenCalledOpenModal = true
-    }
-    // }, 1000);
+
+    // if (!this.hadBeenCalledOpenModal) {
+    //   this.authModal = this.presentModal('goOffLine');
+    //   this.hadBeenCalledOpenModal = true
+    // }
 
     // this.unsubscribe$.next();
     // this.unsubscribe$.complete();
@@ -1135,7 +1134,7 @@ export class AppComponent implements OnInit {
   }
 
   goToDashboardLogin(){
-    let DASHBOARD_URL = this.appConfigProvider.getConfig().dashboardUrl + '/index.html'
+    let DASHBOARD_URL = this.appConfigProvider.getConfig().dashboardUrl + '#/login'
     const myWindow = window.open(DASHBOARD_URL, '_self');
     myWindow.focus();
   }
