@@ -57,6 +57,7 @@ export class SidebarComponent implements OnInit {
   dashboard_activities_url: string;
   dashboard_history_url: string;
   dashboard_settings_url: string;
+  tiledesk_url: string;
   constructor(
     public imageRepoService: ImageRepoService,
     public appStorageService: AppStorageService,
@@ -107,6 +108,7 @@ export class SidebarComponent implements OnInit {
     } else if (USER_ROLE === 'agent') {
       this.dashboard_settings_url = this.DASHBOARD_URL + this.project_id + '/cannedresponses'
     }
+    this.tiledesk_url = 'https://www.tiledesk.com'
 
   }
 

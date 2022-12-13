@@ -48,7 +48,7 @@ export class SendEmailModal implements OnInit {
     const that = this
     setTimeout(() => {
       that.addFocus()
-    }, 2000);
+    }, 1500);
   }
 
   addFocus(){

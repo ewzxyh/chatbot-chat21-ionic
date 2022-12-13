@@ -314,7 +314,7 @@ select:-webkit-autofill:focus {
 
 .sidebar .logo {
     position: relative;
-    padding: 13px 15px;
+    margin-top: auto;
     z-index: 4;
 }
 
@@ -447,10 +447,18 @@ select:-webkit-autofill:focus {
     margin-top: 0px;
 }
 
+.nav-container {
+    height: 100%;
+}
+
 .nav {
     padding-left: 0;
     margin-bottom: 0;
     list-style: none;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    
 }
 
 .nav:before {
