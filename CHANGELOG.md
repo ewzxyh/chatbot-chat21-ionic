@@ -1,5 +1,16 @@
 # chat21-ionic ver 3.0
 
+### 3.0.90-rc.1
+- added: autofocus on first input
+- added: tiledesk logo on sidebar
+- added: sourceTitle if exist as message info; otherwize show sourcePage info from message attributes
+- added: email icon if chat message is sent also via email
+- changed: default color submit button
+- changed: removed login modal and moved to dashboard login on logout/first login
+- bug-fixed: chinese characters not displayed due to isEmojii function
+- bug-fixed: label not translated in navbar
+
+
 ### 3.0.89 in PROD
 
 ### 3.0.89-rc.1
