@@ -156,13 +156,13 @@ export class IonConversationDetailComponent extends ConversationContentComponent
     this.presentPopover(event, message)
   }
 
-  onClickCopyMesage(event, message: MessageModel){
+  onClickCopyMesage(message: MessageModel){
     this.logger.log('[CONVS-DETAIL][ION-CONVS-DETAIL] - onClickCopyMesage');
     navigator.clipboard.writeText(message.text)
     this.presentToast()
   }
 
-  onBubbleMessageClick(event: any, message: MessageModel, index: number){
+  onClickInfoMesage(message: MessageModel, index: number){
     if(message && message.attributes && message.attributes.sourcePage){
       this.showSourceInfo = !this.showSourceInfo
       this.showSourceInfoIndex = index

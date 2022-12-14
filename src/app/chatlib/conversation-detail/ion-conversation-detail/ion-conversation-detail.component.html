@@ -174,17 +174,9 @@
           (onBeforeMessageRender)="onBeforeMessageRenderFN($event)"
           (onAfterMessageRender)="onAfterMessageRenderFN($event)" 
           (onElementRendered)="onElementRenderedFN($event)"
-          (click)="onBubbleMessageClick($event, message, i)">
+          (onCopy)="onClickCopyMesage($event)"
+          (onInfo)="onClickInfoMesage($event, i)">
         </chat-bubble-message>
-
-        <div class="options-container">
-          <div class="copy-logo" (click)="onClickCopyMesage($event, message)" *ngIf="message.text.trim() !== ''">
-            <ion-icon name="copy-outline"></ion-icon>
-          </div>
-          <!-- <div class="menu-logo" (click)="onClickBubbleMenu($event, message)">
-            <ion-icon name="caret-down"></ion-icon>
-          </div> -->
-        </div>
 
       </div>
 

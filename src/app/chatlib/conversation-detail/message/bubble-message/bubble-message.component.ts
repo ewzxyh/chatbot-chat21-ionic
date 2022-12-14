@@ -25,6 +25,9 @@ export class BubbleMessageComponent implements OnInit, OnChanges {
   @Output() onBeforeMessageRender = new EventEmitter();
   @Output() onAfterMessageRender = new EventEmitter();
   @Output() onElementRendered = new EventEmitter<{element: string, status: boolean}>();
+  @Output() onCopy = new EventEmitter<MessageModel>();
+  @Output() onInfo = new EventEmitter<MessageModel>();
+  
   isImage = isImage;
   isFile = isFile;
   isFrame = isFrame;
@@ -176,6 +179,15 @@ export class BubbleMessageComponent implements OnInit, OnChanges {
         that.logger.error('[BUBBLE-MESSAGE] handleTooltipEvents >>>> Error :' + err);
       }
     }, showDelay);
+  }
+
+
+  onClickCopyMesage(event, message){
+    this.onCopy.emit(message)
+  }
+
+  onClickInfoMessage(event, message){
+    this.onInfo.emit(message)
   }
 
   // ========= begin:: event emitter function ============//

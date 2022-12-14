@@ -5,11 +5,51 @@
     border-radius: 8px;
     padding: 0;
     word-wrap: break-word;
+    position: relative;
     // padding: 14px;
     // padding: 6px 6px 6px 6px;
     // box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
     // -webkit-animation: heartbeat 1.5s ease-in-out both;
     // animation: heartbeat 1.5s ease-in-out both;
+
+    &:hover{
+        .options-container > .copy-logo{
+            display: flex;
+        }
+    }
+
+    .options-container{
+        display: flex;
+        position: absolute;
+        top: 0px;
+        right: 15px;
+        height: 16px;
+        // margin: 5px;
+        z-index: 2;
+
+        .copy-logo,
+        .info-logo{
+            display: none;
+            -webkit-box-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            /* width: 20px; */
+            height: 16px;
+            border-radius: 3px;
+            color: rgb(135, 150, 175);
+            text-align: left;
+            justify-content: center;
+            font-size: initial;
+            
+            &:hover{
+                cursor: pointer;
+            }
+        }
+
+        .info-logo{
+            display: flex;
+        }
+    }
 
     .message_sender_fullname{
         font-size: 12px;

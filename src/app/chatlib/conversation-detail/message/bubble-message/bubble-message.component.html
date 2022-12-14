@@ -2,10 +2,18 @@
 <!-- [ngStyle]="{'padding': (isImage(message) || isFrame(message))?'0px':'0 8px'}" -->
 <!-- isImage >{{isImage(message) }}    message.metadata.width {{message?.metadata?.width }}  -->
 <!-- 'width': (isImage(message) || isFrame(message))? sizeImage?.width : null -->
-<div id="bubble-message" [ngStyle]="{'padding': (isImage(message) || isFrame(message))?'0px':'0 8px' }"  class="messages primary-color">
+<div id="bubble-message"  [ngStyle]="{'padding': (isImage(message) || isFrame(message))?'0px':'0 8px' }" class="messages primary-color">
 
+  <div class="options-container" *ngIf="messageType(MESSAGE_TYPE_OTHERS, message)" [ngStyle]="{'padding': !isSameSender?'0px':'8px 0' }">
+    <div class="copy-logo" (click)="onClickCopyMesage($event, message)" *ngIf="message.text.trim() !== '' && (!isImage(message) || !isFrame(message))">
+      <ion-icon name="copy-outline"></ion-icon>
+    </div>
+    <div class="info-logo" (click)="onClickInfoMessage($event, message)" *ngIf="message?.attributes && message?.attributes?.sourcePage">
+      <ion-icon name="information-circle-outline"></ion-icon>
+    </div>
+  </div>
 
-  <div>
+  <div >
 
     <div *ngIf="messageType(MESSAGE_TYPE_OTHERS, message) && !isSameSender" 
       [style.color]="convertColorToRGBA(fontColor, 65)"
@@ -47,7 +55,7 @@
 
 
     <!-- [tooltip]="timeTooltipLeft" [options]="tooltipOptions" placement="left" content-type="template" (click)="handleTooltipEvents($event)" -->
-    <div *ngIf="message?.text">
+    <div *ngIf="message?.text" style="display: flex; margin: 0px 0px 0px 0px;"> 
 
       <chat-text *ngIf="message?.type !=='html'"
         [text]="message?.text" 
