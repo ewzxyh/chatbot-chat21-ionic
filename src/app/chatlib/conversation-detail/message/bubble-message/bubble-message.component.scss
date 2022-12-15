@@ -14,7 +14,8 @@
 
     &:hover{
         .options-container > .copy-logo{
-            display: flex;
+            // display: flex;
+            visibility: visible;
         }
     }
 
@@ -22,14 +23,16 @@
         display: flex;
         position: absolute;
         top: 0px;
-        right: 15px;
+        right: -40px;
         height: 16px;
         // margin: 5px;
         z-index: 2;
 
         .copy-logo,
         .info-logo{
-            display: none;
+            // display: none;
+            display: flex;
+            visibility: hidden;
             -webkit-box-align: center;
             align-items: center;
             -webkit-box-pack: center;
@@ -48,6 +51,7 @@
 
         .info-logo{
             display: flex;
+            visibility: visible;
         }
     }
 
