@@ -1,5 +1,9 @@
 # chat21-ionic ver 3.0
 
+### 3.0.90-rc.2
+- added: info and copy icon on received messages
+- added: flash icon to distinguish chat offline message sent also by email
+
 ### 3.0.90-rc.1
 - added: autofocus on first input
 - added: tiledesk logo on sidebar
