@@ -1022,7 +1022,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         this.sendEmail(msg).subscribe(status => {
           if(status){
             //SEND MESSAGE ALSO AS EMAIL
-            attributes['channel']= TYPE_MSG_EMAIL
+            attributes['channel']= 'offline_'+TYPE_MSG_EMAIL
           }
 
           this.conversationHandlerService.sendMessage(

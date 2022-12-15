@@ -211,6 +211,14 @@ ion-item {
         height: 16px;
         border-radius: 3px;
         color: rgb(135, 150, 175);
+
+        ion-icon[name="flash"]{
+            position: absolute;
+            top: -5px;
+            left: -4px;
+            color: var(--bubble-blue);
+            font-size: small;
+        }
     }
 
 }

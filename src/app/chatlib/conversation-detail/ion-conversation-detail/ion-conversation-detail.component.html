@@ -110,8 +110,12 @@
       
       <div class="bubble-container">
 
-        <div class="email-logo" *ngIf="message?.attributes?.channel && message?.attributes?.channel === TYPE_MSG_EMAIL">
+        <div class="email-logo" *ngIf="message?.attributes?.channel && message?.attributes?.channel.includes(TYPE_MSG_EMAIL)">
           <ion-icon name="mail"></ion-icon>
+          <ion-icon name="flash" 
+            *ngIf="message?.attributes?.channel.includes('offline_')"
+            [ngStyle]="{'color': stylesMap.get('bubbleSentBackground')}">
+          </ion-icon>
         </div>
 
         <!--backgroundColor non viene ancora usato -->
