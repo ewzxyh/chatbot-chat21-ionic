@@ -151,18 +151,26 @@ export class IonConversationDetailComponent extends ConversationContentComponent
     this.onAddUploadingBubble.emit(value);
   }
 
-  onClickBubbleMenu(event, message: MessageModel){
-    this.logger.log('[CONVS-DETAIL][ION-CONVS-DETAIL] - onClickBubbleMenu');
-    this.presentPopover(event, message)
+  onClickOptionsMessage(event:{option: string, message: MessageModel}){
+    this.logger.log('[CONVS-DETAIL][ION-CONVS-DETAIL] - onClickBubbleMenu', event);
+    if(event.option==='copy'){
+      this.onClickCopyMessage(event.message)
+    }else if(event.option === 'addCanned'){
+      if(this.areVisibleCAR && this.supportMode){
+        this.presentCreateCannedResponseModal(event.message)
+      }
+    }else if(event.option === 'jsonInfo'){
+      // TODO: show info as json
+    }
   }
 
-  onClickCopyMesage(message: MessageModel){
-    this.logger.log('[CONVS-DETAIL][ION-CONVS-DETAIL] - onClickCopyMesage');
+  onClickCopyMessage(message: MessageModel){
+    this.logger.log('[CONVS-DETAIL][ION-CONVS-DETAIL] - onClickCopyMessage');
     navigator.clipboard.writeText(message.text)
     this.presentToast()
   }
 
-  onClickInfoMesage(message: MessageModel, index: number){
+  onClickInfoMessage(message: MessageModel, index: number){
     if(message && message.attributes && message.attributes.sourcePage){
       this.showSourceInfo = !this.showSourceInfo
       this.showSourceInfoIndex = index

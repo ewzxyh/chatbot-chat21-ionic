@@ -57,7 +57,7 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
     NgxLinkifyjsModule,
   ],
   // entryComponents: [MessageTextAreaComponent],
-  entryComponents: [],
+  entryComponents: [ BubbleInfoPopoverComponent],
   declarations: [
     ConversationDetailPage,
     HeaderConversationDetailComponent,

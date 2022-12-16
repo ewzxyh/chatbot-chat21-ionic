@@ -4,20 +4,17 @@
 <!-- 'width': (isImage(message) || isFrame(message))? sizeImage?.width : null -->
 <div id="bubble-message"  [ngStyle]="{'padding': (isImage(message) || isFrame(message))?'0px':'0 8px' }" class="messages primary-color">
 
-  <div class="options-container" *ngIf="messageType(MESSAGE_TYPE_OTHERS, message)">
-    <div class="info-logo" (click)="onClickInfoMessage($event, message)" *ngIf="message?.attributes && message?.attributes?.sourcePage">
-      <ion-icon name="information-circle-outline"></ion-icon>
-    </div>
-    <div class="copy-logo" (click)="onClickCopyMesage($event, message)" *ngIf="message.text.trim() !== '' && (!isImage(message) || !isFrame(message))">
-      <ion-icon name="copy-outline"></ion-icon>
+  <div class="options-container" >
+    <div class="options-logo" (click)="onClickOptionsMessage($event, message)" *ngIf="message?.attributes && message?.attributes?.sourcePage">
+      <ion-icon name="chevron-down"></ion-icon>
     </div>
   </div>
 
-  <div >
+  <div>
 
     <div *ngIf="messageType(MESSAGE_TYPE_OTHERS, message) && !isSameSender" 
       [style.color]="convertColorToRGBA(fontColor, 65)"
-      [ngStyle]="{'margin': (isImage(message) || isFrame(message))? '10px 16px 8px 16px': '10px 8px 0px 8px'}" class="message_sender_fullname">
+      [ngStyle]="{'padding': (isImage(message) || isFrame(message))? '10px 16px 8px 16px': '10px 8px 0px 8px'}" class="message_sender_fullname">
       {{message?.sender_fullname}}
     </div>
     <!-- message type:: image -->

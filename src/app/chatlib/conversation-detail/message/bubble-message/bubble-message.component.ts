@@ -8,8 +8,9 @@ import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance'
 import { TranslateService } from '@ngx-translate/core';
 import { TiledeskAuthService } from 'src/chat21-core/providers/tiledesk/tiledesk-auth.service';
 import * as moment from 'moment';
-import { ModalController } from '@ionic/angular';
+import { ModalController, PopoverController } from '@ionic/angular';
 import { convertColorToRGBA } from 'src/chat21-core/utils/utils';
+import { BubbleInfoPopoverComponent } from 'src/app/components/bubbleMessageInfo-popover/bubbleinfo-popover.component';
 @Component({
   selector: 'chat-bubble-message',
   templateUrl: './bubble-message.component.html',
@@ -25,8 +26,7 @@ export class BubbleMessageComponent implements OnInit, OnChanges {
   @Output() onBeforeMessageRender = new EventEmitter();
   @Output() onAfterMessageRender = new EventEmitter();
   @Output() onElementRendered = new EventEmitter<{element: string, status: boolean}>();
-  @Output() onCopy = new EventEmitter<MessageModel>();
-  @Output() onInfo = new EventEmitter<MessageModel>();
+  @Output() onOptionsMessage = new EventEmitter<{option: string, message: MessageModel}>();
   
   isImage = isImage;
   isFile = isFile;
@@ -60,6 +60,7 @@ export class BubbleMessageComponent implements OnInit, OnChanges {
     private translate: TranslateService,
     public tiledeskAuthService: TiledeskAuthService,
     public modalController: ModalController,
+    private popoverController: PopoverController
     ) {
     // console.log('BUBBLE-MSG Hello !!!!')
   }
@@ -182,14 +183,35 @@ export class BubbleMessageComponent implements OnInit, OnChanges {
   }
 
 
-  onClickCopyMesage(event, message){
-    this.onCopy.emit(message)
+  onClickOptionsMessage(event, message){
+    this.logger.log('[BUBBLE-MESSAGE] - onClickOptionsMessage', message);
+    this.presentPopover(event, message)
   }
 
-  onClickInfoMessage(event, message){
-    this.onInfo.emit(message)
-  }
 
+  async presentPopover(ev: any, message: MessageModel) {
+    const attributes = {
+      message: message,
+      conversationWith: message.recipient
+   }
+    const popover = await this.popoverController.create({
+      component: BubbleInfoPopoverComponent,
+      cssClass: 'info-popover',
+      componentProps: attributes,
+      event: ev,
+      translucent: true,
+      keyboardClose: true,
+      showBackdrop: false
+    });
+    popover.onDidDismiss().then((dataReturned: any) => {
+      this.logger.log('[BUBBLE-MESSAGE] presentPopover dismissed. Returned value::', dataReturned.data)
+      if(dataReturned.data){
+        this.onOptionsMessage.emit({option: dataReturned.data.option, message: message})
+      }
+    })
+
+    return await popover.present();
+  }
   // ========= begin:: event emitter function ============//
 
   // returnOpenAttachment(event: String) {

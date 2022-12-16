@@ -98,14 +98,14 @@
 
       <div class="message-date-hover"> {{message.timestamp | date:'HH:mm' }} </div>
 
-      <ng-container *ngIf="areVisibleCAR && supportMode">
+      <!-- <ng-container *ngIf="areVisibleCAR && supportMode">
         <ion-button shape="round" size="small" class="btn-add-msg canned" ion-button fill="clear"
           (click)="presentCreateCannedResponseModal(message)" [tooltip]="addAsCannedResponseTooltipText"
           [options]="tooltipOptions" placement="bottom">
           <ion-icon slot="icon-only" name="flash-outline" style="font-size: 1em;"> </ion-icon>
           <span class="add-canned-response-add-icon">+</span>
         </ion-button>
-      </ng-container>
+      </ng-container> -->
 
       
       <div class="bubble-container">
@@ -131,7 +131,8 @@
           [fontFamily]="stylesMap.get('fontFamily')"
           (onBeforeMessageRender)="onBeforeMessageRenderFN($event)"
           (onAfterMessageRender)="onAfterMessageRenderFN($event)" 
-          (onElementRendered)="onElementRenderedFN($event)">
+          (onElementRendered)="onElementRenderedFN($event)"
+          (onOptionsMessage)="onClickOptionsMessage($event)">
       </chat-bubble-message>
       </div>
 
@@ -178,20 +179,27 @@
           (onBeforeMessageRender)="onBeforeMessageRenderFN($event)"
           (onAfterMessageRender)="onAfterMessageRenderFN($event)" 
           (onElementRendered)="onElementRenderedFN($event)"
-          (onCopy)="onClickCopyMesage($event)"
-          (onInfo)="onClickInfoMesage($event, i)">
+          (onOptionsMessage)="onClickOptionsMessage($event)">
         </chat-bubble-message>
 
       </div>
 
-      <ng-container *ngIf="areVisibleCAR && supportMode">
+      <ng-container *ngIf="message?.attributes && message?.attributes?.sourcePage && !isSameSender(message?.sender, i)">
+        <ion-button shape="round" size="small" class="btn-info-msg " ion-button fill="clear"
+          (click)="onClickInfoMessage(message, i)" [tooltip]="addAsCannedResponseTooltipText"
+          [options]="tooltipOptions" placement="bottom">
+          <ion-icon slot="icon-only" name="information" style="font-size: 1em;"></ion-icon>
+        </ion-button>
+      </ng-container>
+
+      <!-- <ng-container *ngIf="areVisibleCAR && supportMode">
         <ion-button shape="round" size="small" class="btn-add-msg canned" ion-button fill="clear"
           (click)="presentCreateCannedResponseModal(message)" [tooltip]="addAsCannedResponseTooltipText"
           [options]="tooltipOptions" placement="bottom">
           <ion-icon slot="icon-only" name="flash-outline" style="font-size: 1em;"> </ion-icon>
           <span class="add-canned-response-add-icon">+</span>
         </ion-button>
-      </ng-container>
+      </ng-container> -->
       <!-- <ng-container *ngIf="supportMode">
         <ion-button shape="round" size="small" class="btn-add-msg emoji" ion-button fill="clear"
           (click)="presentEmojiiModal()" tooltip="{{addAsCannedResponseTooltipText}}"
