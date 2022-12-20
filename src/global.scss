@@ -748,6 +748,17 @@ ul.dropdown-menu > li > a {
 //MODALS
 .modal-wrapper{
     border-radius: 16px !important;
+
+}
+
+.json-modal-class .modal-wrapper{
+    --height: 90%;
+    --width: 70%;
+    span.key{ color: red; }
+    span.number { color:#6eb4bc; }
+    span.boolean { color:#a693e0; }
+    span.null { color:#e09393; }
+    span.key { color: #a9d18f; }
 }
 
 

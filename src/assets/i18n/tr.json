@@ -289,5 +289,6 @@
     "ADD_PROJECT":"Proje ekle",
     "RECENT_PROJECTS":"Son Projeler",
     "OTHER_PROJECTS":"Diğer projeler"
-  }
+  },
+  "JSON_RESPONSE":"JSON Yanıtı"
 }

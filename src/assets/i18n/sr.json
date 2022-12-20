@@ -289,5 +289,6 @@
     "ADD_PROJECT":"Додајте пројекат",
     "RECENT_PROJECTS":"Недавни пројекти",
     "OTHER_PROJECTS":"Остали пројекти"
-  }
+  },
+  "JSON_RESPONSE":"ЈСОН одговор"
 }

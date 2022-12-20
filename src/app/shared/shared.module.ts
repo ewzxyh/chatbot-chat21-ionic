@@ -1,3 +1,4 @@
+import { OptionsComponent } from './../chatlib/conversation-detail/message/options/options.component';
 import { HeaderConversationsListUnassigned } from './../components/conversations-list/header-conversations-list-unassigned/header-conversations-list-unassigned.component';
 import { NavbarComponent } from './../components/navbar/navbar.component';
 import { FormsModule } from '@angular/forms';
@@ -80,6 +81,7 @@ import { SafeHtmlPipe } from '../directives/safe-html.pipe';
     InfoMessageComponent,
     ReturnReceiptComponent,
     TextComponent,
+    OptionsComponent,
     HtmlComponent,
     InfoContentComponent,
     InfoSupportGroupComponent,
@@ -120,6 +122,7 @@ import { SafeHtmlPipe } from '../directives/safe-html.pipe';
     InfoMessageComponent,
     ReturnReceiptComponent,
     TextComponent,
+    OptionsComponent,
     InfoContentComponent,
     InfoSupportGroupComponent,
     InfoDirectComponent,

@@ -35,7 +35,7 @@ export class BubbleInfoPopoverComponent implements OnInit {
     let keys= [
       "AddAsCannedResponse",
       "COPY",
-      "MESSAGE"
+      "JSON_RESPONSE"
     ]
     this.translationsMap = this.customTranslateService.translateLanguage(keys)
   

@@ -1,3 +1,4 @@
+import { JsonMessagePage } from './../../../modals/json-message/json-message.page';
 import { BubbleInfoPopoverComponent } from '../../../components/bubbleMessageInfo-popover/bubbleinfo-popover.component';
 import { MessageModel } from 'src/chat21-core/models/message';
 import { ConversationContentComponent } from '../conversation-content/conversation-content.component';
@@ -160,7 +161,7 @@ export class IonConversationDetailComponent extends ConversationContentComponent
         this.presentCreateCannedResponseModal(event.message)
       }
     }else if(event.option === 'jsonInfo'){
-      // TODO: show info as json
+      this.presentJsonMessageModal(event.message)
     }
   }
 
@@ -220,26 +221,25 @@ export class IonConversationDetailComponent extends ConversationContentComponent
     return await modal.present()
   }
 
-  async presentPopover(ev: any, message: MessageModel) {
+  async presentJsonMessageModal(message: MessageModel): Promise<any> {
+    this.logger.log('[BUBBLE-MESSAGE] PRESENT JSON MESSAGE MODAL ')
     const attributes = {
-      message: message,
-      conversationWith: message.recipient
-   }
-    const popover = await this.popoverController.create({
-      component: BubbleInfoPopoverComponent,
-      cssClass: 'my-custom-class',
+       message: message
+    }
+    const modal: HTMLIonModalElement = await this.modalController.create({
+      component: JsonMessagePage,
+      cssClass: 'json-modal-class',
       componentProps: attributes,
-      event: ev,
-      translucent: true,
+      swipeToClose: false,
+      backdropDismiss: false,
       keyboardClose: true,
-      showBackdrop: true
-    });
-    popover.onDidDismiss().then((dataReturned: any) => {
+    })
+    modal.onDidDismiss().then((dataReturned: any) => {
       // 
       this.logger.log('[BUBBLE-MESSAGE] ', dataReturned.data)
     })
 
-    return await popover.present();
+    return await modal.present()
   }
 
   async presentToast(){

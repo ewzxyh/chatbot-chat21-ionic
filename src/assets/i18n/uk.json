@@ -289,5 +289,6 @@
         "ADD_PROJECT":"Додати проект",
         "RECENT_PROJECTS":"Останні проекти",
         "OTHER_PROJECTS":"Інші проекти"
-    }
+    },
+    "JSON_RESPONSE":"Відповідь JSON"
 }

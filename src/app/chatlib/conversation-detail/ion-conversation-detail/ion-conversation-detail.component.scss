@@ -33,6 +33,30 @@
     }
 }
 
+
+//------- MANAGE CHAT-OPTIONS component :: INIT ------- //
+:host .base_sent .msg_sent.no-background ::ng-deep > div{
+    .options-container{
+        background: transparent;
+
+        .options-logo{
+            color:var(--bck-msg-sent);
+        }
+    }
+    
+}
+
+:host .base_receive .msg_receive.no-background ::ng-deep > div{
+    .options-container{
+        background: transparent;
+
+        .options-logo{
+            color: var(--bck-msg-received);
+        }
+    }
+    
+}
+
 :host .base_sent .msg_sent ::ng-deep > div {
     .options-container{
         right: unset;
@@ -47,6 +71,7 @@
         }
     }
 }
+//------- MANAGE CHAT-OPTIONS component :: END ------- //
 
 .manage_conversation_info_container{
     height: 34px;
@@ -311,19 +336,6 @@ ion-item {
         max-width: 100% !important;
     }
 
-    .options-container{
-        position: relative;
-        display: none;
-        -webkit-box-align: center;
-        align-items: center;
-        -webkit-box-pack: center;
-        justify-content: center;
-        top: 0px;
-        right: 30px;
-        height: 16px;
-        margin: 5px;
-        z-index: 2;
-    }
 
 }
 
@@ -332,10 +344,10 @@ ion-item {
     display: none;
     width: 75%;
     align-items: center;
-    color: rgb(135, 150, 175);
+    color: var(--icon-color);
     font-size: 12px;
     svg{
-        fill: rgb(135, 150, 175);
+        fill: var(--icon-color);
         margin-right: 5px;
     }
     &.show{
@@ -357,14 +369,18 @@ ion-item {
     border-radius: 50%;
     --padding-end: 5px;
     --padding-start: 5px;
-    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.13);
+    // box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.13);
     display: none;
     align-self: center;
     margin: 0px 5px;
 
+    :hover{
+        box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.13);
+    }
+
     ion-icon{
         font-size: 1.2em;
-        color: var(--basic-blue)
+        color: var(--icon-color)
     }
 
     .add-canned-response-add-icon{

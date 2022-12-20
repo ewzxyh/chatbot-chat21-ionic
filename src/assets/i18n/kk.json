@@ -289,5 +289,6 @@
         "ADD_PROJECT":"Жоба қосу",
         "RECENT_PROJECTS":"Соңғы жобалар",
         "OTHER_PROJECTS":"Басқа жобалар"
-    }
+    },
+    "JSON_RESPONSE":"JSON жауабы"
 }

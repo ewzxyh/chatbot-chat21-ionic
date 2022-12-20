@@ -64,7 +64,11 @@ const routes: Routes = [
   {
     path: 'send-email',
     loadChildren: () => import('./modals/send-email/send-email.module').then( m => m.SendEmailModalModule)
+  },  {
+    path: 'json-message',
+    loadChildren: () => import('./modals/json-message/json-message.module').then( m => m.JsonMessagePageModule)
   }
+
 
 
 

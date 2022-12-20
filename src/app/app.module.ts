@@ -88,6 +88,7 @@ import { LoaderPreviewPageModule } from './modals/loader-preview/loader-preview.
 import { CreateTicketPageModule } from './modals/create-ticket/create-ticket.module';
 import { CreateCannedResponsePageModule } from './modals/create-canned-response/create-canned-response.module';
 import { SendEmailModalModule } from './modals/send-email/send-email.module';
+import { JsonMessagePageModule } from './modals/json-message/json-message.module';
 // UTILS
 import { ScrollbarThemeModule } from './utils/scrollbar-theme.directive';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -294,7 +295,8 @@ const appInitializerFn = (appConfig: AppConfigProvider, logger: NGXLogger) => {
     SendEmailModalModule,
     CreateTicketPageModule,
     CreateRequesterPageModule,
-    CreateCannedResponsePageModule
+    CreateCannedResponsePageModule,
+    JsonMessagePageModule
   ],
   bootstrap: [AppComponent],
 

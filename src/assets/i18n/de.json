@@ -289,5 +289,6 @@
     "ADD_PROJECT":"Projekt hinzufügen",
     "RECENT_PROJECTS":"Letzte Projekte",
     "OTHER_PROJECTS":"Weitere Projekte"
-  }
+  },
+  "JSON_RESPONSE":"JSON Response"
 }

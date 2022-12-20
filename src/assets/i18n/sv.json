@@ -289,5 +289,6 @@
         "ADD_PROJECT":"Lägg till projekt",
         "RECENT_PROJECTS":"Nyliga projekt",
         "OTHER_PROJECTS":"Andra projekt"
-    }
+    },
+    "JSON_RESPONSE":"JSON-svar"
 }

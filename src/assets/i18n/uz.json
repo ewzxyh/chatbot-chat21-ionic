@@ -290,5 +290,6 @@
         "ADD_PROJECT":"Loyiha qo'shish",
         "RECENT_PROJECTS":"So'nggi loyihalar",
         "OTHER_PROJECTS":"Boshqa loyihalar"
-    }
+    },
+    "JSON_RESPONSE":"JSON javobi"
 }

@@ -289,5 +289,6 @@
     "ADD_PROJECT":"Добавить проект",
     "RECENT_PROJECTS":"Недавние Проекты",
     "OTHER_PROJECTS":"Другие проекты"
-  }
+  },
+  "JSON_RESPONSE":"JSON-ответ"
 }

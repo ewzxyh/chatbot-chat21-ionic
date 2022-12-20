@@ -4,11 +4,15 @@
 <!-- 'width': (isImage(message) || isFrame(message))? sizeImage?.width : null -->
 <div id="bubble-message"  [ngStyle]="{'padding': (isImage(message) || isFrame(message))?'0px':'0 8px' }" class="messages primary-color">
 
-  <div class="options-container" >
-    <div class="options-logo" (click)="onClickOptionsMessage($event, message)" *ngIf="message?.attributes && message?.attributes?.sourcePage">
+  <!-- <div class="options-container" >
+    <div class="options-logo" (click)="onClickOptionsMessage($event, message)" >
       <ion-icon name="chevron-down"></ion-icon>
     </div>
-  </div>
+  </div> -->
+  <chat-options
+    [message]="message"
+    (onOptionsMessage)="onOptionsMessageFN($event)">
+  </chat-options>
 
   <div>
 
@@ -54,6 +58,10 @@
     <!-- [tooltip]="timeTooltipLeft" [options]="tooltipOptions" placement="left" content-type="template" (click)="handleTooltipEvents($event)" -->
     <div *ngIf="message?.text" style="display: flex; margin: 0px 0px 0px 0px;"> 
 
+      <!-- <ng-template #timeTooltipLeft>
+        <span>{{message.timestamp | amTimeAgo}} ({{message.timestamp | amLocal | amDateFormat: 'L HH:mm:ss'}})</span>
+      </ng-template>  -->
+
       <chat-text *ngIf="message?.type !=='html'"
         [text]="message?.text" 
         [color]="fontColor" 
@@ -67,6 +75,7 @@
       </chat-html>
 
     </div>
+
   </div>
 
 </div>

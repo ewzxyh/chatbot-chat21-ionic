@@ -289,5 +289,6 @@
     "ADD_PROJECT":"أضف المشروع",
     "RECENT_PROJECTS":"مشاريع حديثه",
     "OTHER_PROJECTS":"مشاريع أخرى"
-  }
+  },
+  "JSON_RESPONSE":"استجابة JSON"
 }
