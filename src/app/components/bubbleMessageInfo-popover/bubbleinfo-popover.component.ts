@@ -41,7 +41,7 @@ export class BubbleInfoPopoverComponent implements OnInit {
   
   }
 
-  onClickOption(option: 'copy' | 'addCanned' | 'addCanned'){
+  onClickOption(option: 'copy' | 'addCanned' | 'jsonInfo'){
     this.logger.debug('[BUBBLE-INFO-POPOVER] clicked option:', option)
     this.ctr.dismiss({option: option})
   }

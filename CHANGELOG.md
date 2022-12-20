@@ -1,7 +1,7 @@
 # chat21-ionic ver 3.0
 
 ### 3.0.90-rc.3
-- added: options menu and popover on click to show copy, canned and Json response options
+- added: options menu and popover on click to show copy, canned and Json response options 
 - changed: icon-button moved outside bubble-message only for the first message of each sender
 
 ### 3.0.90-rc.2
