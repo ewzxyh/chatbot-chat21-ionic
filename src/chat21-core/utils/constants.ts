@@ -61,7 +61,6 @@ export const TYPE_POPUP_DETAIL_MESSAGE = 'DETAIL_MESSAGE';
 export const MESSAGE_TYPE_INFO = 'INFO';
 export const MESSAGE_TYPE_MINE = 'MINE';
 export const MESSAGE_TYPE_OTHERS = 'OTHERS';
-export const MESSAGE_TYPE_DATE = 'DATE';
 
 export const CHAT_REOPENED = 'CHAT_REOPENED';
 export const CHAT_CLOSED = 'CHAT_CLOSED';

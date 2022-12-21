@@ -2,7 +2,6 @@ import {
   MESSAGE_TYPE_INFO,
   MESSAGE_TYPE_MINE,
   MESSAGE_TYPE_OTHERS,
-  MESSAGE_TYPE_DATE,
   MAX_WIDTH_IMAGES,
   CHANNEL_TYPE_GROUP,
   TYPE_SUPPORT_GROUP
@@ -65,12 +64,7 @@ export function isMine(message: any) {
 
 /** */
 export function messageType(msgType: string, message: any) {
-  if (msgType === MESSAGE_TYPE_DATE) {
-    if (message.headerDate && message.headerDate !== '') {
-      return true;
-    }
-    return false;
-  }
+  
   if (msgType === MESSAGE_TYPE_INFO) {
     return isInfo(message);
   }

@@ -187,6 +187,9 @@ export function setHeaderDate_old(translate, timestamp, lastDate?): string {
   }
 }
 
+/**
+ * @deprecated
+ */
 export function setHeaderDate(translate, timestamp): string {
   // const LABEL_TODAY = translate.get('LABEL_TODAY');
   // const LABEL_TOMORROW = translate.get('LABEL_TOMORROW');
