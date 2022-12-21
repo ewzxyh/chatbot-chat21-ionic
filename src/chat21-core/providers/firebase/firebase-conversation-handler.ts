@@ -99,7 +99,10 @@ export class FirebaseConversationHandler extends ConversationHandlerService {
         this.ref = firebaseMessages.orderByChild('timestamp').limitToLast(100);
         this.ref.on('child_added', (childSnapshot) => {
             that.logger.debug('[FIREBASEConversationHandlerSERVICE] >>>>>>>>>>>>>> child_added: ', childSnapshot.val())
-            that.added(childSnapshot);
+            const msg: MessageModel = childSnapshot.val();        
+            msg.uid = childSnapshot.key;
+
+            that.addedNew(msg);
         });
         this.ref.on('child_changed', (childSnapshot) => {
             that.logger.debug('[FIREBASEConversationHandlerSERVICE] >>>>>>>>>>>>>> child_changed: ', childSnapshot.val())
@@ -253,6 +256,23 @@ export class FirebaseConversationHandler extends ConversationHandlerService {
         this.messageAdded.next(msg);
     }
 
+    private addedNew(message:MessageModel){
+        const msg = this.messageCommandGenerate(message);
+        if(this.isValidMessage(msg)){
+            if (this.skipMessage && messageType(MESSAGE_TYPE_INFO, msg)) {
+                return;
+            }
+            if(!this.skipMessage && messageType(MESSAGE_TYPE_INFO, msg)) {
+                this.messageInfo.next(msg)
+            }
+            this.addRepalceMessageInArray(msg.uid, msg);
+            this.messageAdded.next(msg);
+        } else {
+            this.logger.error('[FIREBASEConversationHandlerSERVICE] ADDED::message with uid: ', msg.uid, 'is not valid')
+        }
+        
+    }
+
     /** */
     private changed(childSnapshot: any) {
         const msg = this.messageGenerate(childSnapshot);
@@ -298,16 +318,34 @@ export class FirebaseConversationHandler extends ConversationHandlerService {
         // msg.emoticon = isEmojii(msg.text)
 
         // traduco messaggi se sono del server
-        if (msg.attributes && msg.attributes.subtype) {
-            if (msg.attributes.subtype === 'info' || msg.attributes.subtype === 'info/support') {
-                this.translateInfoSupportMessages(msg);
-            }
+        if (messageType(MESSAGE_TYPE_INFO, msg)) {
+            this.translateInfoSupportMessages(msg);
         }
-        /// commented because NOW ATTRIBUTES COMES FROM OUTSIDE 
-        // if (msg.attributes && msg.attributes.projectId) {
-        //     this.attributes.projectId = msg.attributes.projectId;
-        //     // sessionStorage.setItem('attributes', JSON.stringify(attributes));
+        return msg;
+    }
+
+    private messageCommandGenerate(message:MessageModel){
+        const msg: MessageModel = message;
+        if(msg.text) msg.text = msg.text.trim(); //remove black msg with only spaces
+        // controllo fatto per i gruppi da rifattorizzare
+        if (!msg.sender_fullname || msg.sender_fullname === 'undefined') {
+            msg.sender_fullname = msg.sender;
+        }
+        // bonifico messaggio da url
+        // if (msg.type === 'text') {
+        //     msg.text = htmlEntities(msg.text)
+        //     msg.text = replaceEndOfLine(msg.text)
         // }
+        
+        // verifico che il sender è il logged user
+        msg.isSender = this.isSender(msg.sender, this.loggedUser.uid);
+        //check if message contains only an emojii
+        // msg.emoticon = isEmojii(msg.text)
+
+        // traduco messaggi se sono del server
+        if (messageType(MESSAGE_TYPE_INFO, msg)) {
+            this.translateInfoSupportMessages(msg);
+        }
         return msg;
     }
 
@@ -377,13 +415,13 @@ export class FirebaseConversationHandler extends ConversationHandlerService {
         } else if ((message.attributes.messagelabel && message.attributes.messagelabel.key === LEAD_UPDATED)) {
             message.text = INFO_SUPPORT_LEAD_UPDATED;
         } else if ((message.attributes.messagelabel && message.attributes.messagelabel.key === MEMBER_LEFT_GROUP)) {
-           let subject: string;
-           if (message.attributes.messagelabel.parameters.fullname) {
-               subject = message.attributes.messagelabel.parameters.fullname;
-           }else{
-               subject = message.attributes.messagelabel.parameters.member_id;
-           }
-           message.text = subject + ' ' +  INFO_SUPPORT_MEMBER_LEFT_GROUP ;
+            let subject: string;
+            if (message.attributes.messagelabel.parameters.fullname) {
+                subject = message.attributes.messagelabel.parameters.fullname;
+            }else{
+                subject = message.attributes.messagelabel.parameters.member_id;
+            }
+            message.text = subject + ' ' +  INFO_SUPPORT_MEMBER_LEFT_GROUP ;
         }
     }
 
@@ -442,5 +480,36 @@ export class FirebaseConversationHandler extends ConversationHandlerService {
                 return;
             }
         });
+    }
+
+    private isValidMessage(msgToCkeck:MessageModel): boolean{
+        // console.log('message to check-->', msgToCkeck)
+        // if(!this.isValidField(msgToCkeck.uid)){
+        //     return false;
+        // }
+        // if(!this.isValidField(msgToCkeck.sender)){
+        //     return false;
+        // }
+        // if(!this.isValidField(msgToCkeck.recipient)){
+        //     return false;
+        // }
+        // if(!this.isValidField(msgToCkeck.type)){
+        //     return false;
+        // }else if (msgToCkeck.type === "text" && !this.isValidField(msgToCkeck.text)){
+        //     return false;
+        // } else if ((msgToCkeck.type === "image" || msgToCkeck.type === "file") && !this.isValidField(msgToCkeck.metadata) && !this.isValidField(msgToCkeck.metadata.src)){
+        //     return false
+        // }
+
+
+        return true
+    }
+
+    /**
+     *
+     * @param field
+     */
+    private isValidField(field: any): boolean {
+        return (field === null || field === undefined) ? false : true;
     }
 }
