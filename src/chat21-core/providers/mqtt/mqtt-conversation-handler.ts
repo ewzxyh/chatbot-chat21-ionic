@@ -99,7 +99,10 @@ export class MQTTConversationHandler extends ConversationHandlerService {
         }
         this.chat21Service.chatClient.lastMessages(this.conversationWith, (err, messages) => {
             if (!err) {
-                messages.forEach(msg => {
+                messages.forEach(message => {
+                    const msg: MessageModel = message;        
+                    msg.uid = message.message_id;
+
                     this.addedMessage(msg);
                 });
             }
@@ -107,7 +110,10 @@ export class MQTTConversationHandler extends ConversationHandlerService {
         const handler_message_added = this.chat21Service.chatClient.onMessageAddedInConversation(
             this.conversationWith, (message, topic) => {
                 this.logger.log('[MQTTConversationHandler] message added:', message, 'on topic:', topic);
-                this.addedMessage(message);
+                const msg: MessageModel = message;        
+                msg.uid = message.message_id;
+
+                this.addedMessage(msg);
         });
         const handler_message_updated = this.chat21Service.chatClient.onMessageUpdatedInConversation(
             this.conversationWith,  (message, topic) => {
@@ -231,20 +237,14 @@ export class MQTTConversationHandler extends ConversationHandlerService {
     /** */
     private addedMessage(messageSnapshot: any) {
         const msg = this.messageGenerate(messageSnapshot);
-        msg.uid = msg.message_id;
+        
         if(this.skipInfoMessage && messageType(MESSAGE_TYPE_INFO, msg)){
             return;
         }
         if(!this.skipInfoMessage && messageType(MESSAGE_TYPE_INFO, msg)){
             this.messageInfo.next(msg)
         }
-        // imposto il giorno del messaggio per visualizzare o nascondere l'header data
-        msg.headerDate = null;
-        const headerDate = setHeaderDate(this.translationMap, msg.timestamp);
-        if (headerDate !== this.lastDate) {
-            this.lastDate = headerDate;
-            msg.headerDate = headerDate;
-        }
+
         this.logger.log('[MQTTConversationHandler] adding message:' + JSON.stringify(msg));
         // this.logger.log('childSnapshot.message_id:' + msg.message_id);
         // this.logger.log('childSnapshot.key:' + msg.key);
@@ -287,7 +287,7 @@ export class MQTTConversationHandler extends ConversationHandlerService {
         // const msg: MessageModel = childSnapshot.val();
         this.logger.log("[MQTTConversationHandler] childSnapshot >" + JSON.stringify(childSnapshot));
         const msg = childSnapshot;
-        msg.uid = childSnapshot.key;
+        // msg.uid = childSnapshot.key;
         msg.text = msg.text.trim() //remove black msg with only spaces
         // controllo fatto per i gruppi da rifattorizzare
         if (!msg.sender_fullname || msg.sender_fullname === 'undefined') {
@@ -301,10 +301,8 @@ export class MQTTConversationHandler extends ConversationHandlerService {
         this.logger.log("[MQTTConversationHandler] ****>msg.sender:" + msg.sender);
         msg.isSender = this.isSender(msg.sender, this.loggedUser.uid);
         // traduco messaggi se sono del server
-        if (msg.attributes && msg.attributes.subtype) {
-            if (msg.attributes.subtype === 'info' || msg.attributes.subtype === 'info/support') {
-                this.translateInfoSupportMessages(msg);
-            }
+        if (messageType(MESSAGE_TYPE_INFO, msg)) {
+            this.translateInfoSupportMessages(msg);
         }
         return msg;
     }
