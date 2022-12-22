@@ -35,7 +35,8 @@
 
 
 //------- MANAGE CHAT-OPTIONS component :: INIT ------- //
-:host .base_sent .msg_sent.no-background ::ng-deep > div{
+:host .base_sent .msg_sent.no-background ::ng-deep > div,
+:host .base_sent .msg_sent.emoticon ::ng-deep > div{
     .options-container{
         background: transparent;
 
@@ -46,7 +47,8 @@
     
 }
 
-:host .base_receive .msg_receive.no-background ::ng-deep > div{
+:host .base_receive .msg_receive.no-background ::ng-deep > div,
+:host .base_receive .msg_receive.emoticon ::ng-deep > div{
     .options-container{
         background: transparent;
 
