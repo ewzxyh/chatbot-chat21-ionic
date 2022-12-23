@@ -111,6 +111,7 @@ export class IonConversationDetailComponent extends ConversationContentComponent
     } else if (this.browserLang && stored_preferred_lang) {
       chat_lang = stored_preferred_lang
     }
+
     moment.locale(chat_lang)
     // this.translate.getTranslation(chat_lang).subscribe((labels: string) => {
     //   console.log('[CONVS-DETAIL] translations: ', labels);
@@ -211,7 +212,7 @@ export class IonConversationDetailComponent extends ConversationContentComponent
       component: CreateCannedResponsePage,
       componentProps: attributes,
       swipeToClose: false,
-      backdropDismiss: false,
+      backdropDismiss: true,
     })
     modal.onDidDismiss().then((dataReturned: any) => {
       // 
@@ -231,8 +232,8 @@ export class IonConversationDetailComponent extends ConversationContentComponent
       cssClass: 'json-modal-class',
       componentProps: attributes,
       swipeToClose: false,
-      backdropDismiss: false,
-      keyboardClose: true,
+      backdropDismiss: true,
+      // keyboardClose: true,
     })
     modal.onDidDismiss().then((dataReturned: any) => {
       // 
