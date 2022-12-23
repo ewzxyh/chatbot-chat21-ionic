@@ -252,6 +252,10 @@ select:-webkit-autofill:focus {
 .base_info > p {
     margin-top: 0 !important;
     margin-bottom: 0 !important;
+
+    a {
+        word-break: break-all;
+    }
 }
 
 .toast-custom-class {

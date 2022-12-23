@@ -3,6 +3,7 @@
     align-content: center;
     justify-content: center;
     padding: 4px 0px 2px 0px;
+    width: 100%;
 }
 
 .base_info {
@@ -17,6 +18,11 @@
     color: var(--basic-gray);
     margin-left: 5px; //32px;
     margin-right: 5px; //32px;
+
+    a {
+        word-break: break-all;
+    }
+
  
 }
 
