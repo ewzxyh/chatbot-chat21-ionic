@@ -82,6 +82,7 @@
     "INFO_SUPPORT_MEMBER_LEFT_GROUP":"borttagen från gruppen",
     "INFO_SUPPORT_MEMBER_ABANDONED_GROUP":"har lämnat konversationen",
     "INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU": "En ny supportförfrågan har tilldelats dig",
+    "INFO_SUPPORT_LIVE_PAGE":"Flyttade till",
     "LABEL_PROFILE": "Profil",
     "LABEL_CLOSE": "Stängd",
     "LABEL_DISCONNECT": "Koppla ifrån",
@@ -290,5 +291,6 @@
         "RECENT_PROJECTS":"Nyliga projekt",
         "OTHER_PROJECTS":"Andra projekt"
     },
-    "JSON_RESPONSE":"JSON-svar"
+    "JSON_RESPONSE":"JSON-svar",
+    "LIVE":"Lev"
 }

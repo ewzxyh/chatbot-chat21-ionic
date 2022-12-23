@@ -82,6 +82,7 @@
   "INFO_SUPPORT_MEMBER_LEFT_GROUP":"تمت إزالته من المجموعة",
   "INFO_SUPPORT_MEMBER_ABANDONED_GROUP":"وقد غادر المحادثة",
   "INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU": "تم تعيين طلب دعم جديد لك",
+  "INFO_SUPPORT_LIVE_PAGE": "انتقل ل",
   "LABEL_PROFILE": "الملف الشخصي",
   "LABEL_CLOSE": "مغلق",
   "LABEL_DISCONNECT": "قطع الاتصال",
@@ -290,5 +291,6 @@
     "RECENT_PROJECTS":"مشاريع حديثه",
     "OTHER_PROJECTS":"مشاريع أخرى"
   },
-  "JSON_RESPONSE":"استجابة JSON"
+  "JSON_RESPONSE":"استجابة JSON",
+  "LIVE":"حاليا"
 }

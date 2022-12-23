@@ -18,7 +18,7 @@ import { ConversationHandlerService } from '../abstract/conversation-handler.ser
 import { LoggerService } from '../abstract/logger.service';
 import { LoggerInstance } from '../logger/loggerInstance';
 // utils
-import { MSG_STATUS_RECEIVED, CHAT_REOPENED, CHAT_CLOSED, MEMBER_JOINED_GROUP, TYPE_DIRECT, MESSAGE_TYPE_INFO, TOUCHING_OPERATOR, LEAD_UPDATED, MEMBER_LEFT_GROUP } from '../../utils/constants';
+import { MSG_STATUS_RECEIVED, CHAT_REOPENED, CHAT_CLOSED, MEMBER_JOINED_GROUP, TYPE_DIRECT, MESSAGE_TYPE_INFO, TOUCHING_OPERATOR, LEAD_UPDATED, MEMBER_LEFT_GROUP, LIVE_PAGE } from '../../utils/constants';
 import { compareValues, searchIndexInArrayForUid, conversationMessagesRef } from '../../utils/utils';
 
 
@@ -374,7 +374,8 @@ export class FirebaseConversationHandler extends ConversationHandlerService {
         const INFO_SUPPORT_LEAD_UPDATED = this.translationMap.get('INFO_SUPPORT_LEAD_UPDATED');
         const INFO_SUPPORT_MEMBER_LEFT_GROUP = this.translationMap.get('INFO_SUPPORT_MEMBER_LEFT_GROUP');
         const INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU = this.translationMap.get('INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU');
-
+        const INFO_SUPPORT_LIVE_PAGE = this.translationMap.get('INFO_SUPPORT_LIVE_PAGE');
+        
         if (message.attributes.messagelabel
             && message.attributes.messagelabel.parameters
             && message.attributes.messagelabel.key === MEMBER_JOINED_GROUP
@@ -422,6 +423,15 @@ export class FirebaseConversationHandler extends ConversationHandlerService {
                 subject = message.attributes.messagelabel.parameters.member_id;
             }
             message.text = subject + ' ' +  INFO_SUPPORT_MEMBER_LEFT_GROUP ;
+        } else if(message.attributes.messagelabel && message.attributes.messagelabel.key === LIVE_PAGE){
+            let sourceUrl: string = '';
+            if(message.attributes && message.attributes.sourcePage){
+                sourceUrl = message.attributes.sourcePage 
+            }
+            if(message.attributes && message.attributes.sourceTitle){
+                sourceUrl = '['+message.attributes.sourceTitle+']('+sourceUrl+')'
+            }
+            message.text= INFO_SUPPORT_LIVE_PAGE + ': ' + sourceUrl
         }
     }
 

@@ -82,6 +82,7 @@
   "INFO_SUPPORT_MEMBER_LEFT_GROUP":"уклоњен из групе",
   "INFO_SUPPORT_MEMBER_ABANDONED_GROUP":"је напустио разговор",
   "INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU": "Додељен вам је нови захтев за подршку",
+  "INFO_SUPPORT_LIVE_PAGE":"Преселио у",
   "LABEL_PROFILE": "Профил",
   "LABEL_CLOSE": "Затворено",
   "LABEL_DISCONNECT": "Прекини везу",
@@ -290,5 +291,6 @@
     "RECENT_PROJECTS":"Недавни пројекти",
     "OTHER_PROJECTS":"Остали пројекти"
   },
-  "JSON_RESPONSE":"ЈСОН одговор"
+  "JSON_RESPONSE":"ЈСОН одговор",
+  "LIVE":"Уживо"
 }

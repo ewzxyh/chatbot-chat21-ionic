@@ -82,6 +82,7 @@
     "INFO_SUPPORT_MEMBER_LEFT_GROUP":"топтан шығарылды",
     "INFO_SUPPORT_MEMBER_ABANDONED_GROUP":"әңгімеден шығып кетті",
     "INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU": "Сізге жаңа қолдау сұрауы тағайындалды",
+    "INFO_SUPPORT_LIVE_PAGE":"Көшті",
     "LABEL_PROFILE": "Профиль",
     "LABEL_CLOSE": "Жабық",
     "LABEL_DISCONNECT": "Ажырату",
@@ -290,5 +291,6 @@
         "RECENT_PROJECTS":"Соңғы жобалар",
         "OTHER_PROJECTS":"Басқа жобалар"
     },
-    "JSON_RESPONSE":"JSON жауабы"
+    "JSON_RESPONSE":"JSON жауабы",
+    "LIVE": "Тікелей эфир"
 }

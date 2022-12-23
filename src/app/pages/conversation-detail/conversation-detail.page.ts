@@ -682,6 +682,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       'INFO_SUPPORT_LEAD_UPDATED',
       'INFO_SUPPORT_MEMBER_LEFT_GROUP',
       'INFO_SUPPORT_MEMBER_ABANDONED_GROUP',
+      'INFO_SUPPORT_LIVE_PAGE',
       'LABEL_TODAY',
       'LABEL_TOMORROW',
       'LABEL_LAST_ACCESS',

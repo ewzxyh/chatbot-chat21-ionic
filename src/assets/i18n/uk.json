@@ -82,6 +82,7 @@
     "INFO_SUPPORT_MEMBER_LEFT_GROUP":"видалено з групи",
     "INFO_SUPPORT_MEMBER_ABANDONED_GROUP":"залишив бесіду",
     "INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU": "Вам призначено новий запит на підтримку",
+    "INFO_SUPPORT_LIVE_PAGE":"Переїхав до",
     "LABEL_PROFILE": "Профіль",
     "LABEL_CLOSE": "зачинено",
     "LABEL_DISCONNECT": "Від’єднати",
@@ -290,5 +291,6 @@
         "RECENT_PROJECTS":"Останні проекти",
         "OTHER_PROJECTS":"Інші проекти"
     },
-    "JSON_RESPONSE":"Відповідь JSON"
+    "JSON_RESPONSE":"Відповідь JSON",
+    "LIVE":"Жити"
 }

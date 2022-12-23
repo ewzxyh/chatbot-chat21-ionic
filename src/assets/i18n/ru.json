@@ -82,6 +82,7 @@
   "INFO_SUPPORT_MEMBER_LEFT_GROUP":"удален из группы",
   "INFO_SUPPORT_MEMBER_ABANDONED_GROUP":"вышел из беседы",
   "INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU": "Вам назначен новый запрос в службу поддержки",
+  "INFO_SUPPORT_LIVE_PAGE":"Переехал в",
   "LABEL_PROFILE": "Профиль",
   "LABEL_CLOSE": "Закрыто",
   "LABEL_DISCONNECT": "Отключить",
@@ -290,5 +291,6 @@
     "RECENT_PROJECTS":"Недавние Проекты",
     "OTHER_PROJECTS":"Другие проекты"
   },
-  "JSON_RESPONSE":"JSON-ответ"
+  "JSON_RESPONSE":"JSON-ответ",
+  "LIVE":"Жить"
 }

@@ -83,6 +83,7 @@
     "INFO_SUPPORT_MEMBER_LEFT_GROUP":"guruhdan olib tashlandi",
     "INFO_SUPPORT_MEMBER_ABANDONED_GROUP":"suhbatni tark etdi",
     "INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU": "Sizga yangi qoʻllab-quvvatlash soʻrovi tayinlandi",
+    "INFO_SUPPORT_LIVE_PAGE":"Koʻchirildi",
     "LABEL_PROFILE": "Profil",
     "LABEL_CLOSE": "Yopiq",
     "LABEL_DISCONNECT": "Ulanishni uzing",
@@ -291,5 +292,6 @@
         "RECENT_PROJECTS":"So'nggi loyihalar",
         "OTHER_PROJECTS":"Boshqa loyihalar"
     },
-    "JSON_RESPONSE":"JSON javobi"
+    "JSON_RESPONSE":"JSON javobi",
+    "LIVE":"Jonli"
 }

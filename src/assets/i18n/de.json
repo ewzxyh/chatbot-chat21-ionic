@@ -82,6 +82,7 @@
   "INFO_SUPPORT_MEMBER_LEFT_GROUP":"aus der Gruppe entfernt",
   "INFO_SUPPORT_MEMBER_ABANDONED_GROUP":"hat die Unterhaltung verlassen",
   "INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU": "Ihnen wurde eine neue Support-Anfrage zugewiesen",
+  "INFO_SUPPORT_LIVE_PAGE":"Umgezogen nach",
   "LABEL_PROFILE": "Profil",
   "LABEL_CLOSE": "Abgeschlossen",
   "LABEL_DISCONNECT": "Trennen",
@@ -290,5 +291,6 @@
     "RECENT_PROJECTS":"Letzte Projekte",
     "OTHER_PROJECTS":"Weitere Projekte"
   },
-  "JSON_RESPONSE":"JSON Response"
+  "JSON_RESPONSE":"JSON Response",
+  "LIVE":"Live"
 }

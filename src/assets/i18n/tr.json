@@ -82,6 +82,7 @@
   "INFO_SUPPORT_MEMBER_LEFT_GROUP":"gruptan kaldırıldı",
   "INFO_SUPPORT_MEMBER_ABANDONED_GROUP":"görüşmeden ayrıldı",
   "INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU": "Size yeni bir destek talebi atandı",
+  "INFO_SUPPORT_LIVE_PAGE":"Şuraya taşındı:",
   "LABEL_PROFILE": "Profil",
   "LABEL_CLOSE": "Kapalı",
   "LABEL_DISCONNECT": "Bağlantıyı kes",
@@ -290,5 +291,6 @@
     "RECENT_PROJECTS":"Son Projeler",
     "OTHER_PROJECTS":"Diğer projeler"
   },
-  "JSON_RESPONSE":"JSON Yanıtı"
+  "JSON_RESPONSE":"JSON Yanıtı",
+  "LIVE":"Canlı"
 }

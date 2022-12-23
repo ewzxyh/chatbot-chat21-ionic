@@ -82,6 +82,7 @@
   "INFO_SUPPORT_MEMBER_LEFT_GROUP":"supprimé du groupe",
   "INFO_SUPPORT_MEMBER_ABANDONED_GROUP":"a quitté la conversation",
   "INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU": "Une nouvelle demande de support vous a été attribuée",
+  "INFO_SUPPORT_LIVE_PAGE":"Déplacé vers",
   "LABEL_PROFILE": "Profil",
   "LABEL_CLOSE": "Fermé",
   "LABEL_DISCONNECT": "Déconnecter",
@@ -290,5 +291,6 @@
     "RECENT_PROJECTS":"Les projets récents",
     "OTHER_PROJECTS":"Autres projets"
   },
-  "JSON_RESPONSE":"Réponse JSON"
+  "JSON_RESPONSE":"Réponse JSON",
+  "LIVE":"En direct"
 }

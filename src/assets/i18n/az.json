@@ -82,6 +82,7 @@
     "INFO_SUPPORT_MEMBER_LEFT_GROUP":"qrupdan çıxarıldı",
     "INFO_SUPPORT_MEMBER_ABANDONED_GROUP":"söhbəti tərk etdi",
     "INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU": "Sizə yeni dəstək sorğusu təyin edilib",
+    "INFO_SUPPORT_LIVE_PAGE":"Köçürüldü",
     "LABEL_PROFILE": "Profil",
     "LABEL_CLOSE": "Bağlı",
     "LABEL_DISCONNECT": "Bağlantını kəsin",
@@ -290,5 +291,6 @@
         "RECENT_PROJECTS":"Son layihələr",
         "OTHER_PROJECTS":"Digər layihələr"
     },
-    "JSON_RESPONSE":"JSON cavabı"
+    "JSON_RESPONSE":"JSON cavabı",
+    "LIVE":"Canlı"
 }

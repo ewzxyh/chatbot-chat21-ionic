@@ -1292,7 +1292,7 @@ export class AppComponent implements OnInit {
   }
 
   private initConversationsHandler(userId: string) {
-    const keys = ['YOU', 'INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU'];
+    const keys = ['YOU'];
     const translationMap = this.translateService.translateLanguage(keys);
 
     this.logger.log('[APP-COMP] initConversationsHandler ------------->', userId, this.tenant);
