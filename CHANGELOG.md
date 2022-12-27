@@ -1,5 +1,14 @@
 # chat21-ionic ver 3.0
 
+### 3.0.90-rc.5
+- added: implementation of conversationChangedDetailed in MQTTConversationsHandler service
+- added: LIVE_PAGE info-message type
+- added: live page info in conversation. header (work in progress)
+- changed: info-message UI
+- bug-fixed: options-container not has transparent background if one emotion is present
+- bug-fixed: modals not closed on ESC keyboard button
+- removed: forward of logs to server
+
 ### 3.0.90-rc.4
 - added: splitMessage in MQTTConversationHandler service
 - changed: aligned FirebaseConversationHandler service to widget
