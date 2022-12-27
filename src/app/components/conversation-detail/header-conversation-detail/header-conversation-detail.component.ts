@@ -27,10 +27,12 @@ import { TYPE_DIRECT, TYPE_SUPPORT_GROUP } from 'src/chat21-core/utils/constants
   styleUrls: ['./header-conversation-detail.component.scss'],
 })
 export class HeaderConversationDetailComponent implements OnInit, OnChanges {
+
   @Input() conversationAvatar: any
   @Input() idLoggedUser: string
   @Input() conversationUid: string
   @Input() conv_type: string
+  @Input() liveInfo: {sourcePage: string, sourceTitle: string}
   @Input() isMobile: boolean
   @Input() translationsMap: Map<string, string>
   conversationWithFullname: string

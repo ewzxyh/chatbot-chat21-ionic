@@ -127,6 +127,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   public translationsContentMap: Map<string, string> = new Map()
   public conversationAvatar: any
   public leadInfo: {lead_id: string, hasEmail: boolean , email: string, projectId: string};
+  public liveInfo: {sourcePage: string, sourceTitle: string}
   public member: UserModel
   public isFileSelected: boolean
   public showIonContent = false
@@ -650,6 +651,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       'LABEL_TO',
       'LABEL_LAST_ACCESS',
       'ARRAY_DAYS',
+      'LIVE',
       'Resolve',
     ]
 
@@ -1107,6 +1109,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         this.logger.log('[CONVS-DETAIL] subscribe to messageInfo - messageId ', msg, this.conversation)
         if (msg) {
           that.updateLeadInfo(msg)
+          // this.updateLiveInfo(msg)
           // this.setHeaderContent()
         }
       })
@@ -1212,6 +1215,15 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         this.conversation.attributes['project_name']
       )
       this.getLeadDetail()
+    }
+  }
+
+  updateLiveInfo(msg){
+    if(msg.attributes && msg.attributes.hasOwnProperty("sourcePage")){
+      this.liveInfo = { sourcePage: msg.attributes['sourcePage'], sourceTitle: null}
+    }
+    if(msg.attributes && msg.attributes.hasOwnProperty("sourceTitle")){
+      this.liveInfo = { sourcePage: msg.attributes['sourcePage'], sourceTitle: msg.attributes['sourceTitle']}
     }
   }
 

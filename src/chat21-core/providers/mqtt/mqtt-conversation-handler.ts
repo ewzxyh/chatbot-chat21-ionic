@@ -1,4 +1,4 @@
-import { TOUCHING_OPERATOR, LEAD_UPDATED, MEMBER_LEFT_GROUP } from './../../utils/constants';
+import { TOUCHING_OPERATOR, LEAD_UPDATED, MEMBER_LEFT_GROUP, LIVE_PAGE } from './../../utils/constants';
 import { Inject, Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
