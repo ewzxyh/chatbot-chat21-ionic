@@ -74,6 +74,7 @@ Use [Docker Compose Tiledesk installation guide](https://github.com/Tiledesk/til
         production: false,
         remoteConfig: true,
         remoteConfigUrl: '/chat-config.json',
+        globalRemoteJSSrc: "https://<YOUR_CUSTOM_SCRIPT_1>, https://<YOUR_CUSTOM_SCRIPT_2>"
         chatEngine: "mqtt", // OR YOUR CUSTOM CHAT ENGINE
         updloaEngine: "native", // OR YOUR CUSTOM UPLOAD ENGINE
         pushEngine:"none", // OR YOUR CUSTOM PUSH ENGINE
@@ -106,7 +107,12 @@ Use [Docker Compose Tiledesk installation guide](https://github.com/Tiledesk/til
     }
   };
   ```
-  
+
+# Load external scripts
+
+
+* `globalRemoteJSSrc`: load external scripts by setting a comma separated script string url.
+
 * `logLevel`: The Chat21-ionic supports 4 log levels. The order is as follows:
   `Error < Warn < Info < Debug`
 

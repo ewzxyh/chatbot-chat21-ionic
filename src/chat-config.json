@@ -1,5 +1,6 @@
 {
     "t2y12PruGU9wUtEGzBJfolMIgK":"${FEATURES_TOKEN}",
+    "globalRemoteJSSrc":"${REMOTE_JS_SRC}",
     "chatEngine": "mqtt",
     "updloaEngine": "native",
     "pushEngine":"none",
