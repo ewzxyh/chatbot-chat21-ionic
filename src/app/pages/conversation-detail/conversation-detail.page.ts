@@ -1054,7 +1054,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
           attributes,
         )
       }
-      isDevMode()? null : this.segmentNewAgentMessage(this.conversation)
+      this.segmentNewAgentMessage(this.conversation)
     }
   }
   // ----------------------------------------------------------
