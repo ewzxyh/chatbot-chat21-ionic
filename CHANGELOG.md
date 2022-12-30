@@ -1,5 +1,9 @@
 # chat21-ionic ver 3.0
 
+### 3.0.90-rc.6
+- changed: dimension of bottom tiledesk logo in left sidebar
+- removed: isDev control
+
 ### 3.0.90-rc.5
 - added: implementation of conversationChangedDetailed in MQTTConversationsHandler service
 - added: LIVE_PAGE info-message type
