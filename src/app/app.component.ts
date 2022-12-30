@@ -60,6 +60,7 @@ import * as PACKAGE from 'package.json';
 import { filter } from 'rxjs/operators'
 import { WebSocketJs } from './services/websocket/websocket-js';
 import { Location } from '@angular/common'
+import { ScriptService } from './services/scripts/script.service';
 
 // import { filter } from 'rxjs/operators';
 
@@ -153,6 +154,7 @@ export class AppComponent implements OnInit {
     // private tiledeskService: TiledeskService,
     private networkService: NetworkService,
     public webSocketJs: WebSocketJs,
+    public scriptService: ScriptService,
     public location: Location
   ) {
 
@@ -341,7 +343,7 @@ export class AppComponent implements OnInit {
 
 
     this.initializeApp('oninit');
-    this.initSegment()
+    this.loadCustomScript(appconfig)
     this.listenToPostMsgs();
   }
 
@@ -1045,7 +1047,7 @@ export class AppComponent implements OnInit {
       this.logger.log('[APP-COMP] ***** conversationRemoved *****', conversation);
       if(conversation) { 
         this.updateConversationsOnStorage();
-        isDevMode()? null: this.segmentResolved(conversation)
+        this.segmentResolved(conversation)
       }
     });
   }
@@ -1091,7 +1093,7 @@ export class AppComponent implements OnInit {
 
       this.initConversationsHandler(currentUser.uid);
       this.initArchivedConversationsHandler(currentUser.uid);
-      isDevMode()? null: this.segmentSignIn()
+      this.segmentSignIn()
     }
     this.checkPlatform();
     try {
@@ -1198,7 +1200,7 @@ export class AppComponent implements OnInit {
 
 
     if (hasClickedLogout === true) {
-      isDevMode()? null: this.segmentSignedOut()
+      this.segmentSignedOut()
       this.appStorageService.removeItem('conversations')
       this.isInitialized = false;
       // ----------------------------------------------
@@ -1346,17 +1348,10 @@ export class AppComponent implements OnInit {
     }
   }
 
-  private initSegment(){
-    if(!isDevMode()){
-      var head  = document.getElementsByTagName('head')[0];
-      var script  = document.createElement('script');
-      script.type="text/javascript";
-      script.text =`!function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on","addSourceMiddleware","addIntegrationMiddleware","setAnonymousId","addDestinationMiddleware"];analytics.factory=function(e){return function(){var t=Array.prototype.slice.call(arguments);t.unshift(e);analytics.push(t);return analytics}};for(var e=0;e<analytics.methods.length;e++){var key=analytics.methods[e];analytics[key]=analytics.factory(key)}analytics.load=function(key,e){var t=document.createElement("script");t.type="text/javascript";t.async=!0;t.src="https://cdn.segment.com/analytics.js/v1/" + key + "/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n);analytics._loadOptions=e};analytics._writeKey="qaTU0wG6VH6xPAhOzD2kneI70Txg1fTB";;analytics.SNIPPET_VERSION="4.15.3";
-                    analytics.load("qaTU0wG6VH6xPAhOzD2kneI70Txg1fTB");
-                    analytics.page();
-                    }}();`
-      head.appendChild(script);
-    } 
+  private loadCustomScript(config){
+    if(config.hasOwnProperty("globalRemoteJSSrc")){
+      this.scriptService.buildScriptArray(config['globalRemoteJSSrc'])
+    }
   }
 
   private segmentSignIn(){

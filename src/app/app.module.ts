@@ -1,3 +1,4 @@
+import { ScriptService } from './services/scripts/script.service';
 import { ConvertRequestToConversation } from './../chat21-core/utils/convertRequestToConversation';
 import { LogLevel, PUSH_ENGINE_FIREBASE, PUSH_ENGINE_MQTT } from './../chat21-core/utils/constants';
 import { CustomLogger } from 'src/chat21-core/providers/logger/customLogger';
@@ -377,7 +378,8 @@ const appInitializerFn = (appConfig: AppConfigProvider, logger: NGXLogger) => {
     Chooser,
     Chat21Service,
     WebSocketJs,
-    ConvertRequestToConversation
+    ConvertRequestToConversation,
+    ScriptService
   ]
 })
 export class AppModule { }
