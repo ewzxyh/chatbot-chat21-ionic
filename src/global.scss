@@ -514,6 +514,10 @@ select:-webkit-autofill:focus {
     padding-bottom: 5px;
     min-height: 60px;
     width: 60px; // for SMALL SIDEBAR
+
+    a.customAncor{
+        margin: 0px;
+    }
 }
 
 .sidebar .logo:after {
@@ -524,6 +528,8 @@ select:-webkit-autofill:focus {
     height: 1px;
     width: 80%;
     background-color: rgba(180, 180, 180, 0.3);
+
+    
 }
 
 .logo-img-wpr {
