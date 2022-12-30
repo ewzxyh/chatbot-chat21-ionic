@@ -118,7 +118,7 @@ export class MQTTConversationHandler extends ConversationHandlerService {
         const handler_message_updated = this.chat21Service.chatClient.onMessageUpdatedInConversation(
             this.conversationWith,  (message, topic) => {
             this.logger.log('[MQTTConversationHandler] message updated:', message, 'on topic:', topic);
-            this.updatedMessageStatus(message);
+            this.changed(message);
         });
     }
 
@@ -255,7 +255,7 @@ export class MQTTConversationHandler extends ConversationHandlerService {
     }
 
     /** */
-    private updatedMessageStatus(patch: any) {
+    private changed(patch: any) {
         if(this.skipInfoMessage && messageType(MESSAGE_TYPE_INFO, patch) ){
             return;
         }
