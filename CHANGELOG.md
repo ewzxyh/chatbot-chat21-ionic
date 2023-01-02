@@ -1,5 +1,9 @@
 # chat21-ionic ver 3.0
 
+### 3.0.90-rc.7
+- added: logLevel condition to enable Json Message option in bubble-message
+- bug-fixed: enable Copy option in bubble-message only if text exist
+
 ### 3.0.90-rc.6
 - changed: dimension of bottom tiledesk logo in left sidebar
 - removed: isDev control
