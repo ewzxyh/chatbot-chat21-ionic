@@ -54,7 +54,7 @@ export class BubbleMessageComponent implements OnInit, OnChanges {
   };
   sizeImage : { width: number, height: number}
 
-  private logger: LoggerService = LoggerInstance.getInstance()
+  public logger: LoggerService = LoggerInstance.getInstance()
  
   constructor(
     public sanitizer: DomSanitizer,
