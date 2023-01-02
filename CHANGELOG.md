@@ -1,5 +1,7 @@
 # chat21-ionic ver 3.0
 
+### 3.0.90 in PROD
+
 ### 3.0.90-rc.7
 - added: logLevel condition to enable Json Message option in bubble-message
 - bug-fixed: enable Copy option in bubble-message only if text exist
