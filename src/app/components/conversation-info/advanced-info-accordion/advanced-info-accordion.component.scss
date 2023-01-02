@@ -1,12 +1,13 @@
 /* Style the buttons that are used to open and close the accordion panel */
 .advanced-info-accordion {
     transition: 0.4s;
+    --background-hover: #f5f7f9;
+    --ripple-color: transparent;
 }
 
 /* Style the accordion panel. Note: hidden by default */
 .advanced-info-panel {
     padding: 0 18px;
-    background-color: white;
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.2s ease-out;
@@ -33,6 +34,8 @@
     position: absolute;
     right: 0px !important;
     transition: all 0.3s linear;
+    color: var(--basic-blue);
+    
 }
 .absolute-icon.active {
     -ms-transform: rotate(180deg);
