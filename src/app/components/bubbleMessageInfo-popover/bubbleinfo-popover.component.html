@@ -8,7 +8,7 @@
     <!-- <span class="add-canned-response-add-icon">+</span> -->
     <ion-label>{{translationsMap?.get('AddAsCannedResponse')}}</ion-label>
   </ion-item>
-  <ion-item button="true" *ngIf="supportMode" (click)="onClickOption('jsonInfo')">
+  <ion-item button="true" *ngIf="logLevel >= LogLevel.DEBUG" (click)="onClickOption('jsonInfo')">
     <ion-icon src="assets/images/json-file.svg" slot="start"></ion-icon>
     <ion-label>{{translationsMap?.get('JSON_RESPONSE')}}</ion-label>
   </ion-item>

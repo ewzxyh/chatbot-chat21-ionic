@@ -12,8 +12,8 @@ import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance'
 })
 export class OptionsComponent implements OnInit {
 
-  @Input() message: MessageModel 
-  @Input() supportMode: boolean;
+  @Input() message: MessageModel;
+  @Input() logLevel: number;
   @Output() onOptionsMessage = new EventEmitter<{option: string, message: MessageModel}>();
 
   private logger: LoggerService = LoggerInstance.getInstance()
@@ -31,7 +31,7 @@ export class OptionsComponent implements OnInit {
   async presentPopover(ev: any, message: MessageModel) {
     const attributes = {
       message: message,
-      supportMode: this.supportMode,
+      logLevel: this.logLevel,
       conversationWith: message.recipient
     }
     const popover = await this.popoverController.create({

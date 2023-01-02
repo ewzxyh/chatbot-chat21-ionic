@@ -1,3 +1,4 @@
+import { LogLevel } from './../../../chat21-core/utils/constants';
 import { PopoverController } from '@ionic/angular';
 import { LoggerInstance } from './../../../chat21-core/providers/logger/loggerInstance';
 import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service';
@@ -13,7 +14,9 @@ import { CustomTranslateService } from 'src/chat21-core/providers/custom-transla
 export class BubbleInfoPopoverComponent implements OnInit {
 
   @Input() message: MessageModel
-  @Input() supportMode: boolean
+  @Input() logLevel: number;
+
+  LogLevel = LogLevel
   
   public translationsMap: Map<string, string>;
   private logger: LoggerService = LoggerInstance.getInstance()
