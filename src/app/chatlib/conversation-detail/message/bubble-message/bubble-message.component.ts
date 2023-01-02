@@ -23,6 +23,7 @@ export class BubbleMessageComponent implements OnInit, OnChanges {
   @Input() fontColor: string;
   @Input() fontSize: string;
   @Input() fontFamily: string;
+  @Input() supportMode: boolean;
   @Output() onBeforeMessageRender = new EventEmitter();
   @Output() onAfterMessageRender = new EventEmitter();
   @Output() onElementRendered = new EventEmitter<{element: string, status: boolean}>();

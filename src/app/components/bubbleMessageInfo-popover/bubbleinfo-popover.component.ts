@@ -13,6 +13,7 @@ import { CustomTranslateService } from 'src/chat21-core/providers/custom-transla
 export class BubbleInfoPopoverComponent implements OnInit {
 
   @Input() message: MessageModel
+  @Input() supportMode: boolean
   
   public translationsMap: Map<string, string>;
   private logger: LoggerService = LoggerInstance.getInstance()
