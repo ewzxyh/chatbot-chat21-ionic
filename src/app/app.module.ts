@@ -226,7 +226,7 @@ export function uploadFactory(http: HttpClient, appConfig: AppConfigProvider, ap
   const config = appConfig.getConfig()
   if (config.uploadEngine === UPLOAD_ENGINE_NATIVE) {
     const nativeUploadService = new NativeUploadService(http, appStorage)
-    nativeUploadService.setBaseUrl(config.apiUrl)
+    nativeUploadService.setBaseUrl(config.baseImageUrl)
     return nativeUploadService
   } else {
     return new FirebaseUploadService();
