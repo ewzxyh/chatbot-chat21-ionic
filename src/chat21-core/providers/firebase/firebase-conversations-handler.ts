@@ -629,12 +629,8 @@ export class FirebaseConversationsHandler extends ConversationsHandlerService {
 
     translateInfoSupportMessages(conv) {
         const INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU = this.translationMap.get('INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU');
-        // console.log('[FIREBASEConversationsHandlerSERVICE] INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU', INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU) 
         if ((conv.attributes && conv.attributes.messagelabel && conv.attributes.messagelabel.key === TOUCHING_OPERATOR) && conv.sender === "system") {
-            // console.log('FIREBASEConversationsHandlerSERVICE last_message_text', conv.last_message_text)
             const textAfterColon = conv.last_message_text.split(":")[1]
-            // console.log('FIREBASEConversationsHandlerSERVICE last_message_text - textAfterColon', textAfterColon)
-            // message.text = INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU + ' ' + textAfterColon;
             if (textAfterColon !== undefined) {
                 conv.last_message_text = INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU + ': ' + textAfterColon;
             }
