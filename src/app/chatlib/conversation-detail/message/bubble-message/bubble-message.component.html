@@ -57,7 +57,7 @@
 
 
     <!-- [tooltip]="timeTooltipLeft" [options]="tooltipOptions" placement="left" content-type="template" (click)="handleTooltipEvents($event)" -->
-    <div *ngIf="message?.text" style="display: flex; margin: 0px 0px 0px 0px;"> 
+    <div *ngIf="message?.text"> 
 
       <!-- <ng-template #timeTooltipLeft>
         <span>{{message.timestamp | amTimeAgo}} ({{message.timestamp | amLocal | amDateFormat: 'L HH:mm:ss'}})</span>
