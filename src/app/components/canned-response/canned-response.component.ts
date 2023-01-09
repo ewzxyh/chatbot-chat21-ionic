@@ -250,6 +250,18 @@ export class CannedResponseComponent implements OnInit {
     })
   }
 
+  onPinCanned(canned, ev){
+    ev.preventDefault()
+    ev.stopPropagation()
+    this.logger.log('[CANNED] onPinCanned ', canned)
+  }
+
+  onUnPinCanned(canned, ev){
+    ev.preventDefault()
+    ev.stopPropagation()
+    this.logger.log('[CANNED] onUnPinCanned ', canned)
+  }
+
   onClickCannedFN(canned, event){
     if(!canned.disabled){
       event.preventDefault();
