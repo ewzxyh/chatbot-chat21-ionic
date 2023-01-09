@@ -965,7 +965,7 @@ class Chat21Client {
         if (this.client) {
             this.client.end()
         }
-        const presence_topic = 'apps/tilechat/users/' + this.user_id + '/presence/' + this.client_id
+        this.presence_topic = 'apps/tilechat/users/' + this.user_id + '/presence/' + this.client_id
         let options = {
             keepalive: 10,
             // protocolId: 'MQTT',
@@ -974,7 +974,7 @@ class Chat21Client {
             reconnectPeriod: 1000,
             // connectTimeout: 30 * 1000,
             will: {
-                topic: presence_topic,
+                topic: this.presence_topic,
                 payload: '{"disconnected":true}',
                 qos: 1,
                 retain: true
@@ -984,7 +984,7 @@ class Chat21Client {
             password: jwt,
             rejectUnauthorized: false
         }
-        if (this.log) {console.log("starting mqtt connection with LWT on:", presence_topic, this.endpoint)}
+        if (this.log) {console.log("starting mqtt connection with LWT on:", this.presence_topic, this.endpoint)}
         // client = mqtt.connect('mqtt://127.0.0.1:15675/ws',options)
         this.client = mqtt.connect(this.endpoint,options)
         
@@ -998,6 +998,15 @@ class Chat21Client {
                         callback();
                     });
                 }
+                this.client.publish(
+                    this.presence_topic,
+                    JSON.stringify({connected: true}),
+                    null, (err) => {
+                        if (err) {
+                            console.error("Error con presence publish:", err);
+                        }
+                    }
+                );
             }
         );
         this.client.on('reconnect',
@@ -1020,6 +1029,20 @@ class Chat21Client {
                 console.error("Chat client error event", error);
             }
         );
+    }
+
+    ImHere() {
+        if (this.client) {
+            this.client.publish(
+                this.presence_topic,
+                JSON.stringify({connected: true}),
+                null, (err) => {
+                    if (err) {
+                        console.error("Error on presence publish:", err);
+                    }
+                }
+            );
+        }
     }
 
     close(callback) {
