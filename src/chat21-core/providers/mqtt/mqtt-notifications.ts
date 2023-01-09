@@ -16,7 +16,7 @@ import { Chat21Service } from './chat-service';
   })
 export class MQTTNotifications extends NotificationsService {
     
-  public BUILD_VERSION: string;
+  // public BUILD_VERSION: string;
   private FCMcurrentToken: string;
   private userId: string;
   private tenant: string;

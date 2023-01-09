@@ -13,7 +13,6 @@ import 'firebase/auth';
 
 export class FirebaseNotifications extends NotificationsService {
 
-    // public BUILD_VERSION: string;
     private FCMcurrentToken: string;
     private userId: string;
     private tenant: string;
