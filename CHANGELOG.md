@@ -1,5 +1,10 @@
 # chat21-ionic ver 3.0
 
+### 3.0.91-rc.1
+- added: pin-unpin canned (starting)
+- bug-fixed: undefined in conversationsHandlerService firebase env with TOUCHING_OPERATOR info message
+- bug-fixed: a html tag is outsite its container
+
 ### 3.0.90 in PROD
 
 ### 3.0.90-rc.7
