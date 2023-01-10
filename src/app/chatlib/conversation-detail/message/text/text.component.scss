@@ -7,6 +7,10 @@
         padding:8px;
         margin-block-start: -1em!important;
         margin-block-end: -1em!important;
+
+        a {
+            word-break: break-all
+        }
     }
 }
 
@@ -21,6 +25,10 @@ p {
     // font-weight: 300;
     font-weight: 400;
     overflow: hidden;
+}
+
+p ::ng-deep a {
+    word-break: break-all
 }
 
 
