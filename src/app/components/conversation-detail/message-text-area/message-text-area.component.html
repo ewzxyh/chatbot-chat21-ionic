@@ -31,7 +31,7 @@
 
         <!-- CANNED RESPONSES -->
         <ng-container *ngIf="areVisibleCAR && supportMode">
-          <div class="canned-responses-btn-wpr" style="margin-left: -5px;"
+          <div class="canned-responses-btn-wpr"
             tooltip="{{translationMap?.get('CANNED_RESPONSES')}}" [options]="tooltipOptions" placement="top">
             <ion-button ion-button fill="clear" class="canned-responses-btn" (click)="openCannedResponses()"
               [disabled]="!conversationWith?.startsWith(TYPE_SUPPORT_GROUP) || disableTextarea">
