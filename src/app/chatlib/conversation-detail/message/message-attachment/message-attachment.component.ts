@@ -15,6 +15,7 @@ export class MessageAttachmentComponent implements OnInit {
   @Input() isConversationArchived: boolean;
   @Input() isLastMessage: boolean;
   @Input() fullscreenMode: boolean;
+  @Input() limit: number;
   @Input() stylesMap: Map<string, string>;
   @Output() onAttachmentButtonClicked = new EventEmitter<any>();
   @Output() onElementRendered = new EventEmitter<{element: string, status: boolean}>()

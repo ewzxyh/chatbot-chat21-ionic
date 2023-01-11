@@ -1,6 +1,6 @@
 <div id="buttons-in-message">
   
-  <span *ngFor="let button of buttons" class="div-button">
+  <span *ngFor="let button of buttons | slice:0:limit" class="div-button">
       
       <chat-text-button-attachment *ngIf="button.type === 'text' && isLastMessage === true" class="div-button"
         [button]="button"
