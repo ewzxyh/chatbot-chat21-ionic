@@ -51,7 +51,7 @@ export class TiledeskService {
     }))
   }
 
-    // ---------------------------------------------
+  // ---------------------------------------------
   // @ GET request by id
   // ---------------------------------------------
   public getRequest(request_id: string, project_id: string, token: string) {
@@ -241,7 +241,7 @@ export class TiledeskService {
     }))
   }
 
-    // -----------------------------------------------------------------------------------------
+  // -----------------------------------------------------------------------------------------
   // @ Create ticket
   // -----------------------------------------------------------------------------------------
   public createInternalRequest(requester_id: string, request_id: string, subject: string, message: string, departmentid: string, participantid: string, ticketpriority: string, project_id: string, token: string) {
@@ -272,6 +272,9 @@ export class TiledeskService {
     }))
   }
 
+  // -----------------------------------------------------------------------------------------
+  // @ Send Email
+  // -----------------------------------------------------------------------------------------
   public sendEmail(token: string, projectid: string, form: { to: string, subject: string, text: string, request_id: string}) {
     
     const httpOptions = {
@@ -292,11 +295,4 @@ export class TiledeskService {
     }))
   }
   
-
-
-  
-
-  // .post(url, JSON.stringify(body), options)
-  // .map((res) => res.json());
-
 }
