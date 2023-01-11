@@ -22,7 +22,7 @@ import { MSG_STATUS_RECEIVED, CHAT_REOPENED, CHAT_CLOSED, MEMBER_JOINED_GROUP, T
 import { compareValues, searchIndexInArrayForUid, conversationMessagesRef } from '../../utils/utils';
 
 
-import { messageType, isEmojii } from 'src/chat21-core/utils/utils-message';
+import { messageType, isEmojii, isSender } from 'src/chat21-core/utils/utils-message';
 
 
 
@@ -312,7 +312,7 @@ export class FirebaseConversationHandler extends ConversationHandlerService {
         // }
 
         // verifico che il sender è il logged user
-        msg.isSender = this.isSender(msg.sender, this.loggedUser.uid);
+        msg.isSender = isSender(msg.sender, this.loggedUser.uid);
 
         //check if message contains only an emojii
         // msg.emoticon = isEmojii(msg.text)
@@ -338,7 +338,7 @@ export class FirebaseConversationHandler extends ConversationHandlerService {
         // }
         
         // verifico che il sender è il logged user
-        msg.isSender = this.isSender(msg.sender, this.loggedUser.uid);
+        msg.isSender = isSender(msg.sender, this.loggedUser.uid);
         //check if message contains only an emojii
         // msg.emoticon = isEmojii(msg.text)
 
@@ -452,33 +452,6 @@ export class FirebaseConversationHandler extends ConversationHandlerService {
             }
         }
     }
-
-    /**
-     * controllo se il messaggio è stato inviato da loggerUser
-     * richiamato dalla pagina elenco messaggi della conversazione
-     */
-    private isSender(sender: string, currentUserId: string) {
-        if (currentUserId) {
-            if (sender === currentUserId) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
-
-
-    /** */
-    // updateMetadataMessage(uid: string, metadata: any) {
-    //     metadata.status = true;
-    //     const message = {
-    //         metadata: metadata
-    //     };
-    //     const firebaseMessages = firebase.database().ref(this.urlNodeFirebase + uid);
-    //     firebaseMessages.set(message);
-    // }
 
 
     unsubscribe(key: string) {

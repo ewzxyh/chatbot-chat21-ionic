@@ -62,6 +62,18 @@ export function isMine(message: any) {
   return false;
 }
 
+export function isSender(sender: string, currentUserId: string) {
+  if (currentUserId) {
+      if (sender === currentUserId) {
+          return true;
+      } else {
+          return false;
+      }
+  } else {
+      return false;
+  }
+}
+
 /** */
 export function messageType(msgType: string, message: any) {
   
