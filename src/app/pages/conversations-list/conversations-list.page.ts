@@ -761,7 +761,7 @@ export class ConversationListPage implements OnInit {
         project = JSON.parse(project)
         conversation.attributes.project_name = project['name']
       }
-    }else{
+    }else if(conversation.attributes){
       const projectId = getProjectIdSelectedConversation(conversation.uid)
       let project = localStorage.getItem(projectId)
       if(project){

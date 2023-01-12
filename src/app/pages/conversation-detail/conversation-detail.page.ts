@@ -809,7 +809,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         conversation.attributes.project_name = project['name']
       }
 
-    }else {
+    }else if(conversation.attributes) {
       const projectId = getProjectIdSelectedConversation(this.conversationWith)
       let project = localStorage.getItem(projectId)
       if(project){
