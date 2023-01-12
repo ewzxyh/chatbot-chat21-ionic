@@ -28,19 +28,13 @@ export class ContactsService {
   // private
   private urlRemoteContacts: string;
   private contacts: UserModel[];
-  private FIREBASESTORAGE_BASE_URL_IMAGE: string;
-  private urlStorageBucket: string;
   private logger: LoggerService = LoggerInstance.getInstance();
 
   constructor(
     public http: HttpClient,
     public appConfigProvider: AppConfigProvider
   ) {
-    
     this.urlRemoteContacts = appConfigProvider.getConfig().apiUrl + 'chat21/contacts';
-    this.FIREBASESTORAGE_BASE_URL_IMAGE = appConfigProvider.getConfig().baseImageUrl;
-    this.urlStorageBucket = appConfigProvider.getConfig().firebaseConfig.storageBucket + '/o/profiles%2F';
-
   }
 
 
