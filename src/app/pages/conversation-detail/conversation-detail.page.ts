@@ -980,6 +980,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     this.logger.log('[CONVS-DETAIL] - SEND MESSAGE - MSG: ', msg)
     this.logger.log('[CONVS-DETAIL] - SEND MESSAGE - type: ', type)
     this.logger.log('[CONVS-DETAIL] - SEND MESSAGE - metadata: ', metadata)
+    this.logger.log('[CONVS-DETAIL] - SEND MESSAGE - additional_attributes: ', additional_attributes)
     let fullname = this.loggedUser.uid
     if (this.loggedUser.fullname) {
       fullname = this.loggedUser.fullname
@@ -998,7 +999,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         attributes[key] = value
       }
     }
-
     // || type === 'image'
     if (type === 'file') {
       if (msg) {
@@ -1016,11 +1016,12 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     }
 
     metadata ? (metadata = metadata) : (metadata = '')
+    const emailSectionMsg = (attributes && attributes['channel']===TYPE_MSG_EMAIL)
     this.logger.log('[CONVS-DETAIL] - SEND MESSAGE msg: ', msg, ' - messages: ', this.messages, ' - loggedUser: ', this.loggedUser)
 
     if ((msg && msg.trim() !== '') || type !== TYPE_MSG_TEXT) {
       
-      if(this.isEmailEnabled && !this.leadIsOnline && this.leadInfo && this.leadInfo.email){
+      if(this.isEmailEnabled && !this.leadIsOnline && this.leadInfo && this.leadInfo.email && !emailSectionMsg){
         this.logger.log('[CONVS-DETAIL] - SEND MESSAGE --> SENDING EMAIL', msg, this.leadInfo.email)
         this.sendEmail(msg).subscribe(status => {
           if(status){
