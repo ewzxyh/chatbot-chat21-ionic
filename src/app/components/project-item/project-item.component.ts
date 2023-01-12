@@ -122,7 +122,7 @@ export class ProjectItemComponent implements OnInit {
         if (event.data === 'hasChangedProject') {
           this.unservedRequestCount = 0;
           if (this.project) {
-            this.webSocketJs.unsubscribe('/' + this.project.id_project._id + '/requests');
+            this.wsService.unsubscribeToWsConversations(this.project.id_project._id)
           }
           this.getLastProjectStoredAndSubscToWSAvailabilityAndConversations();
         }
