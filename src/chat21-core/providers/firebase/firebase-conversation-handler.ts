@@ -326,7 +326,7 @@ export class FirebaseConversationHandler extends ConversationHandlerService {
 
     private messageCommandGenerate(message:MessageModel){
         const msg: MessageModel = message;
-        if(msg.text) msg.text = msg.text.trim(); //remove black msg with only spaces
+        msg.text = msg.text? msg.text.trim(): "";//remove black msg with only spaces
         // controllo fatto per i gruppi da rifattorizzare
         if (!msg.sender_fullname || msg.sender_fullname === 'undefined') {
             msg.sender_fullname = msg.sender;
