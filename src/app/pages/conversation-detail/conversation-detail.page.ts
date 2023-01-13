@@ -909,15 +909,16 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
 
   getLeadDetail(){
+    const that = this;
     if(this.channelType !== TYPE_DIRECT){
       const tiledeskToken= this.tiledeskAuthService.getTiledeskToken();
       const projectId = getProjectIdSelectedConversation(this.conversationWith)
       this.logger.debug('[CONVS-DETAIL] getLeadDetail - section ', projectId)
       this.tiledeskService.getRequest(this.conversationWith, projectId, tiledeskToken).subscribe((request: any)=>{
-        this.logger.debug('[CONVS-DETAIL] getLeadDetail - selected REQUEST detail', request)
+        that.logger.debug('[CONVS-DETAIL] getLeadDetail - selected REQUEST detail', request)
         if(request.lead && request.lead.email){
-          this.leadInfo = {lead_id: request.lead.lead_id, hasEmail: true, email: request.lead.email, projectId: projectId}
-          this.presenceService.userIsOnline(this.leadInfo.lead_id);
+          that.leadInfo = {lead_id: request.lead.lead_id, hasEmail: true, email: request.lead.email, projectId: projectId}
+          that.presenceService.userIsOnline(projectId);
         }
       }, (error)=>{
         this.logger.error('[CONVS-DETAIL] - getLeadDetail - GET REQUEST DETAIL - ERROR  ', error)
@@ -1020,7 +1021,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     this.logger.log('[CONVS-DETAIL] - SEND MESSAGE msg: ', msg, ' - messages: ', this.messages, ' - loggedUser: ', this.loggedUser)
 
     if ((msg && msg.trim() !== '') || type !== TYPE_MSG_TEXT) {
-      
       if(this.isEmailEnabled && !this.leadIsOnline && this.leadInfo && this.leadInfo.email && !emailSectionMsg){
         this.logger.log('[CONVS-DETAIL] - SEND MESSAGE --> SENDING EMAIL', msg, this.leadInfo.email)
         this.sendEmail(msg).subscribe(status => {

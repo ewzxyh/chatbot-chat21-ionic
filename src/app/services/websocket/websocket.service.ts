@@ -12,11 +12,12 @@ import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance'
 })
 export class WebsocketService {
   private apiUrl: string;
-  public currentProjectUserAvailability$: BehaviorSubject<[]> = new BehaviorSubject<[]>([])
-
+  
   wsService: WebSocketJs;
   wsRequestsList: any;
   public wsRequestsList$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  public currentProjectUserAvailability$: BehaviorSubject<[]> = new BehaviorSubject<[]>([])
+  public wsRequesterStatus$: BehaviorSubject<any> = new BehaviorSubject<any>({});
 
   private logger: LoggerService = LoggerInstance.getInstance();
 
@@ -32,9 +33,9 @@ export class WebsocketService {
   }
 
 
-  subscriptionToWsCurrentProjectUserAvailability(projectid, prjctuserid) {
+  subscriptionToWsCurrentProjectUserAvailability(project_id, prjctuserid) {
     var self = this;
-    const path = '/' + projectid + '/project_users/' + prjctuserid
+    const path = '/' + project_id + '/project_users/' + prjctuserid
     // console.log('[WS-SERV] - SUBSCR (REF) TO WS CURRENT USERS PATH: ', path);
 
     return new Promise(function (resolve, reject) {
@@ -290,6 +291,56 @@ export class WebsocketService {
         
       }
     }
+  }
+
+
+  // -----------------------------------------------
+  //  @ Subscribe to Requester Presence
+  // -----------------------------------------------
+  subscribeToWS_RequesterPresence(project_id, requesterid) {
+    var self = this;
+
+    const path = '/' + project_id + '/project_users/users/' + requesterid;
+
+    this.logger.log("[WS-REQUESTS-SERV] - SUBSCRIBE TO REQUESTER-PRECENCE PATH ", path);
+
+    this.webSocketJs.ref(path, 'subscribeToWS_RequesterPresence',
+
+      function (data, notification) {
+        // self.logger.log("[WS-REQUESTS-SERV] - SUBSCRIBE TO REQUESTER-PRECENCE - CREATE data ", data);
+
+        self.wsRequesterStatus$.next(data);
+
+      }, function (data, notification) {
+        self.logger.log("[WS-REQUESTS-SERV] - SUBSCRIBE TO REQUESTER-PRECENCE - UPDATE data ", data);
+
+        self.wsRequesterStatus$.next(data);
+
+      }, function (data, notification) {
+
+        if (data) {
+          // self.logger.log("[WS-REQUESTS-SERV] - SUBSCRIBE TO REQUESTER-PRECENCE - ON-DATA data ", data);
+        }
+      }
+    );
+  }
+
+  // -----------------------------------------------
+  //  @ Un-Subscribe to Requester Presence
+  // -----------------------------------------------
+  unsubscribeToWS_RequesterPresence(project_id, requesterid) {
+    const path = '/' + project_id + '/project_users/users/' + requesterid;
+    this.logger.log("[WS-REQUESTS-SERV] - UNSUBSCRIBE TO REQUESTER-PRECENCE PATH", path);
+    this.webSocketJs.unsubscribe(path);
+  }
+
+  // -----------------------------------------------
+  //  @ Un-Subscribe to  Requests
+  // -----------------------------------------------
+  unsubscribeToWsConversations(project_id){
+    const path = '/' + project_id + '/requests';
+    this.logger.log("[WS-REQUESTS-SERV] - UNSUBSCRIBE TO REQUESTS PATH", path);
+    this.webSocketJs.unsubscribe(path);
   }
 
 
