@@ -374,6 +374,12 @@ export class AppComponent implements OnInit {
           this.presentToastJoinComplete(event.data.text)
         }
       }
+
+      if (event && event.data && event.data.action && event.data.parameter) {
+        if (event.data.action === "presenceUser") {
+          this.events.publish('presenceUser', event.data.parameter)
+        }
+      }
     })
   }
 
@@ -751,11 +757,11 @@ export class AppComponent implements OnInit {
       this.IS_ONLINE = false;
       // clearTimeout(this.timeModalLogin);
       // this.timeModalLogin = setTimeout(() => {
-      // if (!this.hadBeenCalledOpenModal) {
-      //   this.authModal = this.presentModal('initAuthentication');
-      //   this.hadBeenCalledOpenModal = true;
-      // }
-      this.goToDashboardLogin()
+      if (!this.hadBeenCalledOpenModal) {
+        this.authModal = this.presentModal('initAuthentication');
+        this.hadBeenCalledOpenModal = true;
+      }
+      // this.goToDashboardLogin()
       // }, 1000);
     }
   }
