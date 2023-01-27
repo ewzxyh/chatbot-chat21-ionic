@@ -1,5 +1,16 @@
 # chat21-ionic ver 3.0
 
+### 3.0.92-rc.1
+- added: limit parameter to message-attachment component
+- added: listen to new event related to user presence
+- changed: message-text-area icons 
+- changed: moved isSender function from service to utils-message
+- changed: unsubscribe from unserved request directly using wsService and not with wsSocketJs
+- bug-fixed: if user is offline and implicit email is sent, not show flash icon to indicate offline_msg 
+- bug-fixed: conversation list not show projectName (cannot set properties of undefined reading 'projectId')
+- bug-fixed: msg.text is undefined while reading trim()
+- removed: user status from contact-directory
+
 ### 3.0.91 in PROD
 
 ### 3.0.91-rc.1
