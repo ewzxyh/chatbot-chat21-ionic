@@ -1,5 +1,7 @@
 # chat21-ionic ver 3.0
 
+### 3.0.92 in PROD
+
 ### 3.0.92-rc.1
 - added: limit parameter to message-attachment component
 - added: listen to new event related to user presence

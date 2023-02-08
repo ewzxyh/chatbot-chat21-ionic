@@ -918,7 +918,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         that.logger.debug('[CONVS-DETAIL] getLeadDetail - selected REQUEST detail', request)
         if(request.lead && request.lead.email){
           that.leadInfo = {lead_id: request.lead.lead_id, hasEmail: true, email: request.lead.email, projectId: projectId}
-          that.presenceService.userIsOnline(projectId);
+          that.presenceService.userIsOnline(this.leadInfo.lead_id);
         }
       }, (error)=>{
         this.logger.error('[CONVS-DETAIL] - getLeadDetail - GET REQUEST DETAIL - ERROR  ', error)
@@ -1021,26 +1021,30 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     this.logger.log('[CONVS-DETAIL] - SEND MESSAGE msg: ', msg, ' - messages: ', this.messages, ' - loggedUser: ', this.loggedUser)
 
     if ((msg && msg.trim() !== '') || type !== TYPE_MSG_TEXT) {
+
+      //FIX TEMPORARY
+      this.leadIsOnline = true;
+      
       if(this.isEmailEnabled && !this.leadIsOnline && this.leadInfo && this.leadInfo.email && !emailSectionMsg){
         this.logger.log('[CONVS-DETAIL] - SEND MESSAGE --> SENDING EMAIL', msg, this.leadInfo.email)
-        this.sendEmail(msg).subscribe(status => {
-          if(status){
-            //SEND MESSAGE ALSO AS EMAIL
-            attributes['channel']= 'offline_'+TYPE_MSG_EMAIL
-          }
+        // this.sendEmail(msg).subscribe(status => {
+        //   if(status){
+        //     //SEND MESSAGE ALSO AS EMAIL
+        //     attributes['channel']= 'offline_'+TYPE_MSG_EMAIL
+        //   }
 
-          this.conversationHandlerService.sendMessage(
-            msg,
-            type,
-            metadata,
-            this.conversationWith,
-            this.conversationWithFullname,
-            this.loggedUser.uid,
-            fullname,
-            this.channelType,
-            attributes,
-          )
-        })
+        //   this.conversationHandlerService.sendMessage(
+        //     msg,
+        //     type,
+        //     metadata,
+        //     this.conversationWith,
+        //     this.conversationWithFullname,
+        //     this.loggedUser.uid,
+        //     fullname,
+        //     this.channelType,
+        //     attributes,
+        //   )
+        // })
       }else {
         //send STANDARD TEXT MESSAGE
         this.conversationHandlerService.sendMessage(
