@@ -1,5 +1,8 @@
 # chat21-ionic ver 3.0
 
+### 3.0.93 in PROD
+- added: goToProfile sidebar-user-detail feature
+
 ### 3.0.92 in PROD
 
 ### 3.0.92-rc.1
