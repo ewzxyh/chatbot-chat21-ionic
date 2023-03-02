@@ -1,5 +1,8 @@
 # chat21-ionic ver 3.0
 
+### 3.0.94 in PROD
+- bug-fixed: error getting projectId during lead detail for conversations with more than 4 segment
+
 ### 3.0.93 in PROD
 - added: goToProfile sidebar-user-detail feature
 
