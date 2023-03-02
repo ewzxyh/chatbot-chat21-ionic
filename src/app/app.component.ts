@@ -757,11 +757,11 @@ export class AppComponent implements OnInit {
       this.IS_ONLINE = false;
       // clearTimeout(this.timeModalLogin);
       // this.timeModalLogin = setTimeout(() => {
-      if (!this.hadBeenCalledOpenModal) {
-        this.authModal = this.presentModal('initAuthentication');
-        this.hadBeenCalledOpenModal = true;
-      }
-      // this.goToDashboardLogin()
+      // if (!this.hadBeenCalledOpenModal) {
+      //   this.authModal = this.presentModal('initAuthentication');
+      //   this.hadBeenCalledOpenModal = true;
+      // }
+      this.goToDashboardLogin()
       // }, 1000);
     }
   }
