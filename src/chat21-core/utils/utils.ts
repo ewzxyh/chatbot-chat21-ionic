@@ -2,9 +2,8 @@
 import * as moment from 'moment/moment';
 // import * as moment from 'moment-timezone';
 import 'moment/locale/it.js';
-
 import { FIREBASESTORAGE_BASE_URL_IMAGE, STORAGE_PREFIX, TYPE_GROUP } from './constants';
-import { environment } from '../../environments/environment'; // ?????
+
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AngularDelegate, ModalController } from '@ionic/angular';
@@ -12,7 +11,7 @@ import { ConversationModel } from '../models/conversation';
 
 import { MAX_WIDTH_IMAGES, TYPE_DIRECT, TYPE_SUPPORT_GROUP } from './constants';
 
-import { avatarPlaceholder, getColorBck, getImageUrlThumbFromFirebasestorage } from './utils-user';
+import { avatarPlaceholder, getColorBck } from './utils-user';
 import { TooltipOptions } from 'ng2-tooltip-directive';
 
 /**
@@ -311,16 +310,6 @@ export function supports_html5_session() {
     
     return false;
   }
-}
-
-export function setStoragePrefix(): string {
-  let prefix = STORAGE_PREFIX;
-  try {
-    prefix = environment.storage_prefix + '_';
-  } catch (e) {
-  
-  }
-  return prefix + this.g.projectid + '_';
 }
 
 // function for dynamic sorting
@@ -625,20 +614,6 @@ export function setChannelType(conversationWith: string): string {
   }
   return channelType;
 }
-
-export function getImageUrlThumb(FIREBASESTORAGE_BASE_URL_IMAGE: string, uid: string) {
-  let imageurl = FIREBASESTORAGE_BASE_URL_IMAGE + environment['firebaseConfig'].storageBucket + '/o/profiles%2F' + uid + '%2Fthumb_photo.jpg?alt=media';
-  return imageurl;
-}
-
-
-// /** */
-// export function getImageUrlThumbFromFirebasestorage(uid: string) {
-//   const FIREBASESTORAGE_BASE_URL_IMAGE = environment.FIREBASESTORAGE_BASE_URL_IMAGE;
-//   const urlStorageBucket = environment.firebaseConfig.storageBucket + '/o/profiles%2F';
-//   const imageurl = FIREBASESTORAGE_BASE_URL_IMAGE + urlStorageBucket + uid + '%2Fthumb_photo.jpg?alt=media';
-//   return imageurl;
-// }
 
 
 /** */
