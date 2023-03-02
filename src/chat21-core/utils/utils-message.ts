@@ -180,7 +180,7 @@ export function getProjectIdSelectedConversation(conversationWith: string): stri
     conversationWith_segments.pop()
   }
   let projectId = ''
-  if (conversationWith_segments.length > 4) {
+  if (conversationWith_segments.length >= 4) {
     projectId = conversationWith_segments[2]
   }
   return projectId
