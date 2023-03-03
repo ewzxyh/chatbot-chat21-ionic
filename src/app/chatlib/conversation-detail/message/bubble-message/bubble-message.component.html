@@ -18,7 +18,7 @@
   <div>
 
     <div *ngIf="messageType(MESSAGE_TYPE_OTHERS, message) && !isSameSender" 
-      [style.color]="convertColorToRGBA(fontColor, 65)"
+      [style.color]="fullnameColor"
       [ngStyle]="{'padding': (isImage(message) || isFrame(message))? '10px 16px 8px 16px': '10px 8px 0px 8px'}" class="message_sender_fullname">
       {{message?.sender_fullname}}
     </div>
