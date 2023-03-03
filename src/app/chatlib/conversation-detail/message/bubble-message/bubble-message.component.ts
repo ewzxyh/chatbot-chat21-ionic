@@ -10,7 +10,8 @@ import { TiledeskAuthService } from 'src/chat21-core/providers/tiledesk/tiledesk
 import * as moment from 'moment';
 import { ModalController, PopoverController } from '@ionic/angular';
 import { convertColorToRGBA } from 'src/chat21-core/utils/utils';
-import { BubbleInfoPopoverComponent } from 'src/app/components/bubbleMessageInfo-popover/bubbleinfo-popover.component';
+import { getColorBck } from 'src/chat21-core/utils/utils-user';
+
 @Component({
   selector: 'chat-bubble-message',
   templateUrl: './bubble-message.component.html',
@@ -53,7 +54,7 @@ export class BubbleMessageComponent implements OnInit, OnChanges {
     'hide-delay': 200
   };
   sizeImage : { width: number, height: number}
-
+  fullnameColor: string;
   public logger: LoggerService = LoggerInstance.getInstance()
  
   constructor(
@@ -97,6 +98,14 @@ export class BubbleMessageComponent implements OnInit, OnChanges {
   ngOnChanges() {
     if (this.message && this.message.metadata && typeof this.message.metadata === 'object') {
       this.sizeImage = this.getMetadataSize(this.message.metadata)
+    }
+
+    if(this.fontColor){
+      this.fullnameColor = convertColorToRGBA(this.fontColor, 65)
+    }
+    if(this.message && this.message.sender_fullname && this.message.sender_fullname.trim() !== ''){
+      this.fullnameColor = getColorBck(this.message.sender_fullname)
+      console.log('colorrrrrr', this.fullnameColor)
     }
   }
 
@@ -257,3 +266,4 @@ export class BubbleMessageComponent implements OnInit, OnChanges {
 
 
 }
+
