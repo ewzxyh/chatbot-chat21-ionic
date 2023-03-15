@@ -6,12 +6,6 @@ import { environment } from '../../../environments/environment';
 import { LoggerService } from '../abstract/logger.service';
 import { LoggerInstance } from '../logger/loggerInstance';
 
-// // firebase
-// import * as firebase from 'firebase/app';
-// import 'firebase/messaging';
-// import 'firebase/database';
-// import 'firebase/auth';
-
 // services
 // import { EventsService } from '../events-service';
 import { MessagingAuthService } from '../abstract/messagingAuth.service';

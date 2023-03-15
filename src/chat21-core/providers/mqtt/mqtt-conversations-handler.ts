@@ -13,7 +13,7 @@ import { ConversationsHandlerService } from '../abstract/conversations-handler.s
 
 // utils
 import { getImageUrlThumbFromFirebasestorage, avatarPlaceholder, getColorBck } from '../../utils/utils-user';
-import { compareValues, getFromNow, conversationsPathForUserId, searchIndexInArrayForUid } from '../../utils/utils';
+import { compareValues, conversationsPathForUserId, searchIndexInArrayForUid } from '../../utils/utils';
 import { LoggerService } from '../abstract/logger.service';
 import { LoggerInstance } from '../logger/loggerInstance';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
@@ -383,7 +383,7 @@ export class MQTTConversationsHandler extends ConversationsHandlerService {
         conv.conversation_with_fullname = conversation_with_fullname;
         conv.conversation_with = conversation_with;
         conv.status = this.setStatusConversation(conv.sender, conv.uid);
-        conv.time_last_message = this.getTimeLastMessage(conv.timestamp);
+        // conv.time_last_message = this.getTimeLastMessage(conv.timestamp);
         conv.avatar = avatarPlaceholder(conversation_with_fullname);
         conv.color = getColorBck(conversation_with_fullname);
         if (!conv.last_message_text) {
@@ -415,16 +415,6 @@ export class MQTTConversationsHandler extends ConversationsHandlerService {
             status = '1'; // non letto
         }
         return status;
-    }
-
-    /**
-     * calcolo il tempo trascorso da ora al timestamp passato
-     * @param timestamp 
-     */
-    private getTimeLastMessage(timestamp: string) {
-        const timestampNumber = parseInt(timestamp) / 1000;
-        const time = getFromNow(timestampNumber);
-        return time;
     }
 
     /**

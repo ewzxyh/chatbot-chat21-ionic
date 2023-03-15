@@ -21,7 +21,7 @@ import { AppConfigProvider } from 'src/app/services/app-config';
 
 // utils
 import { avatarPlaceholder, getColorBck } from '../../utils/utils-user';
-import { compareValues, getFromNow, conversationsPathForUserId, searchIndexInArrayForUid, isGroup } from '../../utils/utils';
+import { compareValues, conversationsPathForUserId, searchIndexInArrayForUid, isGroup } from '../../utils/utils';
 import { TOUCHING_OPERATOR } from '../../utils/constants';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
@@ -648,16 +648,6 @@ export class FirebaseConversationsHandler extends ConversationsHandlerService {
             status = '1'; // non letto
         }
         return status;
-    }
-
-    /**
-     * calcolo il tempo trascorso da ora al timestamp passato
-     * @param timestamp
-     */
-    private getTimeLastMessage(timestamp: string) {
-        const timestampNumber = parseInt(timestamp, 10) / 1000;
-        const time = getFromNow(timestampNumber);
-        return time;
     }
 
     /**

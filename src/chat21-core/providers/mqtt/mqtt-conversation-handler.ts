@@ -21,7 +21,6 @@ import {
   htmlEntities,
   compareValues,
   searchIndexInArrayForUid,
-  setHeaderDate,
   conversationMessagesRef
 } from '../../utils/utils';
 import { isSender, messageType } from '../../utils/utils-message';

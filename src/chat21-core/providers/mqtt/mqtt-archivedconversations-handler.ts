@@ -13,7 +13,7 @@ import { ConversationsHandlerService } from '../abstract/conversations-handler.s
 // utils
 import { TYPE_GROUP } from '../../utils/constants';
 import { getImageUrlThumbFromFirebasestorage, avatarPlaceholder, getColorBck } from '../../utils/utils-user';
-import { compareValues, getFromNow, conversationsPathForUserId, searchIndexInArrayForUid } from '../../utils/utils';
+import { compareValues, conversationsPathForUserId, searchIndexInArrayForUid } from '../../utils/utils';
 import { ArchivedConversationsHandlerService } from '../abstract/archivedconversations-handler.service';
 import { LoggerService } from '../abstract/logger.service';
 import { LoggerInstance } from '../logger/loggerInstance';
@@ -369,39 +369,6 @@ export class MQTTArchivedConversationsHandler extends ArchivedConversationsHandl
         }
         return status;
     }
-
-    /**
-     * calcolo il tempo trascorso da ora al timestamp passato
-     * @param timestamp 
-     */
-    private getTimeLastMessage(timestamp: string) {
-        const timestampNumber = parseInt(timestamp) / 1000;
-        const time = getFromNow(timestampNumber);
-        return time;
-    }
-
-    // removeByUid(uid) {
-    //     const index = searchIndexInArrayForUid(this.conversations, uid);
-    //     if (index > -1) {
-    //         this.conversations.splice(index, 1);
-    //         // this.events.publish('conversationsChanged', this.conversations);
-    //         this.conversationsChanged.next(this.conversations);
-    //     }
-    // }
-
-    // addConversationListener(uidUser, conversationId) {
-    //     var that = this;
-    //     this.tenant = environment.tenant;
-    //     // const tenant = this.chatManager.getTenant();
-    //     const url = '/apps/' + this.tenant + '/users/' + uidUser + '/conversations/' + conversationId;
-    //     const reference = firebase.database().ref(url);
-    //     console.log("ChatConversationsHandler::addConversationListener::reference:",url, reference.toString());
-    //     reference.on('value', function (snapshot) {
-    //         setTimeout(function () {
-    //             // that.events.publish(conversationId + '-listener', snapshot);
-    //         }, 100);
-    //     });
-    // }
 
     /**
      * restituisce il numero di conversazioni nuove

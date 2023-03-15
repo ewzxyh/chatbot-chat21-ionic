@@ -74,7 +74,7 @@ export class FirebaseAuthService extends MessagingAuthService {
     this.URL_TILEDESK_CREATE_CUSTOM_TOKEN = this.SERVER_BASE_URL + 'chat21/firebase/auth/createCustomToken';
     this.logger.log('[FIREBASEAuthSERVICE] - initialize URL_TILEDESK_CREATE_CUSTOM_TOKEN ', this.URL_TILEDESK_CREATE_CUSTOM_TOKEN)
 
-
+    
     let firebasePersistence;
     // console.log('FB-AUTH firebasePersistence', this.getPersistence()) 
     switch (this.getPersistence()) {

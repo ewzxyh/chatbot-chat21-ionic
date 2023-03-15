@@ -14,7 +14,7 @@ import { ConversationModel } from '../../models/conversation';
 
 // utils
 import { avatarPlaceholder, getColorBck } from '../../utils/utils-user';
-import { compareValues, getFromNow, searchIndexInArrayForUid, archivedConversationsPathForUserId, isGroup } from '../../utils/utils';
+import { compareValues, searchIndexInArrayForUid, archivedConversationsPathForUserId, isGroup, getTimeLastMessage } from '../../utils/utils';
 import { ArchivedConversationsHandlerService } from '../abstract/archivedconversations-handler.service';
 import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service';
 import { LoggerInstance } from '../logger/loggerInstance';
@@ -396,7 +396,7 @@ export class FirebaseArchivedConversationsHandler extends ArchivedConversationsH
         conv.conversation_with = conversation_with;
         conv.conversation_with_fullname = conversation_with_fullname;
         conv.status = this.setStatusConversation(conv.sender, conv.uid);
-        // conv.time_last_message = this.getTimeLastMessage(conv.timestamp); // evaluate if is used
+        conv.time_last_message = getTimeLastMessage(conv.timestamp); // evaluate if is used
         conv.avatar = avatarPlaceholder(conversation_with_fullname);
         conv.color = getColorBck(conversation_with_fullname);
         conv.archived = true;
@@ -414,17 +414,6 @@ export class FirebaseArchivedConversationsHandler extends ArchivedConversationsH
         }
         return status;
     }
-
-    /**
-     * calcolo il tempo trascorso da ora al timestamp passato
-     * @param timestamp
-     */
-    private getTimeLastMessage(timestamp: string) {
-        const timestampNumber = parseInt(timestamp, 10) / 1000;
-        const time = getFromNow(timestampNumber);
-        return time;
-    }
-
 
     /**
      *  check if the conversations is valid or not
