@@ -147,80 +147,80 @@ export function removeHtmlTags(text) {
  * ieri; 
  * giorno della settimana (lunedì, martedì, ecc)
  */
-export function setHeaderDate_old(translate, timestamp, lastDate?): string {
-  var date = new Date(timestamp);
-  let now: Date = new Date();
-  var LABEL_TODAY;// = translate.get('LABEL_TODAY')['value'];
-  var LABEL_TOMORROW;// = translate.get('LABEL_TOMORROW')['value'];
-  translate.get('LABEL_TODAY').subscribe((res: string) => {
-    LABEL_TODAY = res;
-  });
-  translate.get('LABEL_TOMORROW').subscribe((res: string) => {
-    LABEL_TOMORROW = res;
-  });
-  var labelDays: string = LABEL_TODAY;
-  var _MS_PER_DAY = 1000 * 60 * 60 * 24;
-  // Esclude l'ora ed il fuso orario
-  var utc1 = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
-  var utc2 = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
-  const days = Math.floor((utc2 - utc1) / _MS_PER_DAY);
-  // console.log('setHeaderDate days: ********************',days);
-  if (days > 6) {
-    labelDays = date.toLocaleDateString();//date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear();
-  }
-  else if (days == 0) {
-    labelDays = LABEL_TODAY;
-  } else if (days == 1) {
-    labelDays = LABEL_TOMORROW;
-  } else {
-    labelDays = convertDayToString(translate, date.getDay());
-  }
-  // console.log('setHeaderDate labelDays: ********************',labelDays);
-  // se le date sono diverse o la data di riferimento non è impostata
-  // ritorna la data calcolata
-  // altrimenti torna null 
-  if (lastDate != labelDays || lastDate == null || lastDate == '') {
-    return labelDays;
-  } else {
-    return null;
-  }
-}
+// export function setHeaderDate_old(translate, timestamp, lastDate?): string {
+//   var date = new Date(timestamp);
+//   let now: Date = new Date();
+//   var LABEL_TODAY;// = translate.get('LABEL_TODAY')['value'];
+//   var LABEL_TOMORROW;// = translate.get('LABEL_TOMORROW')['value'];
+//   translate.get('LABEL_TODAY').subscribe((res: string) => {
+//     LABEL_TODAY = res;
+//   });
+//   translate.get('LABEL_TOMORROW').subscribe((res: string) => {
+//     LABEL_TOMORROW = res;
+//   });
+//   var labelDays: string = LABEL_TODAY;
+//   var _MS_PER_DAY = 1000 * 60 * 60 * 24;
+//   // Esclude l'ora ed il fuso orario
+//   var utc1 = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
+//   var utc2 = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+//   const days = Math.floor((utc2 - utc1) / _MS_PER_DAY);
+//   // console.log('setHeaderDate days: ********************',days);
+//   if (days > 6) {
+//     labelDays = date.toLocaleDateString();//date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear();
+//   }
+//   else if (days == 0) {
+//     labelDays = LABEL_TODAY;
+//   } else if (days == 1) {
+//     labelDays = LABEL_TOMORROW;
+//   } else {
+//     labelDays = convertDayToString(translate, date.getDay());
+//   }
+//   // console.log('setHeaderDate labelDays: ********************',labelDays);
+//   // se le date sono diverse o la data di riferimento non è impostata
+//   // ritorna la data calcolata
+//   // altrimenti torna null 
+//   if (lastDate != labelDays || lastDate == null || lastDate == '') {
+//     return labelDays;
+//   } else {
+//     return null;
+//   }
+// }
 
 /**
  * @deprecated
  */
-export function setHeaderDate(translate, timestamp): string {
-  // const LABEL_TODAY = translate.get('LABEL_TODAY');
-  // const LABEL_TOMORROW = translate.get('LABEL_TOMORROW');
+// export function setHeaderDate(translate, timestamp): string {
+//   // const LABEL_TODAY = translate.get('LABEL_TODAY');
+//   // const LABEL_TOMORROW = translate.get('LABEL_TOMORROW');
 
-  const date = new Date(timestamp);
-  const now: Date = new Date();
-  let labelDays = '';
-  if (now.getFullYear() !== date.getFullYear()) {
-    // quest'anno: data esatta
-    const month = date.getMonth() + 1;
-    labelDays = date.getDay() + '/' + month + '/' + date.getFullYear();
-  } else if (now.getMonth() !== date.getMonth()) {
-    // questo mese: data esatta
-    const month = date.getMonth() + 1;
-    labelDays = date.getDay() + '/' + month + '/' + date.getFullYear();
-  } else if (now.getDay() === date.getDay()) {
-    // oggi: oggi
-    labelDays = moment().calendar(timestamp).split(' ')[0].toLocaleLowerCase();
-    // labelDays = LABEL_TODAY;
-  } else if (now.getDay() - date.getDay() === 1) {
-    // ieri: ieri
-    labelDays = moment().calendar(timestamp).split(' ')[0].toLocaleLowerCase();
-    // labelDays = LABEL_TOMORROW;
-  } else {
-    // questa settimana: giorno
-    labelDays = convertDayToString(translate, date.getDay());
-  }
-  // se le date sono diverse o la data di riferimento non è impostata
-  // ritorna la data calcolata
-  // altrimenti torna null
-  return labelDays;
-}
+//   const date = new Date(timestamp);
+//   const now: Date = new Date();
+//   let labelDays = '';
+//   if (now.getFullYear() !== date.getFullYear()) {
+//     // quest'anno: data esatta
+//     const month = date.getMonth() + 1;
+//     labelDays = date.getDay() + '/' + month + '/' + date.getFullYear();
+//   } else if (now.getMonth() !== date.getMonth()) {
+//     // questo mese: data esatta
+//     const month = date.getMonth() + 1;
+//     labelDays = date.getDay() + '/' + month + '/' + date.getFullYear();
+//   } else if (now.getDay() === date.getDay()) {
+//     // oggi: oggi
+//     labelDays = moment().calendar(timestamp).split(' ')[0].toLocaleLowerCase();
+//     // labelDays = LABEL_TODAY;
+//   } else if (now.getDay() - date.getDay() === 1) {
+//     // ieri: ieri
+//     labelDays = moment().calendar(timestamp).split(' ')[0].toLocaleLowerCase();
+//     // labelDays = LABEL_TOMORROW;
+//   } else {
+//     // questa settimana: giorno
+//     labelDays = convertDayToString(translate, date.getDay());
+//   }
+//   // se le date sono diverse o la data di riferimento non è impostata
+//   // ritorna la data calcolata
+//   // altrimenti torna null
+//   return labelDays;
+// }
 
 
 
@@ -229,33 +229,33 @@ export function setHeaderDate(translate, timestamp): string {
  * utilizzata per calcolare data ultimo accesso utente
  * @param timestamp 
  */
-export function setLastDate(translate, timestamp): string {
+// export function setLastDate(translate, timestamp): string {
 
-  const LABEL_TODAY = translate.get('LABEL_TODAY');
-  const LABEL_TOMORROW = translate.get('LABEL_TOMORROW');
-  const LABEL_TO = translate.get('LABEL_TO');
-  const LABEL_LAST_ACCESS = translate.get('LABEL_LAST_ACCESS');
+//   const LABEL_TODAY = translate.get('LABEL_TODAY');
+//   const LABEL_TOMORROW = translate.get('LABEL_TOMORROW');
+//   const LABEL_TO = translate.get('LABEL_TO');
+//   const LABEL_LAST_ACCESS = translate.get('LABEL_LAST_ACCESS');
 
-  var date = new Date(timestamp);
-  let now: Date = new Date();
-  var labelDays = '';
-  if (now.getFullYear() !== date.getFullYear()) {
-    const month = date.getMonth() + 1;
-    labelDays = date.getDay() + '/' + month + '/' + date.getFullYear();
-  } else if (now.getMonth() !== date.getMonth()) {
-    const month = date.getMonth() + 1;
-    labelDays = date.getDay() + '/' + month + '/' + date.getFullYear();
-  } else if (now.getDay() === date.getDay()) {
-    labelDays = LABEL_TODAY;
-  } else if (now.getDay() - date.getDay() === 1) {
-    labelDays = LABEL_TOMORROW;
-  } else {
-    labelDays = convertDayToString(translate, date.getDay());
-  }
-  // aggiungo orario
-  const orario = date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
-  return LABEL_LAST_ACCESS + ' ' + labelDays + ' ' + LABEL_TO + ' ' + orario;
-}
+//   var date = new Date(timestamp);
+//   let now: Date = new Date();
+//   var labelDays = '';
+//   if (now.getFullYear() !== date.getFullYear()) {
+//     const month = date.getMonth() + 1;
+//     labelDays = date.getDay() + '/' + month + '/' + date.getFullYear();
+//   } else if (now.getMonth() !== date.getMonth()) {
+//     const month = date.getMonth() + 1;
+//     labelDays = date.getDay() + '/' + month + '/' + date.getFullYear();
+//   } else if (now.getDay() === date.getDay()) {
+//     labelDays = LABEL_TODAY;
+//   } else if (now.getDay() - date.getDay() === 1) {
+//     labelDays = LABEL_TOMORROW;
+//   } else {
+//     labelDays = convertDayToString(translate, date.getDay());
+//   }
+//   // aggiungo orario
+//   const orario = date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
+//   return LABEL_LAST_ACCESS + ' ' + labelDays + ' ' + LABEL_TO + ' ' + orario;
+// }
 
 /**
  *
