@@ -14,9 +14,6 @@ import { PresenceService } from '../abstract/presence.service';
 import { CustomLogger } from '../logger/customLogger';
 import { LoggerInstance } from '../logger/loggerInstance';
 
-// utils
-// import { setLastDate } from '../../utils/utils';
-// import { environment } from '../../../environments/environment';
 
 // @Injectable({providedIn: 'root'})
 @Injectable()

@@ -12,9 +12,6 @@ import { PresenceService } from '../abstract/presence.service';
 import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service';
 import { LoggerInstance } from '../logger/loggerInstance';
 
-// utils
-import { setLastDate } from '../../utils/utils';
-import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
