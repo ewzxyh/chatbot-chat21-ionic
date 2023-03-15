@@ -67,6 +67,7 @@ export class NativeUploadService extends UploadService {
                     if(upload.file.type.includes('pdf')){
                         downloadURL = this.URL_TILEDESK_FILE + '?path=' + encodeURI(data['filename']);
                     }
+                    resolve(downloadURL)
                     // that.BSStateUpload.next({upload: upload});
                 }, (error) => {
                     this.logger.error('[NATIVE UPLOAD] - ERROR upload new file ', error)
