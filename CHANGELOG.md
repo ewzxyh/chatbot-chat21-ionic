@@ -1,5 +1,13 @@
 # chat21-ionic ver 3.0
 
+### 3.0.95 in PROD
+- bug-fixed: cannot upload PDF files
+
+### 3.0.95-rc.1
+- added: custom colors to senderFullname to better distinguish the user
+- bug-fixed: cannot read text.trim() of undefined if no text is sent with an image
+- bug-fixed: markdown not split work correctly
+
 ### 3.0.94 in PROD
 - bug-fixed: error getting projectId during lead detail for conversations with more than 4 segment
 
