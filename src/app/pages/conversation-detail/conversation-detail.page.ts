@@ -84,6 +84,7 @@ import { TiledeskService } from '../../services/tiledesk/tiledesk.service'
 import { NetworkService } from '../../services/network-service/network.service'
 import { EventsService } from '../../services/events-service'
 import { ScrollbarThemeDirective } from 'src/app/utils/scrollbar-theme.directive'
+import { WebsocketService } from 'src/app/services/websocket/websocket.service';
 
 @Component({
   selector: 'app-conversation-detail',
@@ -230,6 +231,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     public tiledeskService: TiledeskService,
     private networkService: NetworkService,
     private events: EventsService,
+    private webSocketService: WebsocketService,
     private sanitizer: DomSanitizer
   ) {
     // Change list on date change
@@ -919,6 +921,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         if(request.lead && request.lead.email){
           that.leadInfo = {lead_id: request.lead.lead_id, hasEmail: true, email: request.lead.email, projectId: projectId}
           that.presenceService.userIsOnline(this.leadInfo.lead_id);
+          that.webSocketService.subscribeToWS_RequesterPresence(projectId, that.leadInfo.lead_id)
         }
       }, (error)=>{
         this.logger.error('[CONVS-DETAIL] - getLeadDetail - GET REQUEST DETAIL - ERROR  ', error)
@@ -1023,28 +1026,28 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     if ((msg && msg.trim() !== '') || type !== TYPE_MSG_TEXT) {
 
       //FIX TEMPORARY
-      this.leadIsOnline = true;
+      // this.leadIsOnline = true;
       
       if(this.isEmailEnabled && !this.leadIsOnline && this.leadInfo && this.leadInfo.email && !emailSectionMsg){
         this.logger.log('[CONVS-DETAIL] - SEND MESSAGE --> SENDING EMAIL', msg, this.leadInfo.email)
-        // this.sendEmail(msg).subscribe(status => {
-        //   if(status){
-        //     //SEND MESSAGE ALSO AS EMAIL
-        //     attributes['channel']= 'offline_'+TYPE_MSG_EMAIL
-        //   }
+        this.sendEmail(msg).subscribe(status => {
+          if(status){
+            //SEND MESSAGE ALSO AS EMAIL
+            attributes['channel']= 'offline_'+TYPE_MSG_EMAIL
+          }
 
-        //   this.conversationHandlerService.sendMessage(
-        //     msg,
-        //     type,
-        //     metadata,
-        //     this.conversationWith,
-        //     this.conversationWithFullname,
-        //     this.loggedUser.uid,
-        //     fullname,
-        //     this.channelType,
-        //     attributes,
-        //   )
-        // })
+          this.conversationHandlerService.sendMessage(
+            msg,
+            type,
+            metadata,
+            this.conversationWith,
+            this.conversationWithFullname,
+            this.loggedUser.uid,
+            fullname,
+            this.channelType,
+            attributes,
+          )
+        })
       }else {
         //send STANDARD TEXT MESSAGE
         this.conversationHandlerService.sendMessage(
@@ -1155,6 +1158,24 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       this.subscriptions.push(subscribe);
     }
 
+    // subscriptionKey = 'userPresence';
+    // subscription = this.subscriptions.find(item => item.key === subscriptionKey);
+    // if (!subscription) {
+    //   subscription = this.webSocketService.wsRequesterStatus$.subscribe((data: any) => {
+    //     this.logger.log('[USER-PRESENCE-COMP] $subs to wsService - data ', data, this.leadInfo);
+    //     if (data && data.presence) {
+    //       const userId = data.uuid_user;
+    //       const isOnline = data.presence.status === 'online'? true: false;
+    //       if (this.leadInfo && this.leadInfo.lead_id === userId) {
+    //         this.leadIsOnline = isOnline;
+    //       }
+    //     }
+    //   });
+    //   const subscribe = { key: subscriptionKey, value: subscription };
+    //   this.subscriptions.push(subscribe);
+    // }
+
+
     // subscriptionKey = 'onGroupChange';
     // subscription = this.subscriptions.find(item => item.key === subscriptionKey);
     // if (!subscription) {
@@ -1243,6 +1264,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         subscription.value.unsubscribe() // vedere come fare l'unsubscribe!!!!
       })
       this.subscriptions = []
+      this.webSocketService.unsubscribeToWS_RequesterPresence(this.leadInfo.projectId, this.leadInfo.lead_id)
 
       // https://www.w3schools.com/jsref/met_element_removeeventlistener.asp
       window.removeEventListener('keyboardWillShow', null)

@@ -146,6 +146,10 @@ export class FirebasePresenceService extends PresenceService {
     });
   }
 
+  public imHere(){
+    //NOT IMPLEMENTED FOR FIREBASE ENGINE
+  }
+
   /**
    * removePresence
    * richiamato prima del logout

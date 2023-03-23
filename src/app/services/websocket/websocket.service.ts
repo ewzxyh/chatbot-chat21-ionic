@@ -307,19 +307,19 @@ export class WebsocketService {
     this.webSocketJs.ref(path, 'subscribeToWS_RequesterPresence',
 
       function (data, notification) {
-        // self.logger.log("[WS-REQUESTS-SERV] - SUBSCRIBE TO REQUESTER-PRECENCE - CREATE data ", data);
+        // this.logger.log("[WS-REQUESTS-SERV] - SUBSCRIBE TO REQUESTER-PRECENCE - CREATE data ", data);
 
         self.wsRequesterStatus$.next(data);
 
       }, function (data, notification) {
-        self.logger.log("[WS-REQUESTS-SERV] - SUBSCRIBE TO REQUESTER-PRECENCE - UPDATE data ", data);
+        // this.logger.log("[WS-REQUESTS-SERV] - SUBSCRIBE TO REQUESTER-PRECENCE - UPDATE data ", data);
 
         self.wsRequesterStatus$.next(data);
 
       }, function (data, notification) {
 
         if (data) {
-          // self.logger.log("[WS-REQUESTS-SERV] - SUBSCRIBE TO REQUESTER-PRECENCE - ON-DATA data ", data);
+          // this.logger.log("[WS-REQUESTS-SERV] - SUBSCRIBE TO REQUESTER-PRECENCE - ON-DATA data ", data);
         }
       }
     );

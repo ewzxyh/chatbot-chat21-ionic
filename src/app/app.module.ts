@@ -106,6 +106,7 @@ import { ConnectionService } from 'ng-connection-service';
 import { WebSocketJs } from './services/websocket/websocket-js';
 import { UnassignedConversationsPageModule } from './pages/unassigned-conversations/unassigned-conversations.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { WebsocketService } from './services/websocket/websocket.service';
 
 
 // FACTORIES
@@ -197,10 +198,10 @@ export function typingFactory(appConfig: AppConfigProvider) {
   }
 }
 
-export function presenceFactory(appConfig: AppConfigProvider) {
+export function presenceFactory(chat21Service: Chat21Service, appConfig: AppConfigProvider, webSockerService: WebsocketService) {
   const config = appConfig.getConfig()
   if (config.chatEngine === CHAT_ENGINE_MQTT) {
-    return new MQTTPresenceService();
+    return new MQTTPresenceService(chat21Service, webSockerService)
   } else {
     return new FirebasePresenceService();
   }
@@ -317,7 +318,7 @@ const appInitializerFn = (appConfig: AppConfigProvider, logger: NGXLogger) => {
     {
       provide: PresenceService,
       useFactory: presenceFactory,
-      deps: [AppConfigProvider]
+      deps: [Chat21Service, AppConfigProvider, WebsocketService]
     },
     {
       provide: TypingService,

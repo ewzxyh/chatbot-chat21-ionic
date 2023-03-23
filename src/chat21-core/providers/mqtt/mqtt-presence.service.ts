@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, Optional } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 // firebase
@@ -11,6 +11,7 @@ import 'firebase/database';
 import { PresenceService } from '../abstract/presence.service';
 import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service';
 import { LoggerInstance } from '../logger/loggerInstance';
+import { Chat21Service } from './chat-service';
 
 
 @Injectable({
@@ -27,7 +28,8 @@ export class MQTTPresenceService extends PresenceService {
   private urlNodePresence: string;
   private logger: LoggerService = LoggerInstance.getInstance();
   constructor(
-    // private events: EventsService
+    public chat21Service: Chat21Service,
+    @Optional() @Inject('webSocketService') public webSocketService?: any,
   ) {
     super();
   }
@@ -40,20 +42,20 @@ export class MQTTPresenceService extends PresenceService {
   }
 
   userIsOnline(userid: string): Observable<any> {
-    // console.log('userIsOnline', userid);
-    // const that = this;
-    // const urlNodeConnections = this.urlNodePresence + userid + '/connections';
-    // console.log('userIsOnline: ', urlNodeConnections);
-    // const connectionsRef = firebase.database().ref().child(urlNodeConnections);
-    // connectionsRef.on('value', (child) => {
-    //   console.log('is-online-' + userid);
-    //   if (child.val()) {
-    //     that.events.publish('is-online-' + userid, userid, true);
-    //   } else {
-    //     that.events.publish('is-online-' + userid, userid, false);
-    //   }
-    // });
-    return this.BSIsOnline
+    const that = this;
+    let local_BSIsOnline = new BehaviorSubject<any>(null);
+    this.webSocketService.wsRequesterStatus$.subscribe((data: any) => {
+    this.logger.log('[NATIVEPresenceSERVICE] $subs to wsService - data ', data, userid);
+    if (data && data.presence && data.presence.status === 'online' ) {
+        that.BSIsOnline.next({ uid: data.uuid_user, isOnline: true });
+        local_BSIsOnline.next({ uid: data.uuid_user, isOnline: true });
+    } else {
+        that.BSIsOnline.next({ uid: data.uuid_user, isOnline: false });
+        local_BSIsOnline.next({ uid: data.uuid_user, isOnline: false });
+    }
+    });
+
+    return local_BSIsOnline
   }
 
   lastOnlineForUser(userid: string) {
@@ -91,6 +93,13 @@ export class MQTTPresenceService extends PresenceService {
     //     }
     //   }
     // });
+  }
+
+  public imHere(): void {
+    this.logger.debug('[MQTT-PRESENCE] imHere', this.tenant);
+    setTimeout(() => {
+      this.chat21Service.chatClient.ImHere()
+    }, 2000);
   }
 
   /**
