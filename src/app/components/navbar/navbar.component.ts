@@ -21,7 +21,7 @@ export class NavbarComponent implements OnInit {
   private logger: LoggerService = LoggerInstance.getInstance();
   private tiledeskToken: string;
 
-  public projects: Project[];
+  public projects: Project[] = [];
   public project: any = [];
   private USER_ROLE: string;
 
