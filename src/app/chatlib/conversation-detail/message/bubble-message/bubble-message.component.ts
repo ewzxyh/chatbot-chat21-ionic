@@ -105,7 +105,6 @@ export class BubbleMessageComponent implements OnInit, OnChanges {
     }
     if(this.message && this.message.sender_fullname && this.message.sender_fullname.trim() !== ''){
       this.fullnameColor = getColorBck(this.message.sender_fullname)
-      console.log('colorrrrrr', this.fullnameColor)
     }
   }
 

@@ -83,21 +83,6 @@
         height: auto;
         object-fit: cover;
     }
-
-    .message_innerhtml {
-        margin: 0px;
-        // padding: 0px 14px;
-        &.marked {
-            padding: 8px;
-            margin-block-start: -1em !important;
-            margin-block-end: -1em !important;
-        }
-
-        .text-message {
-            padding-top: 14px;
-        }
-    }
-
 }
 // > .button-native
 
