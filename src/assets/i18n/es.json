@@ -23,6 +23,7 @@
   ],
   "LABEL_SEND": "Send",
   "LABEL_CHAT":"Charla",
+  "EMAIL_OFFLINE_TIP":"Advertencia: ¡el usuario está desconectado! El mensaje será enviado por correo electrónico",
   "EMAIL_PLACEHOLDER":"Borrador disponible aquí - haga clic para editar",
   "EMAIL_NOT_FOUND_PLACEHOLDER":"Este usuario no ha proporcionado una dirección de correo electrónico. Actualizar la dirección del visitante para enviar un correo electrónico",
   "SUBJECT":"Sujeto",

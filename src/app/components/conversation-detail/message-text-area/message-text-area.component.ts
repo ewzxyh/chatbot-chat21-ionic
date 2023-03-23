@@ -48,7 +48,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
   @Input() tagsCannedCount: number;
   @Input() areVisibleCAR: boolean;
   @Input() supportMode: boolean;
-  @Input() leadInfo: {lead_id: string, hasEmail: boolean, email: string, projectId: string};
+  @Input() leadInfo: {lead_id: string, hasEmail: boolean, email: string, projectId: string, presence: {}};
   @Input() fileUploadAccept: string;
   @Input() emailSection: boolean;
   @Input() isOpenInfoConversation: boolean;

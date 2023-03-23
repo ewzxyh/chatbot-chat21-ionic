@@ -14,6 +14,11 @@
         {{translationMap.get('LABEL_EMAIL')}}
       </ion-button>
     </div>
+
+    <div *ngIf="section==='chat' && messageString && leadInfo?.presence['status']==='offline'" class="section-option offline-lead-tip" >
+      {{translationMap.get('EMAIL_OFFLINE_TIP')}}
+    </div>
+
   </div>
 
   <ion-row id="message-email" [style.display]="section==='email'? 'flex': 'none'">

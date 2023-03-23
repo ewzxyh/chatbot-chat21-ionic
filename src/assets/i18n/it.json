@@ -23,6 +23,7 @@
     ],
     "LABEL_SEND": "Invia",
     "LABEL_CHAT":"Chat",
+    "EMAIL_OFFLINE_TIP":"Attenzione: l'utente è offline! Il messaggio sarà mandato per email",
     "EMAIL_PLACEHOLDER":"Bozza disponibile qui - clicca per modificare",
     "EMAIL_NOT_FOUND_PLACEHOLDER":"Questo utente non ha fornito un indirizzo email. Aggiorna l'indirizzo del visitatore per inviare un'e-mail",
     "SUBJECT":"Oggetto",

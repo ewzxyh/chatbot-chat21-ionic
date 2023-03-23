@@ -23,6 +23,7 @@
     ],
     "LABEL_SEND": "Göndər",
     "LABEL_CHAT":"Söhbət",
+    "EMAIL_OFFLINE_TIP":"Xəbərdarlıq: istifadəçi oflayndır! Mesaj e-poçt vasitəsilə göndəriləcək",
     "EMAIL_PLACEHOLDER":"Qaralama burada mövcuddur - redaktə etmək üçün klikləyin",
     "EMAIL_NOT_FOUND_PLACEHOLDER":"Bu istifadəçi e-poçt ünvanı təqdim etməyib. E-poçt göndərmək üçün ziyarətçinin ünvanını yeniləyin",
     "SUBJECT":"Mövzu",

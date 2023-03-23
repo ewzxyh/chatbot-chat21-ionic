@@ -24,6 +24,7 @@
     ],
     "LABEL_SEND": "Yuborish",
     "LABEL_CHAT":"Chat",
+    "EMAIL_OFFLINE_TIP":"Ogohlantirish: foydalanuvchi oflayn! Xabar elektron pochta orqali yuboriladi",
     "EMAIL_PLACEHOLDER":"Qoralama bu yerda mavjud - tahrirlash uchun bosing",
     "EMAIL_NOT_FOUND_PLACEHOLDER":"Bu foydalanuvchi elektron pochta manzilini ko'rsatmagan. Elektron pochta xabarini yuborish uchun tashrif buyuruvchining manzilini yangilang",
     "SUBJECT":"Mavzu",

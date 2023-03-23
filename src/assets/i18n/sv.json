@@ -23,6 +23,7 @@
     ],
     "LABEL_SEND": "Skicka",
     "LABEL_CHAT":"Chat",
+    "EMAIL_OFFLINE_TIP":"Varning: användaren är offline! Meddelandet kommer att skickas via e-post",
     "EMAIL_PLACEHOLDER":"Utkast tillgängligt här - klicka för att redigera",
     "EMAIL_NOT_FOUND_PLACEHOLDER":"Den här användaren har inte angett någon e-postadress. Uppdatera besökarens adress för att skicka ett e-postmeddelande",
     "SUBJECT":"Ämne",

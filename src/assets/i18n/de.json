@@ -23,6 +23,7 @@
   ],
   "LABEL_SEND": "Senden",
   "LABEL_CHAT":"Plaudern",
+  "EMAIL_OFFLINE_TIP":"Achtung: Benutzer ist offline! Die Nachricht wird per E-Mail versendet",
   "EMAIL_PLACEHOLDER":"Entwurf hier verfügbar - zum Bearbeiten klicken",
   "EMAIL_NOT_FOUND_PLACEHOLDER":"Dieser Benutzer hat keine E-Mail-Adresse angegeben. Aktualisieren Sie die Adresse des Besuchers, um eine E-Mail zu senden",
   "SUBJECT":"Thema",

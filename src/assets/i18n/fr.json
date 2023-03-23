@@ -23,6 +23,7 @@
   ],
   "LABEL_SEND": "Envoyer",
   "LABEL_CHAT":"Chatter",
+  "EMAIL_OFFLINE_TIP":"Attention : l'utilisateur est hors ligne ! Le message sera envoyé par email",
   "EMAIL_PLACEHOLDER":"Brouillon disponible ici - cliquez pour modifier",
   "EMAIL_NOT_FOUND_PLACEHOLDER":"Cet utilisateur n'a pas fourni d'adresse e-mail. Mettre à jour l'adresse du visiteur pour envoyer un e-mail",
   "SUBJECT":"Matière",

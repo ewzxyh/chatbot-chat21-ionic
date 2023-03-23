@@ -23,6 +23,7 @@
   ],
   "LABEL_SEND": "Send",
   "LABEL_CHAT":"Chat",
+  "EMAIL_OFFLINE_TIP":"Warning: user is offline! The message will be sent by email",
   "EMAIL_PLACEHOLDER":"Draft available here - click to edit",
   "EMAIL_NOT_FOUND_PLACEHOLDER":"This user has not provided an email address. Update the visitor's address to send an email",
   "SUBJECT":"Subject",

@@ -115,7 +115,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   public groupDetail: GroupModel
   public messageSelected: any
   public channelType: string
-  public leadIsOnline: boolean
   public lastConnectionDate: string
   public showMessageWelcome: boolean
   public openInfoConversation = false
@@ -127,7 +126,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   public translationsHeaderMap: Map<string, string> = new Map() 
   public translationsContentMap: Map<string, string> = new Map()
   public conversationAvatar: any
-  public leadInfo: {lead_id: string, hasEmail: boolean , email: string, projectId: string};
+  public leadInfo: {lead_id: string, hasEmail: boolean , email: string, projectId: string, presence: {}};
   public liveInfo: {sourcePage: string, sourceTitle: string}
   public member: UserModel
   public isFileSelected: boolean
@@ -628,6 +627,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
       "LABEL_CHAT",
       "LABEL_EMAIL",
+      "EMAIL_OFFLINE_TIP",
       "EMAIL_PLACEHOLDER",
       "EMAIL_NOT_FOUND_PLACEHOLDER",
       "SUBJECT",
@@ -919,7 +919,15 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       this.tiledeskService.getRequest(this.conversationWith, projectId, tiledeskToken).subscribe((request: any)=>{
         that.logger.debug('[CONVS-DETAIL] getLeadDetail - selected REQUEST detail', request)
         if(request.lead && request.lead.email){
-          that.leadInfo = {lead_id: request.lead.lead_id, hasEmail: true, email: request.lead.email, projectId: projectId}
+          that.leadInfo = {
+            lead_id: request.lead.lead_id, 
+            hasEmail: true, 
+            email: request.lead.email, 
+            projectId: projectId,
+            presence: {
+              status: 'offline'
+            }
+          }
           that.presenceService.userIsOnline(this.leadInfo.lead_id);
           that.webSocketService.subscribeToWS_RequesterPresence(projectId, that.leadInfo.lead_id)
         }
@@ -1025,10 +1033,10 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
     if ((msg && msg.trim() !== '') || type !== TYPE_MSG_TEXT) {
 
-      //FIX TEMPORARY
-      // this.leadIsOnline = true;
       
-      if(this.isEmailEnabled && !this.leadIsOnline && this.leadInfo && this.leadInfo.email && !emailSectionMsg){
+      if(this.isEmailEnabled && 
+          this.leadInfo && this.leadInfo.presence && this.leadInfo.presence['status']=== 'offline' &&  
+          this.leadInfo.email && !emailSectionMsg){
         this.logger.log('[CONVS-DETAIL] - SEND MESSAGE --> SENDING EMAIL', msg, this.leadInfo.email)
         this.sendEmail(msg).subscribe(status => {
           if(status){
@@ -1150,31 +1158,13 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
           const userId = data.uid;
           const isOnline = data.isOnline;
           if (this.leadInfo && this.leadInfo.lead_id === userId) {
-            this.leadIsOnline = isOnline;
+            this.leadInfo.presence['status'] = isOnline? 'online': 'offline';
           }
         }
       });
       const subscribe = { key: subscriptionKey, value: subscription };
       this.subscriptions.push(subscribe);
     }
-
-    // subscriptionKey = 'userPresence';
-    // subscription = this.subscriptions.find(item => item.key === subscriptionKey);
-    // if (!subscription) {
-    //   subscription = this.webSocketService.wsRequesterStatus$.subscribe((data: any) => {
-    //     this.logger.log('[USER-PRESENCE-COMP] $subs to wsService - data ', data, this.leadInfo);
-    //     if (data && data.presence) {
-    //       const userId = data.uuid_user;
-    //       const isOnline = data.presence.status === 'online'? true: false;
-    //       if (this.leadInfo && this.leadInfo.lead_id === userId) {
-    //         this.leadIsOnline = isOnline;
-    //       }
-    //     }
-    //   });
-    //   const subscribe = { key: subscriptionKey, value: subscription };
-    //   this.subscriptions.push(subscribe);
-    // }
-
 
     // subscriptionKey = 'onGroupChange';
     // subscription = this.subscriptions.find(item => item.key === subscriptionKey);

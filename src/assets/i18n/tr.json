@@ -23,6 +23,7 @@
   ],
   "LABEL_SEND": "Göndermek",
   "LABEL_CHAT":"Sohbet",
+  "EMAIL_OFFLINE_TIP":"Uyarı: kullanıcı çevrimdışı! Mesaj e-posta ile gönderilecek",
   "EMAIL_PLACEHOLDER":"Taslak burada mevcut - düzenlemek için tıklayın",
   "EMAIL_NOT_FOUND_PLACEHOLDER":"Bu kullanıcı bir e-posta adresi sağlamadı. E-posta göndermek için ziyaretçinin adresini güncelleyin",
   "SUBJECT":"Ders",
