@@ -5,7 +5,7 @@ import { MSG_STATUS_SENT, MSG_STATUS_RETURN_RECEIPT, MSG_STATUS_SENT_SERVER, MAX
 import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service';
 import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance';
 import { UploadService } from 'src/chat21-core/providers/abstract/upload.service';
-import { isEmojii, isInfo, isMine, messageType } from 'src/chat21-core/utils/utils-message';
+import { isEmojii, isFirstMessage, isInfo, isLastMessage, isMine, isSameSender, messageType } from 'src/chat21-core/utils/utils-message';
 @Component({
   selector: 'tiledeskwidget-conversation-content',
   templateUrl: './conversation-content.component.html',
@@ -255,26 +255,29 @@ export class ConversationContentComponent implements OnInit {
     }, showDelay);
   }
 
-  isLastMessage(idMessage: string) {
-    // console.log('idMessage: ' + idMessage + 'id LAST Message: ' + this.messages[this.messages.length - 1].uid);
-    if (idMessage === this.messages[this.messages.length - 1].uid) {
-      return true;
-    }
-    return false;
+  isLastMessage(idMessage: string):boolean {
+    return isLastMessage(this.messages, idMessage)
+    // if (idMessage === this.messages[this.messages.length - 1].uid) {
+    //   return true;
+    // }
+    // return false;
   }
 
   isSameSender(senderId, index):boolean{
-    if(senderId && this.messages[index - 1] && (senderId === this.messages[index - 1].sender)){
-      return true;
-    }
-    return false;
+    return isSameSender(this.messages, senderId, index)
+    // if(senderId && this.messages[index - 1] && (senderId === this.messages[index - 1].sender)){
+    //   return true;
+    // }
+    // return false;
   }
 
+
   isFirstMessage(senderId, index):boolean{
-    if(senderId && index == 0 && this.messages[index] && (this.messages[index] !== senderId)){
-      return true;
-    }
-    return false;
+    return isFirstMessage(this.messages, senderId, index)
+    // if(senderId && index == 0 && this.messages[index] && (this.messages[index] !== senderId)){
+    //   return true;
+    // }
+    // return false;
   }
 
   hideOutsideElements() {

@@ -50,7 +50,6 @@ export class IonConversationDetailComponent extends ConversationContentComponent
 
   isMine = isMine;
   isInfo = isInfo;
-  isFirstMessage = isFirstMessage;
   messageType = messageType;
   isChannelTypeGroup = isChannelTypeGroup;
   isEmojii = isEmojii;
