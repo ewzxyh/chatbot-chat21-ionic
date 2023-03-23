@@ -29,6 +29,7 @@ import { CHAT_ENGINE_MQTT, CHAT_ENGINE_FIREBASE, UPLOAD_ENGINE_NATIVE } from '..
 // SERVICES
 import { AppConfigProvider } from './services/app-config';
 import { EventsService } from './services/events-service';
+import { WebsocketService } from './services/websocket/websocket.service';
 
 // ABSTRACT SERVICES
 import { MessagingAuthService } from 'src/chat21-core/providers/abstract/messagingAuth.service';
@@ -106,7 +107,6 @@ import { ConnectionService } from 'ng-connection-service';
 import { WebSocketJs } from './services/websocket/websocket-js';
 import { UnassignedConversationsPageModule } from './pages/unassigned-conversations/unassigned-conversations.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { WebsocketService } from './services/websocket/websocket.service';
 
 
 // FACTORIES
