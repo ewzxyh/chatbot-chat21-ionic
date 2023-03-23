@@ -1254,7 +1254,9 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         subscription.value.unsubscribe() // vedere come fare l'unsubscribe!!!!
       })
       this.subscriptions = []
+    if(this.leadInfo){
       this.webSocketService.unsubscribeToWS_RequesterPresence(this.leadInfo.projectId, this.leadInfo.lead_id)
+    }
 
       // https://www.w3schools.com/jsref/met_element_removeeventlistener.asp
       window.removeEventListener('keyboardWillShow', null)

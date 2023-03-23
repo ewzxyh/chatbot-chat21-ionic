@@ -1,5 +1,11 @@
 # chat21-ionic ver 3.0
 
+### 3.0.96-rc.1
+- added: isFirstMessage, isSameSender, isLastMessage, isFirstMessage function to utils-message
+- added: online/offline status check for offline automatic email -> presence service impl
+- added: websocket as mqtt-presence service dep
+- added: tip message if lead has an email and is offline, when agent is on chat section in conversation-detail footer component
+
 ### 3.0.95 in PROD
 - bug-fixed: cannot upload PDF files
 
