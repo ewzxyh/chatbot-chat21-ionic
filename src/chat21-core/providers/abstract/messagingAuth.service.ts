@@ -12,8 +12,8 @@ import { UserModel } from '../../models/user';
 export abstract class MessagingAuthService {
 
   // BehaviorSubject
-  abstract BSAuthStateChanged: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  abstract BSSignOut: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  abstract BSAuthStateChanged: BehaviorSubject<any>;
+  abstract BSSignOut: BehaviorSubject<any>;
 
   // params
   public DEFAULT_PERSISTENCE: string = 'NONE';

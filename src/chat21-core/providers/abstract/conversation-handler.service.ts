@@ -12,15 +12,15 @@ import { UserModel } from '../../models/user';
 export abstract class ConversationHandlerService {
 
   // BehaviorSubject
-  abstract messageAdded: BehaviorSubject<MessageModel> = new BehaviorSubject<MessageModel>(null);
-  abstract messageChanged: BehaviorSubject<MessageModel> = new BehaviorSubject<MessageModel>(null);
-  abstract messageRemoved: BehaviorSubject<string> = new BehaviorSubject<string>(null);
-  abstract messageWait: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  abstract messageInfo: BehaviorSubject<MessageModel> = new BehaviorSubject<MessageModel>(null);
+  abstract messageAdded: BehaviorSubject<MessageModel>;
+  abstract messageChanged: BehaviorSubject<MessageModel>;
+  abstract messageRemoved: BehaviorSubject<string>;
+  abstract messageWait: BehaviorSubject<any>;
+  abstract messageInfo: BehaviorSubject<MessageModel>;
   
   // params
   abstract attributes: any;
-  abstract messages: Array<MessageModel> = [];
+  abstract messages: Array<MessageModel>;
   abstract conversationWith: string;
 
   constructor() {}

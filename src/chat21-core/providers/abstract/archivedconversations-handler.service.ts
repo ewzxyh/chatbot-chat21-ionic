@@ -7,14 +7,14 @@ import { ImageRepoService } from './image-repo.service';
 export abstract class ArchivedConversationsHandlerService {
 
   // BehaviorSubject
-  abstract BSConversationDetail: BehaviorSubject<ConversationModel> = new BehaviorSubject<ConversationModel>(null);
-  abstract archivedConversationAdded: BehaviorSubject<ConversationModel> = new BehaviorSubject<ConversationModel>(null);
-  abstract archivedConversationChanged: BehaviorSubject<ConversationModel> = new BehaviorSubject<ConversationModel>(null);
-  abstract archivedConversationRemoved: BehaviorSubject<ConversationModel> = new BehaviorSubject<ConversationModel>(null);
+  abstract BSConversationDetail: BehaviorSubject<ConversationModel>;
+  abstract archivedConversationAdded: BehaviorSubject<ConversationModel>;
+  abstract archivedConversationChanged: BehaviorSubject<ConversationModel>;
+  abstract archivedConversationRemoved: BehaviorSubject<ConversationModel>;
   // abstract readAllMessages: BehaviorSubject<string> = new BehaviorSubject<string>(null);
 
   // params
-  abstract archivedConversations: Array<ConversationModel> = [];
+  abstract archivedConversations: Array<ConversationModel>;
   abstract uidConvSelected: string;
   //abstract imageRepo: ImageRepoService;
 

@@ -11,11 +11,11 @@ import { UserModel } from 'src/chat21-core/models/user';
 export abstract class GroupsHandlerService {
 
   // BehaviorSubject
-  abstract BSgroupDetail: BehaviorSubject<GroupModel> = new BehaviorSubject<GroupModel>(null);
-  abstract SgroupDetail: Subject<GroupModel> = new Subject<GroupModel>();
-  abstract groupAdded: BehaviorSubject<GroupModel> = new BehaviorSubject<GroupModel>(null);
-  abstract groupChanged: BehaviorSubject<GroupModel> = new BehaviorSubject<GroupModel>(null);
-  abstract groupRemoved: BehaviorSubject<GroupModel> = new BehaviorSubject<GroupModel>(null);
+  abstract BSgroupDetail: BehaviorSubject<GroupModel>;
+  abstract SgroupDetail: Subject<GroupModel>;
+  abstract groupAdded: BehaviorSubject<GroupModel>;
+  abstract groupChanged: BehaviorSubject<GroupModel>;
+  abstract groupRemoved: BehaviorSubject<GroupModel>;
 
   abstract initialize(tenant: string, loggedUserId: string): void;
   abstract connect(): void;

@@ -28,7 +28,7 @@ export abstract class UploadService {
   }
 
   //BehaviorSubject
-  abstract BSStateUpload: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  abstract BSStateUpload: BehaviorSubject<any>;
 
   // params
   // abstract tenant = environment.tenant;

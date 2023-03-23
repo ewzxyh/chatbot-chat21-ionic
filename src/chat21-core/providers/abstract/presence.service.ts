@@ -9,8 +9,8 @@ import { environment } from 'src/environments/environment';
 export abstract class PresenceService {
 
   // BehaviorSubject
-  abstract BSIsOnline: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  abstract BSLastOnline: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  abstract BSIsOnline: BehaviorSubject<any>;
+  abstract BSLastOnline: BehaviorSubject<any>;
 
   // params
   // abstract tenant = environment.tenant;
@@ -30,5 +30,6 @@ export abstract class PresenceService {
   abstract userIsOnline(userid: string): Observable<any>
   abstract lastOnlineForUser(userid: string): void;
   abstract setPresence(userid: string): void;
+  abstract imHere():void;
   abstract removePresence(): void;
 }

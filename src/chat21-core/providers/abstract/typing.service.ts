@@ -9,8 +9,8 @@ import { environment } from 'src/environments/environment';
 export abstract class TypingService {
 
   // BehaviorSubject
-  BSIsTyping: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  BSSetTyping: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  abstract BSIsTyping: BehaviorSubject<any>;
+  abstract BSSetTyping: BehaviorSubject<any>;
 
   // params
   // private _tenant: string;
