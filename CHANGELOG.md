@@ -1,5 +1,7 @@
 # chat21-ionic ver 3.0
 
+### 3.0.96 in PROD
+
 ### 3.0.96-rc.2
 - changed: chat21client.js to v0.1.12.5 (window scope fixed)
 
