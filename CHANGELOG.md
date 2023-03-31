@@ -1,5 +1,8 @@
 # chat21-ionic ver 3.0
 
+### 3.0.97-rc.1
+- added: if user is offline and message is sent, forward the entire conversation by email 
+
 ### 3.0.96 in PROD
 
 ### 3.0.96-rc.2
