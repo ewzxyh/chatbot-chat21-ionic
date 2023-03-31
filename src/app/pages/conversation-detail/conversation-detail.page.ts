@@ -940,18 +940,26 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     
   }
 
-  // createEmailText(lastMessageText: string): string{
-  //   let text = ''
-  //   this.messages.reverse().forEach((message, index) => {
-  //     if(isInfo(message))
-  //         return;
-  //     if(index === 0)
-  //       text += message.sender_fullname +'REPLIED TO YOU' + ': ' + message.text +' ('+ new Date(message.timestamp).toDateString() +  ')' + '\n\n\n'
-  //     if(index !== 0)
-  //       text +=  message.sender_fullname + ': ' + message.text + '\n'
-  //   })
-  //   return text
-  // }
+  createEmailText(lastMessageText: string): string{
+    let text = ''
+    this.messages.reverse().forEach((message, index) => {
+
+      let date = new Date(message.timestamp).toDateString()
+      let time = new Date(message.timestamp).getHours() + ':'+ new Date(message.timestamp).getMinutes() + ':' + new Date(message.timestamp).getSeconds()
+      if(isInfo(message))
+          return;
+      if(index === 0)
+        text += 'On _' + date + ' - ' + time + '_ **' + message.sender_fullname + '**' + ' replied to you' + ': ' + '\n' +
+              message.text + '\n\n\n'
+      if(index === 1)
+        text += '_______________________________________________' + '\n' +
+                '**' + 'CONVERSATION HISTORY:'+ '**' + '\n' + 
+                '**' + message.sender_fullname + '**'  + ': ' + message.text +' _('+ date + '-' + time +')_' + '\n'
+      if(index > 1)  
+        text += '**' + message.sender_fullname + '**'  + ': ' + message.text +' _('+ date + '-' + time +')_' + '\n'
+    })
+    return text
+  }
 
   sendEmail(message: string): Observable<boolean>{
     const tiledeskToken= this.tiledeskAuthService.getTiledeskToken();
@@ -1051,9 +1059,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
           this.leadInfo && this.leadInfo.presence && this.leadInfo.presence['status']=== 'offline' &&  
           this.leadInfo.email && !emailSectionMsg){
         this.logger.log('[CONVS-DETAIL] - SEND MESSAGE --> SENDING EMAIL', msg, this.leadInfo.email)
-        // let msgText = this.createEmailText(msg)
-        // console.log('messsss-->', msgText)
-        this.sendEmail(msg).subscribe(status => {
+        let msgText = this.createEmailText(msg)
+        this.sendEmail(msgText).subscribe(status => {
           if(status){
             //SEND MESSAGE ALSO AS EMAIL
             attributes['channel']= 'offline_'+TYPE_MSG_EMAIL
