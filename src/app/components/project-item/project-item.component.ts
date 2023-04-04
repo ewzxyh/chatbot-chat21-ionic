@@ -41,7 +41,6 @@ export class ProjectItemComponent implements OnInit {
   newInnerWidth: any;
   avaialble_status_for_tooltip: string;
   
-  IS_ON_MOBILE_DEVICE: boolean;
   constructor(
     public wsService: WebsocketService,
     public appStorageService: AppStorageService,
@@ -60,7 +59,6 @@ export class ProjectItemComponent implements OnInit {
     this.translations();
     this.listenToPostMsgs();
     this.onInitWindowWidth();
-    this.isOnMobileDevice();
   }
 
   ngOnDestroy() {
@@ -68,14 +66,6 @@ export class ProjectItemComponent implements OnInit {
     this.unsubscribe$.next()
     this.unsubscribe$.complete()
 
-  }
-
-  isOnMobileDevice() {
-    this.IS_ON_MOBILE_DEVICE = false;
-    if (/Android|iPhone/i.test(window.navigator.userAgent)) {
-      this.IS_ON_MOBILE_DEVICE = true;
-    }
-    return this.IS_ON_MOBILE_DEVICE;
   }
 
   openUnservedConvs() {

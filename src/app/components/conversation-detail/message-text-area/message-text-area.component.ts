@@ -19,6 +19,7 @@ import { UploadModel } from 'src/chat21-core/models/upload';
 import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service';
 import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance';
 import { EventsService } from 'src/app/services/events-service';
+import { isOnMobileDevice } from 'src/chat21-core/utils/utils';
 
 
 @Component({
@@ -129,19 +130,8 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
     }
 
     this.listenToNewCannedResponseCreated()
-    this.isOnMobileDevice()
+    this.IS_ON_MOBILE_DEVICE = isOnMobileDevice()
   }
-
-  isOnMobileDevice() {
-    this.IS_ON_MOBILE_DEVICE = false;
-    if (/Android|iPhone/i.test(window.navigator.userAgent)) {
-      this.IS_ON_MOBILE_DEVICE = true;
-      this.emojiPerLine = 7
-    }
-    // this.logger.log('[APP-COMP] IS_ON_MOBILE_DEVICE', this.IS_ON_MOBILE_DEVICE)
-    return this.IS_ON_MOBILE_DEVICE;
-  }
-
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.translationMap) {

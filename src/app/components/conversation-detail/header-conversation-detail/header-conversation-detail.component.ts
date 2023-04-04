@@ -20,6 +20,7 @@ import { EventsService } from 'src/app/services/events-service'
 import { CreateTicketPage } from 'src/app/modals/create-ticket/create-ticket.page'
 import { TiledeskService } from 'src/app/services/tiledesk/tiledesk.service'
 import { TYPE_DIRECT, TYPE_SUPPORT_GROUP } from 'src/chat21-core/utils/constants'
+import { isOnMobileDevice } from 'src/chat21-core/utils/utils';
 
 @Component({
   selector: 'app-header-conversation-detail',
@@ -43,7 +44,7 @@ export class HeaderConversationDetailComponent implements OnInit, OnChanges {
   fontColor = '#949494'
   platformName: string
   // conv_closed: boolean = false;
-  IS_ON_IOS_MOBILE_DEVICE: boolean
+  IS_ON_MOBILE_DEVICE: boolean
   private logger: LoggerService = LoggerInstance.getInstance()
 
   TYPE_SUPPORT_GROUP = TYPE_SUPPORT_GROUP
@@ -69,18 +70,9 @@ export class HeaderConversationDetailComponent implements OnInit, OnChanges {
     this.logger.log('[CONVS-DETAIL][HEADER] - (ngOnInit) - idLoggedUser', this.idLoggedUser,)
     this.logger.log('[CONVS-DETAIL][HEADER] - (ngOnInit) - conversationAvatar', this.conversationAvatar,)
     this.logger.log('[CONVS-DETAIL][HEADER] - (ngOnInit) -  conv_type', this.conv_type)
+    this.IS_ON_MOBILE_DEVICE = isOnMobileDevice()
     // this.listenToConversationHasBeenClosed()
     // this.isOniOSMobileDevice()
-  }
-
-  isOniOSMobileDevice() {
-    this.IS_ON_IOS_MOBILE_DEVICE = false;
-    if (/iPad|iPhone|iPod/i.test(window.navigator.userAgent)) {
-      this.IS_ON_IOS_MOBILE_DEVICE = true;
-
-    }
-    // console.log('[CONVS-DETAIL][HEADER] IS_ON_IOS_MOBILE_DEVICE ', this.IS_ON_IOS_MOBILE_DEVICE)
-    return this.IS_ON_IOS_MOBILE_DEVICE;
   }
 
   ngOnChanges() {
@@ -153,3 +145,4 @@ export class HeaderConversationDetailComponent implements OnInit, OnChanges {
   //   return await modal.present();
   // }
 }
+

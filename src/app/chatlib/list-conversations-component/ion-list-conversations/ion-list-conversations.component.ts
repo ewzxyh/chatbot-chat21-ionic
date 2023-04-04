@@ -3,7 +3,7 @@ import { TYPE_DIRECT } from 'src/chat21-core/utils/constants';
 import { Component, EventEmitter, Input, IterableDiffers, KeyValueDiffers, OnInit, Output, SimpleChange } from '@angular/core';
 import { ConversationModel } from 'src/chat21-core/models/conversation';
 import { ImageRepoService } from 'src/chat21-core/providers/abstract/image-repo.service';
-import { convertMessage } from 'src/chat21-core/utils/utils';
+import { convertMessage, isOnMobileDevice } from 'src/chat21-core/utils/utils';
 import { ListConversationsComponent } from '../list-conversations/list-conversations.component';
 import { Platform } from '@ionic/angular';
 import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service';
@@ -52,6 +52,8 @@ export class IonListConversationsComponent extends ListConversationsComponent im
   TYPE_DIRECT = TYPE_DIRECT;
   TYPE_GROUP = TYPE_GROUP;
   TYPE_SUPPORT_GROUP = TYPE_SUPPORT_GROUP;
+
+  IS_ON_MOBILE_DEVICE: boolean
   /**
    * 
    * @param iterableDiffers 
@@ -99,7 +101,7 @@ export class IonListConversationsComponent extends ListConversationsComponent im
   ngOnInit() {
     this.isApp = this.platform.is('ios') || this.platform.is('android')
     this.logger.log('[ION-LIST-CONVS-COMP] - ngOnInit - IS-APP ', this.isApp);
-
+    this.IS_ON_MOBILE_DEVICE = isOnMobileDevice()
   }
 
   ngOnChanges(changes: { [property: string]: SimpleChange }) {

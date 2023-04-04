@@ -30,9 +30,9 @@
 
   <ion-row id="message-text-area" [style.display]="section==='chat'? 'flex': 'none'">
 
-    <ion-col col-auto>
+    <ion-col col-auto style="display: flex;">
 
-      <div class="start-buttons" style="position: absolute;display: flex; top: 2px;">
+      <div class="buttons-left">
 
         <!-- CANNED RESPONSES -->
         <ng-container *ngIf="areVisibleCAR && supportMode">
@@ -55,7 +55,7 @@
         </ng-container>
 
         <!-- UPLOAD ATTACHMENT -->
-        <div class="upload-image-btn-wpr" tooltip="{{translationMap?.get('UPLOAD')}}" placement="top">
+        <div *ngIf="!IS_ON_MOBILE_DEVICE" class="upload-image-btn-wpr" tooltip="{{translationMap?.get('UPLOAD')}}" placement="top">
           <ion-button ion-button fill="clear" class="upload-image-btn" [disabled]="disableTextarea">
             <ion-icon slot="icon-only" lazy="true" name="attach-outline"
               style="font-size: 30px;transform: rotate(42deg);"></ion-icon>
@@ -66,9 +66,9 @@
 
         <!-- <ion-icon (click)="showEmojiPicker = !showEmojiPicker" color="secondary" name="happy" style="zoom:2;"></ion-icon> -->
         <!-- --------------------------------------------- -->
-        <!-- Emoji Picker Button  tooltip="{{translationMap?.get('CANNED_RESPONSES')}}" [options]="tooltipOptions" placement="top" -->
+        <!-- EMOJII PICKER BUTTON  -->
         <!-- --------------------------------------------- -->
-        <div class="emoji-picker-btn-wpr">
+        <div class="emoji-picker-btn-wpr" *ngIf="!IS_ON_MOBILE_DEVICE">
           <ion-button ion-button fill="clear" class="emoji-picker-btn" (click)="showEmojiPicker = !showEmojiPicker"
             [disabled]="disableTextarea">
             <!-- <ion-icon slot="icon-only" lazy="true" name="flash-outline" style="font-size: 24px;"></ion-icon> -->

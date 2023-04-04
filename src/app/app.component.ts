@@ -39,7 +39,7 @@ import { LoginPage } from './pages/authentication/login/login.page';
 import { ConversationListPage } from './pages/conversations-list/conversations-list.page';
 
 // utils
-import { checkPlatformIsMobile, isGroup, getParameterByName, searchIndexInArrayForUid, compareValues, stripTags } from 'src/chat21-core/utils/utils';
+import { checkPlatformIsMobile, isGroup, getParameterByName, searchIndexInArrayForUid, compareValues, stripTags, isOnMobileDevice } from 'src/chat21-core/utils/utils';
 import { STORAGE_PREFIX, PLATFORM_MOBILE, PLATFORM_DESKTOP, CHAT_ENGINE_FIREBASE, AUTH_STATE_OFFLINE, AUTH_STATE_ONLINE } from 'src/chat21-core/utils/constants';
 import { environment } from '../environments/environment';
 import { UserModel } from '../chat21-core/models/user';
@@ -161,19 +161,11 @@ export class AppComponent implements OnInit {
 
     this.saveInStorageNumberOfOpenedChatTab();
     this.listenChatAlreadyOpenWithoutParamsInMobileMode()
-    this.isOnMobileDevice()
+    this.IS_ON_MOBILE_DEVICE = isOnMobileDevice()
     // this.listenToUrlChanges();
     // this.getPageState();
   }
 
-  isOnMobileDevice() {
-    this.IS_ON_MOBILE_DEVICE = false;
-    if (/Android|iPhone/i.test(window.navigator.userAgent)) {
-      this.IS_ON_MOBILE_DEVICE = true;
-    }
-    this.logger.log('[APP-COMP] IS_ON_MOBILE_DEVICE', this.IS_ON_MOBILE_DEVICE)
-    return this.IS_ON_MOBILE_DEVICE;
-  }
 
 
 
