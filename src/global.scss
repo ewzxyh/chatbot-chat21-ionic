@@ -756,20 +756,27 @@ ul.dropdown-menu > li > a {
 
 
 //MODALS
-.modal-wrapper{
-    border-radius: 16px !important;
+//is desktop computers, laptops, and smartphones with a stylus 
+@media (hover: hover) {
+    .modal-wrapper{
+        border-radius: 16px !important;
+    }
 
+    .json-modal-class .modal-wrapper{
+        --height: 90%;
+        --width: 70%;
+        span.key{ color: red; }
+        span.number { color:#6eb4bc; }
+        span.boolean { color:#a693e0; }
+        span.null { color:#e09393; }
+        span.key { color: #a9d18f; }
+    }
 }
+// .modal-wrapper{
+//     border-radius: 16px !important;
+// }
 
-.json-modal-class .modal-wrapper{
-    --height: 90%;
-    --width: 70%;
-    span.key{ color: red; }
-    span.number { color:#6eb4bc; }
-    span.boolean { color:#a693e0; }
-    span.null { color:#e09393; }
-    span.key { color: #a9d18f; }
-}
+
 
 
 //TOAST
@@ -787,4 +794,43 @@ ul.dropdown-menu > li > a {
     .popover-content{ 
         width: 250px; 
     }
+}
+
+
+//TOOLTIP
+.tooltip-container {
+    font-family: 'Roboto','Google Sans', Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    letter-spacing: normal;
+    font-stretch: normal;
+    font-variant: normal;
+    font-weight: 300;
+    z-index: 100;
+    position: fixed;
+    padding: 6px 12px;
+    line-height: initial;
+    color: black;
+    width: auto;
+    background:rgb(255, 255, 255);
+    border-radius: 10px;
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3); 
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
+    box-sizing: border-box;
+    opacity: 0;
+    transform: translate(-80%, -70%);
+    animation: tooltip-slide 0.18s ease-out 0.5s;
+    animation-fill-mode: forwards;
+    pointer-events: none;
+}
+
+@keyframes tooltip-slide {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -70%);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
 }
