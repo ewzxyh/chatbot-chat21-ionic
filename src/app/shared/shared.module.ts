@@ -1,3 +1,4 @@
+import { TooltipDirective } from './../directives/tooltip.directive';
 import { OptionsComponent } from './../chatlib/conversation-detail/message/options/options.component';
 import { HeaderConversationsListUnassigned } from './../components/conversations-list/header-conversations-list-unassigned/header-conversations-list-unassigned.component';
 import { NavbarComponent } from './../components/navbar/navbar.component';
@@ -29,7 +30,7 @@ import { HeaderConversationsListArchived } from 'src/app/components/conversation
 import { UserPresenceComponent } from 'src/app/components/utils/user-presence/user-presence.component';
 import { UserTypingComponent } from 'src/chat21-core/utils/user-typing/user-typing.component';
 import { ListConversationsComponent } from '../chatlib/list-conversations-component/list-conversations/list-conversations.component';
-import { MomentModule } from 'angular2-moment';
+import { MomentModule } from 'ngx-moment';
 import { AvatarComponent } from 'src/app/chatlib/conversation-detail/message/avatar/avatar.component';
 import { MarkedPipe } from 'src/app/directives/marked.pipe';
 import { AutofocusDirective } from 'src/app/directives/autofocus.directive';
@@ -40,13 +41,11 @@ import { InfoSupportGroupComponent } from 'src/app/components/conversation-info/
 import { InfoDirectComponent } from 'src/app/components/conversation-info/info-direct/info-direct.component';
 import { AdvancedInfoAccordionComponent } from 'src/app/components/conversation-info/advanced-info-accordion/advanced-info-accordion.component';
 import { InfoGroupComponent } from 'src/app/components/conversation-info/info-group/info-group.component';
-import { TooltipModule, TooltipOptions } from 'ng2-tooltip-directive';
 import { MessageAttachmentComponent } from 'src/app/chatlib/conversation-detail/message/message-attachment/message-attachment.component';
 import { ImageViewerComponent } from 'src/app/components/image-viewer/image-viewer.component';
 import { SidebarComponent } from 'src/app/components/sidebar/sidebar.component';
 import { SidebarUserDetailsComponent } from 'src/app/components/sidebar-user-details/sidebar-user-details.component';
 import { ProjectItemComponent } from 'src/app/components/project-item/project-item.component';
-import { DefaultTooltipOptions } from 'src/chat21-core/utils/utils';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -92,6 +91,7 @@ import { SafeHtmlPipe } from '../directives/safe-html.pipe';
     AutofocusDirective,
     HtmlEntitiesEncodePipe,
     SafeHtmlPipe,
+    TooltipDirective,
     HeaderConversationsListArchived,
     HeaderConversationsListUnassigned,
     NetworkOfflineComponent
@@ -99,6 +99,7 @@ import { SafeHtmlPipe } from '../directives/safe-html.pipe';
   exports: [
     // MessageTextAreaComponent,
     AutofocusDirective,
+    TooltipDirective,
     AvatarProfileComponent,
     HeaderConversationsList,
     ImageViewerComponent,
@@ -141,7 +142,6 @@ import { SafeHtmlPipe } from '../directives/safe-html.pipe';
     MomentModule,
     NgSelectModule,
     FormsModule,
-    TooltipModule.forRoot(DefaultTooltipOptions as TooltipOptions)
 
   ],
   schemas: [

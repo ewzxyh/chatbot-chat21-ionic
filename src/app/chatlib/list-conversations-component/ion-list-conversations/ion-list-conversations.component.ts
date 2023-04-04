@@ -49,16 +49,6 @@ export class IonListConversationsComponent extends ListConversationsComponent im
   public youAreNoLongerAmongTheTeammatesManagingThisConversation_lbl: string;
   public ok_lbl: string;
 
-  tooltip_options = {
-    'show-delay': 0,
-    'tooltip-class': 'chat-tooltip',
-    'theme': 'light',
-    'shadow': false,
-    'hide-delay-mobile': 0,
-    'hideDelayAfterClick': 3000,
-    'hide-delay': 100
-  };
-
   TYPE_DIRECT = TYPE_DIRECT;
   TYPE_GROUP = TYPE_GROUP;
   TYPE_SUPPORT_GROUP = TYPE_SUPPORT_GROUP;

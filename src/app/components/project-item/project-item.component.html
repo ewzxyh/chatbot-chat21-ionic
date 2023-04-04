@@ -2,8 +2,7 @@
 
     <!-- <div class="pinned-project">Pinned project </div> margin-left:4px -->
     <div *ngIf="project?.id_project?.status !== 0" class="flex-container-project-for-panel project-row">
-      <div class="flex-child-left" [tooltip]="conversationsInQueueOnProjectName" [options]="tooltipOptions" placement="top"
-        content-type="template" (click)="openUnservedConvs()">
+      <div class="flex-child-left" tooltip="({{ unservedRequestCount }}) {{translationMap?.get('UnassignedConversations') }}" placement="top" contentType="template" (click)="openUnservedConvs()">
         <div class="unassigned-notifications-icon-wpr">
           <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false" class="style-scope yt-icon">
             <g class="style-scope yt-icon">
@@ -23,8 +22,7 @@
 
 
       <div class="flex-child-right">
-        <div class="project-name-project-for-panel" [tooltip]="conversationsInQueueOnProjectName"
-          [options]="tooltipOptions" placement="top" content-type="template" (click)="openUnservedConvs()">
+        <div class="project-name-project-for-panel" tooltip="({{ unservedRequestCount }}) {{translationMap?.get('UnassignedConversations') }}" placement="top" contentType="template" (click)="openUnservedConvs()">
           <div class="unassigned_label"> <a>{{ translationMap?.get('UnassignedConversations') }}</a> </div>
         </div>
         

@@ -40,15 +40,7 @@ export class ProjectItemComponent implements OnInit {
   window_width_is_60: boolean;
   newInnerWidth: any;
   avaialble_status_for_tooltip: string;
-  tooltipOptions = {
-    'show-delay': 500,
-    'tooltip-class': 'chat-tooltip',
-    'theme': 'light',
-    'shadow': false,
-    'hide-delay-mobile': 0,
-    'hideDelayAfterClick': 3000,
-    'hide-delay': 200
-  };
+  
   IS_ON_MOBILE_DEVICE: boolean;
   constructor(
     public wsService: WebsocketService,

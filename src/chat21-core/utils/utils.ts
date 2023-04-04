@@ -12,7 +12,6 @@ import { ConversationModel } from '../models/conversation';
 import { MAX_WIDTH_IMAGES, TYPE_DIRECT, TYPE_SUPPORT_GROUP } from './constants';
 
 import { avatarPlaceholder, getColorBck } from './utils-user';
-import { TooltipOptions } from 'ng2-tooltip-directive';
 
 /**
  * Shortest description  for phone and tablet
@@ -28,17 +27,6 @@ export function windowsMatchMedia() {
     // console.log('window width is at least 767px');
     return true;
   }
-}
-
-
-export const DefaultTooltipOptions: TooltipOptions = {
-  'show-delay': 500,
-  'tooltip-class': 'chat-tooltip',
-  'theme': 'light',
-  'shadow': false,
-  'hide-delay-mobile': 0,
-  'hideDelayAfterClick': 3000,
-  'hide-delay': 200
 }
 
 /**

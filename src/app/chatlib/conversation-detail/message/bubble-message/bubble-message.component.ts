@@ -43,16 +43,7 @@ export class BubbleMessageComponent implements OnInit, OnChanges {
  // ========== end:: check message type functions ======= //
  
   public browserLang: string;
-
-  tooltipOptions = {
-    'show-delay': 500,
-    'tooltip-class': 'chat-tooltip',
-    'theme': 'light',
-    'shadow': false,
-    'hide-delay-mobile': 0,
-    'hideDelayAfterClick': 3000,
-    'hide-delay': 200
-  };
+  
   sizeImage : { width: number, height: number}
   fullnameColor: string;
   public logger: LoggerService = LoggerInstance.getInstance()
@@ -164,33 +155,6 @@ export class BubbleMessageComponent implements OnInit, OnChanges {
     }
     return sizeImage
   }
-
-  /**
-  * function customize tooltip
-  */
-  handleTooltipEvents(event) {
-    const that = this;
-    const showDelay = this.tooltipOptions['show-delay'];
-    setTimeout(function () {
-      try {
-        const domRepresentation = document.getElementsByClassName('chat-tooltip');
-        if (domRepresentation) {
-          const item = domRepresentation[0] as HTMLInputElement;
-          if (item && !item.classList.contains('tooltip-show')) {
-            item.classList.add('tooltip-show');
-          }
-          setTimeout(function () {
-            if (item && item.classList.contains('tooltip-show')) {
-              item.classList.remove('tooltip-show');
-            }
-          }, that.tooltipOptions['hideDelayAfterClick']);
-        }
-      } catch (err) {
-        that.logger.error('[BUBBLE-MESSAGE] handleTooltipEvents >>>> Error :' + err);
-      }
-    }, showDelay);
-  }
-
 
   // onClickOptionsMessage(event, message){
   //   this.logger.log('[BUBBLE-MESSAGE] - onClickOptionsMessage', message);

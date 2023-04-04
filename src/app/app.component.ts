@@ -112,7 +112,7 @@ export class AppComponent implements OnInit {
   private version: string;
   public lang: string; 
   IS_ONLINE: boolean;
-  IS_ON_MOBILE_DEVICE: boolean;
+  IS_ON_MOBILE_DEVICE: boolean = true
   SUPPORT_MODE: boolean;
   // private isOnline: boolean = false;
 
@@ -755,14 +755,18 @@ export class AppComponent implements OnInit {
     } else {
       this.logger.warn('[APP-COMP] >>> I AM NOT LOGGED IN <<<')
       this.IS_ONLINE = false;
-      // clearTimeout(this.timeModalLogin);
-      // this.timeModalLogin = setTimeout(() => {
-      // if (!this.hadBeenCalledOpenModal) {
-      //   this.authModal = this.presentModal('initAuthentication');
-      //   this.hadBeenCalledOpenModal = true;
-      // }
-      this.goToDashboardLogin()
-      // }, 1000);
+      if(this.IS_ON_MOBILE_DEVICE){
+        clearTimeout(this.timeModalLogin);
+        this.timeModalLogin = setTimeout(() => {
+          if (!this.hadBeenCalledOpenModal) {
+            this.authModal = this.presentModal('initAuthentication');
+            this.hadBeenCalledOpenModal = true;
+          }
+        }, 1000)
+      }else{
+        this.goToDashboardLogin()
+      }
+      ;
     }
   }
 
@@ -785,11 +789,14 @@ export class AppComponent implements OnInit {
       this.logger.log('[APP-COMP] checkPlatformIsMobile', checkPlatformIsMobile());
       this.platformIs = PLATFORM_MOBILE;
       this.logger.log('[APP-COMP] this.platformIs', this.platformIs);
-      const IDConv = this.route.snapshot.firstChild.paramMap.get('IDConv');
+      let IDConv= null
+      if(this.route &&  this.route.snapshot && this.route.snapshot.firstChild){
+        IDConv = this.route.snapshot.firstChild.paramMap.get('IDConv');
+      }
 
-      // console.log('[APP-COMP]  platformIs', this.platformIs);
       // console.log('[APP-COMP] PLATFORM', PLATFORM_MOBILE, 'route.snapshot', this.route.snapshot);
       if (!IDConv) {
+        this.logger.log('[APP-COMP]  navigateByUrl -- conversations-list');
         this.router.navigateByUrl('conversations-list')
       }
       // this.router.navigateByUrl(pageUrl);

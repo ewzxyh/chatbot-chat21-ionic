@@ -14,7 +14,6 @@ import { TranslateLoader, TranslateModule, TranslatePipe } from '@ngx-translate/
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
-import { NgxLinkifyjsModule } from 'ngx-linkifyjs';
 import { Chooser } from '@ionic-native/chooser/ngx';
 import { LoggerModule, NGXLogger, NgxLoggerLevel } from "ngx-logger";
 
@@ -103,7 +102,6 @@ import { ConversationInfoModule } from 'src/app/components/conversation-info/con
 
 import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance';
 import { Network } from '@ionic-native/network/ngx';
-import { ConnectionService } from 'ng-connection-service';
 import { WebSocketJs } from './services/websocket/websocket-js';
 import { UnassignedConversationsPageModule } from './pages/unassigned-conversations/unassigned-conversations.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -115,8 +113,9 @@ export function createTranslateLoader(http: HttpClient) {
 
 }
 
-export function authenticationFactory(http: HttpClient, appConfig: AppConfigProvider, chat21Service: Chat21Service, appSorage: AppStorageService, network: Network, connectionService: ConnectionService) {
+export function authenticationFactory(http: HttpClient, appConfig: AppConfigProvider, chat21Service: Chat21Service, appSorage: AppStorageService) {
   const config = appConfig.getConfig()
+  console.log('authenticationFactory--->',config )
   if (config.chatEngine === CHAT_ENGINE_MQTT) {
 
     chat21Service.config = config.chat21Config;
@@ -136,7 +135,7 @@ export function authenticationFactory(http: HttpClient, appConfig: AppConfigProv
 
     FirebaseInitService.initFirebase(config.firebaseConfig)
     // console.log('[APP-MOD] FirebaseInitService config ', config)
-    const auth = new FirebaseAuthService(http, network, connectionService);
+    const auth = new FirebaseAuthService(http);
     auth.setBaseUrl(config.apiUrl)
 
     return auth
@@ -292,7 +291,6 @@ const appInitializerFn = (appConfig: AppConfigProvider, logger: NGXLogger) => {
     ScrollbarThemeModule,
     SharedModule,
     ConversationInfoModule,
-    NgxLinkifyjsModule.forRoot(),
     LoaderPreviewPageModule,
     SendEmailModalModule,
     CreateTicketPageModule,
@@ -313,7 +311,7 @@ const appInitializerFn = (appConfig: AppConfigProvider, logger: NGXLogger) => {
     {
       provide: MessagingAuthService,
       useFactory: authenticationFactory,
-      deps: [HttpClient, AppConfigProvider, Chat21Service, AppStorageService, Network, ConnectionService]
+      deps: [HttpClient, AppConfigProvider, Chat21Service, AppStorageService]
     },
     {
       provide: PresenceService,

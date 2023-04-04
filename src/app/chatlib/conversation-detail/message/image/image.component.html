@@ -1,7 +1,6 @@
 <!-- [ngStyle]="{ 'max-width': width +'px', 'max-height': height +'px' }" style="position: relative; " -->
 <div [ngStyle]="{'max-height': height +'px' }" class="c21-img-container">
   <div *ngIf="loading" class="loader" [ngStyle]="{ 'width': width , 'height': height  }"></div>
-  <!-- [tooltip]="timeTooltipRight" [options]="tooltipOptions" placement="bottom" content-type="template"  -->
   <img id="myImg" 
     class="message-contentX message-content-imageX" 
     [ngClass]="{'isLoadingImage': loading}"
@@ -10,7 +9,4 @@
     [src]="metadata.src" 
     (load)="onLoaded($event)" 
     (click)="openImageViewerModal(metadata.src, metadata.name)" />
-  <!-- <ng-template #timeTooltipRight>
-    <span>{{ tooltipMessage }}</span>
-  </ng-template> -->
 </div>

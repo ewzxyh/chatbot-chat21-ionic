@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
-import { ConnectionService } from 'ng-connection-service';
 // firebase
 // import * as firebase from 'firebase/app';
 import firebase from "firebase/app";
@@ -19,21 +17,10 @@ import { MessagingAuthService } from '../abstract/messagingAuth.service';
 import { UserModel } from '../../models/user';
 
 // utils
-import {
-  avatarPlaceholder,
-  getColorBck,
-} from '../../utils/utils-user';
-import { resolve } from 'url';
 import { CustomLogger } from '../logger/customLogger';
 import { AppStorageService } from '../abstract/app-storage.service';
 import { LoggerInstance } from '../logger/loggerInstance';
 import { LoggerService } from '../abstract/logger.service';
-
-
-import { Observable, Observer, fromEvent, merge } from 'rxjs';
-import { map } from 'rxjs/operators'
-import { Network } from '@ionic-native/network/ngx';
-
 // @Injectable({ providedIn: 'root' })
 @Injectable()
 export class FirebaseAuthService extends MessagingAuthService {
@@ -57,9 +44,7 @@ export class FirebaseAuthService extends MessagingAuthService {
   isConnected = true;
   unsubscribe: any;
   constructor(
-    public http: HttpClient,
-    private network: Network,
-    private connectionService: ConnectionService
+    public http: HttpClient
   ) {
     super();
     // this.initialize()

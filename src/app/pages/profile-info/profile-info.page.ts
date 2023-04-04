@@ -27,8 +27,7 @@ import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance'
   styleUrls: ['./profile-info.page.scss'],
 })
 export class ProfileInfoPage implements OnInit {
-  @ViewChild('useruidTooltip', { static: false }) useruidTooltip: any;
-
+  
   loggedUser: UserModel;
   version: string;
   itemAvatar: any;
@@ -38,16 +37,6 @@ export class ProfileInfoPage implements OnInit {
   private subscriptions = [];
   borderColor = '#2d323e';
   fontColor = '#949494';
-  tooltip: HTMLElement;
-  tooltipOptions = {
-    'show-delay': 100,
-    'tooltip-class': 'chat-tooltip',
-    'theme': 'light',
-    'shadow': false,
-    'hide-delay-mobile': 0,
-    'hideDelayAfterClick': 3000,
-    'hide-delay': 200
-  };
 
   constructor(
     private modalController: ModalController,

@@ -13,33 +13,12 @@ export class ImageComponent implements OnInit {
   @Output() onElementRendered = new EventEmitter<{element: string, status: boolean}>();
 
   loading: boolean = true
-  tooltipMessage: string;
   modal: any
   span: any
-
-  tooltipOptions = {
-    'show-delay': 0,
-    'tooltip-class': 'chat-tooltip',
-    'theme': 'light',
-    'shadow': false,
-    'hide-delay-mobile': 0,
-    'hideDelayAfterClick': 3000,
-    'hide-delay': 200
-  };
 
   constructor() { }
 
   ngOnInit() {
-    this.getBrowserLanguageAndTranslateTooltipMsg()
-  }
-  getBrowserLanguageAndTranslateTooltipMsg() {
-    var userLang = navigator.language;
-    // console.log('Image COMP - userLang ', userLang)
-    if (userLang === 'en') {
-      this.tooltipMessage = "Click to download"
-    } else {
-      this.tooltipMessage = "Clicca per scaricare"
-    }
   }
 
   onLoaded(event) {

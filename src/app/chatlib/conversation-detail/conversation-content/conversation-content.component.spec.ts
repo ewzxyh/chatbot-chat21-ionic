@@ -1,8 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { MomentModule } from 'angular2-moment';
-import { TooltipModule } from 'ng2-tooltip-directive';
 import { NGXLogger } from 'ngx-logger';
 import { HtmlEntitiesEncodePipe } from 'src/app/directives/html-entities-encode.pipe';
 import { MarkedPipe } from 'src/app/directives/marked.pipe';
@@ -40,8 +38,6 @@ describe('ConversationContentComponent', () => {
         HtmlEntitiesEncodePipe,
       ],
       imports: [
-        MomentModule,
-        TooltipModule
       ],
       providers: [ 
         UploadService,

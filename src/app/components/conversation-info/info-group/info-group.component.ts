@@ -30,17 +30,6 @@ export class InfoGroupComponent implements OnInit, AfterViewInit, OnChanges {
   private unsubscribe$: Subject<any> = new Subject<any>();
 
 
-  tooltip: HTMLElement;
-  tooltipOptions = {
-    'show-delay': 100,
-    'tooltip-class': 'chat-tooltip',
-    'theme': 'light',
-    'shadow': false,
-    'hide-delay-mobile': 0,
-    'hideDelayAfterClick': 3000,
-    'hide-delay': 200
-  };
-
   private logger: LoggerService = LoggerInstance.getInstance();
   route: string;
   previousUrl: string;

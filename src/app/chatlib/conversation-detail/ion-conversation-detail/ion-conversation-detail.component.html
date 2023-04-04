@@ -54,19 +54,19 @@
 <!-- ----------------------------------------------------------- -->
 <div class="manage_conversation_info_container" [ngClass]="{'close': !openInfoConversation, 'mobile': isMobile}">
   <ion-button fill="clear" *ngIf="openInfoConversation" (click)="onOpenCloseInfoConversationFN()"
-    [tooltip]="closeGroupTooltip"  [options]="tooltipOptions" placement="bottom"  content-type="template">
+  tooltip="{{translationMap?.get('LABEL_CLOSE_GROUP')}}" placement="bottom"  contentType="template">
     <ion-icon name="arrow-forward-outline"></ion-icon>
     <!-- {{translationMap.get('LABEL_CLOSE_GROUP')}} -->
-    <ng-template #closeGroupTooltip>
+    <!-- <ng-template #closeGroupTooltip>
       <span> {{ translationMap?.get('LABEL_CLOSE_GROUP')}} </span>
-    </ng-template>
+    </ng-template> -->
   </ion-button>
   <ion-button fill="clear" *ngIf="!openInfoConversation" (click)="onOpenCloseInfoConversationFN()"
-    [tooltip]="openGroupTooltip"  [options]="tooltipOptions" placement="bottom"  content-type="template">
+  tooltip="{{ translationMap?.get('LABEL_OPEN_INFO_CONVERSATION')}}" placement="bottom"  contentType="template">
     <ion-icon name="arrow-back-outline"></ion-icon>
-    <ng-template #openGroupTooltip>
+    <!-- <ng-template #openGroupTooltip>
       <span> {{ translationMap?.get('LABEL_OPEN_INFO_CONVERSATION')}} </span>
-    </ng-template>
+    </ng-template> -->
     <!-- {{translationMap.get('LABEL_OPEN_INFO_CONVERSATION')}} -->
   </ion-button>
 </div>
@@ -186,8 +186,7 @@
 
       <ng-container *ngIf="message?.attributes && message?.attributes?.sourcePage && !isSameSender(message?.sender, i)">
         <ion-button shape="round" size="small" class="btn-info-msg " ion-button fill="clear"
-          (click)="onClickInfoMessage(message, i)" [tooltip]="addAsCannedResponseTooltipText"
-          [options]="tooltipOptions" placement="bottom">
+          (click)="onClickInfoMessage(message, i)" tooltip="{{addAsCannedResponseTooltipText}}" placement="bottom">
           <ion-icon slot="icon-only" name="information-circle-outline"></ion-icon>
         </ion-button>
       </ng-container>

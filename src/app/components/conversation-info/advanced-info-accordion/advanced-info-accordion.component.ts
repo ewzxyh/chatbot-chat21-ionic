@@ -13,15 +13,6 @@ export class AdvancedInfoAccordionComponent implements OnInit, OnChanges {
   @Input() translationMap: Map<string, string>;
   public teammateID: string;
 
-  tooltipOptions = {
-    'show-delay': 100,
-    'tooltip-class': 'chat-tooltip',
-    'theme': 'light',
-    'shadow': false,
-    'hide-delay-mobile': 0,
-    'hideDelayAfterClick': 3000,
-    'hide-delay': 200
-  };
   private logger: LoggerService = LoggerInstance.getInstance()
   
   constructor() { }

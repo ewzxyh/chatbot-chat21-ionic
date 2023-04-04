@@ -20,13 +20,11 @@
 
 
       <!-- <div class="avatar-container"> -->
-      <div class="avatar-container" [tooltip]="useruidTooltip" [options]="tooltipOptions" placement="top"
-        content-type="template" (click)="copyLoggedUserUID()">
+      <div class="avatar-container" tooltip="{{loggedUser.uid}}" placement="top"
+        contentType="template" (click)="copyLoggedUserUID()">
         <app-avatar-profile [itemAvatar]=itemAvatar></app-avatar-profile>
       </div>
-      <ng-template #useruidTooltip>
-        <span> {{loggedUser.uid}}</span>
-      </ng-template>
+
 
       <div class="user-presence">
         <app-user-presence 

@@ -3,7 +3,6 @@ import { BubbleMessageComponent } from './../../chatlib/conversation-detail/mess
 import { CannedResponseComponent } from './../../components/canned-response/canned-response.component';
 import { TruncatePipe } from './../../directives/truncate.pipe';
 import { IonConversationDetailComponent } from '../../chatlib/conversation-detail/ion-conversation-detail/ion-conversation-detail.component';
-import { TooltipModule } from 'ng2-tooltip-directive';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -32,7 +31,6 @@ import { InfoGroupComponent } from 'src/app/components/conversation-info/info-gr
 
 
 import { SharedModule } from 'src/app/shared/shared.module';
-import { NgxLinkifyjsModule } from 'ngx-linkifyjs';
 import { ScrollbarThemeModule } from '../../utils/scrollbar-theme.directive';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 
@@ -42,7 +40,6 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
     CommonModule,
     FormsModule,
     IonicModule,
-    TooltipModule,
     ConversationDetailPageRoutingModule,
     ScrollbarThemeModule,
     PickerModule,
@@ -54,7 +51,6 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
       },
     }),
     SharedModule,
-    NgxLinkifyjsModule,
   ],
   // entryComponents: [MessageTextAreaComponent],
   entryComponents: [ BubbleInfoPopoverComponent],

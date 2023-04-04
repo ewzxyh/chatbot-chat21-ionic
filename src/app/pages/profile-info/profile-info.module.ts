@@ -14,7 +14,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
 
 import { ProfileInfoPageRoutingModule } from './profile-info-routing.module';
 import { ProfileInfoPage } from './profile-info.page';
-import { TooltipModule } from 'ng2-tooltip-directive';
 
 @NgModule({
   imports: [
@@ -22,7 +21,6 @@ import { TooltipModule } from 'ng2-tooltip-directive';
     FormsModule,
     IonicModule,
     ProfileInfoPageRoutingModule,
-    TooltipModule,
     // AvatarModule,
     SharedModule,
     TranslateModule.forChild({

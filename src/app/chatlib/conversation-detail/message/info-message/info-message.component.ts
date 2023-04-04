@@ -16,16 +16,6 @@ export class InfoMessageComponent implements OnInit, OnChanges {
 
   public message_text: string
   private logger: LoggerService = LoggerInstance.getInstance()
-
-  tooltipOptions = {
-    'show-delay': 500,
-    'tooltip-class': 'chat-tooltip',
-    'theme': 'light',
-    'shadow': false,
-    'hide-delay-mobile': 0,
-    'hideDelayAfterClick': 3000,
-    'hide-delay': 200
-  };
   
   constructor() { }
 

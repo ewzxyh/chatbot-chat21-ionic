@@ -1,14 +1,14 @@
 <ion-grid>
   <div class="footer-options-container">
     <!-- CHAT-OPTION -->
-    <div class="section-option" id="chat"  tooltip="{{translationMap?.get('LABEL_CHAT')}}" [options]="tooltipOptions" placement="top">
+    <div class="section-option" id="chat"  tooltip="{{translationMap?.get('LABEL_CHAT')}}" placement="top">
       <ion-button fill="clear" (click)="onOpenSection('chat')" [class.active]="section==='chat'">
         <ion-icon name="chatbubbles"></ion-icon>
         {{translationMap.get('LABEL_CHAT')}}
       </ion-button>
     </div>
     <!-- EMAIL-OPTION -->
-    <div *ngIf="emailSection" class="section-option" id="email"  tooltip="{{translationMap?.get('LABEL_EMAIL')}}" [options]="tooltipOptions" placement="top">
+    <div *ngIf="emailSection" class="section-option" id="email"  tooltip="{{translationMap?.get('LABEL_EMAIL')}}" placement="top">
       <ion-button fill="clear" [class.active]="section==='email'" (click)="onOpenSection('email')" [disabled]="channelType === 'direct'">
         <ion-icon name="mail-open"></ion-icon>
         {{translationMap.get('LABEL_EMAIL')}}
@@ -37,27 +37,25 @@
         <!-- CANNED RESPONSES -->
         <ng-container *ngIf="areVisibleCAR && supportMode">
           <div class="canned-responses-btn-wpr"
-            tooltip="{{translationMap?.get('CANNED_RESPONSES')}}" [options]="tooltipOptions" placement="top">
+            tooltip="{{translationMap?.get('CANNED_RESPONSES')}}" placement="top">
             <ion-button ion-button fill="clear" class="canned-responses-btn" (click)="openCannedResponses()"
               [disabled]="!conversationWith?.startsWith(TYPE_SUPPORT_GROUP) || disableTextarea">
               <ion-icon slot="icon-only" lazy="true" name="flash-outline" style="font-size: 24px;"></ion-icon>
             </ion-button>
           </div>
           <div *ngIf="conversationWith?.startsWith(TYPE_SUPPORT_GROUP)  && tagsCannedCount === 0"
-            tooltip="{{translationMap?.get('NO_CANNED_RESPONSES')}}" [options]="tooltipOptions" placement="top"
+            tooltip="{{translationMap?.get('NO_CANNED_RESPONSES')}}" placement="top"
             class="no-canned-responses-btn-badge">
             <ion-icon name="alert-sharp" style="vertical-align: middle;"></ion-icon>
           </div>
-          <div *ngIf="conversationWith?.startsWith(TYPE_SUPPORT_GROUP)  && tagsCannedCount > 0"
-            tooltip="{{translationMap?.get('YES_CANNED_RESPONSES')}}" [options]="tooltipOptions" placement="top"
-            class="canned-responses-btn-badge">
+          <div *ngIf="conversationWith?.startsWith(TYPE_SUPPORT_GROUP) && (tagsCannedCount > 0)"
+            tooltip="{{translationMap?.get('YES_CANNED_RESPONSES')}}" placement="top" class="canned-responses-btn-badge">
             <ion-icon name="information-sharp" style="vertical-align: middle;"></ion-icon>
           </div>
         </ng-container>
 
         <!-- UPLOAD ATTACHMENT -->
-        <div class="upload-image-btn-wpr" tooltip="{{translationMap?.get('UPLOAD')}}" [options]="tooltipOptions"
-          placement="top">
+        <div class="upload-image-btn-wpr" tooltip="{{translationMap?.get('UPLOAD')}}" placement="top">
           <ion-button ion-button fill="clear" class="upload-image-btn" [disabled]="disableTextarea">
             <ion-icon slot="icon-only" lazy="true" name="attach-outline"
               style="font-size: 30px;transform: rotate(42deg);"></ion-icon>

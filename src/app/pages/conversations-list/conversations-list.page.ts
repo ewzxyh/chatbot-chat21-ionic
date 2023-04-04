@@ -23,7 +23,6 @@ import {
 } from '../../../chat21-core/utils/utils'
 
 import { EventsService } from '../../services/events-service'
-import PerfectScrollbar from 'perfect-scrollbar' // https://github.com/mdbootstrap/perfect-scrollbar
 
 // services
 import { ConversationsHandlerService } from 'src/chat21-core/providers/abstract/conversations-handler.service'
@@ -96,16 +95,6 @@ export class ConversationListPage implements OnInit {
 
   public isMobile: boolean = false;
   public isInitialized: boolean = false;
-
-  tooltipOptions = {
-    'show-delay': 1500,
-    'tooltip-class': 'chat-tooltip',
-    'theme': 'light',
-    'shadow': false,
-    'hide-delay-mobile': 0,
-    'hideDelayAfterClick': 3000,
-    'hide-delay': 200,
-  }
 
   constructor(
     private router: Router,

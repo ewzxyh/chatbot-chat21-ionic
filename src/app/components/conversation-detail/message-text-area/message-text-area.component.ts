@@ -75,16 +75,6 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
 
   section: string= 'chat'
 
-  tooltipOptions = {
-    'show-delay': 500,
-    'tooltip-class': 'chat-tooltip',
-    'theme': 'light',
-    'shadow': false,
-    'hide-delay-mobile': 0,
-    'hideDelayAfterClick': 3000,
-    'hide-delay': 200
-  };
-
   showEmojiPicker: boolean = false; //To show/hide emoji picker
   addWhiteSpaceBefore: boolean;
   emojiPerLine: number = 9

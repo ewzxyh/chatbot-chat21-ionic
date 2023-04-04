@@ -22,15 +22,7 @@ export class HeaderConversationsList implements OnInit {
 
   createTicketModal = null
   public translationMap: Map<string, string>;
-  tooltipOptions = {
-    'show-delay': 0,
-    'tooltip-class': 'chat-tooltip',
-    'theme': 'light',
-    'shadow': false,
-    'hide-delay-mobile': 0,
-    'hideDelayAfterClick': 3000,
-    'hide-delay': 0
-  };
+
   constructor(
     public events: EventsService,
     public modalController: ModalController,
