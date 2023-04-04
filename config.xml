@@ -48,11 +48,10 @@
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
+        <preference name="UseSwiftLanguageVersion" value="5" />
+        <preference name="scheme" value="app" />
         <icon height="57" src="resources/ios/icon/icon.png" width="57" />
         <icon height="114" src="resources/ios/icon/redacted@example.invalid" width="114" />
-        <icon height="29" src="resources/ios/icon/icon-small.png" width="29" />
-        <icon height="58" src="resources/ios/icon/redacted@example.invalid" width="58" />
-        <icon height="87" src="resources/ios/icon/redacted@example.invalid" width="87" />
         <icon height="20" src="resources/ios/icon/icon-20.png" width="20" />
         <icon height="40" src="resources/ios/icon/redacted@example.invalid" width="40" />
         <icon height="60" src="resources/ios/icon/redacted@example.invalid" width="60" />
