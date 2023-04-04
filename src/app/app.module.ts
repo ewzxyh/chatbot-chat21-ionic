@@ -115,7 +115,6 @@ export function createTranslateLoader(http: HttpClient) {
 
 export function authenticationFactory(http: HttpClient, appConfig: AppConfigProvider, chat21Service: Chat21Service, appSorage: AppStorageService) {
   const config = appConfig.getConfig()
-  console.log('authenticationFactory--->',config )
   if (config.chatEngine === CHAT_ENGINE_MQTT) {
 
     chat21Service.config = config.chat21Config;
