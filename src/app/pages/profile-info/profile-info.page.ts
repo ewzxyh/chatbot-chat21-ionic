@@ -36,7 +36,7 @@ export class ProfileInfoPage implements OnInit {
   version: string;
   itemAvatar: any;
 
-  public translationMap: Map<string, string>;
+  public translationsMap: Map<string, string>;
   private logger: LoggerService = LoggerInstance.getInstance();
 
   private subscriptions = [];
@@ -125,10 +125,10 @@ export class ProfileInfoPage implements OnInit {
       'LABEL_LOGOUT'
 
     ];
-    this.translationMap = this.translateService.translateLanguage(keys);
+    this.translationsMap = this.translateService.translateLanguage(keys);
 
     this.teammateStatus.forEach(element => {
-      element.label = this.translationMap.get(element.label)
+      element.label = this.translationsMap.get(element.label)
     });
   }
 
@@ -169,9 +169,9 @@ export class ProfileInfoPage implements OnInit {
     this.logger.log('[PROFILE-INFO-PAGE] userIsOnLine - userId ', userId, ' - isOnline ', isOnline);
     this.itemAvatar.online = isOnline;
     if (isOnline) {
-      this.itemAvatar.status = this.translationMap.get('LABEL_AVAILABLE');
+      this.itemAvatar.status = this.translationsMap.get('LABEL_AVAILABLE');
     } else {
-      this.itemAvatar.status = this.translationMap.get('LABEL_NOT_AVAILABLE');
+      this.itemAvatar.status = this.translationsMap.get('LABEL_NOT_AVAILABLE');
     }
   }
 
@@ -179,7 +179,7 @@ export class ProfileInfoPage implements OnInit {
   userLastConnection = (userId: string, timestamp: string) => {
     this.logger.log('[PROFILE-INFO-PAGE] userLastConnection - userId ', userId, ' - timestamp ', timestamp);
     if (timestamp && timestamp !== '') {
-      const lastConnectionDate = setLastDateWithLabels(this.translationMap, timestamp);
+      const lastConnectionDate = setLastDateWithLabels(this.translationsMap, timestamp);
       this.itemAvatar.lastConnection = lastConnectionDate;
       if (!this.itemAvatar.online) {
         this.itemAvatar.status = lastConnectionDate;
