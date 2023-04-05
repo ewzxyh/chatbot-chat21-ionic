@@ -607,24 +607,29 @@ select:-webkit-autofill:focus {
 
 // select teammate status in user detail drawer
 .teammate-status-in-drawer {
-
+    &.sidebar{
+        --background-color: #2d323e;
+    }
+    &.profile-info{
+        --background-color: #1e2129;
+    }
     &.ng-select {
 
         .ng-select-container {
-            background-color: #2d323e;
+            background-color: var(--background-color);
             color: #fff;
-            border: 1px solid #2d323e;
+            border: 1px solid var(--background-color);
         }
         &.ng-select-opened{
             .ng-select-container {
-                background-color: #2d323e;
-                border: 1px solid #2d323e;
+                background-color: var(--background-color);
+                border: 1px solid var(--background-color);
             }
         }
     
         &.ng-select-focused:not(.ng-select-opened){
              >.ng-select-container{
-                border: 1px solid #2d323e;
+                border: 1px solid var(--background-color);
                 box-shadow: unset;
              }
         }
@@ -633,11 +638,11 @@ select:-webkit-autofill:focus {
     }
 
     .ng-dropdown-panel {
-        background-color: #2d323e;
-        border: 1px solid #2d323e;
+        background-color: var(--background-color);
+        border: 1px solid var(--background-color);
     
         &.ng-select-bottom {
-            border: 1px solid #2d323e;
+            border: 1px solid var(--background-color);
             margin-top: 8px;
             border-top-right-radius: 4px;
             border-top-left-radius: 4px;
@@ -645,7 +650,7 @@ select:-webkit-autofill:focus {
     
         .ng-dropdown-panel-items {
             .ng-option {
-                background-color: #2d323e;
+                background-color: var(--background-color);
                 color: #fff;
     
                 &.ng-option-marked {
@@ -654,7 +659,7 @@ select:-webkit-autofill:focus {
                 }
     
                 &.ng-option-selected {
-                    background-color: #2d323e;
+                    background-color: var(--background-color);
                     color: #fff;
                 }
     

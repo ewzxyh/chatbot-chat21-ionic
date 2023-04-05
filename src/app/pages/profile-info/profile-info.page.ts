@@ -1,3 +1,4 @@
+import { AppConfigProvider } from 'src/app/services/app-config';
 import { ImageRepoService } from 'src/chat21-core/providers/abstract/image-repo.service';
 import { Component, OnInit, Input, EventEmitter, Output, ViewChild, Renderer2 } from '@angular/core';
 import { ModalController } from '@ionic/angular';
@@ -20,6 +21,9 @@ import { EventsService } from 'src/app/services/events-service';
 // Logger
 import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service';
 import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance';
+import { WebsocketService } from 'src/app/services/websocket/websocket.service';
+import { AppStorageService } from 'src/chat21-core/providers/abstract/app-storage.service';
+import { skip } from 'rxjs/operators';
 
 @Component({
   selector: 'app-profile-info',
@@ -31,12 +35,25 @@ export class ProfileInfoPage implements OnInit {
   loggedUser: UserModel;
   version: string;
   itemAvatar: any;
+
   public translationMap: Map<string, string>;
   private logger: LoggerService = LoggerInstance.getInstance();
 
   private subscriptions = [];
   borderColor = '#2d323e';
   fontColor = '#949494';
+  
+  @Input() selectedStatus: number;
+  @Input() profile_name_translated: string;
+  @Input() token: string;
+  @Input() project: { _id: string, name: string, type: string, isActiveSubscription: boolean, plan_name: string}
+
+  isVisiblePAY: boolean;
+  teammateStatus = [
+    { id: 1, name: 'Available', avatar: 'assets/images/teammate-status/avaible.svg', label: "LABEL_AVAILABLE" },
+    { id: 2, name: 'Unavailable', avatar: 'assets/images/teammate-status/unavaible.svg', label: "LABEL_NOT_AVAILABLE" },
+    { id: 3, name: 'Inactive', avatar: 'assets/images/teammate-status/inactive.svg', label: "LABEL_INACTIVE" },
+  ];
 
   constructor(
     private modalController: ModalController,
@@ -46,7 +63,9 @@ export class ProfileInfoPage implements OnInit {
     public presenceService: PresenceService,
     public events: EventsService,
     private imageRepo: ImageRepoService,
-    public renderer: Renderer2
+    public renderer: Renderer2,
+    public wsService: WebsocketService,
+    public appConfigProvider: AppConfigProvider,
   ) { }
 
   /** */
@@ -68,6 +87,7 @@ export class ProfileInfoPage implements OnInit {
   /** */
   initialize() {
     this.setUser();
+    this.getOSCODE();
     this.setSubscriptions();
   }
 
@@ -103,8 +123,13 @@ export class ProfileInfoPage implements OnInit {
       'ARRAY_DAYS',
       'LABEL_IS_WRITING',
       'LABEL_LOGOUT'
+
     ];
     this.translationMap = this.translateService.translateLanguage(keys);
+
+    this.teammateStatus.forEach(element => {
+      element.label = this.translationMap.get(element.label)
+    });
   }
 
 
@@ -195,6 +220,63 @@ export class ProfileInfoPage implements OnInit {
     this.onClose()
     // pubblico evento
     this.events.publish('profileInfoButtonClick:logout', true);
+  }
+
+  changeAvailabilityStateInUserDetailsSidebar(selectedStatusID) {
+    this.logger.log('[PROFILE-INFO-PAGE] - changeAvailabilityState projectid', this.project._id, ' available 1: ', selectedStatusID);
+    
+    let IS_AVAILABLE = null
+    let profilestatus = ''
+    if (selectedStatusID === 1) {
+      IS_AVAILABLE = true
+    } else if (selectedStatusID === 2) {
+      IS_AVAILABLE = false
+    } else if (selectedStatusID === 3) {
+      IS_AVAILABLE = false
+      profilestatus = 'inactive'
+    }
+
+    this.wsService.updateCurrentUserAvailability(this.token, this.project._id, IS_AVAILABLE, profilestatus).subscribe((projectUser: any) => {
+
+        this.logger.log('[PROFILE-INFO-PAGE] - PROJECT-USER UPDATED ', projectUser)
+
+      }, (error) => {
+        this.logger.error('[PROFILE-INFO-PAGE] - PROJECT-USER UPDATED - ERROR  ', error);
+
+      }, () => {
+        this.logger.log('[PROFILE-INFO-PAGE] - PROJECT-USER UPDATED  * COMPLETE *');
+
+    });
+
+  }
+
+  getOSCODE() {
+    let public_Key = this.appConfigProvider.getConfig().t2y12PruGU9wUtEGzBJfolMIgK;
+    this.logger.log('[PROFILE-INFO-PAGE] AppConfigService getAppConfig public_Key', public_Key);
+    this.logger.log('[PROFILE-INFO-PAGE] AppConfigService getAppConfig', this.appConfigProvider.getConfig());
+    if (public_Key) {
+      let keys = public_Key.split("-");
+      this.logger.log('[PROFILE-INFO-PAGE] PUBLIC-KEY - public_Key keys', keys)
+
+      keys.forEach(key => {
+        if (key.includes("PAY")) {
+
+          let pay = key.split(":");
+
+          if (pay[1] === "F") {
+            this.isVisiblePAY = false;
+          } else {
+            this.isVisiblePAY = true;
+          }
+        }
+      });
+
+      if (!public_Key.includes("PAY")) {
+        this.isVisiblePAY = false;
+      }
+    } else {
+      this.isVisiblePAY = false;
+    }
   }
 
   copyLoggedUserUID() {

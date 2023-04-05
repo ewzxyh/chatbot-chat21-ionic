@@ -68,7 +68,78 @@
 //         }
 //     }
 
+.availability-section {
+    // top: 320px;
+    text-align: center;
+    background-color: #2d323e;
+    padding: 4px 0px;
+    width: 192px;
+    border-radius: 4px;
+    // -webkit-transform: translateX(-50%);
+    // transform: translateX(-50%);
+    // left: 50%;
+    margin: auto;
+    // position: absolute;
+}
 
+.first-divider {
+    // margin-top: 365px;
+    border: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 20px;
+}
+
+.user-details-plan-info {
+    font-size: 13px;
+    text-transform: capitalize;
+    color: #a9afbb;
+    font-weight: 500;
+    line-height: 21px;
+}
+
+.user-details-plan-icon {
+    display: block;
+    float: left;
+    font-size: 20px;
+    margin-right: 6px;
+}
+
+.user-details-footer-section {
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    left: 50%;
+    margin: auto;
+    position: absolute;
+    text-align: center;
+
+    padding-bottom: 15px;
+    padding-top: 100px;
+    font-size: 16px;
+    font-weight: 400;
+    z-index: 1;
+    // bottom: 50px;
+    // bottom: 55px;
+    
+}
+
+.logout-btn-wpr {
+    cursor: pointer;
+    color: #fff;
+}
+
+.footer-margin-top-pricing-no-visible {
+    padding-top: 240px;
+}
+
+.user-details-logout-icon {
+    color: #a9afbb;
+    font-size: 30px;
+    // margin-top: 30px;
+}
+
+.user-details-logout-icon:hover {
+    color: #fff;
+}
 
 
 .current-user-profile {

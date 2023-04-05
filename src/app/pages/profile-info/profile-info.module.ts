@@ -1,3 +1,4 @@
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -14,6 +15,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 
 import { ProfileInfoPageRoutingModule } from './profile-info-routing.module';
 import { ProfileInfoPage } from './profile-info.page';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   imports: [
@@ -23,6 +25,8 @@ import { ProfileInfoPage } from './profile-info.page';
     ProfileInfoPageRoutingModule,
     // AvatarModule,
     SharedModule,
+    NgSelectModule,
+    MatTooltipModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,

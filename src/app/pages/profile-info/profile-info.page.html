@@ -26,12 +26,12 @@
       </div>
 
 
-      <div class="user-presence">
+      <!-- <div class="user-presence">
         <app-user-presence 
           [idUser]=loggedUser.uid 
           [translationMap]=translationMap>
         </app-user-presence>
-      </div>
+      </div> -->
 
 
       <!-- 
@@ -50,7 +50,7 @@
     </div>
   </div>
 
-  <ion-list *ngIf="loggedUser">
+  <div *ngIf="loggedUser" style="margin:10px">
     <!-- <ion-item lines="none" class="sidebar-items" (click)="onClickArchivedConversation()">
       <div tabindex="0"></div>
       <ion-icon name="archive-outline" class="sidebar-icons"></ion-icon>
@@ -59,15 +59,77 @@
       </ion-label>
     </ion-item> -->
 
-    <ion-item lines="none" class="sidebar-items" (click)="onLogout()">
-      <div tabindex="0"></div>
-      <ion-icon name="log-out-outline" class="sidebar-icons"></ion-icon>
-      <ion-label class="sidebar-labels">
-        <h3>{{ 'LABEL_LOGOUT' | translate }}</h3>
-      </ion-label>
-    </ion-item>
+    <section class="availability-section">
+      <!-- <mat-slide-toggle (change)="changeAvailabilityStateInUserDetailsSidebar(IS_AVAILABLE = !IS_AVAILABLE)"
+          class="custom-mat-slide-toggle" [checked]="IS_AVAILABLE" labelPosition="before">
 
-  </ion-list>
+          <span *ngIf="IS_AVAILABLE"
+              style="font-weight: 400 !important; text-transform: capitalize; font-size:14px; color:#a9afbb">
+              {{IS_AVAILABLE_msg}}
+          </span>
+          <span *ngIf="!IS_AVAILABLE"
+              style="font-weight: 400 !important;text-transform: capitalize;font-size:14px; color:#a9afbb">
+              {{IS_UNAVAILABLE_msg}}
+          </span>
+      </mat-slide-toggle> -->
+      <ng-select style="text-align: left;" 
+        (change)="changeAvailabilityStateInUserDetailsSidebar(selectedStatus)" 
+        [(ngModel)]="selectedStatus" 
+        class="teammate-status-in-drawer profile-info" 
+        [items]="teammateStatus" 
+        bindLabel="name" bindValue="id"
+        [clearable]="false"
+        [searchable]="false">
+        <!-- {{teammateStatus.name}} -->
+          <ng-template ng-label-tmp let-item="item">
+              <img style="width: 15px;height: 15px;position: relative; top: 1px;" height="15" width="15" [src]="item?.avatar" />
+              <span id="sidebaravatar_{{item.name}}" style="text-transform: capitalize; margin-left:8px">  {{item.label}} </span>
+          </ng-template>
+          <ng-template ng-option-tmp let-item="item" let-index="index">
+              <img style="width: 15px;height: 15px;position: relative; top: 1px;" height="15" width="15" [src]="item?.avatar" />
+              <span id="sidebaravatar_{{item.name}}" style="text-transform: capitalize; margin-left:8px">  {{item.label}} </span>
+          </ng-template>
+      </ng-select>
+    </section>
+
+    <hr class="first-divider">
+
+    <section *ngIf="isVisiblePAY" class="user-details-plan-info">
+        <span class="material-icons user-details-plan-icon">apps</span>
+        <span>
+            <div> {{project?.name}} </div>
+            <div style="display: inline-block;    margin-left: 26px;"> {{ profile_name_translated }} </div>
+
+            <div *ngIf="project?.type === 'payment' && project?.isActiveSubscription === false"
+                style="color:#f44336; position:relative; top: -1px;display: inline-block;">
+                <i *ngIf="project?.plan_name !== 'enterprise'" class="material-icons" style="vertical-align: middle; color:#f44336; cursor:pointer;    
+                    font-size: 16px;" matTooltipClass="custom-mat-tooltip"
+                    matTooltip="{{ translationsMap.get('SubscriptionPaymentProblem') }}" #tooltip="matTooltip" matTooltipPosition='right'
+                    matTooltipHideDelay="100">
+                    error_outline
+                </i>
+                <i *ngIf="project?.plan_name === 'enterprise'" class="material-icons" style="vertical-align: middle; color:#f44336; cursor:pointer;    
+                    font-size: 16px;" matTooltipClass="custom-mat-tooltip" matTooltip="{{ translationsMap.get('ThePlanHasExpired') }}"
+                    #tooltip="matTooltip" matTooltipPosition='right' matTooltipHideDelay="100">
+                    error_outline
+                </i>
+            </div>
+        </span>
+    </section>
+
+    <section class="user-details-footer-section"
+        [ngClass]="{'footer-margin-top-pricing-no-visible': isVisiblePAY === false }">
+        <div role="button" class="logout-btn-wpr" (click)="onLogout()">
+            <i class="material-icons user-details-logout-icon" >
+                logout
+            </i>
+            <div class="user-details-logout-text"> 
+                 {{translationMap.get('LABEL_LOGOUT')}} 
+            </div>
+        </div>
+    </section>
+
+  </div>
 
 </ion-content>
 

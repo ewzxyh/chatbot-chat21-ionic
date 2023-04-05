@@ -45,9 +45,10 @@ import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service
 import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance'
 import { NetworkService } from 'src/app/services/network-service/network.service'
 import { Subject } from 'rxjs'
-import { takeUntil } from 'rxjs/operators'
+import { skip, takeUntil } from 'rxjs/operators'
 import { TYPE_DIRECT } from 'src/chat21-core/utils/constants';
 import { getProjectIdSelectedConversation } from 'src/chat21-core/utils/utils-message';
+import { WebsocketService } from 'src/app/services/websocket/websocket.service';
 
 @Component({
   selector: 'app-conversations-list',
@@ -79,6 +80,7 @@ export class ConversationListPage implements OnInit {
   private isShowMenuPage = false
   private logger: LoggerService = LoggerInstance.getInstance()
   translationMapConversation: Map<string, string>
+  translationMapHeader: Map<string, string>
   stylesMap: Map<string, string>
 
   public conversationType = 'active'
@@ -95,6 +97,17 @@ export class ConversationListPage implements OnInit {
 
   public isMobile: boolean = false;
   public isInitialized: boolean = false;
+
+  // PROJECT AVAILABILITY INFO: start
+  project: { _id: string, name: string, type: string, isActiveSubscription: boolean, plan_name: string}
+  profile_name_translated: string;
+  selectedStatus: any;
+  teammateStatus = [
+    { id: 1, name: 'Available', avatar: 'assets/images/teammate-status/avaible.svg', label: "LABEL_AVAILABLE" },
+    { id: 2, name: 'Unavailable', avatar: 'assets/images/teammate-status/unavaible.svg', label: "LABEL_NOT_AVAILABLE" },
+    { id: 3, name: 'Inactive', avatar: 'assets/images/teammate-status/inactive.svg', label: "LABEL_INACTIVE" },
+  ];
+  // PROJECT AVAILABILITY INFO: end
 
   constructor(
     private router: Router,
@@ -113,9 +126,10 @@ export class ConversationListPage implements OnInit {
     public tiledeskAuthService: TiledeskAuthService,
     public appConfigProvider: AppConfigProvider,
     public platform: Platform,
-    private networkService: NetworkService,
+    public wsService: WebsocketService,
   ) {
     this.checkPlatform();
+    this.translations();
     this.listenToAppCompConvsLengthOnInitConvs()
     this.listenToAppIsInitialized()
     this.listenToLogoutEvent()
@@ -125,7 +139,9 @@ export class ConversationListPage implements OnInit {
     this.listenToSwPostMessage()
     this.listenSupportConvIdHasChanged()
     // this.listenDirectConvIdHasChanged();
-    this.listenToCloseConvFromHeaderConversation()
+    this.listenToCloseConvFromHeaderConversation();
+    this.listenToCurrentStoredProject()
+    this.listenTocurrentProjectUserUserAvailability$()
   }
 
   private checkPlatform(){
@@ -136,6 +152,15 @@ export class ConversationListPage implements OnInit {
       this.isMobile = false
       this.logger.log('[CONVS-LIST-PAGE] - initialize -> checkPlatformIsMobile isMobile? ', this.isMobile)
     }
+  }
+
+  private translations(){
+    const keysConversation = ['CLOSED', 'Resolve']
+    const keysHeader = ['ProPlanTrial', 'FreePlan', 'PaydPlanNamePro', 'PaydPlanNameEnterprise']
+
+    this.translationMapConversation = this.translateService.translateLanguage( keysConversation )
+    this.translationMapHeader = this.translateService.translateLanguage( keysHeader )
+    
   }
 
   listenSupportConvIdHasChanged() {
@@ -370,9 +395,7 @@ export class ConversationListPage implements OnInit {
   // }
 
   initArchivedConversationsHandler() {
-    const keysConversation = ['CLOSED', 'Resolve']
-    this.translationMapConversation = this.translateService.translateLanguage( keysConversation )
-
+    
     this.archivedConversationsHandlerService.subscribeToConversations(() => {
       this.logger.log('[CONVS-LIST-PAGE]-CONVS - conversations archived length ',this.archivedConversations.length)
     })
@@ -452,6 +475,76 @@ export class ConversationListPage implements OnInit {
 
   listenToStorageChange(){
     this.events.subscribe('storage:sound', value => this.sound_btn = value)
+  }
+
+  listenToCurrentStoredProject() {
+    this.events.subscribe('storage:last_project', projectObjct => {
+      if (projectObjct && projectObjct !== 'undefined') {
+        // console.log('[CONVS-LIST-PAGE] - GET STORED PROJECT ', projectObjct)
+
+        this.project = {
+          _id: projectObjct['id_project']['_id'],
+          name: projectObjct['id_project']['name'],
+          type: projectObjct['id_project']['profile']['type'],
+          isActiveSubscription: projectObjct['id_project']['isActiveSubscription'],
+          plan_name: projectObjct['id_project']['profile']['name']
+        }
+
+        const trial_expired = projectObjct['id_project']['trialExpired']    
+        const profile_name = projectObjct['id_project']['profile']['name'];
+      
+        if (this.project.type === 'free') {
+
+          if (trial_expired === false) {
+            this.profile_name_translated = this.translationMapHeader.get('ProPlanTrial');
+          } else if (trial_expired === true) {
+             this.profile_name_translated = this.translationMapHeader.get('FreePlan');
+          }
+        } else if (this.project.type === 'payment' && profile_name === 'pro') {
+          this.profile_name_translated = this.translationMapHeader.get('PaydPlanNamePro');
+        } else if (this.project.type === 'payment' && profile_name === 'enterprise') {
+          this.profile_name_translated = this.translationMapHeader.get('PaydPlanNameEnterprise');
+        }
+      }
+    })
+
+    try {
+      // this.tiledeskToken = this.appStorageService.getItem('tiledeskToken');
+      // console.log('[SIDEBAR-USER-DETAILS] - GET STORED TOKEN ', this.tiledeskToken)
+    } catch (err) {
+      this.logger.error('[CONVS-LIST-PAGE] - GET STORED TOKEN ', err)
+    }
+  }
+
+  listenTocurrentProjectUserUserAvailability$() {
+    this.wsService.currentProjectUserAvailability$.pipe(skip(1)).subscribe((projectUser) => {
+        this.logger.log('[CONVS-LIST-PAGE] - $UBSC TO WS USER AVAILABILITY & BUSY STATUS RES ', projectUser);
+
+        if (projectUser) {
+          if (projectUser['user_available'] === false && projectUser['profileStatus'] === 'inactive') {
+            // console.log('teammateStatus ', this.teammateStatus) 
+            this.selectedStatus = this.teammateStatus[2].id;
+            this.logger.debug('[CONVS-LIST-PAGE] - PROFILE_STATUS selected option', this.teammateStatus[2].name);
+            this.teammateStatus = this.teammateStatus.slice(0)
+          } else if (projectUser['user_available'] === false && (projectUser['profileStatus'] === '' || !projectUser['profileStatus'])) {
+            this.selectedStatus = this.teammateStatus[1].id;
+            this.logger.debug('[CONVS-LIST-PAGE] - PROFILE_STATUS selected option', this.teammateStatus[1].name);
+            this.teammateStatus = this.teammateStatus.slice(0)
+          } else if (projectUser['user_available'] === true && (projectUser['profileStatus'] === '' || !projectUser['profileStatus'])) {
+            this.selectedStatus = this.teammateStatus[0].id
+            this.teammateStatus = this.teammateStatus.slice(0)
+            this.logger.debug('[CONVS-LIST-PAGE] - PROFILE_STATUS selected option', this.teammateStatus[0].name);
+          }
+          // this.IS_BUSY = projectUser['isBusy']
+          // this.USER_ROLE = projectUser['role']
+          // this.translateUserRole(this.USER_ROLE)
+        }
+
+      }, (error) => {
+        this.logger.error('[CONVS-LIST-PAGE] - $UBSC TO WS USER AVAILABILITY & BUSY STATUS error ', error);
+      }, () => {
+        this.logger.log('[CONVS-LIST-PAGE] - $UBSC TO WS USER AVAILABILITY & BUSY STATUS * COMPLETE *');
+      })
   }
 
   // ------------------------------------------------------------------
@@ -857,12 +950,12 @@ export class ConversationListPage implements OnInit {
   // Opens logged user profile modal
   // ---------------------------------------------------------
   openProfileInfo(event: any) {
-    const TOKEN = this.messagingAuthService.getToken()
+    const TOKEN = this.tiledeskAuthService.getTiledeskToken()
     this.logger.log('[CONVS-LIST-PAGE] open ProfileInfoPage TOKEN ', TOKEN)
     if (checkPlatformIsMobile()) {
-      presentModal(this.modalController, ProfileInfoPage, { token: TOKEN })
+      presentModal(this.modalController, ProfileInfoPage, { token: TOKEN, selectedStatus: this.selectedStatus, project: this.project, profile_name_translated: this.profile_name_translated })
     } else {
-      this.navService.push(ProfileInfoPage, { token: TOKEN })
+      this.navService.push(ProfileInfoPage, { token: TOKEN, selectedStatus: this.selectedStatus, project: this.project, profile_name_translated: this.profile_name_translated })
     }
   }
 
