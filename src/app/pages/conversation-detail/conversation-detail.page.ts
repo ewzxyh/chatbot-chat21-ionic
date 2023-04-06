@@ -1630,23 +1630,23 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   // * if I'm in the conversation at the bottom of the page -> NO SOUND
   // * otherwise -> SOUND
   // ----------------------------------------------------------
-  soundMessage() {
-    const that = this
-    this.audio = new Audio()
-    // this.audio.src = '/assets/sounds/pling.mp3';
-    this.audio.src = URL_SOUND_LIST_CONVERSATION
-    this.audio.load()
-    this.logger.log('[CONVS-DETAIL] soundMessage conversation this.audio',this.audio)
-    clearTimeout(this.setTimeoutSound)
-    this.setTimeoutSound = setTimeout(function () {
-      that.audio.play().then(() => {
-          // Audio is playing.
-          this.logger.log('[CONVS-DETAIL] soundMessag that.audio.src ',that.audio.src)
-      }).catch((error) => {
-          that.logger.error(error)
-      })
-    }, 1000)
-  }
+  // soundMessage() {
+  //   const that = this
+  //   this.audio = new Audio()
+  //   // this.audio.src = '/assets/sounds/pling.mp3';
+  //   this.audio.src = URL_SOUND_LIST_CONVERSATION
+  //   this.audio.load()
+  //   this.logger.log('[CONVS-DETAIL] soundMessage conversation this.audio',this.audio)
+  //   clearTimeout(this.setTimeoutSound)
+  //   this.setTimeoutSound = setTimeout(function () {
+  //     that.audio.play().then(() => {
+  //         // Audio is playing.
+  //         this.logger.log('[CONVS-DETAIL] soundMessag that.audio.src ',that.audio.src)
+  //     }).catch((error) => {
+  //         that.logger.error(error)
+  //     })
+  //   }, 1000)
+  // }
 
   onBeforeMessageRenderFN(event) {
     //this.onBeforeMessageRender.emit(event)

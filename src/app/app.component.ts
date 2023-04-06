@@ -895,7 +895,7 @@ export class AppComponent implements OnInit {
     if(sound_status && sound_status !== 'undefined'){
       this.isSoundEnabled = sound_status === 'enabled'? true: false
     }
-    this.logger.debug('[APP-COMP] manageTabNotification can saund?', this.isInitialized, this.isSoundEnabled)
+    this.logger.debug('[APP-COMP] manageTabNotification can saund?', this.isInitialized, this.isSoundEnabled, sound_type)
     if(this.isInitialized && this.isSoundEnabled) {
       switch(sound_type){
         case 'conv_added': {
@@ -1039,9 +1039,11 @@ export class AppComponent implements OnInit {
       // console.log('[APP-COMP] ***** subscribeConversationChangedDetailed conversation: ', changes);
       const currentUser = this.tiledeskAuthService.getCurrentUser()
       if (currentUser && currentUser !== null) {
-        this.logger.log('[APP-COMP] ***** subscribeConversationChangedDetailed currentUser: ', currentUser);
+        this.logger.log('[APP-COMP] ***** subscribeConversationChangedDetailed currentUser: ', currentUser, changes);
         if (changes.value && changes.value.sender !== currentUser.uid) {
-          if(changes.value.is_new === changes.previousValue.is_new){
+          let checkIfStatusChanged = changes.value.is_new === changes.previousValue.is_new? true: false
+          let checkIfUidChanged = changes.value.uid === changes.previousValue.uid? true: false
+          if(changes.value.is_new && checkIfStatusChanged && checkIfUidChanged){
             this.manageTabNotification('new_message');
           }
         }
