@@ -25,17 +25,8 @@
         <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application" xmlns:android="http://schemas.android.com/apk/res/android">
             <application android:networkSecurityConfig="@xml/network_security_config" />
         </edit-config>
-        <edit-config file="app/src/main/AndroidManifest.xml" target="/manifest/application/activity" mode="merge">
-            <activity android:exported="true"/>
-        </edit-config>  
-        <edit-config file="app/src/main/AndroidManifest.xml" target="/manifest/application/service" mode="merge">
-            <service android:exported="true" />
-        </edit-config>
-        <edit-config file="app/src/main/AndroidManifest.xml" target="/manifest/application/provider" mode="merge">
-            <provider android:exported="true" />
-        </edit-config>
-        <edit-config file="app/src/main/AndroidManifest.xml" target="/manifest/application/receiver" mode="merge">
-            <receiver android:exported="true" />
+        <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application/activity" xmlns:android="http://schemas.android.com/apk/res/android">
+            <activity android:exported="true" />
         </edit-config>
         <resource-file src="resources/android/xml/network_security_config.xml" target="app/src/main/res/xml/network_security_config.xml" />
         <allow-intent href="market:*" />

@@ -125,6 +125,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   public translationsMap: Map<string, string> = new Map()
   public translationsHeaderMap: Map<string, string> = new Map() 
   public translationsContentMap: Map<string, string> = new Map()
+  public translationsInfoConversationMap: Map<string, string> = new Map() 
   public conversationAvatar: any
   public leadInfo: {lead_id: string, hasEmail: boolean , email: string, projectId: string, presence: {}};
   public liveInfo: {sourcePage: string, sourceTitle: string}
@@ -603,7 +604,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       'LABEL_LAST_ACCESS',
       'ARRAY_DAYS',
       
-      'LABEL_INFO_ADVANCED',
       'ID_CONVERSATION',
       'UPLOAD_FILE_ERROR',
       'LABEL_ENTER_MSG',
@@ -613,7 +613,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       'FAILED_TO_UPLOAD_THE_FORMAT_IS NOT_SUPPORTED',
       'NO_INFORMATION_AVAILABLE',
       'CONTACT_ID',
-      'USER_ID',
+      
       'UPLOAD',
       'CANNED_RESPONSES',
       'NO_CANNED_RESPONSES',
@@ -665,9 +665,15 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       'COPY_MESSAGE_TOAST'
     ]
 
+    const keysContentInfo = [
+      'LABEL_INFO_ADVANCED',
+      'USER_ID'
+    ]
+
     this.translationsMap = this.customTranslateService.translateLanguage(keys)
     this.translationsHeaderMap = this.customTranslateService.translateLanguage(keysHeader)
     this.translationsContentMap = this.customTranslateService.translateLanguage(keysContentDetail)
+    this.translationsInfoConversationMap = this.customTranslateService.translateLanguage(keysContentInfo)
     this.logger.log('[CONVS-DETAIL] x this.translationMap ',this.translationsMap)
   }
 
@@ -1095,6 +1101,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       this.segmentNewAgentMessage(this.conversation)
     }
   }
+
+
   // ----------------------------------------------------------
   // InitSubscriptions BS subscriptions
   // ----------------------------------------------------------
@@ -1732,7 +1740,16 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     }
   }
 
+  //DESKTOP HANDLER
   onOpenCloseInfoConversation(event){
+    this.logger.debug('[CONVS-DETAIL] onOpenCloseInfoConversation - openInfoConversation ', event)
+    this.resizeTextArea()
+    this.openInfoConversation = event
+    this.USER_HAS_OPENED_CLOSE_INFO_CONV = true
+  }
+
+  //MOBILE HANDLER
+  onOpenInfoConversation(event){
     this.logger.debug('[CONVS-DETAIL] onOpenCloseInfoConversation - openInfoConversation ', event)
     this.resizeTextArea()
     this.openInfoConversation = event

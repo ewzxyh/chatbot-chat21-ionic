@@ -52,7 +52,7 @@
 <!-- ----------------------------------------------------------- -->
 <!--  nk - no tag ionic -->
 <!-- ----------------------------------------------------------- -->
-<div class="manage_conversation_info_container" [ngClass]="{'close': !openInfoConversation, 'mobile': isMobile}">
+<div *ngIf="!isMobile" class="manage_conversation_info_container" [ngClass]="{'close': !openInfoConversation, 'mobile': isMobile}">
   <ion-button fill="clear" *ngIf="openInfoConversation" (click)="onOpenCloseInfoConversationFN()"
   tooltip="{{translationMap?.get('LABEL_CLOSE_GROUP')}}" placement="bottom"  contentType="template">
     <ion-icon name="arrow-forward-outline"></ion-icon>

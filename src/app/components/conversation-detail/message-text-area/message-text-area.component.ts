@@ -146,7 +146,6 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
     if (this.dropEvent) {
       this.presentModal(this.dropEvent)
     }
-
   }
 
   // ngAfterViewInit() {

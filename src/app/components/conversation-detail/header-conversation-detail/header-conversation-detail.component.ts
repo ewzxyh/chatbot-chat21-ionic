@@ -36,8 +36,9 @@ export class HeaderConversationDetailComponent implements OnInit, OnChanges {
   @Input() liveInfo: {sourcePage: string, sourceTitle: string}
   @Input() isMobile: boolean
   @Input() translationsMap: Map<string, string>
+  @Output() onOpenInfoConversation = new EventEmitter<boolean>();
   conversationWithFullname: string
-  openInfoConversation = true
+  openInfoConversation = false
   
   isDirect = false
   borderColor = '#ffffff'
@@ -57,7 +58,6 @@ export class HeaderConversationDetailComponent implements OnInit, OnChanges {
     private router: Router,
     public tiledeskService: TiledeskService,
     public events: EventsService,
-    public modalController: ModalController,
   ) {
     
   }
@@ -124,6 +124,11 @@ export class HeaderConversationDetailComponent implements OnInit, OnChanges {
 
   goBackToConversationList() {
     this.router.navigateByUrl('/conversations-list')
+  }
+
+  onOpenCloseInfoConversation(){
+    this.openInfoConversation = !this.openInfoConversation
+    this.onOpenInfoConversation.emit(this.openInfoConversation)
   }
 
   // -----------------------------------------------------------------

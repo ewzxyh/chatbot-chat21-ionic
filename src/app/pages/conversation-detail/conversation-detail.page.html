@@ -45,7 +45,8 @@
     [conversationAvatar]="conversationAvatar"
     [liveInfo]="liveInfo" 
     [translationsMap]="translationsHeaderMap"
-    [conv_type]="conv_type">
+    [conv_type]="conv_type"
+    (onOpenInfoConversation)="onOpenCloseInfoConversation($event)">
   </app-header-conversation-detail>
 
   <ion-content id="conv-details" [class.mobile]="isMobile">
@@ -250,8 +251,7 @@
 
         <ion-col id="chat21-info-conversation" [class.mobile]="isMobile" [class.open]="openInfoConversation"
         [ngClass]="{'info-convs-apps-sidebar-wide': appsidebarIsWide === true}">
-          <app-info-content 
-            [openInfoConversation]="openInfoConversation" 
+          <app-info-content  
             [loggedUser]="loggedUser" 
             [tenant]="tenant" 
             [groupDetail]="groupDetail"

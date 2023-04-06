@@ -27,7 +27,6 @@ import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance'
 
 
 export class InfoContentComponent implements OnInit {
-  @Input() openInfoConversation: boolean;
   // @Input() member: UserModel;
   @Input() loggedUser: UserModel
   @Input() tenant: string

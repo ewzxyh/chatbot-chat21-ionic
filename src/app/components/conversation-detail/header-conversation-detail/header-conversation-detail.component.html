@@ -73,7 +73,7 @@
 
     </ion-title>
     <!-- openInfoConversation  {{openInfoConversation}} -->
-    <!-- <ion-buttons slot="end"> -->
+    <ion-buttons slot="end" *ngIf="isMobile">
 
       <!-- <ion-button ion-button fill="clear" color="primary" size="small" (click)="presentCreateTicketModal()" [ngClass]="{'resolve-conv-margin-right': !isMobile}">
         <ion-icon name="ticket-outline"></ion-icon>
@@ -86,14 +86,14 @@
         <span style="text-transform: capitalize; margin-left: 5px;"> {{translationsMap?.get('Resolve')}} </span>
       </ion-button> -->
 
-      <!-- <ion-button *ngIf="!openInfoConversation" ion-button fill="clear" (click)="onOpenCloseInfoConversation()">
-       <ion-icon slot="icon-only" name="information-circle-outline"></ion-icon>
-      </ion-button> -->
-      <!-- <ion-button *ngIf="openInfoConversation" ion-button fill="clear" (click)="onOpenCloseInfoConversation()">
+      <ion-button *ngIf="!openInfoConversation" ion-button fill="clear" (click)="onOpenCloseInfoConversation()">
+        <ion-icon slot="icon-only" name="information-circle-outline"></ion-icon>
+      </ion-button>
+      <ion-button *ngIf="openInfoConversation" ion-button fill="clear" (click)="onOpenCloseInfoConversation()">
         <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
-      </ion-button> -->
+      </ion-button>
 
-    <!-- </ion-buttons> -->
+    </ion-buttons>
 
   </ion-toolbar>
 </ion-header>
