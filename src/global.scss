@@ -839,3 +839,64 @@ ul.dropdown-menu > li > a {
     transform: translate(-50%, -50%);
   }
 }
+
+
+.ng-tooltip {
+    position: absolute;
+    max-width: 150px;
+    font-size: 14px;
+    text-align: center;
+    color: black;
+    padding: 3px 8px;
+    background:rgb(255, 255, 255);
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3); 
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    z-index: 1000;
+    opacity: 0;
+
+    font-family: 'Roboto','Google Sans', Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    letter-spacing: normal;
+    font-stretch: normal;
+    font-variant: normal;
+    font-weight: 300;
+
+  }
+  .ng-tooltip:after {
+    content: "";
+    position: absolute;
+    border-style: solid;
+  }
+  .ng-tooltip-top:after {
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-color: rgb(255, 255, 255) transparent transparent transparent;
+  }
+  .ng-tooltip-bottom:after {
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-color: transparent transparent rgb(255, 255, 255) transparent;
+  }
+  .ng-tooltip-left:after {
+    top: 50%;
+    left: 100%;
+    margin-top: -5px;
+    border-width: 5px;
+    border-color: transparent transparent transparent rgb(255, 255, 255);
+  }
+  .ng-tooltip-right:after {
+    top: 50%;
+    right: 100%;
+    margin-top: -5px;
+    border-width: 5px;
+    border-color: transparent rgb(255, 255, 255) transparent transparent;
+  }
+  .ng-tooltip-show {
+    opacity: 1;
+  }

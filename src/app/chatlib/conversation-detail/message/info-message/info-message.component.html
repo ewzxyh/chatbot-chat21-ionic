@@ -6,7 +6,7 @@
     </div>
       
     <div style="max-width: 70%;">
-        <span class="base_info" [innerHTML]="message?.text | marked" tooltip="{{message.timestamp | amTimeAgo}} ({{message.timestamp | amLocal | amDateFormat: 'L HH:mm:ss'}})" placement="left" contentType="template"></span>
+        <span class="base_info" [innerHTML]="message?.text | marked" tooltip="{{message.timestamp | amTimeAgo}} ({{message.timestamp | amLocal | amDateFormat: 'L HH:mm:ss'}})" placement="left"></span>
         <!-- <ng-template #timeTooltipLeft>
             <span>{{message.timestamp | amTimeAgo}} ({{message.timestamp | amLocal | amDateFormat: 'L HH:mm:ss'}})</span>
         </ng-template>  -->
