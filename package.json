@@ -1,7 +1,7 @@
 {
     "name": "@chat21/chat21-ionic",
     "author": "Tiledesk SRL",
-    "version": "3.0.97-rc.1",
+    "version": "3.0.97-rc.2",
     "license": "MIT License",
     "homepage": "https://tiledesk.com/",
     "repository": {
@@ -30,6 +30,7 @@
         "@ctrl/ngx-emoji-mart": "^1.0.6",
         "@ionic-native/chooser": "^5.29.0",
         "@ionic-native/core": "^5.0.7",
+        "@ionic-native/fcm": "^5.36.0",
         "@ionic-native/globalization": "^5.28.0",
         "@ionic-native/keyboard": "^5.28.0",
         "@ionic-native/network": "^5.36.0",
@@ -81,6 +82,7 @@
         "@types/jasminewd2": "~2.0.3",
         "codelyzer": "^5.0.0",
         "cordova-plugin-add-swift-support": "^2.0.2",
+        "cordova-plugin-fcm-with-dependecy-updated": "^7.8.0",
         "jasmine-core": "~4.4.0",
         "jasmine-spec-reporter": "~4.2.1",
         "karma": "~6.4.1",
@@ -107,7 +109,15 @@
             "cordova-android-support-gradle-release": {
                 "ANDROID_SUPPORT_VERSION": "27.+"
             },
-            "cordova-plugin-network-information": {}
+            "cordova-plugin-network-information": {},
+            "cordova-plugin-fcm-with-dependecy-updated": {
+                "ANDROID_DEFAULT_NOTIFICATION_ICON": "@mipmap/ic_launcher",
+                "ANDROID_FCM_VERSION": "21.0.0",
+                "ANDROID_FIREBASE_BOM_VERSION": "26.0.0",
+                "ANDROID_GOOGLE_SERVICES_VERSION": "4.3.4",
+                "ANDROID_GRADLE_TOOLS_VERSION": "4.1.0",
+                "IOS_FIREBASE_MESSAGING_VERSION": "~> 7.4.0"
+            }
         },
         "platforms": [
             "browser",

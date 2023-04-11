@@ -61,6 +61,7 @@ import { filter } from 'rxjs/operators'
 import { WebSocketJs } from './services/websocket/websocket-js';
 import { Location } from '@angular/common'
 import { ScriptService } from './services/scripts/script.service';
+import { FCM } from '@ionic-native/fcm/ngx';
 
 // import { filter } from 'rxjs/operators';
 
@@ -155,7 +156,8 @@ export class AppComponent implements OnInit {
     private networkService: NetworkService,
     public webSocketJs: WebSocketJs,
     public scriptService: ScriptService,
-    public location: Location
+    public location: Location,
+    private fcm: FCM
   ) {
 
 
@@ -504,6 +506,20 @@ export class AppComponent implements OnInit {
       // Watch to network status
       // ---------------------------------------
       this.watchToConnectionStatus();
+
+
+      this.fcm.onNotification().subscribe(data => {
+        if (data.wasTapped) {
+          console.log("Received in background");
+        } else {
+          console.log("Received in foreground");
+        };
+      });
+
+      this.fcm.onTokenRefresh().subscribe(token => {
+        // Register your new token in your back-end if you want
+        // backend.registerToken(token);
+      });
     });
   }
 
