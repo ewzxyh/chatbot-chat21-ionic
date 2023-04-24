@@ -61,7 +61,7 @@ import { filter } from 'rxjs/operators'
 import { WebSocketJs } from './services/websocket/websocket-js';
 import { Location } from '@angular/common'
 import { ScriptService } from './services/scripts/script.service';
-import { FCM } from '@ionic-native/fcm/ngx';
+// import { FCM } from 'cordova-plugin-fcm-with-dependecy-updated/ionic/ngx';
 
 // import { filter } from 'rxjs/operators';
 
@@ -157,7 +157,7 @@ export class AppComponent implements OnInit {
     public webSocketJs: WebSocketJs,
     public scriptService: ScriptService,
     public location: Location,
-    private fcm: FCM
+    // private fcm: FCM
   ) {
 
 
@@ -508,18 +508,18 @@ export class AppComponent implements OnInit {
       this.watchToConnectionStatus();
 
 
-      this.fcm.onNotification().subscribe(data => {
-        if (data.wasTapped) {
-          console.log("Received in background");
-        } else {
-          console.log("Received in foreground");
-        };
-      });
+      // this.fcm.onNotification().subscribe(data => {
+      //   if (data.wasTapped) {
+      //     console.log("Received in background");
+      //   } else {
+      //     console.log("Received in foreground");
+      //   };
+      // });
 
-      this.fcm.onTokenRefresh().subscribe(token => {
-        // Register your new token in your back-end if you want
-        // backend.registerToken(token);
-      });
+      // this.fcm.onTokenRefresh().subscribe(token => {
+      //   // Register your new token in your back-end if you want
+      //   // backend.registerToken(token);
+      // });
     });
   }
 
@@ -763,17 +763,23 @@ export class AppComponent implements OnInit {
     } else {
       this.logger.warn('[APP-COMP] >>> I AM NOT LOGGED IN <<<')
       this.IS_ONLINE = false;
-      if(this.IS_ON_MOBILE_DEVICE){
-        clearTimeout(this.timeModalLogin);
-        this.timeModalLogin = setTimeout(() => {
-          if (!this.hadBeenCalledOpenModal) {
-            this.authModal = this.presentModal('initAuthentication');
-            this.hadBeenCalledOpenModal = true;
-          }
-        }, 1000)
-      }else{
-        this.goToDashboardLogin()
+
+      if (!this.hadBeenCalledOpenModal) {
+        this.authModal = this.presentModal('initAuthentication');
+        this.hadBeenCalledOpenModal = true;
       }
+
+      // if(this.IS_ON_MOBILE_DEVICE){
+      //   clearTimeout(this.timeModalLogin);
+      //   this.timeModalLogin = setTimeout(() => {
+      //     if (!this.hadBeenCalledOpenModal) {
+      //       this.authModal = this.presentModal('initAuthentication');
+      //       this.hadBeenCalledOpenModal = true;
+      //     }
+      //   }, 1000)
+      // }else{
+      //   this.goToDashboardLogin()
+      // }
       ;
     }
   }

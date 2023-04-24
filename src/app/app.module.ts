@@ -105,7 +105,6 @@ import { Network } from '@ionic-native/network/ngx';
 import { WebSocketJs } from './services/websocket/websocket-js';
 import { UnassignedConversationsPageModule } from './pages/unassigned-conversations/unassigned-conversations.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FCM } from '@ionic-native/fcm/ngx';
 
 // FACTORIES
 export function createTranslateLoader(http: HttpClient) {
@@ -377,8 +376,7 @@ const appInitializerFn = (appConfig: AppConfigProvider, logger: NGXLogger) => {
     Chat21Service,
     WebSocketJs,
     ConvertRequestToConversation,
-    ScriptService,
-    FCM
+    ScriptService
   ]
 })
 export class AppModule { }
