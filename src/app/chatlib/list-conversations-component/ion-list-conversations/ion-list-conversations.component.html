@@ -113,7 +113,7 @@
       </div>
       <div style="display: flex;">
         <span class="conversation_with truncate" [class.not-read]="conversation.is_new">
-          {{conversation.conversation_with_fullname}}
+          {{conversation?.conversation_with_fullname}}
         </span>
       </div>
       <div class="conversation_message truncate-conv-msg" [ngClass]="{'truncate-on-desktop': !isApp}">
