@@ -1,5 +1,18 @@
 # chat21-ionic ver 3.0
 
+### 3.0.97-rc.2
+- added: do not send automatic offline email if conversation is of type 'email' or 'form'
+- added: new tooltip directive
+- added: availability project user status on ProfileInfo page modal
+- added: isOniOSMobileDevice and isOnMobileDevice in utils
+- added: manage css for mobile/desktop modals
+- added: custom tooltip directive
+- changed: lib dependencies
+- bug-fixed: new_message event sounds every time conv.is_new is true or false
+- updated: ios icons
+- removed: ticketing for mobile
+- removed angular2-moment and ng2-tooltip-directive
+
 ### 3.0.97-rc.1
 - added: if user is offline and message is sent, forward the entire conversation by email 
 
