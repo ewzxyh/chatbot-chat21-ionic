@@ -36,10 +36,10 @@ export class MQTTNotifications extends NotificationsService {
   }
     
   getNotificationPermissionAndSaveToken(currentUserUid) {
-    console.log("[MQTTNotificationService] getNotificationPermissionAndSaveToken()",currentUserUid );
+    this.logger.log("[MQTTNotificationService] getNotificationPermissionAndSaveToken()",currentUserUid );
     this.userId = currentUserUid;
     if (firebase.messaging.isSupported()) {
-      console.log("[MQTTNotificationService] firebase.messaging.isSupported -> YES");
+      this.logger.log("[MQTTNotificationService] firebase.messaging.isSupported -> YES");
       const messaging = firebase.messaging();
       // messaging.requestPermission()
       Notification.requestPermission().then((permission) => {
