@@ -402,7 +402,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
         if (form && form.text && form.text.trim() !== '') {
           const text = '**' + form.subject + '**\r\n' + form.text
           const attributes = {
-            channel: TYPE_MSG_EMAIL
+            offline_channel: TYPE_MSG_EMAIL
           }
           this.eventSendMessage.emit({ msg: text, type: TYPE_MSG_TEXT, metadata: null, attributes: attributes });
         }

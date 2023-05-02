@@ -1,4 +1,4 @@
-import { TYPE_GROUP, TYPE_SUPPORT_GROUP } from './../../../../chat21-core/utils/constants';
+import { CHANNEL_TYPE_CHAT21, CHANNEL_TYPE_EMAIL, CHANNEL_TYPE_FORM, CHANNEL_TYPE_MESSANGER, CHANNEL_TYPE_TELEGRAM, CHANNEL_TYPE_WHATSAPP, TYPE_GROUP, TYPE_SUPPORT_GROUP } from './../../../../chat21-core/utils/constants';
 import { TYPE_DIRECT } from 'src/chat21-core/utils/constants';
 import { Component, EventEmitter, Input, IterableDiffers, KeyValueDiffers, OnInit, Output, SimpleChange } from '@angular/core';
 import { ConversationModel } from 'src/chat21-core/models/conversation';
@@ -53,6 +53,14 @@ export class IonListConversationsComponent extends ListConversationsComponent im
   TYPE_GROUP = TYPE_GROUP;
   TYPE_SUPPORT_GROUP = TYPE_SUPPORT_GROUP;
 
+  //ATTRIBUTES CHANNEL
+  CHANNEL_TYPE_CHAT21 = CHANNEL_TYPE_CHAT21;
+  CHANNEL_TYPE_EMAIL = CHANNEL_TYPE_EMAIL;
+  CHANNEL_TYPE_FORM = CHANNEL_TYPE_FORM;
+  CHANNEL_TYPE_MESSANGER = CHANNEL_TYPE_MESSANGER;
+  CHANNEL_TYPE_WHATSAPP = CHANNEL_TYPE_WHATSAPP;
+  CHANNEL_TYPE_TELEGRAM = CHANNEL_TYPE_TELEGRAM;
+  
   IS_ON_MOBILE_DEVICE: boolean
   /**
    * 

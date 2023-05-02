@@ -783,7 +783,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   private setAttributes(): any {
     const attributes: any = {
       client: navigator.userAgent,
-      sourcePage: location.href,
+      sourcePage: location.href
     }
 
     //TODO: servono ???
@@ -1054,12 +1054,15 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         msg = `[${metadata.name}](${metadata.src})`
       }
     }
-
+    this.conversation.attributes && this.conversation.attributes['channel']? attributes.channel = this.conversation.attributes['channel']: null;
     metadata ? (metadata = metadata) : (metadata = '')
-    const emailSectionMsg = (attributes && attributes['channel']===TYPE_MSG_EMAIL)
-    const channelIsNotEmailOrForm = (attributes && attributes['channel'] && (attributes['channel'].name===TYPE_MSG_EMAIL || attributes['channel'].name===TYPE_MSG_FORM))
+    this.logger.log('[CONVS-DETAIL] attributes--->>>> 1111',this.conversation.attributes, attributes)
     this.logger.log('[CONVS-DETAIL] - SEND MESSAGE msg: ', msg, ' - messages: ', this.messages, ' - loggedUser: ', this.loggedUser)
-
+    
+    
+    const emailSectionMsg = (attributes && attributes['offline_channel']===TYPE_MSG_EMAIL)
+    const channelIsNotEmailOrForm = (attributes && attributes['channel'] && (attributes['channel'] === TYPE_MSG_EMAIL || attributes['channel']===TYPE_MSG_FORM))
+    
     if ((msg && msg.trim() !== '') || type !== TYPE_MSG_TEXT) {
 
       
@@ -1071,7 +1074,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         this.sendEmail(msgText).subscribe(status => {
           if(status){
             //SEND MESSAGE ALSO AS EMAIL
-            attributes['channel']= 'offline_'+TYPE_MSG_EMAIL
+            attributes['offline_channel']= 'offline_'+TYPE_MSG_EMAIL
           }
 
           this.conversationHandlerService.sendMessage(
@@ -1103,6 +1106,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       this.segmentNewAgentMessage(this.conversation)
     }
   }
+
 
 
   // ----------------------------------------------------------
