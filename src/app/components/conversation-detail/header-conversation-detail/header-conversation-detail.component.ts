@@ -1,4 +1,4 @@
-import { TYPE_GROUP } from './../../../../chat21-core/utils/constants';
+import { CHANNEL_TYPE_CHAT21, CHANNEL_TYPE_EMAIL, CHANNEL_TYPE_FORM, CHANNEL_TYPE_MESSANGER, CHANNEL_TYPE_TELEGRAM, CHANNEL_TYPE_WHATSAPP, TYPE_GROUP } from './../../../../chat21-core/utils/constants';
 import {
   Component,
   OnInit,
@@ -51,6 +51,14 @@ export class HeaderConversationDetailComponent implements OnInit, OnChanges {
   TYPE_SUPPORT_GROUP = TYPE_SUPPORT_GROUP
   TYPE_GROUP = TYPE_GROUP
 
+  //ATTRIBUTES CHANNEL
+  CHANNEL_TYPE_CHAT21 = CHANNEL_TYPE_CHAT21;
+  CHANNEL_TYPE_EMAIL = CHANNEL_TYPE_EMAIL;
+  CHANNEL_TYPE_FORM = CHANNEL_TYPE_FORM;
+  CHANNEL_TYPE_MESSANGER = CHANNEL_TYPE_MESSANGER;
+  CHANNEL_TYPE_WHATSAPP = CHANNEL_TYPE_WHATSAPP;
+  CHANNEL_TYPE_TELEGRAM = CHANNEL_TYPE_TELEGRAM;
+  
   constructor(
     public imageRepoService: ImageRepoService,
     private route: ActivatedRoute,

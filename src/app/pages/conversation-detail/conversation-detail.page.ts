@@ -337,7 +337,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
             conv.channel_type,
             null,
             conv.attributes['projectId'],
-            conv.attributes['project_name'])
+            conv.attributes['project_name']),
+            conv.attributes['channel']
         }
 
       }
@@ -846,7 +847,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
             conv.channel_type,
             null,
             conv.attributes['projectId'],
-            conv.attributes['project_name']
+            conv.attributes['project_name'],
+            conv.attributes['channel']
           )
           
         }
@@ -863,7 +865,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
                 conv.channel_type,
                 null,
                 conv.attributes['projectId'],
-                conv.attributes['project_name']
+                conv.attributes['project_name'],
+                conv.attributes['channel']
               )
               let duration = getDateDifference(conv.timestamp, Date.now())
               duration.days > 10 && conv.channel_type !== TYPE_DIRECT? this.disableTextarea = true: this.disableTextarea = false
@@ -884,7 +887,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
             conv.channel_type,
             null,
             conv.attributes['projectId'],
-            conv.attributes['project_name']
+            conv.attributes['project_name'],
+            conv.attributes['channel']
           )
           let duration = getDateDifference(conv.timestamp, Date.now())
           duration.days > 10 && conv.channel_type !== TYPE_DIRECT? this.disableTextarea = true: this.disableTextarea = false
@@ -899,7 +903,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
                 conv.channel_type,
                 null,
                 conv.attributes['projectId'],
-                conv.attributes['project_name']
+                conv.attributes['project_name'],
+                conv.attributes['channel']
               )
             }
             this.logger.log('[CONVS-DETAIL] - setHeaderContent > conversationAvatar: ', this.conversationAvatar)
@@ -1252,7 +1257,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         this.channelType,
         null,
         this.conversation.attributes['projectId'],
-        this.conversation.attributes['project_name']
+        this.conversation.attributes['project_name'],
+        this.conversation.attributes['channel']
       )
     }
     if (msg.attributes && msg.attributes.hasOwnProperty("updateUserEmail")) {
@@ -1264,7 +1270,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         this.channelType,
         userEmail,
         this.conversation.attributes['projectId'],
-        this.conversation.attributes['project_name']
+        this.conversation.attributes['project_name'],
+        this.conversation.attributes['channel']
       )
       this.getLeadDetail()
     }

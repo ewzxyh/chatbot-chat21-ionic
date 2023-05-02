@@ -573,11 +573,14 @@ export function setConversationAvatar(
   conversationWithEmail?: string,
   projectId?: string,
   project_name?: string,
+  channel?: string,
   width?: string,
   height?: string,
 ): any {
   const conversationWidth = (width) ? width : '40px';
   const conversationHeight = (height) ? height : '40px';
+  const conversationChannel = (channel) ? channel : 'chat21';
+
   const conversationAvatar = {
     uid: conversationWith,
     conversation_with: conversationWith,
@@ -588,6 +591,7 @@ export function setConversationAvatar(
     color: getColorBck(conversationWithFullname),
     projectId: projectId,
     project_name: project_name,
+    channel: conversationChannel,
     width: conversationWidth,
     height: conversationHeight
   };

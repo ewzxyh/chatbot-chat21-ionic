@@ -106,12 +106,12 @@
         </div>
         <!-- SUPPORT-GROUP CONV -->
         <div  *ngIf="conversation.uid.startsWith(TYPE_SUPPORT_GROUP) && !IS_ON_MOBILE_DEVICE">
-          <img class="channel-icon" src="/assets/images/channel_icons/chat21.svg" *ngIf="conversation?.attributes && ( (conversation?.attributes?.channel && conversation?.attributes?.channel === CHANNEL_TYPE_CHAT21) ||  !conversation?.attributes?.channel) " >
-          <img class="channel-icon" src="/assets/images/channel_icons/email-logo.svg" *ngIf="conversation?.attributes && conversation?.attributes?.channel && conversation?.attributes?.channel === CHANNEL_TYPE_EMAIL" >
-          <img class="channel-icon" src="/assets/images/channel_icons/form-logo_v2.svg" *ngIf="conversation?.attributes && conversation?.attributes?.channel && conversation?.attributes?.channel === CHANNEL_TYPE_FORM" >
-          <img class="channel-icon" src="/assets/images/channel_icons/messenger-logo.svg" *ngIf="conversation?.attributes && conversation?.attributes?.channel && conversation?.attributes?.channel === CHANNEL_TYPE_MESSANGER" >
-          <img class="channel-icon" src="/assets/images/channel_icons/whatsapp-logo.svg" *ngIf="conversation?.attributes && conversation?.attributes?.channel && conversation?.attributes?.channel === CHANNEL_TYPE_WHATSAPP" >
-          <img class="channel-icon" src="/assets/images/channel_icons/telegram-logo.svg" *ngIf="conversation?.attributes && conversation?.attributes?.channel && conversation?.attributes?.channel === CHANNEL_TYPE_TELEGRAM" >
+          <img class="channel-icon" src="assets/images/channel_icons/chat21.svg" *ngIf="conversation?.attributes && ( (conversation?.attributes?.channel && conversation?.attributes?.channel === CHANNEL_TYPE_CHAT21) ||  !conversation?.attributes?.channel) " >
+          <img class="channel-icon" src="assets/images/channel_icons/email-logo.svg" *ngIf="conversation?.attributes && conversation?.attributes?.channel && conversation?.attributes?.channel === CHANNEL_TYPE_EMAIL" >
+          <img class="channel-icon" src="assets/images/channel_icons/form-logo_v2.svg" *ngIf="conversation?.attributes && conversation?.attributes?.channel && conversation?.attributes?.channel === CHANNEL_TYPE_FORM" >
+          <img class="channel-icon" src="assets/images/channel_icons/messenger-logo.svg" *ngIf="conversation?.attributes && conversation?.attributes?.channel && conversation?.attributes?.channel === CHANNEL_TYPE_MESSANGER" >
+          <img class="channel-icon" src="assets/images/channel_icons/whatsapp-logo.svg" *ngIf="conversation?.attributes && conversation?.attributes?.channel && conversation?.attributes?.channel === CHANNEL_TYPE_WHATSAPP" >
+          <img class="channel-icon" src="assets/images/channel_icons/telegram-logo.svg" *ngIf="conversation?.attributes && conversation?.attributes?.channel && conversation?.attributes?.channel === CHANNEL_TYPE_TELEGRAM" >
           <span *ngIf="conversation?.attributes?.project_name" class="truncate">{{conversation?.attributes?.project_name}}</span>
           <span *ngIf="!conversation?.attributes?.project_name" class="truncate">{{conversation?.attributes?.projectId}}</span>
         </div>
