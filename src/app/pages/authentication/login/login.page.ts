@@ -60,7 +60,7 @@ export class LoginPage implements OnInit {
 
   /** */
   initialize() {
-    this.companyLogoBlackUrl = 'assets/chat21-logo.svg';
+    this.companyLogoBlackUrl = 'assets/chat21-logo.png';
     this.companyName = 'Tiledesk'; // this.chatManager.getTenant();
     this.translations();
     this.events.subscribe('sign-in', this.signIn);
