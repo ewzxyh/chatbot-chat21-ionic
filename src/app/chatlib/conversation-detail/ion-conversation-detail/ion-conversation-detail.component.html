@@ -186,7 +186,7 @@
 
       <ng-container *ngIf="message?.attributes && message?.attributes?.sourcePage && !isSameSender(message?.sender, i)">
         <ion-button shape="round" size="small" class="btn-info-msg " ion-button fill="clear"
-          (click)="onClickInfoMessage(message, i)" tooltip="{{addAsCannedResponseTooltipText}}" placement="bottom">
+          (click)="onClickInfoMessage(message, i)" tooltip="{{viewedPageTooltipText}}" placement="bottom">
           <ion-icon slot="icon-only" name="information-circle-outline"></ion-icon>
         </ion-button>
       </ng-container>

@@ -41,6 +41,7 @@ export class IonConversationDetailComponent extends ConversationContentComponent
   public fileType: any
   public browserLang: string;
   public addAsCannedResponseTooltipText: string;
+  public viewedPageTooltipText: string;
   public showSourceInfo: boolean = false;
   public showSourceInfoIndex: number = 0;
   // public openInfoConversation: boolean = true;
@@ -115,9 +116,10 @@ export class IonConversationDetailComponent extends ConversationContentComponent
     // this.translate.getTranslation(chat_lang).subscribe((labels: string) => {
     //   console.log('[CONVS-DETAIL] translations: ', labels);
     // });
-    this.translate.get('AddAsCannedResponse').subscribe((text: string) => {
-        // console.log('[CONVS-DETAIL] AddAsCannedResponse translated: ', text);
-        this.addAsCannedResponseTooltipText = text
+    this.translate.get(['AddAsCannedResponse', 'ViewedPage']).subscribe((text: string) => {
+        console.log('[CONVS-DETAIL] AddAsCannedResponse translated: ', text);
+        this.addAsCannedResponseTooltipText = text['AddAsCannedResponse']
+        this.viewedPageTooltipText = text['ViewedPage']
       })
   }
 
