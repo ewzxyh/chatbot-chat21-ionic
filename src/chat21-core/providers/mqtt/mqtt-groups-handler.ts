@@ -85,8 +85,8 @@ import { avatarPlaceholder, getColorBck } from 'src/chat21-core/utils/utils-user
     }
 
     private groupValue(childSnapshot: any){
-        this.logger.debug('[MQTT-GROUPS-SERV] group detail::', childSnapshot.val(), childSnapshot)
-        const group: GroupModel = childSnapshot.val();
+        this.logger.debug('[MQTT-GROUPS-SERV] group detail::', childSnapshot)
+        const group: GroupModel = childSnapshot;
         this.logger.debug('[MQTT-GROUPS-SERV] groupValue ', group)
         if (group) {
             let groupCompleted = this.completeGroup(group)
