@@ -629,17 +629,17 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
       "LABEL_CHAT",
       "LABEL_EMAIL",
-      "EMAIL_OFFLINE_TIP",
-      "EMAIL_PLACEHOLDER",
-      "EMAIL_NOT_FOUND_PLACEHOLDER",
-      "SUBJECT",
-      "MESSAGE",
-      "MESSAGE_PLACEHOLDER",
       "LABEL_SEND",
-      "SEND_EMAIL_SUCCESS",
-      "SEND_EMAIL_ERROR",
-      "SUBJECT_OFFLINE_MESSAGE",
-      "SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE",
+      "EMAIL.EMAIL_OFFLINE_TIP",
+      "EMAIL.EMAIL_PLACEHOLDER",
+      "EMAIL.EMAIL_NOT_FOUND_PLACEHOLDER",
+      "EMAIL.SUBJECT",
+      "EMAIL.MESSAGE",
+      "EMAIL.MESSAGE_PLACEHOLDER",
+      "EMAIL.SEND_EMAIL_SUCCESS",
+      "EMAIL.SEND_EMAIL_ERROR",
+      "EMAIL.SUBJECT_OFFLINE_MESSAGE",
+      "EMAIL.SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE",
 
       
     ]
@@ -977,7 +977,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     const tiledeskToken= this.tiledeskAuthService.getTiledeskToken();
     const emailFormGroup = {
       to: this.leadInfo.email,
-      subject: this.translationsMap.get('SUBJECT_OFFLINE_MESSAGE'),
+      subject: this.translationsMap.get('EMAIL.SUBJECT_OFFLINE_MESSAGE'),
       text: message,
       request_id: this.conversationWith
     }
@@ -985,12 +985,12 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     this.tiledeskService.sendEmail(tiledeskToken, this.leadInfo.projectId, emailFormGroup).subscribe((res)=> {
       this.logger.debug('[SEND-EMAIL-MODAL] subscribe to sendEmail API response -->', res)
       if(res && res.queued){
-        this.presentToast(this.translationsMap.get('SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE'), 'success', '', 2000)
+        this.presentToast(this.translationsMap.get('EMAIL.SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE'), 'success', '', 2000)
         status.next(true)
       }
     },(error)=> {
       this.logger.error('[SEND-EMAIL-MODAL] subscribe to sendEmail API CALL  - ERROR  ', error)
-      this.presentToast(this.translationsMap.get('SEND_EMAIL_ERROR'), 'danger', '', 2000)
+      this.presentToast(this.translationsMap.get('EMAIL.SEND_EMAIL_ERROR'), 'danger', '', 2000)
       status.next(false)
     }, ()=> {
       this.logger.log('[SEND-EMAIL-MODAL] subscribe to sendEmail API CALL /* COMPLETE */')

@@ -16,15 +16,15 @@
     </div>
 
     <div *ngIf="section==='chat' && messageString && leadInfo?.presence['status']==='offline'" class="section-option offline-lead-tip" >
-      {{translationMap.get('EMAIL_OFFLINE_TIP')}}
+      {{translationMap.get('EMAIL.EMAIL_OFFLINE_TIP')}}
     </div>
 
   </div>
 
   <ion-row id="message-email" [style.display]="section==='email'? 'flex': 'none'">
     <ion-col col-auto>
-      <div *ngIf="leadInfo?.hasEmail" class="placeholder" (click)="onOpenEmailModal()">{{translationMap.get('EMAIL_PLACEHOLDER')}}</div>
-      <div *ngIf="!leadInfo?.hasEmail" class="placeholder noEmail">{{translationMap.get('EMAIL_NOT_FOUND_PLACEHOLDER')}}</div>
+      <div *ngIf="leadInfo?.hasEmail" class="placeholder" (click)="onOpenEmailModal()">{{translationMap.get('EMAIL.EMAIL_PLACEHOLDER')}}</div>
+      <div *ngIf="!leadInfo?.hasEmail" class="placeholder noEmail">{{translationMap.get('EMAIL.EMAIL_NOT_FOUND_PLACEHOLDER')}}</div>
     </ion-col>
   </ion-row>
 
@@ -40,7 +40,7 @@
             tooltip="{{translationMap?.get('CANNED_RESPONSES')}}" placement="top">
             <ion-button ion-button fill="clear" class="canned-responses-btn" (click)="openCannedResponses()"
               [disabled]="!conversationWith?.startsWith(TYPE_SUPPORT_GROUP) || disableTextarea">
-              <ion-icon slot="icon-only" lazy="true" name="flash-outline" style="font-size: 24px;"></ion-icon>
+              <ion-icon slot="icon-only" name="flash-outline" style="font-size: 24px;"></ion-icon>
             </ion-button>
           </div>
           <div *ngIf="conversationWith?.startsWith(TYPE_SUPPORT_GROUP)  && tagsCannedCount === 0"
@@ -57,7 +57,7 @@
         <!-- UPLOAD ATTACHMENT -->
         <div *ngIf="!IS_ON_MOBILE_DEVICE" class="upload-image-btn-wpr" tooltip="{{translationMap?.get('UPLOAD')}}" placement="top">
           <ion-button ion-button fill="clear" class="upload-image-btn" [disabled]="disableTextarea">
-            <ion-icon slot="icon-only" lazy="true" name="attach-outline"
+            <ion-icon slot="icon-only" name="attach-outline"
               style="font-size: 30px;transform: rotate(42deg);"></ion-icon>
             <input #fileInput type="file" (change)="onFileSelected($event)" capture="camera" id="file-input"
               [accept]="fileUploadAccept">
@@ -71,8 +71,8 @@
         <div class="emoji-picker-btn-wpr" *ngIf="!IS_ON_MOBILE_DEVICE">
           <ion-button ion-button fill="clear" class="emoji-picker-btn" (click)="showEmojiPicker = !showEmojiPicker"
             [disabled]="disableTextarea">
-            <!-- <ion-icon slot="icon-only" lazy="true" name="flash-outline" style="font-size: 24px;"></ion-icon> -->
-            <ion-icon slot="icon-only" lazy="true" name="happy-outline" style="font-size: 24px;"></ion-icon>
+            <!-- <ion-icon slot="icon-only" name="flash-outline" style="font-size: 24px;"></ion-icon> -->
+            <ion-icon slot="icon-only" name="happy-outline" style="font-size: 24px;"></ion-icon>
           </ion-button>
 
           <!-- <div class="emojiContainer" [style.height]="showEmojiPicker?'300px':'0px'"> -->

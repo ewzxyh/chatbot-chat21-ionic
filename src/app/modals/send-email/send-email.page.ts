@@ -74,11 +74,11 @@ export class SendEmailModal implements OnInit {
       this.logger.debug('[SEND-EMAIL-MODAL] subscribe to sendEmail API response -->', res)
       if(res && res.queued){
         this.viewCtrl.dismiss({form: this.emailFormGroup.value})
-        this.presentToast(this.translationMap.get('SEND_EMAIL_SUCCESS'), 'success')
+        this.presentToast(this.translationMap.get('EMAIL.SEND_EMAIL_SUCCESS'), 'success')
       }
     },(error)=> {
       this.logger.error('[SEND-EMAIL-MODAL] subscribe to sendEmail API CALL  - ERROR  ', error)
-      this.presentToast(this.translationMap.get('SEND_EMAIL_ERROR'), 'danger')
+      this.presentToast(this.translationMap.get('EMAIL.SEND_EMAIL_ERROR'), 'danger')
     }, ()=> {
       this.logger.log('[SEND-EMAIL-MODAL] subscribe to sendEmail API CALL /* COMPLETE */')
     })

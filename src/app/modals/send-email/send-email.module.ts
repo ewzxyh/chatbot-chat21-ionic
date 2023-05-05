@@ -7,9 +7,6 @@ import { IonicModule } from '@ionic/angular';
 import { SendEmailPageRoutingModule } from './send-email-routing.module';
 
 import { SendEmailModal } from './send-email.page';
-import { TranslateModule } from '@ngx-translate/core';
-import { createTranslateLoader } from 'src/chat21-core/utils/utils';
-import { HttpClient } from '@angular/common/http';
 
 @NgModule({
   imports: [
@@ -17,13 +14,6 @@ import { HttpClient } from '@angular/common/http';
     FormsModule,
     IonicModule,
     SendEmailPageRoutingModule,
-    TranslateModule.forChild({
-      loader: {
-        provide: TranslateModule,
-        useFactory: (createTranslateLoader),
-        deps: [HttpClient]
-      }
-    }),
     ReactiveFormsModule
   ],
   declarations: [SendEmailModal]

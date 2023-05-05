@@ -23,16 +23,6 @@
   ],
   "LABEL_SEND": "Mandar",
   "LABEL_CHAT":"Bater papo",
-  "EMAIL_OFFLINE_TIP":"Aviso: o usuário está offline! A mensagem será enviada por e-mail",
-  "EMAIL_PLACEHOLDER":"Rascunho disponível aqui - clique para editar",
-  "EMAIL_NOT_FOUND_PLACEHOLDER":"Este usuário não forneceu um endereço de e-mail. Atualize o endereço do visitante para enviar um e-mail",
-  "SUBJECT":"Sujeito",
-  "MESSAGE":"Mensagem",
-  "MESSAGE_PLACEHOLDER":"Digite sua mensagem...",
-  "SEND_EMAIL_SUCCESS":"E-mail enviado com sucesso ✌🏻",
-  "SEND_EMAIL_ERROR":"⚠️ ATENÇÃO ⚠️ Ocorreu um erro ao enviar o e-mail. Tente novamente",
-  "SUBJECT_OFFLINE_MESSAGE":"Mensagem off-line do Tiledesk 💬",
-  "SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE":"Mensagem também enviada por e-mail 📩",
   "ID_CONVERSATION": "Conversa de identificação",
   "LABEL_CREATED_THE": "grupo criado em",
   "LABEL_INFO_ATTRIBUTE": "Atributos",
@@ -294,5 +284,22 @@
     "OTHER_PROJECTS":"Outros projetos"
   },
   "JSON_RESPONSE":"Resposta JSON",
-  "LIVE":"Ao vivo"
+  "LIVE":"Ao vivo",
+  "WHATSAPP": {
+    "LABEL_TEMPLATES":"Modelos",
+    "LABEL_WA_TEMPLATES":"Modelos do WhatsApp",
+    "SELECT_MESSAGE_TEMPLATE":"Selecione um modelo de mensagem"
+  },
+  "EMAIL": {
+    "EMAIL_OFFLINE_TIP":"Aviso: o usuário está offline! A mensagem será enviada por e-mail",
+    "EMAIL_PLACEHOLDER":"Rascunho disponível aqui - clique para editar",
+    "EMAIL_NOT_FOUND_PLACEHOLDER":"Este usuário não forneceu um endereço de e-mail. Atualize o endereço do visitante para enviar um e-mail",
+    "SUBJECT":"Sujeito",
+    "MESSAGE":"Mensagem",
+    "MESSAGE_PLACEHOLDER":"Digite sua mensagem...",
+    "SEND_EMAIL_SUCCESS":"E-mail enviado com sucesso ✌🏻",
+    "SEND_EMAIL_ERROR":"⚠️ ATENÇÃO ⚠️ Ocorreu um erro ao enviar o e-mail. Tente novamente",
+    "SUBJECT_OFFLINE_MESSAGE":"Mensagem off-line do Tiledesk 💬",
+    "SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE":"Mensagem também enviada por e-mail 📩"
+  }
 }
