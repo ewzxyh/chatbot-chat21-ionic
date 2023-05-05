@@ -2,7 +2,7 @@
 
 ### 3.0.97-rc.4
 - bug-fixed: error getting chat group members
-- bug-fixed: missing info-conversation accordion label
+- bug-fixed: missing info-conversation accordion label 
 
 ### 3.0.97-rc.3
 - added: channel property to message/conversation and changed attributes.channel to attributes.offline_channel for offline message email
