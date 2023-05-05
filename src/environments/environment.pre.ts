@@ -37,5 +37,6 @@ export const environment = {
     supportMode: false,
     archivedButton: false,
     writeToButton: false,
-    emailSection: true
+    emailSection: true,
+    whatsappTemplatesSection: true
 };

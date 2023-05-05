@@ -152,6 +152,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   areVisibleCAR: boolean;
   supportMode: boolean;
   isEmailEnabled: boolean;
+  isWhatsappTemplatesEnabled: boolean;
   //SOUND
   setTimeoutSound: any;
   audio: any;
@@ -492,6 +493,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     this.messages = [] // list messages of conversation
     this.isFileSelected = false // indicates if a file has been selected (image to upload)
     this.isEmailEnabled = (this.appConfigProvider.getConfig().emailSection === 'true' || this.appConfigProvider.getConfig().emailSection === true)? true: false;
+    this.isWhatsappTemplatesEnabled = (this.appConfigProvider.getConfig().whatsappTemplatesSection === 'true' || this.appConfigProvider.getConfig().whatsappTemplatesSection === true)? true: false;
 
     if (checkPlatformIsMobile()) {
       this.isMobile = true

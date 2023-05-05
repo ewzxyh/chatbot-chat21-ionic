@@ -34,5 +34,6 @@
     "supportMode": false,
     "writeToButton": false,
     "archivedButton": false,
-    "emailSection": true
+    "emailSection": true,
+    "whatsappTemplatesSection":true
 }

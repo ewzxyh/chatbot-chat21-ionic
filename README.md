@@ -104,6 +104,8 @@ Use [Docker Compose Tiledesk installation guide](https://github.com/Tiledesk/til
         "dashboardUrl": "https://<YOUR-DASHBOARD-URL>"
         "testsiteBaseUrl": "https:<YOUR-WIDGET-URL>/test_widget_page/index.html"
         "wsUrl": 'ws://' + window.location.hostname + '/ws/',
+        "emailSection": true,
+        "whatsappTemplatesSection": true
     }
   };
   ```
@@ -125,6 +127,10 @@ Use [Docker Compose Tiledesk installation guide](https://github.com/Tiledesk/til
 * `writeToButton`: if set to true, it makes the button for viewing the contact list visible and makes direct conversations with them possible
 
 * `archivedButton`: if set to true, it makes the button for viewing archived conversations visible
+
+* `emailSection`: if set to true, allows agents to send offline emails to users
+
+* `whatsappTemplatesSection`: if set to true, allows agents to set and send a whatsapp already configured template to users in an incoming whatsapp conversation
 
 ### Push notification
 * open `/src/firebase-messaging-sw.js` and replace messagingSenderId: with < your messagingSenderId >
