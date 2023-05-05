@@ -96,12 +96,12 @@
       <div class="conversation_project truncate">
         <!-- DIRECT CONV -->
         <div *ngIf="conversation.channel_type === TYPE_DIRECT">
-          <img class="channel-icon" src="/assets/images/channel_icons/direct.svg">
+          <img class="channel-icon" src="assets/images/channel_icons/direct.svg">
           <span  class="truncate">{{translationsMap.get('DIRECT_CHAT')}}</span>
         </div>
         <!-- GROUP CONV -->
         <div *ngIf="conversation.uid.startsWith(TYPE_GROUP)">
-          <img class="channel-icon" src="/assets/images/channel_icons/group.svg">
+          <img class="channel-icon" src="assets/images/channel_icons/group.svg">
           <span class="truncate">{{translationsMap.get('GROUP_CHAT')}}</span>
         </div>
         <!-- SUPPORT-GROUP CONV -->
