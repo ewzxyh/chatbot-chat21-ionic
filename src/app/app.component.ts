@@ -769,18 +769,17 @@ export class AppComponent implements OnInit {
         this.hadBeenCalledOpenModal = true;
       }
 
-      // if(this.IS_ON_MOBILE_DEVICE){
-      //   clearTimeout(this.timeModalLogin);
-      //   this.timeModalLogin = setTimeout(() => {
-      //     if (!this.hadBeenCalledOpenModal) {
-      //       this.authModal = this.presentModal('initAuthentication');
-      //       this.hadBeenCalledOpenModal = true;
-      //     }
-      //   }, 1000)
-      // }else{
-      //   this.goToDashboardLogin()
-      // }
-      ;
+      if(this.IS_ON_MOBILE_DEVICE){
+        clearTimeout(this.timeModalLogin);
+        this.timeModalLogin = setTimeout(() => {
+          if (!this.hadBeenCalledOpenModal) {
+            this.authModal = this.presentModal('initAuthentication');
+            this.hadBeenCalledOpenModal = true;
+          }
+        }, 1000)
+      }else{
+        this.goToDashboardLogin()
+      }
     }
   }
 
@@ -1151,7 +1150,17 @@ export class AppComponent implements OnInit {
     this.chatManager.goOffLine();
 
     this.router.navigateByUrl('conversation-detail/'); //redirect to basePage
-    this.goToDashboardLogin()
+    if(this.IS_ON_MOBILE_DEVICE){
+        clearTimeout(this.timeModalLogin);
+        this.timeModalLogin = setTimeout(() => {
+          if (!this.hadBeenCalledOpenModal) {
+            this.authModal = this.presentModal('initAuthentication');
+            this.hadBeenCalledOpenModal = true;
+          }
+        }, 1000)
+      }else{
+        this.goToDashboardLogin()
+      }
     
 
     // if (!this.hadBeenCalledOpenModal) {

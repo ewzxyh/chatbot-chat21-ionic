@@ -23,16 +23,6 @@
   ],
   "LABEL_SEND": "Send",
   "LABEL_CHAT":"Chat",
-  "EMAIL_OFFLINE_TIP":"Warning: user is offline! The message will be sent by email",
-  "EMAIL_PLACEHOLDER":"Draft available here - click to edit",
-  "EMAIL_NOT_FOUND_PLACEHOLDER":"This user has not provided an email address. Update the visitor's address to send an email",
-  "SUBJECT":"Subject",
-  "MESSAGE":"Message",
-  "MESSAGE_PLACEHOLDER":"Type your message...",
-  "SEND_EMAIL_SUCCESS":"Email successfully sent ✌🏻",
-  "SEND_EMAIL_ERROR":"⚠️ ATTENTION ⚠️ Error occurred while sending email. Please retry again",
-  "SUBJECT_OFFLINE_MESSAGE":"Tiledesk Offline message  💬",
-  "SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE":"Message also sent by email 📩",
   "ID_CONVERSATION": "Id conversation",
   "LABEL_CREATED_THE": "group created on",
   "LABEL_INFO_ATTRIBUTE": "Attributes",
@@ -251,6 +241,7 @@
   "Continue":"Continue",
   "ViewArchivedConversations":"Archived conversations",
   "ViewContactsList":"Contacts list",
+  "ViewedPage":"Viewed Page",
   "AddAsCannedResponse":"Add as canned response",
   "AddNewCannedResponse":"Add a new canned response",
   "TitleIsRequired":"Title is required",
@@ -293,5 +284,22 @@
     "OTHER_PROJECTS":"Other projects"
   },
   "JSON_RESPONSE":"JSON Response",
-  "LIVE":"Live"
+  "LIVE":"Live",
+  "WHATSAPP": {
+    "LABEL_TEMPLATES":"Templates",
+    "LABEL_WA_TEMPLATES":"WhatsApp Templates",
+    "SELECT_MESSAGE_TEMPLATE":"Select a message template"
+  },
+  "EMAIL":{
+    "EMAIL_OFFLINE_TIP":"Warning: user is offline! The message will be sent by email",
+    "EMAIL_PLACEHOLDER":"Draft available here - click to edit",
+    "EMAIL_NOT_FOUND_PLACEHOLDER":"This user has not provided an email address. Update the visitor's address to send an email",
+    "SUBJECT":"Subject",
+    "MESSAGE":"Message",
+    "MESSAGE_PLACEHOLDER":"Type your message...",
+    "SEND_EMAIL_SUCCESS":"Email successfully sent ✌🏻",
+    "SEND_EMAIL_ERROR":"⚠️ ATTENTION ⚠️ Error occurred while sending email. Please retry again",
+    "SUBJECT_OFFLINE_MESSAGE":"Tiledesk Offline message  💬",
+    "SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE":"Message also sent by email 📩"
+  }
 }

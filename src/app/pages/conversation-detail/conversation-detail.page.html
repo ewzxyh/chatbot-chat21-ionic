@@ -234,6 +234,7 @@
               [leadInfo]="leadInfo"
               [fileUploadAccept]="appConfigProvider.getConfig().fileUploadAccept"
               [emailSection]="isEmailEnabled"
+              [whatsappTemplatesSection]="isWhatsappTemplatesEnabled"
               [isOpenInfoConversation]="openInfoConversation" 
               [translationMap]="translationsMap"
               [dropEvent]="dropEvent"
@@ -256,7 +257,7 @@
             [tenant]="tenant" 
             [groupDetail]="groupDetail"
             [isMobile]="isMobile"
-            [translationMap]="translationsMap">
+            [translationMap]="translationsInfoConversationMap">
           </app-info-content>
         </ion-col>
 

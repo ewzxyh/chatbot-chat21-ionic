@@ -110,10 +110,10 @@
       
       <div class="bubble-container">
 
-        <div class="email-logo" *ngIf="message?.attributes?.channel && message?.attributes?.channel.includes(TYPE_MSG_EMAIL)">
+        <div class="email-logo" *ngIf="message?.attributes?.offline_channel && message?.attributes?.offline_channel.includes(TYPE_MSG_EMAIL)">
           <ion-icon name="mail"></ion-icon>
           <ion-icon name="flash" 
-            *ngIf="message?.attributes?.channel.includes('offline_')"
+            *ngIf="message?.attributes?.offline_channel.includes('offline_')"
             [ngStyle]="{'color': stylesMap.get('bubbleSentBackground')}">
           </ion-icon>
         </div>
@@ -186,7 +186,7 @@
 
       <ng-container *ngIf="message?.attributes && message?.attributes?.sourcePage && !isSameSender(message?.sender, i)">
         <ion-button shape="round" size="small" class="btn-info-msg " ion-button fill="clear"
-          (click)="onClickInfoMessage(message, i)" tooltip="{{addAsCannedResponseTooltipText}}" placement="bottom">
+          (click)="onClickInfoMessage(message, i)" tooltip="{{viewedPageTooltipText}}" placement="bottom">
           <ion-icon slot="icon-only" name="information-circle-outline"></ion-icon>
         </ion-button>
       </ng-container>

@@ -13,26 +13,16 @@
   "LABEL_LAST_ACCESS": "son erişim",
   "LABEL_TO": "de",
   "ARRAY_DAYS": [
-      "Pazartesi",
-      "Salı",
-      "Çarşamba",
-      "Perşembe",
-      "Cuma",
-      "Cumartesi",
-      "Pazar"
+    "Pazartesi",
+    "Salı",
+    "Çarşamba",
+    "Perşembe",
+    "Cuma",
+    "Cumartesi",
+    "Pazar"
   ],
   "LABEL_SEND": "Göndermek",
   "LABEL_CHAT":"Sohbet",
-  "EMAIL_OFFLINE_TIP":"Uyarı: kullanıcı çevrimdışı! Mesaj e-posta ile gönderilecek",
-  "EMAIL_PLACEHOLDER":"Taslak burada mevcut - düzenlemek için tıklayın",
-  "EMAIL_NOT_FOUND_PLACEHOLDER":"Bu kullanıcı bir e-posta adresi sağlamadı. E-posta göndermek için ziyaretçinin adresini güncelleyin",
-  "SUBJECT":"Ders",
-  "MESSAGE":"İleti",
-  "MESSAGE_PLACEHOLDER":"Mesajını yaz...",
-  "SEND_EMAIL_SUCCESS":"E-posta başarıyla gönderildi ✌🏻",
-  "SEND_EMAIL_ERROR":"⚠️ DİKKAT ⚠️ E-posta gönderirken hata oluştu. Lütfen tekrar deneyin",
-  "SUBJECT_OFFLINE_MESSAGE":"Tiledesk Çevrimdışı mesaj 💬",
-  "SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE":"Mesaj ayrıca e-posta ile gönderilir 📩",
   "ID_CONVERSATION": "ID konuşma",
   "LABEL_CREATED_THE": "grup oluşturuldu",
   "LABEL_INFO_ATTRIBUTE": "Öznitellikler",
@@ -251,6 +241,7 @@
   "Continue":"Devam",
   "ViewArchivedConversations":"Arşivlenmiş konuşmalar",
   "ViewContactsList":"Kişiler listesi",
+  "ViewedPage":"Görüntülenen Sayfa",
   "AddAsCannedResponse":"Varsayılan yanıt olarak ekle",
   "AddNewCannedResponse":"Yeni bir hazır yanıt ekle",
   "TitleIsRequired":"Başlık zorunludur",
@@ -293,5 +284,22 @@
     "OTHER_PROJECTS":"Diğer projeler"
   },
   "JSON_RESPONSE":"JSON Yanıtı",
-  "LIVE":"Canlı"
+  "LIVE":"Canlı",
+  "WHATSAPP": {
+    "LABEL_TEMPLATES":"Şablonlar",
+    "LABEL_WA_TEMPLATES":"WhatsApp Şablonları",
+    "SELECT_MESSAGE_TEMPLATE":"Bir mesaj şablonu seçin"
+  },
+  "EMAIL": {
+    "EMAIL_OFFLINE_TIP":"Uyarı: kullanıcı çevrimdışı! Mesaj e-posta ile gönderilecek",
+    "EMAIL_PLACEHOLDER":"Taslak burada mevcut - düzenlemek için tıklayın",
+    "EMAIL_NOT_FOUND_PLACEHOLDER":"Bu kullanıcı bir e-posta adresi sağlamadı. E-posta göndermek için ziyaretçinin adresini güncelleyin",
+    "SUBJECT":"Ders",
+    "MESSAGE":"İleti",
+    "MESSAGE_PLACEHOLDER":"Mesajını yaz...",
+    "SEND_EMAIL_SUCCESS":"E-posta başarıyla gönderildi ✌🏻",
+    "SEND_EMAIL_ERROR":"⚠️ DİKKAT ⚠️ E-posta gönderirken hata oluştu. Lütfen tekrar deneyin",
+    "SUBJECT_OFFLINE_MESSAGE":"Tiledesk Çevrimdışı mesaj 💬",
+    "SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE":"Mesaj ayrıca e-posta ile gönderilir 📩"
+  }
 }

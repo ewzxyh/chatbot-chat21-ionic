@@ -23,16 +23,6 @@
   ],
   "LABEL_SEND": "Senden",
   "LABEL_CHAT":"Plaudern",
-  "EMAIL_OFFLINE_TIP":"Achtung: Benutzer ist offline! Die Nachricht wird per E-Mail versendet",
-  "EMAIL_PLACEHOLDER":"Entwurf hier verfügbar - zum Bearbeiten klicken",
-  "EMAIL_NOT_FOUND_PLACEHOLDER":"Dieser Benutzer hat keine E-Mail-Adresse angegeben. Aktualisieren Sie die Adresse des Besuchers, um eine E-Mail zu senden",
-  "SUBJECT":"Thema",
-  "MESSAGE":"Nachricht",
-  "MESSAGE_PLACEHOLDER":"Geben Sie Ihre Nachricht ein...",
-  "SEND_EMAIL_SUCCESS":"E-Mail erfolgreich versendet ✌🏻",
-  "SEND_EMAIL_ERROR":"⚠️ ACHTUNG ⚠️ Beim Senden der E-Mail ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut",
-  "SUBJECT_OFFLINE_MESSAGE":"Tiledesk Offline-Nachricht 💬",
-  "SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE":"Nachricht auch per E-Mail gesendet 📩",
   "ID_CONVERSATION": "ID-Gespräch",
   "LABEL_CREATED_THE": "Gruppe erstellt am",
   "LABEL_INFO_ATTRIBUTE": "Attribute",
@@ -251,6 +241,7 @@
   "Continue":"Fortsetzen",
   "ViewArchivedConversations":"Archivierte Gespräche",
   "ViewContactsList":"Kontaktliste",
+  "ViewedPage":"Angesehene Seite",
   "AddAsCannedResponse":"Als Standardantwort hinzufügen",
   "AddNewCannedResponse":"Fügen Sie eine neue Standardantwort hinzu",
   "TitleIsRequired":"Titel ist erforderlich",
@@ -293,5 +284,22 @@
     "OTHER_PROJECTS":"Weitere Projekte"
   },
   "JSON_RESPONSE":"JSON Response",
-  "LIVE":"Live"
+  "LIVE":"Live",
+  "WHATSAPP": {
+    "LABEL_TEMPLATES":"Vorlagen",
+    "LABEL_WA_TEMPLATES":"WhatsApp-Vorlagen",
+    "SELECT_MESSAGE_TEMPLATE":"Wählen Sie eine Nachrichtenvorlage aus"
+  },
+  "EMAIL":{
+    "EMAIL_OFFLINE_TIP":"Achtung: Benutzer ist offline! Die Nachricht wird per E-Mail versendet",
+    "EMAIL_PLACEHOLDER":"Entwurf hier verfügbar - zum Bearbeiten klicken",
+    "EMAIL_NOT_FOUND_PLACEHOLDER":"Dieser Benutzer hat keine E-Mail-Adresse angegeben. Aktualisieren Sie die Adresse des Besuchers, um eine E-Mail zu senden",
+    "SUBJECT":"Thema",
+    "MESSAGE":"Nachricht",
+    "MESSAGE_PLACEHOLDER":"Geben Sie Ihre Nachricht ein...",
+    "SEND_EMAIL_SUCCESS":"E-Mail erfolgreich versendet ✌🏻",
+    "SEND_EMAIL_ERROR":"⚠️ ACHTUNG ⚠️ Beim Senden der E-Mail ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut",
+    "SUBJECT_OFFLINE_MESSAGE":"Tiledesk Offline-Nachricht 💬",
+    "SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE":"Nachricht auch per E-Mail gesendet 📩"
+  }
 }

@@ -1,5 +1,15 @@
 # chat21-ionic ver 3.0
 
+### 3.0.97-rc.4
+- bug-fixed: error getting chat group members
+- bug-fixed: missing info-conversation accordion label 
+
+### 3.0.97-rc.3
+- added: channel property to message/conversation and changed attributes.channel to attributes.offline_channel for offline message email
+- added: channel info in conversation-header-detail component
+- updated: tiledesk logo
+- bug-fixed: sort last-messages for mqtt before publish to component
+
 ### 3.0.97-rc.2
 - added: do not send automatic offline email if conversation is of type 'email' or 'form'
 - added: new tooltip directive

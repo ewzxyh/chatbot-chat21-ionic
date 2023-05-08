@@ -23,16 +23,6 @@
   ],
   "LABEL_SEND": "Send",
   "LABEL_CHAT":"Charla",
-  "EMAIL_OFFLINE_TIP":"Advertencia: ¡el usuario está desconectado! El mensaje será enviado por correo electrónico",
-  "EMAIL_PLACEHOLDER":"Borrador disponible aquí - haga clic para editar",
-  "EMAIL_NOT_FOUND_PLACEHOLDER":"Este usuario no ha proporcionado una dirección de correo electrónico. Actualizar la dirección del visitante para enviar un correo electrónico",
-  "SUBJECT":"Sujeto",
-  "MESSAGE":"Mensaje",
-  "MESSAGE_PLACEHOLDER":"Escribe tu mensaje...",
-  "SEND_EMAIL_SUCCESS":"Correo electrónico enviado con éxito ✌🏻",
-  "SEND_EMAIL_ERROR":"⚠️ ATENCIÓN ⚠️ Ocurrió un error al enviar el correo. Vuelve a intentarlo",
-  "SUBJECT_OFFLINE_MESSAGE":"Mensaje sin conexión de Tiledesk 💬",
-  "SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE":"Mensaje también enviado por correo electrónico 📩",
   "ID_CONVERSATION": "Id de conversación",
   "LABEL_CREATED_THE": "grupo creado el",
   "LABEL_INFO_ATTRIBUTE": "Atributos",
@@ -251,6 +241,7 @@
   "Continue":"Continuar",
   "ViewArchivedConversations":"Conversaciones archivadas",
   "ViewContactsList":"Lista de contactos",
+  "ViewedPage":"Página vista",
   "AddAsCannedResponse":"Agregar como respuesta predeterminada",
   "AddNewCannedResponse":"Agregar una nueva respuesta predeterminada",
   "TitleIsRequired":"El título es obligatorio",
@@ -293,5 +284,22 @@
     "OTHER_PROJECTS":"Otros proyectos"
   },
   "JSON_RESPONSE":"Respuesta JSON",
-  "LIVE":"En Vivo"
+  "LIVE":"En Vivo",
+  "WHATSAPP": {
+    "LABEL_TEMPLATES":"Plantillas",
+    "LABEL_WA_TEMPLATES":"Plantillas de WhatsApp",
+    "SELECT_MESSAGE_TEMPLATE":"Seleccione una plantilla de mensaje"
+  },
+  "EMAIL":{
+    "EMAIL_OFFLINE_TIP":"Advertencia: ¡el usuario está desconectado! El mensaje será enviado por correo electrónico",
+    "EMAIL_PLACEHOLDER":"Borrador disponible aquí - haga clic para editar",
+    "EMAIL_NOT_FOUND_PLACEHOLDER":"Este usuario no ha proporcionado una dirección de correo electrónico. Actualizar la dirección del visitante para enviar un correo electrónico",
+    "SUBJECT":"Sujeto",
+    "MESSAGE":"Mensaje",
+    "MESSAGE_PLACEHOLDER":"Escribe tu mensaje...",
+    "SEND_EMAIL_SUCCESS":"Correo electrónico enviado con éxito ✌🏻",
+    "SEND_EMAIL_ERROR":"⚠️ ATENCIÓN ⚠️ Ocurrió un error al enviar el correo. Vuelve a intentarlo",
+    "SUBJECT_OFFLINE_MESSAGE":"Mensaje sin conexión de Tiledesk 💬",
+    "SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE":"Mensaje también enviado por correo electrónico 📩"
+  }
 }

@@ -98,6 +98,7 @@ export class MQTTConversationHandler extends ConversationHandlerService {
         }
         this.chat21Service.chatClient.lastMessages(this.conversationWith, (err, messages) => {
             if (!err) {
+                messages.sort(compareValues('timestamp', 'asc'));
                 messages.forEach(message => {
                     const msg: MessageModel = message;        
                     msg.uid = message.message_id;

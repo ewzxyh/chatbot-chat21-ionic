@@ -1,6 +1,6 @@
 <ion-header no-border class="ion-no-border">
   <ion-toolbar>
-    <ion-title>{{'LABEL_EMAIL' | translate}}</ion-title>
+    <ion-title>{{translationMap?.get('LABEL_EMAIL')}}</ion-title>
     <ion-buttons slot="end">
       <ion-button ion-button fill="clear" (click)="onClose()">
         <ion-icon slot="icon-only" name="close"></ion-icon>
@@ -20,17 +20,17 @@
       </div> -->
       <div class="field-wrapper" id="div_input_topic" #div_input_topic>
         <input type="text" formControlName="subject" >
-        <div class="field-placeholder" (click)="addFocus()"><span>{{translationMap?.get('SUBJECT')}}</span></div>
+        <div class="field-placeholder" (click)="addFocus()"><span>{{translationMap?.get('EMAIL.SUBJECT')}}</span></div>
       </div>
 
-      <ion-label class="message-placeholder">{{translationMap?.get('MESSAGE')}}</ion-label>
+      <ion-label class="message-placeholder">{{translationMap?.get('EMAIL.MESSAGE')}}</ion-label>
       <div class="field-wrapper-email">
         <ion-textarea 
           formControlName="text"
           autosize="false" 
           auto-grow="true" 
           autofocus="true" 
-          placeholder="{{translationMap?.get('MESSAGE_PLACEHOLDER')}}">
+          placeholder="{{translationMap?.get('EMAIL.MESSAGE_PLACEHOLDER')}}">
         </ion-textarea>
         <div class="info-wrapper">
           <ion-label>Powered by</ion-label>

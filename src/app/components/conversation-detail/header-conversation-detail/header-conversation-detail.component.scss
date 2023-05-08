@@ -208,6 +208,10 @@ ion-header {
         span{
             padding-left: 5px
         }
+        .channel-icon{
+            vertical-align: sub;
+            filter: brightness(0) saturate(100%) invert(83%) sepia(45%) saturate(1879%) hue-rotate(178deg) brightness(79%) contrast(81%);
+        }
     }
 }
 

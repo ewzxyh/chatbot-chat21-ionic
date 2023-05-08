@@ -152,6 +152,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   areVisibleCAR: boolean;
   supportMode: boolean;
   isEmailEnabled: boolean;
+  isWhatsappTemplatesEnabled: boolean;
   //SOUND
   setTimeoutSound: any;
   audio: any;
@@ -337,7 +338,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
             conv.channel_type,
             null,
             conv.attributes['projectId'],
-            conv.attributes['project_name'])
+            conv.attributes['project_name']),
+            conv.attributes['channel']
         }
 
       }
@@ -491,6 +493,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     this.messages = [] // list messages of conversation
     this.isFileSelected = false // indicates if a file has been selected (image to upload)
     this.isEmailEnabled = (this.appConfigProvider.getConfig().emailSection === 'true' || this.appConfigProvider.getConfig().emailSection === true)? true: false;
+    this.isWhatsappTemplatesEnabled = (this.appConfigProvider.getConfig().whatsappTemplatesSection === 'true' || this.appConfigProvider.getConfig().whatsappTemplatesSection === true)? true: false;
 
     if (checkPlatformIsMobile()) {
       this.isMobile = true
@@ -628,19 +631,17 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
       "LABEL_CHAT",
       "LABEL_EMAIL",
-      "LABEL_TEMPLATES",
-      'LABEL_WA_TEMPLATES',
-      "EMAIL_OFFLINE_TIP",
-      "EMAIL_PLACEHOLDER",
-      "EMAIL_NOT_FOUND_PLACEHOLDER",
-      "SUBJECT",
-      "MESSAGE",
-      "MESSAGE_PLACEHOLDER",
       "LABEL_SEND",
-      "SEND_EMAIL_SUCCESS",
-      "SEND_EMAIL_ERROR",
-      "SUBJECT_OFFLINE_MESSAGE",
-      "SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE",
+      "EMAIL.EMAIL_OFFLINE_TIP",
+      "EMAIL.EMAIL_PLACEHOLDER",
+      "EMAIL.EMAIL_NOT_FOUND_PLACEHOLDER",
+      "EMAIL.SUBJECT",
+      "EMAIL.MESSAGE",
+      "EMAIL.MESSAGE_PLACEHOLDER",
+      "EMAIL.SEND_EMAIL_SUCCESS",
+      "EMAIL.SEND_EMAIL_ERROR",
+      "EMAIL.SUBJECT_OFFLINE_MESSAGE",
+      "EMAIL.SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE",
 
       
     ]
@@ -785,7 +786,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   private setAttributes(): any {
     const attributes: any = {
       client: navigator.userAgent,
-      sourcePage: location.href,
+      sourcePage: location.href
     }
 
     //TODO: servono ???
@@ -848,7 +849,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
             conv.channel_type,
             null,
             conv.attributes['projectId'],
-            conv.attributes['project_name']
+            conv.attributes['project_name'],
+            conv.attributes['channel']
           )
           
         }
@@ -865,7 +867,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
                 conv.channel_type,
                 null,
                 conv.attributes['projectId'],
-                conv.attributes['project_name']
+                conv.attributes['project_name'],
+                conv.attributes['channel']
               )
               let duration = getDateDifference(conv.timestamp, Date.now())
               duration.days > 10 && conv.channel_type !== TYPE_DIRECT? this.disableTextarea = true: this.disableTextarea = false
@@ -886,7 +889,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
             conv.channel_type,
             null,
             conv.attributes['projectId'],
-            conv.attributes['project_name']
+            conv.attributes['project_name'],
+            conv.attributes['channel']
           )
           let duration = getDateDifference(conv.timestamp, Date.now())
           duration.days > 10 && conv.channel_type !== TYPE_DIRECT? this.disableTextarea = true: this.disableTextarea = false
@@ -901,7 +905,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
                 conv.channel_type,
                 null,
                 conv.attributes['projectId'],
-                conv.attributes['project_name']
+                conv.attributes['project_name'],
+                conv.attributes['channel']
               )
             }
             this.logger.log('[CONVS-DETAIL] - setHeaderContent > conversationAvatar: ', this.conversationAvatar)
@@ -974,7 +979,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     const tiledeskToken= this.tiledeskAuthService.getTiledeskToken();
     const emailFormGroup = {
       to: this.leadInfo.email,
-      subject: this.translationsMap.get('SUBJECT_OFFLINE_MESSAGE'),
+      subject: this.translationsMap.get('EMAIL.SUBJECT_OFFLINE_MESSAGE'),
       text: message,
       request_id: this.conversationWith
     }
@@ -982,12 +987,12 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     this.tiledeskService.sendEmail(tiledeskToken, this.leadInfo.projectId, emailFormGroup).subscribe((res)=> {
       this.logger.debug('[SEND-EMAIL-MODAL] subscribe to sendEmail API response -->', res)
       if(res && res.queued){
-        this.presentToast(this.translationsMap.get('SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE'), 'success', '', 2000)
+        this.presentToast(this.translationsMap.get('EMAIL.SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE'), 'success', '', 2000)
         status.next(true)
       }
     },(error)=> {
       this.logger.error('[SEND-EMAIL-MODAL] subscribe to sendEmail API CALL  - ERROR  ', error)
-      this.presentToast(this.translationsMap.get('SEND_EMAIL_ERROR'), 'danger', '', 2000)
+      this.presentToast(this.translationsMap.get('EMAIL.SEND_EMAIL_ERROR'), 'danger', '', 2000)
       status.next(false)
     }, ()=> {
       this.logger.log('[SEND-EMAIL-MODAL] subscribe to sendEmail API CALL /* COMPLETE */')
@@ -1056,12 +1061,15 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         msg = `[${metadata.name}](${metadata.src})`
       }
     }
-
+    this.conversation.attributes && this.conversation.attributes['channel']? attributes.channel = this.conversation.attributes['channel']: null;
     metadata ? (metadata = metadata) : (metadata = '')
-    const emailSectionMsg = (attributes && attributes['channel']===TYPE_MSG_EMAIL)
-    const channelIsNotEmailOrForm = (attributes && attributes['channel'] && (attributes['channel'].name===TYPE_MSG_EMAIL || attributes['channel'].name===TYPE_MSG_FORM))
+    this.logger.log('[CONVS-DETAIL] attributes--->>>> 1111',this.conversation.attributes, attributes)
     this.logger.log('[CONVS-DETAIL] - SEND MESSAGE msg: ', msg, ' - messages: ', this.messages, ' - loggedUser: ', this.loggedUser)
-
+    
+    
+    const emailSectionMsg = (attributes && attributes['offline_channel']===TYPE_MSG_EMAIL)
+    const channelIsNotEmailOrForm = (attributes && attributes['channel'] && (attributes['channel'] === TYPE_MSG_EMAIL || attributes['channel']===TYPE_MSG_FORM))
+    
     if ((msg && msg.trim() !== '') || type !== TYPE_MSG_TEXT) {
 
       
@@ -1073,7 +1081,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         this.sendEmail(msgText).subscribe(status => {
           if(status){
             //SEND MESSAGE ALSO AS EMAIL
-            attributes['channel']= 'offline_'+TYPE_MSG_EMAIL
+            attributes['offline_channel']= 'offline_'+TYPE_MSG_EMAIL
           }
 
           this.conversationHandlerService.sendMessage(
@@ -1105,6 +1113,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       this.segmentNewAgentMessage(this.conversation)
     }
   }
+
 
 
   // ----------------------------------------------------------
@@ -1250,7 +1259,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         this.channelType,
         null,
         this.conversation.attributes['projectId'],
-        this.conversation.attributes['project_name']
+        this.conversation.attributes['project_name'],
+        this.conversation.attributes['channel']
       )
     }
     if (msg.attributes && msg.attributes.hasOwnProperty("updateUserEmail")) {
@@ -1262,7 +1272,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         this.channelType,
         userEmail,
         this.conversation.attributes['projectId'],
-        this.conversation.attributes['project_name']
+        this.conversation.attributes['project_name'],
+        this.conversation.attributes['channel']
       )
       this.getLeadDetail()
     }
