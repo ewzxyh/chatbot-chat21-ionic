@@ -15,6 +15,14 @@
       </ion-button>
     </div>
 
+    <!-- johnny: add translation for all languages-->
+    <div *ngIf="templatesSection" class="section-option" id="template" tooltip="{{translationMap?.get('LABEL_WA_TEMPLATES')}}" placement="top">
+      <ion-button fill="clear" [class.active]="section==='templates'" (click)="onOpenTemplateModal()" [disabled]="channelType === 'direct'">
+        <ion-icon name="logo-whatsapp"></ion-icon>
+        {{translationMap?.get('LABEL_TEMPLATES')}}
+      </ion-button>
+    </div>
+
     <div *ngIf="section==='chat' && messageString && leadInfo?.presence['status']==='offline'" class="section-option offline-lead-tip" >
       {{translationMap.get('EMAIL_OFFLINE_TIP')}}
     </div>

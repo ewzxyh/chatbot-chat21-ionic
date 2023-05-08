@@ -1,5 +1,6 @@
 import { TiledeskService } from 'src/app/services/tiledesk/tiledesk.service';
 import { SendEmailModal } from './../../../modals/send-email/send-email.page';
+import { SendWhatsappTemplateModal } from './../../../modals/send-whatsapp-template/send-whatsapp-template.page';
 import { UserModel } from 'src/chat21-core/models/user';
 import { Component, OnInit, Output, EventEmitter, Input, AfterViewInit, ViewChild, ElementRef, OnChanges, HostListener, Renderer2, SimpleChange, SimpleChanges } from '@angular/core';
 
@@ -52,6 +53,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
   @Input() leadInfo: {lead_id: string, hasEmail: boolean, email: string, projectId: string, presence: {}};
   @Input() fileUploadAccept: string;
   @Input() emailSection: boolean;
+  @Input() templatesSection: boolean;
   @Input() isOpenInfoConversation: boolean;
   @Input() translationMap: Map<string, string>;
   @Input() dropEvent: any;
@@ -259,6 +261,11 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
     this.presentEmailModal()
   }
 
+  onOpenTemplateModal(){
+    this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] - onOpenTemplateModal');
+    this.prensentTemplateModal();
+  }
+
 
   /**
  * 
@@ -409,6 +416,37 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
       }
     });
 
+    return await modal.present();
+  }
+
+  private async prensentTemplateModal():Promise<any> {
+    this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] openTemplateModal');
+    const attributes = {
+      enableBackdropDismiss: false, 
+      conversationWith: this.conversationWith, 
+      msg: this.messageString,
+      email: this.leadInfo.email,
+      projectId: this.leadInfo.projectId,
+      translationMap: this.translationMap
+    };
+    const modal: HTMLIonModalElement = 
+      await this.modalController.create({
+        component: SendWhatsappTemplateModal,
+        componentProps: attributes,
+        swipeToClose: false,
+        backdropDismiss: true
+      })
+    modal.onDidDismiss().then((detail: any) => {
+      this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] send template returned-->', detail);
+      
+      if (detail && detail.data) {
+        let attributes = {
+          attachment: detail.data.attachment
+        }
+        let msg = "whatsapp template: " + detail.data.attachment.template.name + "\r\n" + detail.data.text;
+        this.eventSendMessage.emit({ msg: msg, type: TYPE_MSG_TEXT, metadata: null, attributes: attributes });
+      }
+    });
     return await modal.present();
   }
 

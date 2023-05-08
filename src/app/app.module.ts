@@ -89,6 +89,7 @@ import { LoaderPreviewPageModule } from './modals/loader-preview/loader-preview.
 import { CreateTicketPageModule } from './modals/create-ticket/create-ticket.module';
 import { CreateCannedResponsePageModule } from './modals/create-canned-response/create-canned-response.module';
 import { SendEmailModalModule } from './modals/send-email/send-email.module';
+import { SendWhatsappTemplateModalModule } from './modals/send-whatsapp-template/send-whatsapp-template.module';
 import { JsonMessagePageModule } from './modals/json-message/json-message.module';
 // UTILS
 import { ScrollbarThemeModule } from './utils/scrollbar-theme.directive';
@@ -291,6 +292,7 @@ const appInitializerFn = (appConfig: AppConfigProvider, logger: NGXLogger) => {
     ConversationInfoModule,
     LoaderPreviewPageModule,
     SendEmailModalModule,
+    SendWhatsappTemplateModalModule,
     CreateTicketPageModule,
     CreateRequesterPageModule,
     CreateCannedResponsePageModule,

@@ -628,6 +628,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
       "LABEL_CHAT",
       "LABEL_EMAIL",
+      "LABEL_TEMPLATES",
+      'LABEL_WA_TEMPLATES',
       "EMAIL_OFFLINE_TIP",
       "EMAIL_PLACEHOLDER",
       "EMAIL_NOT_FOUND_PLACEHOLDER",

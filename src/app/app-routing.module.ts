@@ -68,7 +68,12 @@ const routes: Routes = [
   {
     path: 'json-message',
     loadChildren: () => import('./modals/json-message/json-message.module').then( m => m.JsonMessagePageModule)
+  },
+  {
+    path: 'send-whatsapp-template',
+    loadChildren: () => import('./modals/send-whatsapp-template/send-whatsapp-template.module').then( m => m.SendWhatsappTemplateModalModule)
   }
+
 
 
 

@@ -1,0 +1,129 @@
+<ion-header no-border class="ion-no-border">
+  <ion-toolbar>
+    <ion-title *ngIf="!editTemplateView">{{ 'SELECT_MESSAGE_TEMPLATE' | translate }}</ion-title>
+    <ion-title *ngIf="editTemplateView">Review and send template</ion-title>
+    <ion-buttons slot="end">
+      <ion-button ion-button fill="clear" (click)="onClose()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="selectionView" class="content-container">
+  <ion-list lines="full">
+    <ion-item *ngFor="let template of templates" button detail="true" (click)="selectTemplate(template.id)">
+      <ion-label>
+        <div class="label-container">
+          <p class="template-name">{{ template.name }}</p>
+          <div>
+            <ion-icon *ngIf="template.status === 'APPROVED'" class="template-status-icon" name="ellipse"
+              style="color: green"></ion-icon>
+            <ion-icon *ngIf="template.status !== 'APPROVED'" class="template-status-icon" name="ellipse"
+              style="color: red"></ion-icon>
+          </div>
+          <div>
+            <p class="template-language">{{ template.language }}</p>
+          </div>
+        </div>
+        <div *ngFor="let comp of template.components">
+          <p *ngIf="comp.type === 'BODY'" class="body-preview-subtitle">{{ comp.text }}</p>
+        </div>
+      </ion-label>
+    </ion-item>
+
+  </ion-list>
+</ion-content>
+
+<ion-content *ngIf="editTemplateView" class="content-container">
+  <div class="preview-container">
+    <div class="title-back">
+      <ion-button ion-button fill="clear" (click)="backToSelection()">
+        <ion-icon slot="icon-only" name="return-up-back"></ion-icon>
+      </ion-button>
+      <p class="template-name">{{ selected_template.name }}</p>
+    </div>
+    <div class="message-preview">
+
+      <div class="message-cloud">
+
+        <div class="header-preview">
+          <span *ngIf="header_component?.format === 'TEXT'">{{ header_component?.text }}</span>
+          <span *ngIf="header_component?.format === 'IMAGE'">
+            <img [src]="header_component.example.header_handle[0]" />
+          </span>
+
+        </div>
+
+        <div class="body-preview">
+          <span>{{ body_component?.text }}</span>
+        </div>
+
+        <div class="footer-preview">
+          <span>{{ footer_component?.text }}</span>
+        </div>
+
+      </div>
+
+      <div *ngIf="buttons_component" class="message-cloud-buttons">
+        <ion-button *ngFor="let btn of buttons_component.buttons" ion-button fill="clear" class="whatsapp-button">{{
+          btn.text }}</ion-button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="parameters-container">
+
+
+    <div *ngIf="header_component && header_component.example">
+      <p class="parameters-title">Header parameters</p>
+      <div *ngFor="let hp of header_component.example.header_text; index as i" class="parameter">
+        <div class="param-number">
+          <span>{{</span> {{ i + 1 }} <span>}}</span>
+        </div>
+        <div class="field-wrapper">
+          <input type="text" placeholder="{{hp}}" 
+            (input)="onParamHeaderChange($event.target.value, i+1)">
+        </div>
+
+      </div>
+    </div>
+
+    <div *ngIf="body_component.example">
+      <p class="parameters-title">Body parameters</p>
+      <div *ngFor="let bp of body_component.example.body_text[0]; index as i" class="parameter">
+        <div class="param-number">
+          <span>{{</span> {{ i + 1 }} <span>}}</span>
+        </div>
+        <div class="field-wrapper">
+          <input type="text" placeholder="{{bp}}" 
+            (input)="onParamBodyChange($event.target.value, i+1)">
+        </div>
+      </div>
+    </div>
+
+
+    <div *ngIf="!body_component.example">
+      <p style="font-style: italic; color: #a3a3a3;">No parameters</p>
+    </div>
+
+
+
+
+
+  </div>
+</ion-content>
+
+<ion-content *ngIf="displayError" class="content-container">
+    <div class="error-container">
+      <p class="error-message">Install Whatsapp from the App Store to use templates.</p>
+    </div>
+</ion-content>
+
+
+
+<ion-footer *ngIf="editTemplateView">
+  <ion-button [disabled]="sendButtonDisabled" ion-button fill="clear" type="submit" (click)="sendTemplate()"><ion-icon
+    name="send-sharp"></ion-icon>{{translationMap?.get('LABEL_SEND')}}</ion-button>
+</ion-footer>
