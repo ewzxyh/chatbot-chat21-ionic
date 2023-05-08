@@ -18,3 +18,9 @@ deploy_prod.sh
 deploy_pre.sh
 deploy_amazon_beta.sh
 deploy_amazon_prod.sh
+chat-config-mqtt*
+chat-config-native*
+chat-config-pre*
+src/environments/environment.pre.ts
+src/environments/environment.prod.ts
+.gitignore

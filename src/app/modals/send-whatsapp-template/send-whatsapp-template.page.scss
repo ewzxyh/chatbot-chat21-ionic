@@ -258,3 +258,83 @@ ion-footer {
     font-weight: bold;
 }
 
+.loader {
+    height: 310px;
+
+    .box{
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        position: absolute;
+    }
+
+    .container{
+        height: 15px;
+        width: 105px;
+        display: flex;
+        position: relative;
+
+        .circle{
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: var(--basic-blue);
+            animation: move 500ms linear 0ms infinite;
+            margin-right: 30px;
+            
+            &:first-child{
+            position: absolute;
+            top:0;
+            left:0;
+            animation: grow 500ms linear 0ms infinite;
+            }
+            
+            &:last-child{
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin-right: 0;
+            animation: grow 500ms linear 0s infinite reverse;
+            }
+        }
+
+    }
+
+    .spinner {
+        margin: auto;
+        border: 8px solid #EAF0F6;
+        border-radius: 50%;
+        border-top: 8px solid var(--basic-blue);
+        width: 50px;
+        height: 50px;
+        animation: spinner 1s linear infinite;
+    }
+    
+    @keyframes spinner {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .label{
+        text-align: center;
+        margin-top: 10px;
+        animation: blinker 1s linear infinite;
+    }
+      
+    @keyframes grow {
+        from {transform: scale(0,0); opacity: 0;}
+        to {transform: scale(1,1); opacity: 1;}
+    }
+    
+    @keyframes move {
+        from {transform: translateX(0px)}
+        to {transform: translateX(45px)}
+    }
+
+    @keyframes blinker {
+        50% {
+          opacity: 0;
+        }
+      }
+}
+

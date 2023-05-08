@@ -1,6 +1,6 @@
 <ion-header no-border class="ion-no-border">
   <ion-toolbar>
-    <ion-title *ngIf="!editTemplateView">{{ 'SELECT_MESSAGE_TEMPLATE' | translate }}</ion-title>
+    <ion-title *ngIf="!editTemplateView">{{ 'WHATSAPP.SELECT_MESSAGE_TEMPLATE' | translate }}</ion-title>
     <ion-title *ngIf="editTemplateView">Review and send template</ion-title>
     <ion-buttons slot="end">
       <ion-button ion-button fill="clear" (click)="onClose()">
@@ -11,6 +11,7 @@
 </ion-header>
 
 <ion-content *ngIf="selectionView" class="content-container">
+
   <ion-list lines="full">
     <ion-item *ngFor="let template of templates" button detail="true" (click)="selectTemplate(template.id)">
       <ion-label>
@@ -33,6 +34,14 @@
     </ion-item>
 
   </ion-list>
+
+  <div class="loader" *ngIf="display_loader">
+    <div class="box">
+      <div class="spinner" [ngStyle]="{'border-top-color': stylesMap?.get('themeColor')}"></div>
+      <div class="label">{{translationMap.get('LABEL_LOADING')}}</div>
+    </div>
+  </div>
+
 </ion-content>
 
 <ion-content *ngIf="editTemplateView" class="content-container">

@@ -16,10 +16,10 @@
     </div>
 
     <!-- johnny: add translation for all languages-->
-    <div *ngIf="templatesSection" class="section-option" id="template" tooltip="{{translationMap?.get('LABEL_WA_TEMPLATES')}}" placement="top">
+    <div *ngIf="whatsappTemplatesSection" class="section-option" id="template" tooltip="{{translationMap?.get('WHATSAPP.LABEL_WA_TEMPLATES')}}" placement="top">
       <ion-button fill="clear" [class.active]="section==='templates'" (click)="onOpenTemplateModal()" [disabled]="channelType === 'direct'">
         <ion-icon name="logo-whatsapp"></ion-icon>
-        {{translationMap?.get('LABEL_TEMPLATES')}}
+        {{translationMap?.get('WHATSAPP.LABEL_TEMPLATES')}}
       </ion-button>
     </div>
 

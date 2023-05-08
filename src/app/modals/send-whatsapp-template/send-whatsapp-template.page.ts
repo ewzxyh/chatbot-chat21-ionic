@@ -19,7 +19,7 @@ export class SendWhatsappTemplateModal implements OnInit {
   @Input() translationMap: Map<string, string>;
   @Output() onSubmitForm = new EventEmitter<{}>();
 
-  selectionView: Boolean = false;
+  selectionView: Boolean = true;
   editTemplateView: Boolean = false;
   displayError: Boolean = false;
 
@@ -35,6 +35,7 @@ export class SendWhatsappTemplateModal implements OnInit {
   templates = [];
 
   sendButtonDisabled: Boolean = true;
+  display_loader: Boolean = true;
 
   test_projectId: string = "62c3f10152dc7400352bab0d";
 
@@ -47,20 +48,21 @@ export class SendWhatsappTemplateModal implements OnInit {
 
   ngOnInit() {
     this.logger.log('[SEND-TEMPLATE-MODAL] Hello!')
-    this.selectionView = false;
     this.getTemplates();
   }
 
   getTemplates() {
     this.templatesService.getTemplatesList(this.test_projectId).subscribe((res: Array<[]>) => {
       this.logger.debug('[SEND-TEMPLATE-MODAL] subscribe to getTemplates API response -->', res)
-      this.selectionView = true;
+      //this.selectionView = true;
       this.templates = res;
       console.log("templates: ", this.templates);
     }, (error) => {
       this.logger.error('[SEND-TEMPLATE-MODAL] subscribe to getTemplates API  - ERROR  ', error)
       this.displayError = true;
+      this.display_loader = false;
     }, () => {
+      this.display_loader = false;
       this.logger.log('[SEND-TEMPLATE-MODAL] subscribe to getTemplates API CALL /* COMPLETE */')
     })
   }
