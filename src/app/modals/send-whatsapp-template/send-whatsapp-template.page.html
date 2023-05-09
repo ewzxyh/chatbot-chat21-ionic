@@ -126,7 +126,7 @@
 
 <ion-content *ngIf="displayError" class="content-container">
     <div class="error-container">
-      <p class="error-message">Install Whatsapp from the App Store to use templates.</p>
+      <p class="error-message">{{labelError}}</p>
     </div>
 </ion-content>
 
@@ -134,5 +134,6 @@
 
 <ion-footer *ngIf="editTemplateView">
   <ion-button [disabled]="sendButtonDisabled" ion-button fill="clear" type="submit" (click)="sendTemplate()"><ion-icon
-    name="send-sharp"></ion-icon>{{translationMap?.get('LABEL_SEND')}}</ion-button>
+    name="send-sharp"></ion-icon>{{translationMap?.get('LABEL_SEND')}}
+  </ion-button>
 </ion-footer>

@@ -13,8 +13,6 @@ export class SendWhatsappTemplateModal implements OnInit {
 
   @Input() enableBackdropDismiss: any
   @Input() conversationWith: string;
-  @Input() msg: string;
-  @Input() email: string;
   @Input() projectId: string;
   @Input() translationMap: Map<string, string>;
   @Output() onSubmitForm = new EventEmitter<{}>();
@@ -22,6 +20,7 @@ export class SendWhatsappTemplateModal implements OnInit {
   selectionView: Boolean = true;
   editTemplateView: Boolean = false;
   displayError: Boolean = false;
+  labelError: string;
 
   selected_template: any;
   header_component: any;
@@ -37,8 +36,6 @@ export class SendWhatsappTemplateModal implements OnInit {
   sendButtonDisabled: Boolean = true;
   display_loader: Boolean = true;
 
-  test_projectId: string = "62c3f10152dc7400352bab0d";
-
   private logger: LoggerService = LoggerInstance.getInstance()
 
   constructor(
@@ -52,7 +49,7 @@ export class SendWhatsappTemplateModal implements OnInit {
   }
 
   getTemplates() {
-    this.templatesService.getTemplatesList(this.test_projectId).subscribe((res: Array<[]>) => {
+    this.templatesService.getTemplatesList(this.projectId).subscribe((res: Array<[]>) => {
       this.logger.debug('[SEND-TEMPLATE-MODAL] subscribe to getTemplates API response -->', res)
       //this.selectionView = true;
       this.templates = res;
@@ -61,6 +58,11 @@ export class SendWhatsappTemplateModal implements OnInit {
       this.logger.error('[SEND-TEMPLATE-MODAL] subscribe to getTemplates API  - ERROR  ', error)
       this.displayError = true;
       this.display_loader = false;
+      if(error.error.code === '01'){
+        this.labelError = this.translationMap.get('WHATSAPP.ERROR_WHATSAPP_NOT_INSTALLED')
+      } else if (error.error.code === '02'){
+        this.labelError = this.translationMap.get('WHATSAPP.ERROR_WHATSAPP_GENERIC_ERROR')
+      }
     }, () => {
       this.display_loader = false;
       this.logger.log('[SEND-TEMPLATE-MODAL] subscribe to getTemplates API CALL /* COMPLETE */')

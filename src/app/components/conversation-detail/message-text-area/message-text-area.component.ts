@@ -12,7 +12,7 @@ import { LoaderPreviewPage } from 'src/app/modals/loader-preview/loader-preview.
 // Services 
 import { UploadService } from 'src/chat21-core/providers/abstract/upload.service';
 // utils
-import { TYPE_MSG_EMAIL, TYPE_MSG_TEXT, TYPE_SUPPORT_GROUP } from 'src/chat21-core/utils/constants';
+import { CHANNEL_TYPE_WHATSAPP, TYPE_MSG_EMAIL, TYPE_MSG_TEXT, TYPE_SUPPORT_GROUP } from 'src/chat21-core/utils/constants';
 // Models
 import { UploadModel } from 'src/chat21-core/models/upload';
 
@@ -46,6 +46,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
   @Input() loggedUser: UserModel;
   @Input() conversationWith: string;
   @Input() channelType: string;
+  @Input() channel: string;
   @Input() tagsCannedFilter: any;
   @Input() tagsCannedCount: number;
   @Input() areVisibleCAR: boolean;
@@ -74,6 +75,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
 
   TYPE_SUPPORT_GROUP = TYPE_SUPPORT_GROUP;
   TYPE_MSG_TEXT = TYPE_MSG_TEXT;
+  CHANNEL_TYPE_WHATSAPP = CHANNEL_TYPE_WHATSAPP;
   msg: string
 
   section: string= 'chat'
@@ -143,6 +145,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
 
     }
     this.logger.log('[CONVS-DETAIL] - returnChangeTextArea ngOnChanges in [MSG-TEXT-AREA]  this.tagsCannedFilter.length ', this.tagsCannedFilter.length)
+    this.logger.log('[CONVS-DETAIL] - returnChangeTextArea ngOnChanges in [MSG-TEXT-AREA] channel', this.channel )
 
     // use case drop
     if (this.dropEvent) {
@@ -423,9 +426,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
     this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] openTemplateModal');
     const attributes = {
       enableBackdropDismiss: false, 
-      conversationWith: this.conversationWith, 
-      msg: this.messageString,
-      email: this.leadInfo.email,
+      conversationWith: this.conversationWith,
       projectId: this.leadInfo.projectId,
       translationMap: this.translationMap
     };

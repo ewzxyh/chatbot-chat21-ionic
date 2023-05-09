@@ -15,9 +15,8 @@
       </ion-button>
     </div>
 
-    <!-- johnny: add translation for all languages-->
     <div *ngIf="whatsappTemplatesSection" class="section-option" id="template" tooltip="{{translationMap?.get('WHATSAPP.LABEL_WA_TEMPLATES')}}" placement="top">
-      <ion-button fill="clear" [class.active]="section==='templates'" (click)="onOpenTemplateModal()" [disabled]="channelType === 'direct'">
+      <ion-button fill="clear" [class.active]="section==='templates'" (click)="onOpenSection('templates');onOpenTemplateModal()" [disabled]="channel !== CHANNEL_TYPE_WHATSAPP">
         <ion-icon name="logo-whatsapp"></ion-icon>
         {{translationMap?.get('WHATSAPP.LABEL_TEMPLATES')}}
       </ion-button>
