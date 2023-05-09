@@ -288,7 +288,9 @@
   "WHATSAPP": {
     "LABEL_TEMPLATES":"Plantillas",
     "LABEL_WA_TEMPLATES":"Plantillas de WhatsApp",
-    "SELECT_MESSAGE_TEMPLATE":"Seleccione una plantilla de mensaje"
+    "SELECT_MESSAGE_TEMPLATE":"Seleccione una plantilla de mensaje",
+    "ERROR_WHATSAPP_NOT_INSTALLED":"Instale Whatsapp desde la App Store para usar plantillas",
+    "ERROR_WHATSAPP_GENERIC_ERROR":"Ocurrió un problema al obtener plantillas de WhatsApp. ¡Vuelve a intentarlo más tarde!"
   },
   "EMAIL":{
     "EMAIL_OFFLINE_TIP":"Advertencia: ¡el usuario está desconectado! El mensaje será enviado por correo electrónico",

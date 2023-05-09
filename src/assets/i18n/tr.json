@@ -288,7 +288,9 @@
   "WHATSAPP": {
     "LABEL_TEMPLATES":"Şablonlar",
     "LABEL_WA_TEMPLATES":"WhatsApp Şablonları",
-    "SELECT_MESSAGE_TEMPLATE":"Bir mesaj şablonu seçin"
+    "SELECT_MESSAGE_TEMPLATE":"Bir mesaj şablonu seçin",
+    "ERROR_WHATSAPP_NOT_INSTALLED":"Şablonları kullanmak için App Store'dan Whatsapp'ı yükleyin",
+    "ERROR_WHATSAPP_GENERIC_ERROR":"WhatsApp'tan şablonlar alınırken bir sorun oluştu. Daha sonra tekrar deneyin!"
   },
   "EMAIL": {
     "EMAIL_OFFLINE_TIP":"Uyarı: kullanıcı çevrimdışı! Mesaj e-posta ile gönderilecek",

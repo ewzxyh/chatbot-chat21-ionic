@@ -288,7 +288,9 @@
   "WHATSAPP": {
     "LABEL_TEMPLATES":"القوالب",
     "LABEL_WA_TEMPLATES":"قوالب WhatsApp",
-    "SELECT_MESSAGE_TEMPLATE":"حدد قالب رسالة"
+    "SELECT_MESSAGE_TEMPLATE":"حدد قالب رسالة",
+    "ERROR_WHATSAPP_NOT_INSTALLED":"قم بتثبيت Whatsapp من App Store لاستخدام القوالب",
+    "ERROR_WHATSAPP_GENERIC_ERROR":"حدثت مشكلة أثناء الحصول على القوالب من whatsapp. أعد المحاولة لاحقًا!"
   },
   "EMAIL":{
     "EMAIL_OFFLINE_TIP":"تحذير: المستخدم غير متصل! سيتم إرسال الرسالة عبر البريد الإلكتروني",

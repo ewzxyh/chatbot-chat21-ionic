@@ -288,7 +288,9 @@
   "WHATSAPP": {
     "LABEL_TEMPLATES":"Шаблоны",
     "LABEL_WA_TEMPLATES":"Шаблоны WhatsApp",
-    "SELECT_MESSAGE_TEMPLATE":"Выберите шаблон сообщения"
+    "SELECT_MESSAGE_TEMPLATE":"Выберите шаблон сообщения",
+    "ERROR_WHATSAPP_NOT_INSTALLED":"Установите Whatsapp из App Store, чтобы использовать шаблоны",
+    "ERROR_WHATSAPP_GENERIC_ERROR":"Возникла проблема при получении шаблонов из WhatsApp. Повторите попытку позже!"
   },
   "EMAIL": {
     "EMAIL_OFFLINE_TIP":"Внимание: пользователь не в сети! Сообщение будет отправлено по электронной почте",

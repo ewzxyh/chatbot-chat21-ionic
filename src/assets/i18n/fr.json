@@ -288,7 +288,9 @@
   "WHATSAPP": {
     "LABEL_TEMPLATES":"Modèles",
     "LABEL_WA_TEMPLATES":"Modèles WhatsApp",
-    "SELECT_MESSAGE_TEMPLATE":"Sélectionnez un modèle de message"
+    "SELECT_MESSAGE_TEMPLATE":"Sélectionnez un modèle de message",
+    "ERROR_WHATSAPP_NOT_INSTALLED":"Installez Whatsapp depuis l'App Store pour utiliser des modèles",
+    "ERROR_WHATSAPP_GENERIC_ERROR":"Un problème est survenu lors de l'obtention des modèles de WhatsApp. Réessayez plus tard !"
   },
   "EMAIL":{
     "EMAIL_OFFLINE_TIP":"Attention : l'utilisateur est hors ligne ! Le message sera envoyé par email",
