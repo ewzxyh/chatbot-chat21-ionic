@@ -14,6 +14,7 @@ export class SendWhatsappTemplateModal implements OnInit {
   @Input() enableBackdropDismiss: any
   @Input() conversationWith: string;
   @Input() projectId: string;
+  @Input() stylesMap: Map<string, string>;
   @Input() translationMap: Map<string, string>;
   @Output() onSubmitForm = new EventEmitter<{}>();
 
@@ -58,9 +59,9 @@ export class SendWhatsappTemplateModal implements OnInit {
       this.logger.error('[SEND-TEMPLATE-MODAL] subscribe to getTemplates API  - ERROR  ', error)
       this.displayError = true;
       this.display_loader = false;
-      if(error.error.code === '01'){
+      if(error.error && error.error.code === '01'){
         this.labelError = this.translationMap.get('WHATSAPP.ERROR_WHATSAPP_NOT_INSTALLED')
-      } else if (error.error.code === '02'){
+      } else {
         this.labelError = this.translationMap.get('WHATSAPP.ERROR_WHATSAPP_GENERIC_ERROR')
       }
     }, () => {

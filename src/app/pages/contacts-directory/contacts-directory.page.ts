@@ -20,6 +20,7 @@ export class ContactsDirectoryPage implements OnInit {
   
   @Input() token: string;
   @Input() isMobile: boolean;
+  @Input() stylesMap: Map<string, string>;
   // @Input() user: string;
 
   public contacts: Array<UserModel>;

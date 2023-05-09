@@ -56,6 +56,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
   @Input() emailSection: boolean;
   @Input() whatsappTemplatesSection: boolean;
   @Input() isOpenInfoConversation: boolean;
+  @Input() stylesMap: Map<string, string>;
   @Input() translationMap: Map<string, string>;
   @Input() dropEvent: any;
   @Input() disableTextarea: boolean;
@@ -428,6 +429,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
       enableBackdropDismiss: false, 
       conversationWith: this.conversationWith,
       projectId: this.leadInfo.projectId,
+      stylesMap: this.stylesMap,
       translationMap: this.translationMap
     };
     const modal: HTMLIonModalElement = 
