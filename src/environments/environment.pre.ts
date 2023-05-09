@@ -26,6 +26,7 @@ export const environment = {
         APIendpoint: 'CHANGEIT'
     },
     apiUrl: 'CHANGEIT',
+    whatsappTemplatesBaseUrl: 'CHANGEIT',
     baseImageUrl: 'CHANGEIT',
     dashboardUrl: 'CHANGEIT',
     testsiteBaseUrl:'CHANGEIT',

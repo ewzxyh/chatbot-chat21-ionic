@@ -28,6 +28,7 @@
         "APIendpoint": "${MQTT_APIENDPOINT}"
     },
     "apiUrl": "${API_URL}",
+    "whatsappTemplatesBaseUrl":"${WHATSAPP_TEMPLATES_BASE_URL}",
     "baseImageUrl": "${API_BASEIMAGE_URL}",
     "dashboardUrl": "${DASHBOARD_URL}",
     "testsiteBaseUrl":"${WIDGET_TEST_LOCATION}",

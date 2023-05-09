@@ -25,6 +25,7 @@ export const environment = {
         APIendpoint: 'http://localhost:8004/api'
     },
     apiUrl: 'http://localhost:3000/',
+    whatsappTemplatesBaseUrl: 'http://localhost:3000/',
     baseImageUrl: 'https://firebasestorage.googleapis.com/v0/b/',
     dashboardUrl: 'http://localhost:4500/',
     testsiteBaseUrl:'http://localhost:4200/assets/twp/index.html',
