@@ -645,8 +645,9 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
       "WHATSAPP.LABEL_TEMPLATES",
       "WHATSAPP.LABEL_WA_TEMPLATES",
-      "WHATSAPP.SELECT_MESSAGE_TEMPLATE"
-
+      "WHATSAPP.SELECT_MESSAGE_TEMPLATE",
+      "WHATSAPP.ERROR_WHATSAPP_NOT_INSTALLED",
+      "WHATSAPP.ERROR_WHATSAPP_GENERIC_ERROR"
 
     ]
 
@@ -1777,7 +1778,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
   onOpenFooterSection(event: string) {
     this.logger.debug('[CONVS-DETAIL] onOpenFooterSection - section ', event)
-    if (event === 'email') {
+    if (event === 'email' || event === 'templates') {
       this.getLeadDetail()
     }
   }
