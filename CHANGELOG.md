@@ -1,5 +1,14 @@
 # chat21-ionic ver 3.0
 
+### 3.0.97-rc.5
+- added: whatsapp templates section to send an already configured whatsapp templete only in case of a whatsapp conversation channel type
+- added: channel input var in message-text-area component to manage the type of current conversation
+- added: whatsappTemplatesBaseUrl env key to manage whatsapp templates only for whatsapp conversations
+- added: loader on contacts-directory page
+- changed: send-email modal UI form mobile platform
+- bug-fixed: do not show offline message if conversation has channel=whatsapp
+- bug-fixed: do not send automatic offline email if conversation has channel=whatsapp
+
 ### 3.0.97-rc.4
 - bug-fixed: error getting chat group members
 - bug-fixed: missing info-conversation accordion label 
