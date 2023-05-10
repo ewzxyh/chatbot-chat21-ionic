@@ -59,7 +59,9 @@ import {
   URL_SOUND_LIST_CONVERSATION,
   TYPE_DIRECT,
   TYPE_MSG_EMAIL,
-  TYPE_MSG_FORM
+  TYPE_MSG_FORM,
+  CHANNEL_TYPE_TELEGRAM,
+  CHANNEL_TYPE_WHATSAPP
 } from 'src/chat21-core/utils/constants'
 import {
   checkPlatformIsMobile,
@@ -1073,14 +1075,14 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
 
     const emailSectionMsg = (attributes && attributes['offline_channel'] === TYPE_MSG_EMAIL)
-    const channelIsNotEmailOrForm = (attributes && attributes['channel'] && (attributes['channel'] === TYPE_MSG_EMAIL || attributes['channel'] === TYPE_MSG_FORM))
+    const channelIsNotEmailOrFormOrWhatsapp = (attributes && attributes['channel'] && (attributes['channel'] === TYPE_MSG_EMAIL || attributes['channel'] === TYPE_MSG_FORM || attributes['channel'] === CHANNEL_TYPE_WHATSAPP))
 
     if ((msg && msg.trim() !== '') || type !== TYPE_MSG_TEXT) {
 
 
       if (this.isEmailEnabled &&
         this.leadInfo && this.leadInfo.presence && this.leadInfo.presence['status'] === 'offline' &&
-        this.leadInfo.email && !emailSectionMsg && !channelIsNotEmailOrForm) {
+        this.leadInfo.email && !emailSectionMsg && !channelIsNotEmailOrFormOrWhatsapp) {
         this.logger.log('[CONVS-DETAIL] - SEND MESSAGE --> SENDING EMAIL', msg, this.leadInfo.email)
         let msgText = this.createEmailText(msg)
         this.sendEmail(msgText).subscribe(status => {
