@@ -10,7 +10,7 @@
 </ion-header>
 
 <ion-content>
-  <div class="content-container">
+  <div class="content-container" [attr.isMobile]="isMobile">
     <form [formGroup]="emailFormGroup" (ngSubmit)="onSubmit()">
       <!-- <div class="form-group row">
         <ion-item lines="none">

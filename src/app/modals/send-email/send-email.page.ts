@@ -6,6 +6,7 @@ import { ModalController, ToastController } from '@ionic/angular';
 import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service';
 import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance';
 import { UserModel } from 'src/chat21-core/models/user';
+import { checkPlatformIsMobile } from 'src/chat21-core/utils/utils';
 
 @Component({
   selector: 'send-email-modal',
@@ -26,6 +27,7 @@ export class SendEmailModal implements OnInit {
   
   emailFormGroup: FormGroup;
   private logger: LoggerService = LoggerInstance.getInstance()
+  public isMobile: boolean = false;
   
   constructor(
     public viewCtrl: ModalController,
@@ -36,6 +38,17 @@ export class SendEmailModal implements OnInit {
   ) { }
 
   ngOnInit() {
+    
+    if (checkPlatformIsMobile()) {
+      this.isMobile = true
+      // this.openInfoConversation = false; // indica se è aperto il box info conversazione
+      this.logger.log('[CONVS-DETAIL] - initialize -> checkPlatformIsMobile isMobile? ', this.isMobile)
+    } else {
+      this.isMobile = false
+      this.logger.log('[CONVS-DETAIL] - initialize -> checkPlatformIsMobile isMobile? ', this.isMobile)
+      // this.openInfoConversation = true;
+    }
+
     this.logger.log('[SEND-EMAIL-MODAL] Hello!')
     this.emailFormGroup = this.buildFormGroup();
     this.emailFormGroup.valueChanges.subscribe((value)=> {
