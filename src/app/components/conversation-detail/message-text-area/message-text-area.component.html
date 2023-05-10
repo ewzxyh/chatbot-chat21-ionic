@@ -22,7 +22,7 @@
       </ion-button>
     </div>
 
-    <div *ngIf="section==='chat' && messageString && leadInfo?.presence['status']==='offline'" class="section-option offline-lead-tip" >
+    <div *ngIf="section==='chat' && channel !== CHANNEL_TYPE_WHATSAPP && messageString && leadInfo?.presence['status']==='offline'" class="section-option offline-lead-tip" >
       {{translationMap.get('EMAIL.EMAIL_OFFLINE_TIP')}}
     </div>
 
@@ -35,7 +35,7 @@
     </ion-col>
   </ion-row>
 
-  <ion-row id="message-text-area" [style.display]="section==='chat' || section==='template'? 'flex': 'none'">
+  <ion-row id="message-text-area" [style.display]="section==='chat' || section ==='templates'? 'flex': 'none'">
 
     <ion-col col-auto style="display: flex;">
 
