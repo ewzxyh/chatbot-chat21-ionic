@@ -1151,16 +1151,16 @@ export class AppComponent implements OnInit {
 
     this.router.navigateByUrl('conversation-detail/'); //redirect to basePage
     if(this.IS_ON_MOBILE_DEVICE){
-        clearTimeout(this.timeModalLogin);
-        this.timeModalLogin = setTimeout(() => {
-          if (!this.hadBeenCalledOpenModal) {
-            this.authModal = this.presentModal('initAuthentication');
-            this.hadBeenCalledOpenModal = true;
-          }
-        }, 1000)
-      }else{
-        this.goToDashboardLogin()
-      }
+      clearTimeout(this.timeModalLogin);
+      this.timeModalLogin = setTimeout(() => {
+        if (!this.hadBeenCalledOpenModal) {
+          this.authModal = this.presentModal('initAuthentication');
+          this.hadBeenCalledOpenModal = true;
+        }
+      }, 1000)
+    }else{
+      this.goToDashboardLogin()
+    }
     
 
     // if (!this.hadBeenCalledOpenModal) {
