@@ -85,7 +85,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
   addWhiteSpaceBefore: boolean;
   emojiPerLine: number = 9
   emojiColor: string ="#3880ff"
-  emojiiCategories = [ 'recent', 'people', 'nature', 'activity'] //, 'custom']
+  emojiiCategories = [ 'recent', 'people', 'nature', 'activity', 'flags'] //, 'custom']
 
   customEmojis = [
     {
@@ -146,7 +146,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
 
     }
     this.logger.log('[CONVS-DETAIL] - returnChangeTextArea ngOnChanges in [MSG-TEXT-AREA]  this.tagsCannedFilter.length ', this.tagsCannedFilter.length)
-    this.logger.log('[CONVS-DETAIL] - returnChangeTextArea ngOnChanges in [MSG-TEXT-AREA] channel', this.channel )
+    this.logger.log('[CONVS-DETAIL] - returnChangeTextArea ngOnChanges in [MSG-TEXT-AREA] channel', this.channel, this.whatsappTemplatesSection, this.emailSection )
 
     // use case drop
     if (this.dropEvent) {
