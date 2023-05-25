@@ -1068,14 +1068,14 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         msg = `[${metadata.name}](${metadata.src})`
       }
     }
-    this.conversation.attributes && this.conversation.attributes['channel'] ? attributes.channel = this.conversation.attributes['channel'] : null;
+    this.conversation.attributes && this.conversation.attributes['request_channel'] ? attributes.channel = this.conversation.attributes['request_channel'] : null;
     metadata ? (metadata = metadata) : (metadata = '')
     this.logger.log('[CONVS-DETAIL] attributes--->>>> 1111', this.conversation.attributes, attributes)
     this.logger.log('[CONVS-DETAIL] - SEND MESSAGE msg: ', msg, ' - messages: ', this.messages, ' - loggedUser: ', this.loggedUser)
 
 
     const emailSectionMsg = (attributes && attributes['offline_channel'] === TYPE_MSG_EMAIL)
-    const channelIsNotEmailOrFormOrWhatsapp = (attributes && attributes['channel'] && (attributes['channel'] === TYPE_MSG_EMAIL || attributes['channel'] === TYPE_MSG_FORM || attributes['channel'] === CHANNEL_TYPE_WHATSAPP))
+    const channelIsNotEmailOrFormOrWhatsapp = (attributes && attributes['request_channel'] && (attributes['request_channel'] === TYPE_MSG_EMAIL || attributes['request_channel'] === TYPE_MSG_FORM || attributes['request_channel'] === CHANNEL_TYPE_WHATSAPP))
 
     if ((msg && msg.trim() !== '') || type !== TYPE_MSG_TEXT) {
 
