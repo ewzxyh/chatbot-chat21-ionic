@@ -939,6 +939,9 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       this.logger.debug('[CONVS-DETAIL] getLeadDetail - section ', projectId)
       this.tiledeskService.getRequest(this.conversationWith, projectId, tiledeskToken).subscribe((request: any) => {
         that.logger.debug('[CONVS-DETAIL] getLeadDetail - selected REQUEST detail', request)
+        if(request && request.channel){
+          this.conversation.attributes['request_channel'] = request.channel.name
+        }
         if (request.lead && request.lead.email) {
           that.leadInfo = {
             lead_id: request.lead.lead_id,
@@ -970,15 +973,16 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       if (isInfo(message))
         return;
       if (index === 0)
-        text += 'On _' + date + ' - ' + time + '_ **' + message.sender_fullname + '**' + ' replied to you' + ': ' + '\n' +
+        text += 'On _' + date + ' - ' + time + '_ **' + message.sender_fullname.trimEnd() + '**' + ' replied to you' + ': ' + '\n' +
           message.text + '\n\n\n'
       if (index === 1)
         text += '_______________________________________________' + '\n' +
           '**' + 'CONVERSATION HISTORY:' + '**' + '\n' +
-          '**' + message.sender_fullname + '**' + ': ' + message.text + ' _(' + date + '-' + time + ')_' + '\n'
+          '**' + message.sender_fullname.trimEnd() + '**' + ': ' + message.text + ' _(' + date + '-' + time + ')_' + '\n'
       if (index > 1)
-        text += '**' + message.sender_fullname + '**' + ': ' + message.text + ' _(' + date + '-' + time + ')_' + '\n'
+        text += '**' + message.sender_fullname.trimEnd() + '**' + ': ' + message.text + ' _(' + date + '-' + time + ')_' + '\n'
     })
+
     return text
   }
 
