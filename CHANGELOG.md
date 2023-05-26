@@ -1,5 +1,9 @@
 # chat21-ionic ver 3.0
 
+### 3.0.98-rc.1
+- changed: conversation.attributes.channel with conversation.attributes.request_channel to get the current convesation channel
+- bug-fixed: whatsapp template not enabled when agent is added to a whatsapp channel request
+
 ### 3.0.97 in PROD
 
 ### 3.0.97-rc.5
