@@ -23,6 +23,7 @@ import {
   searchIndexInArrayForUid,
   conversationMessagesRef
 } from '../../utils/utils';
+import { v4 as uuidv4 } from 'uuid';
 import { isSender, messageType } from '../../utils/utils-message';
 
 
@@ -111,7 +112,13 @@ export class MQTTConversationHandler extends ConversationHandlerService {
             this.conversationWith, (message, topic) => {
                 this.logger.log('[MQTTConversationHandler] message added:', message, 'on topic:', topic);
                 const msg: MessageModel = message;        
-                msg.uid = message.message_id;
+                
+                //allow to replace message in unknown status (pending status: '0')
+                if(message.attributes && message.attributes.tempUID){
+                    msg.uid = message.attributes.tempUID;
+                }else{
+                    msg.uid = message.message_id
+                }
 
                 this.addedMessage(msg);
         });
@@ -170,6 +177,7 @@ export class MQTTConversationHandler extends ConversationHandlerService {
         const recipientFullname = conversationWithFullname;
         const recipientId = conversationWith;
         attributes.lang = language;
+        attributes.tempUID = uuidv4(); //allow to show message in a pending status
         this.chat21Service.chatClient.sendMessage(
             msg,
             typeMsg,
@@ -189,6 +197,25 @@ export class MQTTConversationHandler extends ConversationHandlerService {
                 }
             }
         );
+
+        const message = new MessageModel(
+            attributes.tempUID, //allow to show message in a pending status 
+            language,
+            conversationWith,
+            recipientFullname,
+            sender,
+            senderFullname,
+            0,
+            metadataMsg,
+            msg,
+            Date.now(),
+            typeMsg,
+            attributes,
+            channelType,
+            false
+        );
+        this.addedMessage(message) //allow to show message in a pending status: add pending message in array of messages
+
         return new MessageModel(
             '',
             language,
@@ -402,7 +429,7 @@ export class MQTTConversationHandler extends ConversationHandlerService {
      */
     private updateMessageStatusReceived(msg) {
         this.logger.log('[MQTTConversationHandler] updateMessageStatusReceived', msg);
-        if (msg['status'] < MSG_STATUS_RECEIVED) {
+        if (msg['status'] < MSG_STATUS_RECEIVED && msg['status'] > 0) {
             this.logger.log('[MQTTConversationHandler] status ', msg['status'], ' < (RECEIVED:200)', MSG_STATUS_RECEIVED);
             if (msg.sender !== this.loggedUser.uid && msg.status < MSG_STATUS_RECEIVED) {
                 this.logger.log('[MQTTConversationHandler] updating message with status received');

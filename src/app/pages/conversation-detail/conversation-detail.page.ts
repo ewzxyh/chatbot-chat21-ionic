@@ -939,6 +939,9 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       this.logger.debug('[CONVS-DETAIL] getLeadDetail - section ', projectId)
       this.tiledeskService.getRequest(this.conversationWith, projectId, tiledeskToken).subscribe((request: any) => {
         that.logger.debug('[CONVS-DETAIL] getLeadDetail - selected REQUEST detail', request)
+        if(request && request.channel){
+          this.conversation.attributes['request_channel'] = request.channel.name
+        }
         if (request.lead && request.lead.email) {
           that.leadInfo = {
             lead_id: request.lead.lead_id,
@@ -970,15 +973,16 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       if (isInfo(message))
         return;
       if (index === 0)
-        text += 'On _' + date + ' - ' + time + '_ **' + message.sender_fullname + '**' + ' replied to you' + ': ' + '\n' +
+        text += 'On _' + date + ' - ' + time + '_ **' + message.sender_fullname.trimEnd() + '**' + ' replied to you' + ': ' + '\n' +
           message.text + '\n\n\n'
       if (index === 1)
         text += '_______________________________________________' + '\n' +
           '**' + 'CONVERSATION HISTORY:' + '**' + '\n' +
-          '**' + message.sender_fullname + '**' + ': ' + message.text + ' _(' + date + '-' + time + ')_' + '\n'
+          '**' + message.sender_fullname.trimEnd() + '**' + ': ' + message.text + ' _(' + date + '-' + time + ')_' + '\n'
       if (index > 1)
-        text += '**' + message.sender_fullname + '**' + ': ' + message.text + ' _(' + date + '-' + time + ')_' + '\n'
+        text += '**' + message.sender_fullname.trimEnd() + '**' + ': ' + message.text + ' _(' + date + '-' + time + ')_' + '\n'
     })
+
     return text
   }
 
@@ -1068,14 +1072,14 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         msg = `[${metadata.name}](${metadata.src})`
       }
     }
-    this.conversation.attributes && this.conversation.attributes['channel'] ? attributes.channel = this.conversation.attributes['channel'] : null;
+    this.conversation.attributes && this.conversation.attributes['request_channel'] ? attributes.channel = this.conversation.attributes['request_channel'] : null;
     metadata ? (metadata = metadata) : (metadata = '')
     this.logger.log('[CONVS-DETAIL] attributes--->>>> 1111', this.conversation.attributes, attributes)
     this.logger.log('[CONVS-DETAIL] - SEND MESSAGE msg: ', msg, ' - messages: ', this.messages, ' - loggedUser: ', this.loggedUser)
 
 
     const emailSectionMsg = (attributes && attributes['offline_channel'] === TYPE_MSG_EMAIL)
-    const channelIsNotEmailOrFormOrWhatsapp = (attributes && attributes['channel'] && (attributes['channel'] === TYPE_MSG_EMAIL || attributes['channel'] === TYPE_MSG_FORM || attributes['channel'] === CHANNEL_TYPE_WHATSAPP))
+    const channelIsNotEmailOrFormOrWhatsapp = (attributes && attributes['request_channel'] && (attributes['request_channel'] === TYPE_MSG_EMAIL || attributes['request_channel'] === TYPE_MSG_FORM || attributes['request_channel'] === CHANNEL_TYPE_WHATSAPP))
 
     if ((msg && msg.trim() !== '') || type !== TYPE_MSG_TEXT) {
 
