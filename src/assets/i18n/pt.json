@@ -290,7 +290,7 @@
     "LABEL_WA_TEMPLATES":"Modelos do WhatsApp",
     "SELECT_MESSAGE_TEMPLATE":"Selecione um modelo de mensagem",
     "ERROR_WHATSAPP_NOT_INSTALLED":"Instale o Whatsapp da App Store para usar modelos",
-    "ERROR_WHATSAPP_GENERIC_ERROR":"Ocorreu um problema ao obter modelos do whatsapp. Tente novamente mais tarde!"
+    "ERROR_WHATSAPP_GENERIC_ERROR":"Ocorreu um problema ao obter modelos do whatsapp.\nVerifique sua configuração ou entre em contato com seu administrador."
   },
   "EMAIL": {
     "EMAIL_OFFLINE_TIP":"Aviso: o usuário está offline! A mensagem será enviada por e-mail",

@@ -426,6 +426,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
   private async prensentTemplateModal():Promise<any> {
     this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] openTemplateModal');
     const attributes = {
+      loggedUser: this.loggedUser,
       enableBackdropDismiss: false, 
       conversationWith: this.conversationWith,
       projectId: this.leadInfo.projectId,

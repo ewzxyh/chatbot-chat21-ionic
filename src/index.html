@@ -11,7 +11,8 @@
 
   <!-- <meta name="color-scheme" content="light dark" /> disable dark mode: Note in theme/variable.scss is also commented all the code that referts to dark-mode -->
   <meta name="color-scheme" content="light" />
-  <meta name="viewport" content="width=device-width, height=device-height ,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport"
+    content="width=device-width, height=device-height ,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="format-detection" content="telephone=no" />
   <meta name="msapplication-tap-highlight" content="no" />
 
@@ -40,6 +41,10 @@
 
 <body>
   <app-root></app-root>
+
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=[REDACTED_GOOGLE_KEY]&callback=initMap&libraries=places&v=weekly"
+    defer></script>
 </body>
 
 

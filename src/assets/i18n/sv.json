@@ -290,7 +290,7 @@
     "LABEL_WA_TEMPLATES":"WhatsApp-mallar",
     "SELECT_MESSAGE_TEMPLATE":"Välj en meddelandemall",
     "ERROR_WHATSAPP_NOT_INSTALLED":"Installera Whatsapp från App Store för att använda mallar",
-    "ERROR_WHATSAPP_GENERIC_ERROR":"Ett problem uppstod när mallar hämtades från WhatsApp. Försök igen senare!"
+    "ERROR_WHATSAPP_GENERIC_ERROR":"Ett problem uppstod när mallar hämtades från WhatsApp.\nKontrollera din konfiguration eller kontakta din administratör."
   },
   "EMAIL": {
     "EMAIL_OFFLINE_TIP":"Varning: användaren är offline! Meddelandet kommer att skickas via e-post",

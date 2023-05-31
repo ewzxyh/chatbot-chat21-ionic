@@ -1,3 +1,4 @@
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -8,12 +9,15 @@ import { SendWhatsappTemplateModal } from './send-whatsapp-template.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { createTranslateLoader } from 'src/chat21-core/utils/utils';
 import { HttpClient } from '@angular/common/http';
+import { MarkedPipe } from 'src/app/directives/marked.pipe';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    //MarkedPipe,
     SendWhatsappTemplatePageRoutingModule,
     TranslateModule.forChild({
       loader: {
@@ -23,6 +27,7 @@ import { HttpClient } from '@angular/common/http';
       }
     })
   ],
-  declarations: [SendWhatsappTemplateModal]
+  declarations: [SendWhatsappTemplateModal],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SendWhatsappTemplateModalModule {}

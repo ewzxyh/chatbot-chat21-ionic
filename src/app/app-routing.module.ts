@@ -72,14 +72,11 @@ const routes: Routes = [
   {
     path: 'send-whatsapp-template',
     loadChildren: () => import('./modals/send-whatsapp-template/send-whatsapp-template.module').then( m => m.SendWhatsappTemplateModalModule)
+  },
+  {
+    path: 'maps',
+    loadChildren: () => import('./modals/maps/maps.module').then( m => m.MapsPageModule)
   }
-
-
-
-
-
-
-
 
   // {
   //   path: 'conversation-detail/:IDConv',

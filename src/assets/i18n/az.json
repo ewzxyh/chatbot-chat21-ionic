@@ -290,7 +290,7 @@
     "LABEL_WA_TEMPLATES":"WhatsApp şablonları",
     "SELECT_MESSAGE_TEMPLATE":"Mesaj şablonu seçin",
     "ERROR_WHATSAPP_NOT_INSTALLED":"Şablonlardan istifadə etmək üçün App Store-dan Whatsapp-ı quraşdırın",
-    "ERROR_WHATSAPP_GENERIC_ERROR":"Whatsapp-dan şablonları əldə edərkən problem yarandı. Daha sonra yenidən cəhd edin!"
+    "ERROR_WHATSAPP_GENERIC_ERROR":"Whatsapp-dan şablonları əldə edərkən problem yarandı.\nKonfiqurasiyanızı yoxlayın və ya administratorunuzla əlaqə saxlayın."
   },
   "EMAIL":{
     "EMAIL_OFFLINE_TIP":"Xəbərdarlıq: istifadəçi oflayndır! Mesaj e-poçt vasitəsilə göndəriləcək",

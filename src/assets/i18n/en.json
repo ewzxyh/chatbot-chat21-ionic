@@ -290,7 +290,7 @@
     "LABEL_WA_TEMPLATES":"WhatsApp Templates",
     "SELECT_MESSAGE_TEMPLATE":"Select a message template",
     "ERROR_WHATSAPP_NOT_INSTALLED":"Install Whatsapp from the App Store to use templates",
-    "ERROR_WHATSAPP_GENERIC_ERROR":"A problem occurred while getting templates from whatsapp. Retry later!"
+    "ERROR_WHATSAPP_GENERIC_ERROR":"A problem occurred while getting templates from whatsapp.\nCheck your configuration or contact your administrator."
   },
   "EMAIL":{
     "EMAIL_OFFLINE_TIP":"Warning: user is offline! The message will be sent by email",

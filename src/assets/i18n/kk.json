@@ -290,7 +290,7 @@
     "LABEL_WA_TEMPLATES":"WhatsApp шаблондары",
     "SELECT_MESSAGE_TEMPLATE":"Хабарлама үлгісін таңдаңыз",
     "ERROR_WHATSAPP_NOT_INSTALLED":"Үлгілерді пайдалану үшін App Store дүкенінен Whatsapp қолданбасын орнатыңыз",
-    "ERROR_WHATSAPP_GENERIC_ERROR":"Whatsapp-тан үлгілерді алу кезінде мәселе туындады. Әрекетті кейінірек қайталаңыз!"
+    "ERROR_WHATSAPP_GENERIC_ERROR":"Whatsapp-тан үлгілерді алу кезінде ақаулық орын алды.\n Конфигурацияңызды тексеріңіз немесе әкімшіге хабарласыңыз."
   },
   "EMAIL": {
     "EMAIL_OFFLINE_TIP":"Ескерту: пайдаланушы желіден тыс! Хабарлама электрондық пошта арқылы жіберіледі",

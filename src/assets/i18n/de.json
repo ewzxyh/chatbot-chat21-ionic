@@ -290,7 +290,7 @@
     "LABEL_WA_TEMPLATES":"WhatsApp-Vorlagen",
     "SELECT_MESSAGE_TEMPLATE":"Wählen Sie eine Nachrichtenvorlage aus",
     "ERROR_WHATSAPP_NOT_INSTALLED":"Installieren Sie WhatsApp aus dem App Store, um Vorlagen zu verwenden",
-    "ERROR_WHATSAPP_GENERIC_ERROR":"Beim Abrufen von Vorlagen von WhatsApp ist ein Problem aufgetreten. Versuchen Sie es später noch einmal!"
+    "ERROR_WHATSAPP_GENERIC_ERROR":"Beim Abrufen von Vorlagen von WhatsApp ist ein Problem aufgetreten.\nÜberprüfen Sie Ihre Konfiguration oder wenden Sie sich an Ihren Administrator."
   },
   "EMAIL":{
     "EMAIL_OFFLINE_TIP":"Achtung: Benutzer ist offline! Die Nachricht wird per E-Mail versendet",

@@ -291,7 +291,7 @@
     "LABEL_WA_TEMPLATES":"WhatsApp shablonlar",
     "SELECT_MESSAGE_TEMPLATE":"Xabar shablonini tanlang",
     "ERROR_WHATSAPP_NOT_INSTALLED":"Shablonlardan foydalanish uchun App Store'dan Whatsapp-ni o'rnating",
-    "ERROR_WHATSAPP_GENERIC_ERROR":"Whatsapp’dan shablonlarni olishda muammo yuz berdi. Keyinroq qayta urining!"
+    "ERROR_WHATSAPP_GENERIC_ERROR":"Whatsapp’dan shablonlarni olishda muammo yuz berdi.\nKonfiguratsiyangizni tekshiring yoki administratoringizga murojaat qiling."
   },
   "EMAIL": {
     "EMAIL_OFFLINE_TIP":"Ogohlantirish: foydalanuvchi oflayn! Xabar elektron pochta orqali yuboriladi",

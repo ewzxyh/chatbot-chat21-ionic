@@ -2,7 +2,7 @@ import { ScriptService } from './services/scripts/script.service';
 import { ConvertRequestToConversation } from './../chat21-core/utils/convertRequestToConversation';
 import { LogLevel, PUSH_ENGINE_FIREBASE, PUSH_ENGINE_MQTT } from './../chat21-core/utils/constants';
 import { CustomLogger } from 'src/chat21-core/providers/logger/customLogger';
-import { NgModule, ErrorHandler, APP_INITIALIZER } from '@angular/core';
+import { NgModule, ErrorHandler, APP_INITIALIZER, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouteReuseStrategy } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -106,6 +106,8 @@ import { Network } from '@ionic-native/network/ngx';
 import { WebSocketJs } from './services/websocket/websocket-js';
 import { UnassignedConversationsPageModule } from './pages/unassigned-conversations/unassigned-conversations.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MapsPageModule } from './modals/maps/maps.module';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 // FACTORIES
 export function createTranslateLoader(http: HttpClient) {
@@ -293,13 +295,15 @@ const appInitializerFn = (appConfig: AppConfigProvider, logger: NGXLogger) => {
     LoaderPreviewPageModule,
     SendEmailModalModule,
     SendWhatsappTemplateModalModule,
+    MapsPageModule,
     CreateTicketPageModule,
     CreateRequesterPageModule,
     CreateCannedResponsePageModule,
-    JsonMessagePageModule
+    JsonMessagePageModule,
+    GoogleMapsModule
   ],
   bootstrap: [AppComponent],
-
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
     AppConfigProvider, // https://juristr.com/blog/2018/01/ng-app-runtime-config/
     {
