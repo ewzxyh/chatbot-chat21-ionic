@@ -36,4 +36,16 @@ p ::ng-deep p{
     margin-block-start: 0em
 }
 
+p ::ng-deep ol{
+    margin-block-end: 0em;
+    margin-block-start: 0em;
+    padding-inline-start: 15px;
+    
+    li:before {
+        content:"";
+        font-size: 1.4em;
+        vertical-align:middle;
+    }
+}
+
 
