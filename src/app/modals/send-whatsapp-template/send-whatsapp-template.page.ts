@@ -283,7 +283,7 @@ export class SendWhatsappTemplateModal implements OnInit {
   }
 
   // evaluate async
-  onFileSelected(e: any, type: string) {
+  onFileSelected(e: any) {
     this.displayFileUploaded = true;
     this.fileUploadedName = e.target.files.item(0).name;
     this.logger.log('[SEND-TEMPLATE-MODAL] on file selected -->', e)

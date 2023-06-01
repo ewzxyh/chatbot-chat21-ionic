@@ -39,5 +39,6 @@ export const environment = {
     writeToButton: false,
     archivedButton: false,
     emailSection: true,
-    whatsappTemplatesSection: true
+    whatsappTemplatesSection: true,
+    googleMapsApiKey:"CHANGEIT"
 };

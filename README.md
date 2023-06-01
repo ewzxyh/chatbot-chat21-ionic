@@ -105,7 +105,8 @@ Use [Docker Compose Tiledesk installation guide](https://github.com/Tiledesk/til
         "testsiteBaseUrl": "https:<YOUR-WIDGET-URL>/test_widget_page/index.html"
         "wsUrl": 'ws://' + window.location.hostname + '/ws/',
         "emailSection": true,
-        "whatsappTemplatesSection": true
+        "whatsappTemplatesSection": true,
+        "googleMapsApiKey":"<YOUR-GOOGLE-MAPS-API-KEY>"
     }
   };
   ```
@@ -132,6 +133,7 @@ Use [Docker Compose Tiledesk installation guide](https://github.com/Tiledesk/til
 
 * `whatsappTemplatesSection`: if set to true, allows agents to set and send a whatsapp already configured template to users in an incoming whatsapp conversation
 
+* `googleMapsApiKey`:
 ### Push notification
 * open `/src/firebase-messaging-sw.js` and replace messagingSenderId: with < your messagingSenderId >
 More info here :  https://angularfirebase.com/lessons/send-push-notifications-in-angular-with-firebase-cloud-messaging/

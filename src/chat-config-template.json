@@ -36,5 +36,6 @@
     "wsUrlRel": "${WS_URL_RELATIVE}",
     "storage_prefix": "${CHAT_STORAGE_PREFIX}",
     "emailSection": "${EMAIL_SECTION}",
-    "whatsappTemplatesSection":"${WHATSAPP_TEMPLATES_SECTION}"
+    "whatsappTemplatesSection":"${WHATSAPP_TEMPLATES_SECTION}",
+    "googleMapsApiKey":"${GOOGLE_MAPS_APIKEY}"
 }
