@@ -1,5 +1,9 @@
 # chat21-ionic ver 3.0
 
+### 3.0.98-rc.2
+- added: maps modal for whatsapp location templates
+- changed: changed: conversation?.attributes?.channel with conversation?.attributes?.request_channel
+
 ### 3.0.98-rc.1
 - changed: conversation.attributes.channel with conversation.attributes.request_channel to get the current convesation channel
 - bug-fixed: whatsapp template not enabled when agent is added to a whatsapp channel request
