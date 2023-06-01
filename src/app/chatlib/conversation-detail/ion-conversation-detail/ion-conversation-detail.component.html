@@ -133,14 +133,12 @@
           (onAfterMessageRender)="onAfterMessageRenderFN($event)" 
           (onElementRendered)="onElementRenderedFN($event)"
           (onOptionsMessage)="onClickOptionsMessage($event)">
-      </chat-bubble-message>
+        </chat-bubble-message>
       </div>
 
       <!-- icon status message -->
       <chat-return-receipt 
-        [status]="message.status" 
-        [message]="message" 
-        [senderId]="senderId">
+        [status]="message.status">
       </chat-return-receipt>
 
       

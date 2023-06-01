@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-
-const apiKey = '[REDACTED_GOOGLE_KEY]';
+import { AppConfigProvider } from 'src/app/services/app-config';
 
 @Component({
   selector: 'app-maps',
@@ -13,15 +12,33 @@ export class MapsPage implements OnInit {
   selected_place: any;
 
   constructor(
-    public viewCtrl: ModalController
+    public viewCtrl: ModalController,
+    private appConfigProvider: AppConfigProvider
   ) { }
 
   ngOnInit() {
+    
   }
 
-  ionViewDidEnter() {
-    this.initMap();
+  loadScript(){
+    const that = this;
+    const apiKey = this.appConfigProvider.getConfig().googleMapsApiKey
+    const url = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&v=weekly'`
+    let node = document.createElement('script');
+    node.src = url;
+    node.type = 'text/javascript';
+    node.defer = true
+    document.getElementsByTagName('head')[0].appendChild(node);
+
+    node.onload= function(){
+      that.initMap();
+    }
   }
+
+  ionViewWillEnter() {
+    this.loadScript();
+  }
+
 
   initMap(): void {
     const map = new google.maps.Map(
@@ -109,7 +126,7 @@ export class MapsPage implements OnInit {
   
       // infowindowContent.children["place-name"].textContent = place.name;
       // infowindowContent.children["place-address"].textContent = place.formatted_address;
-      infowindow.open(map, marker);
+      // infowindow.open(map, marker);
     });
   
     // Sets a listener on a radio button to change the filter type on Places

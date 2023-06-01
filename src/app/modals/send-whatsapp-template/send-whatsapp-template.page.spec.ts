@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { SendWhatsappTemplatePage } from './send-whatsapp-template.page';
+import { SendWhatsappTemplateModal } from './send-whatsapp-template.page';
 
 describe('SendWhatsappTemplatePage', () => {
-  let component: SendWhatsappTemplatePage;
-  let fixture: ComponentFixture<SendWhatsappTemplatePage>;
+  let component: SendWhatsappTemplateModal;
+  let fixture: ComponentFixture<SendWhatsappTemplateModal>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SendWhatsappTemplatePage ],
+      declarations: [ SendWhatsappTemplateModal ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SendWhatsappTemplatePage);
+    fixture = TestBed.createComponent(SendWhatsappTemplateModal);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));
