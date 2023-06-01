@@ -12,14 +12,14 @@ import {
 
 /** */
 export function isImage(message: any) {
-  if (message && message.type && message.metadata && message.metadata.src && message.type === 'image') {
+  if (message && message.type && message.type === 'image' && message.metadata && message.metadata.src) {
     return true;
   }
   return false;
 }
 
 export function isFrame(message: any) {
-  if (message && message.type && message.metadata && message.metadata.src && message.type === 'frame') {
+  if (message && message.type && message.type === 'frame' && message.metadata && message.metadata.src) {
     return true;
   }
   return false;
@@ -27,7 +27,14 @@ export function isFrame(message: any) {
 
 /** */
 export function isFile(message: any) {
-  if (message && message.type && message.metadata && message.metadata.src && message.type === 'file') {
+    if (message && message.type && message.type === 'file' && message.metadata && message.metadata.src && !message.metadata.includes('audio')) {
+      return true;
+    }
+    return false;
+}
+
+export function isAudio(message: any) {
+  if (message && message.type && message.type === 'file' && message.metadata && message.metadata.src && message.metadata.type.includes('audio') ) {
     return true;
   }
   return false;

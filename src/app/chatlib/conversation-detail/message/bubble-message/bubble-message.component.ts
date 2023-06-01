@@ -3,7 +3,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { MessageModel } from 'src/chat21-core/models/message';
 import { MAX_WIDTH_IMAGES, MESSAGE_TYPE_MINE, MESSAGE_TYPE_OTHERS, MIN_WIDTH_IMAGES } from 'src/chat21-core/utils/constants';
 import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service';
-import { isFile, isFrame, isImage, messageType } from 'src/chat21-core/utils/utils-message';
+import { isAudio, isFile, isFrame, isImage, messageType } from 'src/chat21-core/utils/utils-message';
 import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance';
 import { TranslateService } from '@ngx-translate/core';
 import { TiledeskAuthService } from 'src/chat21-core/providers/tiledesk/tiledesk-auth.service';
@@ -33,6 +33,7 @@ export class BubbleMessageComponent implements OnInit, OnChanges {
   isImage = isImage;
   isFile = isFile;
   isFrame = isFrame;
+  isAudio = isAudio;
   convertColorToRGBA = convertColorToRGBA
 
   // ========== begin:: check message type functions ======= //

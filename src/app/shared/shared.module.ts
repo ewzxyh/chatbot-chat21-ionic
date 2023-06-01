@@ -50,6 +50,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { SafeHtmlPipe } from '../directives/safe-html.pipe';
+import { AudioComponent } from '../chatlib/conversation-detail/message/audio/audio.component';
 
 // import { MessageTextAreaComponent } from '../components/conversation-detail/message-text-area/message-text-area.component'; // MessageTextAreaComponent is part of the declarations ConversationDetailPageModule
 
@@ -77,6 +78,7 @@ import { SafeHtmlPipe } from '../directives/safe-html.pipe';
     ActionButtonComponent,
     FrameComponent,
     ImageComponent,
+    AudioComponent,
     InfoMessageComponent,
     ReturnReceiptComponent,
     TextComponent,
@@ -120,6 +122,7 @@ import { SafeHtmlPipe } from '../directives/safe-html.pipe';
     ActionButtonComponent,
     FrameComponent,
     ImageComponent,
+    AudioComponent,
     InfoMessageComponent,
     ReturnReceiptComponent,
     TextComponent,
