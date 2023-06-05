@@ -941,8 +941,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         that.logger.debug('[CONVS-DETAIL] getLeadDetail - selected REQUEST detail', request)
         if(request && request.channel){
           this.conversation.attributes['request_channel'] = request.channel.name
-        }
-        if (request.lead && request.lead.email) {
+        } 
+        if (request.lead && request.lead.email) { //LEAD has an email
           that.leadInfo = {
             lead_id: request.lead.lead_id,
             hasEmail: true,
@@ -954,6 +954,16 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
           }
           that.presenceService.userIsOnline(this.leadInfo.lead_id);
           that.webSocketService.subscribeToWS_RequesterPresence(projectId, that.leadInfo.lead_id)
+        } else{ // LEAD not has an email
+          that.leadInfo = {
+            lead_id: request.lead.lead_id,
+            hasEmail: false,
+            email: null,
+            projectId: projectId,
+            presence: {
+              status: 'offline'
+            }
+          }
         }
       }, (error) => {
         this.logger.error('[CONVS-DETAIL] - getLeadDetail - GET REQUEST DETAIL - ERROR  ', error)
@@ -1286,8 +1296,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         this.conversation.attributes['project_name'],
         this.conversation.attributes['request_channel']
       )
-      this.getLeadDetail()
     }
+    this.getLeadDetail()
   }
 
   updateLiveInfo(msg) {
