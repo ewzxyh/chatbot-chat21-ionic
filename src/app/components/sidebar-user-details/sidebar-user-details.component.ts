@@ -12,7 +12,7 @@ import { AppConfigProvider } from 'src/app/services/app-config';
 import { EventsService } from 'src/app/services/events-service';
 import { tranlatedLanguage } from '../../../chat21-core/utils/constants';
 import { avatarPlaceholder, getColorBck } from 'src/chat21-core/utils/utils-user';
-import * as PACKAGE from 'package.json';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-sidebar-user-details',
   templateUrl: './sidebar-user-details.component.html',
@@ -70,7 +70,7 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.DASHBOARD_URL = this.appConfigProvider.getConfig().dashboardUrl + '#/project/';
-    this.version = PACKAGE.version;
+    this.version = environment.version;
     this.subcribeToAuthStateChanged();
     this.listenTocurrentProjectUserUserAvailability$();
     this.listenToCurrentStoredProject();
