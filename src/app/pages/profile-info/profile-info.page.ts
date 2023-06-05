@@ -1,3 +1,4 @@
+import { environment } from 'src/environments/environment';
 import { AppConfigProvider } from 'src/app/services/app-config';
 import { ImageRepoService } from 'src/chat21-core/providers/abstract/image-repo.service';
 import { Component, OnInit, Input, EventEmitter, Output, ViewChild, Renderer2 } from '@angular/core';
@@ -14,16 +15,13 @@ import { PresenceService } from 'src/chat21-core/providers/abstract/presence.ser
 import { UserModel } from 'src/chat21-core/models/user';
 
 // utils
-import { isInArray, setLastDateWithLabels } from 'src/chat21-core/utils/utils';
-import * as PACKAGE from 'package.json';
 import { EventsService } from 'src/app/services/events-service';
 
 // Logger
 import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service';
 import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance';
 import { WebsocketService } from 'src/app/services/websocket/websocket.service';
-import { AppStorageService } from 'src/chat21-core/providers/abstract/app-storage.service';
-import { skip } from 'rxjs/operators';
+import { checkPlatformIsMobile, setLastDateWithLabels } from 'src/chat21-core/utils/utils';
 
 @Component({
   selector: 'app-profile-info',
@@ -39,6 +37,7 @@ export class ProfileInfoPage implements OnInit {
   public translationsMap: Map<string, string>;
   private logger: LoggerService = LoggerInstance.getInstance();
 
+  isMobile: boolean = false;
   private subscriptions = [];
   borderColor = '#2d323e';
   fontColor = '#949494';
@@ -70,8 +69,19 @@ export class ProfileInfoPage implements OnInit {
 
   /** */
   ngOnInit() {
-    this.version = PACKAGE.version;
+    this.version = environment.version;
     this.translations();
+
+    if (checkPlatformIsMobile()) {
+      this.isMobile = true
+      // this.openInfoConversation = false; // indica se è aperto il box info conversazione
+      this.logger.log('[CONVS-DETAIL] - initialize -> checkPlatformIsMobile isMobile? ', this.isMobile)
+    } else {
+      this.isMobile = false
+      this.logger.log('[CONVS-DETAIL] - initialize -> checkPlatformIsMobile isMobile? ', this.isMobile)
+      // this.openInfoConversation = true;
+    }
+    
   }
 
   /** */
@@ -280,17 +290,22 @@ export class ProfileInfoPage implements OnInit {
   }
 
   copyLoggedUserUID() {
-    var copyText = document.createElement("input");
-    copyText.setAttribute("type", "text");
-    copyText.setAttribute("value", this.loggedUser.uid);
 
-    document.body.appendChild(copyText);
-    copyText.select();
-    copyText.setSelectionRange(0, 99999); /*For mobile devices*/
-    document.execCommand("copy");
-    this.logger.log("Copied the text: " + copyText.value);
-    const tootipElem = <HTMLElement>document.querySelector('.chat-tooltip');
-    this.renderer.appendChild(tootipElem, this.renderer.createText('Copied!'))
+    if(!this.isMobile){
+      var copyText = document.createElement("input");
+      copyText.setAttribute("type", "text");
+      copyText.setAttribute("value", this.loggedUser.uid);
 
+      document.body.appendChild(copyText);
+      copyText.select();
+      copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+      document.execCommand("copy");
+      this.logger.log("Copied the text: " + copyText.value);
+      const tootipElem = <HTMLElement>document.querySelector('.chat-tooltip');
+      this.renderer.appendChild(tootipElem, this.renderer.createText('Copied!'))
+    }else{
+      navigator.clipboard.writeText(this.loggedUser.uid)
+    }
+    
   }
 }

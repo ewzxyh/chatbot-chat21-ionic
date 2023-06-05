@@ -1,12 +1,22 @@
-<ion-content class="current-user-profile">
-
-  <div class="buttons-header">
+<!-- <ion-header no-border class="ion-no-border">
+  <ion-toolbar>
     <ion-buttons slot="end">
       <ion-button ion-button fill="clear" (click)="onClose()">
         <ion-icon slot="icon-only" name="close"></ion-icon>
       </ion-button>
     </ion-buttons>
-  </div>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content class="current-user-profile">
+
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button ion-button fill="clear" (click)="onClose()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
 
   <div *ngIf="loggedUser" class="content-user-profile">
     <div class="user">

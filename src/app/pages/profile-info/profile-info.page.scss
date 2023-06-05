@@ -68,6 +68,12 @@
 //         }
 //     }
 
+ion-toolbar{
+    position: absolute;
+    z-index: 2;
+    --ion-toolbar-background: transparent;
+}
+
 .availability-section {
     // top: 320px;
     text-align: center;
@@ -310,6 +316,7 @@
         direction: ltr;
         -webkit-font-feature-settings: 'liga';
         -webkit-font-smoothing: antialiased;
+        font-feature-settings: 'liga'
     }
 
     .sidebar-labels {
