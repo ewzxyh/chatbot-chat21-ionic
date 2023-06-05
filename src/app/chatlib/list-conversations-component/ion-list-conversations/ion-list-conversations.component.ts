@@ -17,6 +17,7 @@ import { DomSanitizer } from '@angular/platform-browser'
 import { TiledeskAuthService } from 'src/chat21-core/providers/tiledesk/tiledesk-auth.service';
 import { AlertController } from '@ionic/angular';
 import { CustomTranslateService } from 'src/chat21-core/providers/custom-translate.service';
+import { isAudio, isFile, isFrame, isImage } from 'src/chat21-core/utils/utils-message';
 // import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service';
 // import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance';
 
@@ -34,6 +35,11 @@ export class IonListConversationsComponent extends ListConversationsComponent im
   @Output() onCloseAlert = new EventEmitter();
 
   convertMessage = convertMessage;
+  isImage = isImage
+  isFrame = isFrame
+  isFile = isFile
+  isAudio = isAudio
+
   isApp: boolean = false;
   public logger: LoggerService = LoggerInstance.getInstance();
   public currentYear: any;

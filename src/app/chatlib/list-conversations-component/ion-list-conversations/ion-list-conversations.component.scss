@@ -236,11 +236,13 @@ ion-item:hover {
     font-size: 12px;
 }
 
-.icon-image-before-msg-wpr {
+.icon-image-before-msg-wpr{
     float: left;
     margin-right: 3px;
 }
-.icon-image-before-msg {
+
+.icon-image-before-msg,
+.icon-mic-before-msg {
     vertical-align: middle;
     color: #999999;
     padding-right: 3px;

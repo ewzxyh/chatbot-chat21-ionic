@@ -133,10 +133,9 @@
           [innerHTML]="conversation.last_message_text"></p> -->
   
         <!-- <div *ngIf="conversation.type === 'image'" class="icon-image-before-msg-wpr"> -->
-        <ion-icon *ngIf="conversation.type === 'image' && conversation.type !== 'file' " name="image-outline"
-          class="icon-image-before-msg"></ion-icon>
-        <ion-icon *ngIf="conversation.type === 'file'  && conversation.type !== 'image'" name="attach-outline"
-          class="icon-attach-before-msg"></ion-icon>
+        <ion-icon *ngIf="isImage(conversation)" name="image-outline" class="icon-image-before-msg"></ion-icon>
+        <ion-icon *ngIf="isFile(conversation)" name="attach-outline" class="icon-attach-before-msg"></ion-icon>
+        <ion-icon *ngIf="isAudio(conversation)" name="mic-outline" class="icon-mic-before-msg"></ion-icon>
         <!-- </div> -->
         <!-- [innerHTML]="conversation.last_message_text" -->
         <span [class.not-read]="conversation.is_new">
