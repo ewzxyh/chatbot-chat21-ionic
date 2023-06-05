@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UserModel } from 'src/chat21-core/models/user';
-import * as PACKAGE from '../../../../package.json';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +8,7 @@ import * as PACKAGE from '../../../../package.json';
 export abstract class NotificationsService {
   
   private _tenant: string;
-  public BUILD_VERSION = PACKAGE.version
+  public BUILD_VERSION = environment.version
 
   public setTenant(tenant): void {
     this._tenant = tenant;
