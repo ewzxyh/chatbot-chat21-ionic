@@ -472,7 +472,7 @@ export class AppComponent implements OnInit {
       if (this.splashScreen) {
         this.splashScreen.hide();
       }
-      this.statusBar.styleDefault();
+      this.statusBar.styleLightContent();
       this.navService.init(this.sidebarNav, this.detailNav);
       // this.persistence = appconfig.authPersistence;
       // this.appStorageService.initialize(environment.storage_prefix, this.persistence, '')

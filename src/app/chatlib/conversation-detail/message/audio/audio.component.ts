@@ -1,6 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-// import lottieWeb from 'https://cdn.skypack.dev/lottie-web';
+// import * as WaveSurfer from 'wavesurfer.js';
 
+// declare var WaveSurfer
 @Component({
   selector: 'chat-audio',
   templateUrl: './audio.component.html',
@@ -16,12 +17,55 @@ export class AudioComponent implements OnInit {
   playState: HTMLElement
   status: 'play' | 'pause' = 'play'
 
+  // wavesurfer: any;
   constructor(private elementRef: ElementRef) { }
 
   ngOnInit() {
     // console.log('metadataaaaaa', this.metadata)
     // this.divPlay = this.elementRef.nativeElement.querySelector('#audio_container').querySelector('#audio_msg')
     // this.playState= this.elementRef.nativeElement.querySelector('#audio_container').querySelector('#duration')
+    this.loadLib()
+  }
+
+  // ionViewWillEnter(){
+  //   this.loadLib()
+  // }
+
+  private async loadLib(){
+    // const SiriWave = await import("siriwave");
+    // console.log('elementttt', document.getElementById("example"), this.elementRef.nativeElement.querySelector("#example"))
+    // var instance = new SiriWave({
+    //   // container: this.elementRef.nativeElement.querySelector("#example"),
+    //   container: document.getElementById("example"),
+    //   width: 300,
+    //   height: 120,
+    // });
+    // instance.start();
+    // this.wavesurfer = WaveSurfer.create({
+    //   container: "#" + 'example',
+    //   waveColor: "#e1f5fe",
+    //   progressColor: "#03a9f4",
+    //   cursorColor: "rgb(255 255 255 / 50%)",
+    //   barWidth: 4,
+    //   barHeight: 1,
+    //   barRadius: 2,
+    //   cursorWidth: 1,
+    //   // height: 150,
+    //   fillParent: true,
+    //   barGap: 0,
+    //   // backend: 'MediaElement',
+    //   // mediaType:'audio',
+    //   normalize: true,
+    //   // url: this.metadata.url
+    // })
+
+    // this.wavesurfer.load('https://eu.rtmv3.tiledesk.com/api/files/download?path=uploads/public/files/2f715ae1-6dc6-4cbf-a94c-42be26f1a723/media-2b92sy.ogg');
+
+    // this.wavesurfer.on('ready', function () {
+    //   console.log('readyyyyy')
+    //   // wavesurfer.play();
+    // });
+
   }
 
   onPlayPause(status: string){
