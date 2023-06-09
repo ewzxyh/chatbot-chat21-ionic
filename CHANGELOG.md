@@ -1,5 +1,15 @@
 # chat21-ionic ver 3.0
 
+### 3.0.99-rc.2
+- bug-fixed: after tiledesk closes a conversation, call archiveConversation's conversationsHandler method to manually remote it from active conversations list
+
+### 3.0.99-rc.1
+- added: audio file enabled
+- added: audio icon if audio message is received in ion-list-conversations component
+- bug-fixed: do not copy user if on mobile from profile-info modal
+- bug-fixed: if lead email is deleted, leadInfo is not updated and can send email
+- removed: PACKAGE.version in favour of environment.version
+
 ### 3.0.98 in PROD
 
 ### 3.0.98-rc.2

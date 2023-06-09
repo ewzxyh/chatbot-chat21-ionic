@@ -1,7 +1,7 @@
 {
     "name": "@chat21/chat21-ionic",
     "author": "Tiledesk SRL",
-    "version": "3.0.98",
+    "version": "3.0.99-rc.2",
     "license": "MIT License",
     "homepage": "https://tiledesk.com/",
     "repository": {
@@ -80,6 +80,7 @@
         "@ionic/angular-toolkit": "^2.1.1",
         "@types/jasmine": "~3.3.8",
         "@types/jasminewd2": "~2.0.3",
+        "@types/node": "^12.20.55",
         "codelyzer": "^5.0.0",
         "cordova-plugin-add-swift-support": "^2.0.2",
         "jasmine-core": "~4.4.0",
@@ -92,7 +93,7 @@
         "protractor": "~5.4.0",
         "ts-node": "~7.0.0",
         "tslint": "~5.15.0",
-        "typescript": "~3.4.3"
+        "typescript": "^3.4.5"
     },
     "description": "An Ionic project",
     "cordova": {
