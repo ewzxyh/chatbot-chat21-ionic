@@ -46,7 +46,7 @@ import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance'
 import { NetworkService } from 'src/app/services/network-service/network.service'
 import { Subject } from 'rxjs'
 import { skip, takeUntil } from 'rxjs/operators'
-import { TYPE_DIRECT } from 'src/chat21-core/utils/constants';
+import { REQUEST_ARCHIVED, TYPE_DIRECT } from 'src/chat21-core/utils/constants';
 import { getProjectIdSelectedConversation } from 'src/chat21-core/utils/utils-message';
 import { WebsocketService } from 'src/app/services/websocket/websocket.service';
 
@@ -791,7 +791,7 @@ export class ConversationListPage implements OnInit {
   }
 
   onConversationLoaded(conversation: ConversationModel) {
-    // this.logger.log('[CONVS-LIST-PAGE] onConversationLoaded ', conversation)
+    this.logger.log('[CONVS-LIST-PAGE] onConversationLoaded ', conversation)
     // this.logger.log('[CONVS-LIST-PAGE] onConversationLoaded is new? ', conversation.is_new)
     // if (conversation.is_new === false) {
     //   this.ionContentConvList.scrollToTop(0);
@@ -802,7 +802,7 @@ export class ConversationListPage implements OnInit {
     // Fixes the bug: if a snippet of code is pasted and sent it is not displayed correctly in the convesations list
 
     var regex = /<br\s*[\/]?>/gi
-    if (conversation && conversation.last_message_text) {
+    if (conversation ) { //&& conversation.last_message_text
       conversation.last_message_text = conversation.last_message_text.replace(regex, '',)
 
       //FIX-BUG: 'YOU: YOU: YOU: text' on last-message-text in conversation-list
@@ -900,13 +900,13 @@ export class ConversationListPage implements OnInit {
     if (checkPlatformIsMobile()) {
       this.logger.log('[CONVS-LIST-PAGE] checkPlatformIsMobile(): ', checkPlatformIsMobile())
       this.logger.log('[CONVS-LIST-PAGE] DESKTOP (window < 768)', this.navService)
-      this.logger.log('[CONVS-LIST-PAGE] navigateByUrl this.conversationSelected conversation_with_fullname ', this.conversationSelected.conversation_with_fullname)
+      this.logger.log('[CONVS-LIST-PAGE] navigateByUrl this.conversationSelected conversation_with_fullname ', this.conversationSelected)
       let pageUrl = 'conversation-detail/' + this.uidConvSelected + '/' + this.conversationSelected.conversation_with_fullname + '/' + converationType
       this.logger.log('[CONVS-LIST-PAGE] pageURL', pageUrl)
         // replace(/\(/g, '%28').replace(/\)/g, '%29') -> used for the encoder of any round brackets
       this.router.navigateByUrl(pageUrl.replace(/\(/g, '%28').replace(/\)/g, '%29').replace( /#/g, "%23" ), {replaceUrl: true})
     } else {
-      this.logger.log('[CONVS-LIST-PAGE] navigateByUrl this.conversationSelected conversation_with_fullname ', this.conversationSelected.conversation_with_fullname)
+      this.logger.log('[CONVS-LIST-PAGE] navigateByUrl this.conversationSelected conversation_with_fullname ', this.conversationSelected)
       this.logger.log('[CONVS-LIST-PAGE] checkPlatformIsMobile(): ', checkPlatformIsMobile())
       this.logger.log('[CONVS-LIST-PAGE] MOBILE (window >= 768) ', this.navService)
       let pageUrl = 'conversation-detail/' + this.uidConvSelected
@@ -1058,6 +1058,8 @@ export class ConversationListPage implements OnInit {
     this.tiledeskService.closeSupportGroup(tiledeskToken, project_id, conversationId).subscribe((res) => {
       this.archiveActionNotAllowed = false
       this.logger.log('[CONVS-LIST-PAGE] - onCloseConversation closeSupportGroup RES',res)
+      if(res.status === REQUEST_ARCHIVED)
+        this.conversationsHandlerService.archiveConversation(conversationId)
     },(error) => {
       this.logger.error('[CONVS-LIST-PAGE] - onCloseConversation closeSupportGroup - ERROR  ',error)
       this.logger.error('[CONVS-LIST-PAGE] - onCloseConversation closeSupportGroup - ERROR  error.error.msg ',error.error.msg)

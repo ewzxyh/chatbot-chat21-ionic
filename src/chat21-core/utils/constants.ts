@@ -25,6 +25,9 @@ export const MSG_STATUS_RECEIVED = 200;
 export const MSG_STATUS_RETURN_RECEIPT = 250;
 export const MSG_STATUS_SEEN = 300;
 
+//REQUEST STATUS
+export const REQUEST_ARCHIVED = 1000
+
 // constans messages detail
 export const MIN_HEIGHT_TEXTAREA = 24;
 export const MAX_HEIGHT_TEXTAREA = 180;
