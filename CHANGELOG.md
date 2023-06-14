@@ -1,5 +1,8 @@
 # chat21-ionic ver 3.0
 
+### 3.0.100 in PROD
+- bug-fixed: when offline email is sent, body message not send the last message on the conversation
+
 ### 3.0.99 in PROD
 
 ### 3.0.99-rc.2
