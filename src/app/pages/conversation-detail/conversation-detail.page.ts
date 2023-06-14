@@ -975,21 +975,27 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   }
 
   createEmailText(lastMessageText: string): string {
-    let text = ''
-    this.messages.reverse().forEach((message, index) => {
+    let lastDate = new Date().toDateString();
+    let lastTime = new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds()
+    let text = 'On _' + lastDate + ' - ' + lastTime + '_ **' + this.loggedUser.fullname.trimEnd() + '**' + ' replied to you' + ': ' + '\n' +
+            lastMessageText + '\n\n\n'
+    
+    //ADD CONVERSATION HISTORRY TO THE BODY OF THE EMAIL
+    let messages = JSON.parse(JSON.stringify(this.messages))
+    messages.reverse().forEach((message, index) => {
 
       let date = new Date(message.timestamp).toDateString()
       let time = new Date(message.timestamp).getHours() + ':' + new Date(message.timestamp).getMinutes() + ':' + new Date(message.timestamp).getSeconds()
       if (isInfo(message))
         return;
+      // if (index === 0)
+      //   text += 'On _' + date + ' - ' + time + '_ **' + message.sender_fullname.trimEnd() + '**' + ' replied to you' + ': ' + '\n' +
+      //     message.text + '\n\n\n'
       if (index === 0)
-        text += 'On _' + date + ' - ' + time + '_ **' + message.sender_fullname.trimEnd() + '**' + ' replied to you' + ': ' + '\n' +
-          message.text + '\n\n\n'
-      if (index === 1)
         text += '_______________________________________________' + '\n' +
           '**' + 'CONVERSATION HISTORY:' + '**' + '\n' +
           '**' + message.sender_fullname.trimEnd() + '**' + ': ' + message.text + ' _(' + date + '-' + time + ')_' + '\n'
-      if (index > 1)
+      if (index > 0)
         text += '**' + message.sender_fullname.trimEnd() + '**' + ': ' + message.text + ' _(' + date + '-' + time + ')_' + '\n'
     })
 
