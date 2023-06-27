@@ -8,21 +8,21 @@
       </ion-button>
     </div>
     <!-- EMAIL-OPTION -->
-    <div *ngIf="emailSection" class="section-option" id="email"  tooltip="{{translationMap?.get('LABEL_EMAIL')}}" placement="top">
+    <div *ngIf="emailSection" class="section-option" id="email"  tooltip="{{translationMap?.get('EMAIL.LABEL_TOOLTIP')}}" placement="top">
       <ion-button fill="clear" [class.active]="section==='email'" (click)="onOpenSection('email')" [disabled]="channelType === 'direct'">
         <ion-icon name="mail-open"></ion-icon>
         {{translationMap.get('LABEL_EMAIL')}}
       </ion-button>
     </div>
 
-    <div *ngIf="whatsappTemplatesSection" class="section-option" id="template" tooltip="{{translationMap?.get('WHATSAPP.LABEL_WA_TEMPLATES')}}" placement="top">
+    <div *ngIf="whatsappTemplatesSection" class="section-option" id="template" tooltip="{{translationMap?.get('WHATSAPP.LABEL_TOOLTIP')}}" placement="top">
       <ion-button fill="clear" [class.active]="section==='templates'" (click)="onOpenSection('templates');onOpenTemplateModal()" [disabled]="channel !== CHANNEL_TYPE_WHATSAPP">
         <ion-icon name="logo-whatsapp"></ion-icon>
         {{translationMap?.get('WHATSAPP.LABEL_TEMPLATES')}}
       </ion-button>
     </div>
-
-    <div *ngIf="section==='chat' && channel !== CHANNEL_TYPE_WHATSAPP && messageString && leadInfo?.presence['status']==='offline'" class="section-option offline-lead-tip" >
+    
+    <div *ngIf="section==='chat' && channel !== CHANNEL_TYPE_WHATSAPP && messageString && (leadInfo?.presence['status']==='offline' && leadInfo?.hasEmail)" class="section-option offline-lead-tip" >
       {{translationMap.get('EMAIL.EMAIL_OFFLINE_TIP')}}
     </div>
 
