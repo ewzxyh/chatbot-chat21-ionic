@@ -1,5 +1,9 @@
 # chat21-ionic ver 3.0
 
+### 3.0.101 in PROD
+- changed: message-textarea tooltip translations
+- bug-fixed: offline message warning appear also if user has not an email in leadInfo
+
 ### 3.0.100 in PROD
 - bug-fixed: when offline email is sent, body message not send the last message on the conversation
 
