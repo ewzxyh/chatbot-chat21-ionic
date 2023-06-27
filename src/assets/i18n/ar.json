@@ -287,12 +287,13 @@
   "LIVE":"حاليا",
   "WHATSAPP": {
     "LABEL_TEMPLATES":"القوالب",
-    "LABEL_WA_TEMPLATES":"قوالب WhatsApp",
+    "LABEL_TOOLTIP":"قم بالرد باستخدام نموذج Whatsapp المعتمد",
     "SELECT_MESSAGE_TEMPLATE":"حدد قالب رسالة",
     "ERROR_WHATSAPP_NOT_INSTALLED":"قم بتثبيت Whatsapp من App Store لاستخدام القوالب",
     "ERROR_WHATSAPP_GENERIC_ERROR":"حدثت مشكلة أثناء الحصول على القوالب من whatsapp.\nتحقق من التكوين الخاص بك أو اتصل بالمسؤول."
   },
   "EMAIL":{
+    "LABEL_TOOLTIP":"الرد برسالة بريد إلكتروني",
     "EMAIL_OFFLINE_TIP":"تحذير: المستخدم غير متصل! سيتم إرسال الرسالة عبر البريد الإلكتروني",
     "EMAIL_PLACEHOLDER":"المسودة متاحة هنا - انقر للتعديل",
     "EMAIL_NOT_FOUND_PLACEHOLDER":"لم يقدم هذا المستخدم عنوان بريد إلكتروني. قم بتحديث عنوان الزائر لإرسال بريد إلكتروني",

@@ -287,12 +287,13 @@
   "LIVE":"Ao vivo",
   "WHATSAPP": {
     "LABEL_TEMPLATES":"Modelos",
-    "LABEL_WA_TEMPLATES":"Modelos do WhatsApp",
+    "LABEL_TOOLTIP":"Responda usando um modelo aprovado do Whatsapp",
     "SELECT_MESSAGE_TEMPLATE":"Selecione um modelo de mensagem",
     "ERROR_WHATSAPP_NOT_INSTALLED":"Instale o Whatsapp da App Store para usar modelos",
     "ERROR_WHATSAPP_GENERIC_ERROR":"Ocorreu um problema ao obter modelos do whatsapp.\nVerifique sua configuração ou entre em contato com seu administrador."
   },
   "EMAIL": {
+    "LABEL_TOOLTIP":"Responder com um e-mail",
     "EMAIL_OFFLINE_TIP":"Aviso: o usuário está offline! A mensagem será enviada por e-mail",
     "EMAIL_PLACEHOLDER":"Rascunho disponível aqui - clique para editar",
     "EMAIL_NOT_FOUND_PLACEHOLDER":"Este usuário não forneceu um endereço de e-mail. Atualize o endereço do visitante para enviar um e-mail",

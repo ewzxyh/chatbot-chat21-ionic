@@ -635,6 +635,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       "LABEL_EMAIL",
       "LABEL_SEND",
       "EMAIL.EMAIL_OFFLINE_TIP",
+      "EMAIL.LABEL_TOOLTIP",
       "EMAIL.EMAIL_PLACEHOLDER",
       "EMAIL.EMAIL_NOT_FOUND_PLACEHOLDER",
       "EMAIL.SUBJECT",
@@ -646,7 +647,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       "EMAIL.SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE",
 
       "WHATSAPP.LABEL_TEMPLATES",
-      "WHATSAPP.LABEL_WA_TEMPLATES",
+      "WHATSAPP.LABEL_TOOLTIP",
       "WHATSAPP.SELECT_MESSAGE_TEMPLATE",
       "WHATSAPP.ERROR_WHATSAPP_NOT_INSTALLED",
       "WHATSAPP.ERROR_WHATSAPP_GENERIC_ERROR"

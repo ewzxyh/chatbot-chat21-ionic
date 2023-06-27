@@ -287,12 +287,13 @@
   "LIVE":"Canlı",
   "WHATSAPP": {
     "LABEL_TEMPLATES":"Şablonlar",
-    "LABEL_WA_TEMPLATES":"WhatsApp şablonları",
+    "LABEL_TOOLTIP":"Təsdiqlənmiş Whatsapp şablonundan istifadə edərək cavab verin",
     "SELECT_MESSAGE_TEMPLATE":"Mesaj şablonu seçin",
     "ERROR_WHATSAPP_NOT_INSTALLED":"Şablonlardan istifadə etmək üçün App Store-dan Whatsapp-ı quraşdırın",
     "ERROR_WHATSAPP_GENERIC_ERROR":"Whatsapp-dan şablonları əldə edərkən problem yarandı.\nKonfiqurasiyanızı yoxlayın və ya administratorunuzla əlaqə saxlayın."
   },
   "EMAIL":{
+    "LABEL_TOOLTIP":"E-poçt ilə cavab verin",
     "EMAIL_OFFLINE_TIP":"Xəbərdarlıq: istifadəçi oflayndır! Mesaj e-poçt vasitəsilə göndəriləcək",
     "EMAIL_PLACEHOLDER":"Qaralama burada mövcuddur - redaktə etmək üçün klikləyin",
     "EMAIL_NOT_FOUND_PLACEHOLDER":"Bu istifadəçi e-poçt ünvanı təqdim etməyib. E-poçt göndərmək üçün ziyarətçinin ünvanını yeniləyin",

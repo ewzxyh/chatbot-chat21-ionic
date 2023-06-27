@@ -287,12 +287,13 @@
   "LIVE":"Lev",
   "WHATSAPP": {
     "LABEL_TEMPLATES":"Mallar",
-    "LABEL_WA_TEMPLATES":"WhatsApp-mallar",
+    "LABEL_TOOLTIP":"Svara med en godkänd Whatsapp-mall",
     "SELECT_MESSAGE_TEMPLATE":"Välj en meddelandemall",
     "ERROR_WHATSAPP_NOT_INSTALLED":"Installera Whatsapp från App Store för att använda mallar",
     "ERROR_WHATSAPP_GENERIC_ERROR":"Ett problem uppstod när mallar hämtades från WhatsApp.\nKontrollera din konfiguration eller kontakta din administratör."
   },
   "EMAIL": {
+    "LABEL_TOOLTIP":"Svara med ett mejl",
     "EMAIL_OFFLINE_TIP":"Varning: användaren är offline! Meddelandet kommer att skickas via e-post",
     "EMAIL_PLACEHOLDER":"Utkast tillgängligt här - klicka för att redigera",
     "EMAIL_NOT_FOUND_PLACEHOLDER":"Den här användaren har inte angett någon e-postadress. Uppdatera besökarens adress för att skicka ett e-postmeddelande",

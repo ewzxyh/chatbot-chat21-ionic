@@ -287,12 +287,13 @@
   "LIVE":"Canlı",
   "WHATSAPP": {
     "LABEL_TEMPLATES":"Şablonlar",
-    "LABEL_WA_TEMPLATES":"WhatsApp Şablonları",
+    "LABEL_TOOLTIP":"Onaylanmış bir Whatsapp şablonu kullanarak yanıtlayın",
     "SELECT_MESSAGE_TEMPLATE":"Bir mesaj şablonu seçin",
     "ERROR_WHATSAPP_NOT_INSTALLED":"Şablonları kullanmak için App Store'dan Whatsapp'ı yükleyin",
     "ERROR_WHATSAPP_GENERIC_ERROR":"WhatsApp'tan şablonlar alınırken bir sorun oluştu.\nYapılandırmanızı kontrol edin veya yöneticinizle iletişime geçin."
   },
   "EMAIL": {
+    "LABEL_TOOLTIP":"Bir e-posta ile yanıtlayın",
     "EMAIL_OFFLINE_TIP":"Uyarı: kullanıcı çevrimdışı! Mesaj e-posta ile gönderilecek",
     "EMAIL_PLACEHOLDER":"Taslak burada mevcut - düzenlemek için tıklayın",
     "EMAIL_NOT_FOUND_PLACEHOLDER":"Bu kullanıcı bir e-posta adresi sağlamadı. E-posta göndermek için ziyaretçinin adresini güncelleyin",

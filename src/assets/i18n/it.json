@@ -287,12 +287,13 @@
     "LIVE":"Live",
     "WHATSAPP": {
         "LABEL_TEMPLATES":"Templates",
-        "LABEL_WA_TEMPLATES":"WhatsApp Templates",
+        "LABEL_TOOLTIP":"Rispondi utilizzando un templates Whatsapp approvato",
         "SELECT_MESSAGE_TEMPLATE":"Seleziona un template di messaggio",
         "ERROR_WHATSAPP_NOT_INSTALLED":"Installa Whatsapp dall'App Store per utilizzare i template",
         "ERROR_WHATSAPP_GENERIC_ERROR":"Si è verificato un problema durante il recupero dei modelli da whatsapp.\nControlla la tua configurazione o contatta il tuo amministratore."
     },
     "EMAIL":{
+        "LABEL_TOOLTIP":"Rispondi con una mail",
         "EMAIL_OFFLINE_TIP":"Attenzione: l'utente è offline! Il messaggio sarà mandato per email",
         "EMAIL_PLACEHOLDER":"Bozza disponibile qui - clicca per modificare",
         "EMAIL_NOT_FOUND_PLACEHOLDER":"Questo utente non ha fornito un indirizzo email. Aggiorna l'indirizzo del visitatore per inviare un'e-mail",

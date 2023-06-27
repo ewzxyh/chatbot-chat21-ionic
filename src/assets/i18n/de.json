@@ -287,12 +287,13 @@
   "LIVE":"Live",
   "WHATSAPP": {
     "LABEL_TEMPLATES":"Vorlagen",
-    "LABEL_WA_TEMPLATES":"WhatsApp-Vorlagen",
+    "LABEL_TOOLTIP":"Antworten Sie mit einer genehmigten WhatsApp-Vorlage",
     "SELECT_MESSAGE_TEMPLATE":"Wählen Sie eine Nachrichtenvorlage aus",
     "ERROR_WHATSAPP_NOT_INSTALLED":"Installieren Sie WhatsApp aus dem App Store, um Vorlagen zu verwenden",
     "ERROR_WHATSAPP_GENERIC_ERROR":"Beim Abrufen von Vorlagen von WhatsApp ist ein Problem aufgetreten.\nÜberprüfen Sie Ihre Konfiguration oder wenden Sie sich an Ihren Administrator."
   },
   "EMAIL":{
+    "LABEL_TOOLTIP":"Antworten Sie mit einer E-Mail",
     "EMAIL_OFFLINE_TIP":"Achtung: Benutzer ist offline! Die Nachricht wird per E-Mail versendet",
     "EMAIL_PLACEHOLDER":"Entwurf hier verfügbar - zum Bearbeiten klicken",
     "EMAIL_NOT_FOUND_PLACEHOLDER":"Dieser Benutzer hat keine E-Mail-Adresse angegeben. Aktualisieren Sie die Adresse des Besuchers, um eine E-Mail zu senden",

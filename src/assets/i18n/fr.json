@@ -287,12 +287,13 @@
   "LIVE":"En direct",
   "WHATSAPP": {
     "LABEL_TEMPLATES":"Modèles",
-    "LABEL_WA_TEMPLATES":"Modèles WhatsApp",
+    "LABEL_TOOLTIP":"Répondre en utilisant un modèle Whatsapp approuvé",
     "SELECT_MESSAGE_TEMPLATE":"Sélectionnez un modèle de message",
     "ERROR_WHATSAPP_NOT_INSTALLED":"Installez Whatsapp depuis l'App Store pour utiliser des modèles",
     "ERROR_WHATSAPP_GENERIC_ERROR":"Un problème est survenu lors de l'obtention des modèles de WhatsApp.\nVérifiez votre configuration ou contactez votre administrateur."
   },
   "EMAIL":{
+    "LABEL_TOOLTIP":"Répondre avec un e-mail",
     "EMAIL_OFFLINE_TIP":"Attention : l'utilisateur est hors ligne ! Le message sera envoyé par email",
     "EMAIL_PLACEHOLDER":"Brouillon disponible ici - cliquez pour modifier",
     "EMAIL_NOT_FOUND_PLACEHOLDER":"Cet utilisateur n'a pas fourni d'adresse e-mail. Mettre à jour l'adresse du visiteur pour envoyer un e-mail",
