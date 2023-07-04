@@ -1,5 +1,9 @@
 # chat21-ionic ver 3.0
 
+### 3.0.102-rc.1
+- changed: chat21client.js version to v0.1.12.5
+- changed: set callback function on chat21client.connect without wait the subscription get back
+
 ### 3.0.101 in PROD
 - changed: message-textarea tooltip translations
 - bug-fixed: offline message warning appear also if user has not an email in leadInfo
