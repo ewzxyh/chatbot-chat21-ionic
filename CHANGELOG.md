@@ -1,5 +1,9 @@
 # chat21-ionic ver 3.0
 
+### 3.0.102-rc.2
+- added: ANGULAR 12 
+- added: laxy loading of modal pages
+
 ### 3.0.102-rc.1
 - changed: chat21client.js version to v0.1.12.5
 - changed: set callback function on chat21client.connect without wait the subscription get back

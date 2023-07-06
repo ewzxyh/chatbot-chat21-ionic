@@ -17,7 +17,6 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
     CommonModule,
     FormsModule,
     IonicModule,
-    //MarkedPipe,
     SendWhatsappTemplatePageRoutingModule,
     TranslateModule.forChild({
       loader: {
