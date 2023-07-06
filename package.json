@@ -58,7 +58,6 @@
         "core-js": "^2.5.4",
         "file-saver": "^2.0.5",
         "firebase": "^8.6.7",
-        "ios-deploy": "^1.12.2",
         "marked": "^4.3.0",
         "material-icons": "^1.11.2",
         "moment": "^2.29.4",
