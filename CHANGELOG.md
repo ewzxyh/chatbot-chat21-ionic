@@ -1,5 +1,12 @@
 # chat21-ionic ver 3.0
 
+### 3.0.103-rc.1
+- added: ANGULAR 12 
+- added: laxy loading of modal pages
+- bug-fixed: cannot send new message in direct conversation for the first time
+
+### 3.0.102 in PROD
+
 ### 3.0.102-rc.2
 - added: ANGULAR 12 
 - added: laxy loading of modal pages
