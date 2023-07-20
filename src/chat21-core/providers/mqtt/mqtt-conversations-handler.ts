@@ -67,7 +67,6 @@ export class MQTTConversationsHandler extends ConversationsHandlerService {
         const conversation = this.conversations.find(conv => conv.conversation_with === conversationWith);
         this.logger.log('[MQTTConversationsHandler] getConversationDetail found locally? *****: ', conversation);
         if (conversation) {
-            
             callback(conversation);
         } else {
             this.logger.log('[MQTTConversationsHandler] getConversationDetail Not found locally, remote.getConversationDetail *****: ', conversation);

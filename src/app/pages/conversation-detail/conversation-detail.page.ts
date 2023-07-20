@@ -845,7 +845,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     //   this.logger.log('[CONVS-DETAIL] - setHeaderContent conversationWith', this.conversationWith)
     //   this.logger.log('[CONVS-DETAIL] - setHeaderContent conversationsHandlerService', this.conversationsHandlerService)
     //   this.logger.log('[CONVS-DETAIL] - setHeaderContent conv_type', this.conv_type)
-    if (this.conversationWith && this.conversationsHandlerService && this.conv_type === 'active') {
+    if (this.conversationWith && this.conversationsHandlerService && (this.conv_type === 'active' || this.conv_type === 'new')) {
       this.logger.log('[CONVS-DETAIL] - setHeaderContent getConversationDetail CALLING')
       this.conversationsHandlerService.getConversationDetail(this.conversationWith, (conv) => {
         this.logger.debug('[CONV-COMP] setHeaderContent getConversationDetail: conversationsHandlerService ', this.conversationWith, conv, this.conv_type)
@@ -1089,9 +1089,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         msg = `[${metadata.name}](${metadata.src})`
       }
     }
-    this.conversation.attributes && this.conversation.attributes['request_channel'] ? attributes.request_channel = this.conversation.attributes['request_channel'] : null;
+    this.conversation && this.conversation.attributes && this.conversation.attributes['request_channel'] ? attributes.request_channel = this.conversation.attributes['request_channel'] : null;
     metadata ? (metadata = metadata) : (metadata = '')
-    this.logger.log('[CONVS-DETAIL] attributes--->>>> 1111', this.conversation.attributes, attributes)
     this.logger.log('[CONVS-DETAIL] - SEND MESSAGE msg: ', msg, ' - messages: ', this.messages, ' - loggedUser: ', this.loggedUser)
 
 
