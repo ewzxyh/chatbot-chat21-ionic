@@ -88,6 +88,7 @@ import { NetworkService } from '../../services/network-service/network.service'
 import { EventsService } from '../../services/events-service'
 import { ScrollbarThemeDirective } from 'src/app/utils/scrollbar-theme.directive'
 import { WebsocketService } from 'src/app/services/websocket/websocket.service';
+import { Project } from 'src/chat21-core/models/projects';
 
 @Component({
   selector: 'app-conversation-detail',
@@ -141,6 +142,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   public tagsCannedFilter: Array<any> = [];
   public tagsCannedCount: number;
   public HIDE_CANNED_RESPONSES: boolean = true
+  public canShowCanned: boolean = true
 
   public window: any = window
   public styleMap: Map<string, string> = new Map()
@@ -523,7 +525,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     // this.initConversationsHandler(); // nk
     if (this.conversationWith) {
       this.disableTextarea = false
-      // this._getProjectIdByConversationWith(this.conversationWith)
+      this._getProjectIdByConversationWith(this.conversationWith)
       this.initConversationHandler()
       this.initGroupsHandler()
       this.initSubscriptions()
@@ -539,7 +541,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
   _getProjectIdByConversationWith(conversationWith: string) {
     const tiledeskToken = this.tiledeskAuthService.getTiledeskToken()
-
     this.tiledeskService.getProjectIdByConvRecipient(tiledeskToken, conversationWith).subscribe((res) => {
       this.logger.log('[CONVS-DETAIL] - GET PROJECTID BY CONV RECIPIENT RES + projectId', res, res.id_project)
       if (res) {
@@ -554,10 +555,11 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   }
 
   getProjectById(tiledeskToken, projectId) {
-    this.tiledeskService.getProjectById(tiledeskToken, projectId).subscribe((res) => {
-      this.logger.log('[CONVS-DETAIL] - GET PROJECTID BY CONV RECIPIENT RES', res)
-      if (res) {
-        const projectId = res.id_project
+    this.tiledeskService.getProjectById(tiledeskToken, projectId).subscribe((project) => {
+      this.logger.log('[CONVS-DETAIL] - GET PROJECTID BY CONV RECIPIENT RES', project)
+      if (project) {
+        const projectId = project.id_project
+        this.canShowCanned = this.checkPlanIsExpired(project)
       }
     }, (error) => {
       this.logger.error('[CONVS-DETAIL] - GET PROJECTID BY CONV RECIPIENT - ERROR  ', error)
@@ -567,6 +569,27 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     }, () => {
       this.logger.log('[CONVS-DETAIL] - GET PROJECTID BY CONV RECIPIENT * COMPLETE *')
     })
+  }
+
+
+  checkPlanIsExpired(project: Project): boolean {
+    let check: boolean = false
+
+    //case FREE plan
+    if(project && project.trialExpired && project.profile.type=== 'trial'){
+      check = true
+    }else if(project && !project.trialExpired && project.profile.type=== 'trial'){
+      check = false
+    }
+
+    //case PAYMENT plan
+    if(project && project.isActiveSubscription && project.profile.type=== 'payment'){
+      check = true
+    }else if(project && !project.isActiveSubscription && project.profile.type=== 'payment'){
+      check = false
+    }
+
+    return check
   }
 
   // getProjectIdSelectedConversation(conversationWith: string): string{

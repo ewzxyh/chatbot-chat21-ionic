@@ -170,6 +170,7 @@
             <!-- ----------------------------------------------------------- -->
             <app-canned-response *ngIf="HIDE_CANNED_RESPONSES === false"
               id="canned"
+              [canShowCanned]="canShowCanned"
               [conversationWith]="conversationWith"
               [conversationWithFullname]="conversationWithFullname"
               [currentString]="messageStr"

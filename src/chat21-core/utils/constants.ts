@@ -129,6 +129,12 @@ export const LogLevel = {
     'DEBUG': 3
 }
 
+export enum PLAN_NAME {
+    A = 'Growth',
+    B = 'Scale',
+    C = 'Plus',
+}
+
 export const tranlatedLanguage = ['it', 'en', 'de', 'es', 'pt', 'fr', 'ru', 'tr', 'sr', 'ar', 'uk', 'sv', 'az', 'kk', 'uz']
 
 

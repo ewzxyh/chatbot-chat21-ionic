@@ -8,6 +8,7 @@ import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance'
 import { TiledeskAuthService } from 'src/chat21-core/providers/tiledesk/tiledesk-auth.service';
 import { compareValues, htmlEntities } from 'src/chat21-core/utils/utils';
 import { getProjectIdSelectedConversation } from 'src/chat21-core/utils/utils-message';
+import { PLAN_NAME } from 'src/chat21-core/utils/constants';
 
 @Component({
   selector: 'app-canned-response',
@@ -20,6 +21,7 @@ export class CannedResponseComponent implements OnInit {
   @Input() conversationWith: string;
   @Input() conversationWithFullname: string;
   @Input() currentString: string;
+  @Input() canShowCanned: boolean = true;
   @Input() stylesMap: Map<string, string>;
   @Input() translationMap: Map<string, string>;
   @Output() onLoadedCannedResponses = new EventEmitter<[any]>();
@@ -33,6 +35,9 @@ export class CannedResponseComponent implements OnInit {
   public tagsCannedFilter: any = []
 
   public arrowkeyLocation = -1
+
+  tparams: any;
+  PLAN_NAME = PLAN_NAME
   
   private logger: LoggerService = LoggerInstance.getInstance();
   constructor(
@@ -45,6 +50,7 @@ export class CannedResponseComponent implements OnInit {
 
   ngOnInit() {
     this.loggedUser = this.tiledeskAuthService.getCurrentUser()
+    this.tparams = {'plan_name': PLAN_NAME.A}
   }
 
   ngOnChanges(changes: SimpleChange){
@@ -56,6 +62,7 @@ export class CannedResponseComponent implements OnInit {
     if(this.currentString !== undefined){
       this.loadTagsCanned(this.currentString, this.conversationWith)
     }
+    console.log('can show canneddddddd', this.canShowCanned)
   }
 
   // getProjectIdSelectedConversation(conversationWith: string): string{
