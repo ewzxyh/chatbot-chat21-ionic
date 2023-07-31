@@ -1,9 +1,9 @@
-
 import { Injectable } from '@angular/core';
 // services
 import { NotificationsService } from '../abstract/notifications.service';
 import { LoggerInstance } from '../logger/loggerInstance';
 import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service';
+import { FCM } from 'cordova-plugin-fcm-with-dependecy-updated/ionic/ngx';
 // firebase
 import firebase from "firebase/app";
 import 'firebase/messaging';
@@ -21,22 +21,26 @@ export class MQTTNotifications extends NotificationsService {
   private userId: string;
   private tenant: string;
   private vapidkey: string;
+  private platform: string;
   private logger: LoggerService = LoggerInstance.getInstance();
 
   constructor(
-    public chat21Service: Chat21Service
+    public chat21Service: Chat21Service,
+    private fcm: FCM
   ) {
     super();
   }
 
-  initialize(tenant: string, vapId: string): void {
+  initialize(tenant: string, vapId: string, platform: string): void {
     this.tenant = tenant;
     this.vapidkey = vapId;
+    platform === 'desktop'? this.platform = 'ionic' : this.platform = platform
+    this.logger.log('[MQTTNotificationService] initialize - tenant ', this.tenant, this.platform)
     return;
   }
     
   getNotificationPermissionAndSaveToken(currentUserUid) {
-    this.logger.log("[MQTTNotificationService] getNotificationPermissionAndSaveToken()",currentUserUid );
+    this.logger.log("[MQTTNotificationService] getNotificationPermissionAndSaveToken()",currentUserUid);
     this.userId = currentUserUid;
     if (firebase.messaging.isSupported()) {
       this.logger.log("[MQTTNotificationService] firebase.messaging.isSupported -> YES");
@@ -58,6 +62,28 @@ export class MQTTNotifications extends NotificationsService {
       });
     } else {
       this.logger.log('[MQTTNotificationService] >>>> FIREBASE MESSAGING IS NOT SUPPORTED')
+
+      if(this.platform == 'android' || this.platform === 'ios'){
+        this.logger.log('[MQTTNotificationService] >>>> FIREBASE MESSAGING: use FCM plugin')
+        this.fcm.onTokenRefresh().subscribe(FCMtoken => {
+          // Register your new token in your back-end if you want
+          // backend.registerToken(token);
+          this.FCMcurrentToken = FCMtoken;
+          console.log("[MQTTNotificationService] FCM: onTokenRefresh --->", FCMtoken);
+          this.saveToken(FCMtoken, currentUserUid)
+        });
+        this.fcm.requestPushPermission().then((permission) => {
+          console.log("[MQTTNotificationService] FCM: requestPushPermission --->", permission);
+          if(permission === true){
+            this.fcm.getToken().then(FCMtoken => {
+              console.log("[MQTTNotificationService] FCM: getToken --->", FCMtoken);
+              this.FCMcurrentToken = FCMtoken;
+              this.saveToken(FCMtoken, currentUserUid)
+            });
+          }
+        });
+        
+      }
     }
   }
 
@@ -104,7 +130,7 @@ export class MQTTNotifications extends NotificationsService {
     const device_model = {
       device_model: navigator.userAgent,
       language: navigator.language,
-      platform: 'ionic',
+      platform: this.platform,
       platform_version: this.BUILD_VERSION
     }
     this.chat21Service.chatClient.saveInstance(FCMcurrentToken,device_model,(err, response) => {

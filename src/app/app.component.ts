@@ -1,75 +1,47 @@
+import { Component, HostListener, NgZone, OnInit, ViewChild } from '@angular/core';
 
-import { TYPE_DIRECT, TYPE_SUPPORT_GROUP, URL_SOUND_CONVERSATION_UNASSIGNED } from 'src/chat21-core/utils/constants';
-import { tranlatedLanguage, URL_SOUND_CONVERSATION_ADDED, URL_SOUND_LIST_CONVERSATION } from 'src/chat21-core/utils/constants';
-import { ArchivedConversationsHandlerService } from 'src/chat21-core/providers/abstract/archivedconversations-handler.service';
-import { AppStorageService } from 'src/chat21-core/providers/abstract/app-storage.service';
-
-import { Component, ViewChild, NgZone, OnInit, HostListener, ElementRef, Renderer2, AfterViewInit, isDevMode} from '@angular/core';
-import { Config, Platform, IonRouterOutlet, IonSplitPane, NavController, MenuController, AlertController, IonNav, ToastController } from '@ionic/angular';
-import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
-import { Subscription, VirtualTimeScheduler } from 'rxjs';
-import { ModalController } from '@ionic/angular';
-
-// import * as firebase from 'firebase/app';
-import firebase from "firebase/app";
-import 'firebase/auth'; // nk in watch connection status
-
-import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { AlertController, Config, IonNav, IonRouterOutlet, ModalController, NavController, Platform, ToastController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { TranslateService } from '@ngx-translate/core';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
 
-// services
-import { AppConfigProvider } from './services/app-config';
-// import { UserService } from './services/user.service';
-// import { CurrentUserService } from './services/current-user/current-user.service';
-import { EventsService } from './services/events-service';
-import { MessagingAuthService } from '../chat21-core/providers/abstract/messagingAuth.service';
-import { PresenceService } from '../chat21-core/providers/abstract/presence.service';
-import { TypingService } from '../chat21-core/providers/abstract/typing.service';
-import { UploadService } from '../chat21-core/providers/abstract/upload.service';
-// import { ChatPresenceHandler} from './services/chat-presence-handler';
-import { NavProxyService } from './services/nav-proxy.service';
-import { ChatManager } from 'src/chat21-core/providers/chat-manager';
-// import { ChatConversationsHandler } from './services/chat-conversations-handler';
-import { ConversationsHandlerService } from 'src/chat21-core/providers/abstract/conversations-handler.service';
-import { CustomTranslateService } from 'src/chat21-core/providers/custom-translate.service';
-
-// pages
-import { LoginPage } from './pages/authentication/login/login.page';
-import { ConversationListPage } from './pages/conversations-list/conversations-list.page';
-
-// utils
-import { checkPlatformIsMobile, isGroup, getParameterByName, searchIndexInArrayForUid, compareValues, stripTags, isOnMobileDevice } from 'src/chat21-core/utils/utils';
-import { STORAGE_PREFIX, PLATFORM_MOBILE, PLATFORM_DESKTOP, CHAT_ENGINE_FIREBASE, AUTH_STATE_OFFLINE, AUTH_STATE_ONLINE } from 'src/chat21-core/utils/constants';
-import { environment } from '../environments/environment';
-import { UserModel } from '../chat21-core/models/user';
-import { ConversationModel } from 'src/chat21-core/models/conversation';
+import { Subscription } from 'rxjs';
 import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service';
 import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance';
-import { TiledeskAuthService } from 'src/chat21-core/providers/tiledesk/tiledesk-auth.service';
-// FCM
-import { NotificationsService } from 'src/chat21-core/providers/abstract/notifications.service';
-import { getImageUrlThumbFromFirebasestorage } from 'src/chat21-core/utils/utils-user';
-
-// import { Network } from '@ionic-native/network/ngx';
-// import { Observable, Observer, fromEvent, merge, of } from 'rxjs';
-// import { mapTo } from 'rxjs/operators';
-import { TiledeskService } from './services/tiledesk/tiledesk.service';
-import { NetworkService } from './services/network-service/network.service';
-import { filter } from 'rxjs/operators'
 import { WebSocketJs } from './services/websocket/websocket-js';
-import { Location } from '@angular/common'
+import { checkPlatformIsMobile, getParameterByName, isOnMobileDevice } from 'src/chat21-core/utils/utils';
+import { EventsService } from './services/events-service';
+import { NavProxyService } from './services/nav-proxy.service';
+import { TiledeskAuthService } from 'src/chat21-core/providers/tiledesk/tiledesk-auth.service';
+import { MessagingAuthService } from 'src/chat21-core/providers/abstract/messagingAuth.service';
+import { AppConfigProvider } from './services/app-config';
+import { AppStorageService } from 'src/chat21-core/providers/abstract/app-storage.service';
+import { environment } from 'src/environments/environment';
+import { ChatManager } from 'src/chat21-core/providers/chat-manager';
+import { TranslateService } from '@ngx-translate/core';
+import { PresenceService } from 'src/chat21-core/providers/abstract/presence.service';
+import { TypingService } from 'src/chat21-core/providers/abstract/typing.service';
+import { UploadService } from 'src/chat21-core/providers/abstract/upload.service';
+import { ConversationsHandlerService } from 'src/chat21-core/providers/abstract/conversations-handler.service';
+import { ArchivedConversationsHandlerService } from 'src/chat21-core/providers/abstract/archivedconversations-handler.service';
+import { CustomTranslateService } from 'src/chat21-core/providers/custom-translate.service';
+import { NotificationsService } from 'src/chat21-core/providers/abstract/notifications.service';
+import { NetworkService } from './services/network-service/network.service';
 import { ScriptService } from './services/scripts/script.service';
-// import { FCM } from 'cordova-plugin-fcm-with-dependecy-updated/ionic/ngx';
-
-// import { filter } from 'rxjs/operators';
+import { AUTH_STATE_OFFLINE, AUTH_STATE_ONLINE, PLATFORM_DESKTOP, PLATFORM_MOBILE, tranlatedLanguage, TYPE_DIRECT, URL_SOUND_CONVERSATION_ADDED, URL_SOUND_CONVERSATION_UNASSIGNED, URL_SOUND_LIST_CONVERSATION } from 'src/chat21-core/utils/constants';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ConversationModel } from 'src/chat21-core/models/conversation';
+import { LoginPage } from './pages/authentication/login/login.page';
+import { UserModel } from 'src/chat21-core/models/user';
+import { filter } from 'rxjs/operators';
+import { ConversationListPage } from './pages/conversations-list/conversations-list.page';
+import { Location } from '@angular/common'
+import { FCM } from 'cordova-plugin-fcm-with-dependecy-updated/ionic/ngx'
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss']
 })
-
 export class AppComponent implements OnInit {
   @ViewChild('sidebarNav', { static: false }) sidebarNav: IonNav;
   @ViewChild('detailNav', { static: false }) detailNav: IonRouterOutlet;
@@ -137,7 +109,6 @@ export class AppComponent implements OnInit {
     public presenceService: PresenceService,
     private router: Router,
     private route: ActivatedRoute,
-    private renderer: Renderer2,
     private navService: NavProxyService,
     // public chatPresenceHandler: ChatPresenceHandler,
     public typingService: TypingService,
@@ -156,19 +127,31 @@ export class AppComponent implements OnInit {
     public webSocketJs: WebSocketJs,
     public scriptService: ScriptService,
     public location: Location,
-    // private fcm: FCM
+    private fcm: FCM
   ) {
-
 
     this.saveInStorageNumberOfOpenedChatTab();
     this.listenChatAlreadyOpenWithoutParamsInMobileMode()
     this.IS_ON_MOBILE_DEVICE = isOnMobileDevice()
-    // this.listenToUrlChanges();
-    // this.getPageState();
   }
 
+  saveInStorageNumberOfOpenedChatTab() {
+    // this.logger.log('Calling saveInStorageChatOpenedTab!');
+    // https://jsfiddle.net/jjjs5wd3/3/å
+    if (+localStorage.tabCount > 0) {
+      this.logger.log('Chat IONIC Already open!');
+    } else {
+      localStorage.tabCount = 0;
 
-
+      localStorage.tabCount = +localStorage.tabCount + 1;
+    }
+    const terminationEvent = 'onpagehide' in self ? 'pagehide' : 'unload';
+    window.addEventListener(terminationEvent, (event) => {
+      if (localStorage.tabCount > 0) {
+        localStorage.tabCount = +localStorage.tabCount - 1;
+      }
+    }, { capture: true });
+  }
 
   listenChatAlreadyOpenWithoutParamsInMobileMode() {
     this.events.subscribe('noparams:mobile', (isAlreadyOpenInMobileMode) => {
@@ -273,35 +256,7 @@ export class AppComponent implements OnInit {
   // }
 
 
-  saveInStorageNumberOfOpenedChatTab() {
-    // this.logger.log('Calling saveInStorageChatOpenedTab!');
-    // https://jsfiddle.net/jjjs5wd3/3/å
-    if (+localStorage.tabCount > 0) {
-      this.logger.log('Chat IONIC Already open!');
-    } else {
-      localStorage.tabCount = 0;
-
-      localStorage.tabCount = +localStorage.tabCount + 1;
-    }
-    const terminationEvent = 'onpagehide' in self ? 'pagehide' : 'unload';
-    window.addEventListener(terminationEvent, (event) => {
-      if (localStorage.tabCount > 0) {
-        localStorage.tabCount = +localStorage.tabCount - 1;
-      }
-    }, { capture: true });
-  }
-
-
-
-  // param() {
-  //   // PARAM
-  //   const url: URL = new URL(window.top.location.href);
-  //   const params: URLSearchParams = url.searchParams;
-  //   return params;
-  // }
-  /**
-   */
-  ngOnInit() {
+  ngOnInit(): void {
     const appconfig = this.appConfigProvider.getConfig();
     this.logger.log('[APP-COMP] ngOnInit  appconfig', appconfig)
     if (appconfig && appconfig.supportMode && (appconfig.supportMode === true || appconfig.supportMode === 'true')) {
@@ -435,10 +390,7 @@ export class AppComponent implements OnInit {
     })
   }
 
-  /** */
   initializeApp(calledby: string) {
-    // this.logger.log('[APP-COMP] - X - initializeApp !!! CALLED-BY: ', calledby);
-    // console.log('[APP-COMP] appconfig platform is cordova: ', this.platform.is('cordova'))
 
     if (!this.platform.is('desktop')) {
       this.splashScreen.show();
@@ -460,12 +412,8 @@ export class AppComponent implements OnInit {
     this.notificationsEnabled = true;
     this.zone = new NgZone({}); // a cosa serve?
 
-    // ------------------------------------------
-    // Platform ready
-    // ------------------------------------------
     this.platform.ready().then(() => {
-      // console.log("Check platform");
-      this.getPlatformName();
+      let platform = this.getPlatformName();
 
       // this.setLanguage();
 
@@ -474,8 +422,6 @@ export class AppComponent implements OnInit {
       }
       this.statusBar.styleLightContent();
       this.navService.init(this.sidebarNav, this.detailNav);
-      // this.persistence = appconfig.authPersistence;
-      // this.appStorageService.initialize(environment.storage_prefix, this.persistence, '')
       this.tiledeskAuthService.initialize(this.appConfigProvider.getConfig().apiUrl);
       this.messagingAuthService.initialize();
 
@@ -488,7 +434,7 @@ export class AppComponent implements OnInit {
       const vap_id_Key = this.appConfigProvider.getConfig().firebaseConfig.vapidKey
 
       if (pushEngine && pushEngine !== 'none') {
-        this.notificationsService.initialize(this.tenant, vap_id_Key)
+        this.notificationsService.initialize(this.tenant, vap_id_Key, platform)
       }
       this.uploadService.initialize();
 
@@ -507,22 +453,11 @@ export class AppComponent implements OnInit {
       this.watchToConnectionStatus();
 
 
-      // this.fcm.onNotification().subscribe(data => {
-      //   if (data.wasTapped) {
-      //     console.log("Received in background");
-      //   } else {
-      //     console.log("Received in foreground");
-      //   };
-      // });
-
-      // this.fcm.onTokenRefresh().subscribe(token => {
-      //   // Register your new token in your back-end if you want
-      //   // backend.registerToken(token);
-      // });
     });
   }
 
-  getPlatformName() {
+  getPlatformName(): string {
+    let platform: string = ''
     if (this.platform.is('cordova')) {
       this.logger.log("the device running Cordova");
     }
@@ -532,18 +467,23 @@ export class AppComponent implements OnInit {
 
     if (this.platform.is('android')) {
       this.logger.log("running on Android device!");
+      platform = 'android'
     }
     if (this.platform.is('ios')) {
       this.logger.log("running on iOS device!");
+      platform = 'ios'
     }
     if (this.platform.is('mobileweb')) {
       this.logger.log("running in a browser on mobile!");
+      platform = 'mobileweb'
     }
     if (this.platform.is('desktop')) {
       this.logger.log("running on desktop!");
+      platform = 'desktop'
     }
-  }
 
+    return platform
+  }
 
   getRouteParamsAndSetLoggerConfig() {
     const appconfig = this.appConfigProvider.getConfig();
@@ -1115,6 +1055,7 @@ export class AppComponent implements OnInit {
     if (currentUser) {
       if (pushEngine && pushEngine !== 'none') {
         this.notificationsService.getNotificationPermissionAndSaveToken(currentUser.uid);
+        this.handleNotifications()
       }
       this.presenceService.setPresence(currentUser.uid);
 
@@ -1385,6 +1326,37 @@ export class AppComponent implements OnInit {
     }
   }
 
+  private handleNotifications(){
+    if(this.platform.is('cordova')){
+       this.fcm.onNotification().subscribe(data => {
+          let pageUrl = 'conversation-detail/'
+          if (data.wasTapped) {
+            console.log("FCM: Received in background", JSON.stringify(data));
+            let IDConv = data.channel_type === "group" ? data.recipient : data.sender;
+            let FullNameConv = data.sender_fullname
+            let Convtype = 'active'
+            
+            if (IDConv && FullNameConv) {
+              pageUrl += IDConv + '/' + FullNameConv + '/' + Convtype
+            }
+            // replace(/\(/g, '%28').replace(/\)/g, '%29') -> used for the encoder of any round brackets
+            this.router.navigateByUrl(pageUrl.replace(/\(/g, '%28').replace(/\)/g, '%29').replace( /#/g, "%23" ));
+          } else {
+            console.log("FCM: Received in foreground", JSON.stringify(data));
+            // let IDConv = data.recipient
+            // let FullNameConv = data.sender_fullname
+            // let Convtype = 'active'
+            
+            // if (IDConv && FullNameConv) {
+            //   pageUrl += IDConv + '/' + FullNameConv + '/' + Convtype
+            // }
+            // // replace(/\(/g, '%28').replace(/\)/g, '%29') -> used for the encoder of any round brackets
+            // this.router.navigateByUrl(pageUrl.replace(/\(/g, '%28').replace(/\)/g, '%29').replace( /#/g, "%23" ));
+          };
+        });
+    }
+  }
+
   private loadCustomScript(config){
     if(config.hasOwnProperty("globalRemoteJSSrc")){
       this.scriptService.buildScriptArray(config['globalRemoteJSSrc'])
@@ -1599,4 +1571,3 @@ export class AppComponent implements OnInit {
   //   console.log('HostListener onBlur-->', event)
   // }
 }
-

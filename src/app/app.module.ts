@@ -7,15 +7,20 @@ import { RouteReuseStrategy } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslatePipe } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+
+
+//NATIVE
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { Chooser } from '@ionic-native/chooser/ngx';
 import { LoggerModule, NGXLogger, NgxLoggerLevel } from "ngx-logger";
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { FCM } from 'cordova-plugin-fcm-with-dependecy-updated/ionic/ngx';
 
 // COMPONENTS
 import { AppComponent } from './app.component';
@@ -234,12 +239,12 @@ export function uploadFactory(http: HttpClient, appConfig: AppConfigProvider, ap
   }
 }
 
-export function notificationsServiceFactory(appConfig: AppConfigProvider, chat21Service: Chat21Service) {
+export function notificationsServiceFactory(appConfig: AppConfigProvider, chat21Service: Chat21Service, fcm: FCM) {
   const config = appConfig.getConfig()
   if (config.pushEngine === PUSH_ENGINE_FIREBASE) {
-    return new FirebaseNotifications();
+    return new FirebaseNotifications(fcm);
   } else if (config.pushEngine === PUSH_ENGINE_MQTT) {
-    return new MQTTNotifications(chat21Service);
+    return new MQTTNotifications(chat21Service, fcm);
   } else {
     return;
   }
@@ -368,7 +373,7 @@ const appInitializerFn = (appConfig: AppConfigProvider, logger: NGXLogger) => {
     {
       provide: NotificationsService,
       useFactory: notificationsServiceFactory,
-      deps: [AppConfigProvider, Chat21Service]
+      deps: [AppConfigProvider, Chat21Service, FCM]
     },
     {
       provide: AppStorageService,
@@ -384,7 +389,9 @@ const appInitializerFn = (appConfig: AppConfigProvider, logger: NGXLogger) => {
     Chat21Service,
     WebSocketJs,
     ConvertRequestToConversation,
-    ScriptService
+    ScriptService,
+    FCM,
+    InAppBrowser
   ]
 })
 export class AppModule { }

@@ -8,6 +8,7 @@ import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service
 import firebase from "firebase/app";
 import 'firebase/messaging';
 import 'firebase/auth';
+import { FCM } from 'cordova-plugin-fcm-with-dependecy-updated/ionic/ngx';
 
 @Injectable({ providedIn: 'root' })
 
@@ -17,15 +18,17 @@ export class FirebaseNotifications extends NotificationsService {
     private userId: string;
     private tenant: string;
     private vapidkey: string;
+    private platform: string;
     private logger: LoggerService = LoggerInstance.getInstance();
-    constructor() {
+    constructor(private fcm: FCM) {
         super();
     }
 
-    initialize(tenant: string, vapId: string): void {
+    initialize(tenant: string, vapId: string, platform: string): void {
         this.tenant = tenant
         this.vapidkey = vapId
-        this.logger.log('[FIREBASE-NOTIFICATIONS] initialize - tenant ', this.tenant)
+        platform === 'desktop'? this.platform = 'ionic' : this.platform = platform
+        this.logger.log('[FIREBASE-NOTIFICATIONS] initialize - tenant ', this.tenant, this.platform)
 
 
         if (!('serviceWorker' in navigator)) {
