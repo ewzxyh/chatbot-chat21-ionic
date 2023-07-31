@@ -24,8 +24,8 @@ export class LoginComponent implements OnInit {
   @Input() translationMap: Map<string, string>;
   @Input() companyLogoBlackUrl: string;
   @Input() companyName: string;
-  @Output() eventSignInWithEmailAndPassword = new EventEmitter<{ email: string, password: string }>();
-
+  @Output() onSignInWithEmailAndPassword = new EventEmitter<{ email: string, password: string }>();
+  @Output() onSignInWithGoogle = new EventEmitter()
   // (eventSignInWithEmailAndPassword)="returnSignInWithEmailAndPassword($event)"
 
   // @ViewChild('email', {  static: false })  emailInputEl: IonInput;
@@ -130,7 +130,12 @@ export class LoginComponent implements OnInit {
     const emailValue = this.userForm.value.email;
     const pswValue = this.userForm.value.password;
     this.showSpinnerInLoginBtn = true;
-    this.eventSignInWithEmailAndPassword.emit({ email: emailValue, password: pswValue });
+    this.onSignInWithEmailAndPassword.emit({ email: emailValue, password: pswValue });
+  }
+
+  signinWithGoogle(){
+    console.log('sign inn googleeeee')
+    this.onSignInWithGoogle.emit()
   }
 
   /** */
