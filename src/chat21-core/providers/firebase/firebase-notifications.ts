@@ -1,3 +1,4 @@
+import { Platform } from '@ionic/angular';
 import { Injectable } from '@angular/core';
 // services
 import { NotificationsService } from '../abstract/notifications.service';
@@ -29,7 +30,6 @@ export class FirebaseNotifications extends NotificationsService {
         this.vapidkey = vapId
         platform === 'desktop'? this.platform = 'ionic' : this.platform = platform
         this.logger.log('[FIREBASE-NOTIFICATIONS] initialize - tenant ', this.tenant, this.platform)
-
 
         if (!('serviceWorker' in navigator)) {
             // , disable or hide UI.
@@ -76,16 +76,6 @@ export class FirebaseNotifications extends NotificationsService {
         this.logger.log('initialize FROM [APP-COMP] - [FIREBASE-NOTIFICATIONS] calling requestPermission - tenant ', this.tenant, ' currentUserUid ', currentUserUid)
         // this.logger.log('[FIREBASE-NOTIFICATIONS] calling requestPermission - currentUserUid ', currentUserUid)
         this.userId = currentUserUid;
-        // Service Worker explicit registration to explicitly define sw location at a path,
-        // const swRegistration = async () => {
-        //     try {
-        //         await navigator.serviceWorker.register('http://localhost:8101/firebase-messaging-sw.js');
-        //     } catch (error) {
-        //         console.error(error);
-        //     }
-        // }
-
-
 
         if (firebase.messaging.isSupported()) {
             const messaging = firebase.messaging();
@@ -106,6 +96,28 @@ export class FirebaseNotifications extends NotificationsService {
             });
         } else {
             this.logger.log('[FIREBASE-NOTIFICATIONS] >>>> FIREBASE MESSAGING IS NOT SUPPORTED')
+
+            if(this.platform == 'android' || this.platform === 'ios'){
+                this.logger.log('[MQTTNotificationService] >>>> FIREBASE MESSAGING: use FCM plugin')
+                this.fcm.onTokenRefresh().subscribe(FCMtoken => {
+                  // Register your new token in your back-end if you want
+                  // backend.registerToken(token);
+                  this.FCMcurrentToken = FCMtoken;
+                  console.log("[MQTTNotificationService] FCM: onTokenRefresh --->", FCMtoken);
+                  this.updateToken(FCMtoken, currentUserUid)
+                });
+                this.fcm.requestPushPermission().then((permission) => {
+                  console.log("[MQTTNotificationService] FCM: requestPushPermission --->", permission);
+                  if(permission === true){
+                    this.fcm.getToken().then(FCMtoken => {
+                      console.log("[MQTTNotificationService] FCM: getToken --->", FCMtoken);
+                      this.FCMcurrentToken = FCMtoken;
+                      this.updateToken(FCMtoken, currentUserUid)
+                    });
+                  }
+                });
+                
+              }
         }
     }
 
@@ -232,7 +244,7 @@ export class FirebaseNotifications extends NotificationsService {
         const device_model = {
             device_model: navigator.userAgent,
             language: navigator.language,
-            platform: 'ionic',
+            platform: this.platform,
             platform_version: this.BUILD_VERSION
         }
 

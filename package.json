@@ -1,7 +1,7 @@
 {
     "name": "@chat21/chat21-ionic",
     "author": "Tiledesk SRL",
-    "version": "3.0.103-rc.1",
+    "version": "3.0.103-rc.2",
     "license": "MIT License",
     "homepage": "https://tiledesk.com/",
     "repository": {
@@ -31,6 +31,7 @@
         "@ctrl/ngx-emoji-mart": "^1.0.6",
         "@ionic-native/chooser": "^5.36.0",
         "@ionic-native/core": "^5.28.0",
+        "@ionic-native/deeplinks": "^5.36.0",
         "@ionic-native/globalization": "^5.28.0",
         "@ionic-native/in-app-browser": "^5.36.0",
         "@ionic-native/keyboard": "^5.36.0",
@@ -89,6 +90,7 @@
         "cordova-plugin-add-swift-support": "^2.0.2",
         "cordova-plugin-fcm-with-dependecy-updated": "^7.8.0",
         "cordova-plugin-inappbrowser": "^5.0.0",
+        "ionic-plugin-deeplinks": "^1.0.24",
         "jasmine-core": "~4.4.0",
         "jasmine-spec-reporter": "~4.2.1",
         "karma": "~6.4.1",
@@ -124,6 +126,24 @@
                 "ANDROID_GOOGLE_SERVICES_VERSION": "4.3.4",
                 "ANDROID_GRADLE_TOOLS_VERSION": "4.1.0",
                 "IOS_FIREBASE_MESSAGING_VERSION": "~> 7.4.0"
+            },
+            "ionic-plugin-deeplinks": {
+                "URL_SCHEME": "chat",
+                "DEEPLINK_SCHEME": "https",
+                "DEEPLINK_HOST": "panel.tiledesk.com",
+                "ANDROID_PATH_PREFIX": "/",
+                "ANDROID_2_PATH_PREFIX": "/",
+                "ANDROID_3_PATH_PREFIX": "/",
+                "ANDROID_4_PATH_PREFIX": "/",
+                "ANDROID_5_PATH_PREFIX": "/",
+                "DEEPLINK_2_SCHEME": " ",
+                "DEEPLINK_2_HOST": " ",
+                "DEEPLINK_3_SCHEME": " ",
+                "DEEPLINK_3_HOST": " ",
+                "DEEPLINK_4_SCHEME": " ",
+                "DEEPLINK_4_HOST": " ",
+                "DEEPLINK_5_SCHEME": " ",
+                "DEEPLINK_5_HOST": " "
             }
         },
         "platforms": [

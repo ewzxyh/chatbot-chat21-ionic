@@ -113,6 +113,7 @@ import { UnassignedConversationsPageModule } from './pages/unassigned-conversati
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MapsPageModule } from './modals/maps/maps.module';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { Deeplinks } from '@ionic-native/deeplinks/ngx';
 
 // FACTORIES
 export function createTranslateLoader(http: HttpClient) {
@@ -391,7 +392,8 @@ const appInitializerFn = (appConfig: AppConfigProvider, logger: NGXLogger) => {
     ConvertRequestToConversation,
     ScriptService,
     FCM,
-    InAppBrowser
+    InAppBrowser,
+    Deeplinks
   ]
 })
 export class AppModule { }

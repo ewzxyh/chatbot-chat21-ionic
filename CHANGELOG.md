@@ -1,5 +1,10 @@
 # chat21-ionic ver 3.0
 
+### 3.0.103-rc.2
+- added: google signIn for mobile platform
+- added: FMC and inAppBrowser plugins
+- minor improvements on canned responses component
+
 ### 3.0.103-rc.1
 - added: ANGULAR 12 
 - added: laxy loading of modal pages

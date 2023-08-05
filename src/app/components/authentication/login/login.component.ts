@@ -2,7 +2,7 @@ import { Injectable, Component, OnInit, Input, Output, EventEmitter, ViewChild }
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastController, IonInput } from '@ionic/angular';
 import { AppConfigProvider } from '../../../services/app-config';
-
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 // Logger
 import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service';
@@ -53,7 +53,8 @@ export class LoginComponent implements OnInit {
   constructor(
     public formBuilder: FormBuilder,
     public toastController: ToastController,
-    public appConfig: AppConfigProvider
+    public appConfig: AppConfigProvider,
+    public iab: InAppBrowser,
   ) { }
 
   ngOnInit() {
@@ -133,9 +134,10 @@ export class LoginComponent implements OnInit {
     this.onSignInWithEmailAndPassword.emit({ email: emailValue, password: pswValue });
   }
 
-  signinWithGoogle(){
-    console.log('sign inn googleeeee')
-    this.onSignInWithGoogle.emit()
+  signInWithGoogle(){
+    // const url = this.SERVER_BASE_PATH + "auth/google"
+    const url = "https://eu.rtmv3.tiledesk.com/api/auth/google" + '?forced_redirect_url=chat://conversation-detail?from=google'
+    this.iab.create(url, '_system', 'locaation=yes')
   }
 
   /** */

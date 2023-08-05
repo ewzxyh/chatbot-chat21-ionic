@@ -5,7 +5,6 @@ import { UserModel } from 'src/chat21-core/models/user';
 import { avatarPlaceholder, getColorBck } from 'src/chat21-core/utils/utils-user';
 import { AppStorageService } from '../abstract/app-storage.service';
 import { LoggerInstance } from '../logger/loggerInstance';
-import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 // import { BehaviorSubject } from 'rxjs';
 // import { EventsService } from 'src/app/services/events-service';
 
@@ -30,7 +29,6 @@ export class TiledeskAuthService {
   constructor(
     public http: HttpClient,
     public appStorage: AppStorageService,
-    public iab: InAppBrowser,
     // private events: EventsService,
   ) { }
 
@@ -131,23 +129,9 @@ export class TiledeskAuthService {
     });
   }
 
-
-  signInWithGoogle(): Promise<any>{
-    // const url = this.SERVER_BASE_PATH + "auth/google"
-    const url = "https://eu.rtmv3.tiledesk.com/api/auth/google" + '?forced_redirect_url=https://panel.tiledesk.com/v3/chat/#/conversation-detail?from=google'
-    this.iab.create(url, '_system')
-    return new Promise((resolve, reject)=> {
-        //TODO: recuperare utente loggato e salvarlo
-        // poi resolve(user)
-        resolve(true)
-    })
-  }
-
   logOut() {
     this.logger.log('[TILEDESK-AUTH] - LOGOUT')
     this.appStorage.removeItem('tiledeskToken')
-    this.appStorage.removeItem('currentUser')
-
     this.appStorage.removeItem('currentUser')
     this.setCurrentUser(null);
     // this.isOnline$.next(false) 

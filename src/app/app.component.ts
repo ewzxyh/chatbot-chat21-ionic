@@ -36,6 +36,7 @@ import { filter } from 'rxjs/operators';
 import { ConversationListPage } from './pages/conversations-list/conversations-list.page';
 import { Location } from '@angular/common'
 import { FCM } from 'cordova-plugin-fcm-with-dependecy-updated/ionic/ngx'
+import { Deeplinks } from '@ionic-native/deeplinks/ngx';
 
 @Component({
   selector: 'app-root',
@@ -94,6 +95,7 @@ export class AppComponent implements OnInit {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
+    private deeplinks: Deeplinks,
     private appConfigProvider: AppConfigProvider,
     public events: EventsService,
     public config: Config,
@@ -415,6 +417,7 @@ export class AppComponent implements OnInit {
     this.platform.ready().then(() => {
       let platform = this.getPlatformName();
 
+      this.initDeeplinks();
       // this.setLanguage();
 
       if (this.splashScreen) {
@@ -497,6 +500,18 @@ export class AppComponent implements OnInit {
         this.logger.setLoggerConfig(true, appconfig.logLevel)
       }
     });
+  }
+
+  initDeeplinks(){
+    this.deeplinks.route({'/conversation-detail': ConversationListPage}).subscribe(match => {
+      this.logger.log('[APP-COMP] deeplinks match route', JSON.stringify(match.$args))
+      if(match.$args && match.$args.jwt){
+        this.appStorageService.setItem('tiledeskToken', decodeURIComponent(match.$args.jwt))
+        this.initAuthentication()
+      }
+    }, (nomatch)=> {
+      this.logger.error("[APP-COMP] deeplinks: Got a deeplink that didn't match", nomatch);
+    })
   }
 
   /** */

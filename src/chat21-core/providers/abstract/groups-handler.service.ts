@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { AppConfigProvider } from 'src/app/services/app-config';
 import { GroupModel } from 'src/chat21-core/models/group';
 import { UserModel } from 'src/chat21-core/models/user';
 

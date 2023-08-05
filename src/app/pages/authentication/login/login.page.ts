@@ -154,19 +154,6 @@ export class LoginPage implements OnInit {
     // this.authService.signInWithEmailAndPassword(auth.email, auth.password);
   }
 
-  onSignInWithGoogle(auth: any){
-    this.showSpinnerInLoginBtn = true
-    this.logger.log('[LOGIN PAGE] onSignInWithGoogle', auth);
-    this.tiledeskAuthService.signInWithGoogle().then(tiledeskToken => {
-      console.log('sign in successss') 
-    }).catch(error => {
-      this.showSpinnerInLoginBtn = false;
-      this.logger.error('[LOGIN PAGE] onSignInWithGoogle error', error);
-    })
-    
-  }
-
-
   updateStoredCurrentUser() {
     const storedCurrentUser = this.appStorageService.getItem('currentUser')
     const storedDshbrdUser = localStorage.getItem('user')

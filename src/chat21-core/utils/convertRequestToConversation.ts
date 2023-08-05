@@ -2,7 +2,7 @@ import { TYPE_DIRECT, TYPE_SUPPORT_GROUP } from 'src/chat21-core/utils/constants
 import { ConversationModel } from 'src/chat21-core/models/conversation';
 import { Inject, Injectable, OnInit } from '@angular/core';
 import { avatarPlaceholder, getColorBck } from './utils-user';
-import moment from 'moment';
+import * as moment from 'moment';
 
 @Injectable()
 export class ConvertRequestToConversation {

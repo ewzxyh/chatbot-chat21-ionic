@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 // models
-import { ImageRepoService } from './image-repo.service';
 import { ConversationModel } from './../../models/conversation';
 // import { ImageRepoService } from './image-repo.service';
 

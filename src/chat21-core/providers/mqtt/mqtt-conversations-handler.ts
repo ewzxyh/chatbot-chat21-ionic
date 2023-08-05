@@ -67,6 +67,7 @@ export class MQTTConversationsHandler extends ConversationsHandlerService {
         const conversation = this.conversations.find(conv => conv.conversation_with === conversationWith);
         this.logger.log('[MQTTConversationsHandler] getConversationDetail found locally? *****: ', conversation);
         if (conversation) {
+            
             callback(conversation);
         } else {
             this.logger.log('[MQTTConversationsHandler] getConversationDetail Not found locally, remote.getConversationDetail *****: ', conversation);
@@ -253,11 +254,11 @@ export class MQTTConversationsHandler extends ConversationsHandlerService {
             conversation.conversation_with = conversation.conversWith // conversWith comes from remote
         }
 
-        //skip info message updates
-        if(messageType(MESSAGE_TYPE_INFO, conversation) ){
+         //skip info message updates
+         if(messageType(MESSAGE_TYPE_INFO, conversation) ){
             return;
         }
-        
+
 
         const index = searchIndexInArrayForUid(this.conversations, conversation.conversation_with);
         const oldConversation = this.conversations[index]
