@@ -18,7 +18,6 @@ export class SendEmailModal implements OnInit {
   @Input() enableBackdropDismiss: any
   @Input() conversationWith: string;
   @Input() msg: string;
-  @Input() email: string;
   @Input() projectId: string;
   @Input() translationMap: Map<string, string>;
   @Output() onSubmitForm = new EventEmitter<{}>();
@@ -72,8 +71,6 @@ export class SendEmailModal implements OnInit {
     return this.formBuilder.group({
       subject: ['', [Validators.required]],
       text: ['', Validators.required],
-      to: this.email,
-      request_id: this.conversationWith
     })
   }
   async onClose() {
@@ -83,7 +80,7 @@ export class SendEmailModal implements OnInit {
   onSubmit(){
     this.logger.log('[SEND-EMAIL-MODAL] onSubmit -->',this.emailFormGroup)
     const tiledeskToken = this.tiledeskAuthService.getTiledeskToken()
-    this.tiledeskService.sendEmail(tiledeskToken, this.projectId, this.emailFormGroup.value).subscribe((res)=> {
+    this.tiledeskService.sendEmail(tiledeskToken, this.projectId, this.conversationWith, this.emailFormGroup.value).subscribe((res)=> {
       this.logger.debug('[SEND-EMAIL-MODAL] subscribe to sendEmail API response -->', res)
       if(res && res.queued){
         this.viewCtrl.dismiss({form: this.emailFormGroup.value})

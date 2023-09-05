@@ -396,7 +396,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
       enableBackdropDismiss: false, 
       conversationWith: this.conversationWith, 
       msg: this.messageString,
-      email: this.leadInfo.email,
+      // email: this.leadInfo.email,
       projectId: this.leadInfo.projectId,
       translationMap: this.translationMap};
     const modal: HTMLIonModalElement =

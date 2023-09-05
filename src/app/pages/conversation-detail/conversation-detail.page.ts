@@ -1029,13 +1029,11 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   sendEmail(message: string): Observable<boolean> {
     const tiledeskToken = this.tiledeskAuthService.getTiledeskToken();
     const emailFormGroup = {
-      to: this.leadInfo.email,
       subject: this.translationsMap.get('EMAIL.SUBJECT_OFFLINE_MESSAGE'),
-      text: message,
-      request_id: this.conversationWith
+      text: message
     }
     let status = new Subject<boolean>();
-    this.tiledeskService.sendEmail(tiledeskToken, this.leadInfo.projectId, emailFormGroup).subscribe((res) => {
+    this.tiledeskService.sendEmail(tiledeskToken, this.leadInfo.projectId, this.conversationWith, emailFormGroup).subscribe((res) => {
       this.logger.debug('[SEND-EMAIL-MODAL] subscribe to sendEmail API response -->', res)
       if (res && res.queued) {
         this.presentToast(this.translationsMap.get('EMAIL.SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE'), 'success', '', 2000)

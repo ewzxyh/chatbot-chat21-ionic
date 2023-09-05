@@ -275,7 +275,7 @@ export class TiledeskService {
   // -----------------------------------------------------------------------------------------
   // @ Send Email
   // -----------------------------------------------------------------------------------------
-  public sendEmail(token: string, projectid: string, form: { to: string, subject: string, text: string, request_id: string}) {
+  public sendEmail(token: string, projectid: string, request_id: string, form: { subject: string, text: string}) {
     
     const httpOptions = {
       headers: new HttpHeaders({
@@ -287,7 +287,7 @@ export class TiledeskService {
 
     const body = form;
 
-    const url = this.apiUrl + projectid + '/emails/send';
+    const url = this.apiUrl + projectid + '/requests/' + request_id + '/email/send';
     this.logger.log('[TILEDESK-SERVICE] - sendEmail URL ', url);
     return this.http.post(url, body, httpOptions).pipe(map((res: any) => {
         this.logger.log('[TILEDESK-SERVICE] - sendEmail - RES ', res);
