@@ -4,6 +4,7 @@
 - added: google signIn for mobile platform
 - added: FMC and inAppBrowser plugins
 - minor improvements on canned responses component
+- changed: /email/send with new API 
 
 ### 3.0.103-rc.1
 - added: ANGULAR 12 
