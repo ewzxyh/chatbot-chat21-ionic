@@ -129,7 +129,7 @@ export class AppComponent implements OnInit {
     public webSocketJs: WebSocketJs,
     public scriptService: ScriptService,
     public location: Location,
-    private fcm: FCM
+    public fcm: FCM
   ) {
 
     this.saveInStorageNumberOfOpenedChatTab();
@@ -1342,7 +1342,7 @@ export class AppComponent implements OnInit {
   }
 
   private handleNotifications(){
-    if(this.platform.is('cordova')){
+    if(!this.platform.is('desktop')){
        this.fcm.onNotification().subscribe(data => {
           let pageUrl = 'conversation-detail/'
           if (data.wasTapped) {
