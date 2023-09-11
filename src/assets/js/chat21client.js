@@ -1,7 +1,7 @@
 /*
     Chat21Client
 
-    v0.1.12.6
+    v0.1.12.7
 
     @Author Andrea Sponziello
     @Member Gabriele Panico
@@ -24,7 +24,6 @@ class Chat21Client {
         this.reconnections = 0 // just to check how many reconnections
         this.client_id = this.uuidv4();
         this.log = options.log ? true : false;
-    
         if (options && options.MQTTendpoint) {
             if (options.MQTTendpoint.startsWith('/')) {
                 if (this.log) {
@@ -545,7 +544,7 @@ class Chat21Client {
             if (this.log) {
                 console.log("this.on_message_handler already subscribed. Reconnected num", this.reconnections)
             }
-            callbsubscribedCallbackack();
+            subscribedCallback();
             return
         }
         this.subscribeToMyConversations(() => {
@@ -999,7 +998,10 @@ class Chat21Client {
         
         this.client.on('connect', // TODO if token is wrong it must reply with an error!
             () => {
-                if (this.log) {console.log("Chat client connected. User:" + user_id)}
+                if (this.log) {
+                    console.log("Chat client connected. User:" + user_id)
+                    console.log("Chat client connected. this.connected:" + this.connected)
+                }
                 if (!this.connected) {
                     if (this.log) {console.log("Chat client first connection for:" + user_id)}
                     this.connected = true
@@ -1026,6 +1028,7 @@ class Chat21Client {
         );
         this.client.on('close',
             () => {
+                this.connected = false
                 if (this.log) {console.log("Chat client close event");}
             }
         );
