@@ -117,10 +117,10 @@ export class IonConversationDetailComponent extends ConversationContentComponent
     //   console.log('[CONVS-DETAIL] translations: ', labels);
     // });
     this.translate.get(['AddAsCannedResponse', 'ViewedPage']).subscribe((text: string) => {
-        console.log('[CONVS-DETAIL] AddAsCannedResponse translated: ', text);
-        this.addAsCannedResponseTooltipText = text['AddAsCannedResponse']
-        this.viewedPageTooltipText = text['ViewedPage']
-      })
+      this.logger.log('[CONVS-DETAIL] AddAsCannedResponse translated: ', text);
+      this.addAsCannedResponseTooltipText = text['AddAsCannedResponse']
+      this.viewedPageTooltipText = text['ViewedPage']
+    })
   }
 
   listenToUploadFileProgress() {

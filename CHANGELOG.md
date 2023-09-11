@@ -1,5 +1,8 @@
 # chat21-ionic ver 3.0
 
+### 3.0.104 in PROD
+- bug-fixed: messages are lost after chrome close all websocket connections due to inactivity and mqtt not reconnected automatically
+
 ### 3.0.103 in PROD
 
 ### 3.0.103-rc.2
