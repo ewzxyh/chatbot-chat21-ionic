@@ -153,6 +153,7 @@ export class MQTTConversationsHandler extends ConversationsHandlerService {
         this.logger.debug('[MQTTConversationsHandler] connecting MQTT conversations handler');
         const handlerConversationAdded = this.chat21Service.chatClient.onConversationAdded( (conv) => {
             let conversation = this.completeConversation(conv); // needed to get the "conversation_with", and find the conv in the conv-history
+            conversation.sound = true
             this.logger.log("onConversationAdded completed:",conversation);
             const index = this.searchIndexInArrayForConversationWith(this.conversations, conversation.conversation_with);
             if (index > -1) {
@@ -165,6 +166,7 @@ export class MQTTConversationsHandler extends ConversationsHandlerService {
             }
         });
         const handlerConversationUpdated = this.chat21Service.chatClient.onConversationUpdated( (conv, topic) => {
+            conv.sound = true;
             this.logger.debug('[MQTTConversationsHandler] conversation updated:', JSON.stringify(conv));
             this.changed(conv);
         });
@@ -187,6 +189,7 @@ export class MQTTConversationsHandler extends ConversationsHandlerService {
             this.logger.debug('[MQTTConversationsHandler] Last conversations', conversations, 'err', err);
             if (!err) {
                 conversations.forEach(conv => {
+                    conv.sound = false;
                     this.added(conv);
                 });
                 loaded();

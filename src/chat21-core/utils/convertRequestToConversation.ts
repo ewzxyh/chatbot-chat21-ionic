@@ -34,7 +34,8 @@ export class ConvertRequestToConversation {
             getColorBck(request.lead.fullname),
             avatarPlaceholder(request.lead.fullname),
             false,
-            'text'
+            'text',
+            false
         ); 
     }
 

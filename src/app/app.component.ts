@@ -847,7 +847,7 @@ export class AppComponent implements OnInit {
     }
   }
 
-  private manageTabNotification(sound_type: string, badgeNotificationCount?: number) {
+  private manageTabNotification(sound_type: string, canSound: boolean, badgeNotificationCount?: number) {
     if (!this.isTabVisible) {
       // TAB IS HIDDEN --> manage title and SOUND
       let badgeNewConverstionNumber = badgeNotificationCount? badgeNotificationCount : this.conversationsHandlerService.countIsNew()
@@ -870,8 +870,8 @@ export class AppComponent implements OnInit {
     if(sound_status && sound_status !== 'undefined'){
       this.isSoundEnabled = sound_status === 'enabled'? true: false
     }
-    this.logger.debug('[APP-COMP] manageTabNotification can saund?', this.isInitialized, this.isSoundEnabled, sound_type)
-    if(this.isInitialized && this.isSoundEnabled) {
+    this.logger.debug('[APP-COMP] manageTabNotification can saund?', canSound, this.isSoundEnabled, sound_type)
+    if(this.isSoundEnabled && canSound) {
       switch(sound_type){
         case 'conv_added': {
           this.soundConversationAdded();
@@ -997,9 +997,9 @@ export class AppComponent implements OnInit {
     this.events.subscribe('unservedRequest:count', this.subscribeUnservedRequestCount)
     this.events.subscribe('convList:onConversationSelected', this.subscribeConversationSelected)
     this.conversationsHandlerService.conversationAdded.subscribe((conversation: ConversationModel) => {
-      // this.logger.log('[APP-COMP] ***** subscribeConversationAdded *****', conversation);
+      this.logger.log('[APP-COMP] ***** subscribeConversationAdded *****', conversation);
       if (conversation && conversation.is_new === true) {
-        this.manageTabNotification('conv_added')
+        this.manageTabNotification('conv_added', conversation.sound)
       }
       if(conversation) this.updateConversationsOnStorage()
     });
@@ -1019,7 +1019,7 @@ export class AppComponent implements OnInit {
           let checkIfStatusChanged = changes.value.is_new === changes.previousValue.is_new? true: false
           let checkIfUidChanged = changes.value.uid === changes.previousValue.uid? true: false
           if(changes.value.is_new && checkIfStatusChanged && checkIfUidChanged){
-            this.manageTabNotification('new_message');
+            this.manageTabNotification('new_message', true);
           }
         }
       }
@@ -1195,7 +1195,7 @@ export class AppComponent implements OnInit {
     if (hasClickedLogout === true) {
       this.segmentSignedOut()
       this.appStorageService.removeItem('conversations')
-      this.isInitialized = false;
+
       // ----------------------------------------------
       // PUSH NOTIFICATIONS
       // ----------------------------------------------
@@ -1223,7 +1223,7 @@ export class AppComponent implements OnInit {
     if(unservedRequestCount && unservedRequestCount > 0){
       this.logger.debug("subscribeUnservedRequestCount appIsInitialized::::",this.isInitialized)
       if(this.isInitialized){
-        this.manageTabNotification('conv_unassigned', unservedRequestCount) //sound and alternate title
+        this.manageTabNotification('conv_unassigned', true, unservedRequestCount) //sound and alternate title
       }
     }
   }
@@ -1284,6 +1284,8 @@ export class AppComponent implements OnInit {
     this.presenceService.removePresence();
     this.tiledeskAuthService.logOut()
     this.messagingAuthService.logout()
+    this.isInitialized = false;
+    this.events.publish('appComp:appIsInitialized', false)
   }
 
   private initConversationsHandler(userId: string) {

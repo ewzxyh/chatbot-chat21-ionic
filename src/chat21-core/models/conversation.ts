@@ -20,6 +20,7 @@ export class ConversationModel {
     public color: string,
     public avatar: string,
     public archived: boolean,
-    public type: string
+    public type: string,
+    public sound: boolean
   ) { }
 }
