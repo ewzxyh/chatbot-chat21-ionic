@@ -45,7 +45,7 @@ export class MQTTPresenceService extends PresenceService {
     const that = this;
     let local_BSIsOnline = new BehaviorSubject<any>(null);
     this.webSocketService.wsRequesterStatus$.subscribe((data: any) => {
-    this.logger.log('[NATIVEPresenceSERVICE] $subs to wsService - data ', data, userid);
+    // this.logger.log('[NATIVEPresenceSERVICE] $subs to wsService - data ', data, userid);
     if (data && data.presence && data.presence.status === 'online' ) {
         that.BSIsOnline.next({ uid: data.uuid_user, isOnline: true });
         local_BSIsOnline.next({ uid: data.uuid_user, isOnline: true });

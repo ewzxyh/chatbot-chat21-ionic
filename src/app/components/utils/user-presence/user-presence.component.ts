@@ -67,7 +67,7 @@ export class UserPresenceComponent implements OnInit, OnDestroy {
     subscribtion = this.subscriptions.find(item => item.key === subscribtionKey);
     if (!subscribtion) {
       subscribtion = this.presenceService.BSIsOnline.subscribe((data: any) => {
-        this.logger.log('[USER-PRESENCE-COMP] $subs to BSIsOnline - data ', data);
+        // this.logger.log('[USER-PRESENCE-COMP] $subs to BSIsOnline - data ', data);
         if (data) {
           const userId = data.uid;
           const isOnline = data.isOnline;
