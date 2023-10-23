@@ -583,7 +583,7 @@ export class ConversationListPage implements OnInit {
         if (conversation) {
           this.onImageLoaded(conversation)
           this.onConversationLoaded(conversation)
-          conversation.is_new && this.isInitialized? this.segmentNewConversationAdded(conversation) : null;
+          // conversation.is_new && this.isInitialized? this.segmentNewConversationAdded(conversation) : null;
         }
     })
 
@@ -852,9 +852,6 @@ export class ConversationListPage implements OnInit {
         conversation.attributes.project_name = project['name']
       }
     }
-    // if(conversation.conversation_with_fullname === 'Guest '){
-    //   conversation.conversation_with_fullname = 'guest' + '#' + this.getUUidConversation(conversation.uid)
-    // }
 
   }
 
@@ -1142,103 +1139,4 @@ export class ConversationListPage implements OnInit {
     }
   }
 
-  // ------------------------------------------------------------------
-  // !!! Not used methods !!!
-  // ------------------------------------------------------------------
-
-  // /**
-  //  * ::: openArchivedConversationsPage :::
-  //  * Open the archived conversations page
-  //  * (metodo richiamato da html)
-  //  */
-  // openArchivedConversationsPage() {
-  //   this.logger.log('[CONVS-LIST-PAGE] openArchivedConversationsPage');
-  // }
-
-  // // info page
-  // returnCloseInfoPage() {
-  //   this.logger.log('[CONVS-LIST-PAGE] returnCloseInfoPage');
-  //   // this.isShowMenuPage = false;
-  //   this.initialize();
-
-  // }
-
-  // private navigatePage() {
-  //   this.logger.log('[CONVS-LIST-PAGE] navigatePage:: >>>> conversationSelected ', this.conversationSelected);
-  //   let urlPage = 'detail/';
-  //   if (this.conversationSelected) {
-  //     // urlPage = 'conversation-detail/' + this.uidConvSelected;
-  //     urlPage = 'conversation-detail/' + this.uidConvSelected + '/' + this.conversationSelected.conversation_with_fullname;
-  //     // this.openDetailsWithState(this.conversationSelected);
-  //   }
-  //   // else {
-  //   //   this.router.navigateByUrl('detail');
-  //   // }
-
-  //   const navigationExtras: NavigationExtras = {
-  //     state: {
-  //       conversationSelected: this.conversationSelected
-  //     }
-  //   };
-  //   this.navService.openPage(urlPage, ConversationDetailPage, navigationExtras);
-  // }
-
-  // openDetailsWithState(conversationSelected) {
-  //   console.log('openDetailsWithState:: >>>> conversationSelected ', conversationSelected);
-  //   let navigationExtras: NavigationExtras = {
-  //     state: {
-  //       conversationSelected: conversationSelected
-  //     }
-  //   };
-  //   this.router.navigate(['conversation-detail/' + this.uidConvSelected], navigationExtras);
-  // }
-
-  // /**
-  //  * ::: subscribeLoggedUserLogin :::
-  //  * effettuato il login:
-  //  * 1 - imposto loggedUser
-  //  * 2 - dismetto modale
-  //  * 3 - inizializzo elenco conversazioni
-  //  */
-  // subscribeLoggedUserLogin = (user: any) => {
-  //   console.log('3 ************** subscribeLoggedUserLogin', user);
-  //   this.loggedUser = user;
-  //   try {
-  //     closeModal(this.modalController);
-  //   } catch (err) {
-  //     console.error('-> error:', err);
-  //   }
-  //   this.initialize();
-  // }
-
-  /**
-   * ::: conversationsChanged :::
-   * evento richiamato su add, change, remove dell'elenco delle conversazioni
-   * 1 - aggiorno elenco conversazioni
-   * 2 - aggiorno il conto delle nuove conversazioni
-   * 4 - se esiste un uidReciverFromUrl (passato nell'url)
-   *    e se esiste una conversazione con lo stesso id di uidReciverFromUrl
-   *    imposto questa come conversazione attiva (operazione da fare una sola volta al caricamento delle conversazioni)
-   *    e la carico nella pagina di dettaglio e azzero la variabile uidReciverFromUrl!!!
-   * 5 - altrimenti se esiste una conversazione con lo stesso id della conversazione attiva
-   *    e la pagina di dettaglio è vuota (placeholder), carico la conversazione attiva (uidConvSelected) nella pagina di dettaglio
-   *    (operazione da fare una sola volta al caricamento delle conversazioni)
-   */
-
-  // ------------------------------------------------------------------------------------
-  // ::: readAllMessages :::  ??????????? SEEMS NOT USED ?????????????????
-  // when all chat messages are displayed,
-  // that is when in the conversation detail I go to the bottom of the page,
-  // the readAllMessages event is triggered and is intercepted in the conversation list
-  // and modify the current conversation by bringing is_new to false
-  // ------------------------------------------------------------------------------------
-  // readAllMessages = (uid: string) => {
-  //   this.logger.log('[CONVS-LIST-PAGE] readAllMessages', uid);
-  //   const conversationSelected = this.conversations.find(item => item.uid === this.uidConvSelected);
-  //   if (conversationSelected) {
-  //     conversationSelected.is_new = false;
-  //     conversationSelected.status = '0';
-  //     conversationSelected.selected = true;
-  //   }
-  // }
 }

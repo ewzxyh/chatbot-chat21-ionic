@@ -124,6 +124,7 @@ export class LoginPage implements OnInit {
     this.tiledeskAuthService.signInWithEmailAndPassword(auth.email, auth.password)
       .then(tiledeskToken => {
         this.messagingAuthService.createCustomToken(tiledeskToken) 
+        localStorage.setItem('tiledesk_token', tiledeskToken)
         // Here edit stored current user
         // this.updateStoredCurrentUser()
       })

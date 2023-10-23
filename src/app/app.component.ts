@@ -281,11 +281,11 @@ export class AppComponent implements OnInit {
       this.logger.log('[APP-COMP] ngOnInit AUTOLOGIN token get with getParameterByName  ', token)
       // save token in local storage then 
 
-      const storedToken = this.appStorageService.getItem('tiledeskToken');
+      const storedToken = localStorage.getItem('tiledesk_token')
       this.logger.log('[APP-COMP] ngOnInit AUTOLOGIN storedToken ', storedToken)
       this.logger.log('[APP-COMP] ngOnInit AUTOLOGIN SAVE THE PARAMS TOKEN ', token)
       if (storedToken !== token) {
-        this.appStorageService.setItem('tiledeskToken', token);
+        localStorage.setItem('tiledesk_token', token)
       } else {
         this.logger.log('[APP-COMP] ngOnInit AUTOLOGIN the current user already exist DON\'T SAVE ')
       }
@@ -506,7 +506,7 @@ export class AppComponent implements OnInit {
     this.deeplinks.route({'/conversation-detail': ConversationListPage}).subscribe(match => {
       this.logger.log('[APP-COMP] deeplinks match route', JSON.stringify(match.$args))
       if(match.$args && match.$args.jwt){
-        this.appStorageService.setItem('tiledeskToken', decodeURIComponent(match.$args.jwt))
+        localStorage.setItem('tiledesk_token', decodeURIComponent(match.$args.jwt))
         this.initAuthentication()
       }
     }, (nomatch)=> {
@@ -697,7 +697,7 @@ export class AppComponent implements OnInit {
   /***************************************************+*/
   /**------- AUTHENTICATION FUNCTIONS --> START <--- +*/
   private initAuthentication() {
-    const tiledeskToken = this.appStorageService.getItem('tiledeskToken')
+    const tiledeskToken = localStorage.getItem('tiledesk_token')
 
     this.logger.log('[APP-COMP] >>> INIT-AUTHENTICATION !!! ')
     this.logger.log('[APP-COMP] >>> initAuthentication tiledeskToken ', tiledeskToken)
@@ -1381,10 +1381,13 @@ export class AppComponent implements OnInit {
   }
 
   private segmentSignIn(){
+    const that = this
     let user = this.tiledeskAuthService.getCurrentUser()
     if(window['analytics']){
       try {
-        window['analytics'].page("Chat Auth Page, Signin", {});
+        window['analytics'].page("Chat Auth Page, Signin", {
+          version: that.version
+        });
       } catch (err) {
         this.logger.error('Event:Signed In [page] error', err);
       }

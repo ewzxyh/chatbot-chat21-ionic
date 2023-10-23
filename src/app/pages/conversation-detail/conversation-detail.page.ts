@@ -325,10 +325,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       // console.log('[CONVS-DETAIL] conversations', conversations);
       this.conversation_count = conversations.length
       if (conv && this.loggedUser && conv.sender !== this.loggedUser.uid) {
-        this.logger.log('[CONVS-DETAIL] subscribe to BSConversationsChange data sender ', conv.sender)
+        this.logger.log('[CONVS-DETAIL] subscribe to BSConversationsChange ', conv)
         this.logger.log('[CONVS-DETAIL] subscribe to BSConversationsChange this.loggedUser.uid ', this.loggedUser.uid)
-        this.logger.log('[CONVS-DETAIL] subscribe to BSConversationsChange is_new ', conv.is_new)
-        this.logger.log('[CONVS-DETAIL] subscribe to  BSConversationsChange showButtonToBottom ', this.showButtonToBottom)
         // UPDATE THE CONVERSATION TO 'READ' IF IT IS ME WHO WRITES THE LAST MESSAGE OF THE CONVERSATION
         // AND IF THE POSITION OF THE SCROLL IS AT THE END
         // if (!this.showButtonToBottom && conv.is_new) {
@@ -748,15 +746,15 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     //               .set('buttonHoverBackgroundColor', 'var(--buttonHoverBackgroundColor)')
     //               .set('buttonHoverTextColor', 'var(--buttonHoverTextColor)')
     this.styleMap.set('themeColor', '#2a69c1')
-      .set('bubbleReceivedBackground', '#f0f2f7')
-      .set('bubbleReceivedTextColor', '#06132b')
-      .set('bubbleSentBackground', '#2a6ac1')
-      .set('bubbleSentTextColor', '#ffffff')
-      .set('buttonFontSize', '15px')
-      .set('buttonBackgroundColor', '#ffffff')
-      .set('buttonTextColor', '#2a6ac1')
-      .set('buttonHoverBackgroundColor', '#2a6ac1')
-      .set('buttonHoverTextColor', ' #ffffff')
+                  .set('bubbleReceivedBackground', '#f0f2f7')
+                  .set('bubbleReceivedTextColor', '#06132b')
+                  .set('bubbleSentBackground', '#2a6ac1')
+                  .set('bubbleSentTextColor', '#ffffff')
+                  .set('buttonFontSize', '15px')
+                  .set('buttonBackgroundColor', '#ffffff')
+                  .set('buttonTextColor', '#2a6ac1')
+                  .set('buttonHoverBackgroundColor', '#2a6ac1')
+                  .set('buttonHoverTextColor', ' #ffffff')
 
   }
   // -------------------------------------------------------------------------------------
@@ -1116,14 +1114,17 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
 
     const emailSectionMsg = (attributes && attributes['offline_channel'] === TYPE_MSG_EMAIL)
-    const channelIsNotEmailOrFormOrWhatsapp = (attributes && attributes['request_channel'] && (attributes['request_channel'] === TYPE_MSG_EMAIL || attributes['request_channel'] === TYPE_MSG_FORM || attributes['request_channel'] === CHANNEL_TYPE_WHATSAPP))
+    const channelIsNotEmailOrFormOrWhatsappOrTelegram = (attributes && attributes['request_channel'] && (attributes['request_channel'] === TYPE_MSG_EMAIL || 
+                                                                                                attributes['request_channel'] === TYPE_MSG_FORM || 
+                                                                                                attributes['request_channel'] === CHANNEL_TYPE_WHATSAPP || 
+                                                                                                attributes['request_channel'] === CHANNEL_TYPE_TELEGRAM))
 
     if ((msg && msg.trim() !== '') || type !== TYPE_MSG_TEXT) {
 
 
       if (this.isEmailEnabled &&
         this.leadInfo && this.leadInfo.presence && this.leadInfo.presence['status'] === 'offline' &&
-        this.leadInfo.email && !emailSectionMsg && !channelIsNotEmailOrFormOrWhatsapp) {
+        this.leadInfo.email && !emailSectionMsg && !channelIsNotEmailOrFormOrWhatsappOrTelegram) {
         this.logger.log('[CONVS-DETAIL] - SEND MESSAGE --> SENDING EMAIL', msg, this.leadInfo.email)
         let msgText = this.createEmailText(msg)
         this.sendEmail(msgText).subscribe(status => {

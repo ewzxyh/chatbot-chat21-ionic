@@ -323,6 +323,11 @@ export class MQTTConversationsHandler extends ConversationsHandlerService {
                 // this.logger.debug('[MQTTConversationsHandler] aggiorno key:' + k);
                 conv.type = snap[k];
             }
+            if (k === 'conversation_with_fullname') {
+                // this.logger.debug('[MQTTConversationsHandler] aggiorno key:' + k);
+                conv.conversation_with_fullname = snap[k];
+            }
+            conv = this.completeConversation(conv)
         });
     }
 
