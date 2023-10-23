@@ -1,5 +1,11 @@
 # chat21-ionic ver 3.0
 
+### 3.0.105.rc.1
+- added: get tiledeskToken from tiledesk_token key in favour of appStorageService.getItem('tiledeskToken')
+
+### 3.0.104.1 in PROD
+- minor bug fixing
+
 ### 3.0.104 in PROD
 - bug-fixed: messages are lost after chrome close all websocket connections due to inactivity and mqtt not reconnected automatically
 
