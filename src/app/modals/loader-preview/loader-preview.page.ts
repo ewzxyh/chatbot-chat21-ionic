@@ -338,6 +338,7 @@ export class LoaderPreviewPage implements OnInit, AfterViewInit {
     const file4Load = new Image()
     const nameImg = file.name
     const typeFile = file.type
+    const size = file.size
 
     file4Load.src = this.fileSelected
     file4Load.title = nameImg
@@ -349,6 +350,7 @@ export class LoaderPreviewPage implements OnInit, AfterViewInit {
       height: file4Load.height,
       type: typeFile,
       uid: uid,
+      size: size
     }
     this.viewCtrl.dismiss({
       fileSelected: file,
