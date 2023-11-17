@@ -30,7 +30,7 @@ export const environment = {
     whatsappTemplatesBaseUrl: 'CHANGEIT',
     baseImageUrl: 'CHANGEIT',
     dashboardUrl: 'CHANGEIT',
-    testsiteBaseUrl:'CHANGEIT',
+    widgetBaseUrl:'CHANGEIT',
     wsUrl: 'CHANGEIT',
     wsUrlRel: 'CHANGEIT',
     storage_prefix: 'chat_sv5',
