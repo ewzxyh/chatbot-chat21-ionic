@@ -31,7 +31,7 @@
     "whatsappTemplatesBaseUrl":"${WHATSAPP_TEMPLATES_BASE_URL}",
     "baseImageUrl": "${API_BASEIMAGE_URL}",
     "dashboardUrl": "${DASHBOARD_URL}",
-    "testsiteBaseUrl":"${WIDGET_TEST_LOCATION}",
+    "widgetBaseUrl":"${WIDGET_LOCATION}",
     "wsUrl": "${WS_URL}",
     "wsUrlRel": "${WS_URL_RELATIVE}",
     "storage_prefix": "${CHAT_STORAGE_PREFIX}",

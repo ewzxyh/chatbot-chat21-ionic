@@ -102,7 +102,7 @@ Use [Docker Compose Tiledesk installation guide](https://github.com/Tiledesk/til
         "apiUrl": "https://<YOUR-TILEDESK-API-URL>",
         "baseImageUrl": "https://<YOUR-BASE-IMAGE-URL>",
         "dashboardUrl": "https://<YOUR-DASHBOARD-URL>"
-        "testsiteBaseUrl": "https:<YOUR-WIDGET-URL>/test_widget_page/index.html"
+        "widgetBaseUrl": "https:<YOUR-WIDGET-URL>/"
         "wsUrl": 'ws://' + window.location.hostname + '/ws/',
         "emailSection": true,
         "whatsappTemplatesSection": true,

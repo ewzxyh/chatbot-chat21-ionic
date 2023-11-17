@@ -28,7 +28,7 @@
     "whatsappTemplatesBaseUrl":"http://localhost:3000/",
     "baseImageUrl": "https://firebasestorage.googleapis.com/v0/b/",
     "dashboardUrl": "https://support-pre.tiledesk.com/dashboard/",
-    "testsiteBaseUrl": "https://widget-pre.tiledesk.com/v5/assets/twp/index.html",
+    "widgetBaseUrl": "https://widget-pre.tiledesk.com/v5/",
     "wsUrl": "ws://localhost:3000/",
     "wsUrlRel": "${WS_URL_RELATIVE}",
     "storage_prefix": "chat_sv5",
