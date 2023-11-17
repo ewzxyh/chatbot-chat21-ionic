@@ -1,5 +1,9 @@
 # chat21-ionic ver 3.0
 
+### 3.0.106 in PROD
+- changed: testsitebaseurl with widgetBaseUrl
+- changed: WIDGET_TEST_LOCATION with WIDGET_LOCATION
+
 ### 3.0.105 in PROD
 
 ### 3.0.105.rc.1
