@@ -162,7 +162,6 @@
       </chat-avatar-image> -->
 
       <div class="bubble-container">
-        
         <!--backgroundColor non viene ancora usato -->
         <chat-bubble-message class="messages msg_receive" id="message_msg_receive"
           [ngClass]="{'has-metadata': (isImage(message) || isFrame(message)), 'privateMsg': (message?.attributes && message?.attributes?.subtype === 'private')}" 

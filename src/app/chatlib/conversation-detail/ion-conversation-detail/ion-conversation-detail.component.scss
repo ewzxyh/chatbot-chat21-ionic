@@ -222,8 +222,8 @@ ion-item {
         border-bottom-right-radius: 0px;
 
         &.privateMsg{
-            background-color: var(--bubble-privateMsg);
-            color: var(--bubble-privateMsgColor)
+            background-color: var(--bubble-privateMsg) !important;
+            color: var(--bubble-privateMsgColor) !important;
         }
     }
     .no-background{
@@ -324,8 +324,8 @@ ion-item {
         border-bottom-left-radius: 0px;
 
         &.privateMsg{
-            background-color: var(--bubble-privateMsg);
-            color: var(--bubble-privateMsgColor)
+            background-color: var(--bubble-privateMsg) !important;
+            color: var(--bubble-privateMsgColor) !important;
         }
     }
     .no-background{
