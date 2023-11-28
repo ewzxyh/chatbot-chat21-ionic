@@ -103,6 +103,62 @@ export class FirebaseUploadService extends UploadService {
 
   }
 
+  public uploadProfile(userId: string, upload: UploadModel): Promise<any>  {
+    const that = this;
+    const urlImagesNodeFirebase = '/profiles/' + userId + '/photo.jpg'
+    this.logger.debug('[FIREBASEUploadSERVICE] uploadProfile ', urlImagesNodeFirebase, upload.file);
+
+    // Create a root reference
+    const storageRef = firebase.storage().ref();
+    this.logger.debug('[FIREBASEUploadSERVICE] storageRef', storageRef);
+
+    // Create a reference to 'mountains.jpg'
+    const mountainsRef = storageRef.child(urlImagesNodeFirebase);
+    this.logger.debug('[FIREBASEUploadSERVICE] mountainsRef ', mountainsRef);
+
+    // const metadata = {};
+    const metadata = { name: upload.file.name, contentType: upload.file.type, contentDisposition: 'attachment; filename=' + upload.file.name };
+
+    let uploadTask = mountainsRef.put(upload.file, metadata);
+
+    return new Promise((resolve, reject) => {
+      uploadTask.on('state_changed', function progress(snapshot) {
+        // Observe state change events such as progress, pause, and resume
+        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        that.logger.debug('[FIREBASEUploadSERVICE] Upload is ' + progress + '% done');
+        
+        // ----------------------------------------------------------------------------------------------------------------------------------------------
+        // BehaviorSubject publish the upload progress state - the subscriber is in ion-conversastion-detail.component.ts > listenToUploadFileProgress()
+        // ----------------------------------------------------------------------------------------------------------------------------------------------
+      
+        that.BSStateUpload.next({ upload: progress, type: upload.file.type });
+        
+        switch (snapshot.state) {
+          case firebase.storage.TaskState.PAUSED: // or 'paused'
+            that.logger.debug('[FIREBASEUploadSERVICE] Upload is paused');
+            
+            break;
+          case firebase.storage.TaskState.RUNNING: // or 'running'
+            that.logger.debug('[FIREBASEUploadSERVICE] Upload is running');
+            
+            break;
+        }
+      }, function error(error) {
+        // Handle unsuccessful uploads
+        reject(error)
+      }, function complete() {
+        // Handle successful uploads on complete
+        that.logger.debug('[FIREBASEUploadSERVICE] Upload is complete', upload);
+       
+        resolve(uploadTask.snapshot.ref.getDownloadURL())
+        // that.BSStateUpload.next({upload: upload});
+
+      });
+    })
+
+  }
+
   public async delete(userId: string, path: string): Promise<any>{
     const that = this;
     const file_name_photo = 'photo.jpg';
@@ -116,6 +172,33 @@ export class FirebaseUploadService extends UploadService {
     // Create a root reference
     const storageRef = firebase.storage().ref();
     const ref = storageRef.child('public/images/' + userId + '/'+ uid + '/')
+    let arrayPromise = []
+    await ref.listAll().then((dir => {
+      dir.items.forEach(fileRef => arrayPromise.push(this.deleteFile(ref.fullPath, fileRef.name)));
+    })).catch(error => {
+      that.logger.error('[FIREBASEUploadSERVICE] delete: listAll error', error)
+    })
+
+    //AWAIT to return ALL the promise delete()
+    return new Promise((resolve, reject)=> {
+      Promise.all(arrayPromise).then(()=>{
+        resolve(true)
+      }).catch((error)=>{
+        reject(error)
+      })
+    })
+  }
+
+  public async deleteProfile(userId: string, path: string): Promise<any>{
+    const that = this;
+    const file_name_photo = 'photo.jpg';
+    const file_name_thumb_photo = 'thumb_photo.jpg';
+
+    that.logger.debug('[FIREBASEUploadSERVICE] delete image for USER', userId, path);
+
+    // Create a root reference
+    const storageRef = firebase.storage().ref();
+    const ref = storageRef.child('profiles/' + userId + '/')
     let arrayPromise = []
     await ref.listAll().then((dir => {
       dir.items.forEach(fileRef => arrayPromise.push(this.deleteFile(ref.fullPath, fileRef.name)));
