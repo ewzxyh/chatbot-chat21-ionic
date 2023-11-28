@@ -91,6 +91,7 @@ import { WebsocketService } from 'src/app/services/websocket/websocket.service';
 import { Project } from 'src/chat21-core/models/projects';
 import { AppStorageService } from 'src/chat21-core/providers/abstract/app-storage.service';
 import { Globals } from 'src/app/utils/globals';
+import { TriggerEvents } from 'src/app/services/triggerEvents/triggerEvents';
 
 @Component({
   selector: 'app-conversation-detail',
@@ -241,7 +242,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     private events: EventsService,
     private webSocketService: WebsocketService,
     private sanitizer: DomSanitizer,
-    private g: Globals
+    private g: Globals,
+    private triggerEvents: TriggerEvents
   ) {
     // Change list on date change
     this.route.paramMap.subscribe((params) => {
@@ -1174,10 +1176,11 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     subscriptionKey = 'messageAdded'
     subscription = this.subscriptions.find((item) => item.key === subscriptionKey)
     if (!subscription) {
-      subscription = this.conversationHandlerService.messageAdded.subscribe((msg: any) => {
+      subscription = this.conversationHandlerService.messageAdded.subscribe((msg: MessageModel) => {
         this.logger.log('[CONVS-DETAIL] subscribe to messageAdded - msg ', msg)
         if (msg) {
           that.newMessageAdded(msg)
+          that.manageEvent(msg)
           // this.setHeaderContent()
         }
       })
@@ -1189,7 +1192,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     subscriptionKey = 'messageChanged'
     subscription = this.subscriptions.find((item) => item.key === subscriptionKey)
     if (!subscription) {
-      subscription = this.conversationHandlerService.messageChanged.subscribe((msg: any) => {
+      subscription = this.conversationHandlerService.messageChanged.subscribe((msg: MessageModel) => {
         this.logger.log('[CONVS-DETAIL] subscribe to messageChanged - msg ', msg)
       })
       const subscribe = { key: subscriptionKey, value: subscription }
@@ -1209,7 +1212,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     subscriptionKey = 'messageInfo'
     subscription = this.subscriptions.find((item) => item.key === subscriptionKey)
     if (!subscription) {
-      subscription = this.conversationHandlerService.messageInfo.pipe(takeUntil(this.unsubscribe$)).subscribe((msg: any) => {
+      subscription = this.conversationHandlerService.messageInfo.pipe(takeUntil(this.unsubscribe$)).subscribe((msg: MessageModel) => {
         this.logger.log('[CONVS-DETAIL] subscribe to messageInfo - messageId ', msg, this.conversation)
         if (msg) {
           that.updateLeadInfo(msg)
@@ -1330,6 +1333,14 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     }
     if (msg.attributes && msg.attributes.hasOwnProperty("sourceTitle")) {
       this.liveInfo = { sourcePage: msg.attributes['sourcePage'], sourceTitle: msg.attributes['sourceTitle'] }
+    }
+  }
+
+  manageEvent(msg: MessageModel){
+    if(msg.isSender){
+      this.triggerEvents.triggerAfterSendMessageEvent(msg)
+    }else if(!msg.isSender){
+      this.triggerEvents.triggerAfterMessageReceived(msg)
     }
   }
 

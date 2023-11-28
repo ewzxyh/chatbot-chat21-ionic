@@ -33,7 +33,8 @@ export class TriggerEvents {
             const onAuthStateChanged = new CustomEvent('onAuthStateChanged', { detail: detailObj});
             const windowContext = this.windowContext;
             if (windowContext){
-                window.parent.document.dispatchEvent(onAuthStateChanged);
+                // window.parent.dispatchEvent(onAuthStateChanged);
+                window.parent.postMessage({type: "onAuthStateChanged", detail: detailObj}, '*')
                 // this.el.nativeElement.dispatchEvent(onAuthStateChanged);
             }
         } catch (e) {
@@ -47,7 +48,8 @@ export class TriggerEvents {
             const onAfterMessageSend = new CustomEvent('onAfterMessageSend', { detail: { message: messageSent } });
             const windowContext = this.windowContext;
             if (windowContext){
-                windowContext.document.dispatchEvent(onAfterMessageSend);
+                // windowContext.document.dispatchEvent(onAfterMessageSend);
+                window.parent.postMessage({type: "onAfterMessageSend", detail: { message: messageSent }}, '*')
             }
         } catch (e) {
             this.logger.error('[TRIGGER-HANDLER] > Error:' + e);
@@ -62,7 +64,8 @@ export class TriggerEvents {
             const onAfterMessageReceived = new CustomEvent('onAfterMessageReceived', { detail: { message: message } });
             const windowContext = this.windowContext;
             if (windowContext){
-                windowContext.document.dispatchEvent(onAfterMessageReceived);
+                // windowContext.document.dispatchEvent(onAfterMessageReceived);
+                window.parent.postMessage({type: "onAfterMessageReceived", detail: { message: message }}, '*')
             }
         } catch (e) {
             this.logger.error('[TRIGGER-HANDLER] > Error:' + e);
@@ -76,7 +79,8 @@ export class TriggerEvents {
             const onNewConversation = new CustomEvent('onNewConversationComponentInit', { detail: { conversation: conversation} });
             const windowContext = this.windowContext;
             if (windowContext){
-                windowContext.document.dispatchEvent(onNewConversation);
+                // windowContext.document.dispatchEvent(onNewConversation);
+                window.parent.postMessage({type: "onNewConversationComponentInit", detail: { conversation: conversation}}, '*')
             }
         } catch (e) {
             this.logger.error('[TRIGGER-HANDLER] > Error:' + e);
