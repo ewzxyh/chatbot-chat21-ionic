@@ -1,5 +1,11 @@
 # chat21-ionic ver 3.0
 
+### 3.0.107.rc.1
+- added: globals and globals-settings services to manage env and option variables globally
+- added: eventTrigger service to expose custom chat event to parent chat-iframe container
+- added: new UI home management for supportMode
+- bug-fixed: privateMsg colors not visible
+
 ### 3.0.106 in PROD
 - changed: testsitebaseurl with widgetBaseUrl
 - changed: WIDGET_TEST_LOCATION with WIDGET_LOCATION
