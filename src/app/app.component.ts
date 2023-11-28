@@ -1,4 +1,4 @@
-import { Component, HostListener, NgZone, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, NgZone, OnInit, ViewChild } from '@angular/core';
 
 import { AlertController, Config, IonNav, IonRouterOutlet, ModalController, NavController, Platform, ToastController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -37,6 +37,9 @@ import { ConversationListPage } from './pages/conversations-list/conversations-l
 import { Location } from '@angular/common'
 import { FCM } from 'cordova-plugin-fcm-with-dependecy-updated/ionic/ngx'
 import { Deeplinks } from '@ionic-native/deeplinks/ngx';
+import { TriggerEvents } from './services/triggerEvents/triggerEvents';
+import { Globals } from './utils/globals';
+import { GlobalSettingsService } from './services/global-settings/global-settings.service';
 
 @Component({
   selector: 'app-root',
@@ -98,6 +101,7 @@ export class AppComponent implements OnInit {
     private deeplinks: Deeplinks,
     private appConfigProvider: AppConfigProvider,
     public events: EventsService,
+    public triggerEvents: TriggerEvents,
     public config: Config,
     public chatManager: ChatManager,
     public translate: TranslateService,
@@ -129,7 +133,10 @@ export class AppComponent implements OnInit {
     public webSocketJs: WebSocketJs,
     public scriptService: ScriptService,
     public location: Location,
-    public fcm: FCM
+    public fcm: FCM,
+    public el: ElementRef,
+    public g: Globals,
+    public globalSettingsService: GlobalSettingsService,
   ) {
 
     this.saveInStorageNumberOfOpenedChatTab();
@@ -261,19 +268,34 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     const appconfig = this.appConfigProvider.getConfig();
     this.logger.log('[APP-COMP] ngOnInit  appconfig', appconfig)
-    if (appconfig && appconfig.supportMode && (appconfig.supportMode === true || appconfig.supportMode === 'true')) {
-      this.SUPPORT_MODE = true;
-      this.logger.log('[APP-COMP] appconfig > SUPPORT_MODE', this.SUPPORT_MODE)
-    } else {
-      this.SUPPORT_MODE = false;
-      this.logger.log('[APP-COMP] appconfig > SUPPORT_MODE', this.SUPPORT_MODE)
-    }
-    this.persistence = appconfig.authPersistence;
-    this.appStorageService.initialize(environment.storage_prefix, this.persistence, '')
-    // this.logger.log('[APP-COMP] HELLO ngOnInit !!!!!!!')
-    // this.logger.log('[APP-COMP] ngOnInit this.route.snapshot.params -->', this.route.snapshot.params);
-    // this.initializeApp('oninit');
-    const token = getParameterByName('jwt')
+
+    this.globalSettingsService.obsSettingsService.subscribe((resp) => {
+      if(resp){
+        this.logger.log('[APP-COMP] ngOnInit  globalSettingsService', this.g)
+        // /** INIT  */
+        // this.getRouteParamsAndSetLoggerConfig();
+  
+        // this.logger.info('[APP-COMP] appconfig: ', appconfig)
+        this.version = environment.version;
+     
+        this.logger.setLoggerConfig(true, this.g.logLevel)
+        this.logger.info('[APP-COMP] logLevel: ', this.g.logLevel);
+        this.tabTitle = document.title;
+        // this.appStorageService.initialize(environment.storage_prefix, this.persistence, '') /** moved to globals-settings.service */
+    
+        this.tenant = this.g.tenant;
+        this.persistence = this.g.persistence
+        this.logger.info('[APP-COMP] appconfig firebaseConfig tenant: ', this.tenant);
+        this.notificationsEnabled = true;
+        this.zone = new NgZone({}); // a cosa serve?
+
+        this.SUPPORT_MODE = this.g.supportMode
+      }
+
+    });
+    this.globalSettingsService.initParamiters(this.g, this.el);
+    
+    const token = getParameterByName(window,'jwt')
     // this.logger.log('[APP-COMP] ngOnInit AUTOLOGIN token get with getParameterByName -->', token);
     if (token) {
       // this.isOnline = false;
@@ -291,6 +313,7 @@ export class AppComponent implements OnInit {
       }
     }
 
+    this.triggerEvents.setWindowContext(window.parent)
 
     this.initializeApp('oninit');
     this.loadCustomScript(appconfig)
@@ -397,22 +420,6 @@ export class AppComponent implements OnInit {
     if (!this.platform.is('desktop')) {
       this.splashScreen.show();
     }
-    this.tabTitle = document.title;
-
-    this.getRouteParamsAndSetLoggerConfig();
-
-    const appconfig = this.appConfigProvider.getConfig();
-    // this.logger.info('[APP-COMP] appconfig: ', appconfig)
-    this.version = environment.version;
-    this.logger.info('[APP-COMP] version: ', this.version)
-
-    this.logger.setLoggerConfig(true, appconfig.logLevel)
-    this.logger.info('[APP-COMP] logLevel: ', appconfig.logLevel);
-
-    this.tenant = appconfig.firebaseConfig.tenant;
-    this.logger.info('[APP-COMP] appconfig firebaseConfig tenant: ', this.tenant);
-    this.notificationsEnabled = true;
-    this.zone = new NgZone({}); // a cosa serve?
 
     this.platform.ready().then(() => {
       let platform = this.getPlatformName();
@@ -445,7 +452,6 @@ export class AppComponent implements OnInit {
       this.initAuthentication();
       this.initSubscriptions();
       this.initAudio();
-
       this.logger.debug('[APP-COMP] initializeApp:: ', this.sidebarNav, this.detailNav);
 
       this.translateToastMsgs();
@@ -978,12 +984,14 @@ export class AppComponent implements OnInit {
           this.IS_ONLINE = true;
           // console.log('[APP-COMP] IS_ONLINE', this.IS_ONLINE)
           this.goOnLine();
+          this.triggerOnAuthStateChanged(state)
           // }
         } else if (state === AUTH_STATE_OFFLINE) {
           // this.checkTokenAndGoOffline() //se c'è un tiledeskToken salvato, allora aspetta, altrimenti vai offline
           this.IS_ONLINE = false;
           // console.log('[APP-COMP] IS_ONLINE', this.IS_ONLINE)
           this.goOffLine()
+          this.triggerOnAuthStateChanged(state)
         }
       }, error => {
         this.logger.error('initialize FROM [APP-COMP] - [APP-COMP] ***** BSAuthStateChanged * error * ', error)
@@ -1095,9 +1103,7 @@ export class AppComponent implements OnInit {
   goOffLine = () => {
     this.logger.log('[APP-COMP] - GO-OFFLINE');
     this.logger.log('[APP-COMP] - GO-OFFINE - supportmode ', this.SUPPORT_MODE);
-    if (this.SUPPORT_MODE === true) {
-      this.webSocketClose()
-    }
+    this.webSocketClose()
     // this.isOnline = false;
     // this.conversationsHandlerService.conversations = [];
     this.chatManager.setTiledeskToken(null);
@@ -1568,6 +1574,12 @@ export class AppComponent implements OnInit {
       this.events.publish('storage:sound', event.newValue);
       this.isSoundEnabled = event.newValue === 'enabled'? true: false
     }
+  }
+
+
+  private triggerOnAuthStateChanged(event){
+    const detailOBJ = { event: event, isLogged: true, user: this.tiledeskAuthService.getCurrentUser() , appConfigs: this.appConfigProvider.getConfig() }
+    this.triggerEvents.triggerOnAuthStateChanged(detailOBJ)
   }
 
 
