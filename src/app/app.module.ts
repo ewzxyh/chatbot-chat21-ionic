@@ -114,6 +114,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MapsPageModule } from './modals/maps/maps.module';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { Deeplinks } from '@ionic-native/deeplinks/ngx';
+import { TriggerEvents } from './services/triggerEvents/triggerEvents';
+import { Globals } from './utils/globals';
+import { GlobalSettingsService } from './services/global-settings/global-settings.service';
 
 // FACTORIES
 export function createTranslateLoader(http: HttpClient) {
@@ -314,6 +317,8 @@ const appInitializerFn = (appConfig: AppConfigProvider, logger: NGXLogger) => {
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
     AppConfigProvider, // https://juristr.com/blog/2018/01/ng-app-runtime-config/
+    Globals,
+    GlobalSettingsService,
     {
       provide: APP_INITIALIZER,
       useFactory: appInitializerFn,
@@ -393,7 +398,8 @@ const appInitializerFn = (appConfig: AppConfigProvider, logger: NGXLogger) => {
     ScriptService,
     FCM,
     InAppBrowser,
-    Deeplinks
+    Deeplinks,
+    TriggerEvents
   ]
 })
 export class AppModule { }

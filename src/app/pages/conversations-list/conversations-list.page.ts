@@ -18,8 +18,7 @@ import {
   closeModal,
   convertMessage,
   isGroup,
-  searchIndexInArrayForUid,
-  compareValues,
+  getParameterValue,
 } from '../../../chat21-core/utils/utils'
 
 import { EventsService } from '../../services/events-service'
@@ -49,6 +48,7 @@ import { skip, takeUntil } from 'rxjs/operators'
 import { REQUEST_ARCHIVED, TYPE_DIRECT } from 'src/chat21-core/utils/constants';
 import { getProjectIdSelectedConversation } from 'src/chat21-core/utils/utils-message';
 import { WebsocketService } from 'src/app/services/websocket/websocket.service';
+import { Globals } from 'src/app/utils/globals';
 
 @Component({
   selector: 'app-conversations-list',
@@ -127,6 +127,7 @@ export class ConversationListPage implements OnInit {
     public appConfigProvider: AppConfigProvider,
     public platform: Platform,
     public wsService: WebsocketService,
+    private g: Globals
   ) {
     this.checkPlatform();
     this.translations();
@@ -216,24 +217,10 @@ export class ConversationListPage implements OnInit {
   getAppConfigToHideDiplayBtns() {
     const appConfig = this.appConfigProvider.getConfig()
     // console.log('[CONVS-LIST-PAGE] - appConfig ', appConfig)
-    this.supportMode = null
-    if (appConfig && appConfig.supportMode === true || appConfig.supportMode === 'true') {
-      this.supportMode = true;
-    } else if (appConfig && appConfig.supportMode === false || appConfig.supportMode === 'false') {
-      this.supportMode = false
-    }
-    this.archived_btn = null
-    if (appConfig && appConfig.archivedButton === true || appConfig.archivedButton === 'true') {
-      this.archived_btn = true;
-    } else if (appConfig && appConfig.archivedButton === false || appConfig.archivedButton === 'false') {
-      this.archived_btn = false;
-    }
-    this.writeto_btn = null
-    if (appConfig && appConfig.writeToButton === true || appConfig.writeToButton === 'true') {
-      this.writeto_btn = true;
-    } else if (appConfig && appConfig.writeToButton === false || appConfig.writeToButton === 'false') {
-      this.writeto_btn = false;
-    }
+    this.supportMode = this.g.supportMode;
+    this.archived_btn =  getParameterValue('archivedButton', appConfig)
+    this.writeto_btn =  getParameterValue('writeToButton', appConfig)
+    this.logger.debug('[CONVS-LIST-PAGE] parameters supportMode/archived_btn/writeto_btn', this.supportMode, this.archived_btn, this.writeto_btn)
 
 
     const sound_status = localStorage.getItem('dshbrd----sound')

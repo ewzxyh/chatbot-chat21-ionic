@@ -23,7 +23,6 @@ export class ChatManager {
 
   BSStart: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
-  // supportMode = environment.supportMode;
   // tenant = environment.tenant;
   tenant: string
  
@@ -112,25 +111,6 @@ export class ChatManager {
     this.archivedConversationsService = null;
     // this.contactsSynchronizer = null;
   }
-
-  /**
-   * invocato da user.ts al LOGIN:
-   * LOGIN:
-   * 1 - imposto lo stato di connessione utente
-   * 2 - aggiungo il token
-   * 3 - pubblico stato loggedUser come login
-   */
-  // goOnLine(user) {
-  //   if (user) {
-  //     const uid = user.uid;
-  //     this.loggedUser = new UserModel(uid);
-  //     this.logger.('[CHAT MANAGER]goOnLine::: ', this.loggedUser);
-  //     this.loadCurrentUserDetail();
-  //     if (this.supportMode === false) {
-  //       //this.initContactsSynchronizer();
-  //     }
-  //   }
-  // }
 
 
   

@@ -400,40 +400,24 @@ export function getDateDifference(startTimestampDate, endTimestampDate){
   return {days, hours, minutes}
 }
 
-
-
-export function popupUrl(html, title) {
-  const url = this.stripTags(html);
-  const w = 600;
-  const h = screen.height - 40;
-  const left = (screen.width / 2) - (w / 2);
-  const top = (screen.height / 2) - (h / 2);
-
-  const newWindow = window.open(url, '_blank', 'fullscreen=1, titlebar=0, toolbar=no, location=0, status=0, menubar=0, scrollbars=0, resizable=0, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
-  if (window.focus) {
-    newWindow.focus()
+/**
+ *
+ * @param string
+ */
+export function stringToBoolean(string: any): any {
+  let val = string;
+  if (typeof string !== 'string') {
+    val = JSON.stringify(string);
+    return val;
   }
-}
-
-export function isPopupUrl(url) {
-  let TEMP = url.split('popup=')[1];
-  // può essere seguito da & oppure "
-  if (TEMP) {
-    if (TEMP.startsWith('true')) {
-      //console.log('isPopupUrl::::: ', TEMP.startsWith('true'));
-      return true;
-    }
-    else {
-      return false;
-    }
+  if (!string) {
+    return;
   }
-  else {
-    return false;
+  switch (val.toLowerCase().trim()) {
+      case 'true': case 'yes': case '1': return true;
+      case 'false': case 'no': case '0': case null: return false;
+      default: return val;
   }
-}
-
-export function stripTags(html) {
-  return (html.replace(/<.*?>/g, '')).trim();
 }
 
 export function htmlEntities(str) {
@@ -473,55 +457,6 @@ export function isInArray(key: string, array: Array<string>) {
     return true;
   }
   return false;
-}
-
-export function createConfirm(translate, alertCtrl, events, title, message, action, onlyOkButton) {
-
-  var LABEL_ANNULLA;// = translate.get('CLOSE_ALERT_CANCEL_LABEL')['value'];
-  var LABEL_OK;// = translate.get('CLOSE_ALERT_CONFIRM_LABEL')['value'];
-  translate.get('LABEL_ANNULLA').subscribe((res: string) => {
-    LABEL_ANNULLA = res;
-  });
-  translate.get('LABEL_OK').subscribe((res: string) => {
-    LABEL_OK = res;
-  });
-  var buttons;
-  if (onlyOkButton) {
-    buttons = [
-      {
-        text: LABEL_OK,
-        handler: () => {
-          events.publish('PopupConfirmation', LABEL_OK, action);
-          // console.log('Agree clicked');
-        }
-      }
-    ]
-  } else {
-    buttons = [
-      {
-        text: LABEL_ANNULLA,
-        handler: () => {
-          events.publish('PopupConfirmation', LABEL_ANNULLA, action);
-          // console.log('Disagree clicked');
-        }
-      },
-      {
-        text: LABEL_OK,
-        handler: () => {
-          events.publish('PopupConfirmation', LABEL_OK, action);
-          // console.log('Agree clicked');
-        }
-      }
-    ]
-  }
-
-  let confirm = alertCtrl.create({
-    title: title,
-    message: message,
-    buttons,
-  });
-  // confirm.present();
-  return confirm;
 }
 
 export function createLoading(loadinController, message) {
@@ -684,14 +619,26 @@ export function convertColorToRGBA(color, opacity) {
   return result;
 }
 
-export function getParameterByName(name: string) {
-  var url = window.location.href;
+export function getParameterByName(windowContext: any, name: string) {
+  const url = windowContext.location.href;
   name = name.replace(/[\[\]]/g, '\\$&');
-  var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)', 'i'),
-    results = regex.exec(url);
-  if (!results) return null;
-  if (!results[2]) return '';
+  const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'), results = regex.exec(url);
+  // console.log('results----> ', results);
+  if (!results) { return null; }
+  if (!results[2]) {
+    return 'true';
+  } else if (results[2] === 'false' || results[2] === '0') {
+    return 'false';
+  }
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+export function getParameterValue(parameter: string, appConfig){  
+  if(appConfig && appConfig[parameter] === true || appConfig[parameter] === 'true') {
+    return true;
+  } else if (appConfig && appConfig[parameter] === false || appConfig[parameter] === 'false') {
+    return false
+  }
 }
 
 // export function emailValidator(str) {

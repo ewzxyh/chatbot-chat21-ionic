@@ -46,7 +46,7 @@ import { ArchivedConversationsHandlerService } from 'src/chat21-core/providers/a
 import { ConversationHandlerService } from 'src/chat21-core/providers/abstract/conversation-handler.service'
 import { ContactsService } from 'src/app/services/contacts/contacts.service'
 import { CannedResponsesService } from '../../services/canned-responses/canned-responses.service'
-import { compareValues, getDateDifference, htmlEntities } from 'src/chat21-core/utils/utils'
+import {getDateDifference} from 'src/chat21-core/utils/utils'
 import { ImageRepoService } from 'src/chat21-core/providers/abstract/image-repo.service'
 import { PresenceService } from 'src/chat21-core/providers/abstract/presence.service'
 import { CreateCannedResponsePage } from 'src/app/modals/create-canned-response/create-canned-response.page'
@@ -89,6 +89,8 @@ import { EventsService } from '../../services/events-service'
 import { ScrollbarThemeDirective } from 'src/app/utils/scrollbar-theme.directive'
 import { WebsocketService } from 'src/app/services/websocket/websocket.service';
 import { Project } from 'src/chat21-core/models/projects';
+import { AppStorageService } from 'src/chat21-core/providers/abstract/app-storage.service';
+import { Globals } from 'src/app/utils/globals';
 
 @Component({
   selector: 'app-conversation-detail',
@@ -238,7 +240,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     private networkService: NetworkService,
     private events: EventsService,
     private webSocketService: WebsocketService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private g: Globals
   ) {
     // Change list on date change
     this.route.paramMap.subscribe((params) => {
@@ -361,14 +364,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   }
 
   getOSCODE() {
-    this.supportMode = null
-    if (this.appConfigProvider.getConfig().supportMode === true || this.appConfigProvider.getConfig().supportMode === 'true') {
-      this.supportMode = true
-    } else if (this.appConfigProvider.getConfig().supportMode === false || this.appConfigProvider.getConfig().supportMode === 'false') {
-      this.supportMode = false
-    } else if (!this.appConfigProvider.getConfig().supportMode) {
-      this.supportMode = false
-    }
+    this.supportMode = this.g.supportMode
     this.logger.log('[CONVS-DETAIL] AppConfigService getAppConfig supportMode', this.supportMode)
     this.public_Key = this.appConfigProvider.getConfig().t2y12PruGU9wUtEGzBJfolMIgK
     this.logger.log('[CONVS-DETAIL] AppConfigService getAppConfig public_Key', this.public_Key)

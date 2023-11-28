@@ -4,7 +4,7 @@ export class Toast {
 
   public toastController: ToastController = new ToastController()
 
-    constructor() {}
+  constructor() {}
 
   async presentToast(message: string, color: string, cssClass: string, duration: number = 2000, position: 'top' | 'bottom' | 'middle'= 'bottom') {
     const toast = await this.toastController.create({
