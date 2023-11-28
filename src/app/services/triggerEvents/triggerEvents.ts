@@ -74,13 +74,13 @@ export class TriggerEvents {
     }
 
     public triggerOnNewConversationInit(conversation: ConversationModel){
-        this.logger.debug(' ---------------- triggerAfterMessageReceived ---------------- ', conversation);
+        this.logger.debug(' ---------------- triggerOnNewConversation ---------------- ', conversation);
         try {
-            const onNewConversation = new CustomEvent('onNewConversationComponentInit', { detail: { conversation: conversation} });
+            const onNewConversation = new CustomEvent('onNewConversation', { detail: { conversation: conversation} });
             const windowContext = this.windowContext;
             if (windowContext){
                 // windowContext.document.dispatchEvent(onNewConversation);
-                window.parent.postMessage({type: "onNewConversationComponentInit", detail: { conversation: conversation}}, '*')
+                window.parent.postMessage({type: "onNewConversation", detail: { conversation: conversation}}, '*')
             }
         } catch (e) {
             this.logger.error('[TRIGGER-HANDLER] > Error:' + e);
