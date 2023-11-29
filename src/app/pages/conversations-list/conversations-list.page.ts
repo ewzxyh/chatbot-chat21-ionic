@@ -19,6 +19,7 @@ import {
   convertMessage,
   isGroup,
   getParameterValue,
+  getDateDifference,
 } from '../../../chat21-core/utils/utils'
 
 import { EventsService } from '../../services/events-service'
@@ -50,6 +51,7 @@ import { getProjectIdSelectedConversation } from 'src/chat21-core/utils/utils-me
 import { WebsocketService } from 'src/app/services/websocket/websocket.service';
 import { Globals } from 'src/app/utils/globals';
 import { TriggerEvents } from 'src/app/services/triggerEvents/triggerEvents';
+import { MessageModel } from 'src/chat21-core/models/message';
 
 @Component({
   selector: 'app-conversations-list',
@@ -129,7 +131,6 @@ export class ConversationListPage implements OnInit {
     public platform: Platform,
     public wsService: WebsocketService,
     private g: Globals,
-    private triggerEvents: TriggerEvents
   ) {
     this.checkPlatform();
     this.translations();
@@ -572,7 +573,6 @@ export class ConversationListPage implements OnInit {
         if (conversation) {
           this.onImageLoaded(conversation)
           this.onConversationLoaded(conversation)
-          conversation.is_new && this.isInitialized? this.manageEvent(conversation) : null
           // conversation.is_new && this.isInitialized? this.segmentNewConversationAdded(conversation) : null;
         }
     })
@@ -645,10 +645,6 @@ export class ConversationListPage implements OnInit {
     // } else {
     //   // da implementare se nn c'è stata nessuna conv attive selezionata
     // }
-  }
-
-  manageEvent(conversation){
-    this.triggerEvents.triggerOnNewConversationInit(conversation)
   }
 
   // ------------------------------------------------------------------//

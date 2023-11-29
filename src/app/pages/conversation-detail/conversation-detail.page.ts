@@ -243,7 +243,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     private webSocketService: WebsocketService,
     private sanitizer: DomSanitizer,
     private g: Globals,
-    private triggerEvents: TriggerEvents
   ) {
     // Change list on date change
     this.route.paramMap.subscribe((params) => {
@@ -1180,7 +1179,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         this.logger.log('[CONVS-DETAIL] subscribe to messageAdded - msg ', msg)
         if (msg) {
           that.newMessageAdded(msg)
-          that.manageEvent(msg)
           // this.setHeaderContent()
         }
       })
@@ -1333,14 +1331,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     }
     if (msg.attributes && msg.attributes.hasOwnProperty("sourceTitle")) {
       this.liveInfo = { sourcePage: msg.attributes['sourcePage'], sourceTitle: msg.attributes['sourceTitle'] }
-    }
-  }
-
-  manageEvent(msg: MessageModel){
-    if(msg.isSender){
-      this.triggerEvents.triggerAfterSendMessageEvent(msg)
-    }else if(!msg.isSender){
-      this.triggerEvents.triggerAfterMessageReceived(msg)
     }
   }
 

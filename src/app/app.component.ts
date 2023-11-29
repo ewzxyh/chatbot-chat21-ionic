@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
 import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service';
 import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance';
 import { WebSocketJs } from './services/websocket/websocket-js';
-import { checkPlatformIsMobile, getParameterByName, isOnMobileDevice } from 'src/chat21-core/utils/utils';
+import { checkPlatformIsMobile, getDateDifference, getParameterByName, isOnMobileDevice } from 'src/chat21-core/utils/utils';
 import { EventsService } from './services/events-service';
 import { NavProxyService } from './services/nav-proxy.service';
 import { TiledeskAuthService } from 'src/chat21-core/providers/tiledesk/tiledesk-auth.service';
@@ -40,6 +40,7 @@ import { Deeplinks } from '@ionic-native/deeplinks/ngx';
 import { TriggerEvents } from './services/triggerEvents/triggerEvents';
 import { Globals } from './utils/globals';
 import { GlobalSettingsService } from './services/global-settings/global-settings.service';
+import { commandToMessage, conversationToMessage, isSender } from 'src/chat21-core/utils/utils-message';
 
 @Component({
   selector: 'app-root',
@@ -738,7 +739,7 @@ export class AppComponent implements OnInit {
           }
         }, 1000)
       }else{
-        this.goToDashboardLogin()
+        // this.goToDashboardLogin()
       }
     }
   }
@@ -1006,8 +1007,9 @@ export class AppComponent implements OnInit {
     this.events.subscribe('convList:onConversationSelected', this.subscribeConversationSelected)
     this.conversationsHandlerService.conversationAdded.subscribe((conversation: ConversationModel) => {
       this.logger.log('[APP-COMP] ***** subscribeConversationAdded *****', conversation);
-      if (conversation && conversation.is_new === true) {
+      if (conversation && conversation.is_new === true && this.isInitialized) {
         this.manageTabNotification('conv_added', conversation.sound)
+        this.manageEventNewConversation(conversation)
       }
       if(conversation) this.updateConversationsOnStorage()
     });
@@ -1015,7 +1017,6 @@ export class AppComponent implements OnInit {
     this.conversationsHandlerService.conversationChanged.subscribe((conversation: ConversationModel) => {
       // console.log('[APP-COMP] ***** subscribeConversationChanged conversation: ', conversation);
       if(conversation)  this.updateConversationsOnStorage();
-      const currentUser = this.tiledeskAuthService.getCurrentUser()
     });
 
     this.conversationsHandlerService.conversationChangedDetailed.subscribe((changes: {value: ConversationModel, previousValue: ConversationModel}) => {
@@ -1030,6 +1031,7 @@ export class AppComponent implements OnInit {
             this.manageTabNotification('new_message', true);
           }
         }
+        this.manageEventNewMessage(changes.value)
       }
     });
 
@@ -1509,6 +1511,23 @@ export class AppComponent implements OnInit {
         }
       }
     }
+  }
+
+
+  private manageEventNewMessage(conversation: ConversationModel){
+    const currentUser = this.tiledeskAuthService.getCurrentUser();
+    let message = conversationToMessage(conversation, currentUser.uid)
+    let duration = getDateDifference(message.timestamp, Date.now())
+    if(duration.minutes > 1) return;
+    if(message.isSender){
+      this.triggerEvents.triggerAfterSendMessageEvent(message)
+    }else if(!message.isSender){
+      this.triggerEvents.triggerAfterMessageReceived(message)
+    }
+  }
+
+  private manageEventNewConversation(conversation){
+    this.triggerEvents.triggerOnNewConversationInit(conversation)
   }
 
 
