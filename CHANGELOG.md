@@ -1,5 +1,8 @@
 # chat21-ionic ver 3.0
 
+### 3.0.107.rc.2
+- added: moved eventTrigger method from conversation-deatil and conversation-list pages to app.component.ts
+
 ### 3.0.107.rc.1
 - added: globals and globals-settings services to manage env and option variables globally
 - added: eventTrigger service to expose custom chat event to parent chat-iframe container
