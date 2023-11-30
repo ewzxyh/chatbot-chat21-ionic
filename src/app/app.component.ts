@@ -739,7 +739,7 @@ export class AppComponent implements OnInit {
           }
         }, 1000)
       }else{
-        // this.goToDashboardLogin()
+        this.goToDashboardLogin()
       }
     }
   }
@@ -1518,7 +1518,7 @@ export class AppComponent implements OnInit {
     const currentUser = this.tiledeskAuthService.getCurrentUser();
     let message = conversationToMessage(conversation, currentUser.uid)
     let duration = getDateDifference(message.timestamp, Date.now())
-    if(duration.minutes > 1) return;
+    if(duration.minutes > 0.1) return;
     if(message.isSender){
       this.triggerEvents.triggerAfterSendMessageEvent(message)
     }else if(!message.isSender){

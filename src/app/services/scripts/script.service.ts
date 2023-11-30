@@ -55,6 +55,7 @@ export class ScriptService {
         let script = document.createElement('script')
         script.type = 'text/javascript';
         script.src = currentScript.src;
+        script.async = true
         script.onload = () => {
             currentScript.loaded = true;
             resolve({ script: name, loaded: true, status: 'Loaded' });
