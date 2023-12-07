@@ -1,5 +1,8 @@
 # chat21-ionic ver 3.0
 
+### 3.0.107.rc.3
+- bug-fixed: update tiledek_token after signInWithCustomToken
+
 ### 3.0.107.rc.2
 - added: moved eventTrigger method from conversation-deatil and conversation-list pages to app.component.ts
 
