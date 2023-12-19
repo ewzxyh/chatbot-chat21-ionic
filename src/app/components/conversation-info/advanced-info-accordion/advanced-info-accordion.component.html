@@ -16,30 +16,22 @@
       <div class="attributes-icon-wpr-1">
         <div class="attributes-icon-wpr-2">
           <span class="material-icons">
-            {{ attr.icon }}
-            
+            {{ attr.icon }}   
           </span>
         </div>
       </div>
 
       <div class="attributes-title-subtitle-wpr-1">
-        <div class="attributes-title-subtitle-wpr-2">
-
-          <div class="attributes-title-subtitle-wpr-3">
-            <div class="attributes-title-wpr">
-              <span class="attributes-title">
-                <!-- {{ attr.key  }} -->
-                {{ translationMap?.get(attr.key) }}
-              </span>
-            </div>
-
-
-            <div class="attributes-subtitle-wpr">
-              <span class="attributes-subtitle">
-                {{ attr.value}}
-              </span>
-            </div>
-          </div>
+        <div class="attributes-title-wpr">
+          <span class="attributes-title">
+            <!-- {{ attr.key  }} -->
+            {{ translationMap?.get(attr.key) }}
+          </span>
+        </div>
+        <div class="attributes-subtitle-wpr">
+          <span class="attributes-subtitle">
+            {{ attr.value}}
+          </span>
         </div>
       </div>
     </div>

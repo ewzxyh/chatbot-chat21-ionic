@@ -1,16 +1,16 @@
 <ion-header>
   <ion-toolbar [class.mobile]="isMobile">
+    <ion-buttons slot="start">
+      <ion-button ion-button fill="clear" (click)="onClose()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
     <ion-title *ngIf="callerBtn !== 'pinbtn'" style="font-size: 16px;">
       {{translationMap?.get('UnassignedConversations') }}
     </ion-title>
     <ion-title *ngIf="callerBtn === 'pinbtn'" style="font-size: 16px;">
       {{translationMap?.get('PIN_A_PROJECT') }}
     </ion-title>
-    <ion-buttons slot="end">
-      <ion-button ion-button fill="clear" (click)="onClose()">
-        <ion-icon slot="icon-only" name="close"></ion-icon>
-      </ion-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 

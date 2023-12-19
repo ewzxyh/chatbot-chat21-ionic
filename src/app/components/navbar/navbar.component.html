@@ -7,7 +7,7 @@
         <!-- test site -->
         <ng-container *ngIf="project">
           <button class="btn simulate-visitor-btn btn-success-no-boxshadow " (click)="testWidgetPage()">
-            <i class="material-icons" style="padding-top: 0px;font-size: 24px;">play_arrow</i>
+            <i class="material-icons">play_arrow</i>
             {{translationsMap?.get('NAVBAR.SIMULATE_VISITOR')}}
           </button>
         </ng-container>
@@ -31,17 +31,17 @@
                 </li> -->
   
                 <!--  ALL PROJECTS -->
-                <li (click)="onClickDropdownOption('allProjects')">
-                  <a style="cursor: pointer">
-                    <i class="material-icons" style="padding-right: 5px; margin-bottom: 2px; font-size: 20px">view_list</i>
+                <li (click)="onClickDropdownOption('allProjects')" class="all-projects">
+                  <a>
+                    <i class="material-icons">view_list</i>
                     {{translationsMap?.get('NAVBAR.VIEW_ALL_PROJECTS')}}
                   </a>
                 </li>
   
                 <!--  ADD PROJECT -->
-                <li id="navbar_create_prjct" *ngIf="MT === true" (click)="onClickDropdownOption('addProject')">
-                  <a style="cursor: pointer">
-                    <i class="material-icons" style="padding-right: 5px; margin-bottom: 2px; font-size: 20px">add_circle_outline </i>
+                <li id="navbar_create_prjct" *ngIf="MT === true" (click)="onClickDropdownOption('addProject')" class="add-project">
+                  <a>
+                    <i class="material-icons">add_circle_outline </i>
                     {{translationsMap?.get('NAVBAR.ADD_PROJECT')}}
                   </a>
                 </li>
@@ -49,10 +49,8 @@
                 <li class="divider"></li>
   
                 <!--  RECENT PROJECTS -->
-                <li>
-                  <span style="padding-left: 24px;font-size: 12px; color: rgb(118,149,165);font-weight: 400">
+                <li class="section-title">
                     {{translationsMap?.get('NAVBAR.RECENT_PROJECTS')}}
-                  </span>
                 </li>
                 <!-- 
                 ***** ngFor - reverse order of output using the index *****
@@ -71,10 +69,8 @@
 
                 <ng-container *ngIf="projects?.length > 5">
                   <li class="divider"></li>
-                  <li>
-                    <span style="padding-left: 24px;font-size: 12px; color: rgb(118,149,165);font-weight: 400">
-                      {{translationsMap?.get('NAVBAR.OTHER_PROJECTS')}}
-                    </span>
+                  <li class="section-title">
+                    {{translationsMap?.get('NAVBAR.OTHER_PROJECTS')}}
                   </li>
     
                   <!-- *ngFor="let prjct of projects?.slice().reverse() | slice:5:10; let i=index" -->

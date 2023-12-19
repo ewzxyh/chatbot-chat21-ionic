@@ -13,9 +13,9 @@
     padding-right: 4px;
     padding: 6px 10px;
     display: inline-block;
-    background: rgba(24, 119, 242, 0.1);
+    background: var(--info-message-background);
     font-size: 0.70em;
-    color: var(--basic-gray);
+    color: var(--info-message-color);
     margin-left: 5px; //32px;
     margin-right: 5px; //32px;
 
@@ -37,23 +37,21 @@
 .spinner > div {
     width: 10px;
     height: 10px;
-    background-color: #333;
-
     border-radius: 100%;
     display: inline-block;
     margin: 0px 2px;
 }
 
 .spinner .bounce1 {
-    background-color: #C9E4F6;
+    background-color: var(--info-message-bounce-color);
 }
 
 .spinner .bounce2 {
-    background-color: #C9E4F6;
+    background-color: var(--info-message-bounce-color);
     opacity: 0.6
 }
 
 .spinner .bounce3 {
-    background-color: #C9E4F6;
+    background-color: var(--info-message-bounce-color);
     opacity: 0.4
 }

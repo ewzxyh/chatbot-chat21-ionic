@@ -1,3 +1,19 @@
+ion-toolbar{
+    --background: var(--modal-header-background);
+    &:not(.mobile){
+        // --background: var(--list-bkg-color);
+        border: none;
+    }
+    &.mobile{
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    ion-button{
+        --color: var(--modal-icon-color);
+    }
+}
+ion-content{
+    --background: var(--modal-content-background);
+}
 
 .content-container{
     padding-top: 40px;
@@ -61,6 +77,11 @@ ion-input{
     width: 100%;
 }
 
+.field-wrapper input:focus-visible,
+.field-wrapper textarea:focus-visible{
+    outline: var(--border-focus-color) auto 1px;
+}
+
 .field-wrapper .field-placeholder{
     font-size: 16px;
     position: absolute;
@@ -80,17 +101,18 @@ ion-input{
 }        
 
 .field-wrapper .field-placeholder span{
-    background: #ffffff;
-    padding: 0px 8px;
+    // background: #ffffff;
+    // padding: 0px 8px;
 }
 
 .field-wrapper input:not([disabled]):focus~.field-placeholder,
 .field-placeholder:target,
 .field-wrapper.hasValue input:not([disabled])~.field-placeholder{
-    -webkit-transform: scale(.75) translateY(-35px) translateX(-18px);
-    transform: scale(.75) translateY(-35px) translateX(-18px);
-    color:rgb(0,86,192);
+    -webkit-transform: scale(.75) translateY(-50px) translateX(-30px);
+    transform: scale(.75) translateY(-50px) translateX(-30px);
+    color:var(--title-focus-color);
     font-weight: bold; 
+    font-size: 18px;
 }
 
 .field-wrapper-email{
@@ -147,8 +169,8 @@ ion-label.message-placeholder{
     justify-content: center;
 
     ion-button{
-        background-color:rgb(0,86,192);
-        color:#f1f4f7;
+        background-color:var(--button-background-color);
+        color:var(--button-text-color);
         border-radius: 4px;
         font-size: 18px;
         height: 46px;

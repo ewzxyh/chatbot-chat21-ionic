@@ -1,3 +1,7 @@
+ion-content{
+    --background: var(--conversation-detail-background);
+}
+
 .group-profile {
     ion-card {
         width: 100%;
@@ -6,7 +10,8 @@
         border-radius: 0;
         -webkit-box-shadow: none;
         box-shadow: none;
-        border-bottom: 1px solid rgba(169, 169, 169, 0.2);
+        border-bottom: 1px solid var(--border-color-base);
+        background: transparent;
 
         .image-profile {
             padding: 0 0 0 0;
@@ -28,7 +33,7 @@
                 user-select: text;
                 font-family: "Roboto", "Helvetica Neue", sans-serif;
                 -webkit-box-direction: normal;
-                color: #333333;
+                color: var(--info-text-color);
                 font-weight: 500;
                 font-size: 17px;
                 box-sizing: border-box;
@@ -73,6 +78,10 @@
             }
 
         }
+    }
+
+    ion-list{
+        background-color: transparent;
     }
 
     

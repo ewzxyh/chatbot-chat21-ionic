@@ -98,16 +98,7 @@ app-conversations-list {
     text-overflow: ellipsis !important;
 }
 
-.truncate-conv-msg {
-    width: 100% !important;
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-    color: #999999;
-    font-size: 13px;
-}
-
-// START GESTIONE SIDEBAR ESTERNA CON IFRAME //
+// START GESTIONE SIDEBAR ESTERNA CON IFRAME: start //
 #tld-sidebar {
     position: absolute;
     top: 0;
@@ -155,6 +146,9 @@ app-conversations-list {
     height: 100%;
     width: 100%;
 }
+// START GESTIONE SIDEBAR ESTERNA CON IFRAME: end //
+
+
 app-root {
     position: absolute;
     top: 0;
@@ -177,7 +171,7 @@ app-root {
 app-message-text-area {
     width: 100%;
     z-index: 99999; // nk
-    background: #fff; // nk
+    background: var(--conversation-detail-background); // nk
 }
 
 app-conversation-info {
@@ -300,15 +294,16 @@ select:-webkit-autofill:focus {
     z-index: 1;
 }
 
-// Sidebar
+// SIDEBAR: start
 .sidebar {
+    background-color: var(--sidebar-background-color);
+    color: var(--sidebar-color);
+
     transition-property: top, bottom, width;
     transition-duration: 0.2s, 0.2s, 0.35s;
     transition-timing-function: linear, linear, ease;
     -webkit-overflow-scrolling: touch;
-}
 
-.sidebar {
     position: fixed;
     top: 0;
     bottom: 0;
@@ -328,12 +323,10 @@ select:-webkit-autofill:focus {
     overflow: auto;
     width: 60px;
     z-index: 4;
-}
-.sidebar-wrapper {
+
     transition-property: top, bottom, width;
     transition-duration: 0.2s, 0.2s, 0.35s;
     transition-timing-function: linear, linear, ease;
-    background-color: #2d323e !important;
 }
 
 .small-sidebar__logo {
@@ -342,12 +335,6 @@ select:-webkit-autofill:focus {
     width: 25px !important;
     margin-left: 3px;
     margin-top: 5px;
-}
-
-.small-sidebar-tiledesk-nav-user {
-    height: 35px;
-    min-height: 35px;
-    max-height: 35px;
 }
 
 .user {
@@ -359,21 +346,6 @@ select:-webkit-autofill:focus {
     // height: 130px;
     // min-height: 130px;
     // max-height: 130px;
-}
-.tiledesk-nav-user {
-    background-color: #1e2129 !important;
-    color: #fff !important;
-}
-
-.small-sidebar-userfullname {
-    display: none;
-}
-
-
-
-.tiledesk-nav-avatar {
-    background-color: #2d323e !important;
-    color: #fff !important;
 }
 
 .sidebar-avatar-container {
@@ -442,27 +414,19 @@ select:-webkit-autofill:focus {
 }
 
 @media (max-width: 991px) {
-    .nav-container {
+    .sidebar-wrapper {
         position: relative;
     }
 }
 
-.sidebar .nav {
-    margin-top: 0px;
-}
-
-.nav-container {
-    height: 100%;
-}
-
 .nav {
     padding-left: 0;
+    margin-top: 0px;
     margin-bottom: 0;
     list-style: none;
     display: flex;
+    align-items: center;
     flex-direction: column;
-    height: 100%;
-    
 }
 
 .nav:before {
@@ -471,35 +435,14 @@ select:-webkit-autofill:focus {
 }
 
 .nav > li {
-    position: relative;
-    display: block;
+    display: flex;
+    align-items: center;
     height: 40px;
+    width: 60px;
     cursor: pointer;
     margin-top: 5px;
     margin-bottom: 5px;
-}
-
-.nav > li:hover > a > i {
-    // background-color: #eee;
-    color: #a9afbb
-}
-
-.sidebar .nav li > a {
-    // margin: 10px 15px;
-    // border-radius: 3px;
-    transition: all 300ms linear;
-    color: #3c4858;
-}
-
-.sidebar .nav li.item-active > a > i {
-    color: #ffffff;
-}
-
-.item-active {
-    height: 40px;
-    // background-color: #3ea9f5;
-    color: #fff !important;
-    pointer-events: none;
+    justify-content: center;
 }
 
 .is-desktop-menu {
@@ -509,16 +452,6 @@ select:-webkit-autofill:focus {
     margin-top: 0px;
 }
 
-.logo {
-    background-color: #2d323e !important;
-    padding-bottom: 5px;
-    min-height: 60px;
-    width: 60px; // for SMALL SIDEBAR
-
-    a.customAncor{
-        margin: 0px;
-    }
-}
 
 .sidebar .logo:after {
     content: "";
@@ -528,22 +461,12 @@ select:-webkit-autofill:focus {
     height: 1px;
     width: 80%;
     background-color: rgba(180, 180, 180, 0.3);
-
-    
 }
 
 .logo-img-wpr {
     text-transform: none;
-
     min-height: 40px;
     padding-left: 0px !important;
-}
-
-/* *** SMALL SIDEBAR STYLE ***  */
-.small-sidebar-tiledesk-nav-user {
-    height: 40px;
-    min-height: 40px;
-    max-height: 40px;
 }
 
 .small-sidebar-email {
@@ -608,7 +531,7 @@ select:-webkit-autofill:focus {
 // select teammate status in user detail drawer
 .teammate-status-in-drawer {
     &.sidebar{
-        --background-color: #2d323e;
+        --background-color: var(--sidebar-user-detail-select-background);
     }
     &.profile-info{
         --background-color: #1e2129;
@@ -651,21 +574,21 @@ select:-webkit-autofill:focus {
         .ng-dropdown-panel-items {
             .ng-option {
                 background-color: var(--background-color);
-                color: #fff;
+                color: var(--sidebar-user-detail-select-color);
     
                 &.ng-option-marked {
-                    background-color: rgba(30, 33, 41, 0.3);
-                    color: #fff;
+                    background-color: var(--sidebar-user-detail-select-hover-background);
+                    color: var(--sidebar-user-detail-select-color);
                 }
     
                 &.ng-option-selected {
                     background-color: var(--background-color);
-                    color: #fff;
+                    color: var(--sidebar-user-detail-select-color);
                 }
     
                 &.ng-option-marked.ng-option-selected{
-                    background-color: rgba(30, 33, 41, 0.3);
-                    color: #fff;
+                    background-color: var(--sidebar-user-detail-select-hover-background);
+                    color: var(--sidebar-user-detail-select-color);
                 }
             }
             
@@ -725,38 +648,26 @@ ul.dropdown-menu > li > a {
 /* END - USED WITH SIDWBAR WITH BLACK BACKGROUND */
 
 /* CUSTOM MARGIN BETWEEN THE MENU ITEM*/
-.nav li > a.customAncor {
-    /* margin: 5px 15px !important; */
-
-    margin-top: 5px !important;
-    margin-right: 15px !important;
-    margin-bottom: 5px !important;
-    margin-left: 0px !important;
-    width: 60px;
-    border-radius: 0px;
-}
+// .nav li > a.customAncor {
+//     /* margin: 5px 15px !important; */
+//     margin-top: 5px !important;
+//     margin-right: 15px !important;
+//     margin-bottom: 5px !important;
+//     margin-left: 0px !important;
+//     width: 60px;
+//     border-radius: 0px;
+// }
 
 .sidebar-icons {
     font-size: 20px !important;
     // color: #a9afbb !important;
 }
 
-.sidebar .nav i {
-    // font-size: 20px;
-    // float: left;
-    // margin-right: 15px;
-    // line-height: 30px;
-    width: 60px;
-    text-align: center;
-    // color: #a9afbb;
-    color: #647491;
-    padding-top: 10px;
-}
-
 // ng-select custom class in Create ticket modal
 .ng-select.create-ticket-custom-select {
     margin-top: 5px !important;
 }
+
 
 
 
@@ -863,40 +774,44 @@ ul.dropdown-menu > li > a {
     font-variant: normal;
     font-weight: 300;
 
-  }
-  .ng-tooltip:after {
+}
+.ng-tooltip:after {
     content: "";
     position: absolute;
     border-style: solid;
-  }
-  .ng-tooltip-top:after {
+}
+.ng-tooltip-top:after {
     top: 100%;
     left: 50%;
     margin-left: -5px;
     border-width: 5px;
     border-color: rgb(255, 255, 255) transparent transparent transparent;
-  }
-  .ng-tooltip-bottom:after {
+}
+.ng-tooltip-bottom:after {
     bottom: 100%;
     left: 50%;
     margin-left: -5px;
     border-width: 5px;
     border-color: transparent transparent rgb(255, 255, 255) transparent;
-  }
-  .ng-tooltip-left:after {
+}
+.ng-tooltip-left:after {
     top: 50%;
     left: 100%;
     margin-top: -5px;
     border-width: 5px;
     border-color: transparent transparent transparent rgb(255, 255, 255);
-  }
-  .ng-tooltip-right:after {
+}
+.ng-tooltip-right:after {
     top: 50%;
     right: 100%;
     margin-top: -5px;
     border-width: 5px;
     border-color: transparent rgb(255, 255, 255) transparent transparent;
-  }
-  .ng-tooltip-show {
+}
+.ng-tooltip-show {
     opacity: 1;
-  }
+}
+  
+
+
+

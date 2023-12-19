@@ -43,6 +43,12 @@ ion-content {
   }
 }
 
+app-project-item{
+  width: 100%; 
+  margin: 0px 8px; 
+  border-bottom: 1px dashed var(--border-color-base);
+}
+
 ion-list {
   display: block;
   margin-block-start: 1em;
@@ -119,23 +125,6 @@ ion-list {
       font-family: Helvetica, Helvetica, Arial, sans-serif;
       line-height: 1.28;
       text-rendering: optimizeLegibility;
-      .conversation_with {
-        color: rgba(0, 0, 0, 1);
-        font-size: 15px;
-        font-weight: 400;
-        line-height: 1.4;
-      }
-      .conversation_message {
-        p {
-          color: rgba(153, 153, 153, 1);
-          font-size: 13px;
-          font-weight: 400;
-          height: 18px;
-          &.not-read {
-            font-weight: bold;
-          }
-        }
-      }
     }
     ion-note {
       position: absolute;

@@ -3,20 +3,20 @@
     -webkit-box-align: center;
     align-items: center;
     padding: 0px 16px 0px;
-    border-bottom: 1px solid rgb(239, 242, 246);
+    border-bottom: 1px solid var(--border-color-base);
     border-top: 3px solid var(--basic-blue);
 
     .section-option{
         line-height: 16px;
         letter-spacing: -0.01em;
-        color: rgb(100, 116, 145);
+        color: var(--icon-color);
         position: relative;
         display: flex;
         align-items: flex-end;
         border-radius: 4px;
 
         ion-button{
-            color: rgb(135, 150, 175);
+            color: var(--icon-color);
             font-size: 11px;
             margin: 2px;
             padding-bottom: 0px;
@@ -76,7 +76,7 @@
     margin: 0;
 
     ion-icon{
-        color: var(--basic-blue);
+        color: var(--icon-color);
     }
     .buttons-left {
         // position: absolute;
@@ -141,7 +141,7 @@
             // min-height: 30px;
             min-height: 37px; // NK edited
             max-height: 184px;
-            background-color: rgba(0, 0, 0, 0.05);
+            background-color: var(--textarea-background);
             // --padding-top: 5px; // NK edited
             --padding-top: 8px;
             --padding-bottom: 5px;
@@ -263,6 +263,17 @@
     bottom: 50px;
     right: -123px;
     width: 230px;
+}
+
+emoji-mart::ng-deep{
+    .emoji-mart{
+        background-color: var(--emojii-mart-background);
+        border-color: var(--emoji-mart-color);
+    }
+    .emoji-mart-category-label span{
+        background-color: var(--emojii-mart-background);
+        color: var(--emoji-mart-color);
+    }
 }
 //   input[placeholder] { text-overflow: ellipsis; }
 // ::-moz-placeholder { text-overflow: ellipsis; } /* firefox 19+ */

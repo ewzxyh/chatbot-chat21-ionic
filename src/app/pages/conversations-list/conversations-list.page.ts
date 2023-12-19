@@ -497,13 +497,6 @@ export class ConversationListPage implements OnInit {
         }
       }
     })
-
-    try {
-      // this.tiledeskToken = this.appStorageService.getItem('tiledeskToken');
-      // console.log('[SIDEBAR-USER-DETAILS] - GET STORED TOKEN ', this.tiledeskToken)
-    } catch (err) {
-      this.logger.error('[CONVS-LIST-PAGE] - GET STORED TOKEN ', err)
-    }
   }
 
   listenTocurrentProjectUserUserAvailability$() {

@@ -19,7 +19,7 @@
     </ion-card>
     
     <ion-list id="fake-members-list" *ngIf="displaySkeletonScreen">
-      <ion-item lines="none" *ngFor="let fake of generateFake(membersObjectLength)" style="margin-left:-3px">
+      <ion-item color="none" lines="none" *ngFor="let fake of generateFake(membersObjectLength)" style="margin-left:-3px">
         <ion-avatar slot="start">
           <ion-skeleton-text animated style="width: 44px; height: 44px;"></ion-skeleton-text>
         </ion-avatar>
@@ -33,7 +33,7 @@
   
     <!-- <pre style="font-size: 8px;"> {{member_array | json }} </pre>  <pre style="font-size: 8px;"> {{displaySkeletonScreen}} </pre> -->
     <ion-list id="members-list" *ngIf="groupDetail?.member_array?.length > 0 && !displaySkeletonScreen">
-      <ion-item lines="none" *ngFor='let member of groupDetail?.member_array'>
+      <ion-item color="none" lines="none" *ngFor='let member of groupDetail?.member_array'>
         <ion-avatar  slot="start" style="margin-right: 12px;"> 
           <app-avatar-profile [itemAvatar]=member></app-avatar-profile>
           <div class="status-icon-container" [class.mobile]="isMobile" >

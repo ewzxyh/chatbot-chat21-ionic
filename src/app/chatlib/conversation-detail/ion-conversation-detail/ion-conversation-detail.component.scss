@@ -64,14 +64,14 @@
 :host .base_sent .msg_sent ::ng-deep > div {
     .options-container{
         right: unset;
-        left: 1;
+        left: 1px;
         border-top-right-radius: unset;
         border-top-left-radius: 16px;
-        background: radial-gradient(at top left,rgba(#2a6ac1,1) 60%,rgba(#2a6ac1,0) 80%);
+        background: radial-gradient(at top left,var(--bck-msg-sent) 60%,rgba(#2a6ac1,0) 80%);
         flex-direction: row;
 
         .options-logo{
-            color: #ffffff;
+            color: var(--col-msg-sent);
         }
     }
 }
@@ -127,6 +127,7 @@
 
     ion-icon{
         margin: 5px;
+        color: var(--icon-color)
     }
 }
 
@@ -272,7 +273,7 @@ ion-item {
     padding: 0px 20px 6px 0px;
 
     .message-date{
-        color: #647491;
+        color: var(--message-date-color);
         font-size: 12px;
         align-self: center;
     }
@@ -359,13 +360,12 @@ ion-item {
     }
 }
 
-.message-date-hover{
-    color: #647491;
+.message-date-hover {
+    color: var(--message-date-color);
     font-size: 12px;
     align-self: center;
     margin: 0px 5px;
     display: none;
-    
 }
 
 
@@ -487,7 +487,7 @@ ion-item {
 }
 
 .long-date-divider-border-b {
-    border-bottom: 1px solid #dee5ee !important;
+    border-bottom: 1px solid var(--date-divider-color) !important;
     flex: 1 1 auto !important;
     margin-left: 1.1rem !important;
     margin-right: 1.1rem !important;
@@ -500,7 +500,7 @@ ion-item {
     line-height: 1.25rem !important;
     margin-left: 1rem !important;
     margin-right: 1rem !important;
-    color: #64748b;
+    color: var(--date-divider-text-color);
 }
 
 // ---------------------------------------------------------

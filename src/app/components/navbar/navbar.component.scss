@@ -2,13 +2,13 @@
     padding-top: 5px;
     z-index: 1;
     padding-bottom: 5px;
-    border-bottom: 1px solid #e7e7e7;
+    border-bottom: 1px solid var(--border-color-base);
     -webkit-font-smoothing: auto;
 }
 
 .navbar{
-    background-color: #fff;
-    color: #555;
+    background-color: var(--navbar-background);
+    color: var(--text-base-color);
     min-height: var(--nav-bar-heigth);
     transition: all 150ms ease 0s;
 }
@@ -62,10 +62,10 @@ ion-navbar{
     border-radius: 30px;
     font-family: 'Poppins';
 
-    box-shadow: unset!important;
-    text-transform: none!important;
-    background: #3ecf8e!important;
-    color: #fff;
+    box-shadow: unset;
+    text-transform: none;
+    background: var(--simulate-btn-background);
+    color: var(--simulate-btn-color);
 
 }
 
@@ -83,7 +83,7 @@ ion-navbar{
 
 .dropdown-toggle, .volume{
     background-color: transparent;
-    color: inherit;
+    color: var(--icon-color);
 
     padding: 0px 15px;
     font-weight: 400;
@@ -119,7 +119,7 @@ li{
     font-size: 14px;
     text-align: left;
     list-style: none;
-    background-color: #fff;
+    background-color: var(--dropdown-menu-background);
     -webkit-background-clip: padding-box;
     background-clip: padding-box;
 }
@@ -146,13 +146,30 @@ li{
     position: relative;
 
     .li-selected{
-        color: #4285f4;
-        background-color: #eee;
+        color: var(--dropdown-menu-selected-color);
+        background-color: var(--dropdown-menu-selected-background);
+    }
+
+    &.all-projects,
+    &.add-project{
+        color: var(--dropdown-menu-item-color);
+        i{
+            padding-right: 5px; 
+            margin-bottom: 2px; 
+            font-size: 20px
+        }
+    }
+
+    &.section-title{
+        padding-left: 24px;
+        font-size: 12px; 
+        color: var(--dropdown-section-title);
+        font-weight: 400
     }
 }
 
 .dropdown-menu .divider{
-    background-color: rgba(0,0,0,.12);
+    background-color: var(--dropdown-divider-color);
     margin: 5px 0;
 
     height: 1px;
@@ -170,10 +187,9 @@ li{
     clear: both;
     font-weight: 400;
     line-height: 1.42857143;
-    color: #333;
+    color: var(--dropdown-menu-color);
     white-space: nowrap;
     text-decoration: none;
-
     cursor: pointer;
 
     .material-icons {
@@ -181,9 +197,9 @@ li{
     }
 
     &:hover{
-        background-color: #3ea9f5;
-        color: #fff;
-        box-shadow: 0 12px 20px -10px rgba(62, 169, 245, 0.28), 0 4px 20px 0 rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(62, 169, 245, 0.2);
+        background-color: var(--dropdown-menu-hover-background);
+        color: var(--dropdown-menu-hover-color);
+        box-shadow: 0 12px 20px -10px rgba(var(--dropdown-menu-hover-color), 0.28), 0 4px 20px 0 rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(var(--dropdown-menu-hover-color), 0.2);
     }
 }
 

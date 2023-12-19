@@ -9,7 +9,7 @@
     width: 40px;
     padding: 5px;
     z-index: 2;
-    background: radial-gradient(at top right,rgba(240, 242, 247,1) 60%,rgba(240, 242, 247,0) 80%);
+    background: radial-gradient(at top right,var(--bck-msg-received) 60%,rgba(240, 242, 247,0) 80%);
     border-top-right-radius: 16px;
     
     .options-logo{
@@ -21,7 +21,7 @@
         /* width: 20px; */
         height: 16px;
         border-radius: 3px;
-        color: rgb(135, 150, 175);
+        color: var(--col-msg-received);
         text-align: left;
         justify-content: center;
         font-size: initial;

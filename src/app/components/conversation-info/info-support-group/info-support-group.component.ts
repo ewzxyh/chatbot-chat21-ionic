@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { AppStorageService } from 'src/chat21-core/providers/abstract/app-storage.service';
 
 // Logger
 import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service';
@@ -13,7 +14,9 @@ export class InfoSupportGroupComponent implements OnInit {
   @Input() urlConversationSupportGroup: any;
 
   private logger: LoggerService = LoggerInstance.getInstance();
-  constructor() { }
+  constructor(
+    private appStorageService: AppStorageService
+  ) { }
 
   ngOnInit() {
     this.logger.log('InfoSupportGroupComponent - urlConversationSupportGroup: ', this.urlConversationSupportGroup);
@@ -23,6 +26,43 @@ export class InfoSupportGroupComponent implements OnInit {
     // this.logger.log('ngOnDestroy ConversationDetailPage: ');
     this.logger.log('InfoSupportGroupComponent - ngOnDestroy ');
 
+  }
+
+  onLoad(iframe){
+    let styleData = this.appStorageService.getItem('style')
+    console.log('styleeeeee', styleData)
+    if(styleData && styleData !== 'undefined'){
+      this.loadStyle(JSON.parse(styleData))
+    }
+  }
+
+
+  async loadStyle(data){
+    var iframeWin = <HTMLIFrameElement>document.getElementById("iframeConsole")
+    if(!data.parameter){
+      iframeWin.contentWindow.document.body.classList.remove('light')
+      iframeWin.contentWindow.document.body.classList.remove('dark')
+      iframeWin.contentWindow.document.body.classList.remove('custom')
+      let link = iframeWin.contentWindow.document.getElementById('themeCustom');
+      if(link){
+        link.remove();
+      }
+      return;
+    } 
+
+    // Create link
+    let link = iframeWin.contentWindow.document.createElement('link');
+    link.id= 'themeCustom'
+    link.href = data.parameter;
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.media='all';
+    
+    console.log('linkkkk', link, iframeWin.contentWindow.document)
+    let head = iframeWin.contentWindow.document.getElementsByTagName('head')[0];
+    head.appendChild(link);
+    iframeWin.contentWindow.document.body.classList.add(data.type) //ADD class to body element as theme type ('light', 'dark', 'custom')
+    return;
   }
 
 }

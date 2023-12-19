@@ -120,10 +120,16 @@
     // }
     ion-icon {
         zoom: 0.7;
+        color: var(--icon-color);
+
+        &:hover{
+            opacity: 0.8;
+        }
     }
     .no-ripple {
         --ripple-color: transparent;
         --background-activated: transparent;
+        --background: transparent;
     }
 
     .border{
@@ -156,8 +162,9 @@
 }
 
 ion-item {
-    --background-hover: #1877f2 !important;
-    
+    --background-hover: var(--canned-hover-background) !important;
+    --color-hover: var(--canned-hover-color);
+    --background: transparent;
     .nocannedTitle {
         color: #f44336;
     }

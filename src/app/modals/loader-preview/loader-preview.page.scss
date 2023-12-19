@@ -1,3 +1,20 @@
+ion-toolbar{
+    --background: var(--modal-header-background);
+    &:not(.mobile){
+        // --background: var(--list-bkg-color);
+        border: none;
+    }
+    &.mobile{
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    ion-button{
+        --color: var(--modal-icon-color);
+    }
+}
+ion-content{
+    --background: var(--modal-content-background);
+}
+
 .center-cropped {
     width: 50px;
     height: 50px;
@@ -59,7 +76,7 @@ ion-fab-button{
 }
 
 .thumbnailsPreview {
-    background-color: #efefef;
+    background-color: var(--preview-background);
     padding: 20px;
     width: 100%;
     height: 100px;

@@ -13,7 +13,7 @@
 <ion-content *ngIf="selectionView && !displayError" class="content-container">
 
 
-  <ion-list lines="full">
+  <ion-list lines="full" color="none">
     <ion-item *ngFor="let template of templates" button detail="true" (click)="selectTemplate(template.id)">
       <ion-label>
         <div class="label-container">

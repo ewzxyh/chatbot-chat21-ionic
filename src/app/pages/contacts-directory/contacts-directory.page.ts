@@ -84,21 +84,6 @@ export class ContactsDirectoryPage implements OnInit {
   }
 
   /** */
-  getTokenFromLocalStorage() {
-    let token = localStorage.getItem('tiledeskToken'); // ??? NN CREDO SIA USATO
-    this.logger.log('[CONTACT-DIRECTORY-PAGE] getTokenFromLocalStorage token ', token);
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (user) {
-      this.logger.log('[CONTACT-DIRECTORY-PAGE] DSHBRD STORED USER: ', user);
-      if (user.token) {
-        token = user.token;
-        this.logger.log('[CONTACTS-DIRECTORY] DSHBRD STORED USER > TOKEN: ', user.token);
-      }
-    }
-    return token;
-  }
-
-  /** */
   async onClose() {
     this.logger.log('[CONTACT-DIRECTORY-PAGE] - onClose MODAL')
     this.logger.log('[CONTACT-DIRECTORY-PAGE] - onClose MODAL isModalOpened ', await this.modalController.getTop())

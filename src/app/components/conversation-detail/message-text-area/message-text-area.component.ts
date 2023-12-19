@@ -248,6 +248,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
     this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] - onFileSelected event', e);
     this.logger.log("[CONVS-DETAIL][MSG-TEXT-AREA] - onFileSelected this.messageString ", this.messageString);
     this.msg = this.messageString
+    this.showEmojiPicker = false
     setTimeout(() => {
       this.messageString = "";
     }, 100);
@@ -257,16 +258,19 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
 
   onOpenSection(section:string){
     this.section = section
+    this.showEmojiPicker = false
     this.onOpenFooterSection.emit(section)
   }
 
   onOpenEmailModal(){
     this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] - onOpenEmailModal');
+    this.showEmojiPicker = false
     this.presentEmailModal()
   }
 
   onOpenTemplateModal(){
     this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] - onOpenTemplateModal');
+    this.showEmojiPicker = false
     this.prensentTemplateModal();
   }
 
@@ -583,6 +587,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
 
   openCannedResponses() {
     this.onClickOpenCannedResponses.emit();
+    this.showEmojiPicker = false;
   }
 
 

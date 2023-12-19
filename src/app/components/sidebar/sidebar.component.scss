@@ -1,5 +1,7 @@
+
 ::ng-deep .custom-mat-tooltip {
-  background-color: #2d323e  !important;
+  background-color: var(--tooltip-bckground);
+  color: var(--basic-blue-03) !important;
   font-size: 12px  !important;
   border-radius: 2px !important;
   font-family: 'Poppins' !important;
@@ -12,47 +14,60 @@
   border-radius: 50%;
 }
 
-.chat-bot-icon-st0 {
-  // fill: #a9afbb;
-  fill: #647491
-}
-.chat-bot-icon-st1 {
-  fill: none;
+
+.logo {
+  min-height: 60px;
+  width: 60px; // for SMALL SIDEBAR
 }
 
-.realtime-icon-st3 {
-  fill: #647491
+.logoBrand{
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  height: 60px;
+
+  svg path:first-child {
+    fill: #F18876
+  }
+  svg path:nth-child(2){
+    fill: #E5BBAD
+  }
 }
 
-.dashboard_customize-st0{
-  fill:none;
-}
-.dashboard_customize-st1{
-  fill:#647491;
+
+svg path,
+svg ellipse {
+  fill: var(--sidebar-icon-color);
 }
 
-.bar-chart-icon-st0{
-  fill:none;
+li > a >i {
+  // font-size: 20px;
+  // float: left;
+  // margin-right: 15px;
+  // line-height: 30px;
+  width: 60px;
+  text-align: center;
+  // color: #a9afbb;
+  color: var(--sidebar-icon-color);
 }
 
-.bar-chart-icon-st1{
-  fill:#647491;
+
+
+svg:hover path,
+svg:hover ellipse {
+  fill: var(--sidebar-hover-icon-color);
+}
+li:hover > a > i {
+  // background-color: #eee;
+  color: var(--sidebar-hover-icon-color);
 }
 
-#bot-anchor-wpr:hover > #bot-anchor > .bot-icon-wpr > svg > g > g > .chat-bot-icon-st0 {
-  fill: #a9afbb ;
-}
-
-li:hover > a > .realtime-icon-wpr > svg  > path {
-  fill: #a9afbb;
-}
-
-li:hover > a > .dashboard-customize-icon-wpr > svg  > .dashboard_customize-st1 {
-  fill: #a9afbb;
-}
-
-li:hover > a > .bar-chart-icon-wpr > svg  > .bar-chart-icon-st1{
-  fill: #a9afbb;
+.item-active svg path,
+.item-active svg ellipse{
+  height: 40px;
+  // background-color: #3ea9f5;
+  fill: var(--sidebar-active-icon) !important;
+  pointer-events: none;
 }
 
 #sidebaravatar-altenative-user-avatar {

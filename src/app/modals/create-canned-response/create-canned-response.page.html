@@ -18,14 +18,14 @@
   </ion-header> -->
   <ion-content>
     <ion-list>
-      <ion-item button (click)="addPlaceholdertoMsg('$recipient_name')"
+      <ion-item button color="none" (click)="addPlaceholdertoMsg('$recipient_name')"
         (mouseover)="mouseOverBtnAddRecipientNamePlaceholder = true"
         (mouseout)="mouseOverBtnAddRecipientNamePlaceholder = false">
         <ion-label>
           {{translationsMap?.get('First_name_of_recipient')}}
         </ion-label>
       </ion-item>
-      <ion-item button (click)="addPlaceholdertoMsg('$agent_name')"
+      <ion-item button color="none" (click)="addPlaceholdertoMsg('$agent_name')"
         (mouseover)="mouseOverBtnAddAgentNamePlaceholder = true"
         (mouseout)="mouseOverBtnAddAgentNamePlaceholder = false">
         <ion-label>
@@ -99,24 +99,6 @@
       
       </div>
 
-      <!-- <div class="field-wrapper-email">
-        <ion-textarea
-          id="message"
-          formControlName="message"
-          autosize="false" 
-          autoGrow="true" 
-          autofocus="true" 
-          (ngModelChange)="cannedResponseMessageChanged($event)"
-          placeholder="{{translationsMap?.get('WriteMsgToSendToYourVisitors')}}">
-        </ion-textarea>
-
-        
-
-        <div class="info-wrapper">
-          <ion-label>Powered by</ion-label>
-          <img src="https://support-pre.tiledesk.com/dashboard/assets/img/logos/tiledesk-logo_new_gray.svg">
-        </div>
-      </div> -->
 
       <div class="field-wrapper-submit">
         <ion-button [disabled]="cannedFormGroup.invalid" ion-button fill="clear" type="submit">{{translationsMap?.get('Add')}}</ion-button>

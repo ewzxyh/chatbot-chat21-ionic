@@ -5,6 +5,7 @@ import { UserModel } from 'src/chat21-core/models/user';
 import { avatarPlaceholder, getColorBck } from 'src/chat21-core/utils/utils-user';
 import { AppStorageService } from '../abstract/app-storage.service';
 import { LoggerInstance } from '../logger/loggerInstance';
+import { BehaviorSubject } from 'rxjs';
 // import { BehaviorSubject } from 'rxjs';
 // import { EventsService } from 'src/app/services/events-service';
 
@@ -25,6 +26,8 @@ export class TiledeskAuthService {
   private tiledeskToken: string;
   private currentUser: UserModel;
   private logger: LoggerService = LoggerInstance.getInstance()
+
+  private BS_IsONLINE: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false)
 
   constructor(
     public http: HttpClient,
@@ -63,8 +66,8 @@ export class TiledeskAuthService {
         if (data['success'] && data['token']) {
           that.tiledeskToken = data['token'];
           that.createCompleteUser(data['user']);
-          // that.appStorage.setItem('tiledeskToken', that.tiledeskToken);
           this.checkAndSetInStorageTiledeskToken(that.tiledeskToken)
+          this.BS_IsONLINE.next(true)
           resolve(that.tiledeskToken)
         }
       }, (error) => {
@@ -93,8 +96,8 @@ export class TiledeskAuthService {
         if (data['success'] && data['token']) {
           that.tiledeskToken = data['token'];
           that.createCompleteUser(data['user']);
-          // that.appStorage.setItem('tiledeskToken', that.tiledeskToken);
           this.checkAndSetInStorageTiledeskToken(that.tiledeskToken)
+          this.BS_IsONLINE.next(true)
           resolve(that.tiledeskToken)
         }
       }, (error) => {
@@ -119,8 +122,8 @@ export class TiledeskAuthService {
         if (data['success'] && data['token']) {
           that.tiledeskToken = data['token'];
           that.createCompleteUser(data['user']);
-          // that.appStorage.setItem('tiledeskToken', that.tiledeskToken); // salvarlo esternamente nell'app.component
           this.checkAndSetInStorageTiledeskToken(that.tiledeskToken)
+          this.BS_IsONLINE.next(true)
           resolve(this.currentUser)
         }
       }, (error) => {
@@ -133,6 +136,8 @@ export class TiledeskAuthService {
     this.logger.log('[TILEDESK-AUTH] - LOGOUT')
     this.appStorage.removeItem('tiledeskToken')
     this.appStorage.removeItem('currentUser')
+    localStorage.removeItem('tiledesk_token')
+    this.BS_IsONLINE.next(false)
     this.setCurrentUser(null);
     // this.isOnline$.next(false) 
     const stored_project = localStorage.getItem('last_project')
@@ -180,21 +185,28 @@ export class TiledeskAuthService {
 
   private checkAndSetInStorageTiledeskToken(tiledeskToken) {
     this.logger.log('[TILEDESK-AUTH] - checkAndSetInStorageTiledeskToken tiledeskToken from request', tiledeskToken)
-    const storedTiledeskToken = this.appStorage.getItem('tiledeskToken');
+    const storedTiledeskToken = localStorage.getItem('tiledesk_token');
     this.logger.log('[TILEDESK-AUTH] - checkAndSetInStorageTiledeskToken storedTiledeskToken ', storedTiledeskToken)
     if (!storedTiledeskToken) {
       this.logger.log('[TILEDESK-AUTH] - checkAndSetInStorageTiledeskToken TOKEN DOES NOT EXIST - RUN SET ')
-      this.appStorage.setItem('tiledeskToken', tiledeskToken);
+      localStorage.setItem('tiledesk_token', tiledeskToken)
     } else if (storedTiledeskToken && storedTiledeskToken !== tiledeskToken) {
       this.logger.log('[TILEDESK-AUTH] - checkAndSetInStorageTiledeskToken STORED-TOKEN EXIST BUT IS != FROM TOKEN - RUN SET ')
-      this.appStorage.setItem('tiledeskToken', tiledeskToken);
+      localStorage.setItem('tiledesk_token', tiledeskToken)
     } else if (storedTiledeskToken && storedTiledeskToken === tiledeskToken) {
       this.logger.log('[TILEDESK-AUTH] - checkAndSetInStorageTiledeskToken STORED-TOKEN EXIST AND IS = TO TOKEN ')
     }
-
-    localStorage.setItem('tiledesk_token', tiledeskToken)
+    this.appStorage.setItem('tiledeskToken', tiledeskToken)
   }
 
+  isLoggedIn(): Promise<boolean>{
+    return new Promise<boolean>((resolve, reject)=> {
+      this.BS_IsONLINE.subscribe((status)=> {
+        if(status)
+          resolve(true)
+      })
+    })
+  }
 
   getCurrentUser(): UserModel {
     return this.currentUser;

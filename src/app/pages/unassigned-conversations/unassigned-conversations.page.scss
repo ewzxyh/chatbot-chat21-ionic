@@ -9,7 +9,7 @@ ion-toolbar {
   }
 
   ion-button{
-      --color: var(--basic-blue);
+      --color: var(--icon-color);
   }
 }
 
@@ -18,7 +18,7 @@ ion-content {
   --overflow: hidden;
   overflow: scroll;
   &:not(.mobile){
-    background: var(--list-bkg-color);
+    --background: var(--list-bkg-color);
   }
 
   &::-webkit-scrollbar {

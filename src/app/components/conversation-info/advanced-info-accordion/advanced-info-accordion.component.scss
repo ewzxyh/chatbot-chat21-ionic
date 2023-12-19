@@ -1,8 +1,12 @@
 /* Style the buttons that are used to open and close the accordion panel */
 .advanced-info-accordion {
     transition: 0.4s;
-    --background-hover: #f5f7f9;
+    --background-hover: unset;
     --ripple-color: transparent;
+
+    ion-icon{
+        color: var(--icon-color);
+    }
 }
 
 /* Style the accordion panel. Note: hidden by default */
@@ -48,7 +52,7 @@
     position: absolute;
     left: 0px;
     text-transform: none;
-    color: #050505;
+    color: var(--icon-color);
 }
 .icon-with-background {
     vertical-align: middle;
@@ -65,6 +69,7 @@
 .attributes-wpr {
     position: relative;
     display: flex;
+    gap: 5px;
     justify-content: space-between;
     flex-grow: 1;
     align-items: center;
@@ -80,11 +85,15 @@
 .attributes-icon-wpr-2 {
     height: 36px;
     width: 36px;
-    background-color: #e4e6eb;
+    background-color: var(--icon-color);
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
+
+    span.material-icons{
+        color: var(--info-direct-detail-accordion-background);
+    }
 }
 
 .attributes-title-subtitle-wpr-1 {
@@ -92,27 +101,14 @@
     display: flex;
     justify-content: space-between;
     flex-grow: 1;
-    flex-direction: row;
-    align-items: center;
-}
-
-.attributes-title-subtitle-wpr-2 {
     flex-direction: column;
-    padding-bottom: 12px;
-    flex-direction: column;
-    flex-grow: 1;
-    padding-left: 0;
-}
-.attributes-title-subtitle-wpr-3 {
-    display: flex;
-    flex-direction: column;
-    margin-left: 5px;
+    align-items: flex-start;
 }
 
 .attributes-title {
     text-align: left;
     word-break: break-word;
-    color: #050505;
+    color: var(--info-direct-color-accordion-color-title);
     font-size: 0.9375rem;
     -webkit-font-smoothing: antialiased;
     font-weight: 500;
@@ -127,7 +123,7 @@
 }
 
 .attributes-subtitle {
-    color: #65676b;
+    color: var(--info-direct-color-accordion-color-subtitle);
     word-break: break-word;
     font-weight: normal;
     line-height: 1.2308;

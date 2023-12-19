@@ -1,5 +1,5 @@
 ion-content{
-    --background: var(--list-bkg-color);
+    --background: var(--conversation-detail-background);
 }
 
 .member-profile {
@@ -17,7 +17,8 @@ ion-content{
         border-radius: 0;
         -webkit-box-shadow: none;
         box-shadow: none;
-        border-bottom: 1px solid rgba(169, 169, 169, 0.2);
+        background: transparent;
+        border-bottom: 1px solid var(--border-color-base);
     }
 
     .image-profile {
@@ -48,7 +49,7 @@ ion-content{
             user-select: text;
             font-family: "Roboto", "Helvetica Neue", sans-serif;
             -webkit-box-direction: normal;
-            color: #333333;
+            color: var(--info-text-color);
             font-weight: 500;
             font-size: 17px;
             box-sizing: border-box;
@@ -70,7 +71,7 @@ ion-content{
     margin-right: 8px !important;
 
     margin-top: 12px !important;
-    background-color: #fff;
+    background-color: var(--info-direct-detail-accordion-background);
     border-radius: 4px;
     box-shadow: rgba(0, 27, 71, 0.08) 0px 3px;
 
@@ -83,7 +84,7 @@ ion-content{
         width: 100%;
 
         &:hover{
-            background-color: #f5f7f9;
+            background-color: var(--info-direct-color-accordion-hover);
         }
     }
 

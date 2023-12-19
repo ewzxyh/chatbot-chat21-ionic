@@ -13,6 +13,7 @@ import { EventsService } from 'src/app/services/events-service';
 import { tranlatedLanguage } from '../../../chat21-core/utils/constants';
 import { avatarPlaceholder, getColorBck } from 'src/chat21-core/utils/utils-user';
 import { environment } from 'src/environments/environment';
+import { Project } from 'src/chat21-core/models/projects';
 @Component({
   selector: 'app-sidebar-user-details',
   templateUrl: './sidebar-user-details.component.html',
@@ -36,7 +37,8 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
   SubscriptionPaymentProblem: string;
   user: any
   tiledeskToken: string;
-  project: { _id: string, name: string, type: string, isActiveSubscription: boolean, plan_name: string}
+  // project: { _id: string, name: string, type: string, isActiveSubscription: boolean, plan_name: string}
+  project: Project;
   _prjct_profile_name: string;
 
   isVisiblePAY: boolean;
@@ -281,24 +283,21 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
         this.project = {
           _id: projectObjct['id_project']['_id'],
           name: projectObjct['id_project']['name'],
-          type: projectObjct['id_project']['profile']['type'],
+          profile: projectObjct['id_project']['profile'],
           isActiveSubscription: projectObjct['id_project']['isActiveSubscription'],
-          plan_name: projectObjct['id_project']['profile']['name']
+          trialExpired: projectObjct['id_project']['trialExpired']
         }
-
-        const trial_expired = projectObjct['id_project']['trialExpired']    
-        const profile_name = projectObjct['id_project']['profile']['name'];
       
-        if (this.project.type === 'free') {
+        if (this.project.profile.type === 'free') {
 
-          if (trial_expired === false) {
+          if (this.project.trialExpired === false) {
             this.getProPlanTrialTranslation();
-          } else if (trial_expired === true) {
+          } else if (this.project.trialExpired === true) {
             this.getFreePlanTranslation();
           }
-        } else if (this.project.type === 'payment' && profile_name === 'pro') {
+        } else if (this.project.profile.type === 'payment' && this.project.profile.name === 'pro') {
           this.getProPlanTranslation();
-        } else if (this.project.type === 'payment' && profile_name === 'enterprise') {
+        } else if (this.project.profile.type === 'payment' && this.project.profile.name === 'enterprise') {
           this.getEnterprisePlanTranslation();
         }
       }
@@ -388,8 +387,7 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
       profilestatus = 'inactive'
     }
 
-    this.wsService.updateCurrentUserAvailability(this.tiledeskToken, this.project._id, IS_AVAILABLE, profilestatus)
-      .subscribe((projectUser: any) => {
+    this.wsService.updateCurrentUserAvailability(this.tiledeskToken, this.project._id, IS_AVAILABLE, profilestatus).subscribe((projectUser: any) => {
 
         this.logger.log('[SIDEBAR-USER-DETAILS] - PROJECT-USER UPDATED ', projectUser)
 

@@ -60,7 +60,7 @@ ion-content {
     &#conv-details:not(.mobile){
         --background: var(--list-bkg-color);
     }
-    --background: white;
+    --background: transparent;;
 
     ion-item {
         --padding-end: 0px;
@@ -86,7 +86,7 @@ ion-content {
         position: absolute;
         top: 0;
         overflow: hidden;
-        background-color: white;
+        background-color: var(--conversation-detail-background);
 
         &:not(.mobile){
             border-radius: var(--border-radius-content);;
@@ -105,7 +105,6 @@ ion-content {
     }
     .row_message_text_area {
         min-height: 50px;
-        background-color: white;
         position: absolute;
         bottom: 0;
         width: calc(100% - 0px);
@@ -119,6 +118,7 @@ ion-content {
         height: 100%;
         margin: 0;
         padding: 0;
+        background: transparent;
         &.open {
             max-width: auto;
             min-width: calc(100% - 320px);
@@ -136,7 +136,7 @@ ion-content {
         padding: 0;
         margin: 0;
         border-left-style: solid;
-        border-color: var(--light-gray);
+        border-color: var(--border-color-base);
         border-left-width: thin;
         display: block;
         overflow: hidden;
@@ -229,7 +229,7 @@ ion-content {
 
 .ionContentChatArea {
     opacity: 0;
-    --background: white;
+    --background: var(--conversation-detail-background);
     &.active {
         opacity: 1;
     }
