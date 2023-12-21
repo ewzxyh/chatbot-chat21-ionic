@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { EventsService } from 'src/app/services/events-service';
 import { AppStorageService } from 'src/chat21-core/providers/abstract/app-storage.service';
 
 // Logger
@@ -15,11 +16,13 @@ export class InfoSupportGroupComponent implements OnInit {
 
   private logger: LoggerService = LoggerInstance.getInstance();
   constructor(
-    private appStorageService: AppStorageService
+    private appStorageService: AppStorageService,
+    private events : EventsService
   ) { }
 
   ngOnInit() {
     this.logger.log('InfoSupportGroupComponent - urlConversationSupportGroup: ', this.urlConversationSupportGroup);
+    this.events.subscribe('style', (data)=>this.loadStyle(data) )
   }
 
   ngOnDestroy() {

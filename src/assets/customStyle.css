@@ -1,0 +1,18 @@
+body.custom{
+    background-color: red;
+    --list-bkg-color: red;
+}
+
+body.light{
+    background-color: green;
+    --list-bkg-color: green;
+}
+
+body.dark{
+    background-color: blue;
+    --list-bkg-color: blue;
+}
+
+body.light .navbar{
+    background-color: red;
+}

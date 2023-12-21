@@ -137,7 +137,7 @@ export class AppComponent implements OnInit {
     public fcm: FCM,
     public el: ElementRef,
     public g: Globals,
-    public globalSettingsService: GlobalSettingsService,
+    public globalSettingsService: GlobalSettingsService
   ) {
 
     this.saveInStorageNumberOfOpenedChatTab();
@@ -354,6 +354,12 @@ export class AppComponent implements OnInit {
           this.events.publish('presenceUser', event.data.parameter)
         }
       }
+
+      if(event && event.data && event.data.action) {
+        if (event.data.action === "style") {
+          this.loadStyle(event.data)
+        }
+      }
     })
   }
 
@@ -402,6 +408,62 @@ export class AppComponent implements OnInit {
     await alert.present();
   }
 
+  async loadStyle(data){
+    console.log('[APP-COMPO] event: style ...', data)
+    this.appStorageService.setItem('style', JSON.stringify(data))
+    if(!data.parameter){
+
+      /** remove class from chat-IFRAME */
+      document.body.classList.remove('light')
+      document.body.classList.remove('dark')
+      document.body.classList.remove('custom')
+      let link = document.getElementById('themeCustom');
+      if(link){
+        link.remove();
+      }
+
+      /** remove class from dashoard-IFRAME */
+      var iframeWin = <HTMLIFrameElement>document.getElementById("iframeConsole")
+      if(iframeWin){
+        iframeWin.contentDocument.body.classList.remove('light')
+        iframeWin.contentDocument.body.classList.remove('dark')
+        iframeWin.contentDocument.body.classList.remove('custom')
+        let link = iframeWin.contentDocument.getElementById('themeCustom');
+        if(link){
+          link.remove();
+        }
+      }
+
+      /** remove style INFO from storage */
+      this.appStorageService.removeItem('style')
+
+      return;
+    } 
+
+    // Create link
+    let link = document.createElement('link');
+    link.id= 'themeCustom'
+    link.href = data.parameter;
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.media='all';
+
+    this.logger.log('[APP-COMP] create link element...', link)
+    let head = document.getElementsByTagName('head')[0];
+    head.appendChild(link);
+    /** add class to body element as theme type ('light', 'dark', 'custom') */
+    document.body.classList.add(data.type) 
+    
+    /** publish event to info-support-group component */
+    this.events.publish('style', data)
+
+    // var iframeWin = <HTMLIFrameElement>document.getElementById("iframeConsole")
+    // if(iframeWin){
+    //   iframeWin.contentDocument.head.appendChild(link)
+    //   iframeWin.contentDocument.body.classList.add(data.type) //ADD class to body element as theme type ('light', 'dark', 'custom')
+    // }
+    return;
+  }
 
 
 
@@ -743,14 +805,6 @@ export class AppComponent implements OnInit {
       }
     }
   }
-
-  // checkTokenAndGoOffline() {
-  //   let token = this.appStorageService.getItem('tiledeskToken');
-  //   this.logger.info('[APP-COMP] ***** checkTokenAndGoOffline - stored token *****', token);
-  //   if (!token) {
-  //     this.goOffLine()
-  //   }
-  // }
 
 
   /**------- AUTHENTICATION FUNCTIONS --> END <--- +*/
