@@ -108,17 +108,17 @@
         <span class="material-icons user-details-plan-icon">apps</span>
         <span>
             <div> {{project?.name}} </div>
-            <div style="display: inline-block;    margin-left: 26px;"> {{ profile_name_translated }} </div>
+            <div style="margin-left: 26px;"> {{ profile_name_translated }} </div>
 
-            <div *ngIf="project?.type === 'payment' && project?.isActiveSubscription === false"
+            <div *ngIf="project?.profile?.type === 'payment' && project?.isActiveSubscription === false"
                 style="color:#f44336; position:relative; top: -1px;display: inline-block;">
-                <i *ngIf="project?.plan_name !== 'enterprise'" class="material-icons" style="vertical-align: middle; color:#f44336; cursor:pointer;    
+                <i *ngIf="project?.profile?.name !== 'enterprise'" class="material-icons" style="vertical-align: middle; color:#f44336; cursor:pointer;    
                     font-size: 16px;" matTooltipClass="custom-mat-tooltip"
                     matTooltip="{{ translationsMap.get('SubscriptionPaymentProblem') }}" #tooltip="matTooltip" matTooltipPosition='right'
                     matTooltipHideDelay="100">
                     error_outline
                 </i>
-                <i *ngIf="project?.plan_name === 'enterprise'" class="material-icons" style="vertical-align: middle; color:#f44336; cursor:pointer;    
+                <i *ngIf="project?.profile?.name === 'enterprise'" class="material-icons" style="vertical-align: middle; color:#f44336; cursor:pointer;    
                     font-size: 16px;" matTooltipClass="custom-mat-tooltip" matTooltip="{{ translationsMap.get('ThePlanHasExpired') }}"
                     #tooltip="matTooltip" matTooltipPosition='right' matTooltipHideDelay="100">
                     error_outline

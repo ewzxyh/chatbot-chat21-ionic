@@ -22,6 +22,7 @@ import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service
 import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance';
 import { WebsocketService } from 'src/app/services/websocket/websocket.service';
 import { checkPlatformIsMobile, setLastDateWithLabels } from 'src/chat21-core/utils/utils';
+import { Project } from 'src/chat21-core/models/projects';
 
 @Component({
   selector: 'app-profile-info',
@@ -45,7 +46,7 @@ export class ProfileInfoPage implements OnInit {
   @Input() selectedStatus: number;
   @Input() profile_name_translated: string;
   @Input() token: string;
-  @Input() project: { _id: string, name: string, type: string, isActiveSubscription: boolean, plan_name: string}
+  @Input() project: Project;
 
   isVisiblePAY: boolean;
   teammateStatus = [

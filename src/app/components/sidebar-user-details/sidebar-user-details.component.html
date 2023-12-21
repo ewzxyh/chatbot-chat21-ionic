@@ -96,7 +96,7 @@
         <span class="material-icons user-details-plan-icon">apps</span>
         <span>
             <div> {{project?.name}} </div>
-            <div> {{ profile_name_translated }} </div>
+            <div style="margin-left: 26px"> {{ profile_name_translated }} </div>
 
             <div *ngIf="project?.profile?.type === 'payment' && project?.isActiveSubscription === false"
                 style="color:#f44336; position:relative; top: -1px;display: inline-block;">

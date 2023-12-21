@@ -19,7 +19,6 @@ body {
     --bubble-blue: rgb(0, 153, 255);
 
     /* ----- NEW ----- */
-
     --icon-color: rgb(135, 150, 175);
     --basic-blue: #2a69c1;
     --basic-red: #EB1E23;
@@ -55,22 +54,17 @@ body {
     --textarea-color: var(--icon-color);
     // ***** Conversation-detail: end ***** //
 
-    // ***** Conversation-detail: INFO-MESSAGE: start ***** //
-    --info-message-background: rgba(24, 119, 242, 0.1);
-    --info-message-color: var(--basic-gray);
-    --info-message-bounce-color: #C9E4F6;
-    // ***** Conversation-detail: INFO-MESSAGE: end ***** //
-
     // ***** Conversation-detail PRIVATE-MSG: start ***** //
     --bubble-lightyellow: rgb(255, 247, 237);
     --bubble-privateMsg: rgb(254, 214, 168);
     --bubble-privateMsgColor: rgb(47, 57, 65);
     // ***** Conversation-detail PRIVATE-MSG: end ***** //
 
-    // ***** Conversation-detail EMOJI-MART: start ***** //
-    --emojii-mart-background: white;
-    --emoji-mart-color: var(--icon-color);
-    // ***** Conversation-detail EMOJI-MART: end ***** //
+    // ***** Conversation-detail: INFO-MESSAGE: start ***** //
+    --info-message-background: rgba(24, 119, 242, 0.1);
+    --info-message-color: var(--basic-gray);
+    --info-message-bounce-color: #C9E4F6;
+    // ***** Conversation-detail: INFO-MESSAGE: end ***** //
 
     // ***** Conversation-detail: BUBBLE-MESSAGE: start ***** //
     --bck-msg-received: #f0f2f7;
@@ -84,6 +78,11 @@ body {
     --buttonHoverBackgroundColor: #2a6ac1;
     --buttonHoverTextColor: #ffffff;
     // ***** Conversation-detail: BUBBLE-MESSAGE: end ***** //
+
+     // ***** Conversation-detail EMOJI-MART: start ***** //
+     --emojii-mart-background: white;
+     --emoji-mart-color: var(--icon-color);
+     // ***** Conversation-detail EMOJI-MART: end ***** //
 
     // ***** Conversation-detail: INFO-DIRECT: start ***** //
     --info-text-color: #333333;
@@ -131,7 +130,8 @@ body {
     // ***** Navbar: start ***** //
 
     // ***** Sidebar: start ***** //
-    --sidebar-background-color: #2d323e;
+    --sidebar-background-color: #1e2129;
+    --sidebar-header-background: #2d323e;
     --sidebar-color: #fff;
     --sidebar-icon-color: #647491;
     --sidebar-hover-icon-color: #a9afbb;
@@ -139,10 +139,11 @@ body {
     --sidebar-user-detail-color: #a9afbb;
     --sidebar-user-detail-profile-color: #00d5ff;
     --sidebar-user-detail-select-background: #2d323e;
+    --sidebar-user-profile-select-background: #2d323e;
     --sidebar-user-detail-select-hover-background: rgba(255, 255, 255, .05);
     --sidebar-user-detail-select-color: #fff;
     --tooltip-bckground: #2d323e;
-    --tooltip-color: #fff;
+    --tooltip-color: white;
     // ***** Sidebar: end ***** //
 
 }

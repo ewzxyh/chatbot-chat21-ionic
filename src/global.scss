@@ -534,7 +534,7 @@ select:-webkit-autofill:focus {
         --background-color: var(--sidebar-user-detail-select-background);
     }
     &.profile-info{
-        --background-color: #1e2129;
+        --background-color: var(--sidebar-user-profile-select-background);
     }
     &.ng-select {
 

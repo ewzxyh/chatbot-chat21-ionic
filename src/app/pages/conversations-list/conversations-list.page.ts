@@ -52,6 +52,7 @@ import { WebsocketService } from 'src/app/services/websocket/websocket.service';
 import { Globals } from 'src/app/utils/globals';
 import { TriggerEvents } from 'src/app/services/triggerEvents/triggerEvents';
 import { MessageModel } from 'src/chat21-core/models/message';
+import { Project } from 'src/chat21-core/models/projects';
 
 @Component({
   selector: 'app-conversations-list',
@@ -102,7 +103,7 @@ export class ConversationListPage implements OnInit {
   public isInitialized: boolean = false;
 
   // PROJECT AVAILABILITY INFO: start
-  project: { _id: string, name: string, type: string, isActiveSubscription: boolean, plan_name: string}
+  project: Project
   profile_name_translated: string;
   selectedStatus: any;
   teammateStatus = [
@@ -475,24 +476,21 @@ export class ConversationListPage implements OnInit {
         this.project = {
           _id: projectObjct['id_project']['_id'],
           name: projectObjct['id_project']['name'],
-          type: projectObjct['id_project']['profile']['type'],
+          profile: projectObjct['id_project']['profile'],
           isActiveSubscription: projectObjct['id_project']['isActiveSubscription'],
-          plan_name: projectObjct['id_project']['profile']['name']
+          trialExpired: projectObjct['id_project']['trialExpired']
         }
 
-        const trial_expired = projectObjct['id_project']['trialExpired']    
-        const profile_name = projectObjct['id_project']['profile']['name'];
-      
-        if (this.project.type === 'free') {
+        if (this.project.profile.type === 'free') {
 
-          if (trial_expired === false) {
+          if (this.project.trialExpired === false) {
             this.profile_name_translated = this.translationMapHeader.get('ProPlanTrial');
-          } else if (trial_expired === true) {
+          } else if (this.project.trialExpired === true) {
              this.profile_name_translated = this.translationMapHeader.get('FreePlan');
           }
-        } else if (this.project.type === 'payment' && profile_name === 'pro') {
+        } else if (this.project.profile.type === 'payment' && this.project.profile.name === 'pro') {
           this.profile_name_translated = this.translationMapHeader.get('PaydPlanNamePro');
-        } else if (this.project.type === 'payment' && profile_name === 'enterprise') {
+        } else if (this.project.profile.type === 'payment' && this.project.profile.name === 'enterprise') {
           this.profile_name_translated = this.translationMapHeader.get('PaydPlanNameEnterprise');
         }
       }

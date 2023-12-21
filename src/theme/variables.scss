@@ -340,6 +340,7 @@ body {
 
     // ***** Sidebar: start ***** //
     --sidebar-background-color: #2d323e;
+    --sidebar-header-background: rgb(59, 130, 246);
     --sidebar-color: #fff;
     --sidebar-icon-color: #647491;
     --sidebar-hover-icon-color: #a9afbb;
@@ -347,6 +348,7 @@ body {
     --sidebar-user-detail-color: #a9afbb;
     --sidebar-user-detail-profile-color: var(--basic-blue);
     --sidebar-user-detail-select-background: var(--basic-blue-02);
+    --sidebar-user-profile-select-background: var(--basic-blue-02);
     --sidebar-user-detail-select-hover-background: rgba(255, 255, 255, .05);
     --sidebar-user-detail-select-color: #fff;
     --tooltip-bckground: rgb(151,163, 182);

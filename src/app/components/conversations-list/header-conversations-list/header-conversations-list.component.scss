@@ -9,7 +9,8 @@ ion-toolbar {
         border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     }
 
-    ion-button{
+    ion-button,
+    ion-title{
         --color: var(--icon-color);
     }
 }
