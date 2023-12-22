@@ -470,9 +470,9 @@ export class AppComponent implements OnInit {
   signInWithCustomToken(token) {
     // this.isOnline = false;
     this.logger.log('[APP-COMP] SIGNINWITHCUSTOMTOKEN  token', token)
-    this.tiledeskAuthService.signInWithCustomToken(token).then((user: any) => {
-        this.logger.log('[APP-COMP] SIGNINWITHCUSTOMTOKEN AUTLOGIN user', user)
-        this.messagingAuthService.createCustomToken(token)
+    this.tiledeskAuthService.signInWithCustomToken(token).then((data: any) => {
+        this.logger.log('[APP-COMP] SIGNINWITHCUSTOMTOKEN AUTLOGIN user', data.user)
+        this.messagingAuthService.createCustomToken(data.token)
     }).catch(error => {
         this.logger.error('[APP-COMP] SIGNINWITHCUSTOMTOKEN error::', error)
     })
@@ -774,12 +774,12 @@ export class AppComponent implements OnInit {
     // this.logger.log('[APP-COMP] >>> initAuthentication currentUser ', currentUser)
     if (tiledeskToken) {
       this.logger.log('[APP-COMP] >>> initAuthentication I LOG IN WITH A TOKEN EXISTING IN THE LOCAL STORAGE OR WITH A TOKEN PASSED IN THE URL PARAMETERS <<<')
-      this.tiledeskAuthService.signInWithCustomToken(tiledeskToken).then(user => {
-        this.logger.log('[APP-COMP] >>> initAuthentication user ', user)
+      this.tiledeskAuthService.signInWithCustomToken(tiledeskToken).then(data => {
+        this.logger.log('[APP-COMP] >>> initAuthentication user ', data.user)
 
         this.updateStoredCurrentUser()
 
-        this.messagingAuthService.createCustomToken(tiledeskToken)
+        this.messagingAuthService.createCustomToken(data.token)
       }).catch(error => {
         this.logger.error('[APP-COMP] initAuthentication SIGNINWITHCUSTOMTOKEN error::', error)
       })

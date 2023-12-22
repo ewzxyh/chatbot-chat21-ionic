@@ -124,7 +124,7 @@ export class TiledeskAuthService {
           that.createCompleteUser(data['user']);
           this.checkAndSetInStorageTiledeskToken(that.tiledeskToken)
           this.BS_IsONLINE.next(true)
-          resolve(this.currentUser)
+          resolve(data)
         }
       }, (error) => {
         reject(error)
