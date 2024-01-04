@@ -777,7 +777,7 @@ export class AppComponent implements OnInit {
       this.tiledeskAuthService.signInWithCustomToken(tiledeskToken).then(data => {
         this.logger.log('[APP-COMP] >>> initAuthentication user ', data.user)
 
-        this.updateStoredCurrentUser()
+        //this.updateStoredCurrentUser()
 
         this.messagingAuthService.createCustomToken(data.token)
       }).catch(error => {
@@ -1605,11 +1605,11 @@ export class AppComponent implements OnInit {
   @HostListener('window:storage', ['$event'])
   onStorageChanged(event: any) {
 
-    if (event.key !== 'chat_sv5__tiledeskToken' && event.key !== 'dshbrd----sound') {
+    if (event.key !== 'tiledesk_token' && event.key !== 'dshbrd----sound') {
       return;
     }
 
-    if (this.appStorageService.getItem('tiledeskToken') === null) {
+    if (localStorage.getItem('tiledesk_token') === null) {
       // console.log('[APP-COMP] - onStorageChanged tiledeskToken is null - RUN LOGOUT')
       this.tiledeskAuthService.logOut()
       this.messagingAuthService.logout();
@@ -1617,12 +1617,9 @@ export class AppComponent implements OnInit {
       // this.isOnline = false;
     }
     else {
-      const currentUser = this.tiledeskAuthService.getCurrentUser();
-      // console.log('[APP-COMP] - X - onStorageChanged currentUser', currentUser)
-
       const currentToken = this.tiledeskAuthService.getTiledeskToken();
       // console.log('[APP-COMP] - onStorageChanged currentToken', currentToken)
-      if (this.appStorageService.getItem('tiledeskToken') !== null && currentToken !== this.appStorageService.getItem('tiledeskToken')) {
+      if (localStorage.getItem('tiledesk_token') !== null && currentToken !== this.appStorageService.getItem('tiledeskToken')) {
 
         // console.log('[APP-COMP] - onStorageChanged wentOnline 2')
         // DEALLOCO RISORSE OCCUPATE
@@ -1632,13 +1629,6 @@ export class AppComponent implements OnInit {
         // this.unsubscribe$.next();
         // this.unsubscribe$.complete();
         this.initializeApp('onstoragechanged');
-
-
-
-        // console.log('[APP-COMP]  onAuthStateChanged HERE !!! ')
-        // firebase.auth().onAuthStateChanged(user => {
-        //   console.log('[APP-COMP]  onAuthStateChanged', user)
-        // })
 
       }
     }
