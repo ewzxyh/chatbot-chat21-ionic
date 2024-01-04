@@ -1,7 +1,11 @@
 # chat21-ionic ver 3.0
 
+### 3.0.107.rc.5
+- bug-fixed: user info is not updated in sidebar-user-detail with SSO
+
 ### 3.0.107.rc.4
 - bug-fixed: SSO, createCustomToken pass old token to authenticate chat engine module
+
 
 ### 3.0.107.rc.3
 - bug-fixed: update tiledek_token after signInWithCustomToken
