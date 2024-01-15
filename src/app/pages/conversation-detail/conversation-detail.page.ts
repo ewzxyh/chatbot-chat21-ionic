@@ -531,7 +531,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     this.addEventsKeyboard()
     this.updateConversationBadge() // AGGIORNO STATO DELLA CONVERSAZIONE A 'LETTA' (is_new = false)
 
-
   }
 
   _getProjectIdByConversationWith(conversationWith: string) {

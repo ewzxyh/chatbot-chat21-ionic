@@ -272,6 +272,7 @@ export class FirebaseConversationsHandler extends ConversationsHandlerService {
     archiveConversation(conversationId: string) {
         const that = this
         this.setClosingConversation(conversationId, true);
+        this.setConversationRead(conversationId)
         const index = searchIndexInArrayForUid(this.conversations, conversationId);
         // if (index > -1) {
         //     this.conversations.splice(index, 1);

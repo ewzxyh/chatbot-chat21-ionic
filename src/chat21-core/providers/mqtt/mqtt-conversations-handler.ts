@@ -374,7 +374,8 @@ export class MQTTConversationsHandler extends ConversationsHandlerService {
         this.isConversationClosingMap.delete(conversationId);
     }
 
-    archiveConversation(conversationId: string) { 
+    archiveConversation(conversationId: string) {
+        this.setConversationRead(conversationId)
         this.chat21Service.chatClient.archiveConversation(conversationId);
     }
 
