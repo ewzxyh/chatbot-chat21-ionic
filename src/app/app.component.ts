@@ -411,9 +411,11 @@ export class AppComponent implements OnInit {
   async loadStyle(data){
     console.log('[APP-COMPO] event: style ...', data)
     this.appStorageService.setItem('style', JSON.stringify(data))
-    if(!data.parameter){
+    if(!data || !data.parameter){
 
       /** remove class from chat-IFRAME */
+      let className = document.body.className.replace(new RegExp(/style-\S*/gm), '')
+      document.body.className = className
       document.body.classList.remove('light')
       document.body.classList.remove('dark')
       document.body.classList.remove('custom')
@@ -425,9 +427,12 @@ export class AppComponent implements OnInit {
       /** remove class from dashoard-IFRAME */
       var iframeWin = <HTMLIFrameElement>document.getElementById("iframeConsole")
       if(iframeWin){
+        let className = iframeWin.contentDocument.body.className.replace(new RegExp(/style-\S*/gm), '')
+        iframeWin.contentDocument.body.className = className
         iframeWin.contentDocument.body.classList.remove('light')
         iframeWin.contentDocument.body.classList.remove('dark')
         iframeWin.contentDocument.body.classList.remove('custom')
+        
         let link = iframeWin.contentDocument.getElementById('themeCustom');
         if(link){
           link.remove();
@@ -447,10 +452,10 @@ export class AppComponent implements OnInit {
     link.rel = 'stylesheet';
     link.type = 'text/css';
     link.media='all';
-
     this.logger.log('[APP-COMP] create link element...', link)
     let head = document.getElementsByTagName('head')[0];
     head.appendChild(link);
+    
     /** add class to body element as theme type ('light', 'dark', 'custom') */
     document.body.classList.add(data.type) 
     
