@@ -5,6 +5,8 @@ import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service
 import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance';
 import { DomSanitizer } from '@angular/platform-browser'
 import { CustomTranslateService } from 'src/chat21-core/providers/custom-translate.service';
+import { AppStorageService } from 'src/chat21-core/providers/abstract/app-storage.service';
+import { EventsService } from 'src/app/services/events-service';
 
 
 @Component({
@@ -34,6 +36,8 @@ export class UnassignedConversationsPage implements OnInit {
     private navService: NavProxyService,
     private sanitizer: DomSanitizer,
     private translateService: CustomTranslateService,
+    private appStorageService: AppStorageService,
+    private events : EventsService
   ) { }
 
   ngOnInit() {
@@ -46,6 +50,7 @@ export class UnassignedConversationsPage implements OnInit {
     this.buildIFRAME();
     this.listenToPostMsg();
     this.hideHotjarFeedbackBtn();
+    this.events.subscribe('style', (data)=>this.loadStyle(data))
   }
 
   ngOnDestroy(){
@@ -89,7 +94,8 @@ export class UnassignedConversationsPage implements OnInit {
     if (iframeWin) {
       iframeWin.addEventListener("load", function () {
         self.logger.log("[UNASSIGNED-CONVS-PAGE] GET - Finish");
-
+        self.onLoad(iframeWin)
+        
         const isIFrame = (input: HTMLElement | null): input is HTMLIFrameElement =>
           input !== null && input.tagName === 'IFRAME';
 
@@ -98,16 +104,57 @@ export class UnassignedConversationsPage implements OnInit {
           iframeWin.contentWindow.postMessage(msg, '*');
         }
 
+        
 
         let spinnerElem = <HTMLElement>document.querySelector('.loader-spinner-wpr')
 
         self.logger.log('[APP-STORE-INSTALL] GET iframeDoc readyState spinnerElem', spinnerElem)
         spinnerElem.classList.add("hide-stretchspinner")
 
+
+
       });
     }
 
   }
+
+  onLoad(iframe){
+    let styleData = this.appStorageService.getItem('style')
+    console.log('[UNASSIGNED-CONVS-PAGE] styleeeeee', styleData)
+    if(styleData && styleData !== 'undefined'){
+      this.loadStyle(JSON.parse(styleData))
+    }
+  }
+  async loadStyle(data){
+    var iframeWin = <HTMLIFrameElement>document.getElementById("unassigned-convs-iframe")
+    if(!data.parameter){
+      let className = iframeWin.contentDocument.body.className.replace(new RegExp(/style-\S*/gm), '')
+      iframeWin.contentDocument.body.className = className
+      iframeWin.contentWindow.document.body.classList.remove('light')
+      iframeWin.contentWindow.document.body.classList.remove('dark')
+      iframeWin.contentWindow.document.body.classList.remove('custom')
+      let link = iframeWin.contentWindow.document.getElementById('themeCustom');
+      if(link){
+        link.remove();
+      }
+      return;
+    } 
+
+    // Create link
+    let link = iframeWin.contentWindow.document.createElement('link');
+    link.id= 'themeCustom'
+    link.href = data.parameter;
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.media='all';
+    
+    console.log('linkkkk', link, iframeWin.contentWindow.document)
+    let head = iframeWin.contentWindow.document.getElementsByTagName('head')[0];
+    head.appendChild(link);
+    iframeWin.contentWindow.document.body.classList.add(data.type) //ADD class to body element as theme type ('light', 'dark', 'custom')
+    return;
+  }
+
 
   listenToPostMsg() {
     window.addEventListener("message", (event) => {

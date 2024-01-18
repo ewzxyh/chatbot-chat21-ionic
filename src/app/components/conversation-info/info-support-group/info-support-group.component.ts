@@ -21,28 +21,28 @@ export class InfoSupportGroupComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.logger.log('InfoSupportGroupComponent - urlConversationSupportGroup: ', this.urlConversationSupportGroup);
-    this.events.subscribe('style', (data)=>this.loadStyle(data) )
+    this.logger.log('[InfoSupportGroupComponent] - urlConversationSupportGroup: ', this.urlConversationSupportGroup);
+    this.events.subscribe('style', (data)=>this.loadStyle(data))
   }
 
   ngOnDestroy() {
     // this.logger.log('ngOnDestroy ConversationDetailPage: ');
-    this.logger.log('InfoSupportGroupComponent - ngOnDestroy ');
+    this.logger.log('[InfoSupportGroupComponent] - ngOnDestroy ');
 
   }
 
   onLoad(iframe){
     let styleData = this.appStorageService.getItem('style')
-    console.log('styleeeeee', styleData)
+    console.log('[InfoSupportGroupComponent] styleeeeee', styleData)
     if(styleData && styleData !== 'undefined'){
       this.loadStyle(JSON.parse(styleData))
     }
   }
-
-
   async loadStyle(data){
     var iframeWin = <HTMLIFrameElement>document.getElementById("iframeConsole")
     if(!data.parameter){
+      let className = iframeWin.contentDocument.body.className.replace(new RegExp(/style-\S*/gm), '')
+      iframeWin.contentDocument.body.className = className
       iframeWin.contentWindow.document.body.classList.remove('light')
       iframeWin.contentWindow.document.body.classList.remove('dark')
       iframeWin.contentWindow.document.body.classList.remove('custom')

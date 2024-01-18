@@ -441,6 +441,22 @@ export class AppComponent implements OnInit {
         }
       }
 
+      /** remove class from dashoard-IFRAME-unsassigned-convs */
+      var iframeWinUnassigned = <HTMLIFrameElement>document.getElementById("unassigned-convs-iframe")
+      if(iframeWinUnassigned){
+        let className = iframeWin.contentDocument.body.className.replace(new RegExp(/style-\S*/gm), '')
+        iframeWinUnassigned.contentDocument.body.className = className
+        iframeWinUnassigned.contentDocument.body.classList.remove('light')
+        iframeWinUnassigned.contentDocument.body.classList.remove('dark')
+        iframeWinUnassigned.contentDocument.body.classList.remove('custom')
+        
+        let link = iframeWinUnassigned.contentDocument.getElementById('themeCustom');
+        if(link){
+          link.remove();
+        }
+      }
+      
+
       /** remove style INFO from storage */
       this.appStorageService.removeItem('style')
 
@@ -461,7 +477,10 @@ export class AppComponent implements OnInit {
     /** add class to body element as theme type ('light', 'dark', 'custom') */
     document.body.classList.add(data.type) 
     
-    /** publish event to info-support-group component */
+    /** publish event to 
+     *  - info-support-group component 
+     *  - unassigned-conversations component
+    */
     this.events.publish('style', data)
 
     // var iframeWin = <HTMLIFrameElement>document.getElementById("iframeConsole")
