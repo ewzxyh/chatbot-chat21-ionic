@@ -12,7 +12,7 @@
 
   <div class="event-wrp" id="onThemeColor">
     <span class="badge">EVENT</span>
-    <label>themeColor </label>
+    <label>themeColor LIGHT</label>
     <label class="switch">
       <input type="checkbox" name="themeColor" onclick="onCLickThemeColor(this)">
       <span class="slider round"></span>
@@ -34,15 +34,16 @@
       // cssLink.type = "text/css"; 
       // console.log('framessss', frames['myIFrame'])
       // frames['myIFrame'].contentWindow.document.body.appendChild(cssLink);
-      let msg= { action: "style", type: 'light', parameter: 'http://localhost:8080/assets/customStyle.css'}
-      frames['myIFrame'].contentWindow.postMessage(msg, '*');
+
+      // let msg= { action: "style", type: 'light', parameter: 'http://localhost:8080/assets/customStyle.css'}
+      // frames['myIFrame'].contentWindow.postMessage(msg, '*');
     }
 
 
     function onCLickThemeColor(event){
       console.log('onCLickThemeColor: status-->',event.checked);
       if(event.checked){
-        let msg= { action: "style", type: 'light', parameter: 'http://localhost:8080/assets/customStyle.css'}
+        let msg= { action: "style", type: 'style-1', parameter: 'http://localhost:8080/assets/customStyle.css'}
         frames['myIFrame'].contentWindow.postMessage(msg, '*');
       }else{
         let msg= { action: "style", parameter: ''}

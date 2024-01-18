@@ -319,6 +319,8 @@ export class AppComponent implements OnInit {
     this.initializeApp('oninit');
     this.loadCustomScript(appconfig)
     this.listenToPostMsgs();
+
+    this.loadStyle(JSON.parse(this.appStorageService.getItem('style')))
   }
 
 
