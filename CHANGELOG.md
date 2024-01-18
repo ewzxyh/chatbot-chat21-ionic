@@ -1,5 +1,10 @@
 # chat21-ionic ver 3.0
 
+### 3.0.107.rc.7
+- bug-fixed: unassigned-convs not laoded custom external style via postMessage or event.subscribe methods
+- bug-fixed: delete all old css class style while uploading (via postMessge) a new class
+- bug-fixed: customStyle removed if refresh page or window.resize event is handled --> restore saved style from storage
+
 ### 3.0.107.rc.6
 - bug-fixed: set is_new=false before archive an active conversation (not show not-read blu pointer and bold recipient fullname and last text)
 
