@@ -1,5 +1,8 @@
 # chat21-ionic ver 3.0
 
+### 3.0.107.rc.8
+- bug-fixed: form icon into conversation-list and header conversation-detail not change color 
+
 ### 3.0.107.rc.7
 - bug-fixed: unassigned-convs not laoded custom external style via postMessage or event.subscribe methods
 - bug-fixed: delete all old css class style while uploading (via postMessge) a new class
