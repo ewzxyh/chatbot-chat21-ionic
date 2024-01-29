@@ -1,5 +1,8 @@
 # chat21-ionic ver 3.0
 
+### 3.0.107.rc.9
+- changed: whatsapp api url 
+
 ### 3.0.107.rc.8
 - bug-fixed: form icon into conversation-list and header conversation-detail not change color 
 
