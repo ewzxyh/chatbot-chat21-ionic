@@ -70,7 +70,13 @@ ion-content{
     // height: 100px;
 }
 
+ion-input{
+    background-color: var(--textarea-background);
+    color: var(--textarea-color);
+}
+
 ion-footer {
+    background: var(--modal-content-background);
     display: flex;
     flex-direction: row;
     justify-content: flex-end;

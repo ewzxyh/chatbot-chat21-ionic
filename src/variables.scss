@@ -35,7 +35,7 @@ body {
     --list-conversation-with-color: rgba(0, 0, 0, 1);
     --list-conversation-with-color-not-read: #3c4858;
     --list-conversation-message-color-not-read: #3c4858;
-    --list-notification-point-color: #3c4858;
+    --list-notification-point-color: var(--basic-blue);
     --list-timestamp-color: #6e6f73;
     --last-message-color: rgb(60, 72, 88);
 

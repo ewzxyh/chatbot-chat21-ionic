@@ -445,8 +445,9 @@ export function replaceEndOfLine(text) {
 
 
 
-
-
+export function isObjectEmpty(objectName){
+  return Object.keys(objectName).length === 0
+}
 
 export function isExistInArray(members, currentUid) {
   return members.includes(currentUid);
