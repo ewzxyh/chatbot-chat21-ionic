@@ -8,6 +8,7 @@ import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service
 import { UploadService } from 'src/chat21-core/providers/abstract/upload.service';
 import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance';
 import { MapsPage } from '../maps/maps.page';
+import { isObjectEmpty } from 'src/chat21-core/utils/utils';
 
 @Component({
   selector: 'send-whatsapp-template-modal',
@@ -263,6 +264,21 @@ export class SendWhatsappTemplateModal implements OnInit {
         }
       }
     }
+
+    /** REMOVE EMPTY PROPERTY BEFORE SEND */
+    if(new_header_params.length === 0){
+      delete attachment.template.params.header
+    }
+    if(new_body_params.length === 0){
+      delete attachment.template.params.body
+    }
+    if(new_buttons_param.length === 0){
+      delete attachment.template.params.buttons
+    }
+    if(isObjectEmpty(attachment.template.params)){
+      delete attachment.template.params
+    }
+    
 
     let data = {
       attachment: attachment,
