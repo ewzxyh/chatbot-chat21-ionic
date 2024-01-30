@@ -198,162 +198,162 @@ body {
    */
 
   .md body {
-    --ion-background-color: #121212;
-    --ion-background-color-rgb: 18,18,18;
+    // --ion-background-color: #121212;
+    // --ion-background-color-rgb: 18,18,18;
 
-    --ion-text-color: #ffffff;
-    --ion-text-color-rgb: 255,255,255;
+    // --ion-text-color: #ffffff;
+    // --ion-text-color-rgb: 255,255,255;
 
-    --ion-border-color: #222222;
+    // --ion-border-color: #222222;
 
-    --ion-color-step-50: #1e1e1e;
-    --ion-color-step-100: #2a2a2a;
-    --ion-color-step-150: #363636;
-    --ion-color-step-200: #414141;
-    --ion-color-step-250: #4d4d4d;
-    --ion-color-step-300: #595959;
-    --ion-color-step-350: #656565;
-    --ion-color-step-400: #717171;
-    --ion-color-step-450: #7d7d7d;
-    --ion-color-step-500: #898989;
-    --ion-color-step-550: #949494;
-    --ion-color-step-600: #a0a0a0;
-    --ion-color-step-650: #acacac;
-    --ion-color-step-700: #b8b8b8;
-    --ion-color-step-750: #c4c4c4;
-    --ion-color-step-800: #d0d0d0;
-    --ion-color-step-850: #dbdbdb;
-    --ion-color-step-900: #e7e7e7;
-    --ion-color-step-950: #f3f3f3;
+    // --ion-color-step-50: #1e1e1e;
+    // --ion-color-step-100: #2a2a2a;
+    // --ion-color-step-150: #363636;
+    // --ion-color-step-200: #414141;
+    // --ion-color-step-250: #4d4d4d;
+    // --ion-color-step-300: #595959;
+    // --ion-color-step-350: #656565;
+    // --ion-color-step-400: #717171;
+    // --ion-color-step-450: #7d7d7d;
+    // --ion-color-step-500: #898989;
+    // --ion-color-step-550: #949494;
+    // --ion-color-step-600: #a0a0a0;
+    // --ion-color-step-650: #acacac;
+    // --ion-color-step-700: #b8b8b8;
+    // --ion-color-step-750: #c4c4c4;
+    // --ion-color-step-800: #d0d0d0;
+    // --ion-color-step-850: #dbdbdb;
+    // --ion-color-step-900: #e7e7e7;
+    // --ion-color-step-950: #f3f3f3;
 
-    --ion-item-background: #1e1e1e;
-    --ion-toolbar-background: #1f1f1f;
-    --ion-tab-bar-background: #1f1f1f;
-
-
-    /* ----- NEW -----*/
-    --icon-color: rgb(135, 150, 175);
-    --basic-blue: rgb(33,150,243);
-    --basic-red: #EB1E23;
-    --basic-blue-02: rgb(51, 65, 85);
-    --basic-blue-03: rgb(27,37,51);
-
-    // ***** Conversation-list: start ***** //
-    --list-bkg-color: rgb(16,23,37);
-    --list-bkg-color-selected: rgba(24, 119, 242, 0.12); //rgba(24, 119, 242, 0.04);
-    --list-bkg-color-selected-border: var(--basic-blue);
-    --item-backgroud-hover: rgba(255, 255, 255, 1);
-    --archive-button-background: rgb(16,23,37);
-    --avatar-placeholder-color: #ffffff;
-    --conversation-project-color: rgb(135, 150, 175);
-
-    --list-conversation-with-color: white;
-    --list-conversation-with-color-not-read: var(--basic-blue);
-    --list-conversation-message-color-not-read: var(--basic-blue);
-    --list-notification-point-color: var(--basic-blue);
-    --list-timestamp-color: hsl(228, 2%, 44%);
-    --last-message-color: rgb(148, 163, 184);
-
-    --contact-directory-searchbar-background: var(--basic-blue-03);
-    // ***** Conversation-list: end ***** //
-
-    // ***** Conversation-detail: start ***** //
-    --conversation-detail-background: var(--basic-blue-03);
-    --conversation-detail-header-color: white;
-    --conversation-detail-header-typing-color: var(--basic-blue);
-    --border-color-base: rgba(241, 245, 249, 0.12);
-    --date-divider-color: rgba(241, 245, 249, 0.12);
-    --date-divider-text-color: #64748b;
-    --message-date-color: #647491;
-    --textarea-background: var(--basic-blue-02);
-    --textarea-color: var(--icon-color);
-    // ***** Conversation-detail: end ***** //
-
-    // ***** Conversation-detail: INFO-MESSAGE: start ***** //
-    --info-message-background: #C9E4F6;
-    --info-message-color: var(--basic-blue-03);
-    --info-message-bounce-color: #C9E4F6;
-    // ***** Conversation-detail: INFO-MESSAGE: end ***** //
-
-    // ***** Conversation-detail: BUBBLE-MESSAGE: start ***** //
-    --bck-msg-received: rgb(100, 116, 139);
-    --col-msg-received: rgb(248, 250, 252);
-    --bck-msg-sent: rgb(59, 130, 246);
-    --col-msg-sent: rgb(239, 246, 255);
-    --return-receipt-color: rgb(59, 130, 246);
-    --button-in-msg-font-size: 15px;
-    --buttonBackgroundColor: #ffffff;
-    --buttonTextColor: #2a6ac1;
-    --buttonHoverBackgroundColor: #2a6ac1;
-    --buttonHoverTextColor: #ffffff;
-    // ***** Conversation-detail: BUBBLE-MESSAGE: end ***** //
-
-    // ***** Conversation-detail EMOJI-MART: start ***** //
-    --emojii-mart-background: var(--basic-blue-02);
-    --emoji-mart-color: var(--icon-color);
-    // ***** Conversation-detail EMOJI-MART: end ***** //
-
-    // ***** Conversation-detail: INFO-DIRECT: start ***** //
-    --info-text-color: #f0f2f7;
-    --info-direct-detail-accordion-background: var(--basic-blue-02);
-    --info-direct-color-accordion-hover: rgba(255, 255, 255, .05);
-    --info-direct-color-accordion-color-title: #fff;
-    --info-direct-color-accordion-color-subtitle: #a9afbb;
-    // ***** Conversation-detail: INFO-DIRECT: end ***** //
-
-    // ***** MODALS: start ***** //
-    --modal-header-background: rgb(59, 130, 246);
-    --modal-icon-color: rgb(239, 246, 255);
-    --modal-content-background: var(--basic-blue-03);
-    --title-focus-color: rgb(239, 246, 255);
-    --border-focus-color: rgb(59, 130, 246);
-    --button-no-background-text-color: rgb(98, 112, 139);
-    --button-background-color: rgb(59, 130, 246);
-    --button-text-color: rgb(239, 246, 255);
-    --label-color: #64748b;
-    --preview-background: var(--basic-blue-02);
-    // ***** MODALS: end ***** //
-
-    // ***** CANNED-RESPONSES: start ***** //
-    --canned-hover-background: #1877f2;
-    --canned-hover-color: rgb(135, 150, 175);
-    // ***** CANNED-RESPONSES: end ***** //
+    // --ion-item-background: #1e1e1e;
+    // --ion-toolbar-background: #1f1f1f;
+    // --ion-tab-bar-background: #1f1f1f;
 
 
-    // ***** Navbar: start ***** //
-    --text-base-color: #ffffff;
-    --navbar-background: var(--basic-blue-03);
-    --nav-bar-heigth: 60px;
-    --simulate-btn-background: #216d4b;
-    --simulate-btn-color: #fff;
+    // /* ----- NEW -----*/
+    // --icon-color: rgb(135, 150, 175);
+    // --basic-blue: rgb(33,150,243);
+    // --basic-red: #EB1E23;
+    // --basic-blue-02: rgb(51, 65, 85);
+    // --basic-blue-03: rgb(27,37,51);
 
-    --dropdown-menu-background: var(--basic-blue-03);
-    --dropdown-menu-color: rgb(148, 163, 184);
-    --dropdown-menu-item-color: rgb(226, 232, 240);
-    --dropdown-menu-selected-background: rgba(255, 255, 255, .05);
-    --dropdown-menu-selected-color: #eee;
-    --dropdown-menu-hover-background: rgba(255, 255, 255, .05);
-    --dropdown-menu-hover-color: #fff;
-    --dropdown-divider-color: rgba(241, 245, 249, 0.12);
-    --dropdown-section-title: #eee;
-    // ***** Navbar: end ***** //
+    // // ***** Conversation-list: start ***** //
+    // --list-bkg-color: rgb(16,23,37);
+    // --list-bkg-color-selected: rgba(24, 119, 242, 0.12); //rgba(24, 119, 242, 0.04);
+    // --list-bkg-color-selected-border: var(--basic-blue);
+    // --item-backgroud-hover: rgba(255, 255, 255, 1);
+    // --archive-button-background: rgb(16,23,37);
+    // --avatar-placeholder-color: #ffffff;
+    // --conversation-project-color: rgb(135, 150, 175);
 
-    // ***** Sidebar: start ***** //
-    --sidebar-background-color: #2d323e;
-    --sidebar-header-background: rgb(59, 130, 246);
-    --sidebar-color: #fff;
-    --sidebar-icon-color: #647491;
-    --sidebar-hover-icon-color: #a9afbb;
-    --sidebar-active-icon: #fff;
-    --sidebar-user-detail-color: #a9afbb;
-    --sidebar-user-detail-profile-color: var(--basic-blue);
-    --sidebar-user-detail-select-background: var(--basic-blue-02);
-    --sidebar-user-profile-select-background: var(--basic-blue-02);
-    --sidebar-user-detail-select-hover-background: rgba(255, 255, 255, .05);
-    --sidebar-user-detail-select-color: #fff;
-    --tooltip-bckground: rgb(151,163, 182);
-    --tooltip-color: var(--basic-blue-03);
-    // ***** Sidebar: end ***** //
+    // --list-conversation-with-color: white;
+    // --list-conversation-with-color-not-read: var(--basic-blue);
+    // --list-conversation-message-color-not-read: var(--basic-blue);
+    // --list-notification-point-color: var(--basic-blue);
+    // --list-timestamp-color: hsl(228, 2%, 44%);
+    // --last-message-color: rgb(148, 163, 184);
+
+    // --contact-directory-searchbar-background: var(--basic-blue-03);
+    // // ***** Conversation-list: end ***** //
+
+    // // ***** Conversation-detail: start ***** //
+    // --conversation-detail-background: var(--basic-blue-03);
+    // --conversation-detail-header-color: white;
+    // --conversation-detail-header-typing-color: var(--basic-blue);
+    // --border-color-base: rgba(241, 245, 249, 0.12);
+    // --date-divider-color: rgba(241, 245, 249, 0.12);
+    // --date-divider-text-color: #64748b;
+    // --message-date-color: #647491;
+    // --textarea-background: var(--basic-blue-02);
+    // --textarea-color: var(--icon-color);
+    // // ***** Conversation-detail: end ***** //
+
+    // // ***** Conversation-detail: INFO-MESSAGE: start ***** //
+    // --info-message-background: #C9E4F6;
+    // --info-message-color: var(--basic-blue-03);
+    // --info-message-bounce-color: #C9E4F6;
+    // // ***** Conversation-detail: INFO-MESSAGE: end ***** //
+
+    // // ***** Conversation-detail: BUBBLE-MESSAGE: start ***** //
+    // --bck-msg-received: rgb(100, 116, 139);
+    // --col-msg-received: rgb(248, 250, 252);
+    // --bck-msg-sent: rgb(59, 130, 246);
+    // --col-msg-sent: rgb(239, 246, 255);
+    // --return-receipt-color: rgb(59, 130, 246);
+    // --button-in-msg-font-size: 15px;
+    // --buttonBackgroundColor: #ffffff;
+    // --buttonTextColor: #2a6ac1;
+    // --buttonHoverBackgroundColor: #2a6ac1;
+    // --buttonHoverTextColor: #ffffff;
+    // // ***** Conversation-detail: BUBBLE-MESSAGE: end ***** //
+
+    // // ***** Conversation-detail EMOJI-MART: start ***** //
+    // --emojii-mart-background: var(--basic-blue-02);
+    // --emoji-mart-color: var(--icon-color);
+    // // ***** Conversation-detail EMOJI-MART: end ***** //
+
+    // // ***** Conversation-detail: INFO-DIRECT: start ***** //
+    // --info-text-color: #f0f2f7;
+    // --info-direct-detail-accordion-background: var(--basic-blue-02);
+    // --info-direct-color-accordion-hover: rgba(255, 255, 255, .05);
+    // --info-direct-color-accordion-color-title: #fff;
+    // --info-direct-color-accordion-color-subtitle: #a9afbb;
+    // // ***** Conversation-detail: INFO-DIRECT: end ***** //
+
+    // // ***** MODALS: start ***** //
+    // --modal-header-background: rgb(59, 130, 246);
+    // --modal-icon-color: rgb(239, 246, 255);
+    // --modal-content-background: var(--basic-blue-03);
+    // --title-focus-color: rgb(239, 246, 255);
+    // --border-focus-color: rgb(59, 130, 246);
+    // --button-no-background-text-color: rgb(98, 112, 139);
+    // --button-background-color: rgb(59, 130, 246);
+    // --button-text-color: rgb(239, 246, 255);
+    // --label-color: #64748b;
+    // --preview-background: var(--basic-blue-02);
+    // // ***** MODALS: end ***** //
+
+    // // ***** CANNED-RESPONSES: start ***** //
+    // --canned-hover-background: #1877f2;
+    // --canned-hover-color: rgb(135, 150, 175);
+    // // ***** CANNED-RESPONSES: end ***** //
+
+
+    // // ***** Navbar: start ***** //
+    // --text-base-color: #ffffff;
+    // --navbar-background: var(--basic-blue-03);
+    // --nav-bar-heigth: 60px;
+    // --simulate-btn-background: #216d4b;
+    // --simulate-btn-color: #fff;
+
+    // --dropdown-menu-background: var(--basic-blue-03);
+    // --dropdown-menu-color: rgb(148, 163, 184);
+    // --dropdown-menu-item-color: rgb(226, 232, 240);
+    // --dropdown-menu-selected-background: rgba(255, 255, 255, .05);
+    // --dropdown-menu-selected-color: #eee;
+    // --dropdown-menu-hover-background: rgba(255, 255, 255, .05);
+    // --dropdown-menu-hover-color: #fff;
+    // --dropdown-divider-color: rgba(241, 245, 249, 0.12);
+    // --dropdown-section-title: #eee;
+    // // ***** Navbar: end ***** //
+
+    // // ***** Sidebar: start ***** //
+    // --sidebar-background-color: #2d323e;
+    // --sidebar-header-background: rgb(59, 130, 246);
+    // --sidebar-color: #fff;
+    // --sidebar-icon-color: #647491;
+    // --sidebar-hover-icon-color: #a9afbb;
+    // --sidebar-active-icon: #fff;
+    // --sidebar-user-detail-color: #a9afbb;
+    // --sidebar-user-detail-profile-color: var(--basic-blue);
+    // --sidebar-user-detail-select-background: var(--basic-blue-02);
+    // --sidebar-user-profile-select-background: var(--basic-blue-02);
+    // --sidebar-user-detail-select-hover-background: rgba(255, 255, 255, .05);
+    // --sidebar-user-detail-select-color: #fff;
+    // --tooltip-bckground: rgb(151,163, 182);
+    // --tooltip-color: var(--basic-blue-03);
+    // // ***** Sidebar: end ***** //
 
 
   }
