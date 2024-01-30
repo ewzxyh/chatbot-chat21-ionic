@@ -33,7 +33,7 @@ export class InfoSupportGroupComponent implements OnInit {
 
   onLoad(iframe){
     let styleData = this.appStorageService.getItem('style')
-    console.log('[InfoSupportGroupComponent] styleeeeee', styleData)
+    this.logger.log('[InfoSupportGroupComponent] styleeeeee', styleData)
     if(styleData && styleData !== 'undefined'){
       this.loadStyle(JSON.parse(styleData))
     }
