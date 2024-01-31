@@ -7,6 +7,7 @@ import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service
 import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance';
 import { UserModel } from 'src/chat21-core/models/user';
 import { checkPlatformIsMobile } from 'src/chat21-core/utils/utils';
+import { LOGOS_ITEMS } from 'src/app/utils/utils-resources';
 
 @Component({
   selector: 'send-email-modal',
@@ -27,6 +28,7 @@ export class SendEmailModal implements OnInit {
   emailFormGroup: FormGroup;
   private logger: LoggerService = LoggerInstance.getInstance()
   public isMobile: boolean = false;
+  LOGOS_ITEMS = LOGOS_ITEMS;
   
   constructor(
     public viewCtrl: ModalController,

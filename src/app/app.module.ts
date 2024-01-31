@@ -117,6 +117,7 @@ import { Deeplinks } from '@ionic-native/deeplinks/ngx';
 import { TriggerEvents } from './services/triggerEvents/triggerEvents';
 import { Globals } from './utils/globals';
 import { GlobalSettingsService } from './services/global-settings/global-settings.service';
+import { BrandService } from './services/brand/brand.service';
 
 // FACTORIES
 export function createTranslateLoader(http: HttpClient) {
@@ -254,13 +255,14 @@ export function notificationsServiceFactory(appConfig: AppConfigProvider, chat21
   }
 }
 
-const appInitializerFn = (appConfig: AppConfigProvider, logger: NGXLogger) => {
-  return () => {
+const appInitializerFn = (appConfig: AppConfigProvider, brandService: BrandService, logger: NGXLogger) => {
+  return async() => {
     let customLogger = new CustomLogger(logger)
     LoggerInstance.setInstance(customLogger)
     if (environment.remoteConfig) {
-      return appConfig.loadAppConfig();
+      await appConfig.loadAppConfig();
     }
+    await brandService.loadBrand();
   };
 };
 
@@ -323,7 +325,7 @@ const appInitializerFn = (appConfig: AppConfigProvider, logger: NGXLogger) => {
       provide: APP_INITIALIZER,
       useFactory: appInitializerFn,
       multi: true,
-      deps: [AppConfigProvider, NGXLogger]
+      deps: [AppConfigProvider, BrandService, NGXLogger]
     },
     {
       provide: MessagingAuthService,

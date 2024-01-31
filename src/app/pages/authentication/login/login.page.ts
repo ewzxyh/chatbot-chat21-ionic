@@ -17,6 +17,7 @@ import { isInArray } from 'src/chat21-core/utils/utils';
 import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service';
 import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance';
 import { AppStorageService } from 'src/chat21-core/providers/abstract/app-storage.service';
+import { BRAND_BASE_INFO, LOGOS_ITEMS } from 'src/app/utils/utils-resources';
 
 @Component({
   selector: 'app-login',
@@ -29,6 +30,7 @@ export class LoginPage implements OnInit {
   showErrorSignIn = false;
   companyLogoBlackUrl: string;
   companyName: string;
+  companySiteUrl: string;
 
   public translationMap: Map<string, string>;
   private subscriptions = [];
@@ -60,8 +62,9 @@ export class LoginPage implements OnInit {
 
   /** */
   initialize() {
-    this.companyLogoBlackUrl = 'assets/chat21-logo.png';
-    this.companyName = 'Tiledesk'; // this.chatManager.getTenant();
+    this.companyLogoBlackUrl = LOGOS_ITEMS['BASE_LOGO'].icon; //'assets/chat21-logo.png';
+    this.companyName = BRAND_BASE_INFO['COMPANY_NAME']; // this.chatManager.getTenant();
+    this.companySiteUrl = BRAND_BASE_INFO['COMPANY_SITE_URL']
     this.translations();
     this.events.subscribe('sign-in', this.signIn);
     this.setSubscriptions();

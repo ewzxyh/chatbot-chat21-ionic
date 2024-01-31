@@ -1,11 +1,11 @@
 // @import '../../../../../sass/variables';
 
 div {
-    --backgroundColor: --basic-blue;
-    --textColor: --bck-msg-sent;
-    --hoverBackgroundColor: --bck-msg-sent;
-    --hoverTextColor: --basic-blue;
-    --buttonFontSize: --button-in-msg-font-size;
+    --backgroundColor: #{var(--basic-blue)};
+    --textColor: #{var(--bck-msg-sent)};
+    --hoverBackgroundColor: #{var(--bck-msg-sent)};
+    --hoverTextColor: #{var(--basic-blue)};
+    ---buttonFontSize: #{var(--button-in-msg-font-size)};
 }
 
 .button-in-msg {

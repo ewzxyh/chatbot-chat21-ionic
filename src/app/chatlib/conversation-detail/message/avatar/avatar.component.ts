@@ -22,7 +22,6 @@ export class AvatarComponent implements OnInit {
         this.url =  this.baseLocation +'/assets/images/light_avatar_placeholder.svg'
       }
     }
-    
   }
 
   onBotImgError(event){

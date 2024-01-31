@@ -14,6 +14,7 @@ import { tranlatedLanguage } from '../../../chat21-core/utils/constants';
 
 // utils
 import { avatarPlaceholder, getColorBck } from 'src/chat21-core/utils/utils-user';
+import { BRAND_BASE_INFO, LOGOS_ITEMS } from 'src/app/utils/utils-resources';
 
 @Component({
   selector: 'app-sidebar',
@@ -58,6 +59,7 @@ export class SidebarComponent implements OnInit {
   dashboard_history_url: string;
   dashboard_settings_url: string;
   tiledesk_url: string;
+  LOGOS_ITEMS = LOGOS_ITEMS;
   constructor(
     public imageRepoService: ImageRepoService,
     public appStorageService: AppStorageService,
@@ -72,6 +74,8 @@ export class SidebarComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.tiledesk_url = BRAND_BASE_INFO['COMPANY_SITE_URL']
+    
     this.DASHBOARD_URL = this.appConfig.getConfig().dashboardUrl + '#/project/';
     // console.log('[SIDEBAR] DASHBOARD_URL ', this.DASHBOARD_URL)
     this.getStoredProjectAndUserRole()

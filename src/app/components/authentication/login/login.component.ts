@@ -23,6 +23,7 @@ export class LoginComponent implements OnInit {
   @Input() showSpinnerInLoginBtn: boolean;
   @Input() translationMap: Map<string, string>;
   @Input() companyLogoBlackUrl: string;
+  @Input() companySiteUrl: string;
   @Input() companyName: string;
   @Output() onSignInWithEmailAndPassword = new EventEmitter<{ email: string, password: string }>();
   @Output() onSignInWithGoogle = new EventEmitter()
@@ -30,7 +31,6 @@ export class LoginComponent implements OnInit {
 
   // @ViewChild('email', {  static: false })  emailInputEl: IonInput;
   userForm: FormGroup;
-  companySiteUrl: string;
   emailMustBeAValidEmail: string;
   DASHBOARD_URL: string;
 

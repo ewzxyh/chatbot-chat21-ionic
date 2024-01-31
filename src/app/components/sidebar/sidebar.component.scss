@@ -24,6 +24,8 @@
   position: absolute;
   bottom: 0;
   display: flex;
+  justify-content: center;
+  width: 100%;
   height: 60px;
 
   svg path:first-child {
@@ -31,6 +33,10 @@
   }
   svg path:nth-child(2){
     fill: #E5BBAD
+  }
+
+  img{
+    width: 30px;
   }
 }
 
