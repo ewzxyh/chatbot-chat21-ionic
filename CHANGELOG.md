@@ -1,5 +1,7 @@
 # chat21-ionic ver 3.0
 
+### 3.0.108 in PROD
+
 ### 3.0.108.rc.1
 - added: brandService to manage remote resources
 - added: brandSrc env property

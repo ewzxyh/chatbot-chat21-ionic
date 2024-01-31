@@ -75,7 +75,7 @@ export class BrandService {
       BASE_LOGO_WHITE_NO_TEXT:"",
       COMPANY_NAME: "Tiledesk",
       COMPANY_SITE_NAME:"tiledesk.com",
-      COMANY_SITE_URL:"https://www.tiledesk.com",
+      COMPANY_SITE_URL:"https://www.tiledesk.com",
       CONTACT_US_EMAIL: "redacted@example.invalid",
       COMPANY_PRIMARY_COLOR:""
     }
