@@ -1,5 +1,10 @@
 # chat21-ionic ver 3.0
 
+### 3.0.108.rc.1
+- added: brandService to manage remote resources
+- added: brandSrc env property
+- bug-fixed: conversation-list header shows sidebar-user-detail button
+
 ### 3.0.107 in PROD
 
 ### 3.0.107.rc.9

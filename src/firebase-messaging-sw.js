@@ -186,7 +186,7 @@ messaging.onBackgroundMessage(function (payload) {
   // const notificationTitle = payload.notification.title;
   // const notificationOptions = {
   //   body: payload.notification.body,
-  //   icon: './assets/images/tiledesk_logo_50x50.png',
+  //   icon: './assisets/images/tiledesk_logo_50x50.png',
   //   data: { url: payload.data.click_action }, //the url which we gonna use later
   //   actions: [{
   //     "action": conv_id, "title": sender_fullname

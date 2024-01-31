@@ -161,7 +161,8 @@ ion-label.message-placeholder{
 
     img{
         max-width: 35%;
-        max-height: 50px
+        max-height: 50px;
+        filter: brightness(0) saturate(100%) invert(64%) sepia(1%) saturate(46%) hue-rotate(314deg) brightness(103%) contrast(99%);
     }
 }
 

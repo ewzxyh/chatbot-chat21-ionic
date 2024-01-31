@@ -62,7 +62,7 @@ export class LoginPage implements OnInit {
 
   /** */
   initialize() {
-    this.companyLogoBlackUrl = LOGOS_ITEMS['BASE_LOGO'].icon; //'assets/chat21-logo.png';
+    this.companyLogoBlackUrl = LOGOS_ITEMS['BASE_LOGO'].icon;
     this.companyName = BRAND_BASE_INFO['COMPANY_NAME']; // this.chatManager.getTenant();
     this.companySiteUrl = BRAND_BASE_INFO['COMPANY_SITE_URL']
     this.translations();
