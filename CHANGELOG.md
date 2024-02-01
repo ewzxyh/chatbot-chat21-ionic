@@ -1,5 +1,7 @@
 # chat21-ionic ver 3.0
 
+### 3.0.109 in PROD
+
 ### 3.0.109-rc.1
 - added: BASE_LOGO_GRAY resource key
 - bug-fixed: body texarea into email modal has 0px height
