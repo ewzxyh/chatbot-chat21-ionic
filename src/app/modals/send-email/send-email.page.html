@@ -29,12 +29,13 @@
           formControlName="text"
           autosize="false" 
           auto-grow="true" 
-          autofocus="true" 
+          autofocus="true"
+          rows="2"
           placeholder="{{translationMap?.get('EMAIL.MESSAGE_PLACEHOLDER')}}">
         </ion-textarea>
-        <div class="info-wrapper">
+        <div class="info-wrapper" *ngIf="LOGOS_ITEMS['BASE_LOGO_GRAY'].icon">
           <ion-label>Powered by</ion-label>
-          <img [src]="LOGOS_ITEMS['BASE_LOGO'].icon">
+          <img [src]="LOGOS_ITEMS['BASE_LOGO_GRAY'].icon">
         </div>
       </div>
 

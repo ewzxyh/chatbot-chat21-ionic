@@ -33,6 +33,10 @@ ion-content{
         ion-textarea{
             min-height: calc(100% - 50px);
             max-height: calc(100% - 50px);
+            
+            &::ng-deep textarea {
+                height: unset !important;
+            }
         }
     }
 
@@ -138,6 +142,10 @@ ion-input{
         min-height: 184px;
         max-height: 184px;
         color: rgb(98, 112, 139);
+
+        &::ng-deep textarea {
+            height: unset !important;
+        }
     }
 }
 
@@ -162,7 +170,6 @@ ion-label.message-placeholder{
     img{
         max-width: 35%;
         max-height: 50px;
-        filter: brightness(0) saturate(100%) invert(64%) sepia(1%) saturate(46%) hue-rotate(314deg) brightness(103%) contrast(99%);
     }
 }
 
