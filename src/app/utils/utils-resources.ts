@@ -4,7 +4,8 @@ export const LOGOS_ITEMS: { [key: string] : { label: string, icon: string }} ={
     BASE_LOGO: {label: 'Tiledesk',  icon: 'assets/logos/tiledesk_logo.svg'},
     BASE_LOGO_NO_TEXT: {label: 'Tiledesk', icon: 'assets/logos/tiledesk_logo_no_text.svg'},
     BASE_LOGO_WHITE: { label: 'Tiledesk', icon: '"assets/logos/tiledesk-logo_new_white.svg'},
-    BASE_LOGO_WHITE_NO_TEXT: { label: 'Tiledesk', icon: '"assets/logos/tiledesk-logo_new_white.svg'}
+    BASE_LOGO_WHITE_NO_TEXT: { label: 'Tiledesk', icon: '"assets/logos/tiledesk-logo_new_white.svg'},
+    BASE_LOGO_GRAY: { label: 'Tiledesk', icon: 'https://support-pre.tiledesk.com/dashboard/assets/img/logos/tiledesk-logo_new_gray.svg'}
 }
 
 export const BRAND_BASE_INFO: { [key: string] : any} ={
