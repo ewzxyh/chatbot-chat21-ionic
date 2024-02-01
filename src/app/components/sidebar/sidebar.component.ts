@@ -60,6 +60,7 @@ export class SidebarComponent implements OnInit {
   dashboard_settings_url: string;
   tiledesk_url: string;
   LOGOS_ITEMS = LOGOS_ITEMS;
+  BRAND_BASE_INFO = BRAND_BASE_INFO;
   constructor(
     public imageRepoService: ImageRepoService,
     public appStorageService: AppStorageService,
@@ -77,7 +78,7 @@ export class SidebarComponent implements OnInit {
     this.tiledesk_url = BRAND_BASE_INFO['COMPANY_SITE_URL']
     
     this.DASHBOARD_URL = this.appConfig.getConfig().dashboardUrl + '#/project/';
-    // console.log('[SIDEBAR] DASHBOARD_URL ', this.DASHBOARD_URL)
+    console.log('[SIDEBAR] DASHBOARD_URL ', this.DASHBOARD_URL, LOGOS_ITEMS)
     this.getStoredProjectAndUserRole()
     this.subcribeToAuthStateChanged()
     this.listenTocurrentProjectUserUserAvailability$()
