@@ -10,6 +10,7 @@ export const LOGOS_ITEMS: { [key: string] : { label: string, icon: string }} ={
 
 export const BRAND_BASE_INFO: { [key: string] : any} ={
     COMPANY_NAME: "Tiledesk",
+    BRAND_NAME: "Tiledesk",
     COMPANY_SITE_NAME:"tiledesk.com",
     COMPANY_SITE_URL:"https://www.tiledesk.com",
     CONTACT_US_EMAIL: "redacted@example.invalid",

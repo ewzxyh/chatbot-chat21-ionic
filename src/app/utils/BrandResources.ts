@@ -21,7 +21,7 @@ export class BrandResources {
         }
 
         /** META TITLE and FAVICON */
-        document.title = this.brand['COMPANY_NAME'] + ' ' + this.brand['META_TITLE']
+        document.title = this.brand['BRAND_NAME'] + ' ' + this.brand['META_TITLE']
         var icon = document.querySelector("link[rel~='icon']") as HTMLElement;
         icon.setAttribute('href', this.brand['FAVICON_URL'])
 
@@ -29,7 +29,7 @@ export class BrandResources {
         document.body.style.setProperty('--base-brand-color', this.brand['BRAND_COLOR']);
 
         /** LOGOS_ITEMS */
-        Object.keys(LOGOS_ITEMS).forEach(key => { LOGOS_ITEMS[key].icon = this.brand[key]; LOGOS_ITEMS[key].label = this.brand['COMPANY_NAME']}) 
+        Object.keys(LOGOS_ITEMS).forEach(key => { LOGOS_ITEMS[key].icon = this.brand[key]; LOGOS_ITEMS[key].label = this.brand['BRAND_NAME']}) 
         
         /** BRAND_BASE_INFO */
         Object.keys(BRAND_BASE_INFO).forEach(key => BRAND_BASE_INFO[key] = this.brand[key])
