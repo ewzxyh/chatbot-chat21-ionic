@@ -22,9 +22,9 @@ import { AppConfigProvider } from 'src/app/services/app-config';
 // utils
 import { avatarPlaceholder, getColorBck } from '../../utils/utils-user';
 import { compareValues, conversationsPathForUserId, searchIndexInArrayForUid, isGroup } from '../../utils/utils';
-import { MESSAGE_TYPE_INFO, TOUCHING_OPERATOR } from '../../utils/constants';
+import { INFO_MESSAGE_TYPE, MESSAGE_TYPE_INFO } from '../../utils/constants';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { messageType } from 'src/chat21-core/utils/utils-message';
+import { infoMessageType, messageType } from 'src/chat21-core/utils/utils-message';
 
 
 // @Injectable({ providedIn: 'root' })
@@ -635,7 +635,7 @@ export class FirebaseConversationsHandler extends ConversationsHandlerService {
 
     translateInfoSupportMessages(conv) {
         const INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU = this.translationMap.get('INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU');
-        if ((conv.attributes && conv.attributes.messagelabel && conv.attributes.messagelabel.key === TOUCHING_OPERATOR) && conv.sender === "system") {
+        if ((infoMessageType(conv) === INFO_MESSAGE_TYPE.TOUCHING_OPERATOR) && conv.sender === "system") {
             const textAfterColon = conv.last_message_text.split(":")[1]
             if (textAfterColon !== undefined) {
                 conv.last_message_text = INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU + ': ' + textAfterColon;

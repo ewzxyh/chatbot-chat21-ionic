@@ -61,7 +61,8 @@ import {
   TYPE_MSG_EMAIL,
   TYPE_MSG_FORM,
   CHANNEL_TYPE_TELEGRAM,
-  CHANNEL_TYPE_WHATSAPP
+  CHANNEL_TYPE_WHATSAPP,
+  INFO_MESSAGE_TYPE
 } from 'src/chat21-core/utils/constants'
 import {
   checkPlatformIsMobile,
@@ -71,6 +72,7 @@ import {
 } from '../../../chat21-core/utils/utils'
 import {
   getProjectIdSelectedConversation,
+  infoMessageType,
   isFirstMessage,
   isInfo,
   isMine,
@@ -219,6 +221,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
    */
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     public chatManager: ChatManager,
     public actionSheetCtrl: ActionSheetController,
     public platform: Platform,
@@ -1213,6 +1216,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         this.logger.log('[CONVS-DETAIL] subscribe to messageInfo - messageId ', msg, this.conversation)
         if (msg) {
           that.updateLeadInfo(msg)
+          that.manageInfoMessage(msg)
           // this.updateLiveInfo(msg)
           // this.setHeaderContent()
         }
@@ -1290,6 +1294,24 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     window.addEventListener('keyboardDidHide', () => {
       this.logger.log('[CONVS-DETAIL] - Keyboard is Hidden')
     })
+  }
+
+  manageInfoMessage(msg: MessageModel){
+    this.logger.log('[CONVS-DETAIL] manageInfoMessage --> ', msg)
+    switch(infoMessageType(msg)){
+        case INFO_MESSAGE_TYPE.MEMBER_JOINED_GROUP:
+          break;
+        case INFO_MESSAGE_TYPE.CHAT_REOPENED:
+          break;
+        case INFO_MESSAGE_TYPE.CHAT_CLOSED:
+            break; 
+        case INFO_MESSAGE_TYPE.LEAD_UPDATED:
+          break;  
+        case INFO_MESSAGE_TYPE.MEMBER_LEFT_GROUP:
+          break;  
+        case INFO_MESSAGE_TYPE.LIVE_PAGE:
+          break;    
+    }
   }
 
   updateLeadInfo(msg) {

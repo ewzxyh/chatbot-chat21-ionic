@@ -7,7 +7,8 @@ import {
   MESSAGE_TYPE_OTHERS,
   MAX_WIDTH_IMAGES,
   CHANNEL_TYPE_GROUP,
-  TYPE_SUPPORT_GROUP
+  TYPE_SUPPORT_GROUP,
+  INFO_MESSAGE_TYPE
 } from '../../chat21-core/utils/constants';
 
 /** */
@@ -103,6 +104,27 @@ export function messageType(msgType: string, message: any) {
       return true;
     }
     return false;
+  }
+}
+
+export function infoMessageType(msg: MessageModel): string{
+  if(msg && msg.attributes.messagelabel && msg.attributes.messagelabel.key === INFO_MESSAGE_TYPE.MEMBER_JOINED_GROUP){
+    return INFO_MESSAGE_TYPE.MEMBER_JOINED_GROUP
+  }
+  if(msg && msg.attributes.messagelabel && msg.attributes.messagelabel.key === INFO_MESSAGE_TYPE.CHAT_REOPENED){
+    return INFO_MESSAGE_TYPE.CHAT_REOPENED
+  }
+  if(msg && msg.attributes.messagelabel && msg.attributes.messagelabel.key === INFO_MESSAGE_TYPE.TOUCHING_OPERATOR){
+    return INFO_MESSAGE_TYPE.TOUCHING_OPERATOR
+  }
+  if(msg && msg.attributes.messagelabel && msg.attributes.messagelabel.key === INFO_MESSAGE_TYPE.LEAD_UPDATED){
+    return INFO_MESSAGE_TYPE.LEAD_UPDATED
+  }
+  if(msg && msg.attributes.messagelabel && msg.attributes.messagelabel.key === INFO_MESSAGE_TYPE.MEMBER_LEFT_GROUP){
+    return INFO_MESSAGE_TYPE.MEMBER_LEFT_GROUP
+  }
+  if(msg && msg.attributes.messagelabel && msg.attributes.messagelabel.key === INFO_MESSAGE_TYPE.LIVE_PAGE){
+    return INFO_MESSAGE_TYPE.LIVE_PAGE
   }
 }
 
