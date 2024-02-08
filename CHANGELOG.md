@@ -1,5 +1,10 @@
 # chat21-ionic ver 3.0
 
+### 3.1.0-rc1
+- added: INFO_MESSAGE_TYPE enum added to manage info message keys into message.attributes object
+- changed: route to main page ('/conversation-detail') when a conversation is closed or abandoned
+- bug-fixed: if agent abandoned a chat, detail still remain visible and can send message
+
 ### 3.0.109 in PROD
 
 ### 3.0.109-rc.1
