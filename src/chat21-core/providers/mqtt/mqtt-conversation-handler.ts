@@ -1,4 +1,3 @@
-import { TOUCHING_OPERATOR, LEAD_UPDATED, MEMBER_LEFT_GROUP, LIVE_PAGE } from './../../utils/constants';
 import { Inject, Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
@@ -16,15 +15,10 @@ import { UserModel } from '../../models/user';
 import { ConversationHandlerService } from '../abstract/conversation-handler.service';
 
 // utils
-import { MSG_STATUS_RECEIVED, CHAT_REOPENED, CHAT_CLOSED, MEMBER_JOINED_GROUP, TYPE_DIRECT, MESSAGE_TYPE_INFO } from '../../utils/constants';
-import {
-  htmlEntities,
-  compareValues,
-  searchIndexInArrayForUid,
-  conversationMessagesRef
-} from '../../utils/utils';
+import { MSG_STATUS_RECEIVED, TYPE_DIRECT, MESSAGE_TYPE_INFO, INFO_MESSAGE_TYPE } from '../../utils/constants';
+import { compareValues, searchIndexInArrayForUid, } from '../../utils/utils';
 import { v4 as uuidv4 } from 'uuid';
-import { isSender, messageType } from '../../utils/utils-message';
+import { infoMessageType, isSender, messageType } from '../../utils/utils-message';
 
 
 @Injectable({ providedIn: 'root' })
@@ -361,10 +355,7 @@ export class MQTTConversationHandler extends ConversationHandlerService {
         const INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU = this.translationMap.get('INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU');
         const INFO_SUPPORT_LIVE_PAGE = this.translationMap.get('INFO_SUPPORT_LIVE_PAGE');
         
-        if (message.attributes.messagelabel
-            && message.attributes.messagelabel.parameters
-            && message.attributes.messagelabel.key === MEMBER_JOINED_GROUP
-        ) {
+        if (infoMessageType(message) === INFO_MESSAGE_TYPE.MEMBER_JOINED_GROUP && message.attributes.messagelabel.parameters ) {
             let subject: string;
             let verb: string;
             let complement: string;
@@ -386,20 +377,20 @@ export class MQTTConversationHandler extends ConversationHandlerService {
                 }
             }
             message.text = subject + ' ' + verb + ' ' + complement;
-        } else if ((message.attributes.messagelabel && message.attributes.messagelabel.key === CHAT_REOPENED)) {
+        } else if (infoMessageType(message) === INFO_MESSAGE_TYPE.CHAT_REOPENED) {
             message.text = INFO_SUPPORT_CHAT_REOPENED;
-        } else if ((message.attributes.messagelabel && message.attributes.messagelabel.key === CHAT_CLOSED)) {
+        } else if (infoMessageType(message) ===  INFO_MESSAGE_TYPE.CHAT_CLOSED) {
             message.text = INFO_SUPPORT_CHAT_CLOSED;
-        } else if ((message.attributes && message.attributes.messagelabel && message.attributes.messagelabel.key === TOUCHING_OPERATOR) && message.sender === "system") {
+        } else if ((infoMessageType(message) ===INFO_MESSAGE_TYPE.TOUCHING_OPERATOR) && message.sender === "system") {
             // console.log('FIREBASEConversationHandlerSERVICE message text', message.text)
             const textAfterColon = message.text.split(":")[1]
             // console.log('FIREBASEConversationHandlerSERVICE message text - textAfterColon', textAfterColon)
             if (textAfterColon !== undefined) {
                 message.text = INFO_A_NEW_SUPPORT_REQUEST_HAS_BEEN_ASSIGNED_TO_YOU + ': ' + textAfterColon;
             }
-        } else if ((message.attributes.messagelabel && message.attributes.messagelabel.key === LEAD_UPDATED)) {
+        } else if (infoMessageType(message) === INFO_MESSAGE_TYPE.LEAD_UPDATED) {
             message.text = INFO_SUPPORT_LEAD_UPDATED;
-        } else if ((message.attributes.messagelabel && message.attributes.messagelabel.key === MEMBER_LEFT_GROUP)) {
+        } else if (infoMessageType(message) === INFO_MESSAGE_TYPE.MEMBER_LEFT_GROUP) {
            let subject: string;
            if (message.attributes.messagelabel.parameters.fullname) {
                subject = message.attributes.messagelabel.parameters.fullname;
@@ -407,7 +398,7 @@ export class MQTTConversationHandler extends ConversationHandlerService {
                subject = message.attributes.messagelabel.parameters.member_id;
            }
            message.text = subject + ' ' +  INFO_SUPPORT_MEMBER_LEFT_GROUP ;
-        } else if(message.attributes.messagelabel && message.attributes.messagelabel.key === LIVE_PAGE){
+        } else if(infoMessageType(message) === INFO_MESSAGE_TYPE.LIVE_PAGE){
             let sourceUrl: string = '';
             if(message.attributes && message.attributes.sourcePage){
                 sourceUrl = message.attributes.sourcePage 
