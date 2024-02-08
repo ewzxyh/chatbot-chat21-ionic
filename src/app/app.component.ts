@@ -1119,7 +1119,8 @@ export class AppComponent implements OnInit {
       this.logger.log('[APP-COMP] ***** conversationRemoved *****', conversation);
       if(conversation) { 
         this.updateConversationsOnStorage();
-        this.segmentResolved(conversation)
+        this.segmentResolved(conversation);
+        this.router.navigateByUrl('conversation-detail/'); //redirect to basePage
       }
     });
   }
