@@ -36,7 +36,6 @@ export class UnassignedConversationsPage implements OnInit {
     private navService: NavProxyService,
     private sanitizer: DomSanitizer,
     private translateService: CustomTranslateService,
-    private appStorageService: AppStorageService,
     private events : EventsService
   ) { }
 
@@ -119,15 +118,15 @@ export class UnassignedConversationsPage implements OnInit {
   }
 
   onLoad(iframe){
-    let styleData = this.appStorageService.getItem('style')
-    console.log('[UNASSIGNED-CONVS-PAGE] styleeeeee', styleData)
+    let styleData = localStorage.getItem('custom_style')
     if(styleData && styleData !== 'undefined'){
       this.loadStyle(JSON.parse(styleData))
     }
   }
+  
   async loadStyle(data){
     var iframeWin = <HTMLIFrameElement>document.getElementById("unassigned-convs-iframe")
-    if(!data.parameter){
+    if(!data || !data.parameter){
       let className = iframeWin.contentDocument.body.className.replace(new RegExp(/style-\S*/gm), '')
       iframeWin.contentDocument.body.className = className
       iframeWin.contentWindow.document.body.classList.remove('light')

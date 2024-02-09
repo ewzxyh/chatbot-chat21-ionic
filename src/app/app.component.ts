@@ -320,7 +320,7 @@ export class AppComponent implements OnInit {
     this.loadCustomScript(appconfig)
     this.listenToPostMsgs();
 
-    this.loadStyle(JSON.parse(this.appStorageService.getItem('style')))
+    this.loadStyle(JSON.parse(localStorage.getItem('custom_style')))
   }
 
 
@@ -412,7 +412,7 @@ export class AppComponent implements OnInit {
 
   async loadStyle(data){
     console.log('[APP-COMPO] event: style ...', data)
-    this.appStorageService.setItem('style', JSON.stringify(data))
+    localStorage.setItem('custom_style', JSON.stringify(data))
     if(!data || !data.parameter){
 
       /** remove class from chat-IFRAME */
@@ -458,7 +458,7 @@ export class AppComponent implements OnInit {
       
 
       /** remove style INFO from storage */
-      this.appStorageService.removeItem('style')
+      localStorage.removeItem('custom_style')
 
       return;
     } 

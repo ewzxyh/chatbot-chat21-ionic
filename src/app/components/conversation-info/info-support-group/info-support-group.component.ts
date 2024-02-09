@@ -16,7 +16,6 @@ export class InfoSupportGroupComponent implements OnInit {
 
   private logger: LoggerService = LoggerInstance.getInstance();
   constructor(
-    private appStorageService: AppStorageService,
     private events : EventsService
   ) { }
 
@@ -32,15 +31,15 @@ export class InfoSupportGroupComponent implements OnInit {
   }
 
   onLoad(iframe){
-    let styleData = this.appStorageService.getItem('style')
-    this.logger.log('[InfoSupportGroupComponent] styleeeeee', styleData)
+    let styleData = localStorage.getItem('custom_style')
+    this.logger.log('[InfoSupportGroupComponent] onLoad style', styleData)
     if(styleData && styleData !== 'undefined'){
       this.loadStyle(JSON.parse(styleData))
     }
   }
   async loadStyle(data){
     var iframeWin = <HTMLIFrameElement>document.getElementById("iframeConsole")
-    if(!data.parameter){
+    if(!data || !data.parameter){
       let className = iframeWin.contentDocument.body.className.replace(new RegExp(/style-\S*/gm), '')
       iframeWin.contentDocument.body.className = className
       iframeWin.contentWindow.document.body.classList.remove('light')
@@ -61,7 +60,7 @@ export class InfoSupportGroupComponent implements OnInit {
     link.type = 'text/css';
     link.media='all';
     
-    console.log('linkkkk', link, iframeWin.contentWindow.document)
+    this.logger.log('[InfoSupportGroupComponent] loadStyle element', link, iframeWin.contentWindow.document)
     let head = iframeWin.contentWindow.document.getElementsByTagName('head')[0];
     head.appendChild(link);
     iframeWin.contentWindow.document.body.classList.add(data.type) //ADD class to body element as theme type ('light', 'dark', 'custom')
