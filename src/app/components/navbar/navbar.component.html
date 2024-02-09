@@ -17,7 +17,7 @@
             <li>
               <button class="btn dropdown-toggle project-dropdown" (click)="openDropdownProjects = !openDropdownProjects">
                 <i class="material-icons" style="margin-right: 3px;">keyboard_arrow_down</i>
-                <span style="text-transform: none"> {{ project?.id_project?.name }} </span>
+                <span class="project-dropdown" style="text-transform: none"> {{ project?.id_project?.name }} </span>
               </button>
               <div class="ripple-container"></div>
               <div id="navbar_dropdown" class="dropdown-menu" [ngClass]="{'open': openDropdownProjects}">
