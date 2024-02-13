@@ -73,6 +73,7 @@ ion-content{
 ion-input{
     background-color: var(--textarea-background);
     color: var(--textarea-color);
+    --placeholder-color: var(--textarea-placeholder-color);
 }
 
 ion-footer {
