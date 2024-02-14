@@ -1,5 +1,7 @@
 # chat21-ionic ver 3.0
 
+### 3.1.0 in PROD
+
 ### 3.1.0-rc2
 - changed: leadStyle storage property from appStorageService to localstorage 'custom_style' property
 - bug-fixed: projects dropdown don't truncate long project name text
