@@ -9,20 +9,20 @@
     </div>
     <!-- EMAIL-OPTION -->
     <div *ngIf="emailSection" class="section-option" id="email"  tooltip="{{translationMap?.get('EMAIL.LABEL_TOOLTIP')}}" placement="top">
-      <ion-button fill="clear" [class.active]="section==='email'" (click)="onOpenSection('email')" [disabled]="channelType === 'direct'">
+      <ion-button fill="clear" [class.active]="section==='email'" (click)="onOpenSection('email')" [disabled]="channelType === 'direct' || channel == CHANNEL_TYPE.WHATSAPP || channel == CHANNEL_TYPE.MESSENGER">
         <ion-icon name="mail-open"></ion-icon>
         {{translationMap.get('LABEL_EMAIL')}}
       </ion-button>
     </div>
 
     <div *ngIf="whatsappTemplatesSection" class="section-option" id="template" tooltip="{{translationMap?.get('WHATSAPP.LABEL_TOOLTIP')}}" placement="top">
-      <ion-button fill="clear" [class.active]="section==='templates'" (click)="onOpenSection('templates');onOpenTemplateModal()" [disabled]="channel !== CHANNEL_TYPE_WHATSAPP">
+      <ion-button fill="clear" [class.active]="section==='templates'" (click)="onOpenSection('templates');onOpenTemplateModal()" [disabled]="channel !== CHANNEL_TYPE.WHATSAPP">
         <ion-icon name="logo-whatsapp"></ion-icon>
         {{translationMap?.get('WHATSAPP.LABEL_TEMPLATES')}}
       </ion-button>
     </div>
     
-    <div *ngIf="section==='chat' && channel !== CHANNEL_TYPE_WHATSAPP && messageString && (leadInfo?.presence['status']==='offline' && leadInfo?.hasEmail)" class="section-option offline-lead-tip" >
+    <div *ngIf="section==='chat' && channel !== CHANNEL_TYPE.WHATSAPP && messageString && (leadInfo?.presence['status']==='offline' && leadInfo?.hasEmail)" class="section-option offline-lead-tip" >
       {{translationMap.get('EMAIL.EMAIL_OFFLINE_TIP')}}
     </div>
 
@@ -46,16 +46,16 @@
           <div class="canned-responses-btn-wpr"
             tooltip="{{translationMap?.get('CANNED_RESPONSES')}}" placement="top">
             <ion-button ion-button fill="clear" class="canned-responses-btn" (click)="openCannedResponses()"
-              [disabled]="!conversationWith?.startsWith(TYPE_SUPPORT_GROUP) || disableTextarea">
+              [disabled]="!conversationWith?.startsWith(CHANNEL_TYPE.SUPPORT_GROUP) || disableTextarea">
               <ion-icon slot="icon-only" name="flash-outline" style="font-size: 24px;"></ion-icon>
             </ion-button>
           </div>
-          <div *ngIf="conversationWith?.startsWith(TYPE_SUPPORT_GROUP)  && tagsCannedCount === 0"
+          <div *ngIf="conversationWith?.startsWith(CHANNEL_TYPE.SUPPORT_GROUP)  && tagsCannedCount === 0"
             tooltip="{{translationMap?.get('NO_CANNED_RESPONSES')}}" placement="top"
             class="no-canned-responses-btn-badge">
             <ion-icon name="alert-sharp" style="vertical-align: middle;"></ion-icon>
           </div>
-          <div *ngIf="conversationWith?.startsWith(TYPE_SUPPORT_GROUP) && (tagsCannedCount > 0)"
+          <div *ngIf="conversationWith?.startsWith(CHANNEL_TYPE.SUPPORT_GROUP) && (tagsCannedCount > 0)"
             tooltip="{{translationMap?.get('YES_CANNED_RESPONSES')}}" placement="top" class="canned-responses-btn-badge">
             <ion-icon name="information-sharp" style="vertical-align: middle;"></ion-icon>
           </div>
