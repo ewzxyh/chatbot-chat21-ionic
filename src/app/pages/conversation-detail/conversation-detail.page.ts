@@ -60,8 +60,7 @@ import {
   TYPE_DIRECT,
   TYPE_MSG_EMAIL,
   TYPE_MSG_FORM,
-  CHANNEL_TYPE_TELEGRAM,
-  CHANNEL_TYPE_WHATSAPP,
+  CHANNEL_TYPE,
   INFO_MESSAGE_TYPE
 } from 'src/chat21-core/utils/constants'
 import {
@@ -347,8 +346,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
             conv.channel_type,
             null,
             conv.attributes['projectId'],
-            conv.attributes['project_name']),
-            conv.attributes['channel']
+            conv.attributes['project_name'],
+            conv.attributes['request_channel'])
         }
 
       }
@@ -1113,17 +1112,18 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
 
     const emailSectionMsg = (attributes && attributes['offline_channel'] === TYPE_MSG_EMAIL)
-    const channelIsNotEmailOrFormOrWhatsappOrTelegram = (attributes && attributes['request_channel'] && (attributes['request_channel'] === TYPE_MSG_EMAIL || 
+    const channelIsNotWeb = (attributes && attributes['request_channel'] && (attributes['request_channel'] === TYPE_MSG_EMAIL || 
                                                                                                 attributes['request_channel'] === TYPE_MSG_FORM || 
-                                                                                                attributes['request_channel'] === CHANNEL_TYPE_WHATSAPP || 
-                                                                                                attributes['request_channel'] === CHANNEL_TYPE_TELEGRAM))
+                                                                                                attributes['request_channel'] === CHANNEL_TYPE.WHATSAPP || 
+                                                                                                attributes['request_channel'] === CHANNEL_TYPE.MESSENGER || 
+                                                                                                attributes['request_channel'] === CHANNEL_TYPE.TELEGRAM))
 
     if ((msg && msg.trim() !== '') || type !== TYPE_MSG_TEXT) {
 
 
       if (this.isEmailEnabled &&
         this.leadInfo && this.leadInfo.presence && this.leadInfo.presence['status'] === 'offline' &&
-        this.leadInfo.email && !emailSectionMsg && !channelIsNotEmailOrFormOrWhatsappOrTelegram) {
+        this.leadInfo.email && !emailSectionMsg && !channelIsNotWeb) {
         this.logger.log('[CONVS-DETAIL] - SEND MESSAGE --> SENDING EMAIL', msg, this.leadInfo.email)
         let msgText = this.createEmailText(msg)
         this.sendEmail(msgText).subscribe(status => {
