@@ -11,8 +11,6 @@ import { ConversationsHandlerService } from 'src/chat21-core/providers/abstract/
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { ContactsService } from 'src/app/services/contacts/contacts.service';
 import { AppConfigProvider } from '../../../services/app-config';
-import { setChannelType } from '../../../../chat21-core/utils/utils';
-import { TYPE_SUPPORT_GROUP, TYPE_DIRECT, TYPE_GROUP } from '../../../../chat21-core/utils/constants';
 import { DomSanitizer } from '@angular/platform-browser';
 
 import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service';

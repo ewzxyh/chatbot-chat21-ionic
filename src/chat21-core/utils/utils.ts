@@ -2,14 +2,12 @@
 import * as moment from 'moment/moment';
 // import * as moment from 'moment-timezone';
 import 'moment/locale/it.js';
-import { FIREBASESTORAGE_BASE_URL_IMAGE, STORAGE_PREFIX, TYPE_GROUP } from './constants';
+import { CHANNEL_TYPE } from './constants';
 
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { AngularDelegate, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { ConversationModel } from '../models/conversation';
-
-import { MAX_WIDTH_IMAGES, TYPE_DIRECT, TYPE_SUPPORT_GROUP } from './constants';
 
 import { avatarPlaceholder, getColorBck } from './utils-user';
 
@@ -536,9 +534,9 @@ export function setConversationAvatar(
 
 /** */
 export function setChannelType(conversationWith: string): string {
-  let channelType = TYPE_DIRECT;
-  if (conversationWith.includes(TYPE_GROUP + '-')) {
-    channelType = TYPE_GROUP;
+  let channelType = CHANNEL_TYPE.DIRECT;
+  if (conversationWith.includes(CHANNEL_TYPE.GROUP + '-')) {
+    channelType = CHANNEL_TYPE.GROUP;
   }
   return channelType;
 }

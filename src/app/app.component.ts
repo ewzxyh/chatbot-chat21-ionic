@@ -826,7 +826,7 @@ export class AppComponent implements OnInit {
             this.hadBeenCalledOpenModal = true;
           }
         }, 1000)
-      }else{
+      }else {
         this.goToDashboardLogin()
       }
     }

@@ -40,14 +40,17 @@ export const PARENT_PAGE_DETAIL_CONVERSATION = 'dettaglio-conversazione ';
 export const BCK_COLOR_CONVERSATION_SELECTED = '#EEEEEE ';
 export const BCK_COLOR_CONVERSATION_UNSELECTED = '#FFFFFF ';
 
-export const TYPE_SUPPORT_GROUP = 'support-group';
-export const CHANNEL_TYPE_GROUP = 'group';
-export const CHANNEL_TYPE_CHAT21 = 'chat21';
-export const CHANNEL_TYPE_EMAIL = 'email';
-export const CHANNEL_TYPE_FORM = 'form';
-export const CHANNEL_TYPE_MESSANGER = 'messanger';
-export const CHANNEL_TYPE_WHATSAPP = 'whatsapp';
-export const CHANNEL_TYPE_TELEGRAM = 'telegram';
+export enum CHANNEL_TYPE {
+    SUPPORT_GROUP = 'support-group',
+    GROUP = 'group',
+    DIRECT = 'direct',
+    CHAT21 = 'chat21',
+    EMAIL = 'email',
+    FORM = 'form',
+    MESSENGER = 'messenger',
+    WHATSAPP = 'whatsapp',
+    TELEGRAM = 'telegram'
+}
 
 // TYPES MESSAGES
 export const TYPE_MSG_TEXT = 'text';
@@ -79,7 +82,8 @@ export enum INFO_MESSAGE_TYPE {
     MEMBER_LEFT_GROUP = "MEMBER_LEFT_GROUP",
     LEAD_UPDATED = "LEAD_UPDATED",
     TOUCHING_OPERATOR = "TOUCHING_OPERATOR",
-    LIVE_PAGE = "LIVE_PAGE"
+    LIVE_PAGE = "LIVE_PAGE",
+    PLAN_EXPIRED = "PLAN_EXPIRED"
 }
 
 

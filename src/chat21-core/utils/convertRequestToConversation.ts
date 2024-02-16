@@ -1,4 +1,4 @@
-import { TYPE_DIRECT, TYPE_SUPPORT_GROUP } from 'src/chat21-core/utils/constants';
+import { CHANNEL_TYPE } from 'src/chat21-core/utils/constants';
 import { ConversationModel } from 'src/chat21-core/models/conversation';
 import { Inject, Injectable, OnInit } from '@angular/core';
 import { avatarPlaceholder, getColorBck } from './utils-user';
@@ -17,7 +17,7 @@ export class ConvertRequestToConversation {
         return new ConversationModel(
             request.request_id,
             request.attributes,
-            request.request_id && (request.request_id.startsWith('group-') || request.request_id.startsWith('support-group'))? TYPE_SUPPORT_GROUP: TYPE_DIRECT,
+            request.request_id && (request.request_id.startsWith('group-') || request.request_id.startsWith('support-group'))? CHANNEL_TYPE.SUPPORT_GROUP: CHANNEL_TYPE.DIRECT,
             request.lead && request.lead.fullname ? request.lead.fullname: null,
             request.request_id,
             request.request_id,

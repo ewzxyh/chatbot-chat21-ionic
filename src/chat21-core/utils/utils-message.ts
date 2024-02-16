@@ -6,9 +6,8 @@ import {
   MESSAGE_TYPE_MINE,
   MESSAGE_TYPE_OTHERS,
   MAX_WIDTH_IMAGES,
-  CHANNEL_TYPE_GROUP,
-  TYPE_SUPPORT_GROUP,
-  INFO_MESSAGE_TYPE
+  INFO_MESSAGE_TYPE,
+  CHANNEL_TYPE
 } from '../../chat21-core/utils/constants';
 
 /** */
@@ -153,7 +152,7 @@ export function getSizeImg(message: any, maxWidthImage?: number): any {
 
 /** */
 export function isChannelTypeGroup(channelType: string) {
-  if (channelType === CHANNEL_TYPE_GROUP || channelType === TYPE_SUPPORT_GROUP) {
+  if (channelType === CHANNEL_TYPE.GROUP || channelType === CHANNEL_TYPE.SUPPORT_GROUP) {
     return true;
   }
   return false;

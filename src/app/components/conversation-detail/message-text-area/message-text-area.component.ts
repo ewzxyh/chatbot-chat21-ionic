@@ -12,7 +12,7 @@ import { LoaderPreviewPage } from 'src/app/modals/loader-preview/loader-preview.
 // Services 
 import { UploadService } from 'src/chat21-core/providers/abstract/upload.service';
 // utils
-import { CHANNEL_TYPE_WHATSAPP, TYPE_MSG_EMAIL, TYPE_MSG_TEXT, TYPE_SUPPORT_GROUP } from 'src/chat21-core/utils/constants';
+import { TYPE_MSG_EMAIL, TYPE_MSG_TEXT, CHANNEL_TYPE } from 'src/chat21-core/utils/constants';
 // Models
 import { UploadModel } from 'src/chat21-core/models/upload';
 
@@ -74,9 +74,8 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
   public countClicks: number = 0;
   public IS_ON_MOBILE_DEVICE: boolean;
 
-  TYPE_SUPPORT_GROUP = TYPE_SUPPORT_GROUP;
+  CHANNEL_TYPE = CHANNEL_TYPE;
   TYPE_MSG_TEXT = TYPE_MSG_TEXT;
-  CHANNEL_TYPE_WHATSAPP = CHANNEL_TYPE_WHATSAPP;
   msg: string
 
   section: string= 'chat'

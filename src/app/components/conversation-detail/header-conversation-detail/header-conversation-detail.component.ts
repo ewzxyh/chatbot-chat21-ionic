@@ -1,4 +1,3 @@
-import { CHANNEL_TYPE_CHAT21, CHANNEL_TYPE_EMAIL, CHANNEL_TYPE_FORM, CHANNEL_TYPE_MESSANGER, CHANNEL_TYPE_TELEGRAM, CHANNEL_TYPE_WHATSAPP, TYPE_GROUP } from './../../../../chat21-core/utils/constants';
 import {
   Component,
   OnInit,
@@ -19,7 +18,7 @@ import { ModalController } from '@ionic/angular'
 import { EventsService } from 'src/app/services/events-service'
 import { CreateTicketPage } from 'src/app/modals/create-ticket/create-ticket.page'
 import { TiledeskService } from 'src/app/services/tiledesk/tiledesk.service'
-import { TYPE_DIRECT, TYPE_SUPPORT_GROUP } from 'src/chat21-core/utils/constants'
+import { CHANNEL_TYPE } from 'src/chat21-core/utils/constants'
 import { isOnMobileDevice } from 'src/chat21-core/utils/utils';
 
 @Component({
@@ -48,16 +47,8 @@ export class HeaderConversationDetailComponent implements OnInit, OnChanges {
   IS_ON_MOBILE_DEVICE: boolean
   private logger: LoggerService = LoggerInstance.getInstance()
 
-  TYPE_SUPPORT_GROUP = TYPE_SUPPORT_GROUP
-  TYPE_GROUP = TYPE_GROUP
-
   //ATTRIBUTES CHANNEL
-  CHANNEL_TYPE_CHAT21 = CHANNEL_TYPE_CHAT21;
-  CHANNEL_TYPE_EMAIL = CHANNEL_TYPE_EMAIL;
-  CHANNEL_TYPE_FORM = CHANNEL_TYPE_FORM;
-  CHANNEL_TYPE_MESSANGER = CHANNEL_TYPE_MESSANGER;
-  CHANNEL_TYPE_WHATSAPP = CHANNEL_TYPE_WHATSAPP;
-  CHANNEL_TYPE_TELEGRAM = CHANNEL_TYPE_TELEGRAM;
+  CHANNEL_TYPE = CHANNEL_TYPE
   
   constructor(
     public imageRepoService: ImageRepoService,
@@ -96,7 +87,7 @@ export class HeaderConversationDetailComponent implements OnInit, OnChanges {
   // ----------------------------------------------------
   initialize() {
     this.getPlatformName()
-    if ( this.conversationAvatar && this.conversationAvatar.channelType === TYPE_DIRECT ) {
+    if (this.conversationAvatar && this.conversationAvatar.channelType === CHANNEL_TYPE.DIRECT ) {
       this.isDirect = true
     }
   }

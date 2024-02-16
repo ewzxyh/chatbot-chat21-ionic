@@ -1,12 +1,4 @@
-import { style } from '@angular/animations';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { environment } from '../../environments/environment';
-
-/** CONSTANTS */
-import { CHANNEL_TYPE_GROUP } from 'src/chat21-core/utils/constants';
-import { getParameterByName } from 'src/chat21-core/utils/utils';
-
 
 @Injectable({
     providedIn: 'root'
