@@ -1,5 +1,10 @@
 # chat21-ionic ver 3.0
 
+### 3.2.0-rc.1
+- added: CONV_TYPE enum for all channel_type
+- bug-fixed: do not sent automatic offline message if channel_type is messanger
+- bug-fixed: disabled email section in conversation-detail footer if channel_type is whatsapp or messanger
+
 ### 3.1.0 in PROD
 
 ### 3.1.0-rc2

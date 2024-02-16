@@ -1,4 +1,4 @@
-#npm version prerelease --preid=beta
+# npm version prerelease --preid=rc
 version=`node -e 'console.log(require("./package.json").version)'`
 echo "version $version"
 
@@ -8,4 +8,3 @@ if [ "$version" != "" ]; then
     git push remoteTiledesk --tags
     npm publish
 fi
-
