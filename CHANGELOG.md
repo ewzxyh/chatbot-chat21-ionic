@@ -1,5 +1,8 @@
 # chat21-ionic ver 3.0
 
+### 3.2.1 in PROD
+- bug-fixed: cannot read property of undefined reading logger.error into brand-service.ts
+
 ### 3.2.0 in PROD
 - changed: API_URL template key in favour of SERVER_BASE_URL
 
