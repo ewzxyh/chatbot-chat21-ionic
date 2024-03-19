@@ -78,7 +78,8 @@ export class BrandService {
       COMPANY_SITE_NAME:"tiledesk.com",
       COMPANY_SITE_URL:"https://www.tiledesk.com",
       CONTACT_US_EMAIL: "redacted@example.invalid",
-      COMPANY_PRIMARY_COLOR:""
+      COMPANY_PRIMARY_COLOR:"",
+      DOCS:false
     }
   }
 
@@ -184,17 +185,17 @@ export class BrandService {
       if (url && url !== 'CHANGEIT') {
         const data = await this.httpClient.get(url).toPromise();
 
-        console.log('[BRAND-SERV] **** GET BRAND FROM URL ****', url);
+        this.logger.log('[BRAND-SERV] **** GET BRAND FROM URL ****', url);
 
         this.brand =data
 
-        console.log('[BRAND-SERV] loadBrand - brand: ', this.brand);
+        this.logger.log('[BRAND-SERV] loadBrand - brand: ', this.brand);
 
         const resources = new BrandResources(this);
         resources.loadResources()
       }
     } catch (err) {
-      console.error('[BRAND-SERV] loadBrand error : ', err);
+      this.logger.error('[BRAND-SERV] loadBrand error : ', err);
 
       this.brand = this._brand;
     }
@@ -203,7 +204,7 @@ export class BrandService {
   }
 
   getBrand() {
-    console.log('BrandService getBrand has been called - brand: ', this.brand);
+    //this.logger.log('BrandService getBrand has been called - brand: ', this.brand);
     return { ...this.brand['CHAT'], ...this.brand['COMMON'] }
   }
 

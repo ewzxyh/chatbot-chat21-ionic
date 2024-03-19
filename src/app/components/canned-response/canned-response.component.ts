@@ -62,7 +62,6 @@ export class CannedResponseComponent implements OnInit {
     if(this.currentString !== undefined){
       this.loadTagsCanned(this.currentString, this.conversationWith)
     }
-    console.log('can show canneddddddd', this.canShowCanned)
   }
 
   // getProjectIdSelectedConversation(conversationWith: string): string{

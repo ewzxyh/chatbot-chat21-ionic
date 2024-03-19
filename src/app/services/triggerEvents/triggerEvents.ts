@@ -34,7 +34,7 @@ export class TriggerEvents {
             const windowContext = this.windowContext;
             if (windowContext){
                 // window.parent.dispatchEvent(onAuthStateChanged);
-                window.parent.postMessage({type: "onAuthStateChanged", detail: detailObj}, '*')
+                windowContext.postMessage({type: "onAuthStateChanged", detail: detailObj}, '*')
                 // this.el.nativeElement.dispatchEvent(onAuthStateChanged);
             }
         } catch (e) {
@@ -49,7 +49,7 @@ export class TriggerEvents {
             const windowContext = this.windowContext;
             if (windowContext){
                 // windowContext.document.dispatchEvent(onAfterMessageSend);
-                window.parent.postMessage({type: "onAfterMessageSend", detail: { message: messageSent }}, '*')
+                windowContext.postMessage({type: "onAfterMessageSend", detail: { message: messageSent }}, '*')
             }
         } catch (e) {
             this.logger.error('[TRIGGER-HANDLER] > Error:' + e);
@@ -65,7 +65,7 @@ export class TriggerEvents {
             const windowContext = this.windowContext;
             if (windowContext){
                 // windowContext.document.dispatchEvent(onAfterMessageReceived);
-                window.parent.postMessage({type: "onAfterMessageReceived", detail: { message: message }}, '*')
+                windowContext.postMessage({type: "onAfterMessageReceived", detail: { message: message }}, '*')
             }
         } catch (e) {
             this.logger.error('[TRIGGER-HANDLER] > Error:' + e);
@@ -80,7 +80,7 @@ export class TriggerEvents {
             const windowContext = this.windowContext;
             if (windowContext){
                 // windowContext.document.dispatchEvent(onNewConversation);
-                window.parent.postMessage({type: "onNewConversation", detail: { conversation: conversation}}, '*')
+                windowContext.postMessage({type: "onNewConversation", detail: { conversation: conversation}}, '*')
             }
         } catch (e) {
             this.logger.error('[TRIGGER-HANDLER] > Error:' + e);

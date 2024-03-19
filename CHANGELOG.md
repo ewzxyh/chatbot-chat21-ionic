@@ -1,5 +1,8 @@
 # chat21-ionic ver 3.0
 
+### 3.2.0 in PROD
+- changed: API_URL template key in favour of SERVER_BASE_URL
+
 ### 3.2.0-rc.1
 - added: CONV_TYPE enum for all channel_type
 - bug-fixed: do not sent automatic offline message if channel_type is messanger
