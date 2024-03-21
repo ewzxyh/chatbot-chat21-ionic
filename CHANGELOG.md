@@ -1,5 +1,8 @@
 # chat21-ionic ver 3.0
 
+### 3.2.2 in PROD
+ - bug-fixed: unassigned url not logged-in as well
+
 ### 3.2.1 in PROD
 - bug-fixed: cannot read property of undefined reading logger.error into brand-service.ts
 

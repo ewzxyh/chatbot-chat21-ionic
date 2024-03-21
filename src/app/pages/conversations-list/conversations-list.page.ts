@@ -274,14 +274,15 @@ export class ConversationListPage implements OnInit {
     // }
     this.logger.log('[CONVS-LIST-PAGE] - HAS CLIKED OPEN UNSERVED REQUEST IFRAME',this.hasClickedOpenUnservedConvIframe )
     const DASHBOARD_BASE_URL = this.appConfigProvider.getConfig().dashboardUrl
+    const tiledeskToken = this.tiledeskAuthService.getTiledeskToken();
     // http://localhost:4204/#/projects-for-panel
     this.PROJECTS_FOR_PANEL_URL = DASHBOARD_BASE_URL + '#/projects-for-panel'
     this.UNASSIGNED_CONVS_URL = DASHBOARD_BASE_URL + '#/project/' + this.lastProjectId + '/unserved-request-for-panel'
 
     if (event.event === 'pinbtn') {
-      this.IFRAME_URL = this.PROJECTS_FOR_PANEL_URL
+      this.IFRAME_URL = this.PROJECTS_FOR_PANEL_URL + '?token='+ tiledeskToken
     } else {
-      this.IFRAME_URL = this.UNASSIGNED_CONVS_URL
+      this.IFRAME_URL = this.UNASSIGNED_CONVS_URL + '?token='+ tiledeskToken
     }
     this.logger.log('[CONVS-LIST-PAGE] - HAS CLIKED OPEN UNSERVED REQUEST IFRAME > UNASSIGNED CONVS URL',this.UNASSIGNED_CONVS_URL )
     this.openUnassignedConversations(this.IFRAME_URL, event)
