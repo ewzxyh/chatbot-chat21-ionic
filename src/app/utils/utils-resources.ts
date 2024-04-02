@@ -5,7 +5,8 @@ export const BRAND_BASE_INFO: { [key: string] : string} ={
     COMPANY_SITE_URL:"https://www.tiledesk.com",
     CONTACT_US_EMAIL: "redacted@example.invalid",
     FAVICON: "https://tiledesk.com/wp-content/uploads/2022/07/tiledesk_v13-300x300.png",
-    META_TITLE:"Tiledesk - Open Source Live Chat"
+    META_TITLE:"Tiledesk - Open Source Live Chat",
+    DOCS: "true"
 }
 
 export var LOGOS_ITEMS: { [key: string] : { label: string, icon: string }} ={

@@ -14,6 +14,7 @@ import { tranlatedLanguage } from '../../../chat21-core/utils/constants';
 import { avatarPlaceholder, getColorBck } from 'src/chat21-core/utils/utils-user';
 import { environment } from 'src/environments/environment';
 import { Project } from 'src/chat21-core/models/projects';
+import { BRAND_BASE_INFO } from 'src/app/utils/utils-resources';
 @Component({
   selector: 'app-sidebar-user-details',
   templateUrl: './sidebar-user-details.component.html',
@@ -57,6 +58,9 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
 
   translationsMap: Map<string, string> = new Map();
 
+  docEnabled: boolean = true;
+  BRAND_BASE_INFO = BRAND_BASE_INFO;
+  
   constructor(
     private translate: TranslateService,
     public tiledeskAuthService: TiledeskAuthService,
@@ -77,6 +81,9 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
     this.listenTocurrentProjectUserUserAvailability$();
     this.listenToCurrentStoredProject();
     this.getOSCODE();
+    if(BRAND_BASE_INFO['DOCS'] === 'false' || !BRAND_BASE_INFO['DOCS']){
+      this.docEnabled = false
+    }
     // this.listenOpenUserSidebarEvent();
   }
 
