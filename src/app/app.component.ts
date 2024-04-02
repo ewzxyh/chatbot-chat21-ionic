@@ -808,6 +808,7 @@ export class AppComponent implements OnInit {
         this.messagingAuthService.createCustomToken(data.token)
       }).catch(error => {
         this.logger.error('[APP-COMP] initAuthentication SIGNINWITHCUSTOMTOKEN error::', error)
+        this.goToDashboardLogin()
       })
     } else {
       this.logger.warn('[APP-COMP] >>> I AM NOT LOGGED IN <<<')
@@ -1219,8 +1220,8 @@ export class AppComponent implements OnInit {
 
   goToDashboardLogin(){
     let DASHBOARD_URL = this.appConfigProvider.getConfig().dashboardUrl + '#/login'
-    const myWindow = window.open(DASHBOARD_URL, '_self');
-    myWindow.focus();
+    // const myWindow = window.open(DASHBOARD_URL, '_self');
+    // myWindow.focus();
   }
 
 
