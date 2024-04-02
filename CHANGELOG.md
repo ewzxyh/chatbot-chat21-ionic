@@ -1,7 +1,14 @@
 # chat21-ionic ver 3.0
 
+### 3.2.3-rc.1
+- added: redirect to dashboard Login page in case of login error
+- added: condition for docs 
+
 ### 3.2.2 in PROD
  - bug-fixed: unassigned url not logged-in as well
+
+### 3.2.2-rc.1
+- bug-fixed: unassigned url not logged-in as well
 
 ### 3.2.1 in PROD
 - bug-fixed: cannot read property of undefined reading logger.error into brand-service.ts

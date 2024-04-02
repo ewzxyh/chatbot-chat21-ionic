@@ -1220,8 +1220,8 @@ export class AppComponent implements OnInit {
 
   goToDashboardLogin(){
     let DASHBOARD_URL = this.appConfigProvider.getConfig().dashboardUrl + '#/login'
-    // const myWindow = window.open(DASHBOARD_URL, '_self');
-    // myWindow.focus();
+    const myWindow = window.open(DASHBOARD_URL, '_self');
+    myWindow.focus();
   }
 
 
