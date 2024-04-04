@@ -1,5 +1,7 @@
 # chat21-ionic ver 3.0
 
+### 3.2.3 in PROD
+
 ### 3.2.3-rc.1
 - added: redirect to dashboard Login page in case of login error
 - added: condition for docs 
