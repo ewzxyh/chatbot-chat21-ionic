@@ -88,5 +88,19 @@ export class TriggerEvents {
 
     }
 
+    public triggerOnBeforeInit(detailObj: {}) {
+        this.logger.debug(' ---------------- triggerOnBeforeInitEvent ---------------- ', detailObj);
+        try {
+            const onBeforeInit = new CustomEvent('onBeforeInit', { detail: detailObj });
+            const windowContext = this.windowContext;
+            if (windowContext){
+                // windowContext.document.dispatchEvent(onNewConversation);
+                windowContext.postMessage({type: "onBeforeInit", detail: detailObj }, '*')
+            }
+        } catch (e) {
+            this.logger.error('[TRIGGER-HANDLER] > Error:' + e);
+        }
+    }
+
     
 }

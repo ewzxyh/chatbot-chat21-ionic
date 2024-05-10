@@ -293,6 +293,8 @@ export class AppComponent implements OnInit {
         this.SUPPORT_MODE = this.g.supportMode
       }
 
+      this.triggerOnBeforeInit('onBeforeInit')
+
     });
     this.globalSettingsService.initParamiters(this.g, this.el);
     
@@ -1669,8 +1671,13 @@ export class AppComponent implements OnInit {
 
 
   private triggerOnAuthStateChanged(event){
-    const detailOBJ = { event: event, isLogged: true, user: this.tiledeskAuthService.getCurrentUser() , appConfigs: this.appConfigProvider.getConfig() }
+    const detailOBJ = { event: event, isLogged: true, user: this.tiledeskAuthService.getCurrentUser() }
     this.triggerEvents.triggerOnAuthStateChanged(detailOBJ)
+  }
+
+  private triggerOnBeforeInit(event){
+    const detailOBJ = { event: event, isLogged: true, user: this.tiledeskAuthService.getCurrentUser() }
+    this.triggerEvents.triggerOnBeforeInit(detailOBJ)
   }
 
 
