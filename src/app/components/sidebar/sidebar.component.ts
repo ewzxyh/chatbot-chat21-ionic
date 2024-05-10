@@ -75,7 +75,7 @@ export class SidebarComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.tiledesk_url = BRAND_BASE_INFO['COMPANY_SITE_URL']
+    this.tiledesk_url = BRAND_BASE_INFO['COMPANY_SITE_URL'] as string
     
     this.DASHBOARD_URL = this.appConfig.getConfig().dashboardUrl + '#/project/';
     console.log('[SIDEBAR] DASHBOARD_URL ', this.DASHBOARD_URL, LOGOS_ITEMS)

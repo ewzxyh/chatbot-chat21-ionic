@@ -28,9 +28,6 @@ import { BRAND_BASE_INFO, LOGOS_ITEMS } from 'src/app/utils/utils-resources';
 export class LoginPage implements OnInit {
   showSpinnerInLoginBtn = false;
   showErrorSignIn = false;
-  companyLogoBlackUrl: string;
-  companyName: string;
-  companySiteUrl: string;
 
   public translationMap: Map<string, string>;
   private subscriptions = [];
@@ -62,9 +59,6 @@ export class LoginPage implements OnInit {
 
   /** */
   initialize() {
-    this.companyLogoBlackUrl = LOGOS_ITEMS['BASE_LOGO'].icon;
-    this.companyName = BRAND_BASE_INFO['BRAND_NAME']; // this.chatManager.getTenant();
-    this.companySiteUrl = BRAND_BASE_INFO['COMPANY_SITE_URL']
     this.translations();
     this.events.subscribe('sign-in', this.signIn);
     this.setSubscriptions();

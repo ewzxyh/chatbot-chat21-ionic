@@ -81,10 +81,6 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
     this.listenTocurrentProjectUserUserAvailability$();
     this.listenToCurrentStoredProject();
     this.getOSCODE();
-    if(BRAND_BASE_INFO['DOCS'] === 'false' || !BRAND_BASE_INFO['DOCS']){
-      this.docEnabled = false
-    }
-    // this.listenOpenUserSidebarEvent();
   }
 
   ngOnChanges() {  }
