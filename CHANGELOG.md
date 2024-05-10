@@ -1,5 +1,11 @@
 # chat21-ionic ver 3.0
 
+### 3.3.0-rc.1
+- added: onBeforeInit event
+- added: option to hide logout icon
+- changed: BRAND_BASE_INFO values as string or boolean
+
+
 ### 3.2.3 in PROD
 
 ### 3.2.3-rc.1

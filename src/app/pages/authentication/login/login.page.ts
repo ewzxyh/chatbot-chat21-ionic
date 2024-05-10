@@ -29,6 +29,9 @@ export class LoginPage implements OnInit {
   showSpinnerInLoginBtn = false;
   showErrorSignIn = false;
 
+  LOGOS_ITEMS = LOGOS_ITEMS;
+  BRAND_BASE_INFO = BRAND_BASE_INFO;
+
   public translationMap: Map<string, string>;
   private subscriptions = [];
   private logger: LoggerService = LoggerInstance.getInstance();
