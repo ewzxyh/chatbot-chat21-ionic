@@ -115,7 +115,7 @@
         </span>
     </section>
 
-    <section *ngIf="docEnabled" class="user-details-help-center">
+    <section *ngIf="BRAND_BASE_INFO['DOCS']" class="user-details-help-center">
         <span class="material-icons user-details-help-center-icon">support</span>
         <span class="user-details-help-center" (click)="goToHelpCenter()"> Help center</span>
     </section>
@@ -124,7 +124,7 @@
         border-top: 1px solid rgba(255, 255,255, 0.2);"> -->
 
 
-    <section class="user-details-footer-section"
+    <section class="user-details-footer-section" *ngIf="BRAND_BASE_INFO['LOGOUT_ENABLED']"
         [ngClass]="{'footer-margin-top-pricing-no-visible': isVisiblePAY === false }">
         <div role="button" class="logout-btn-wpr" (click)=onLogout()>
             <i class="material-icons user-details-logout-icon" >
