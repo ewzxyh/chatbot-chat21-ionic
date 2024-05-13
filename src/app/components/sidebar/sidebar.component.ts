@@ -78,7 +78,6 @@ export class SidebarComponent implements OnInit {
     this.tiledesk_url = BRAND_BASE_INFO['COMPANY_SITE_URL'] as string
     
     this.DASHBOARD_URL = this.appConfig.getConfig().dashboardUrl + '#/project/';
-    console.log('[SIDEBAR] DASHBOARD_URL ', this.DASHBOARD_URL, LOGOS_ITEMS)
     this.getStoredProjectAndUserRole()
     this.subcribeToAuthStateChanged()
     this.listenTocurrentProjectUserUserAvailability$()
