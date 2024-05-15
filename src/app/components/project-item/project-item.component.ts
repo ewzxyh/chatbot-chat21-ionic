@@ -217,6 +217,7 @@ export class ProjectItemComponent implements OnInit {
     if (project) {
       const user_role = this.project.role
       this.logger.log('[PROJECT-ITEM] - user_role ', user_role)
+      //TODO: recuperare id da root project (DA VERIFICARE)
       this.projectIdEvent.emit(project.id_project._id)
 
       if (user_role === 'agent') {
@@ -228,6 +229,7 @@ export class ProjectItemComponent implements OnInit {
 
 
       this.logger.log('[PROJECT-ITEM] - LAST PROJECT PARSED > user_role ', user_role)
+      //TODO: recuperare project_user_ID da API --> aggiugere metodo
       this.wsService.subscriptionToWsCurrentProjectUserAvailability(project.id_project._id, this.project._id);
       this.listenTocurrentProjectUserUserAvailability$(project)
 

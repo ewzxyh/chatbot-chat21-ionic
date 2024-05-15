@@ -474,6 +474,7 @@ export class ConversationListPage implements OnInit {
       if (projectObjct && projectObjct !== 'undefined') {
         // console.log('[CONVS-LIST-PAGE] - GET STORED PROJECT ', projectObjct)
 
+        //TODO: recuperare info da root e non da id_project
         this.project = {
           _id: projectObjct['id_project']['_id'],
           name: projectObjct['id_project']['name'],

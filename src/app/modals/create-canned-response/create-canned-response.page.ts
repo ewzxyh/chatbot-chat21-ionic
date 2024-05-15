@@ -65,13 +65,6 @@ export class CreateCannedResponsePage implements OnInit {
     this.logger.log('[CREATE-CANNED-RES] tiledeskToken ', this.tiledeskToken)
     this.getCurrentProjectId(this.conversationWith, this.tiledeskToken);
 
-    // const stored_project = localStorage.getItem('last_project')
-    // const storedPrjctObjct = JSON.parse(stored_project)
-    // this.logger.log('[CREATE-CANNED-RES] storedPrjctObjct ', storedPrjctObjct)
-    // if (storedPrjctObjct) {
-    //   this.prjctID = storedPrjctObjct.id_project.id
-    //   this.logger.log('[CREATE-CANNED-RES] this.prjctID ', this.prjctID)
-    // }
 
     let keys= [
       'Title',

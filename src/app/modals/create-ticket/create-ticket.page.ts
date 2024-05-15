@@ -81,6 +81,7 @@ export class CreateTicketPage implements OnInit {
     const storedPrjctObjct = JSON.parse(stored_project)
     this.logger.log('[CREATE-TICKET] storedPrjctObjct ', storedPrjctObjct)
     if (storedPrjctObjct) {
+      //TODO: recuperare info da root e non da id_project
       this.prjctID = storedPrjctObjct.id_project.id
       this.logger.log('[CREATE-TICKET] this.prjctID ', this.prjctID)
     }

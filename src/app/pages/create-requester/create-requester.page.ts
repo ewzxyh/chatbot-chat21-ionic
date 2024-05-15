@@ -38,6 +38,7 @@ export class CreateRequesterPage implements OnInit {
     const storedPrjctObjct = JSON.parse(stored_project)
     this.logger.log('[CREATE-REQUESTER] storedPrjctObjct ', storedPrjctObjct)
     if (storedPrjctObjct) {
+      //TODO: recuperare info da root e non da id_project
       this.prjctID = storedPrjctObjct.id_project.id
       this.logger.log('[CREATE-REQUESTER] this.prjctID ', this.prjctID)
     }
