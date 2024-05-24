@@ -1,5 +1,7 @@
 # chat21-ionic ver 3.0
 
+### 3.4.0 in PROD
+
 ### 3.4.0-rc.1
 - added: downloadURL in metadata obj while sending message from tiledesk
 
