@@ -362,10 +362,11 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
           this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] FIREBASE-UPLOAD presentModal onDidDismiss currentUpload', currentUpload);
           this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] FIREBASE-UPLOAD presentModal onDidDismiss detail.data', detail.data);
 
-          that.uploadService.upload(that.loggedUser.uid, currentUpload).then(downloadURL => {
-            metadata.src = downloadURL;
+          that.uploadService.upload(that.loggedUser.uid, currentUpload).then((data) => {
+            metadata.src = data.src;
+            metadata.downloadURL = data.downloadURL;
             this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] FIREBASE-UPLOAD presentModal invio msg metadata::: ', metadata);
-            this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] FIREBASE-UPLOAD presentModal invio msg metadata downloadURL::: ', downloadURL);
+            this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] FIREBASE-UPLOAD presentModal invio msg metadata downloadURL::: ', data);
             this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] FIREBASE-UPLOAD presentModal invio msg type::: ', type);
             this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] FIREBASE-UPLOAD presentModal invio msg message::: ', messageString);
             // send message

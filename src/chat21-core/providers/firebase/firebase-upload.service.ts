@@ -46,7 +46,7 @@ export class FirebaseUploadService extends UploadService {
     this.logger.log('[FIREBASEUploadSERVICE] initialize');
   }
   
-  public upload(userId: string, upload: UploadModel): Promise<any> {
+  public upload(userId: string, upload: UploadModel): Promise<{downloadURL: string, src: any}> {
     const that = this;
     const uid = this.createGuid();
     const urlImagesNodeFirebase = '/public/images/' + userId + '/' + uid + '/' + upload.file.name;
@@ -91,11 +91,12 @@ export class FirebaseUploadService extends UploadService {
       }, function error(error) {
         // Handle unsuccessful uploads
         reject(error)
-      }, function complete() {
+      }, async function complete() {
         // Handle successful uploads on complete
         that.logger.debug('[FIREBASEUploadSERVICE] Upload is complete', upload);
-       
-        resolve(uploadTask.snapshot.ref.getDownloadURL())
+        
+        const downloadURL = await uploadTask.snapshot.ref.getDownloadURL();
+        resolve({downloadURL: downloadURL, src: downloadURL})
         // that.BSStateUpload.next({upload: upload});
 
       });
@@ -151,7 +152,9 @@ export class FirebaseUploadService extends UploadService {
         // Handle successful uploads on complete
         that.logger.debug('[FIREBASEUploadSERVICE] Upload is complete', upload);
        
-        resolve(uploadTask.snapshot.ref.getDownloadURL())
+        const downloadURL = uploadTask.snapshot.ref.getDownloadURL();
+        resolve({downloadURL : downloadURL, url: downloadURL})
+
         // that.BSStateUpload.next({upload: upload});
 
       });

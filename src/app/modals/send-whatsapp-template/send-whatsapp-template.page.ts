@@ -327,9 +327,9 @@ export class SendWhatsappTemplateModal implements OnInit {
       let file = e.target.files.item(0);
       const currentUpload = new UploadModel(file);
       this.logger.log('[SEND-TEMPLATE-MODAL] currentUpload -->', currentUpload);
-      this.uploadService.upload(this.loggedUser.uid, currentUpload).then((downloadURL) => {
-        this.logger.log('[SEND-TEMPLATE-MODAL] downloadURL -->', downloadURL);
-        resolve(downloadURL);
+      this.uploadService.upload(this.loggedUser.uid, currentUpload).then((data) => {
+        this.logger.log('[SEND-TEMPLATE-MODAL] downloadURL -->', data);
+        resolve(data.downloadURL);
       }).catch((err) => {
         this.logger.log('[SEND-TEMPLATE-MODAL] uploading error ', err);
         reject(err);
