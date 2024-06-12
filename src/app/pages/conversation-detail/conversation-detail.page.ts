@@ -367,7 +367,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   }
 
   getOSCODE() {
-    this.supportMode = this.g.supportMode
+    this.supportMode = this.g.supportMode;
     this.logger.log('[CONVS-DETAIL] AppConfigService getAppConfig supportMode', this.supportMode)
     this.public_Key = this.appConfigProvider.getConfig().t2y12PruGU9wUtEGzBJfolMIgK
     this.logger.log('[CONVS-DETAIL] AppConfigService getAppConfig public_Key', this.public_Key)

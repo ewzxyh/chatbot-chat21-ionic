@@ -36,8 +36,6 @@ export class CannedResponseComponent implements OnInit {
 
   public arrowkeyLocation = -1
 
-  tparams: any;
-  PLAN_NAME = PLAN_NAME
   
   private logger: LoggerService = LoggerInstance.getInstance();
   constructor(
@@ -50,7 +48,6 @@ export class CannedResponseComponent implements OnInit {
 
   ngOnInit() {
     this.loggedUser = this.tiledeskAuthService.getCurrentUser()
-    this.tparams = {'plan_name': PLAN_NAME.A}
   }
 
   ngOnChanges(changes: SimpleChange){

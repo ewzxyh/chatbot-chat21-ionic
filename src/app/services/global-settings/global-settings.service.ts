@@ -6,7 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service';
 import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance';
 import { Globals } from 'src/app/utils/globals';
-import { getParameterByName, stringToBoolean } from 'src/chat21-core/utils/utils';
+import { getParameterByName, getParameterValue, stringToBoolean } from 'src/chat21-core/utils/utils';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -51,7 +51,7 @@ export class GlobalSettingsService {
     /**SET PERSISTENCE parameter */
     this.globals.persistence = this.appConfigService.getConfig().authPersistence
      /**SET SUPPORTMODE parameter */
-     this.globals.supportMode = this.appConfigService.getConfig().supportMode
+     this.globals.supportMode = getParameterValue('supportMode', this.appConfigService.getConfig());
     /** INIT STORAGE SERVICE */
     this.appStorageService.initialize(environment.storage_prefix, this.globals.persistence, '')
 
