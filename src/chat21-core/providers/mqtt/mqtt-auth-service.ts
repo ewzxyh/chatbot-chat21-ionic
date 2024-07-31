@@ -246,8 +246,7 @@ z
     const responseType = 'text';
     const postData = {};
     // const that = this;
-    this.http.post(this.URL_TILEDESK_CREATE_CUSTOM_TOKEN, postData, { headers, responseType})
-    .subscribe(data =>  {
+    this.http.post(this.URL_TILEDESK_CREATE_CUSTOM_TOKEN, postData, { headers, responseType}).subscribe(data =>  {
       this.logger.debug("[MQTTAuthService] connectWithCustomToken: **** data", data)
       const result = JSON.parse(data);
       this.connectMQTT(result);
@@ -262,7 +261,15 @@ z
     this.chat21Service.chatClient.connect(userid, credentials.token, () => {
       this.logger.debug('[MQTTAuthService] connectMQTT: Chat connected.');
       this.BSAuthStateChanged.next('online');
+      this.onDisconnectMQTT();
     });
+  }
+
+  onDisconnectMQTT(): any{
+    this.chat21Service.chatClient.onDisconnect((state)=> {
+      this.logger.debug('[MQTTAuthService] onDisconnect --> ', state)
+      this.BSAuthStateChanged.next('close');
+    })
   }
 
   // /**

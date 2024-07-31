@@ -13,7 +13,8 @@ export const PUSH_ENGINE_FIREBASE = 'firebase';
 
 // AUTH
 export const AUTH_STATE_OFFLINE = 'offline';
-export const AUTH_STATE_ONLINE = 'online'
+export const AUTH_STATE_ONLINE = 'online';
+export const AUTH_STATE_CLOSE = 'close';
 
 
 // MESSAGES STATUS

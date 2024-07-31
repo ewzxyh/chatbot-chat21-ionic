@@ -524,9 +524,9 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       this.disableTextarea = false
       this._getProjectIdByConversationWith(this.conversationWith)
       this.initConversationHandler()
-      this.initGroupsHandler()
-      this.initSubscriptions()
-      this.startConversation()
+      this.initGroupsHandler();
+      this.startConversation();
+      this.initSubscriptions();
       this.getLeadDetail()
       this.initializeTyping();
     }
@@ -879,7 +879,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
             conv.attributes['project_name'],
             conv.attributes['request_channel']
           )
-
         }
         if (!conv) {
           this.logger.debug('[CONV-COMP] setHeaderContent getConversationDetail: conv not exist --> search in archived list', this.conversationWith, this.conv_type)
@@ -1317,7 +1316,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   updateLeadInfo(msg) {
     if (msg.attributes && msg.attributes.hasOwnProperty("updateUserFullname")) {
       const userFullname = msg.attributes['updateUserFullname'];
-      this.logger.debug('[CONVS-DETAIL] newMessageAdded --> updateUserFullname', userFullname)
+      this.logger.debug('[CONVS-DETAIL] newMessageAdded --> updateUserFullname', userFullname, this.conversation)
       this.conversationWithFullname = userFullname //update info for next sendMessage object
       //updates conversation header info
       this.conversationAvatar = setConversationAvatar(

@@ -27,7 +27,7 @@ import { CustomTranslateService } from 'src/chat21-core/providers/custom-transla
 import { NotificationsService } from 'src/chat21-core/providers/abstract/notifications.service';
 import { NetworkService } from './services/network-service/network.service';
 import { ScriptService } from './services/scripts/script.service';
-import { AUTH_STATE_OFFLINE, AUTH_STATE_ONLINE, PLATFORM_DESKTOP, PLATFORM_MOBILE, tranlatedLanguage, TYPE_DIRECT, URL_SOUND_CONVERSATION_ADDED, URL_SOUND_CONVERSATION_UNASSIGNED, URL_SOUND_LIST_CONVERSATION } from 'src/chat21-core/utils/constants';
+import { AUTH_STATE_CLOSE, AUTH_STATE_OFFLINE, AUTH_STATE_ONLINE, PLATFORM_DESKTOP, PLATFORM_MOBILE, tranlatedLanguage, TYPE_DIRECT, URL_SOUND_CONVERSATION_ADDED, URL_SOUND_CONVERSATION_UNASSIGNED, URL_SOUND_LIST_CONVERSATION } from 'src/chat21-core/utils/constants';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConversationModel } from 'src/chat21-core/models/conversation';
 import { LoginPage } from './pages/authentication/login/login.page';
@@ -1073,8 +1073,16 @@ export class AppComponent implements OnInit {
           // this.checkTokenAndGoOffline() //se c'è un tiledeskToken salvato, allora aspetta, altrimenti vai offline
           this.IS_ONLINE = false;
           // console.log('[APP-COMP] IS_ONLINE', this.IS_ONLINE)
-          this.goOffLine()
+          this.goOffLine();
           this.triggerOnAuthStateChanged(state)
+        } else if(state && state === AUTH_STATE_CLOSE ){
+          this.logger.info('[APP-COMP] CLOSE - CHANNEL CLOSED: ', this.chatManager);
+          // let IDConv= null
+          // if(this.route &&  this.route.snapshot && this.route.snapshot.firstChild){
+          //   IDConv = this.route.snapshot.firstChild.paramMap.get('IDConv');
+          //   this.chatManager.removeConversationHandler(IDConv);
+          // }
+          // this.checkPlatform();
         }
       }, error => {
         this.logger.error('initialize FROM [APP-COMP] - [APP-COMP] ***** BSAuthStateChanged * error * ', error)

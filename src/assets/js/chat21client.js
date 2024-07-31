@@ -1,7 +1,7 @@
 /*
     Chat21Client
 
-    v0.1.12.7
+    v0.1.12.8
 
     @Author Andrea Sponziello
     @Member Gabriele Panico
@@ -24,6 +24,7 @@ class Chat21Client {
         this.reconnections = 0 // just to check how many reconnections
         this.client_id = this.uuidv4();
         this.log = options.log ? true : false;
+
         if (options && options.MQTTendpoint) {
             if (options.MQTTendpoint.startsWith('/')) {
                 if (this.log) {
@@ -1021,25 +1022,31 @@ class Chat21Client {
                 );
             }
         );
+        this.client.on('error',
+            (error) => {
+                console.error("Chat client error event", error);
+            }
+        );
+    }
+
+    onDisconnect(callback){
         this.client.on('reconnect',
             () => {
                 if (this.log) {console.log("Chat client reconnect event");}
+                // callback('reconnect')
             }
         );
         this.client.on('close',
             () => {
                 this.connected = false
                 if (this.log) {console.log("Chat client close event");}
+                callback('close')
             }
         );
         this.client.on('offline',
             () => {
                 if (this.log) {console.log("Chat client offline event");}
-            }
-        );
-        this.client.on('error',
-            (error) => {
-                console.error("Chat client error event", error);
+                // callback('offline')
             }
         );
     }
