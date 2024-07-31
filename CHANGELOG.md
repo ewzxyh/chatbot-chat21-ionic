@@ -1,5 +1,8 @@
 # chat21-ionic ver 3.0
 
+### 3.4.2 in PROD
+- added: chat21client v0.1.12.8
+
 ### 3.4.1 in PROD
 - bug-fixed: supportMode parameter is not typed as boolean
 
