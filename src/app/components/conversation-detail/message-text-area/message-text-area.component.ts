@@ -54,6 +54,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
   @Input() leadInfo: {lead_id: string, hasEmail: boolean, email: string, projectId: string, presence: {}};
   @Input() fileUploadAccept: string;
   @Input() emailSection: boolean;
+  @Input() offlineMsgEmail: boolean;
   @Input() whatsappTemplatesSection: boolean;
   @Input() isOpenInfoConversation: boolean;
   @Input() stylesMap: Map<string, string>;

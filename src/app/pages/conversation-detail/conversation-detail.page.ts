@@ -160,6 +160,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   areVisibleCAR: boolean;
   supportMode: boolean;
   isEmailEnabled: boolean;
+  offlineMsgEmail: boolean;
   isWhatsappTemplatesEnabled: boolean;
   //SOUND
   setTimeoutSound: any;
@@ -556,6 +557,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       if (project) {
         const projectId = project.id_project
         this.canShowCanned = this.checkPlanIsExpired(project)
+        this.offlineMsgEmail = this.checkOfflineMsgEmailIsEnabled(project)
       }
     }, (error) => {
       this.logger.error('[CONVS-DETAIL] - GET PROJECTID BY CONV RECIPIENT - ERROR  ', error)
@@ -583,6 +585,23 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       check = true
     }else if(project && !project.isActiveSubscription && project.profile.type=== 'payment'){
       check = false
+    }
+
+    return check
+  }
+
+
+  checkOfflineMsgEmailIsEnabled(project: Project): boolean {
+    let check: boolean = true
+
+    //case: check emailSection env variable 
+    if(!this.isEmailEnabled){
+      return check= false
+    }
+
+    //case: check offlineMsgEmail project property
+    if(project && project.hasOwnProperty('offlineMsgEmail')){
+      check = project.offlineMsgEmail
     }
 
     return check
@@ -1119,8 +1138,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
     if ((msg && msg.trim() !== '') || type !== TYPE_MSG_TEXT) {
 
-
-      if (this.isEmailEnabled &&
+      if (this.offlineMsgEmail &&
         this.leadInfo && this.leadInfo.presence && this.leadInfo.presence['status'] === 'offline' &&
         this.leadInfo.email && !emailSectionMsg && !channelIsNotWeb) {
         this.logger.log('[CONVS-DETAIL] - SEND MESSAGE --> SENDING EMAIL', msg, this.leadInfo.email)

@@ -19,6 +19,7 @@ export interface Project {
     // profile_type?: string;
     isActiveSubscription?: boolean;
     profile?: any;
+    offlineMsgEmail?: boolean;
     // subscription_end_date?: any;
     // subscription_id?: any;
     // subscription_creation_date?: any;

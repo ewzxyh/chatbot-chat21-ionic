@@ -22,7 +22,7 @@
       </ion-button>
     </div>
     
-    <div *ngIf="section==='chat' && channel !== CHANNEL_TYPE.WHATSAPP && messageString && (leadInfo?.presence['status']==='offline' && leadInfo?.hasEmail)" class="section-option offline-lead-tip" >
+    <div *ngIf="offlineMsgEmail && section==='chat' && channel !== CHANNEL_TYPE.WHATSAPP && messageString && (leadInfo?.presence['status']==='offline' && leadInfo?.hasEmail)" class="section-option offline-lead-tip" >
       {{translationMap.get('EMAIL.EMAIL_OFFLINE_TIP')}}
     </div>
 
