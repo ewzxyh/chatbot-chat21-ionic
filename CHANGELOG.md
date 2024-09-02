@@ -1,5 +1,9 @@
 # chat21-ionic ver 3.0
 
+### 3.4.3-rc.1
+- added: encodeUri for project name on chatbot share link
+- added: offlineMsgEmail project email to emable/disable automatic offline msg email
+
 ### 3.4.2 in PROD
 - added: chat21client v0.1.12.8
 
