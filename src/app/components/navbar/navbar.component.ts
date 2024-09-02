@@ -159,7 +159,7 @@ export class NavbarComponent implements OnInit {
     const simulateVisitorBtnElem = <HTMLElement>document.querySelector('.simulate-visitor-btn');
     simulateVisitorBtnElem.blur();
     // + '&isOpen=true'
-    const url = this.appConfigProvider.getConfig().widgetBaseUrl + 'assets/twp/index.html?tiledesk_projectid=' + this.project.id_project.id + '&project_name=' + this.project.id_project.name + '&role=' + this.USER_ROLE
+    const url = this.appConfigProvider.getConfig().widgetBaseUrl + 'assets/twp/index.html?tiledesk_projectid=' + this.project.id_project.id + '&project_name=' + encodeURIComponent(this.project.id_project.name) + '&role=' + this.USER_ROLE
     window.open(url, '_blank');
   }
 
