@@ -1134,7 +1134,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
                                                                                                 attributes['request_channel'] === TYPE_MSG_FORM || 
                                                                                                 attributes['request_channel'] === CHANNEL_TYPE.WHATSAPP || 
                                                                                                 attributes['request_channel'] === CHANNEL_TYPE.MESSENGER || 
-                                                                                                attributes['request_channel'] === CHANNEL_TYPE.TELEGRAM))
+                                                                                                attributes['request_channel'] === CHANNEL_TYPE.TELEGRAM || 
+                                                                                                attributes['request_channel'] === CHANNEL_TYPE.VOICE))
 
     if ((msg && msg.trim() !== '') || type !== TYPE_MSG_TEXT) {
 
