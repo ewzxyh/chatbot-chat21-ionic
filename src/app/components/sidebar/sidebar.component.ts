@@ -27,8 +27,8 @@ export class SidebarComponent implements OnInit {
 
   USER_ROLE: string = 'agent'
   SIDEBAR_IS_SMALL = true
-  IS_AVAILABLE: boolean;
-  IS_INACTIVE: boolean;
+  IS_AVAILABLE: boolean = false;
+  IS_INACTIVE: boolean = true;
   IS_BUSY: boolean; 
   isVisibleAPP: boolean;
   isVisibleANA: boolean;
