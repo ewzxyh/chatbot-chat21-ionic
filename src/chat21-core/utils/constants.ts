@@ -50,7 +50,8 @@ export enum CHANNEL_TYPE {
     FORM = 'form',
     MESSENGER = 'messenger',
     WHATSAPP = 'whatsapp',
-    TELEGRAM = 'telegram'
+    TELEGRAM = 'telegram',
+    VOICE = 'voice',
 }
 
 // TYPES MESSAGES
