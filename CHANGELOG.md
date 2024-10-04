@@ -1,5 +1,8 @@
 # chat21-ionic ver 3.0
 
+### 3.4.5-rc.1
+- changed: management of sidebar icon with env variable
+
 ### 3.4.4 in PROD
 
 ### 3.4.4-rc.1
