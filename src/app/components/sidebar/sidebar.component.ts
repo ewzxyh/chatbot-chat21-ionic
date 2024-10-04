@@ -33,6 +33,8 @@ export class SidebarComponent implements OnInit {
   isVisibleAPP: boolean;
   isVisibleANA: boolean;
   isVisibleACT: boolean;
+  isVisibleMON: boolean;
+  isVisibleCNT: boolean;
   photo_profile_URL: string;
   project_id: string;
   DASHBOARD_URL: string;
@@ -298,26 +300,50 @@ export class SidebarComponent implements OnInit {
             this.isVisibleAPP = true;
           }
         }
+
+        if (key.includes("MON")) {
+          let lbs = key.split(":");
+          if (lbs[1] === "F") {
+            this.isVisibleMON = false;
+          } else {
+            this.isVisibleMON = true;
+          }
+        }
+
+        if (key.includes("CNT")) {
+          let lbs = key.split(":");
+          if (lbs[1] === "F") {
+            this.isVisibleCNT = false;
+          } else {
+            this.isVisibleCNT = true;
+          }
+        }
+        
       });
 
 
       if (!this.public_Key.includes("ANA")) {
         this.isVisibleANA = false;
       }
-
       if (!this.public_Key.includes("ACT")) {
         this.isVisibleACT = false;
       }
-
-
       if (!this.public_Key.includes("APP")) {
         this.isVisibleAPP = false;
+      }
+      if (!this.public_Key.includes("MON")) {
+        this.isVisibleMON = false;
+      }
+      if (!this.public_Key.includes("CNT")) {
+        this.isVisibleCNT = false;
       }
 
     } else {
       this.isVisibleANA = false;
       this.isVisibleACT = false;
       this.isVisibleAPP = false;
+      this.isVisibleMON = false;
+      this.isVisibleCNT = false;
     }
 
 

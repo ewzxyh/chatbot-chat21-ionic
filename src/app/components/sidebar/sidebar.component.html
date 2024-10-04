@@ -101,22 +101,22 @@
       <!-- ------------------------------------------- -->
       <!-- Conversations (MONITOR) (click)="goToConversations()" -->
       <!-- ------------------------------------------- -->
-      <!-- <ng-container *ngIf="USER_ROLE !== 'agent'"> -->
-      <div  matTooltipClass="custom-mat-tooltip" matTooltip="Monitor"
-        #tooltip="matTooltip" matTooltipPosition='right' matTooltipHideDelay="100">
-        <a target="_self" href="{{ dashboard_convs_url }}" class="customAncor">
-          <!-- <i class="material-icons sidebar-icons">forum</i> -->
-          <span  class="realtime-icon-wpr" >
-            <svg version="1.1" id="Livello_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-              viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve" style="width: 30px;height: 30px;margin-top: 5px;">
-            <path d="M17.9,11.6l-1.4,1.9l-3.2-5.6l-1-2l-0.2,0.2l-3.7,6.4l-3-4.8L2.7,9.9v2.4l2.4-1.8L9,16.2l3.3-6.2l4,6.7l2.7-3.3
-              l0.9,0c0.5-0.7,1-1.4,1.4-2L17.9,11.6z"/>
-            </svg>
-          </span>
-      
-        </a>
-      </div>
-      <!-- </ng-container> -->
+      <ng-container *ngIf="isVisibleMON">
+        <div  matTooltipClass="custom-mat-tooltip" matTooltip="Monitor"
+          #tooltip="matTooltip" matTooltipPosition='right' matTooltipHideDelay="100">
+          <a target="_self" href="{{ dashboard_convs_url }}" class="customAncor">
+            <!-- <i class="material-icons sidebar-icons">forum</i> -->
+            <span  class="realtime-icon-wpr" >
+              <svg version="1.1" id="Livello_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve" style="width: 30px;height: 30px;margin-top: 5px;">
+              <path d="M17.9,11.6l-1.4,1.9l-3.2-5.6l-1-2l-0.2,0.2l-3.7,6.4l-3-4.8L2.7,9.9v2.4l2.4-1.8L9,16.2l3.3-6.2l4,6.7l2.7-3.3
+                l0.9,0c0.5-0.7,1-1.4,1.4-2L17.9,11.6z"/>
+              </svg>
+            </span>
+        
+          </a>
+        </div>
+      </ng-container>
 
     </div>
 
@@ -125,12 +125,14 @@
       <!-- ------------------------------------------- -->
       <!-- CONTACTS (LEADS)  (click)="goToContacts()" -->
       <!-- ------------------------------------------- -->
-      <div  matTooltipClass="custom-mat-tooltip" matTooltip="{{ contacts_lbl }}"
-        #tooltip="matTooltip" matTooltipPosition='right' matTooltipHideDelay="100">
-        <a target="_self" href="{{ dashboard_contacts_url }}" class="customAncor">
-          <i class="material-icons sidebar-icons">contacts</i>
-        </a>
-      </div>
+      <ng-container *ngIf="isVisibleCNT">
+        <div  matTooltipClass="custom-mat-tooltip" matTooltip="{{ contacts_lbl }}"
+          #tooltip="matTooltip" matTooltipPosition='right' matTooltipHideDelay="100">
+          <a target="_self" href="{{ dashboard_contacts_url }}" class="customAncor">
+            <i class="material-icons sidebar-icons">contacts</i>
+          </a>
+        </div>
+      </ng-container>
 
 
       <!-- ------------------------------------------- -->
