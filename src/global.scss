@@ -321,6 +321,9 @@ select:-webkit-autofill:focus {
     position: relative;
     height: calc(100vh - 60px);
     overflow: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     width: 60px;
     z-index: 4;
 
