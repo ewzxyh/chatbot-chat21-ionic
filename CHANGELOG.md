@@ -1,5 +1,7 @@
 # chat21-ionic ver 3.0
 
+### 3.4.5 in PROD
+
 ### 3.4.5-rc.2
 - changed: sidebar css improvement
 
