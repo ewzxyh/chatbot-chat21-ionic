@@ -268,11 +268,11 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     const appconfig = this.appConfigProvider.getConfig();
-    this.logger.log('[APP-COMP] ngOnInit  appconfig', appconfig)
+    // this.logger.log('[APP-COMP] ngOnInit  appconfig', appconfig)
 
     this.globalSettingsService.obsSettingsService.subscribe((resp) => {
       if(resp){
-        this.logger.log('[APP-COMP] ngOnInit  globalSettingsService', this.g)
+        // this.logger.log('[APP-COMP] ngOnInit  globalSettingsService', this.g)
         // /** INIT  */
         // this.getRouteParamsAndSetLoggerConfig();
   
