@@ -46,7 +46,7 @@ import { ArchivedConversationsHandlerService } from 'src/chat21-core/providers/a
 import { ConversationHandlerService } from 'src/chat21-core/providers/abstract/conversation-handler.service'
 import { ContactsService } from 'src/app/services/contacts/contacts.service'
 import { CannedResponsesService } from '../../services/canned-responses/canned-responses.service'
-import {getDateDifference} from 'src/chat21-core/utils/utils'
+import {checkAcceptedFile, getDateDifference} from 'src/chat21-core/utils/utils'
 import { ImageRepoService } from 'src/chat21-core/providers/abstract/image-repo.service'
 import { PresenceService } from 'src/chat21-core/providers/abstract/presence.service'
 import { CreateCannedResponsePage } from 'src/app/modals/create-canned-response/create-canned-response.page'
@@ -2132,19 +2132,15 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
       var mimeType = fileList[0].type
       this.logger.log('[CONVS-DETAIL] ----> FILE - DROP mimeType files ', mimeType)
-
-      // if (mimeType.startsWith("image") || mimeType.startsWith("application")) {
-      // this.logger.log('[CONVS-DETAIL] ----> FILE - DROP mimeType files: ', this.appConfigProvider.getConfig().fileUploadAccept);
-      // this.checkAcceptedFile(mimeType);
-      const isAccepted = this.checkAcceptedFile(mimeType)
-      this.logger.log('[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept isAcceptFile FILE - DROP', isAccepted)
-      if (isAccepted === true) {
-        this.handleDropEvent(ev)
-      } else {
-        this.logger.log('[CONVS-DETAIL] ----> FILE - DROP mimeType files ', mimeType, 'NOT SUPPORTED FILE TYPE')
+      
+      // const isAccepted = this.checkAcceptedFile(mimeType)
+      const canUploadFile = checkAcceptedFile(mimeType, this.appConfigProvider.getConfig().fileUploadAccept)
+      if(!canUploadFile){
         this.presentToast(this.translationsMap.get('FAILED_TO_UPLOAD_THE_FORMAT_IS_NOT_SUPPORTED'), 'danger', 'toast-custom-class', 5000)
-        // this.presentToastOnlyImageFilesAreAllowedToDrag()
+        return;
       }
+      this.handleDropEvent(ev)
+
     }
   }
 

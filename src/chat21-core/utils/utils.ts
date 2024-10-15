@@ -864,3 +864,54 @@ export function isGroup(conv: ConversationModel) {
   };
   return false
 }
+
+export function checkAcceptedFile(fileType, fileUploadAccept ): boolean{
+  
+  if (fileUploadAccept === '*/*') {
+    return true
+  }
+  // Dividi la stringa fileUploadAccept in un array di tipi accettati
+  const acceptedTypes = fileUploadAccept.split(',');
+
+  // Verifica se il tipo di file è accettato
+  return acceptedTypes.some((accept) => {
+    accept = accept.trim();
+    // Controlla per i tipi MIME con wildcard, come image/*
+    if (accept.endsWith('/*')) {
+      const baseMimeType = fileType.split('/')[0]; // Ottieni la parte principale del MIME type
+      return accept.replace('/*', '') === baseMimeType;
+    }
+    // Controlla per le estensioni di file specifiche come .pdf o .txt
+    return fileType === getMimeTypeFromExtension(accept);
+  });
+
+}
+
+function getMimeTypeFromExtension(extension: string): string {
+  // Rimuovi il punto dall'estensione e ottieni il MIME type
+  const mimeTypes: { [key: string]: string } = {
+    '.jpg': 'image/jpeg',
+    '.jpeg': 'image/jpeg',
+    '.png': 'image/png',
+    '.gif': 'image/gif',
+    '.pdf': 'application/pdf',
+    '.txt': 'text/plain',
+    '.doc': 'application/msword',
+    '.docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    // Aggiungi altri tipi MIME se necessario
+  };
+  return mimeTypes[extension] || '';
+}
+
+export function getProjectIdSelectedConversation(conversationWith: string): string{
+  const conversationWith_segments = conversationWith.split('-')
+  // Removes the last element of the array if is = to the separator
+  if (conversationWith_segments[conversationWith_segments.length - 1] === '') {
+    conversationWith_segments.pop()
+  }
+  let projectId = ''
+  if (conversationWith_segments.length >= 4) {
+    projectId = conversationWith_segments[2]
+  }
+  return projectId
+}

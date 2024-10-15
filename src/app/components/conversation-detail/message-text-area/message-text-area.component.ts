@@ -21,6 +21,7 @@ import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service
 import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance';
 import { EventsService } from 'src/app/services/events-service';
 import { isOnMobileDevice } from 'src/chat21-core/utils/utils';
+import { checkAcceptedFile } from 'src/chat21-core/utils/utils';
 
 
 @Component({
@@ -282,7 +283,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
   private async presentModal(e: any): Promise<any> {
     this.onPresentModalScrollToBottom.emit(true);
     const that = this;
-    let dataFiles = " "
+    let dataFiles: any = " "
     if (e.type === 'change') {
 
       this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] presentModal change e', e);
@@ -309,6 +310,13 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
     // this.logger.log('presentModal e.target.files.length', e.target.files.length);
 
     const attributes = { files: dataFiles, enableBackdropDismiss: false, msg: this.msg };
+
+    const canUploadFile = checkAcceptedFile(dataFiles[0].type, this.fileUploadAccept)
+    if(!canUploadFile){
+      this.presentToastOnlyImageFilesAreAllowed()
+      return;
+    }
+
     this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] attributes', attributes);
     const modal: HTMLIonModalElement =
       await this.modalController.create({
@@ -391,7 +399,6 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
         that.fileInput.nativeElement.value = '';
       }
     });
-
     return await modal.present();
   }
 
