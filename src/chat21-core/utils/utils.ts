@@ -881,6 +881,11 @@ export function checkAcceptedFile(fileType, fileUploadAccept ): boolean{
       const baseMimeType = fileType.split('/')[0]; // Ottieni la parte principale del MIME type
       return accept.replace('/*', '') === baseMimeType;
     }
+
+    // Controlla se l'accettazione è un MIME type esatto (come image/jpeg)
+    if (accept === fileType) {
+      return true;
+    }
     // Controlla per le estensioni di file specifiche come .pdf o .txt
     return fileType === getMimeTypeFromExtension(accept);
   });
