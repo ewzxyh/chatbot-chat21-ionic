@@ -1,5 +1,8 @@
 # chat21-ionic ver 3.0
 
+### 3.4.7-rc.2
+- minior fix
+
 ### 3.4.7-rc.1
 - added: uploaded control after file is loaded
 
