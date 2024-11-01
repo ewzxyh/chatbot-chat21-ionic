@@ -61,7 +61,8 @@ import {
   TYPE_MSG_EMAIL,
   TYPE_MSG_FORM,
   CHANNEL_TYPE,
-  INFO_MESSAGE_TYPE
+  INFO_MESSAGE_TYPE,
+  TYPE_GROUP
 } from 'src/chat21-core/utils/constants'
 import {
   checkPlatformIsMobile,
@@ -528,7 +529,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       this.initGroupsHandler();
       this.startConversation();
       this.initSubscriptions();
-      this.getLeadDetail()
+      this.getLeadDetail();
       this.initializeTyping();
     }
     this.addEventsKeyboard()
@@ -971,7 +972,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
   getLeadDetail() {
     const that = this;
-    if (this.channelType !== TYPE_DIRECT) {
+    if (this.channelType !== TYPE_DIRECT && this.channelType !== TYPE_GROUP) {
       const tiledeskToken = this.tiledeskAuthService.getTiledeskToken();
       const projectId = getProjectIdSelectedConversation(this.conversationWith)
       this.logger.debug('[CONVS-DETAIL] getLeadDetail - section ', projectId)
