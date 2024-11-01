@@ -1,5 +1,8 @@
 # chat21-ionic ver 3.0
 
+### 3.4.8-rc.1
+- bug-fixed: if support group is a group, do not call getRequest
+
 ### 3.4.7 in PROD
 
 ### 3.4.7-rc.2
