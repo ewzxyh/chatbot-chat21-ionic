@@ -539,17 +539,23 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
   _getProjectIdByConversationWith(conversationWith: string) {
     const tiledeskToken = this.tiledeskAuthService.getTiledeskToken()
-    this.tiledeskService.getProjectIdByConvRecipient(tiledeskToken, conversationWith).subscribe((res) => {
-      this.logger.log('[CONVS-DETAIL] - GET PROJECTID BY CONV RECIPIENT RES + projectId', res, res.id_project)
-      if (res) {
-        const projectId = res.id_project
-        this.getProjectById(tiledeskToken, projectId)
-      }
-    }, (error) => {
-      this.logger.error('[CONVS-DETAIL] - GET PROJECTID BY CONV RECIPIENT - ERROR  ', error)
-    }, () => {
-      this.logger.log('[CONVS-DETAIL] - GET PROJECTID BY CONV RECIPIENT * COMPLETE *',)
-    })
+    if (this.channelType !== TYPE_DIRECT && !this.conversationWith.startsWith('group-')) {
+      this.tiledeskService.getProjectIdByConvRecipient(tiledeskToken, conversationWith).subscribe((res) => {
+        this.logger.log('[CONVS-DETAIL] - GET PROJECTID BY CONV RECIPIENT RES + projectId', res, res.id_project)
+        if (res) {
+          const projectId = res.id_project
+          this.getProjectById(tiledeskToken, projectId)
+        }
+      }, (error) => {
+        this.logger.error('[CONVS-DETAIL] - GET PROJECTID BY CONV RECIPIENT - ERROR  ',conversationWith,  error)
+      }, () => {
+        this.logger.log('[CONVS-DETAIL] - GET PROJECTID BY CONV RECIPIENT * COMPLETE *',)
+      })
+    }else {
+      this.canShowCanned = false;
+      this.offlineMsgEmail = false;
+    }
+    
   }
 
   getProjectById(tiledeskToken, projectId) {
@@ -905,7 +911,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
           this.archivedConversationsHandlerService.getConversationDetail(this.conversationWith, (conv) => {
             this.logger.debug('[CONV-COMP] setHeaderContent getConversationDetail: archivedConversationsHandlerService', this.conversationWith, conv)
             if (conv) {
-              console.log('[CONVS-DETAIL] - setHeaderContent getConversationDetail (archived)', this.conversationWith, 'CONVS', conv)
+              this.logger.log('[CONVS-DETAIL] - setHeaderContent getConversationDetail (archived)', this.conversationWith, 'CONVS', conv)
               this.conversation = this.onConversationLoaded(conv)
               this.conversationAvatar = setConversationAvatar(
                 conv.conversation_with,
@@ -972,7 +978,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
   getLeadDetail() {
     const that = this;
-    if (this.channelType !== TYPE_DIRECT && this.channelType !== TYPE_GROUP) {
+    if (this.channelType !== TYPE_DIRECT && !this.conversationWith.startsWith('group-')) {
       const tiledeskToken = this.tiledeskAuthService.getTiledeskToken();
       const projectId = getProjectIdSelectedConversation(this.conversationWith)
       this.logger.debug('[CONVS-DETAIL] getLeadDetail - section ', projectId)

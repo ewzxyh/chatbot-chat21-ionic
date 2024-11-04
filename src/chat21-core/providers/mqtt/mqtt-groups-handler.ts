@@ -60,7 +60,8 @@ import { avatarPlaceholder, getColorBck } from 'src/chat21-core/utils/utils-user
           this.logger.log('Method not implemented.');
           return;
     }
-// abstract onGroupChange(groupId: string): Observable<GroupModel>;
+
+    // abstract onGroupChange(groupId: string): Observable<GroupModel>;
     onGroupChange(groupId: string): Observable<GroupModel> {
         if (this.isGroup(groupId)) {
             this.chat21Service.chatClient.groupData(groupId, (err, group) => {
