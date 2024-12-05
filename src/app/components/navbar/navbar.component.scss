@@ -57,15 +57,14 @@ ion-navbar{
 
 .simulate-visitor-btn{
     font-size: 12px;
-    padding: 0px 11px 0px 4px !important;
+    padding: 0px 15px !important;
     max-height: 24px;
-    border-radius: 30px;
     font-family: 'Poppins';
 
     box-shadow: unset;
     text-transform: none;
-    background: var(--simulate-btn-background);
-    color: var(--simulate-btn-color);
+    background: transparent;
+    border: unset;
 
 }
 
@@ -83,7 +82,6 @@ ion-navbar{
 
 .dropdown-toggle, .volume{
     background-color: transparent;
-    color: var(--icon-color);
 
     padding: 0px 15px;
     font-weight: 400;
@@ -94,7 +92,10 @@ ion-navbar{
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: 12px;
+    
+    .material-icons{
+        font-size: 20px;
+    }
 }
 
 li{

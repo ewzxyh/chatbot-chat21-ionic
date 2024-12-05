@@ -17,7 +17,7 @@
 
 .logo {
   min-height: 60px;
-  width: 60px; // for SMALL SIDEBAR
+  width: var(--sidebar-width); // for SMALL SIDEBAR
 }
 
 .logoBrand{
@@ -65,6 +65,11 @@ div:hover > a > i {
   color: var(--sidebar-hover-icon-color);
 }
 
+
+.item-active  {
+  background-color: var(--sidebar-background-item-hover);
+}
+
 .item-active svg path,
 .item-active svg ellipse{
   height: 40px;
@@ -104,16 +109,28 @@ div:hover > a > i {
   flex-direction: column;
 
   > div {
-    height: 40px;
-    width: 60px;
+    height: 50px;
+    width: 50px;
     margin-top: 5px;
     margin-bottom: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: var(--sidebar-background-item-border-radius);
   }
 
 }
+
+.sidebar-separator{
+  height: unset !important;
+  width: unset !important;
+}
+
+.sidebar-separator > svg > path,
+.sidebar-separator:hover > svg > path {
+  fill: var(--sidebar-inactive-icon);
+}
+
 
 // .sidebar-up{
 //   position: absolute;

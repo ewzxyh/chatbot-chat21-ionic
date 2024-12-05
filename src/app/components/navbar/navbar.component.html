@@ -6,9 +6,19 @@
       <div class="navbar-right">
         <!-- test site -->
         <ng-container *ngIf="project">
-          <button class="btn simulate-visitor-btn btn-success-no-boxshadow " (click)="testWidgetPage()">
+          <button class="btn simulate-visitor-btn" (click)="testWidgetPage()">
             <i class="material-icons">play_arrow</i>
-            {{translationsMap?.get('NAVBAR.SIMULATE_VISITOR')}}
+            <!-- {{translationsMap?.get('NAVBAR.SIMULATE_VISITOR')}} -->
+          </button>
+        </ng-container>
+
+        <!--  Sound on / off -->
+        <ng-container *ngIf="project">
+          <button class="btn volume" style="cursor: pointer;" *ngIf="isSoundEnabled" (click)="onClickSound('disabled')">
+            <i class="material-icons">volume_up</i>
+          </button>
+          <button class="btn volume" style="cursor: pointer;" *ngIf="!isSoundEnabled" (click)="onClickSound('enabled')">
+            <i class="material-icons">volume_off</i>
           </button>
         </ng-container>
 
@@ -16,8 +26,8 @@
         <ng-container *ngIf="project">
             <li>
               <button class="btn dropdown-toggle project-dropdown" (click)="openDropdownProjects = !openDropdownProjects">
-                <i class="material-icons" style="margin-right: 3px;">keyboard_arrow_down</i>
                 <span class="project-dropdown" style="text-transform: none"> {{ project?.id_project?.name }} </span>
+                <i class="material-icons" style="margin-right: 3px;">arrow_drop_down</i>
               </button>
               <div class="ripple-container"></div>
               <div id="navbar_dropdown" class="dropdown-menu" [ngClass]="{'open': openDropdownProjects}">
@@ -85,15 +95,7 @@
             </li>
         </ng-container>
 
-        <!--  Sound on / off -->
-        <ng-container *ngIf="project">
-          <button class="btn volume" style="cursor: pointer;" *ngIf="isSoundEnabled" (click)="onClickSound('disabled')">
-            <i class="material-icons">volume_up</i>
-          </button>
-          <button class="btn volume" style="cursor: pointer;" *ngIf="!isSoundEnabled" (click)="onClickSound('enabled')">
-            <i class="material-icons">volume_off</i>
-          </button>
-        </ng-container>
+        
       </div>
   </div>
 </ion-navbar>

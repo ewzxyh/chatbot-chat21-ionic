@@ -16,7 +16,7 @@ body {
     --padding-conversation-detail: 10px;
     --border-radius-item: 16px;
     --border-radius-content: 16px;
-    --sidebar-width: 60px;
+    --sidebar-width: 70px;
     
     --bubble-blue: rgb(0, 153, 255);
 
@@ -136,9 +136,12 @@ body {
     --sidebar-background-color: #1e2129;
     --sidebar-header-background: #2d323e;
     --sidebar-color: #fff;
-    --sidebar-icon-color: #647491;
+    --sidebar-icon-color: #fff;
     --sidebar-hover-icon-color: #a9afbb;
-    --sidebar-active-icon: #fff;
+    --sidebar-background-item-hover : rgba(248, 248, 248, 0.251);
+    --sidebar-background-item-border-radius: 12px;
+    --sidebar-active-icon: #3ea9f5;
+    --sidebar-inactive-icon: #647491;
     --sidebar-user-detail-color: #a9afbb;
     --sidebar-user-detail-profile-color: #00d5ff;
     --sidebar-user-detail-select-background: #2d323e;

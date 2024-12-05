@@ -324,7 +324,7 @@ select:-webkit-autofill:focus {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 60px;
+    width: var(--sidebar-width);
     z-index: 4;
 
     transition-property: top, bottom, width;
