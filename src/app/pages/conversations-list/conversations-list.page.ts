@@ -1047,6 +1047,7 @@ export class ConversationListPage implements OnInit {
       if (error.error.msg === 'you dont belong to the project.') {
         this.archiveActionNotAllowed = true
       }
+      this.conversationsHandlerService.archiveConversation(conversationId)
     },() => {
       this.logger.log('[CONVS-LIST-PAGE] - onCloseConversation closeSupportGroup * COMPLETE *')
       this.logger.log('[CONVS-LIST-PAGE] - onCloseConversation (closeSupportGroup) ID ',this.uidConvSelected, conversationId)

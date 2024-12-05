@@ -278,7 +278,7 @@ export class FirebaseConversationsHandler extends ConversationsHandlerService {
         //     this.conversations.splice(index, 1);
         // fare chiamata delete per rimuoverle la conversazione da remoto
         this.deleteConversation(conversationId, function (response) {
-            that.logger.debug('[FIREBASEConversationsHandlerSERVICE]  ARCHIVE-CONV', response)
+            that.logger.debug('[FIREBASEConversationsHandlerSERVICE]  ARCHIVE-CONV', response, index)
             if (response === 'success') {
                 if (index > -1) {
                     that.conversations.splice(index, 1);

@@ -334,6 +334,12 @@ export class AppComponent implements OnInit {
           this.presentAlertConfirmJoinRequest(event.data.parameter, event.data.calledBy)
         }
       }
+
+      if (event && event.data && event.data.action && event.data.parameter) {
+        if (event.data.action === 'resolveConversation') {
+          this.conversationsHandlerService.archiveConversation(event.data.patameter)
+        }
+      }
       // if (event && event.data && event.data.action && event.data.parameter) {
       //   if (event.data.action === 'hasArchived') {
       //     var iframeWin = <HTMLIFrameElement>document.getElementById("unassigned-convs-iframe")
@@ -1090,7 +1096,6 @@ export class AppComponent implements OnInit {
         this.logger.log('initialize FROM [APP-COMP] - [APP-COMP] ***** BSAuthStateChanged *** complete *** ')
       });
 
-
     this.events.subscribe('uidConvSelected:changed', this.subscribeChangedConversationSelected);
     this.events.subscribe('profileInfoButtonClick:logout', this.subscribeProfileInfoButtonLogOut);
     this.events.subscribe('unservedRequest:count', this.subscribeUnservedRequestCount)
@@ -1228,9 +1233,9 @@ export class AppComponent implements OnInit {
   }
 
   goToDashboardLogin(){
-    let DASHBOARD_URL = this.appConfigProvider.getConfig().dashboardUrl + '#/login'
-    const myWindow = window.open(DASHBOARD_URL, '_self');
-    myWindow.focus();
+    // let DASHBOARD_URL = this.appConfigProvider.getConfig().dashboardUrl + '#/login'
+    // const myWindow = window.open(DASHBOARD_URL, '_self');
+    // myWindow.focus();
   }
 
 
