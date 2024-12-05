@@ -1,5 +1,9 @@
 # chat21-ionic ver 3.0
 
+
+### 3.4.9-rc.1
+- bug-fixed: close conversation also in case of tiledesk error
+
 ### 3.4.8 in PROD
 
 ### 3.4.8-rc.2
