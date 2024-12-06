@@ -53,6 +53,7 @@ export class SidebarComponent implements OnInit {
   USER_PHOTO_PROFILE_EXIST: boolean;
   currentUser: any;
   dashboard_home_url: string;
+  dashboard_knb_url: string;
   dashboard_bots_url: string;
   dashboard_convs_url: string;
   dashboard_contacts_url: string;
@@ -102,6 +103,7 @@ export class SidebarComponent implements OnInit {
 
   buildURLs(USER_ROLE) {
     this.dashboard_home_url = this.DASHBOARD_URL + this.project_id + '/home'
+    this.dashboard_knb_url = this.DASHBOARD_URL + this.project_id + '/knowledge-bases'
     this.dashboard_bots_url = this.DASHBOARD_URL + this.project_id + '/bots'
     this.dashboard_convs_url = this.DASHBOARD_URL + this.project_id + '/wsrequests'
     this.dashboard_contacts_url = this.DASHBOARD_URL + this.project_id + '/contacts'

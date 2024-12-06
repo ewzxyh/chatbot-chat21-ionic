@@ -1,5 +1,8 @@
 # chat21-ionic ver 3.0
 
+### 3.4.10-rc.1
+- changed: sidebar and navbar UI aligned with dashboard component
+
 ### 3.4.9 in PROD
 
 ### 3.4.9-rc.1
