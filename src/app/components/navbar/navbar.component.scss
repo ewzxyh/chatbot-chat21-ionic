@@ -4,6 +4,7 @@
     padding-bottom: 5px;
     border-bottom: 1px solid var(--border-color-base);
     -webkit-font-smoothing: auto;
+    font-weight: 300;
 }
 
 .navbar{
@@ -65,6 +66,7 @@ ion-navbar{
     text-transform: none;
     background: transparent;
     border: unset;
+    color: inherit;
 
 }
 
@@ -82,9 +84,8 @@ ion-navbar{
 
 .dropdown-toggle, .volume{
     background-color: transparent;
-
+    color: inherit;
     padding: 0px 15px;
-    font-weight: 400;
 }
 
 .project-dropdown {
@@ -92,6 +93,7 @@ ion-navbar{
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-family: var(--header-font-family);
     
     .material-icons{
         font-size: 20px;
@@ -123,11 +125,11 @@ li{
     background-color: var(--dropdown-menu-background);
     -webkit-background-clip: padding-box;
     background-clip: padding-box;
-}
-.dropdown-menu{
+    color: inherit;
     max-height: 240px;
     overflow-y: auto;
 }
+
 .dropdown-menu:not(.open){
     margin-top: -20px;
     opacity: 0;

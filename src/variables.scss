@@ -115,6 +115,7 @@ body {
 
 
     // ***** Navbar: start ***** //
+    --header-font-family: "Poppins", "Roboto", "Arial", sans-serif;
     --text-base-color: #555;
     --navbar-background: #ffffff;
     --nav-bar-heigth: 60px;
@@ -124,8 +125,8 @@ body {
     --dropdown-menu-background: #fff;
     --dropdown-menu-color: #333;
     --dropdown-menu-item-color: #0f0e0e;
-    --dropdown-menu-selected-background: #4285f4;
-    --dropdown-menu-selected-color: #eee;
+    --dropdown-menu-selected-background: #eee;
+    --dropdown-menu-selected-color: #4285f4; 
     --dropdown-menu-hover-background: #3ea9f5;
     --dropdown-menu-hover-color: #fff;
     --dropdown-divider-color: rgba(0,0,0,.12);

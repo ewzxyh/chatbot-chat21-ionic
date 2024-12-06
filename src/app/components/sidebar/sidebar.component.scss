@@ -53,17 +53,25 @@ div > a > i {
   color: var(--sidebar-icon-color);
 }
 
-
-
 svg:hover path,
 svg:hover ellipse {
   fill: var(--sidebar-hover-icon-color);
 }
 
-div:hover > a > i {
-  // background-color: #eee;
-  color: var(--sidebar-hover-icon-color);
+.nav-custom > div:not(.sidebar-separator):hover {
+  background-color: var(--sidebar-background-item-hover);
+  & > a > i {
+    // background-color: #eee;
+    color: var(--sidebar-hover-icon-color);
+  }
+
+  & path,
+  ellipse {
+    fill: var(--sidebar-hover-icon-color);
+  }
 }
+
+
 
 
 .item-active  {
