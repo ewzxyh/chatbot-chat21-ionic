@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-// import * as WaveSurfer from 'wavesurfer.js';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { convertColorToRGBA } from 'src/chat21-core/utils/utils';
 
-// declare var WaveSurfer
 @Component({
   selector: 'chat-audio',
   templateUrl: './audio.component.html',
@@ -9,158 +9,153 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild }
 })
 export class AudioComponent implements OnInit {
 
-  @Input() metadata: any;
+  @ViewChild('audioElement', { static: true }) audioElement!: ElementRef<HTMLAudioElement>;
+  @ViewChild('canvasElement', { static: true }) waveformCanvas!: ElementRef<HTMLCanvasElement>;
+
+  @Input() metadata: any | null = null;
+  @Input() audioBlob: Blob | null = null;
+  @Input() color: string;
+  @Input() fontSize: string;
+  @Input() stylesMap: Map<string, string>;
   @Output() onElementRendered = new EventEmitter<{element: string, status: boolean}>();
 
-  uidAudioPlayng: string = ''
-  divPlay: HTMLAudioElement
-  playState: HTMLElement
-  status: 'play' | 'pause' = 'play'
+  audioUrl: SafeUrl | null = null;
+  rawAudioUrl: string | null = null;
+  audioContext!: AudioContext;
+  audioBuffer!: AudioBuffer;
+  audioDuration: number | null = null;
+  currentTime: number = 0;
+  isPlaying: boolean = false;
 
-  // wavesurfer: any;
-  constructor(private elementRef: ElementRef) { }
+  constructor(
+    private sanitizer: DomSanitizer,
+    private elementRef: ElementRef
+  ) {}
 
   ngOnInit() {
-    // console.log('metadataaaaaa', this.metadata)
-    // this.divPlay = this.elementRef.nativeElement.querySelector('#audio_container').querySelector('#audio_msg')
-    // this.playState= this.elementRef.nativeElement.querySelector('#audio_container').querySelector('#duration')
-    this.loadLib()
   }
 
-  // ionViewWillEnter(){
-  //   this.loadLib()
-  // }
-
-  private async loadLib(){
-    // const SiriWave = await import("siriwave");
-    // console.log('elementttt', document.getElementById("example"), this.elementRef.nativeElement.querySelector("#example"))
-    // var instance = new SiriWave({
-    //   // container: this.elementRef.nativeElement.querySelector("#example"),
-    //   container: document.getElementById("example"),
-    //   width: 300,
-    //   height: 120,
-    // });
-    // instance.start();
-    // this.wavesurfer = WaveSurfer.create({
-    //   container: "#" + 'example',
-    //   waveColor: "#e1f5fe",
-    //   progressColor: "#03a9f4",
-    //   cursorColor: "rgb(255 255 255 / 50%)",
-    //   barWidth: 4,
-    //   barHeight: 1,
-    //   barRadius: 2,
-    //   cursorWidth: 1,
-    //   // height: 150,
-    //   fillParent: true,
-    //   barGap: 0,
-    //   // backend: 'MediaElement',
-    //   // mediaType:'audio',
-    //   normalize: true,
-    //   // url: this.metadata.url
-    // })
-
-    // this.wavesurfer.load('https://eu.rtmv3.tiledesk.com/api/files/download?path=uploads/public/files/2f715ae1-6dc6-4cbf-a94c-42be26f1a723/media-2b92sy.ogg');
-
-    // this.wavesurfer.on('ready', function () {
-    //   console.log('readyyyyy')
-    //   // wavesurfer.play();
-    // });
-
-  }
-
-  onPlayPause(status: string){
-    // const divPlay = (<HTMLAudioElement>document.getElementById('audio_msg'));
-    if(status === 'play') {
-      this.divPlay.play();
-      this.status = 'pause'
+  ngAfterViewInit() {
+    if (this.audioBlob) {
+      this.rawAudioUrl = URL.createObjectURL(this.audioBlob);
+      this.audioUrl = this.sanitizer.bypassSecurityTrustUrl(this.rawAudioUrl);
+      this.setupAudioContext();
     } else {
-      this.divPlay.pause();
-      this.status = 'play'
+      this.rawAudioUrl = this.metadata.src;
+      this.audioUrl = this.sanitizer.bypassSecurityTrustUrl(this.rawAudioUrl);
+      this.setupAudioContext();
     }
   }
-  pauseAudioMsg(e) {
-    try {
-      // stop all audio
-      if (this.uidAudioPlayng) {
-        const divPlay = (<HTMLAudioElement>document.getElementById(this.uidAudioPlayng));
-        divPlay.pause();
-        // console.log('> pausa: ', divPlay);
+
+  async setupAudioContext() {
+    this.audioContext = new AudioContext();
+    if (this.rawAudioUrl) {
+      const response = await fetch(this.rawAudioUrl);
+      const audioData = await response.arrayBuffer();
+      this.audioBuffer = await this.audioContext.decodeAudioData(audioData);
+      this.getAudioDuration();
+      this.drawWaveform(this.audioBuffer);
+    }
+  }
+
+  drawWaveform(audioBuffer: AudioBuffer) {
+    const canvas = this.waveformCanvas.nativeElement;
+    const canvasCtx = canvas.getContext('2d');
+    if (!canvasCtx) return;
+    const width = canvas.width;
+    const height = canvas.height;
+    const rawData = audioBuffer.getChannelData(0);
+
+    const samples = 40;
+    const blockSize = Math.floor(rawData.length / samples);
+    const waveform = new Float32Array(samples);
+  
+    for (let i = 0; i < samples; i++) {
+      let sum = 0;
+      for (let j = 0; j < blockSize; j++) {
+        sum += Math.abs(rawData[i * blockSize + j]);
       }
-    } catch (error) {
-      console.log('> Error is: ', error);
+      waveform[i] = sum / blockSize;
     }
 
-    try {
-      // console.log(e.target.id);
-      if (this.uidAudioPlayng) {
-        this.uidAudioPlayng = '';
-      }
-    } catch (error) {
-      console.log('> Error is: ', error);
-    }
-  }
+    canvasCtx.clearRect(0, 0, width, height);
+    const padding = 2;
+    const barWidth = (width / samples) - padding * 2;
+    const audio = this.audioElement.nativeElement;
+    const playedPercent = audio.currentTime / this.audioDuration;
+    // console.log('playedPercent: ', audio.currentTime, this.audioDuration);
+    
+    for (let i = 0; i < samples; i++) {
+      var barHeight = waveform[i] * height * 4;
+      if (barHeight < 4) barHeight = 4;
+      const x = i * (barWidth + padding * 2) + padding;
 
-  playAudioMsg(e) {
-    // stop all audio
-    if (this.uidAudioPlayng) {
-      const divPlay = (<HTMLAudioElement>document.getElementById(this.uidAudioPlayng));
-      divPlay.pause();
-      // console.log('> pausa: ', divPlay);
-    }
-    try {
-      // console.log(e.target.id);
-      // set uid audio playng
-      this.uidAudioPlayng = e.target.id;
-    } catch (error) {
-      console.log('> Error is: ', error);
-    }
-  }
-
-  updateTimeAudioMsg(ev){
-    var currTime = Math.floor(ev.target.currentTime); 
-    var duration = Math.floor(ev.target.duration);
-
-    let minutes = 0;
-    if(currTime > 60){
-      minutes = Math.floor(currTime / 60);
-    }
-    const seconds = currTime - minutes * 60
-    // console.log('timeeee', minutes + ':' + seconds )
-    // this.playState.innerHTML = minutes + ':' + seconds
-  }
-
-
-
-  /**
-   *
-   * @param uid
-   */
-  playPausaAudioMsg(uid: string) {
-    // console.log('playPausaAudioMsg: ', uid);
-    const that = this;
-    try {
-      const divPause = (<HTMLAudioElement>document.getElementById(that.uidAudioPlayng));
-      const divPlay = (<HTMLAudioElement>document.getElementById(uid));
-      if (divPause) {
-        divPause.pause();
-      }
-
-      if (that.uidAudioPlayng === uid) {
-        that.uidAudioPlayng = '';
+      if (i / samples < playedPercent) {
+        canvasCtx.fillStyle = this.color;
       } else {
-        if (divPlay) {
-          setTimeout(function() {
-            // if (that.g.autoplay_activated) {
-            //   divPlay.play();
-            // }
-            this.uidAudioPlayng = uid;
-          }, 300);
-        }
+        canvasCtx.fillStyle = convertColorToRGBA(this.color, 50);
       }
-
-    } catch (error) {
-      console.log('> Error is: ', error);
+      canvasCtx.fillRect(x, height / 2 - barHeight, barWidth, barHeight);
+      canvasCtx.fillRect(x, height / 2, barWidth, barHeight);
     }
   }
+
+  playPauseAudio() {
+    const audio = this.audioElement.nativeElement;
+    if (audio.paused) {
+      this.isPlaying = true;
+      this.updateWaveform();
+      audio.play();
+      this.audioContext.resume();
+    } else {
+      audio.pause();
+      this.isPlaying = false;
+    }
+    audio.ontimeupdate = () => {
+      this.currentTime = audio.currentTime;
+      this.updateWaveform(); 
+    };
+    audio.onended = () => {
+      this.isPlaying = false;
+    };
+  }
+
+
+  updateWaveform() {
+    this.drawWaveform(this.audioBuffer);
+    if (this.isPlaying) {
+      requestAnimationFrame(() => this.updateWaveform());
+    }
+  }
+
+  formatTime(seconds: number): string {
+    const minutes = Math.floor(seconds / 60);
+    const sec = Math.floor(seconds % 60);
+    return `${minutes}:${sec < 10 ? '0' + sec : sec}`;
+  }
+
+  getAudioDuration() {
+    const audio = new Audio();
+    audio.src = this.rawAudioUrl!;
+    audio.addEventListener('loadedmetadata', () => {
+      if (audio.duration === Infinity) {
+        audio.currentTime = Number.MAX_SAFE_INTEGER;
+        audio.ontimeupdate = () => {
+          audio.ontimeupdate = null; 
+          audio.currentTime = 0;
+          this.audioDuration = audio.duration;
+        };
+      } else {
+        this.audioDuration = audio.duration;
+      }
+    });
+  }
+
+  extractFirstColor(gradient: string): string | null {
+    const colorRegex = /rgba?\((\d+,\s*\d+,\s*\d+(,\s*\d+(\.\d+)?)?)\)/;
+    const match = gradient.match(colorRegex);
+    return match ? match[0] : null;
+  }
+
 
 }

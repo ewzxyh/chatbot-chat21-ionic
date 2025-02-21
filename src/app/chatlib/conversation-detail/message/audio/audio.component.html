@@ -1,21 +1,37 @@
 
 
-<div id="audio_container" #audio_container> 
+<div class="audio-container"> 
 
-    <audio aria-label="traccia audio" #audio_msg controls controlsList="nodownload" id="audio_msg" (pause)="pauseAudioMsg($event)" (play)="playAudioMsg($event)" (timeupdate)="updateTimeAudioMsg($event)">
+    <!-- <audio aria-label="traccia audio" #audio_msg controls controlsList="nodownload" id="audio_msg" (pause)="pauseAudioMsg($event)" (play)="playAudioMsg($event)" (timeupdate)="updateTimeAudioMsg($event)">
         <source [src]="metadata?.src" [type]="metadata?.type">
-        <!-- {{metadata?.src}} -->
-        <!-- controlsList="nodownload" -->
-    </audio>
+        <!- - {{metadata?.src}} -->
+        <!-- controlsList="nodownload" - ->
+    </audio> -->
 
-    <!-- <button id="play-icon" (click)="onPlayPause('play')" *ngIf="status === 'play'">
-        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M10 8.64L15.27 12 10 15.36V8.64M8 5v14l11-7L8 5z"/></svg>
-    </button> 
-    <button id="pause-icon" (click)="onPlayPause('pause')" *ngIf="status === 'pause'">
-        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-    </button>
-    <div id="duration" #duration>0:00</div>
-    <input type="range" id="seek-slider" max="100" value="0"> -->
+    <div class="audio-track">
+        <button *ngIf="!isPlaying" class="play-pause" (click)="playPauseAudio()">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
+                <path d="M320-200v-560l440 280-440 280Z"/>
+            </svg>
+            <!-- <i class="material-icons">play_arrow</i> -->
+        </button>
+        <button *ngIf="isPlaying" class="play-pause" (click)="playPauseAudio()">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" >
+                <path d="M560-200v-560h160v560H560Zm-320 0v-560h160v560H240Z"/>
+            </svg>
+            <!-- <i class="material-icons">pause</i> -->
+        </button>
+        <div class="duration" [style.color]="color" [style.font-size]="fontSize" >
+            <span *ngIf="!isPlaying">{{ audioDuration ? formatTime(audioDuration) : '00:00' }}</span>
+            <span *ngIf="isPlaying">{{ formatTime(currentTime) }}</span>
+        </div>
+
+    </div>
+
+    <div class="audio-player-custom">
+        <audio #audioElement [src]="audioUrl"></audio>
+        <canvas #canvasElement class="waveformCanvas"></canvas> 
+    </div>
+
 </div>
-<div id="example"></div>
 

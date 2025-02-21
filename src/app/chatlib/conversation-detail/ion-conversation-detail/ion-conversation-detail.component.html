@@ -173,6 +173,7 @@
           [fontColor]="stylesMap?.get('bubbleReceivedTextColor')"
           [fontSize]="stylesMap?.get('fontSize')"
           [fontFamily]="stylesMap?.get('fontFamily')"
+          [stylesMap]="stylesMap"
           (onBeforeMessageRender)="onBeforeMessageRenderFN($event)"
           (onAfterMessageRender)="onAfterMessageRenderFN($event)" 
           (onElementRendered)="onElementRenderedFN($event)"

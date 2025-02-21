@@ -35,6 +35,11 @@
     }
 }
 
+:host .base_receive .msg_receive ::ng-deep > div > div > chat-audio {
+    --textColor: var(--col-msg-received) !important;
+    --backgroundColor: var(--bck-msg-received) !important;
+}
+
 
 //------- MANAGE CHAT-OPTIONS component :: INIT ------- //
 :host .base_sent .msg_sent.no-background ::ng-deep > div,
