@@ -1,5 +1,7 @@
 # chat21-ionic ver 3.0
 
+### 3.4.12 in PROD
+
 ### 3.4.12-rc.2
 - added: chat-audio component to manage audio file sent and received
 
