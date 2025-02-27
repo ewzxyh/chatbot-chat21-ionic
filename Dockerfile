@@ -1,7 +1,7 @@
 ### STAGE 1: Build ###
 
 # We label our stage as ‘builder’
-FROM node:14.15.4-alpine as builder
+FROM node:14.21.2-alpine as builder
 
 RUN npm install -g ionic cordova@8.0.0
 
