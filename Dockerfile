@@ -19,7 +19,7 @@ RUN ionic cordova build browser
 
 ### STAGE 2: Setup ###
 
-FROM nginx:1.14.1-alpine
+FROM nginx:1.14.1-alpine as setup
 
 ## Copy our default nginx config
 COPY nginx.conf /etc/nginx/nginx.conf
