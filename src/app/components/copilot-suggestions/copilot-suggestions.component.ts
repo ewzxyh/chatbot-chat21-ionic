@@ -28,7 +28,7 @@ export class CopilotSuggestionsComponent implements OnInit {
   public projectID: string;
 
   public suggestions: any = []
-  public suggestionsCount: number
+  public showLoading: boolean = false
 
   public arrowkeyLocation = -1
 
@@ -93,15 +93,16 @@ export class CopilotSuggestionsComponent implements OnInit {
     this.logger.log('[COPILOT] - loadTagsCanned tagsCanned.length', this.suggestions.length)
     //if(this.tagsCanned.length <= 0 ){
     this.suggestions = []
+    this.showLoading = true;
     this.copilotService.getAll(tiledeskToken, projectId, this.conversationWith).subscribe((res) => {
       this.logger.log('[COPILOT] - loadTagsCanned  getCannedResponses RES', res)
       this.suggestions = res.map(el => ({ ...el, disabled : true }))
-      this.suggestionsCount = res.length
       this.logger.log('[COPILOT] - loadTagsCanned  getCannedResponses tagsCannedCount', this.suggestions)
     }, (error) => {
       this.logger.error('[COPILOT] - loadTagsCanned  getCannedResponses - ERROR  ', error)
     }, () => {
       this.logger.log('[COPILOT] - loadTagsCanned  getCannedResponses * COMPLETE *')
+      this.showLoading = false
       this.onLoadedSuggestions.emit(this.suggestions)
     })
   }
@@ -111,10 +112,9 @@ export class CopilotSuggestionsComponent implements OnInit {
     if(!suggestion.disabled){
       event.preventDefault();
       event.stopPropagation();
-    } else if(this.suggestionsCount > 0){
-      this.onClickSuggestion.emit(suggestion)
     } else {
       this.logger.log('[CANNED] THERE IS NOT CANNED ', suggestion.text)
+      this.onClickSuggestion.emit(suggestion)
     }
   }
 

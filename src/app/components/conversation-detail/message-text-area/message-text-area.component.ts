@@ -51,7 +51,6 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
   @Input() channelType: string;
   @Input() channel: string;
   @Input() tagsCannedFilter: any;
-  @Input() tagsCannedCount: number;
   @Input() areVisibleCAR: boolean;
   @Input() supportMode: boolean;
   @Input() leadInfo: {lead_id: string, hasEmail: boolean, email: string, projectId: string, presence: {}};

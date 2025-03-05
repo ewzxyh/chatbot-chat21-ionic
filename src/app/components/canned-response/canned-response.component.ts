@@ -31,7 +31,6 @@ export class CannedResponseComponent implements OnInit {
   public projectID: string;
   
   public tagsCanned: any = []
-  public tagsCannedCount: number
   public tagsCannedFilter: any = []
 
   public arrowkeyLocation = -1
@@ -128,8 +127,6 @@ export class CannedResponseComponent implements OnInit {
       this.logger.log('[CANNED] - loadTagsCanned  getCannedResponses RES', res)
 
       this.tagsCanned = res
-      this.tagsCannedCount = res.length
-      this.logger.log('[CANNED] - loadTagsCanned  getCannedResponses tagsCannedCount', this.tagsCannedCount)
       // if (this.HIDE_CANNED_RESPONSES === false) {
         this.showTagsCanned(strSearch)
       // }
@@ -179,6 +176,7 @@ export class CannedResponseComponent implements OnInit {
         // <div class='cannedText no-canned-available-text'>" + this.translationMap.get('AddNewCannedResponse') + '</div>
         title: this.translationMap.get('THERE_ARE_NO_CANNED_RESPONSES_AVAILABLE') ,
         text: '',
+        disabled: true
       }
       // } else if (this.USER_ROLE === 'agent') {
       //   nocanned = {
@@ -269,10 +267,9 @@ export class CannedResponseComponent implements OnInit {
     if(!canned.disabled){
       event.preventDefault();
       event.stopPropagation();
-    } else if(this.tagsCannedCount > 0){
-      this.onClickCanned.emit(canned)
     } else {
-      this.logger.log('[CANNED] THERE IS NOT CANNED ', canned.text)
+      this.logger.log('[CANNED] THERE IS CANNED ', canned.text)
+      this.onClickCanned.emit(canned)
     }
   }
 

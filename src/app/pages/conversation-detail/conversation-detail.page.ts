@@ -132,8 +132,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
   public messageStr: string;
   public tagsCannedFilter: Array<any> = [];
-  public tagsCannedCount: number;
-  public HIDE_CANNED_RESPONSES: boolean = true
+  public SHOW_CANNED_RESPONSES: boolean = false
   public canShowCanned: boolean = true
 
   public SHOW_COPILOT_SUGGESTIONS: boolean = false;
@@ -686,7 +685,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       "WHATSAPP.ERROR_WHATSAPP_NOT_INSTALLED",
       "WHATSAPP.ERROR_WHATSAPP_GENERIC_ERROR",
 
-      "COPILOT.ASK_AI"
+      "COPILOT.ASK_AI",
+      "COPILOT.NO_SUGGESTIONS_PRESENT"
 
     ]
 
@@ -1492,7 +1492,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
             if (pos === -1) {
               // this.tagsCannedFilter = []
-              this.HIDE_CANNED_RESPONSES = true
+              this.SHOW_CANNED_RESPONSES = false
             }
             // test
             // var rest = message.substring(0, message.lastIndexOf("/") + 1);
@@ -1521,12 +1521,12 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
               var after_slash = message.substring(message.lastIndexOf('/') + 1, message.length)
               if (pos === 0 && after_slash.length === 1 && after_slash.trim() === '') {
-                this.logger.log('[CONVS-DETAIL] - returnChangeTextArea after_slash --> there is a white space after ')
-                this.HIDE_CANNED_RESPONSES = true
+                this.logger.log('[CONVS-DETAIL] - returnChangeTextArea after_slash --> there is a white space after ');
+                this.SHOW_CANNED_RESPONSES = false
                 // this.tagsCannedFilter = []
               } else if (pos === 0 && after_slash.length === 0) {
                 this.logger.log('[CONVS-DETAIL] - returnChangeTextArea after_slash --> there is NOT a white space after')
-                this.HIDE_CANNED_RESPONSES = false
+                this.SHOW_CANNED_RESPONSES = true
               }
 
               if (pos > 0) {
@@ -1543,11 +1543,11 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
                 this.logger.log('[CONVS-DETAIL] - returnChangeTextArea  --> afterSlash', afterSlash)
 
                 if (beforeSlash[beforeSlash.length - 1].indexOf(' ') >= 0 && afterSlash === '') {
-                  this.HIDE_CANNED_RESPONSES = false
+                  this.SHOW_CANNED_RESPONSES = true
                 } else if (beforeSlash[beforeSlash.length - 1].indexOf(' ') < 0 && afterSlash === '') {
-                  this.HIDE_CANNED_RESPONSES = true
+                  this.SHOW_CANNED_RESPONSES = false
                 } else if (beforeSlash[beforeSlash.length - 1].indexOf(' ') >= 0 && afterSlash === ' ') {
-                  this.HIDE_CANNED_RESPONSES = true
+                  this.SHOW_CANNED_RESPONSES = false
                   // this.tagsCannedFilter = []
                 }
               }
@@ -1583,7 +1583,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     this.logger.log('[CONVS-DETAIL] onLoadedCannedResponses --> ', event)
     if (event && event.length > 0) {
       this.tagsCannedFilter = event
-      this.tagsCannedCount = event.length
     }
   }
 
@@ -1619,13 +1618,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
   }
 
-
-  closeListCannedResponse() {
-    this.logger.log('[CONVS-DETAIL] close list canned . . .  ')
-    this.HIDE_CANNED_RESPONSES = true
-    this.tagsCannedFilter = []
-  }
-
   async presentCreateCannedResponseModal(): Promise<any> {
     const elTextArea = this.rowTextArea['el']
     const textArea = elTextArea.getElementsByTagName('ion-textarea')[0]
@@ -1648,11 +1640,11 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
   onClickOpenCannedResponses($event) {
     this.logger.log('[CONVS-DETAIL] - onClickOpenCannedResponses ', $event)
-    this.HIDE_CANNED_RESPONSES = !this.HIDE_CANNED_RESPONSES
+    this.SHOW_CANNED_RESPONSES = !this.SHOW_CANNED_RESPONSES
 
     //HIDE_CANNED_RESPONSES: true --> not show CANNED component
     //HIDE_CANNED_RESPONSES: false --> show CANNED component and place '/' char in textarea
-    if (!this.HIDE_CANNED_RESPONSES) {
+    if (this.SHOW_CANNED_RESPONSES) {
       const elTextArea = this.rowTextArea['el']
       const textArea = elTextArea.getElementsByTagName('ion-textarea')[0]
       if (elTextArea) {
@@ -1671,30 +1663,18 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   /** COPILOT SUGGGESTIONS : start */
   onLoadedSuggestions(event){
     this.logger.log('[CONVS-DETAIL] onLoadedSuggestions --> ', event)
-    if (event && event.length > 0) {
-      // this.tagsCannedFilter = event
-      // this.tagsCannedCount = event.length
-    }
   }
 
   replaceSuggestionInMessage(suggestion, event?) {
     const elTextArea = this.rowTextArea['el']
     const textArea = elTextArea.getElementsByTagName('ion-textarea')[0] as HTMLInputElement;
-    // console.log('[CONVS-DETAIL] replaceTagInMessage  textArea ', textArea)
-    // console.log('[CONVS-DETAIL] replaceTagInMessage  textArea value', textArea.value,)
 
-    // var lastChar =  textArea.value.substr(-1); // Selects the last character
-    // if (lastChar === '/') {
-    //   textArea.value = textArea.value.substring(0, textArea.value.length() - 1);
-    // }
-    // this.insertAtCursor(this.textArea, textArea.value)
-
-    this.logger.log('[CONVS-DETAIL] replaceTagInMessage  canned text ', suggestion.text)
+    this.logger.log('[CONVS-DETAIL] replaceSuggestionInMessage  canned text ', suggestion.text)
 
     // replace text
-    var strTEMP = textArea.value + ' ' +  suggestion.text
+    var strTEMP = textArea.value + suggestion.text
     strTEMP = this.replacePlaceholderInCanned(strTEMP)
-    this.logger.log('[CONVS-DETAIL] replaceTagInMessage strSearch ', strTEMP)
+    this.logger.log('[CONVS-DETAIL] replaceSuggestionInMessage strSearch ', strTEMP)
     // strTEMP = this.replacePlaceholderInCanned(strTEMP);
     // textArea.value = '';
     // that.messageString = strTEMP;

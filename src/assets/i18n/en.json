@@ -306,6 +306,7 @@
     "SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE":"Message also sent by email 📩"
   },
   "COPILOT": {
-    "ASK_AI":"Ask to AI"
+    "ASK_AI":"Ask to AI",
+    "NO_SUGGESTIONS_PRESENT":"No suggestions found"
   }
 }
