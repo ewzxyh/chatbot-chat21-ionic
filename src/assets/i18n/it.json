@@ -304,5 +304,8 @@
         "SEND_EMAIL_ERROR":"⚠️ ATTENZIONE ⚠️Si è verificato un errore durante l'invio dell'email. Si prega di riprovare",
         "SUBJECT_OFFLINE_MESSAGE":"Messaggio offline di Tiledesk 💬",
         "SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE":"Messaggio inviato anche via mail 📩"
-    }
+    },
+    "COPILOT": {
+        "ASK_AI":"Chiedi all'AI"
+  }
 }

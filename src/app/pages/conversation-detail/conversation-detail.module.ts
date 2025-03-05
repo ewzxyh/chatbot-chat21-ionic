@@ -43,6 +43,7 @@ import { ReturnReceiptComponent } from 'src/app/chatlib/conversation-detail/mess
 import { OptionsComponent } from 'src/app/chatlib/conversation-detail/message/options/options.component';
 import { UserTypingComponent } from 'src/chat21-core/utils/user-typing/user-typing.component';
 import { AvatarProfileComponent } from 'src/app/components/utils/avatar-profile/avatar-profile.component';
+import { CopilotSuggestionsComponent } from 'src/app/components/copilot-suggestions/copilot-suggestions.component';
 
 
 @NgModule({
@@ -93,6 +94,7 @@ import { AvatarProfileComponent } from 'src/app/components/utils/avatar-profile/
     // --------- footer --------- //
     MessageTextAreaComponent,
     CannedResponseComponent,
+    CopilotSuggestionsComponent,
 
 
     TruncatePipe

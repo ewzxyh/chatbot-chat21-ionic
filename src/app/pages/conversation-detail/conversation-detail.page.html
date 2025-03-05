@@ -61,7 +61,7 @@
               here is ignored
             </span>
 
-            <div class="overlay" *ngIf="!HIDE_CANNED_RESPONSES"></div>
+            <div class="overlay" *ngIf="!HIDE_CANNED_RESPONSES || SHOW_COPILOT_SUGGESTIONS"></div>
 
             <ng-template #content_welcome>
               <!-- <div class="messageFirst">
@@ -180,6 +180,17 @@
               (onClickCanned)="replaceTagInMessage($event)"
               (onClickAddCannedResponse)="presentCreateCannedResponseModal()">
             </app-canned-response>
+
+            <copilot-suggestions *ngIf="SHOW_COPILOT_SUGGESTIONS"
+              id="copilot"
+              [conversationWith]="conversationWith"
+              [conversationWithFullname]="conversationWithFullname"
+              [currentString]="messageStr"
+              [stylesMap]="styleMap"
+              [translationMap]="translationsMap"
+              (onLoadedSuggestions)="onLoadedSuggestions($event)"
+              (onClickSuggestion)="replaceSuggestionInMessage($event)">
+            </copilot-suggestions>
             
             
             <!-- <div id="canned" *ngIf="tagsCannedFilter.length > 0 && HIDE_CANNED_RESPONSES === false">

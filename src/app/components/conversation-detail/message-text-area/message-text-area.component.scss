@@ -5,6 +5,12 @@
     padding: 0px 16px 0px;
     border-bottom: 1px solid var(--border-color-base);
     border-top: 3px solid var(--basic-blue);
+    justify-content: space-between;
+
+    & > div{
+        display: flex;
+        align-items: center;
+    }
 
     .section-option{
         line-height: 16px;
@@ -26,6 +32,7 @@
             height: 25px;
             &.active{
                 color: var(--basic-blue);
+                fill: var(--basic-blue);
             }
             ion-icon{
                 margin-right: 4px;
@@ -35,7 +42,7 @@
     }
 
     .offline-lead-tip{
-        font-size: 12px;
+        font-size: 9px;
         width: 100%;
         display: block;
         text-align: right;

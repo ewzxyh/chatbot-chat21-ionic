@@ -304,5 +304,8 @@
     "SEND_EMAIL_ERROR":"⚠️ ATTENTION ⚠️ Error occurred while sending email. Please retry again",
     "SUBJECT_OFFLINE_MESSAGE":"Tiledesk Offline message  💬",
     "SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE":"Message also sent by email 📩"
+  },
+  "COPILOT": {
+    "ASK_AI":"Ask to AI"
   }
 }

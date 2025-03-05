@@ -1,29 +1,41 @@
 <ion-grid>
   <div class="footer-options-container">
-    <!-- CHAT-OPTION -->
-    <div class="section-option" id="chat"  tooltip="{{translationMap?.get('LABEL_CHAT')}}" placement="top">
-      <ion-button fill="clear" (click)="onOpenSection('chat')" [class.active]="section==='chat'">
-        <ion-icon name="chatbubbles"></ion-icon>
-        {{translationMap.get('LABEL_CHAT')}}
-      </ion-button>
-    </div>
-    <!-- EMAIL-OPTION -->
-    <div *ngIf="emailSection" class="section-option" id="email"  tooltip="{{translationMap?.get('EMAIL.LABEL_TOOLTIP')}}" placement="top">
-      <ion-button fill="clear" [class.active]="section==='email'" (click)="onOpenSection('email')" [disabled]="channelType === 'direct' || channel == CHANNEL_TYPE.WHATSAPP || channel == CHANNEL_TYPE.MESSENGER">
-        <ion-icon name="mail-open"></ion-icon>
-        {{translationMap.get('LABEL_EMAIL')}}
-      </ion-button>
+    <div>
+      <!-- CHAT-OPTION -->
+      <div class="section-option" id="chat"  tooltip="{{translationMap?.get('LABEL_CHAT')}}" placement="top">
+        <ion-button fill="clear" (click)="onOpenSection('chat')" [class.active]="section==='chat'">
+          <ion-icon name="chatbubbles"></ion-icon>
+          {{translationMap.get('LABEL_CHAT')}}
+        </ion-button>
+      </div>
+      <!-- EMAIL-OPTION -->
+      <div *ngIf="emailSection" class="section-option" id="email"  tooltip="{{translationMap?.get('EMAIL.LABEL_TOOLTIP')}}" placement="top">
+        <ion-button fill="clear" [class.active]="section==='email'" (click)="onOpenSection('email')" [disabled]="channelType === 'direct' || channel == CHANNEL_TYPE.WHATSAPP || channel == CHANNEL_TYPE.MESSENGER">
+          <ion-icon name="mail-open"></ion-icon>
+          {{translationMap.get('LABEL_EMAIL')}}
+        </ion-button>
+      </div>
+      <!-- WHATSAPP TEMPLATE -->
+      <div *ngIf="whatsappTemplatesSection" class="section-option" id="template" tooltip="{{translationMap?.get('WHATSAPP.LABEL_TOOLTIP')}}" placement="top">
+        <ion-button fill="clear" [class.active]="section==='templates'" (click)="onOpenSection('templates');onOpenTemplateModal()" [disabled]="channel !== CHANNEL_TYPE.WHATSAPP">
+          <ion-icon name="logo-whatsapp"></ion-icon>
+          {{translationMap?.get('WHATSAPP.LABEL_TEMPLATES')}}
+        </ion-button>
+      </div>
+      
+      <div *ngIf="offlineMsgEmail && section==='chat' && channel !== CHANNEL_TYPE.WHATSAPP && messageString && (leadInfo?.presence['status']==='offline' && leadInfo?.hasEmail)" class="section-option offline-lead-tip" >
+        {{translationMap.get('EMAIL.EMAIL_OFFLINE_TIP')}}
+      </div>
     </div>
 
-    <div *ngIf="whatsappTemplatesSection" class="section-option" id="template" tooltip="{{translationMap?.get('WHATSAPP.LABEL_TOOLTIP')}}" placement="top">
-      <ion-button fill="clear" [class.active]="section==='templates'" (click)="onOpenSection('templates');onOpenTemplateModal()" [disabled]="channel !== CHANNEL_TYPE.WHATSAPP">
-        <ion-icon name="logo-whatsapp"></ion-icon>
-        {{translationMap?.get('WHATSAPP.LABEL_TEMPLATES')}}
-      </ion-button>
-    </div>
-    
-    <div *ngIf="offlineMsgEmail && section==='chat' && channel !== CHANNEL_TYPE.WHATSAPP && messageString && (leadInfo?.presence['status']==='offline' && leadInfo?.hasEmail)" class="section-option offline-lead-tip" >
-      {{translationMap.get('EMAIL.EMAIL_OFFLINE_TIP')}}
+    <div>
+      <!-- COPILOT-OPTION -->
+      <div class="section-option" id="copilot" tooltip="{{translationMap?.get('COPILOT.ASK_AI')}}" placement="top">
+        <ion-button fill="clear" [class.active]="section ==='copilot'" (click)="onOpenSection('copilot')">
+          <ion-icon class="channel-icon" src="assets/images/icons/copilot.svg"></ion-icon>
+          {{translationMap?.get('COPILOT.ASK_AI')}}
+        </ion-button>
+      </div>
     </div>
 
   </div>
@@ -35,7 +47,7 @@
     </ion-col>
   </ion-row>
 
-  <ion-row id="message-text-area" [style.display]="section==='chat' || section ==='templates'? 'flex': 'none'">
+  <ion-row id="message-text-area" [style.display]="section==='chat' || section ==='templates' || section ==='copilot'? 'flex': 'none'">
 
     <ion-col col-auto style="display: flex;">
 

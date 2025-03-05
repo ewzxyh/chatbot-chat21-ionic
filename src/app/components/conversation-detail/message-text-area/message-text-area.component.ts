@@ -22,6 +22,8 @@ import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance'
 import { EventsService } from 'src/app/services/events-service';
 import { isOnMobileDevice } from 'src/chat21-core/utils/utils';
 import { checkAcceptedFile } from 'src/chat21-core/utils/utils';
+import { CopilotService } from 'src/app/services/copilot/copilot.service';
+import { BRAND_BASE_INFO } from 'src/app/utils/utils-resources';
 
 
 @Component({
@@ -106,6 +108,9 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
       imageUrl: 'https://tiledesk.com/wp-content/uploads/2022/11/FAQ-Chatbot.png',
     }
   ];
+
+  BRAND_BASE_INFO = BRAND_BASE_INFO
+  
   /**
    * Constructor
    * @param chooser 
@@ -118,7 +123,6 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
     public modalController: ModalController,
     public uploadService: UploadService,
     public toastController: ToastController,
-    private renderer: Renderer2,
     public eventsService: EventsService
   ) { }
 

@@ -6,24 +6,15 @@ import {
   AfterViewInit,
   ViewChild,
   ElementRef,
-  Directive,
   HostListener,
-  ChangeDetectorRef,
-  Renderer2,
-  isDevMode
 } from '@angular/core'
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router'
 import {
   ModalController,
   ToastController,
-  PopoverController,
   Platform,
   ActionSheetController,
-  NavController,
   IonContent,
-  IonTextarea,
-  IonButton,
-  IonInput,
 } from '@ionic/angular'
 
 // models
@@ -56,7 +47,6 @@ import {
   MESSAGE_TYPE_INFO,
   MESSAGE_TYPE_MINE,
   MESSAGE_TYPE_OTHERS,
-  URL_SOUND_LIST_CONVERSATION,
   TYPE_DIRECT,
   TYPE_MSG_EMAIL,
   TYPE_MSG_FORM,
@@ -88,12 +78,9 @@ import { takeUntil } from 'rxjs/operators'
 import { TiledeskService } from '../../services/tiledesk/tiledesk.service'
 import { NetworkService } from '../../services/network-service/network.service'
 import { EventsService } from '../../services/events-service'
-import { ScrollbarThemeDirective } from 'src/app/utils/scrollbar-theme.directive'
 import { WebsocketService } from 'src/app/services/websocket/websocket.service';
 import { Project } from 'src/chat21-core/models/projects';
-import { AppStorageService } from 'src/chat21-core/providers/abstract/app-storage.service';
 import { Globals } from 'src/app/utils/globals';
-import { TriggerEvents } from 'src/app/services/triggerEvents/triggerEvents';
 
 @Component({
   selector: 'app-conversation-detail',
@@ -148,6 +135,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   public tagsCannedCount: number;
   public HIDE_CANNED_RESPONSES: boolean = true
   public canShowCanned: boolean = true
+
+  public SHOW_COPILOT_SUGGESTIONS: boolean = false;
 
   public window: any = window
   public styleMap: Map<string, string> = new Map()
@@ -695,7 +684,9 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       "WHATSAPP.LABEL_TOOLTIP",
       "WHATSAPP.SELECT_MESSAGE_TEMPLATE",
       "WHATSAPP.ERROR_WHATSAPP_NOT_INSTALLED",
-      "WHATSAPP.ERROR_WHATSAPP_GENERIC_ERROR"
+      "WHATSAPP.ERROR_WHATSAPP_GENERIC_ERROR",
+
+      "COPILOT.ASK_AI"
 
     ]
 
@@ -1676,6 +1667,51 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     }
   }
 
+
+  /** COPILOT SUGGGESTIONS : start */
+  onLoadedSuggestions(event){
+    this.logger.log('[CONVS-DETAIL] onLoadedSuggestions --> ', event)
+    if (event && event.length > 0) {
+      // this.tagsCannedFilter = event
+      // this.tagsCannedCount = event.length
+    }
+  }
+
+  replaceSuggestionInMessage(suggestion, event?) {
+    const elTextArea = this.rowTextArea['el']
+    const textArea = elTextArea.getElementsByTagName('ion-textarea')[0] as HTMLInputElement;
+    // console.log('[CONVS-DETAIL] replaceTagInMessage  textArea ', textArea)
+    // console.log('[CONVS-DETAIL] replaceTagInMessage  textArea value', textArea.value,)
+
+    // var lastChar =  textArea.value.substr(-1); // Selects the last character
+    // if (lastChar === '/') {
+    //   textArea.value = textArea.value.substring(0, textArea.value.length() - 1);
+    // }
+    // this.insertAtCursor(this.textArea, textArea.value)
+
+    this.logger.log('[CONVS-DETAIL] replaceTagInMessage  canned text ', suggestion.text)
+
+    // replace text
+    var strTEMP = textArea.value + ' ' +  suggestion.text
+    strTEMP = this.replacePlaceholderInCanned(strTEMP)
+    this.logger.log('[CONVS-DETAIL] replaceTagInMessage strSearch ', strTEMP)
+    // strTEMP = this.replacePlaceholderInCanned(strTEMP);
+    // textArea.value = '';
+    // that.messageString = strTEMP;
+    textArea.value = strTEMP
+    this.insertAtCursor(textArea, '')
+    this.setCaretPosition(textArea)
+    // setTimeout(() => {
+    //   // textArea.focus();
+    //   textArea.setFocus()
+    //   // this.resizeTextArea()
+    // }, 200)
+    this.SHOW_COPILOT_SUGGESTIONS = !this.SHOW_COPILOT_SUGGESTIONS
+
+  }
+  /** COPILOT SUGGGESTIONS : end */
+
+
   setCaretPosition(ctrl) {
     ctrl.value.trim()
     ctrl.setFocus()
@@ -1867,6 +1903,9 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     this.logger.debug('[CONVS-DETAIL] onOpenFooterSection - section ', event)
     if (event === 'email' || event === 'templates') {
       this.getLeadDetail()
+    }
+    if(event === 'copilot'){
+      this.SHOW_COPILOT_SUGGESTIONS = !this.SHOW_COPILOT_SUGGESTIONS
     }
   }
 

@@ -1,0 +1,36 @@
+<div>
+  <div class="canned-list" *ngIf="suggestions.length > 0">
+    <ion-item button="true" [ngClass]="{'is_active_item': i == arrowkeyLocation}" lines="none"
+      class="canned-item no-ripple border" id="{{'canned-item_'+ i }}"
+      *ngFor="let suggestion of suggestions; let i = index;"
+      (click)="onClickSuggestionFN(suggestion, $event)">
+      <div class="cannedContent">
+        <!-- <ion-input [class.readonly]="suggestion?.disabled" [readonly]="suggestion?.disabled" type="text" [(ngModel)]="suggestion.title" class="title" id="{{'titleCanned_'+suggestion._id}}" #title></ion-input> -->
+        <!-- <ion-input [class.readonly]="suggestion?.disabled" [readonly]="suggestion?.disabled" type="text" [(ngModel)]="suggestion.text"  class="text"></ion-input> -->
+        <ion-label [class.readonly]="suggestion?.disabled" class="title" id="{{'titleCanned_'+suggestion._id}}" #title >{{suggestion?.title}}</ion-label>
+        <ion-label [class.readonly]="suggestion?.disabled" class="text">{{suggestion?.text}}</ion-label>
+      </div>
+    </ion-item>
+    <!-- <ion-item  class="canned-item add-canned-response-wpr" button="true" lines="none" (click)="onClickAddCannedResponseFN()">
+      <ion-icon class="add-canned-response-icon"  name="flash-outline"></ion-icon>
+      <span class="add-canned-response-add-icon">+</span>
+     <label class="add-canned-response-label" >{{translationMap?.get('AddNewCannedResponse')}}</label> 
+    </ion-item> -->
+  </div>
+  <!-- LOADER -->
+  <div class="loader" *ngIf="suggestions.length === 0">
+    <div class="box">
+      <!-- <div class="container">
+        <span class="circle" [ngStyle]="{'background-color': stylesMap?.get('themeColor')}"></span>
+        <span class="circle" [ngStyle]="{'background-color': stylesMap?.get('themeColor')}"></span>
+        <span class="circle" [ngStyle]="{'background-color': stylesMap?.get('themeColor')}"></span>
+        <span class="circle" [ngStyle]="{'background-color': stylesMap?.get('themeColor')}"></span>
+      </div> -->
+      <div class="spinner" [ngStyle]="{'border-top-color': stylesMap?.get('themeColor')}"></div>
+      <div class="label">{{translationMap.get('LABEL_LOADING')}}</div>
+    </div>
+  </div>
+  <!-- <div *ngIf="!canShowCanned">
+    
+  </div> -->
+</div>
