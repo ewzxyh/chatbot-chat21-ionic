@@ -266,8 +266,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     this.getOSCODE();
     this.listenToEventServiceEvents();
     this.listenToDsbrdPostMsgs();
-
-
   }
 
   listenToDsbrdPostMsgs() {
