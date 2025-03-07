@@ -1,3 +1,4 @@
+import { ProjectPlanUtils } from './../../utils/project-utils';
 import { DomSanitizer } from '@angular/platform-browser';
 import {
   Component,
@@ -147,6 +148,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
   public_Key: any;
   areVisibleCAR: boolean;
+  isCopilotEnabled: boolean;
   supportMode: boolean;
   isEmailEnabled: boolean;
   offlineMsgEmail: boolean;
@@ -237,7 +239,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     private networkService: NetworkService,
     private events: EventsService,
     private webSocketService: WebsocketService,
-    private sanitizer: DomSanitizer,
+    public projectPlanUtils: ProjectPlanUtils,
     private g: Globals,
   ) {
     // Change list on date change
@@ -264,6 +266,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     this.getOSCODE();
     this.listenToEventServiceEvents();
     this.listenToDsbrdPostMsgs();
+
+
   }
 
   listenToDsbrdPostMsgs() {
@@ -498,6 +502,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     this.isEmailEnabled = (this.appConfigProvider.getConfig().emailSection === 'true' || this.appConfigProvider.getConfig().emailSection === true) ? true : false;
     this.isWhatsappTemplatesEnabled = (this.appConfigProvider.getConfig().whatsappTemplatesSection === 'true' || this.appConfigProvider.getConfig().whatsappTemplatesSection === true) ? true : false;
 
+    this.cannedResponsesService.initialize(appconfig.apiUrl)
+
     if (checkPlatformIsMobile()) {
       this.isMobile = true
       // this.openInfoConversation = false; // indica se è aperto il box info conversazione
@@ -559,12 +565,13 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   }
 
   getProjectById(tiledeskToken, projectId) {
-    this.tiledeskService.getProjectById(tiledeskToken, projectId).subscribe((project) => {
+    this.tiledeskService.getProjectById(tiledeskToken, projectId).subscribe(async (project) => {
       this.logger.log('[CONVS-DETAIL] - GET PROJECTID BY CONV RECIPIENT RES', project)
       if (project) {
         const projectId = project.id_project
-        this.canShowCanned = this.checkPlanIsExpired(project)
+        this.canShowCanned = this.projectPlanUtils.checkPlanIsExpired(project)
         this.offlineMsgEmail = this.checkOfflineMsgEmailIsEnabled(project)
+        this.isCopilotEnabled = this.projectPlanUtils.checkProjectProfileFeature(project, 'copilot')
       }
     }, (error) => {
       this.logger.error('[CONVS-DETAIL] - GET PROJECTID BY CONV RECIPIENT - ERROR  ', error)
@@ -574,27 +581,6 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     }, () => {
       this.logger.log('[CONVS-DETAIL] - GET PROJECTID BY CONV RECIPIENT * COMPLETE *')
     })
-  }
-
-
-  checkPlanIsExpired(project: Project): boolean {
-    let check: boolean = false
-
-    //case FREE plan
-    if(project && project.trialExpired && project.profile.type=== 'trial'){
-      check = true
-    }else if(project && !project.trialExpired && project.profile.type=== 'trial'){
-      check = false
-    }
-
-    //case PAYMENT plan
-    if(project && project.isActiveSubscription && project.profile.type=== 'payment'){
-      check = true
-    }else if(project && !project.isActiveSubscription && project.profile.type=== 'payment'){
-      check = false
-    }
-
-    return check
   }
 
 
