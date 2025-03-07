@@ -42,6 +42,7 @@ import { Globals } from './utils/globals';
 import { GlobalSettingsService } from './services/global-settings/global-settings.service';
 import { conversationToMessage } from 'src/chat21-core/utils/utils-message';
 import { ProjectService } from './services/projects/project.service';
+import { ContactsService } from './services/contacts/contacts.service';
 
 @Component({
   selector: 'app-root',
@@ -136,7 +137,8 @@ export class AppComponent implements OnInit {
     public el: ElementRef,
     public g: Globals,
     public globalSettingsService: GlobalSettingsService,
-    public projectService: ProjectService
+    public projectService: ProjectService,
+    public contactsService: ContactsService
   ) {
 
     this.saveInStorageNumberOfOpenedChatTab();
@@ -1167,6 +1169,7 @@ export class AppComponent implements OnInit {
     this.chatManager.setCurrentUser(currentUser);
 
     this.projectService.initialize(serverBaseURL)
+    this.contactsService.initialize(serverBaseURL)
     // this.chatManager.startApp();
 
     // ----------------------------------------------
