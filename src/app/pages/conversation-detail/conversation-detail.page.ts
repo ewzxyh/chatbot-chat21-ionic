@@ -82,6 +82,7 @@ import { EventsService } from '../../services/events-service'
 import { WebsocketService } from 'src/app/services/websocket/websocket.service';
 import { Project } from 'src/chat21-core/models/projects';
 import { Globals } from 'src/app/utils/globals';
+import { ProjectService } from 'src/app/services/projects/project.service';
 
 @Component({
   selector: 'app-conversation-detail',
@@ -236,6 +237,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     public presenceService: PresenceService,
     public toastController: ToastController,
     public tiledeskService: TiledeskService,
+    public projectService: ProjectService,
     private networkService: NetworkService,
     private events: EventsService,
     private webSocketService: WebsocketService,
@@ -548,7 +550,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         this.logger.log('[CONVS-DETAIL] - GET PROJECTID BY CONV RECIPIENT RES + projectId', res, res.id_project)
         if (res) {
           const projectId = res.id_project
-          this.getProjectById(tiledeskToken, projectId)
+          this.getProjectById(projectId)
         }
       }, (error) => {
         this.logger.error('[CONVS-DETAIL] - GET PROJECTID BY CONV RECIPIENT - ERROR  ',conversationWith,  error)
@@ -562,8 +564,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     
   }
 
-  getProjectById(tiledeskToken, projectId) {
-    this.tiledeskService.getProjectById(tiledeskToken, projectId).subscribe(async (project) => {
+  getProjectById(projectId) {
+    this.projectService.getProjectById(projectId).subscribe(async (project) => {
       this.logger.log('[CONVS-DETAIL] - GET PROJECTID BY CONV RECIPIENT RES', project)
       if (project) {
         const projectId = project.id_project
