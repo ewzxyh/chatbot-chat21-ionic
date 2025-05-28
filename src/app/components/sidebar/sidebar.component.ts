@@ -423,7 +423,7 @@ export class SidebarComponent implements OnInit {
   }
 
   goToBots() {
-    let url = this.DASHBOARD_URL + this.project_id + '/bots'
+    let url = this.DASHBOARD_URL + this.project_id + '/bots/my-chatbots/all'
     const myWindow = window.open(url, '_self');
     myWindow.focus();
   }
