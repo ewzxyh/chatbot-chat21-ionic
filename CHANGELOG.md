@@ -8,6 +8,10 @@
 ### **Copyrigth**: 
 *Tiledesk SRL*
 
+# 3.4.19-rc1
+- added: ability to check for if emoji is allowd to be sent in message textarea
+- added: ability to check for if url domain  is allowd to be sent in message textarea
+
 # 3.4.18 in PROD
 
 # 3.4.17 in PROD
