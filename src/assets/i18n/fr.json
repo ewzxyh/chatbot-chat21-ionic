@@ -294,7 +294,7 @@
   },
   "EMAIL":{
     "LABEL_TOOLTIP":"Répondre avec un e-mail",
-    "EMAIL_OFFLINE_TIP":"Attention : l'utilisateur est hors ligne ! Le message sera envoyé par email",
+    "EMAIL_OFFLINE_TIP":"Attention : l'utilisateur est hors ligne ! Le message sera envoyé par email",
     "EMAIL_PLACEHOLDER":"Brouillon disponible ici - cliquez pour modifier",
     "EMAIL_NOT_FOUND_PLACEHOLDER":"Cet utilisateur n'a pas fourni d'adresse e-mail. Mettre à jour l'adresse du visiteur pour envoyer un e-mail",
     "SUBJECT":"Matière",
@@ -304,5 +304,7 @@
     "SEND_EMAIL_ERROR":"⚠️ ATTENTION ⚠️ Une erreur s'est produite lors de l'envoi de l'e-mail. Veuillez réessayer",
     "SUBJECT_OFFLINE_MESSAGE":"Message hors ligne de Tiledesk 💬",
     "SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE":"Message également envoyé par mail 📩"
-  }
+  },
+  "EMOJI_NOT_ELLOWED": "Emoji non autorisé",
+  "DOMAIN_NOT_ALLOWED": "L'URL contient un domaine non autorisé"
 }

@@ -1,4 +1,3 @@
-
 {
   "LABEL_TU": "siz: ",
   "LABEL_MSG_PUSH_START_CHAT": "Hali suhbat yo'q",
@@ -305,5 +304,7 @@
     "SEND_EMAIL_ERROR":"⚠️ DIQQAT ⚠️ Elektron pochta xabarini yuborishda xatolik yuz berdi. Qaytadan urining",
     "SUBJECT_OFFLINE_MESSAGE":"Tiledesk oflayn xabar 💬",
     "SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE":"Xabar elektron pochta orqali ham yuborildi 📩"
-  }
+  },
+  "EMOJI_NOT_ELLOWED": "Emoji'ga ruxsat berilmagan",
+  "DOMAIN_NOT_ALLOWED": "URL ruxsat etilmagan domenni o'z ichiga oladi"
 }

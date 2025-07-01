@@ -304,5 +304,7 @@
     "SEND_EMAIL_ERROR":"⚠️ OBS ⚠️ Ett fel uppstod när e-post skickades. Försök igen",
     "SUBJECT_OFFLINE_MESSAGE":"Tiledesk Offline meddelande 💬",
     "SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE":"Meddelande skickas även via mail 📩"    
-  }
+  },
+  "EMOJI_NOT_ELLOWED": "Emoji är inte tillåtna",
+  "DOMAIN_NOT_ALLOWED": "URL:en innehåller en otillåten domän"
 }

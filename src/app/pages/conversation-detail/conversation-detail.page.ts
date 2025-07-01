@@ -683,8 +683,11 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       "WHATSAPP.ERROR_WHATSAPP_GENERIC_ERROR",
 
       "COPILOT.ASK_AI",
-      "COPILOT.NO_SUGGESTIONS_PRESENT"
+      "COPILOT.NO_SUGGESTIONS_PRESENT",
 
+      "EMOJI_NOT_ELLOWED",
+      "DOMAIN_NOT_ALLOWED",
+      
     ]
 
     const keysHeader = [

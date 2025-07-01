@@ -304,5 +304,7 @@
     "SEND_EMAIL_ERROR":"⚠️ ATENCIÓN ⚠️ Ocurrió un error al enviar el correo. Vuelve a intentarlo",
     "SUBJECT_OFFLINE_MESSAGE":"Mensaje sin conexión de Tiledesk 💬",
     "SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE":"Mensaje también enviado por correo electrónico 📩"
-  }
+  },
+  "EMOJI_NOT_ELLOWED": "Emoji no permitido",
+  "DOMAIN_NOT_ALLOWED": "La URL contiene un dominio no permitido"
 }

@@ -20,10 +20,12 @@ import { UploadModel } from 'src/chat21-core/models/upload';
 import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service';
 import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance';
 import { EventsService } from 'src/app/services/events-service';
-import { isOnMobileDevice } from 'src/chat21-core/utils/utils';
+import { isAllowedUrlInText, isEmoji, isOnMobileDevice } from 'src/chat21-core/utils/utils';
 import { checkAcceptedFile } from 'src/chat21-core/utils/utils';
 import { CopilotService } from 'src/app/services/copilot/copilot.service';
 import { BRAND_BASE_INFO } from 'src/app/utils/utils-resources';
+import { ProjectService } from 'src/app/services/projects/project.service';
+import { Project } from 'src/chat21-core/models/projects';
 
 
 @Component({
@@ -70,6 +72,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
   @Output() onPresentModalScrollToBottom = new EventEmitter<boolean>();
   @Output() onOpenFooterSection = new EventEmitter<string>();
 
+  public project: Project;
   public conversationEnabled = false;
   public messageString: string;
   public HAS_PASTED: boolean = false;
@@ -111,6 +114,9 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
 
   BRAND_BASE_INFO = BRAND_BASE_INFO
   
+  showAlertEmoji: boolean = false
+  showAlertUrl: boolean = false;
+
   /**
    * Constructor
    * @param chooser 
@@ -123,7 +129,8 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
     public modalController: ModalController,
     public uploadService: UploadService,
     public toastController: ToastController,
-    public eventsService: EventsService
+    public eventsService: EventsService,
+    public projectService: ProjectService
   ) { }
 
   // ---------------------------------------------------------
@@ -153,6 +160,8 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
     this.logger.log('[CONVS-DETAIL] - returnChangeTextArea ngOnChanges in [MSG-TEXT-AREA]  this.tagsCannedFilter.length ', this.tagsCannedFilter.length)
     this.logger.log('[CONVS-DETAIL] - returnChangeTextArea ngOnChanges in [MSG-TEXT-AREA] channel', this.channel, this.whatsappTemplatesSection, this.emailSection )
 
+    this.project = this.projectService.getProject();
+    this.logger.log('[CONVS-DETAIL] - returnChangeTextArea ngOnChanges in [MSG-TEXT-AREA] project', this.project)
     // use case drop
     if (this.dropEvent) {
       this.presentModal(this.dropEvent)
@@ -495,6 +504,11 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
       this.conversationEnabled = false;
     }
 
+    let check = this.checkForEmojii(e.detail.value)
+    if(!check){
+      return;
+    }
+
     this.eventChangeTextArea.emit({ msg: message, offsetHeight: height });
   }
 
@@ -611,6 +625,12 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
     // text.replace(/\s/g, "")
     this.messageString = '';
     // text = text.replace(/(\r\n|\n|\r)/gm, '');
+
+    let checkUrlDomain = this.checkForUrlDomain(text)
+    if(!checkUrlDomain){
+      return
+    }
+
     if (text && text.trim() !== '') {
       this.eventSendMessage.emit({ msg: text, type: TYPE_MSG_TEXT, metadata: null, attributes: null });
     }
@@ -670,6 +690,38 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
       myField.value += myValue;
 
     }
+  }
+
+
+  //check if the text contains emojii
+  checkForEmojii(text){
+    //remove emojii only if "emojii" exist and is set to false
+    if(this.project && this.project.settings?.allow_send_emoji === false){
+      this.showAlertEmoji = isEmoji(text);
+      if(this.showAlertEmoji){
+        return false
+      }
+      this.showAlertEmoji = false;
+      return true
+    }
+    this.showAlertEmoji = false;
+    return true
+  }
+
+  //check if the text contains url domain allowed in list
+  checkForUrlDomain(text){
+    if(this.project && this.project.settings?.allowed_urls === true){
+      this.showAlertUrl = !isAllowedUrlInText(text, this.project.settings?.allowed_urls_list);
+      if(this.showAlertUrl){
+        return false
+      }
+      this.showAlertUrl = false
+      return true
+    }
+    this.showAlertUrl = false
+    return true
+
+
   }
 
 

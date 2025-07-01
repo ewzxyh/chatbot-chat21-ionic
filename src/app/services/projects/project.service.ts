@@ -15,9 +15,12 @@ export class ProjectService {
 
   private SERVER_BASE_URL: string;
   private tiledeskToken: string;
+  private _project: Project;
 
   private logger: LoggerService = LoggerInstance.getInstance();
 
+
+  
   constructor(
     public http: HttpClient,
     public appStorageService: AppStorageService
@@ -61,8 +64,26 @@ export class ProjectService {
     };
     return this.http.get(url, httpOptions).pipe(map((project: Project) => {
       this.logger.log('[TILEDESK-SERVICE] GET PROJECT BY ID URL - RES ', project);
+      this._project = project;
       return project
     }))
+  }
+
+  /**
+   * Get the current project
+   * @returns The current project
+   */
+  public getProject(): Project {
+    return this._project;
+  }
+
+  /**
+   * Set the current project
+   * @param project The project to set
+   */
+  public setProject(project: Project): void {
+    this._project = project;
+    this.logger.log('[PROJECTS-SERVICE] setProject - Project set: ', this._project);
   }
 
 }

@@ -304,5 +304,7 @@
     "SEND_EMAIL_ERROR":"⚠ ПАЖЊА ⚠ Дошло је до грешке при слању е-поште. Молимо покушајте поново",
     "SUBJECT_OFFLINE_MESSAGE":"Тиледеск Офлајн порука 💬",
     "SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE":"Порука је такође послата е-поштом 📩"  
-  }
+  },
+  "EMOJI_NOT_ELLOWED": "Emodžiji nisu dozvoljeni",
+  "DOMAIN_NOT_ALLOWED": "URL sadrži nedozvoljenu domenu"
 }

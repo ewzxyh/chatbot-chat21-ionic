@@ -304,5 +304,7 @@
     "SEND_EMAIL_ERROR":"⚠️ ACHTUNG ⚠️ Beim Senden der E-Mail ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut",
     "SUBJECT_OFFLINE_MESSAGE":"Tiledesk Offline-Nachricht 💬",
     "SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE":"Nachricht auch per E-Mail gesendet 📩"
-  }
+  },
+  "EMOJI_NOT_ELLOWED": "Emoji nicht erlaubt",
+  "DOMAIN_NOT_ALLOWED": "Die URL enthält eine nicht erlaubte Domain"
 }
