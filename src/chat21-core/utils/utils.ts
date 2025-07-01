@@ -971,37 +971,42 @@ export function isEmoji(str: string) {
 //   });
 // }
 
-export function isAllowedUrlInText(text: string, allowedUrls: string[]){
+export function isAllowedUrlInText(text: string, allowedUrls: string[]) {
   const urlsInMessage = extractUrls(text);
   console.log('urlsInMessage ++++ :', urlsInMessage);
 
-  // Normalize the list of allowed domains by extracting only the hostnames
-  const allowedHostnames = allowedUrls.map(url => {
+  const allowedPatterns = allowedUrls.map((url) => {
     try {
-      return new URL(url).hostname.toLowerCase();
+      // Prova a estrarre il dominio da una URL completa
+      const hostname = new URL(url).hostname.toLowerCase();
+      return hostname;
     } catch {
-      // Se è un dominio "nudo", come 'tiledesk.com'
+      // Lascia il dominio nudo (es: "*.tiledesk.com" o "tiledesk.com")
       return url.toLowerCase();
     }
   });
 
+  const matchesAllowed = (domain: string) => {
+    return allowedPatterns.some((pattern) => {
+      if (pattern.startsWith('*.')) {
+        const base = pattern.replace(/^\*\./, '');
+        return domain === base || domain.endsWith('.' + base);
+      } else {
+        return domain === pattern;
+      }
+    });
+  };
+
   const nonWhitelistedDomains = urlsInMessage.filter((url) => {
     try {
       const domain = new URL(url).hostname.toLowerCase();
-      return !allowedHostnames.includes(domain);
+      return !matchesAllowed(domain);
     } catch (e) {
-      // Ignore invalid URLs
-      return true;
+      return true; // Considera URL non valido come non ammesso
     }
   });
 
-  if (nonWhitelistedDomains.length > 0) {
-    console.warn('Message blocked: Non-whitelisted domain(s):', nonWhitelistedDomains);
-    // this.domainWarning = true; // <-- display a warning
-    return false;
-  }
-  return true
-
+  return nonWhitelistedDomains.length === 0;
 }
 
 function extractUrls(text: string): string[] {
