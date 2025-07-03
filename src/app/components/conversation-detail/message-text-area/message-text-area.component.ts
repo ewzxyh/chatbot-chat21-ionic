@@ -504,6 +504,8 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
       this.conversationEnabled = false;
     }
 
+    this.showAlertEmoji= false;
+    this.showAlertUrl = false;
     let check = this.checkForEmojii(e.detail.value)
     if(!check){
       return;
@@ -623,13 +625,14 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
     this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] sendMessage text', text);
     this.logger.log('[CONVS-DETAIL][MSG-TEXT-AREA] sendMessage conve width', this.conversationWith);
     // text.replace(/\s/g, "")
-    this.messageString = '';
-    // text = text.replace(/(\r\n|\n|\r)/gm, '');
-
     let checkUrlDomain = this.checkForUrlDomain(text)
     if(!checkUrlDomain){
       return
     }
+
+    this.messageString = '';
+    // text = text.replace(/(\r\n|\n|\r)/gm, '');
+
 
     if (text && text.trim() !== '') {
       this.eventSendMessage.emit({ msg: text, type: TYPE_MSG_TEXT, metadata: null, attributes: null });

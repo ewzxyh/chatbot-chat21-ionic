@@ -8,6 +8,9 @@
 ### **Copyrigth**: 
 *Tiledesk SRL*
 
+# 3.4.19-rc2
+- **bug-fixed**: minor fix on ion-texarea element with allowed url domain
+
 # 3.4.19-rc1
 - added: ability to check for if emoji is allowd to be sent in message textarea
 - added: ability to check for if url domain  is allowd to be sent in message textarea
