@@ -48,4 +48,15 @@ p ::ng-deep ol{
     }
 }
 
+.email-eml{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px 14px 14px 0px;
+    
+    p {
+        padding: 0;
+    }
+}
+
 

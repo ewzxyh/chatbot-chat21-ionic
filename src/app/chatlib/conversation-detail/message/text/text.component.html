@@ -1,5 +1,13 @@
-<!-- [ngStyle] = "{ 'width': message.type === 'image' ? media_width +'px' : ''  }" -->
 <p  #messageEl class="message_innerhtml marked"  
     [innerHTML]="printMessage(text, messageEl, this) | htmlEntiesEncode  | marked"
     [ngStyle]="{'color': '$'+ color }">
 </p>
+
+<span *ngIf="message?.attributes?.email_eml" class="email-eml">
+    <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" version="1.1" viewBox="0 0 100 125">
+        <path fill="#000" d="M91,50.5h-8v-12s0,0,0,0c0,0,0-.2,0-.3,0,0,0-.1,0-.2,0,0,0-.1,0-.2,0,0,0-.1-.1-.2,0,0,0,0,0-.1,0-.1-.2-.2-.2-.3l-19.1-19.1s0,0,0,0c0,0-.2-.2-.3-.2,0,0-.1,0-.2,0,0,0-.1,0-.2,0,0,0-.1,0-.2,0,0,0-.1,0-.2,0-.1,0-.2,0-.4,0H18.9c-1.1,0-1.9.9-1.9,1.9v31.1h-8c-1.1,0-2.1.9-2.1,2.1v29.4c0,1.2.9,2.1,2.1,2.1h8v21.5c0,1.1.9,1.9,1.9,1.9h62.2c1.1,0,1.9-.9,1.9-1.9v-21.5h8c1.1,0,2.1-.9,2.1-2.1v-29.4c0-1.1-.9-2.1-2.1-2.1ZM63.9,24l12.6,12.6h-12.6v-12.6ZM20.8,21.3h39.3v17.2c0,1.1.9,1.9,1.9,1.9h17.2v10.1H20.8v-29.2ZM79.1,72.4v5.3h-14.6v-20.8h5.9v15.5s8.7,0,8.7,0ZM60.9,77.8h-5.9l-.3-8.2c0-.2,0-.4,0-.7,0,.2-.1.3-.2.5l-2.3,8.1h-4.6l-2-7.8-.3,8.1h-5.7l1.2-20.8h6.9l1.9,7c.2.9.4,1.7.6,2.5.2-.8.4-1.7.6-2.5l2.1-7h6.8l1,20.8ZM35.5,64.2v5.3h-8.7v3h9.7v5.3h-15.6v-21h15.3v5.4h-9.3v2s8.7,0,8.7,0ZM79.2,103.7H20.8v-19.6h58.4s0,19.6,0,19.6Z"/>
+    </svg>
+    <p [innerHTML]="message?.attributes?.email_eml | marked"></p>
+</span>
+
+
