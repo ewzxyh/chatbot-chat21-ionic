@@ -8,6 +8,9 @@
 ### **Copyrigth**: 
 *Tiledesk SRL*
 
+# 3.4.19-rc3
+- **changed**: eml message link added from attributes 
+
 # 3.4.19-rc2
 - **bug-fixed**: minor fix on ion-texarea element with allowed url domain
 
