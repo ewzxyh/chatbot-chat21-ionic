@@ -54,7 +54,8 @@ export class GlobalSettingsService {
      this.globals.supportMode = getParameterValue('supportMode', this.appConfigService.getConfig());
     /** INIT STORAGE SERVICE */
     this.appStorageService.initialize(environment.storage_prefix, this.globals.persistence, '')
-
+    /** INIT FILEUPLOADACCEPT parameter */
+    this.globals.fileUploadAccept = this.appConfigService.getConfig().fileUploadAccept;
     /** LOAD PARAMETERS 
      * set parameters in globals
     */

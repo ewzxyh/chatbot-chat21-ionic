@@ -154,6 +154,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   isEmailEnabled: boolean;
   offlineMsgEmail: boolean;
   isWhatsappTemplatesEnabled: boolean;
+  fileUploadAccept: string;
   //SOUND
   setTimeoutSound: any;
   audio: any;
@@ -490,7 +491,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     this.showMessageWelcome = false
 
     const appconfig = this.appConfigProvider.getConfig()
-    this.tenant = appconfig.firebaseConfig.tenant
+    this.tenant = appconfig.firebaseConfig.tenant;
     this.logger.log('[CONVS-DETAIL] - initialize -> firebaseConfig tenant ', this.tenant)
 
     this.logger.log('[CONVS-DETAIL] - initialize -> conversationWith: ', this.conversationWith, ' -> conversationWithFullname: ', this.conversationWithFullname)
@@ -570,7 +571,8 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
         const projectId = project.id_project
         this.canShowCanned = this.projectPlanUtils.checkPlanIsExpired(project)
         this.offlineMsgEmail = this.checkOfflineMsgEmailIsEnabled(project)
-        this.isCopilotEnabled = this.projectPlanUtils.checkProjectProfileFeature(project, 'copilot')
+        this.isCopilotEnabled = this.projectPlanUtils.checkProjectProfileFeature(project, 'copilot');
+        this.fileUploadAccept = this.checkAcceptedUploadFile(project)
       }
     }, (error) => {
       this.logger.error('[CONVS-DETAIL] - GET PROJECTID BY CONV RECIPIENT - ERROR  ', error)
@@ -597,6 +599,15 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     }
 
     return check
+  }
+
+  checkAcceptedUploadFile(project: Project): string {
+
+    if(project && project?.settings?.allowed_upload_extentions){
+      return this.g.fileUploadAccept = project?.settings?.allowed_upload_extentions
+    }
+
+    return this.appConfigProvider.getConfig().fileUploadAccept
   }
 
   // getProjectIdSelectedConversation(conversationWith: string): string{
@@ -2002,7 +2013,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   checkAcceptedFile(draggedFileMimeType) {
     let isAcceptFile = false
     this.logger.log('[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept: ', this.appConfigProvider.getConfig().fileUploadAccept)
-    const accept_files = this.appConfigProvider.getConfig().fileUploadAccept
+    const accept_files = this.fileUploadAccept
     this.logger.log('[CONVS-DETAIL] > checkAcceptedFile - mimeType: ', draggedFileMimeType)
     if (accept_files === '*/*') {
       isAcceptFile = true
@@ -2168,7 +2179,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       this.logger.log('[CONVS-DETAIL] ----> FILE - DROP mimeType files ', mimeType)
       
       // const isAccepted = this.checkAcceptedFile(mimeType)
-      const canUploadFile = checkAcceptedFile(mimeType, this.appConfigProvider.getConfig().fileUploadAccept)
+      const canUploadFile = checkAcceptedFile(mimeType, this.fileUploadAccept)
       if(!canUploadFile){
         this.presentToast(this.translationsMap.get('FAILED_TO_UPLOAD_THE_FORMAT_IS_NOT_SUPPORTED'), 'danger', 'toast-custom-class', 5000)
         return;
