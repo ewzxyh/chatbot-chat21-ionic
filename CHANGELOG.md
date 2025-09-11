@@ -8,6 +8,9 @@
 ### **Copyrigth**: 
 *Tiledesk SRL*
 
+# 3.4.22 in PROD
+- **added**: managed allowed_upload_extentions from project settings
+
 # 3.4.21 in PROD
 
 # 3.4.20 in PROD

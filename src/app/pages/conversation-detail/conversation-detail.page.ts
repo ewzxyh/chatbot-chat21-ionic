@@ -2012,7 +2012,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
   checkAcceptedFile(draggedFileMimeType) {
     let isAcceptFile = false
-    this.logger.log('[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept: ', this.appConfigProvider.getConfig().fileUploadAccept)
+    this.logger.log('[CONVS-DETAIL] > checkAcceptedFile - fileUploadAccept: ', this.fileUploadAccept)
     const accept_files = this.fileUploadAccept
     this.logger.log('[CONVS-DETAIL] > checkAcceptedFile - mimeType: ', draggedFileMimeType)
     if (accept_files === '*/*') {
