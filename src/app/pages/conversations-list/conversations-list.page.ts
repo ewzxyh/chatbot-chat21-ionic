@@ -768,9 +768,7 @@ export class ConversationListPage implements OnInit {
       conversation_with = conversation.recipient
       conversation_with_fullname = conversation.recipient_fullname
     }
-    if (!conversation_with.startsWith('support-group')) {
-      conversation.image = this.imageRepoService.getImagePhotoUrl(conversation_with)
-    }
+    conversation.image = ''
   }
 
   onConversationLoaded(conversation: ConversationModel) {

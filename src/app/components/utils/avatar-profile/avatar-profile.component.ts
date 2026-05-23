@@ -38,4 +38,13 @@ export class AvatarProfileComponent implements OnInit, OnChanges {
     // console.log('AvatarProfileComponent color ',this.color);
   }
 
+  shouldRenderImage(): boolean {
+    const imageurl = this.itemAvatar && this.itemAvatar.imageurl;
+    return !!imageurl && !this.isSpeculativeNativeProfileUrl(imageurl);
+  }
+
+  private isSpeculativeNativeProfileUrl(imageurl: string): boolean {
+    return /\/(?:images|files)\?path=uploads(?:\/|%2F)users(?:\/|%2F).*(?:\/|%2F)images(?:\/|%2F)(?:thumbnails_200_200-)?photo\.jpg/i.test(imageurl);
+  }
+
 }

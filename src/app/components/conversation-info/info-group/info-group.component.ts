@@ -154,7 +154,7 @@ export class InfoGroupComponent implements OnInit, AfterViewInit, OnChanges {
               this.logger.log('InfoGroupComponent group detail loadContactDetail RES', user);
               // this.logger.log('InfoGroupComponent group detail this.presenceService.BSIsOnline.value()', this.presenceService.BSIsOnline.getValue);
 
-              user.imageurl = this.imageRepoService.getImagePhotoUrl(key)
+              user.imageurl = user.imageurl || ''
               // this.member_array.push({ userid: user.uid, avatar: user.avatar, color: user.color, email: user.email, fullname: user.fullname, imageurl: user.imageurl, userOnline: isOnline })
               var index = this.member_array.findIndex(m => m.userid === user.uid);
               this.logger.log('InfoGroupComponent member_array first of push index', index);

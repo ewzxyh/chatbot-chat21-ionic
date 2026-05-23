@@ -617,6 +617,11 @@ export class AppComponent implements OnInit {
         this.initAuthentication()
       }
     }, (nomatch)=> {
+      const fragment = nomatch && nomatch.$link ? nomatch.$link.fragment : '';
+      if (fragment && fragment.startsWith('#/')) {
+        this.logger.debug('[APP-COMP] deeplinks ignored web hash route', fragment);
+        return;
+      }
       this.logger.error("[APP-COMP] deeplinks: Got a deeplink that didn't match", nomatch);
     })
   }

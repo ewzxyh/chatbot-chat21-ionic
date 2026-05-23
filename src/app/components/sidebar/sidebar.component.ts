@@ -134,9 +134,9 @@ export class SidebarComponent implements OnInit {
           this.logger.log('[SIDEBAR] subcribeToAuthStateChanged currentUser ', this.currentUser)
           if (this.currentUser) {
             this.createUserAvatar(this.currentUser)
-            this.photo_profile_URL = this.imageRepoService.getImagePhotoUrl(this.currentUser.uid)
-            this.logger.log('[SIDEBAR] photo_profile_URL ', this.photo_profile_URL)
-            this.checkIfExistPhotoProfile(this.photo_profile_URL)
+            this.photo_profile_URL = this.getRenderableProfileImageUrl(this.currentUser.imageurl)
+            this.USER_PHOTO_PROFILE_EXIST = !!this.photo_profile_URL
+            this.logger.log('[SIDEBAR] explicit photo_profile_URL ', this.photo_profile_URL)
             this.checkAndRemoveDashboardForegroundCount()
           }
         } else {
@@ -158,6 +158,17 @@ export class SidebarComponent implements OnInit {
         this.logger.log('[SIDEBAR] photo_profile_URL IMAGE EXIST ', imageExists)
       }
     })
+  }
+
+  private getRenderableProfileImageUrl(imageurl: string): string {
+    if (!imageurl) {
+      return ''
+    }
+    return this.isSpeculativeNativeProfileUrl(imageurl) ? '' : imageurl
+  }
+
+  private isSpeculativeNativeProfileUrl(imageurl: string): boolean {
+    return /\/(?:images|files)\?path=uploads(?:\/|%2F)users(?:\/|%2F).*(?:\/|%2F)images(?:\/|%2F)(?:thumbnails_200_200-)?photo\.jpg/i.test(imageurl)
   }
 
   checkAndRemoveDashboardForegroundCount(){

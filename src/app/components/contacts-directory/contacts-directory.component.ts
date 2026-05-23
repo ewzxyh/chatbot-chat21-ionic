@@ -38,7 +38,7 @@ export class ContactsDirectoryComponent implements OnInit, OnChanges {
     this.logger.log('ContactsDirectoryComponent contacts', this.contacts)
     if(this.contacts){
       this.contacts.forEach(contact => {
-        contact.imageurl = this.imageRepoService.getImagePhotoUrl(contact.uid)
+        contact.imageurl = contact.imageurl || ''
         this.presenceService.userIsOnline(contact.uid).pipe(filter((isOnline) => isOnline !== null)).subscribe((status)=> {contact.online = status.isOnline })
       });
     }

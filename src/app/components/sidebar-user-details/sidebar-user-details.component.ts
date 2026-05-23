@@ -98,9 +98,9 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
             this.user = currentUser
             this.createUserAvatar(this.user);
             this.getCurrentChatLangAndTranslateLabels(this.user);
-            this.photo_profile_URL = this.imageRepoService.getImagePhotoUrl(this.user.uid)
-            this.logger.log('[SIDEBAR-USER-DETAILS] photo_profile_URL ', this.photo_profile_URL);
-            this.checkIfExistPhotoProfile(this.photo_profile_URL)
+            this.photo_profile_URL = this.getRenderableProfileImageUrl(this.user.imageurl)
+            this.USER_PHOTO_PROFILE_EXIST = !!this.photo_profile_URL
+            this.logger.log('[SIDEBAR-USER-DETAILS] explicit photo_profile_URL ', this.photo_profile_URL);
           }
         } else {
           this.logger.error('[SIDEBAR-USER-DETAILS] currentUser not found in storage ')
@@ -121,6 +121,17 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
         this.logger.log('[SIDEBAR-USER-DETAILS] photo_profile_URL IMAGE EXIST ', imageExists)
       }
     })
+  }
+
+  private getRenderableProfileImageUrl(imageurl: string): string {
+    if (!imageurl) {
+      return ''
+    }
+    return this.isSpeculativeNativeProfileUrl(imageurl) ? '' : imageurl
+  }
+
+  private isSpeculativeNativeProfileUrl(imageurl: string): boolean {
+    return /\/(?:images|files)\?path=uploads(?:\/|%2F)users(?:\/|%2F).*(?:\/|%2F)images(?:\/|%2F)(?:thumbnails_200_200-)?photo\.jpg/i.test(imageurl)
   }
 
 

@@ -108,7 +108,7 @@ export class ProfileInfoPage implements OnInit {
     this.loggedUser = this.chatManager.getCurrentUser();
     if (this.loggedUser) {
       this.itemAvatar = {
-        imageurl: this.imageRepo.getImagePhotoUrl(this.loggedUser.uid),
+        imageurl: this.getRenderableProfileImageUrl(this.loggedUser.imageurl),
         avatar: this.loggedUser.avatar,
         color: this.loggedUser.color,
         online: this.loggedUser.online,
@@ -118,6 +118,13 @@ export class ProfileInfoPage implements OnInit {
         height: '100px'
       };
     }
+  }
+
+  private getRenderableProfileImageUrl(imageurl: string): string {
+    if (!imageurl) {
+      return ''
+    }
+    return /\/(?:images|files)\?path=uploads(?:\/|%2F)users(?:\/|%2F).*(?:\/|%2F)images(?:\/|%2F)(?:thumbnails_200_200-)?photo\.jpg/i.test(imageurl) ? '' : imageurl
   }
 
 

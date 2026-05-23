@@ -44,7 +44,7 @@ export class InfoDirectComponent implements OnInit, AfterViewInit, OnChanges {
   ngOnChanges(){
     if(this.member){
       this.initialize();
-      this.member.imageurl = this.imageRepoService.getImagePhotoUrl(this.conversationWith)
+      this.member.imageurl = this.member.imageurl || ''
     }
   }
 
