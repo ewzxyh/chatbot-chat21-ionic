@@ -986,10 +986,11 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
       this.logger.debug('[CONVS-DETAIL] getLeadDetail - section ', projectId)
       this.tiledeskService.getRequest(this.conversationWith, projectId).subscribe((request: any) => {
         that.logger.debug('[CONVS-DETAIL] getLeadDetail - selected REQUEST detail', request)
-        if(request && request.channel){
+        if(request && request.channel && this.conversation){
+          this.conversation.attributes = this.conversation.attributes || {};
           this.conversation.attributes['request_channel'] = request.channel.name
         } 
-        if (request.lead && request.lead.email) { //LEAD has an email
+        if (request && request.lead && request.lead.email) { //LEAD has an email
           that.leadInfo = {
             lead_id: request.lead.lead_id,
             hasEmail: true,
@@ -1001,7 +1002,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
           }
           that.presenceService.userIsOnline(this.leadInfo.lead_id);
           that.webSocketService.subscribeToWS_RequesterPresence(projectId, that.leadInfo.lead_id)
-        } else{ // LEAD not has an email
+        } else if (request && request.lead) { // LEAD not has an email
           that.leadInfo = {
             lead_id: request.lead.lead_id,
             hasEmail: false,

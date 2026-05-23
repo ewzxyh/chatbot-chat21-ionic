@@ -1,0 +1,13 @@
+.git
+.github
+node_modules
+platforms
+plugins
+www
+dist
+coverage
+.angular
+.cache
+npm-debug.log*
+Dockerfile*
+docker-compose*.yml

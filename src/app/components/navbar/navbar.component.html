@@ -30,7 +30,7 @@
                 <i class="material-icons" style="margin-right: 3px;">arrow_drop_down</i>
               </button>
               <div class="ripple-container"></div>
-              <div id="navbar_dropdown" class="dropdown-menu" [ngClass]="{'open': openDropdownProjects}">
+              <div id="navbar_dropdown" class="dropdown-menu" [class.open]="openDropdownProjects">
                 
                 <!--  PROJECT SETTINGS  -->
                 <!-- <li *ngIf="USER_ROLE !== 'agent'">
@@ -71,7 +71,7 @@
                 <!-- *ngFor="let prjct of projects?.slice().reverse() | slice:0:5; let i=index" -->
                 <li *ngFor="let prjct of projects?.slice() | slice:0:5; let i=index" style="cursor: pointer">
                   <a (click)="goToHome(prjct?.id_project?._id, prjct?.id_project?.name)"
-                    [ngClass]="{'li-selected' : prjct?.id_project?._id === project?.id_project?.id }">
+                    [class.li-selected]="prjct?.id_project?._id === project?.id_project?.id">
   
                     <span> {{ prjct?.id_project?.name }} </span>
                   </a>

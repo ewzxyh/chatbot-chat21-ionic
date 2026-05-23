@@ -7,13 +7,17 @@ RUN npm install -g ionic cordova@8.0.0
 
 WORKDIR /app
 
-COPY . ./
+COPY package.json package-lock.json ./
 
-RUN npm install
+RUN npm ci
+
+COPY config.xml ionic.config.json ./
 
 RUN mkdir -p ./www
 
 RUN cordova platform add browser@latest
+
+COPY . ./
 
 RUN ionic cordova build browser
 

@@ -2,7 +2,7 @@ import { AppConfigProvider } from 'src/app/services/app-config';
 import { TiledeskAuthService } from 'src/chat21-core/providers/tiledesk/tiledesk-auth.service';
 import { EventsService } from 'src/app/services/events-service';
 import { ProjectService } from '../../services/projects/project.service';
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service';
 import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance';
 import { Project } from 'src/chat21-core/models/projects';
@@ -22,7 +22,7 @@ export class NavbarComponent implements OnInit {
   private tiledeskToken: string;
 
   public projects: Project[] = [];
-  public project: any = [];
+  public project: any = null;
   private USER_ROLE: string;
 
   public translationsMap: Map<string, string> = new Map();
@@ -37,8 +37,7 @@ export class NavbarComponent implements OnInit {
     private tiledeskAuthService: TiledeskAuthService,
     private appConfigProvider: AppConfigProvider,
     private translateService: CustomTranslateService, 
-    private events: EventsService,
-    private cdref: ChangeDetectorRef, 
+    private events: EventsService
   ) { }
 
   ngOnInit() {
@@ -46,10 +45,6 @@ export class NavbarComponent implements OnInit {
     this.listenToUserGoOnline();
     this.getStoredProjectAndUserRole();
     this.getOSCODE();
-  }
-
-  ngAfterContentChecked() {
-    this.cdref.detectChanges();
   }
 
   initTranslations(){
@@ -99,8 +94,10 @@ export class NavbarComponent implements OnInit {
     this.events.subscribe('storage:last_project',project =>{
       this.logger.log('[NAVBAR] stored_project ', project)
       if (project && project !== 'undefined') {
-        this.project = project;
-        this.USER_ROLE = project.role;
+        setTimeout(() => {
+          this.project = project;
+          this.USER_ROLE = project.role;
+        });
       }
     })
   }

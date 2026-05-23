@@ -1,3 +1,16 @@
 {
-  "gcm_sender_id": "103953800507"
+  "name": "ChatCase",
+  "short_name": "ChatCase",
+  "description": "ChatCase",
+  "theme_color": "#02D05C",
+  "background_color": "#02D05C",
+  "display": "standalone",
+  "gcm_sender_id": "103953800507",
+  "icons": [
+    {
+      "src": "assets/icon/favicon.ico",
+      "sizes": "350x350",
+      "type": "image/x-icon"
+    }
+  ]
 }

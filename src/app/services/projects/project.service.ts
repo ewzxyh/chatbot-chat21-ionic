@@ -23,7 +23,8 @@ export class ProjectService {
   
   constructor(
     public http: HttpClient,
-    public appStorageService: AppStorageService
+    public appStorageService: AppStorageService,
+    public appConfigProvider: AppConfigProvider
   ) {
    
     this.logger.log('[PROJECTS-SERVICE] HELLO !');
@@ -35,16 +36,33 @@ export class ProjectService {
     this.tiledeskToken = this.appStorageService.getItem('tiledeskToken')
   }
 
+  private getHttpOptions() {
+    this.tiledeskToken = this.tiledeskToken || this.appStorageService.getItem('tiledeskToken') || localStorage.getItem('tiledesk_token') || '';
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    if (this.tiledeskToken) {
+      headers = headers.set('Authorization', this.tiledeskToken);
+    }
+
+    return { headers };
+  }
+
+  private getServerBaseUrl(): string {
+    if (!this.SERVER_BASE_URL) {
+      const appConfig = this.appConfigProvider.getConfig();
+      this.SERVER_BASE_URL = appConfig && appConfig.apiUrl ? appConfig.apiUrl : '';
+    }
+
+    return this.SERVER_BASE_URL;
+  }
+
   public getProjects(): Observable<Project[]> {
-    const url = this.SERVER_BASE_URL  + "projects/";
+    const url = this.getServerBaseUrl()  + "projects/";
     this.logger.log('[PROJECTS-SERVICE] getProjects - URL ', url);
 
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        Authorization: this.tiledeskToken
-      })
-    };
+    const httpOptions = this.getHttpOptions();
     
     return this.http.get(url, httpOptions).pipe(map((res: Project[]) => {
         this.logger.log('[PROJECTS-SERVICE] getProjects - RES ', res);
@@ -53,15 +71,10 @@ export class ProjectService {
   }
 
   public getProjectById(id: string): Observable<Project> {
-    const url = this.SERVER_BASE_URL + 'projects/' + id;
+    const url = this.getServerBaseUrl() + 'projects/' + id;
     this.logger.log('[TILEDESK-SERVICE] - GET PROJECT BY ID URL', url);
 
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        Authorization: this.tiledeskToken
-      })
-    };
+    const httpOptions = this.getHttpOptions();
     return this.http.get(url, httpOptions).pipe(map((project: Project) => {
       this.logger.log('[TILEDESK-SERVICE] GET PROJECT BY ID URL - RES ', project);
       this._project = project;
