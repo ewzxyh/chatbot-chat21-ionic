@@ -30,11 +30,22 @@ Future changes such as message delivery status, channel error state, typing indi
 
 ## Git remotes
 
-`upstream` points to Tiledesk. Add the ChatCase GitHub repo later as `origin`:
+`upstream` points to Tiledesk and `origin` points to the ChatCase fork:
 
 ```powershell
-git remote add origin https://github.com/ewzxyh/chatcase-chat21-ionic.git
+git remote -v
 git push -u origin chatcase/main
+```
+
+## Local Docker validation
+
+The deploy repo includes a local override that builds this fork without changing
+the base `docker-compose.yml` image:
+
+```powershell
+cd C:\Users\enzo\chatcase-tiledesk-deploy
+docker compose -p tiledesk -f docker-compose.yml -f docker-compose.chatcase-ionic.yml build ionic
+docker compose -p tiledesk -f docker-compose.yml -f docker-compose.chatcase-ionic.yml up -d --force-recreate ionic
 ```
 
 ## Next migration target

@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget android-packageName="chat.ionic" android-versionCode="9" id="chat.tiledesk" ios-CFBundleIdentifier="it.chat.ionic" ios-CFBundleVersion="1.0.9" version="0.0.9" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Tiledesk</name>
-    <description>Tiledesk is the core of the open source live chat platform</description>
-    <author email="redacted@example.invalid" href="https://tiledesk.com/">Tiledesk Team</author>
+    <name>ChatCase</name>
+    <description>ChatCase chat console</description>
+    <author email="redacted@example.invalid" href="https://chatcase.com.br/">ChatCase</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-navigation href="*" />

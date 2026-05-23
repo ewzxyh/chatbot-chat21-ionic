@@ -21,9 +21,15 @@ export class BrandResources {
         }
 
         /** META TITLE and FAVICON */
-        document.title = this.brand['BRAND_NAME'] + ' ' + this.brand['META_TITLE']
-        var icon = document.querySelector("link[rel~='icon']") as HTMLElement;
-        icon.setAttribute('href', this.brand['FAVICON_URL'])
+        const brandName = this.brand['BRAND_NAME'] || '';
+        const metaTitle = this.brand['META_TITLE'] || brandName;
+        document.title = metaTitle.includes(brandName) ? metaTitle : `${brandName} ${metaTitle}`.trim();
+
+        const icon = document.querySelector("link[rel~='icon']") as HTMLElement;
+        const favicon = this.brand['FAVICON_URL'] || this.brand['FAVICON'];
+        if (icon && favicon) {
+            icon.setAttribute('href', favicon);
+        }
 
         /** CSS */
         document.body.style.setProperty('--base-brand-color', this.brand['BRAND_COLOR']);
