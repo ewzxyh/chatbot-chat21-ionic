@@ -12,7 +12,15 @@
     }
 
     svg {
-        fill:  var(--return-receipt-color) 
+        fill:  var(--return-receipt-color);
+    }
+
+    &.status-message-failed svg {
+        fill: #d93025;
+    }
+
+    &.status-message-read svg {
+        fill: #34b7f1;
     }
 
     .c21-ico-schedule {

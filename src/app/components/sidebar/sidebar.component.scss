@@ -58,6 +58,14 @@ svg:hover ellipse {
   fill: var(--sidebar-hover-icon-color);
 }
 
+.casezap-sidebar-icon path {
+  fill: #25d366;
+}
+
+.nav-custom > div:not(.sidebar-separator):hover .casezap-sidebar-icon path {
+  fill: #36e675;
+}
+
 .nav-custom > div:not(.sidebar-separator):hover {
   background-color: var(--sidebar-background-item-hover);
   & > a > i {

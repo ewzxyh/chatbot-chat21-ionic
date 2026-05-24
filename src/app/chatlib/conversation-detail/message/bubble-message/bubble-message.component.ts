@@ -189,6 +189,37 @@ export class BubbleMessageComponent implements OnInit, OnChanges {
     this.onElementRendered.emit({element: event.element, status: event.status})
   }
 
+  getChannelLabel(message: any): string {
+    const attrs = message?.attributes || {};
+    const metadata = message?.metadata || {};
+    const rawChannel = attrs.request_channel ||
+      attrs.channel_type ||
+      attrs.channel ||
+      metadata.request_channel ||
+      metadata.channel_type ||
+      message?.channel_type ||
+      '';
+
+    const normalized = String(rawChannel).toLowerCase();
+    if (normalized.includes('whatsapp')) {
+      return 'WhatsApp';
+    }
+    if (normalized.includes('telegram')) {
+      return 'Telegram';
+    }
+    if (normalized.includes('email')) {
+      return 'E-mail';
+    }
+    if (normalized.includes('messenger')) {
+      return 'Messenger';
+    }
+    return '';
+  }
+
+  showChannelChip(message: any): boolean {
+    return !!this.getChannelLabel(message);
+  }
+
 
   // printMessage(message, messageEl, component) {
   //   const messageOBJ = { message: message, sanitizer: this.sanitizer, messageEl: messageEl, component: component}

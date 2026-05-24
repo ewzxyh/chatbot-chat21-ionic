@@ -26,6 +26,31 @@ iframe {
     border-radius: var(--borderRadius)
 }
 
+.media-error {
+    display: flex;
+    min-width: 180px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px;
+    border: 1px solid rgba(31, 42, 68, 0.12);
+    border-radius: var(--borderRadius);
+    background: rgba(248, 250, 252, 0.92);
+    color: #43516a;
+    font-size: 13px;
+}
+
+.media-error button {
+    border: 1px solid rgba(31, 42, 68, 0.16);
+    border-radius: 14px;
+    background: #ffffff;
+    color: #1f75fe;
+    font-size: 12px;
+    padding: 4px 10px;
+    cursor: pointer;
+}
+
 @keyframes shine-loader {
     0% {
         background-position: -32px;

@@ -13,12 +13,43 @@ export class ImageComponent implements OnInit {
   @Output() onElementRendered = new EventEmitter<{element: string, status: boolean}>();
 
   loading: boolean = true
+  hasError: boolean = false
+  imageSrc: string = ''
+  retryCount: number = 0
   modal: any
   span: any
 
   constructor() { }
 
   ngOnInit() {
+    this.setImageSrc()
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.metadata) {
+      this.retryCount = 0
+      this.setImageSrc()
+    }
+  }
+
+  setImageSrc() {
+    this.loading = true
+    this.hasError = false
+    this.imageSrc = this.metadata?.src || ''
+  }
+
+  onError() {
+    this.loading = false
+    this.hasError = true
+    this.onElementRendered.emit({element: "image", status:false})
+  }
+
+  retryLoad() {
+    this.retryCount++
+    this.loading = true
+    this.hasError = false
+    const separator = this.metadata?.src?.includes('?') ? '&' : '?'
+    this.imageSrc = this.metadata?.src ? `${this.metadata.src}${separator}retry=${this.retryCount}` : ''
   }
 
   onLoaded(event) {

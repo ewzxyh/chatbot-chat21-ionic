@@ -1,6 +1,19 @@
-<div class="status-message">
+<div class="status-message"
+  [ngClass]="{
+    'status-message-failed': status == MSG_STATUS_FAILED,
+    'status-message-delivered': isDeliveredOrRead(),
+    'status-message-read': status == MSG_STATUS_SEEN
+  }"
+  [attr.title]="getTooltipLabel()"
+  [attr.aria-label]="getTooltipLabel()">
+  <!-- c21-ico-error -->
+  <div *ngIf="status == MSG_STATUS_FAILED" class="icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
+      <path d="M9 1.5A7.5 7.5 0 1 0 9 16.5 7.5 7.5 0 0 0 9 1.5Zm0 13.5A6 6 0 1 1 9 3a6 6 0 0 1 0 12Zm-.75-4.5h1.5v1.5h-1.5v-1.5Zm0-5.25h1.5v4.5h-1.5v-4.5Z"/>
+    </svg>
+  </div>
   <!-- c21-ico-schedule -->
-  <div *ngIf="!status" class="icon">
+  <div *ngIf="!status || status == MSG_STATUS_SENDING" class="icon">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
       <defs>
         <style>.cls-1{fill:none;}</style>
@@ -46,7 +59,7 @@
     </svg>
   </div>
   <!-- c21-ico-done_all -->
-  <div *ngIf="status == MSG_STATUS_RETURN_RECEIPT" class="icon">
+  <div *ngIf="status == MSG_STATUS_RECEIVED || status == MSG_STATUS_RETURN_RECEIPT || status == MSG_STATUS_SEEN" class="icon">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
       <defs>
         <style>.cls-1{fill:none;}</style>

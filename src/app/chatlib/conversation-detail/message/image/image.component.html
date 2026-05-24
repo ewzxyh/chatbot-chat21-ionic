@@ -1,12 +1,17 @@
 <!-- [ngStyle]="{ 'max-width': width +'px', 'max-height': height +'px' }" style="position: relative; " -->
 <div [ngStyle]="{'max-height': height +'px' }" class="c21-img-container">
   <div *ngIf="loading" class="loader" [ngStyle]="{ 'width': width , 'height': height  }"></div>
+  <div *ngIf="hasError" class="media-error" [ngStyle]="{ 'width': width , 'min-height': height  }">
+    <span>Imagem indisponível</span>
+    <button type="button" (click)="retryLoad()">Tentar novamente</button>
+  </div>
   <img id="myImg" 
     class="message-contentX message-content-imageX" 
-    [ngClass]="{'isLoadingImage': loading}"
+    [ngClass]="{'isLoadingImage': loading || hasError}"
     [width]="width"
     [height]="height"
-    [src]="metadata.src" 
+    [src]="imageSrc"
     (load)="onLoaded($event)" 
+    (error)="onError()"
     (click)="openImageViewerModal(metadata.src, metadata.name)" />
 </div>

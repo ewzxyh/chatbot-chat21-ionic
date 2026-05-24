@@ -36,6 +36,8 @@ export class SidebarComponent implements OnInit {
   isVisibleMON: boolean;
   isVisibleCNT: boolean;
   isVisibleKNB: boolean;
+  isVisibleAUT: boolean;
+  isSuperAdmin: boolean = false;
   photo_profile_URL: string;
   project_id: string;
   DASHBOARD_URL: string;
@@ -49,12 +51,19 @@ export class SidebarComponent implements OnInit {
   activities_lbl: string;
   history_lbl: string;
   settings_lbl: string;
+  flows_lbl: string;
+  whatsapp_broadcasts_lbl: string;
+  casezap_lbl: string = 'CaseZap';
+  admin_lbl: string = 'Admin';
   countClickOnOpenUserDetailSidebar: number = 0
   USER_PHOTO_PROFILE_EXIST: boolean;
   currentUser: any;
   dashboard_home_url: string;
   dashboard_knb_url: string;
   dashboard_bots_url: string;
+  dashboard_automations_url: string;
+  dashboard_casezap_url: string;
+  dashboard_admin_url: string;
   dashboard_convs_url: string;
   dashboard_contacts_url: string;
   dashboard_app_url: string;
@@ -79,9 +88,11 @@ export class SidebarComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.tiledesk_url = BRAND_BASE_INFO['COMPANY_SITE_URL'] as string
+    this.tiledesk_url = (BRAND_BASE_INFO['COMPANY_SITE_URL'] as string) || ''
+    this.isSuperAdmin = localStorage.getItem('superadmin_role') === 'admin'
     
     this.DASHBOARD_URL = this.appConfig.getConfig().dashboardUrl + '#/project/';
+    this.dashboard_admin_url = this.appConfig.getConfig().dashboardUrl + '#/admin';
     this.getStoredProjectAndUserRole()
     this.subcribeToAuthStateChanged()
     this.listenTocurrentProjectUserUserAvailability$()
@@ -103,8 +114,10 @@ export class SidebarComponent implements OnInit {
 
   buildURLs(USER_ROLE) {
     this.dashboard_home_url = this.DASHBOARD_URL + this.project_id + '/home'
-    this.dashboard_knb_url = this.DASHBOARD_URL + this.project_id + '/knowledge-bases'
-    this.dashboard_bots_url = this.DASHBOARD_URL + this.project_id + '/bots'
+    this.dashboard_knb_url = this.DASHBOARD_URL + this.project_id + '/knowledge-bases/0'
+    this.dashboard_bots_url = this.DASHBOARD_URL + this.project_id + '/bots/my-chatbots/all'
+    this.dashboard_automations_url = this.DASHBOARD_URL + this.project_id + '/automations'
+    this.dashboard_casezap_url = this.DASHBOARD_URL + this.project_id + '/casezap'
     this.dashboard_convs_url = this.DASHBOARD_URL + this.project_id + '/wsrequests'
     this.dashboard_contacts_url = this.DASHBOARD_URL + this.project_id + '/contacts'
     this.dashboard_app_url = this.DASHBOARD_URL + this.project_id + '/app-store'
@@ -117,7 +130,7 @@ export class SidebarComponent implements OnInit {
     } else if (USER_ROLE === 'agent') {
       this.dashboard_settings_url = this.DASHBOARD_URL + this.project_id + '/cannedresponses'
     }
-    this.tiledesk_url = 'https://www.tiledesk.com'
+    this.tiledesk_url = (BRAND_BASE_INFO['COMPANY_SITE_URL'] as string) || ''
 
   }
 
@@ -261,7 +274,10 @@ export class SidebarComponent implements OnInit {
       'Analytics',
       'Activities',
       'History',
-      'Settings'
+      'Settings',
+      'Flows',
+      'WhatsAppBroadcasts',
+      'Admin'
     ]
 
     this.translate.get(keys).subscribe((text: string) => {
@@ -272,6 +288,9 @@ export class SidebarComponent implements OnInit {
       this.activities_lbl = text['Activities']
       this.history_lbl = text['History']
       this.settings_lbl = text['Settings']
+      this.flows_lbl = text['Flows'] || 'Flows'
+      this.whatsapp_broadcasts_lbl = text['WhatsAppBroadcasts'] || 'WhatsApp Broadcasts'
+      this.admin_lbl = text['Admin'] || 'Admin'
       
     });
   }
@@ -341,6 +360,15 @@ export class SidebarComponent implements OnInit {
             this.isVisibleKNB = true;
           }
         }
+
+        if (key.includes("AUT")) {
+          let lbs = key.split(":");
+          if (lbs[1] === "F") {
+            this.isVisibleAUT = false;
+          } else {
+            this.isVisibleAUT = true;
+          }
+        }
         
       });
 
@@ -364,6 +392,9 @@ export class SidebarComponent implements OnInit {
       if (!this.public_Key.includes("KNB")) {
         this.isVisibleKNB = false;
       }
+      if (!this.public_Key.includes("AUT")) {
+        this.isVisibleAUT = false;
+      }
 
     } else {
       this.isVisibleANA = false;
@@ -372,6 +403,7 @@ export class SidebarComponent implements OnInit {
       this.isVisibleMON = false;
       this.isVisibleCNT = false;
       this.isVisibleKNB = false;
+      this.isVisibleAUT = false;
     }
 
 

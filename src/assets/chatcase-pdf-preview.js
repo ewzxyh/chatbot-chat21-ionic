@@ -79,7 +79,7 @@
 
     var label = document.createElement('span');
     label.className = 'chatcase-quote-label';
-    label.textContent = (quote && (quote.senderLabel || quote.authorName || quote.participantName)) || 'VocÃª';
+    label.textContent = (quote && (quote.senderLabel || quote.authorName || quote.participantName)) || 'Você';
 
     var text = document.createElement('span');
     text.className = 'chatcase-quote-text';
@@ -295,7 +295,7 @@
     var toggle = document.createElement('button');
     toggle.type = 'button';
     toggle.className = 'chatcase-audio-toggle';
-    toggle.setAttribute('aria-label', 'Reproduzir audio');
+    toggle.setAttribute('aria-label', 'Reproduzir áudio');
     toggle.innerHTML = iconSvg('play');
 
     var range = document.createElement('input');
@@ -317,7 +317,7 @@
 
     var meta = document.createElement('span');
     meta.className = 'chatcase-audio-meta';
-    appendText(meta, 'chatcase-audio-label', payload.ptt ? 'Mensagem de voz' : 'Audio');
+    appendText(meta, 'chatcase-audio-label', payload.ptt ? 'Mensagem de voz' : 'Áudio');
     appendText(meta, 'chatcase-audio-total', payload.duration || formatSeconds(payload.seconds));
     card.appendChild(meta);
     card.appendChild(audio);
@@ -347,11 +347,11 @@
     });
     audio.addEventListener('play', function() {
       toggle.innerHTML = iconSvg('pause');
-      toggle.setAttribute('aria-label', 'Pausar audio');
+      toggle.setAttribute('aria-label', 'Pausar áudio');
     });
     audio.addEventListener('pause', function() {
       toggle.innerHTML = iconSvg('play');
-      toggle.setAttribute('aria-label', 'Reproduzir audio');
+      toggle.setAttribute('aria-label', 'Reproduzir áudio');
     });
     function seekFromRange() {
       var nextTime = Number(range.value || 0);
@@ -384,7 +384,7 @@
   }
 
   function removeStructuredPreviewText(textNode, preview) {
-    if (!textNode || !textNode.parentNode || !preview) return;
+    if (!textNode || !textNode.parentNode) return;
     var parent = textNode.parentNode;
     var cursor = textNode.nextSibling;
     parent.removeChild(textNode);
@@ -403,7 +403,7 @@
       cursor = cursor.nextSibling;
       parent.removeChild(blank);
     }
-    if (cursor && cursor.nodeType === Node.TEXT_NODE && cursor.nodeValue.trim() === preview) {
+    if (preview && cursor && cursor.nodeType === Node.TEXT_NODE && cursor.nodeValue.trim() === preview) {
       parent.removeChild(cursor);
     }
   }
