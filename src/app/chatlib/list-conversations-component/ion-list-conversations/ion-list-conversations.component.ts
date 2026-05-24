@@ -137,6 +137,11 @@ export class IonListConversationsComponent extends ListConversationsComponent im
     this.translationsMap = this.translateService.translateLanguage(translationKeys)
   }
 
+  formatLastMessageText(conversation: ConversationModel): string {
+    const text = conversation && conversation.last_message_text ? conversation.last_message_text : '';
+    return text.replace(/^(.+?) joined group on creation$/i, '$1 ingressou no bate-papo');
+  }
+
   setMomentLocale() {
     this.browserLang = getChatcaseTranslationLang();
     const currentUser = this.tiledeskAuthService.getCurrentUser();

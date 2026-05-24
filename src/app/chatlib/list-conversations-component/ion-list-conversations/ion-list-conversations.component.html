@@ -140,7 +140,7 @@
         <!-- </div> -->
         <!-- [innerHTML]="conversation.last_message_text" -->
         <span [class.not-read]="conversation.is_new">
-          {{ conversation.last_message_text }}
+          {{ formatLastMessageText(conversation) }}
         </span>
       </div>
     </ion-label>

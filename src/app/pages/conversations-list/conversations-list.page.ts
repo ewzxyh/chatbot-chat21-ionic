@@ -366,6 +366,10 @@ export class ConversationListPage implements OnInit {
     // this.conversations = this.manageStoredConversations()
     // this.manageStoredConversations()
     this.conversations = this.conversationsHandlerService.conversations
+    this.conversations.forEach((conversation: ConversationModel) => {
+      this.onImageLoaded(conversation)
+      this.onConversationLoaded(conversation)
+    })
     this.logger.log('[CONVS-LIST-PAGE] - CONVERSATIONS ', this.conversations.length, this.conversations)
     // save conversationHandler in chatManager
     this.chatManager.setConversationsHandler(this.conversationsHandlerService)
@@ -783,8 +787,8 @@ export class ConversationListPage implements OnInit {
     // Fixes the bug: if a snippet of code is pasted and sent it is not displayed correctly in the convesations list
 
     var regex = /<br\s*[\/]?>/gi
-    if (conversation ) { //&& conversation.last_message_text
-      conversation.last_message_text = conversation.last_message_text.replace(regex, '',)
+    if (conversation && conversation.last_message_text) {
+      conversation.last_message_text = this.localizeLegacySystemPreview(conversation.last_message_text.replace(regex, ''))
 
       //FIX-BUG: 'YOU: YOU: YOU: text' on last-message-text in conversation-list
       if (conversation.sender === this.loggedUserUid && !conversation.last_message_text.includes(': ')) {
@@ -834,6 +838,13 @@ export class ConversationListPage implements OnInit {
       }
     }
 
+  }
+
+  localizeLegacySystemPreview(text: string): string {
+    if (!text) {
+      return text;
+    }
+    return text.replace(/^(.+?) joined group on creation$/i, '$1 ingressou no bate-papo');
   }
 
   // isMarkdownLink(last_message_text) {
