@@ -10,7 +10,7 @@ import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service
 import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance';
 import { TranslateService } from '@ngx-translate/core';
 import { EventsService } from 'src/app/services/events-service';
-import { tranlatedLanguage } from '../../../chat21-core/utils/constants';
+import { getChatcaseTranslationLang } from '../../../chat21-core/utils/chatcase-locale';
 
 // utils
 import { avatarPlaceholder, getColorBck } from 'src/chat21-core/utils/utils-user';
@@ -225,8 +225,6 @@ export class SidebarComponent implements OnInit {
   }
 
   getCurrentChatLangAndTranslateLabels() {
-    const browserLang = this.translate.getBrowserLang();
-
     const storedCurrentUser = this.appStorageService.getItem('currentUser')
     this.logger.log('[SIDEBAR] - ngOnInit - storedCurrentUser ', storedCurrentUser)
 
@@ -234,31 +232,15 @@ export class SidebarComponent implements OnInit {
     if (storedCurrentUser && storedCurrentUser !== 'undefined') {
       const currentUser = JSON.parse(storedCurrentUser);
       this.logger.log('[SIDEBAR] - ngOnInit - currentUser ', currentUser)
-      this.logger.log('[SIDEBAR] - ngOnInit - browserLang ', browserLang)
       let currentUserId = ''
       if (currentUser) {
         currentUserId = currentUser.uid
         this.logger.log('[SIDEBAR] - ngOnInit - getCurrentChatLangAndTranslateLabels - currentUserId ', currentUserId)
       }
 
-      const stored_preferred_lang = localStorage.getItem(currentUserId + '_lang');
-      this.logger.log('[SIDEBAR] stored_preferred_lang: ', stored_preferred_lang);
-
-      let chat_lang = '';
-      if (browserLang && !stored_preferred_lang) {
-        chat_lang = browserLang
-        this.logger.log('[SIDEBAR] chat_lang: ', chat_lang);
-      } else if (browserLang && stored_preferred_lang) {
-        chat_lang = stored_preferred_lang
-        this.logger.log('[SIDEBAR] chat_lang: ', chat_lang);
-      }
-      if (tranlatedLanguage.includes(chat_lang)) {
-        this.logger.log('[SIDEBAR] tranlatedLanguage includes', chat_lang, ': ', tranlatedLanguage.includes(chat_lang))
-        this.translate.use(chat_lang);
-      } else {
-        this.logger.log('[SIDEBAR] tranlatedLanguage includes', chat_lang, ': ', tranlatedLanguage.includes(chat_lang))
-        this.translate.use('en');
-      }
+      const chat_lang = getChatcaseTranslationLang();
+      this.logger.log('[SIDEBAR] ChatCase language: ', chat_lang);
+      this.translate.use(chat_lang);
     } else {
       this.logger.error('[SIDEBAR] - ngOnInit - currentUser not found in storage ')
     }

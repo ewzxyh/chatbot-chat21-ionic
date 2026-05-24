@@ -10,7 +10,7 @@ import { WebsocketService } from 'src/app/services/websocket/websocket.service';
 import { skip } from 'rxjs/operators';
 import { AppConfigProvider } from 'src/app/services/app-config';
 import { EventsService } from 'src/app/services/events-service';
-import { tranlatedLanguage } from '../../../chat21-core/utils/constants';
+import { getChatcaseTranslationLang } from '../../../chat21-core/utils/chatcase-locale';
 import { avatarPlaceholder, getColorBck } from 'src/chat21-core/utils/utils-user';
 import { environment } from 'src/environments/environment';
 import { Project } from 'src/chat21-core/models/projects';
@@ -193,38 +193,12 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
 
 
   getCurrentChatLangAndTranslateLabels(currentUser) {
-    this.browserLang = this.translate.getBrowserLang();
+    this.browserLang = getChatcaseTranslationLang();
     this.logger.log('[SIDEBAR-USER-DETAILS] - ngOnInit - currentUser ', currentUser)
-    this.logger.log('[SIDEBAR-USER-DETAILS] - ngOnInit - browserLang ', this.browserLang)
-
-    const stored_preferred_lang = localStorage.getItem(currentUser.uid + '_lang');
-    this.logger.log('[SIDEBAR-USER-DETAILS] stored_preferred_lang: ', stored_preferred_lang);
-
-
-    this.chat_lang = ''
-    if (this.browserLang && !stored_preferred_lang) {
-      this.chat_lang = this.browserLang
-      // this.flag_url = "assets/images/language_flag/" + this.chat_lang + ".png"
-
-      this.logger.log('[SIDEBAR-USER-DETAILS] flag_url: ', this.flag_url);
-      this.logger.log('[SIDEBAR-USER-DETAILS] chat_lang: ', this.chat_lang);
-    } else if (this.browserLang && stored_preferred_lang) {
-      this.chat_lang = stored_preferred_lang
-      // this.flag_url = "assets/images/language_flag/" + this.chat_lang + ".png"
-      this.logger.log('[SIDEBAR-USER-DETAILS] flag_url: ', this.flag_url);
-      this.logger.log('[SIDEBAR-USER-DETAILS] chat_lang: ', this.chat_lang);
-    }
-
-    if (tranlatedLanguage.includes(this.chat_lang)) {
-      this.logger.log('[SIDEBAR-USER-DETAILS] tranlatedLanguage includes', this.chat_lang, ': ', tranlatedLanguage.includes(this.chat_lang))
-      this.translate.use(this.chat_lang);
-      this.flag_url = "assets/images/language_flag/" + this.chat_lang + ".png"
-    } else {
-      this.logger.log('[SIDEBAR-USER-DETAILS] tranlatedLanguage includes', this.chat_lang, ': ', tranlatedLanguage.includes(this.chat_lang))
-      this.translate.use('en');
-      this.flag_url = "assets/images/language_flag/en.png"
-      this.chat_lang = 'en'
-    }
+    this.chat_lang = this.browserLang
+    this.logger.log('[SIDEBAR-USER-DETAILS] ChatCase language: ', this.chat_lang);
+    this.translate.use(this.chat_lang);
+    this.flag_url = "assets/images/language_flag/" + this.chat_lang + ".png"
 
     this.translateLabels()
   }

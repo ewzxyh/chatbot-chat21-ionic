@@ -27,7 +27,8 @@ import { CustomTranslateService } from 'src/chat21-core/providers/custom-transla
 import { NotificationsService } from 'src/chat21-core/providers/abstract/notifications.service';
 import { NetworkService } from './services/network-service/network.service';
 import { ScriptService } from './services/scripts/script.service';
-import { AUTH_STATE_CLOSE, AUTH_STATE_OFFLINE, AUTH_STATE_ONLINE, PLATFORM_DESKTOP, PLATFORM_MOBILE, tranlatedLanguage, TYPE_DIRECT, URL_SOUND_CONVERSATION_ADDED, URL_SOUND_CONVERSATION_UNASSIGNED, URL_SOUND_LIST_CONVERSATION } from 'src/chat21-core/utils/constants';
+import { AUTH_STATE_CLOSE, AUTH_STATE_OFFLINE, AUTH_STATE_ONLINE, PLATFORM_DESKTOP, PLATFORM_MOBILE, TYPE_DIRECT, URL_SOUND_CONVERSATION_ADDED, URL_SOUND_CONVERSATION_UNASSIGNED, URL_SOUND_LIST_CONVERSATION } from 'src/chat21-core/utils/constants';
+import { applyChatcaseMomentLocale, getChatcaseTranslationLang } from 'src/chat21-core/utils/chatcase-locale';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConversationModel } from 'src/chat21-core/models/conversation';
 import { LoginPage } from './pages/authentication/login/login.page';
@@ -145,6 +146,7 @@ export class AppComponent implements OnInit {
     private contactsService: ContactsService
   ) {
 
+    this.enforceChatcaseLocale();
     this.saveInStorageNumberOfOpenedChatTab();
     this.listenChatAlreadyOpenWithoutParamsInMobileMode()
     this.IS_ON_MOBILE_DEVICE = isOnMobileDevice()
@@ -626,6 +628,12 @@ export class AppComponent implements OnInit {
     })
   }
 
+  private enforceChatcaseLocale() {
+    document.documentElement.lang = 'pt-BR';
+    (this.translate as any).getBrowserLang = () => getChatcaseTranslationLang();
+    applyChatcaseMomentLocale();
+  }
+
   /** */
   setLanguage(currentUser) {
     // const currentUser = JSON.parse(this.appStorageService.getItem('currentUser'));
@@ -639,29 +647,11 @@ export class AppComponent implements OnInit {
     // this.translate.setDefaultLang('en');
     //   this.translate.use('en');
 
-    const browserLang = this.translate.getBrowserLang();
-    this.logger.log('[APP-COMP] browserLang: ', browserLang);
-    const stored_preferred_lang = localStorage.getItem(currentUserId + '_lang');
-    this.logger.log('[APP-COMP] stored_preferred_lang: ', stored_preferred_lang);
-
-    let chat_lang = ''
-    if (browserLang && !stored_preferred_lang) {
-      chat_lang = browserLang
-    } else if (browserLang && stored_preferred_lang) {
-      chat_lang = stored_preferred_lang
-    }
-
-    if (tranlatedLanguage.includes(chat_lang)) {
-      this.logger.log('[APP-COMP] tranlatedLanguage includes', chat_lang, ': ', tranlatedLanguage.includes(chat_lang))
-      this.translate.setDefaultLang(chat_lang)
-      this.translate.use(chat_lang);
-    }
-    else {
-      this.logger.log('[APP-COMP] tranlatedLanguage not includes', chat_lang, ': ', tranlatedLanguage.includes(chat_lang))
-      chat_lang = 'en'
-      this.translate.setDefaultLang('en');
-      this.translate.use('en');
-    }
+    const chat_lang = getChatcaseTranslationLang();
+    this.logger.log('[APP-COMP] ChatCase language: ', chat_lang);
+    this.translate.setDefaultLang(chat_lang)
+    this.translate.use(chat_lang);
+    applyChatcaseMomentLocale();
     this.lang=chat_lang
 
   }

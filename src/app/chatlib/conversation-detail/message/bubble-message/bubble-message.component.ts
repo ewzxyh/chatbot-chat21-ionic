@@ -11,6 +11,7 @@ import * as moment from 'moment';
 import { ModalController, PopoverController } from '@ionic/angular';
 import { convertColorToRGBA } from 'src/chat21-core/utils/utils';
 import { getColorBck } from 'src/chat21-core/utils/utils-user';
+import { applyChatcaseMomentLocale, getChatcaseTranslationLang } from 'src/chat21-core/utils/chatcase-locale';
 
 @Component({
   selector: 'chat-bubble-message',
@@ -65,22 +66,9 @@ export class BubbleMessageComponent implements OnInit, OnChanges {
 
 
   setMomentLocale() {
-    this.browserLang = this.translate.getBrowserLang();
-    const currentUser = this.tiledeskAuthService.getCurrentUser();
-    let currentUserId = ''
-    if (currentUser) {
-      currentUserId = currentUser.uid
-    }
-
-    const stored_preferred_lang = localStorage.getItem(currentUserId + '_lang');
-
-    let chat_lang = ''
-    if (this.browserLang && !stored_preferred_lang) {
-      chat_lang = this.browserLang
-    } else if (this.browserLang && stored_preferred_lang) {
-      chat_lang = stored_preferred_lang
-    }
-    moment.updateLocale(chat_lang , {
+    this.browserLang = getChatcaseTranslationLang();
+    applyChatcaseMomentLocale();
+    moment.updateLocale('pt-br' , {
       calendar: {
         sameElse: 'LLLL'
       }

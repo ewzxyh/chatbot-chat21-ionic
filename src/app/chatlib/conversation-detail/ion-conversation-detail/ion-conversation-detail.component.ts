@@ -13,12 +13,12 @@ import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service
 import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance';
 import { TiledeskAuthService } from 'src/chat21-core/providers/tiledesk/tiledesk-auth.service';
 import { TranslateService } from '@ngx-translate/core';
-import * as moment from 'moment';
 import { AppConfigProvider } from 'src/app/services/app-config';
 import { ModalController, PopoverController, ToastController } from '@ionic/angular';
 import { CreateCannedResponsePage } from 'src/app/modals/create-canned-response/create-canned-response.page';
 import { EventsService } from 'src/app/services/events-service';
 import { CopilotPopoverComponent } from 'src/app/components/copilot-popover/copilot-popover.component';
+import { applyChatcaseMomentLocale, getChatcaseTranslationLang } from 'src/chat21-core/utils/chatcase-locale';
 
 @Component({
   selector: 'ion-conversation-detail',
@@ -95,7 +95,7 @@ export class IonConversationDetailComponent extends ConversationContentComponent
 
 
   setMomentLocaleAndGetTranslation() {
-    this.browserLang = this.translate.getBrowserLang();
+    this.browserLang = getChatcaseTranslationLang();
     const currentUser = this.tiledeskAuthService.getCurrentUser();
     this.logger.log('[CONVS-DETAIL][ION-CONVS-DETAIL] - ngOnInit - currentUser ', currentUser)
     let currentUserId = ''
@@ -104,18 +104,7 @@ export class IonConversationDetailComponent extends ConversationContentComponent
       this.logger.log('[CONVS-DETAIL][ION-CONVS-DETAIL]] - ngOnInit - currentUserId ', currentUserId)
     }
 
-    const stored_preferred_lang = localStorage.getItem(currentUserId + '_lang');
-    this.logger.log('[CONVS-DETAIL][ION-CONVS-DETAIL] stored_preferred_lang: ', stored_preferred_lang);
-
-
-    let chat_lang = ''
-    if (this.browserLang && !stored_preferred_lang) {
-      chat_lang = this.browserLang
-    } else if (this.browserLang && stored_preferred_lang) {
-      chat_lang = stored_preferred_lang
-    }
-
-    moment.locale(chat_lang)
+    applyChatcaseMomentLocale();
     // this.translate.getTranslation(chat_lang).subscribe((labels: string) => {
     //   console.log('[CONVS-DETAIL] translations: ', labels);
     // });

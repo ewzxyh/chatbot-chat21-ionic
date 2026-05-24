@@ -2,6 +2,7 @@
 import * as moment from 'moment/moment';
 // import * as moment from 'moment-timezone';
 import 'moment/locale/it.js';
+import 'moment/locale/pt-br.js';
 import { CHANNEL_TYPE } from './constants';
 
 import { HttpClient } from '@angular/common/http';
@@ -377,9 +378,9 @@ export function getFromNow(timestamp): string {
   //console.log("timestamp: ",timestamp, " - 1483228800 - ", moment.unix(1483228800).fromNow());
   // console.log();
 
-  //console.log("window.navigator.language: ", window.navigator.language);
-
-  moment.locale(window.navigator.language);
+  // ChatCase is localized for Brazil. Keep relative timestamps aligned with pt-BR
+  // even when the browser language is English.
+  moment.locale('pt-br');
   let date_as_string = moment.unix(timestamp).fromNow();
   return date_as_string;
 }

@@ -16,6 +16,7 @@ import { TiledeskAuthService } from 'src/chat21-core/providers/tiledesk/tiledesk
 import { AlertController } from '@ionic/angular';
 import { CustomTranslateService } from 'src/chat21-core/providers/custom-translate.service';
 import { isAudio, isFile, isFrame, isImage } from 'src/chat21-core/utils/utils-message';
+import { applyChatcaseMomentLocale, getChatcaseTranslationLang } from 'src/chat21-core/utils/chatcase-locale';
 // import { LoggerService } from 'src/chat21-core/providers/abstract/logger.service';
 // import { LoggerInstance } from 'src/chat21-core/providers/logger/loggerInstance';
 
@@ -137,7 +138,7 @@ export class IonListConversationsComponent extends ListConversationsComponent im
   }
 
   setMomentLocale() {
-    this.browserLang = this.translate.getBrowserLang();
+    this.browserLang = getChatcaseTranslationLang();
     const currentUser = this.tiledeskAuthService.getCurrentUser();
     this.logger.log('[ION-LIST-CONVS-COMP] - ngOnInit - currentUser ', currentUser)
     let currentUserId = ''
@@ -146,17 +147,7 @@ export class IonListConversationsComponent extends ListConversationsComponent im
       this.logger.log('[ION-LIST-CONVS-COMP] - ngOnInit - currentUserId ', currentUserId)
     }
 
-    const stored_preferred_lang = localStorage.getItem(currentUserId + '_lang');
-    this.logger.log('[ION-LIST-CONVS-COMP] stored_preferred_lang: ', stored_preferred_lang);
-
-
-    let chat_lang = ''
-    if (this.browserLang && !stored_preferred_lang) {
-      chat_lang = this.browserLang
-    } else if (this.browserLang && stored_preferred_lang) {
-      chat_lang = stored_preferred_lang
-    }
-    moment.locale(chat_lang)
+    applyChatcaseMomentLocale();
   }
 
 
