@@ -105,7 +105,7 @@ export class ProjectItemComponent implements OnInit {
         if (event.data === 'hasChangedProject') {
           this.unservedRequestCount = 0;
           if (this.project) {
-            this.wsService.unsubscribeToWsConversations(this.project.id_project._id)
+            this.wsService.unsubscribeToWsConversations(this.getProjectId(this.project))
           }
           this.getLastProjectStoredAndSubscToWSAvailabilityAndConversations();
         }
@@ -210,14 +210,21 @@ export class ProjectItemComponent implements OnInit {
 
   }
 
+  getProjectId(project) {
+    return project && project.id_project && (project.id_project._id || project.id_project);
+  }
+
   doProjectSubscriptions(project) {
-    this.events.publish('storage:last_project', project)
     this.logger.log('[PROJECT-ITEM] doProjectSubscriptions project ', project)
-    if (project) {
-      const user_role = this.project.role
+    const projectId = this.getProjectId(project);
+    const projectUserId = project && project._id;
+
+    if (project && projectId && projectUserId) {
+      this.events.publish('storage:last_project', project)
+      const user_role = project.role
       this.logger.log('[PROJECT-ITEM] - user_role ', user_role)
       //TODO: recuperare id da root project (DA VERIFICARE)
-      this.projectIdEvent.emit(project.id_project._id)
+      this.projectIdEvent.emit(projectId)
 
       if (user_role === 'agent') {
         this.ROLE_IS_AGENT = true;
@@ -229,11 +236,13 @@ export class ProjectItemComponent implements OnInit {
 
       this.logger.log('[PROJECT-ITEM] - LAST PROJECT PARSED > user_role ', user_role)
       //TODO: recuperare project_user_ID da API --> aggiugere metodo
-      this.wsService.subscriptionToWsCurrentProjectUserAvailability(project.id_project._id, this.project._id);
+      this.wsService.subscriptionToWsCurrentProjectUserAvailability(projectId, projectUserId);
       this.listenTocurrentProjectUserUserAvailability$(project)
 
-      this.wsService.subscriptionToWsConversations(project.id_project._id)
+      this.wsService.subscriptionToWsConversations(projectId)
       this.updateUnservedRequestCount();
+    } else {
+      this.logger.warn('[PROJECT-ITEM] doProjectSubscriptions skipped invalid project', project);
 
     }
   }
@@ -242,7 +251,7 @@ export class ProjectItemComponent implements OnInit {
     this.wsService.currentProjectUserAvailability$.pipe(takeUntil(this.unsubscribe$)).subscribe((projectUser) => {
         this.logger.log('[PROJECT-ITEM] - $UBSC TO WS USER AVAILABILITY & BUSY STATUS RES ', projectUser);
 
-        if (project.id_project._id === projectUser['id_project']) {
+        if (this.getProjectId(project) === projectUser['id_project']) {
           project['ws_projct_user_available'] = projectUser['user_available'];
           project['ws_projct_user_isBusy'] = projectUser['isBusy']
           if (this.translationMap) {
