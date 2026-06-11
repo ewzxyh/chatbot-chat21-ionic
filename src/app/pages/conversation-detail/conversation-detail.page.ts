@@ -160,7 +160,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   audio: any;
   USER_HAS_OPENED_CLOSE_INFO_CONV: boolean = false;
   isHovering: boolean = false;
-  conversation_count: number;
+  conversation_count: number = 0;
   showSpinner: boolean = true;
   dropEvent: any;
   conversation: ConversationModel;

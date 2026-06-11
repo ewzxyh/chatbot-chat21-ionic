@@ -3,23 +3,21 @@
 # We label our stage as ‘builder’
 FROM node:14.21.2-alpine as builder
 
-RUN npm install -g ionic cordova@8.0.0
+ENV NPM_CONFIG_LEGACY_PEER_DEPS=true
+
+RUN apk add --no-cache python3 make g++
+
+RUN npm install -g npm@8.19.4 ionic cordova@8.0.0
 
 WORKDIR /app
 
 COPY package.json package-lock.json ./
 
-RUN npm ci
-
-COPY config.xml ionic.config.json ./
-
-RUN mkdir -p ./www
-
-RUN cordova platform add browser@latest
+RUN npm ci --legacy-peer-deps
 
 COPY . ./
 
-RUN ionic cordova build browser
+RUN npm run build
 
 ### STAGE 2: Setup ###
 
@@ -31,7 +29,7 @@ COPY nginx.conf /etc/nginx/nginx.conf
 ## Remove default nginx website
 RUN rm -rf /usr/share/nginx/html/*
 
-COPY --from=builder /app/platforms/browser/www/ /usr/share/nginx/html
+COPY --from=builder /app/www/ /usr/share/nginx/html
 COPY --from=builder /app/src/chat-config-template.json /usr/share/nginx/html
 COPY --from=builder /app/src/firebase-messaging-sw-template.js /usr/share/nginx/html
 

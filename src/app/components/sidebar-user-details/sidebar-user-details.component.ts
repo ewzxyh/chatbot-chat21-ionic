@@ -46,7 +46,7 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
   public_Key: any
   USER_PHOTO_PROFILE_EXIST: boolean = false;
   version: string
-  company_name: string = 'Tiledesk'
+  company_name: string = 'ChatCase'
   DASHBOARD_URL: string;
 
   selectedStatus: any;
@@ -396,7 +396,7 @@ export class SidebarUserDetailsComponent implements OnInit, OnChanges {
   }
 
   goToHelpCenter() {
-    const url = "https://gethelp.tiledesk.com/"
+    const url = "https://chatcase.com.br/"
     window.open(url, '_blank');
   }
 

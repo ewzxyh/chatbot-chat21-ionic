@@ -17,7 +17,7 @@ export abstract class MessagingAuthService {
 
   // params
   public DEFAULT_PERSISTENCE: string = 'NONE';
-  public DEFAULT_URL: string = 'https://api.tiledesk.com/v2/auth/';
+  public DEFAULT_URL: string = '/api/auth/';
 
   private persistence;
   private baseUrl;

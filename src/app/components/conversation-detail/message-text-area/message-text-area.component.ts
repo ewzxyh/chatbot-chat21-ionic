@@ -100,7 +100,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
       text: 'ee',
       emoticons: [],
       keywords: ['github'],
-      imageUrl: 'https://tiledesk.com/wp-content/uploads/2022/11/Customer-Service.png',
+      imageUrl: '/assets/logos/chatcase-logo.svg',
     },
     {
       name: 'Octocat',
@@ -108,7 +108,7 @@ export class MessageTextAreaComponent implements OnInit, AfterViewInit, OnChange
       text: 'rr',
       emoticons: [],
       keywords: ['github'],
-      imageUrl: 'https://tiledesk.com/wp-content/uploads/2022/11/FAQ-Chatbot.png',
+      imageUrl: '/assets/logos/chatcase-logo.svg',
     }
   ];
 

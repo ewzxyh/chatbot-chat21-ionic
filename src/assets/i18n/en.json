@@ -151,7 +151,7 @@
   "BUTTON_CLOSE_TO_ICON": "Minimize chat",
   "BUTTON_EDIT_PROFILE": "Update profile",
   "RATE_CHAT": "Rate chat",
-  "WELLCOME_TITLE": "Hi, welcome to Tiledesk 👋",
+  "WELLCOME_TITLE": "Hi, welcome to ChatCase 👋",
   "WELLCOME_MSG": "How can we help?",
   "WELLCOME": "Welcome",
   "OPTIONS": "options",
@@ -275,44 +275,44 @@
   "EnterCannedResponseTitle": "Enter canned response title",
   "WriteMsgToSendToYourVisitors": "Write a canned response message to send to your visitors",
   "EditProfile": "Edit profile",
-  "NAVBAR":{
-    "SIMULATE_VISITOR":"Simulate visitor",
-    "PROJECT_SETTINGS":"Project settings",
-    "VIEW_ALL_PROJECTS":"View all projects",
-    "ADD_PROJECT":"Add project",
-    "RECENT_PROJECTS":"Recent projects",
-    "OTHER_PROJECTS":"Other projects"
+  "NAVBAR": {
+    "SIMULATE_VISITOR": "Simulate visitor",
+    "PROJECT_SETTINGS": "Project settings",
+    "VIEW_ALL_PROJECTS": "View all projects",
+    "ADD_PROJECT": "Add project",
+    "RECENT_PROJECTS": "Recent projects",
+    "OTHER_PROJECTS": "Other projects"
   },
-  "JSON_RESPONSE":"JSON Response",
-  "LIVE":"Live",
+  "JSON_RESPONSE": "JSON Response",
+  "LIVE": "Live",
   "WHATSAPP": {
-    "LABEL_TEMPLATES":"Templates",
-    "LABEL_TOOLTIP":"Reply using an approved Whatsapp template",
-    "SELECT_MESSAGE_TEMPLATE":"Select a message template",
-    "ERROR_WHATSAPP_NOT_INSTALLED":"Install Whatsapp from the App Store to use templates",
-    "ERROR_WHATSAPP_GENERIC_ERROR":"A problem occurred while getting templates from whatsapp.\nCheck your configuration or contact your administrator."
+    "LABEL_TEMPLATES": "Templates",
+    "LABEL_TOOLTIP": "Reply using an approved Whatsapp template",
+    "SELECT_MESSAGE_TEMPLATE": "Select a message template",
+    "ERROR_WHATSAPP_NOT_INSTALLED": "Install Whatsapp from the App Store to use templates",
+    "ERROR_WHATSAPP_GENERIC_ERROR": "A problem occurred while getting templates from whatsapp.\nCheck your configuration or contact your administrator."
   },
-  "EMAIL":{
-    "LABEL_TOOLTIP":"Reply with an email",
-    "EMAIL_OFFLINE_TIP":"Warning: user is offline! The message will be sent by email",
-    "EMAIL_PLACEHOLDER":"Draft available here - click to edit",
-    "EMAIL_NOT_FOUND_PLACEHOLDER":"This user has not provided an email address. Update the visitor's address to send an email",
-    "SUBJECT":"Subject",
-    "MESSAGE":"Message",
-    "MESSAGE_PLACEHOLDER":"Type your message...",
-    "SEND_EMAIL_SUCCESS":"Email successfully sent ✌🏻",
-    "SEND_EMAIL_ERROR":"⚠️ ATTENTION ⚠️ Error occurred while sending email. Please retry again",
-    "SUBJECT_OFFLINE_MESSAGE":"Tiledesk Offline message  💬",
-    "SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE":"Message also sent by email 📩"
+  "EMAIL": {
+    "LABEL_TOOLTIP": "Reply with an email",
+    "EMAIL_OFFLINE_TIP": "Warning: user is offline! The message will be sent by email",
+    "EMAIL_PLACEHOLDER": "Draft available here - click to edit",
+    "EMAIL_NOT_FOUND_PLACEHOLDER": "This user has not provided an email address. Update the visitor's address to send an email",
+    "SUBJECT": "Subject",
+    "MESSAGE": "Message",
+    "MESSAGE_PLACEHOLDER": "Type your message...",
+    "SEND_EMAIL_SUCCESS": "Email successfully sent ✌🏻",
+    "SEND_EMAIL_ERROR": "⚠️ ATTENTION ⚠️ Error occurred while sending email. Please retry again",
+    "SUBJECT_OFFLINE_MESSAGE": "ChatCase Offline message  💬",
+    "SEND_EMAIL_SUCCESS_OFFLINE_MESSAGE": "Message also sent by email 📩"
   },
-  "HELLO":"Hello",
+  "HELLO": "Hello",
   "COPILOT": {
-    "ASK_AI":"Ask AI",
-    "SOLVE_WITH_AI":"Solve with AI",
-    "NO_SUGGESTIONS_PRESENT":"No suggestions found",
-    "INSERT_PROMPT_HERE":"Inster a prompt here",
-    "HOW_CAN_I_HELP_YOU":"How can i help you?"
+    "ASK_AI": "Ask AI",
+    "SOLVE_WITH_AI": "Solve with AI",
+    "NO_SUGGESTIONS_PRESENT": "No suggestions found",
+    "INSERT_PROMPT_HERE": "Inster a prompt here",
+    "HOW_CAN_I_HELP_YOU": "How can i help you?"
   },
-  "EMOJI_NOT_ELLOWED":"Emoji not allowed",
-  "DOMAIN_NOT_ALLOWED":"URL contains a non-allowed domain"
+  "EMOJI_NOT_ELLOWED": "Emoji not allowed",
+  "DOMAIN_NOT_ALLOWED": "URL contains a non-allowed domain"
 }

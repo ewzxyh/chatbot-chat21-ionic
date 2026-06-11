@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, NgZone, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, NgZone, OnInit, ViewChild } from '@angular/core';
 
 import { AlertController, Config, IonNav, IonRouterOutlet, ModalController, NavController, Platform, ToastController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -51,7 +51,7 @@ import { TiledeskService } from './services/tiledesk/tiledesk.service';
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
   @ViewChild('sidebarNav', { static: false }) sidebarNav: IonNav;
   @ViewChild('detailNav', { static: false }) detailNav: IonRouterOutlet;
 
@@ -331,6 +331,40 @@ export class AppComponent implements OnInit {
     this.triggerOnInit('onInit')
   }
 
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      if (!checkPlatformIsMobile()) {
+        this.setDesktopConversationListRoot();
+      } else {
+        this.initializeNavigationShell();
+      }
+    }, 0);
+  }
+
+  private initializeNavigationShell(): boolean {
+    if (!this.sidebarNav || !this.detailNav) {
+      return false;
+    }
+
+    this.navService.init(this.sidebarNav, this.detailNav);
+    return true;
+  }
+
+  private setDesktopConversationListRoot(): void {
+    this.sidebarPage = ConversationListPage;
+
+    if (this.initializeNavigationShell()) {
+      this.navService.setRoot(ConversationListPage, {});
+      return;
+    }
+
+    setTimeout(() => {
+      if (this.initializeNavigationShell()) {
+        this.navService.setRoot(ConversationListPage, {});
+      }
+    }, 0);
+  }
+
 
   listenToPostMsgs() {
     window.addEventListener("message", (event) => {
@@ -534,7 +568,7 @@ export class AppComponent implements OnInit {
         this.splashScreen.hide();
       }
       this.statusBar.styleLightContent();
-      this.navService.init(this.sidebarNav, this.detailNav);
+      this.initializeNavigationShell();
       this.tiledeskAuthService.initialize(this.appConfigProvider.getConfig().apiUrl);
       this.messagingAuthService.initialize();
 
@@ -871,13 +905,12 @@ export class AppComponent implements OnInit {
       // console.log('[APP-COMP] PLATFORM', PLATFORM_DESKTOP, 'route.snapshot',  this.route.snapshot);
       this.logger.log('[APP-COMP] PLATFORM_DESKTOP ', this.navService);
 
-      this.navService.setRoot(ConversationListPage, {});
+      this.setDesktopConversationListRoot();
 
-      const IDConv = this.route.snapshot.firstChild.paramMap.get('IDConv');
-
-      const FullNameConv = this.route.snapshot.firstChild.paramMap.get('FullNameConv');
-      const Convtype = this.route.snapshot.firstChild.paramMap.get('Convtype');
-
+      const routeChild = this.route && this.route.snapshot ? this.route.snapshot.firstChild : null;
+      const IDConv = routeChild ? routeChild.paramMap.get('IDConv') : null;
+      const FullNameConv = routeChild ? routeChild.paramMap.get('FullNameConv') : null;
+      const Convtype = routeChild ? routeChild.paramMap.get('Convtype') : null;
 
       let pageUrl = 'conversation-detail/'
       if (IDConv && FullNameConv) {
