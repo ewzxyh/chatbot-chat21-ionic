@@ -21,6 +21,7 @@ export class WebSocketJs {
   // HEARTBEAT https://github.com/zimv/websocket-heartbeat-js/blob/master/lib/index.js
   private pingTimeoutId;
   private pongTimeoutId;
+  private pendingMessages: Array<{ initialMessage: string, callingMethod: string }> = [];
 
   public pingMsg = { action: "heartbeat", payload: { message: { text: "ping" } } }
 
@@ -188,7 +189,36 @@ export class WebSocketJs {
   send(initialMessage, calling_method) {
     // this.logger.log("[WEBSOCKET-JS] - SEND - INIZIAL-MSG ", initialMessage, " CALLED BY ", calling_method);
 
+    if (!this.ws) {
+      this.logger.log("[WEBSOCKET-JS] - SEND - websocket is not initialized. CALLED BY ", calling_method);
+      return;
+    }
+
+    if (this.ws.readyState === 0) {
+      this.logger.log("[WEBSOCKET-JS] - SEND - websocket is connecting. QUEUE MSG CALLED BY ", calling_method);
+      this.pendingMessages.push({ initialMessage: initialMessage, callingMethod: calling_method });
+      return;
+    }
+
+    if (this.ws.readyState !== 1) {
+      this.logger.log("[WEBSOCKET-JS] - SEND - websocket is not open. READY STATE ", this.ws.readyState, " CALLED BY ", calling_method);
+      return;
+    }
+
     this.ws.send(initialMessage);
+  }
+
+  private flushPendingMessages() {
+    if (!this.ws || this.ws.readyState !== 1 || this.pendingMessages.length === 0) {
+      return;
+    }
+
+    var messages = this.pendingMessages.slice();
+    this.pendingMessages = [];
+
+    messages.forEach(message => {
+      this.send(message.initialMessage, message.callingMethod);
+    });
   }
 
 
@@ -198,6 +228,7 @@ export class WebSocketJs {
   close() {
     this.topics = [];
     this.callbacks = [];
+    this.pendingMessages = [];
     this.logger.log("[WEBSOCKET-JS] - CALLED CLOSE - TOPICS ", this.topics, ' - CALLLBACKS ', this.callbacks);
 
     if (this.ws) {
@@ -364,6 +395,7 @@ export class WebSocketJs {
         // @ heartCheck
         // -----------------
         that.heartCheck();
+        that.flushPendingMessages();
 
 
         if (onOpenCallback) {
