@@ -122,7 +122,7 @@
         </div>
 
         <div id="no-convs-wpr"
-          *ngIf="(!loadingIsActive && conversations.length === 0) || (!loadingIsActive && archivedConversations.length === 0) || (!loadingIsActive && unassignedConversations.length === 0)">
+          *ngIf="!loadingIsActive && ((conversationType === 'active' && conversations.length === 0) || (conversationType === 'archived' && archivedConversations.length === 0) || (conversationType === 'unassigned' && unassignedConversations.length === 0))">
           <ion-item id="no-convs" class="ion-text-center" lines="none">
             <ion-label class="ion-text-wrap" color="medium">
               {{ 'LABEL_MSG_PUSH_START_CHAT' | translate }}

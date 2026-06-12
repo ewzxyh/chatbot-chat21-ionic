@@ -263,7 +263,13 @@ export class MQTTConversationsHandler extends ConversationsHandlerService {
         }
 
 
-        const index = searchIndexInArrayForUid(this.conversations, conversation.conversation_with);
+        const index = this.searchIndexInArrayForConversationWith(this.conversations, conversation.conversation_with);
+        if (index === -1) {
+            this.logger.log('[MQTTConversationsHandler] Conversation to update not found, adding it', conversation.conversation_with);
+            this.added(conversation);
+            return;
+        }
+
         const oldConversation = this.conversations[index]
         if (index > -1) {
             // const conv = this.conversations[index];
