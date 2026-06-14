@@ -1192,7 +1192,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     // if (supportmode === true) {
     //   this.connetWebsocket() // moved in the comp project-item
     // }
-    this.events.publish('go:online', true);
     const currentUser = this.tiledeskAuthService.getCurrentUser();
     this.setLanguage(currentUser);
     // this.logger.printDebug('APP-COMP - goOnLine****', currentUser);
@@ -1221,6 +1220,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.initArchivedConversationsHandler(currentUser.uid);
       this.segmentSignIn()
     }
+    this.events.publish('go:online', true);
     this.checkPlatform();
     try {
       this.logger.debug('[APP-COMP] ************** closeModal', this.authModal);

@@ -28,6 +28,13 @@ export class ProjectItemComponent implements OnInit {
   @Output() openUnsevedConvsEvent = new EventEmitter<any>()
 
   private unsubscribe$: Subject<any> = new Subject<any>();
+  private isProjectWebsocketConnected = false;
+  private readonly goOnlineHandler = (isOnline) => {
+    if (isOnline) {
+      this.getStoredCurrenUser();
+      this.getStoredTokenAndConnectWS();
+    }
+  }
   project: any;
   tiledeskToken: string;
 
@@ -55,6 +62,7 @@ export class ProjectItemComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.listenToGoOnline();
     this.getStoredTokenAndConnectWS();
     this.getStoredCurrenUser();
     this.translations();
@@ -64,9 +72,14 @@ export class ProjectItemComponent implements OnInit {
 
   ngOnDestroy() {
     this.logger.log('[PROJECT-ITEM] > ngOnDestroy')
+    this.events.unsubscribe('go:online', this.goOnlineHandler)
     this.unsubscribe$.next()
     this.unsubscribe$.complete()
 
+  }
+
+  listenToGoOnline() {
+    this.events.subscribe('go:online', this.goOnlineHandler)
   }
 
   openUnservedConvs() {
@@ -79,12 +92,20 @@ export class ProjectItemComponent implements OnInit {
   getStoredTokenAndConnectWS() {
     this.tiledeskToken = this.appStorageService.getItem('tiledeskToken');
     this.logger.log('[PROJECT-ITEM] - STORED TILEDEK TOKEN ', this.tiledeskToken)
+    if (!this.tiledeskToken || this.tiledeskToken === 'undefined' || this.tiledeskToken === 'null') {
+      this.logger.warn('[PROJECT-ITEM] - SKIP WEBSOCKET CONNECT: missing tiledesk token');
+      return;
+    }
     this.connetWebsocket(this.tiledeskToken)
   }
 
   connetWebsocket(tiledeskToken) {
 
     this.logger.log('[WEBSOCKET-JS] connetWebsocket called in [PROJECT-ITEM] tiledeskToken ', tiledeskToken)
+    if (this.isProjectWebsocketConnected) {
+      this.logger.log('[WEBSOCKET-JS] connetWebsocket skipped in [PROJECT-ITEM]: already connected')
+      return;
+    }
     const appconfig = this.appConfigProvider.getConfig();
     this.logger.log('[WEBSOCKET-JS] connetWebsocket called in [PROJECT-ITEM] wsUrl ', appconfig.wsUrl)
     const WS_URL = appconfig.wsUrl + '?token=' + tiledeskToken
@@ -95,6 +116,7 @@ export class ProjectItemComponent implements OnInit {
       undefined,
       undefined
     );
+    this.isProjectWebsocketConnected = true;
 
     this.getLastProjectStoredAndSubscToWSAvailabilityAndConversations();
   }
