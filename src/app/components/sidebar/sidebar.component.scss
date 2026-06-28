@@ -94,6 +94,33 @@ svg:hover ellipse {
   pointer-events: none;
 }
 
+.nav-sidebar-icon {
+  width: 24px;
+  height: 24px;
+  color: var(--sidebar-icon-color);
+}
+
+.nav-sidebar-icon svg path,
+.nav-sidebar-icon svg ellipse,
+.nav-sidebar-icon svg circle,
+.nav-sidebar-icon svg line,
+.nav-sidebar-icon svg polyline,
+.nav-sidebar-icon svg polygon {
+  fill: none !important;
+}
+
+.nav-sidebar-icon svg [stroke="none"] {
+  stroke: none !important;
+}
+
+.nav-custom > div:not(.sidebar-separator):hover .nav-sidebar-icon {
+  color: var(--sidebar-hover-icon-color);
+}
+
+.item-active .nav-sidebar-icon {
+  color: var(--sidebar-active-icon) !important;
+}
+
 #sidebaravatar-altenative-user-avatar {
   // line-height: 2.9;
   font-weight: 400;

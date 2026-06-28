@@ -45,6 +45,7 @@ import { conversationToMessage } from 'src/chat21-core/utils/utils-message';
 import { ProjectService } from './services/projects/project.service';
 import { ContactsService } from './services/contacts/contacts.service';
 import { TiledeskService } from './services/tiledesk/tiledesk.service';
+import { SidebarIconService } from './services/sidebar-icon.service';
 
 @Component({
   selector: 'app-root',
@@ -143,9 +144,11 @@ export class AppComponent implements OnInit, AfterViewInit {
     /**TILEDESK SERVICES */
     private tiledeskService: TiledeskService,
     private projectService: ProjectService,
-    private contactsService: ContactsService
+    private contactsService: ContactsService,
+    private sidebarIconService: SidebarIconService
   ) {
 
+    this.sidebarIconService.registerIcons();
     this.enforceChatcaseLocale();
     this.saveInStorageNumberOfOpenedChatTab();
     this.listenChatAlreadyOpenWithoutParamsInMobileMode()

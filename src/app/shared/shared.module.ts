@@ -21,6 +21,7 @@ import { SidebarUserDetailsComponent } from 'src/app/components/sidebar-user-det
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatIconModule } from '@angular/material/icon';
 import { SafeHtmlPipe } from '../directives/safe-html.pipe';
 
 // import { MessageTextAreaComponent } from '../components/conversation-detail/message-text-area/message-text-area.component'; // MessageTextAreaComponent is part of the declarations ConversationDetailPageModule
@@ -132,6 +133,7 @@ import { SafeHtmlPipe } from '../directives/safe-html.pipe';
   ],
   imports: [
     MatTooltipModule,
+    MatIconModule,
     MatSlideToggleModule,
     MatSnackBarModule,
     CommonModule,
