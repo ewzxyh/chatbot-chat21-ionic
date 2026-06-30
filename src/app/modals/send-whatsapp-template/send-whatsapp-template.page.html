@@ -105,8 +105,8 @@
           <hr style="background-color: #eeeeee; margin-bottom: 0px;">
           <ion-button *ngFor="let btn of buttons_component.buttons" ion-button fill="clear"
             class="whatsapp-call-to-action">
-            <span *ngIf="btn.type === 'URL'" class="material-icons-outlined call-to-action-icon">open_in_new</span>
-            <span *ngIf="btn.type === 'PHONE_NUMBER'" class="material-icons-round call-to-action-icon">phone</span>
+            <mat-icon *ngIf="btn.type === 'URL'" svgIcon="td-external-link" class="call-to-action-icon" aria-hidden="true"></mat-icon>
+            <mat-icon *ngIf="btn.type === 'PHONE_NUMBER'" svgIcon="td-phone" class="call-to-action-icon" aria-hidden="true"></mat-icon>
             {{ btn.text }}
           </ion-button>
         </div>
@@ -271,7 +271,7 @@
         <div *ngIf="url_button_component && url_button_component.type === 'URL'" class="call-to-action-preview">
 
           <ion-button ion-button fill="clear" class="whatsapp-call-to-action">
-            <span class="material-icons-outlined call-to-action-icon">open_in_new</span>
+            <mat-icon svgIcon="td-external-link" class="call-to-action-icon" aria-hidden="true"></mat-icon>
             {{ url_button_component.text }}
           </ion-button>
         </div>

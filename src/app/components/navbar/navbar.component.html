@@ -7,7 +7,7 @@
         <!-- test site -->
         <ng-container *ngIf="project">
           <button class="btn simulate-visitor-btn" (click)="testWidgetPage()">
-            <i class="material-icons">play_arrow</i>
+            <mat-icon svgIcon="td-player-play" class="navbar-tabler-icon" aria-hidden="true"></mat-icon>
             <!-- {{translationsMap?.get('NAVBAR.SIMULATE_VISITOR')}} -->
           </button>
         </ng-container>
@@ -15,10 +15,10 @@
         <!--  Sound on / off -->
         <ng-container *ngIf="project">
           <button class="btn volume" style="cursor: pointer;" *ngIf="isSoundEnabled" (click)="onClickSound('disabled')">
-            <i class="material-icons">volume_up</i>
+            <mat-icon svgIcon="td-volume" class="navbar-tabler-icon" aria-hidden="true"></mat-icon>
           </button>
           <button class="btn volume" style="cursor: pointer;" *ngIf="!isSoundEnabled" (click)="onClickSound('enabled')">
-            <i class="material-icons">volume_off</i>
+            <mat-icon svgIcon="td-volume" class="navbar-tabler-icon" aria-hidden="true"></mat-icon>
           </button>
         </ng-container>
 
@@ -27,7 +27,7 @@
             <li>
               <button class="btn dropdown-toggle project-dropdown" (click)="openDropdownProjects = !openDropdownProjects">
                 <span class="project-dropdown" style="text-transform: none"> {{ project?.id_project?.name }} </span>
-                <i class="material-icons" style="margin-right: 3px;">arrow_drop_down</i>
+                <mat-icon svgIcon="td-chevron-down" class="navbar-tabler-icon project-dropdown-icon" aria-hidden="true"></mat-icon>
               </button>
               <div class="ripple-container"></div>
               <div id="navbar_dropdown" class="dropdown-menu" [class.open]="openDropdownProjects">
@@ -43,7 +43,7 @@
                 <!--  ALL PROJECTS -->
                 <li (click)="onClickDropdownOption('allProjects')" class="all-projects">
                   <a>
-                    <i class="material-icons">view_list</i>
+                    <mat-icon svgIcon="td-list" class="navbar-menu-icon" aria-hidden="true"></mat-icon>
                     {{translationsMap?.get('NAVBAR.VIEW_ALL_PROJECTS')}}
                   </a>
                 </li>
@@ -51,7 +51,7 @@
                 <!--  ADD PROJECT -->
                 <li id="navbar_create_prjct" *ngIf="MT === true" (click)="onClickDropdownOption('addProject')" class="add-project">
                   <a>
-                    <i class="material-icons">add_circle_outline </i>
+                    <mat-icon svgIcon="td-circle-plus" class="navbar-menu-icon" aria-hidden="true"></mat-icon>
                     {{translationsMap?.get('NAVBAR.ADD_PROJECT')}}
                   </a>
                 </li>

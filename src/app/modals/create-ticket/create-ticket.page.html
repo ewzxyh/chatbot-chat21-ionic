@@ -20,9 +20,7 @@
         <ion-label [ngClass]="{'open-requester-details-disable': !selectedRequester}" class="custom-create-ticket-label-to-left"
         (click)="openRequesterDetails()"> 
           {{'ViewRequesterDetails' | translate }}
-          <span class="material-icons" style="color: #0f62ff; vertical-align: middle;font-size: 16px;"> 
-            open_in_new 
-          </span>
+          <mat-icon svgIcon="td-external-link" style="color: #0f62ff; vertical-align: middle; width: 16px; height: 16px;" aria-hidden="true"></mat-icon>
         </ion-label>
         <ng-select class="create-ticket-custom-select" name="users_and_leads" [items]="projectUserAndLeadsArray"
           bindLabel="name" bindValue="id" [(ngModel)]="selectedRequester" [virtualScroll]="true"
@@ -75,7 +73,7 @@
 
           <ng-template ng-footer-tmp>
             <div style="cursor:pointer" (click)="presentModalAddNewRequester()">
-              <span class="material-icons" style="vertical-align: middle; color:#0f62ff"> add </span>
+              <mat-icon svgIcon="td-plus" style="vertical-align: middle; color:#0f62ff" aria-hidden="true"></mat-icon>
               <span style="color:#0f62ff">
                 {{'AddRequester' | translate}}
               </span>

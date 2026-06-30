@@ -8,10 +8,15 @@
 }
 
 .sidebar-is-busy-icon {
-  font-size: 12px;
+  width: 12px;
+  height: 12px;
   color: #feb92c;
   background-color: #2d323e;
   border-radius: 50%;
+}
+
+.sidebar-is-busy-icon svg path {
+  fill: none;
 }
 
 

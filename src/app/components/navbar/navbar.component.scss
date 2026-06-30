@@ -95,7 +95,7 @@ ion-navbar{
     text-overflow: ellipsis;
     font-family: var(--header-font-family);
     
-    .material-icons{
+    .navbar-tabler-icon {
         font-size: 20px;
     }
 }
@@ -156,10 +156,11 @@ li{
     &.all-projects,
     &.add-project{
         color: var(--dropdown-menu-item-color);
-        i{
+        .navbar-menu-icon {
             padding-right: 5px; 
             margin-bottom: 2px; 
-            font-size: 20px
+            width: 20px;
+            height: 20px;
         }
     }
 
@@ -195,7 +196,8 @@ li{
     text-decoration: none;
     cursor: pointer;
 
-    .material-icons {
+    .material-icons,
+    .navbar-menu-icon {
         vertical-align: middle;
     }
 
@@ -204,6 +206,16 @@ li{
         color: var(--dropdown-menu-hover-color);
         box-shadow: 0 12px 20px -10px rgba(var(--dropdown-menu-hover-color), 0.28), 0 4px 20px 0 rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(var(--dropdown-menu-hover-color), 0.2);
     }
+}
+
+.navbar-tabler-icon {
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+}
+
+.project-dropdown-icon {
+    margin-right: 3px;
 }
 
 

@@ -790,11 +790,9 @@ export function checkWindowWidthIsLessThan991px() {
 
 
 export function createExternalSidebar(renderer, srcIframe?, urlIcons?) {
-  if (!urlIcons) {
-    urlIcons = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css';
+  if (urlIcons) {
+    document.head.innerHTML += '<link rel="stylesheet" type="text/css" href="' + urlIcons + '" />';
   }
-  // <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  document.head.innerHTML += '<link rel="stylesheet" type="text/css" href="' + urlIcons + '" />';
 
   if (!srcIframe || srcIframe === '') {
     srcIframe = '/dashboard/';
@@ -839,8 +837,8 @@ export function createExternalSidebar(renderer, srcIframe?, urlIcons?) {
   renderer.appendChild(document.body, divScript);
 
   let dataString = '<div class="tld-button">';
-  dataString += '<button class="btn btn-open" onclick="toggleSidebar()"><i class="fa fa-angle-right"></i></button>';
-  dataString += '<button class="btn btn-close" onclick="toggleSidebar()"><i class="fa fa-close"></i> Close</button>';
+  dataString += '<button class="btn btn-open" onclick="toggleSidebar()"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6l-6 6" /></svg></button>';
+  dataString += '<button class="btn btn-close" onclick="toggleSidebar()"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg> Close</button>';
   dataString += '</div>';
   dataString += '<div class="tld-iframe">';
   // tslint:disable-next-line: max-line-length

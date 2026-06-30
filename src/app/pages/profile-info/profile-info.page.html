@@ -105,24 +105,22 @@
     <hr class="first-divider">
 
     <section *ngIf="isVisiblePAY" class="user-details-plan-info">
-        <span class="material-icons user-details-plan-icon">apps</span>
+        <mat-icon svgIcon="td-apps" class="user-details-plan-icon" aria-hidden="true"></mat-icon>
         <span>
             <div> {{project?.name}} </div>
             <div style="margin-left: 26px;"> {{ profile_name_translated }} </div>
 
             <div *ngIf="project?.profile?.type === 'payment' && project?.isActiveSubscription === false"
                 style="color:#f44336; position:relative; top: -1px;display: inline-block;">
-                <i *ngIf="project?.profile?.name !== 'enterprise'" class="material-icons" style="vertical-align: middle; color:#f44336; cursor:pointer;    
-                    font-size: 16px;" matTooltipClass="custom-mat-tooltip"
+                <mat-icon *ngIf="project?.profile?.name !== 'enterprise'" svgIcon="td-alert-triangle" style="vertical-align: middle; color:#f44336; cursor:pointer;
+                    width: 16px; height: 16px;" matTooltipClass="custom-mat-tooltip"
                     matTooltip="{{ translationsMap.get('SubscriptionPaymentProblem') }}" #tooltip="matTooltip" matTooltipPosition='right'
                     matTooltipHideDelay="100">
-                    error_outline
-                </i>
-                <i *ngIf="project?.profile?.name === 'enterprise'" class="material-icons" style="vertical-align: middle; color:#f44336; cursor:pointer;    
-                    font-size: 16px;" matTooltipClass="custom-mat-tooltip" matTooltip="{{ translationsMap.get('ThePlanHasExpired') }}"
+                </mat-icon>
+                <mat-icon *ngIf="project?.profile?.name === 'enterprise'" svgIcon="td-alert-triangle" style="vertical-align: middle; color:#f44336; cursor:pointer;
+                    width: 16px; height: 16px;" matTooltipClass="custom-mat-tooltip" matTooltip="{{ translationsMap.get('ThePlanHasExpired') }}"
                     #tooltip="matTooltip" matTooltipPosition='right' matTooltipHideDelay="100">
-                    error_outline
-                </i>
+                </mat-icon>
             </div>
         </span>
     </section>
@@ -130,9 +128,7 @@
     <section class="user-details-footer-section"
         [ngClass]="{'footer-margin-top-pricing-no-visible': isVisiblePAY === false }">
         <div role="button" class="logout-btn-wpr" (click)="onLogout()">
-            <i class="material-icons user-details-logout-icon" >
-                logout
-            </i>
+            <mat-icon svgIcon="td-logout" class="user-details-logout-icon" aria-hidden="true"></mat-icon>
             <div class="user-details-logout-text"> 
                  {{translationsMap.get('LABEL_LOGOUT')}} 
             </div>
