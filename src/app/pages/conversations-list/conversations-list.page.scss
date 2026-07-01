@@ -122,7 +122,7 @@ ion-list {
       justify-content: center;
       min-width: 0;
       padding: 0;
-      font-family: Helvetica, Helvetica, Arial, sans-serif;
+      font-family: var(--font-geist-sans);
       line-height: 1.28;
       text-rendering: optimizeLegibility;
     }

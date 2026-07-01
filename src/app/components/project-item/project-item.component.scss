@@ -82,7 +82,7 @@
     white-space: nowrap !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
-    font-family: Helvetica, Helvetica, Arial, sans-serif;
+    font-family: var(--font-geist-sans);
     font-size: 16px; //14px;
     position: relative;
     cursor: pointer;
@@ -130,7 +130,7 @@
 }
 
 .availibility-status-text {
-    font-family: Helvetica, Helvetica, Arial, sans-serif;
+    font-family: var(--font-geist-sans);
     font-size: 11px;
     margin-left: 3px;
     display: inline-block;
@@ -165,7 +165,7 @@
 }
 
 .project-item--isBusy-busy-text {
-    font-family: Helvetica, Helvetica, Arial, sans-serif;
+    font-family: var(--font-geist-sans);
     font-size: 11px;
     // margin-left: 3px;
     position: relative;

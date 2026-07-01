@@ -461,7 +461,7 @@ ion-item {
     margin: 0.5em 0 0 0;
     color: var(--col-msg-sent);
     /* text-transform: uppercase; */
-    font-family: 'Roboto', sans-serif;
+    font-family: var(--font-geist-sans);
     -webkit-animation: pulse 2000ms linear infinite;
     -moz-animation: pulse 2000ms linear infinite;
     animation: pulse 2000ms linear infinite;

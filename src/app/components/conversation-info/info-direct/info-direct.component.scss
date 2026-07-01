@@ -47,7 +47,7 @@ ion-content{
             text-rendering: optimizeLegibility;
             text-size-adjust: none;
             user-select: text;
-            font-family: "Roboto", "Helvetica Neue", sans-serif;
+            font-family: var(--font-geist-sans);
             -webkit-box-direction: normal;
             color: var(--info-text-color);
             font-weight: 500;

@@ -124,7 +124,7 @@ body {
 
 
     // ***** Navbar: start ***** //
-    --header-font-family: "Poppins", "Roboto", "Arial", sans-serif;
+    --header-font-family: var(--font-geist-sans);
     --text-base-color: #555;
     --navbar-background: #ffffff;
     --nav-bar-heigth: 60px;

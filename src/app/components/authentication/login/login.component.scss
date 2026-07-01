@@ -5,7 +5,7 @@
 .signin-title > h2 {
   font-size: 36px;
   // line-height: 55px;
-  font-family: "Poppins", "Roboto", "Arial", sans-serif;
+  font-family: var(--font-geist-sans);
   font-weight: 500;
   text-align: left;
 
@@ -106,7 +106,7 @@
     line-height: 0em;
     display: block !important;
     font-weight: 400;
-    font-family: "Poppins", "Roboto", "Arial", sans-serif;
+    font-family: var(--font-geist-sans);
     margin: 30px 0px
   }
 
@@ -126,7 +126,7 @@
     border: 1px solid #4285f4;
     font-size: 16px;
     font-weight: 500;
-    font-family: "Poppins", "Roboto", "Arial", sans-serif;
+    font-family: var(--font-geist-sans);
     width: 100%;
     // border-color: #c7e1ff !important;
     // box-shadow: none !important;

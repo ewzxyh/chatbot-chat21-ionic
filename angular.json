@@ -47,6 +47,7 @@
               "node_modules/roboto-fontface/css/roboto/roboto-fontface.css",
               "node_modules/@ng-select/ng-select/themes/default.theme.css",
               "node_modules/@ctrl/ngx-emoji-mart/picker.css",
+              "src/assets/css/geist-fonts.css",
               {
                 "input": "src/theme/variables.scss",
                 "inject": true

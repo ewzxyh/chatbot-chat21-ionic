@@ -4,7 +4,7 @@
   color: var(--tooltip-color) !important;
   font-size: 12px  !important;
   border-radius: 2px !important;
-  font-family: 'Poppins' !important;
+  font-family: var(--font-geist-sans) !important;
 }
 
 .sidebar-is-busy-icon {
@@ -129,7 +129,7 @@ svg:hover ellipse {
 #sidebaravatar-altenative-user-avatar {
   // line-height: 2.9;
   font-weight: 400;
-  font-family: "Poppins";
+  font-family: var(--font-geist-sans);
   left: 50%;
   top: 50%;
   -webkit-transform: translate(-50%, -50%);

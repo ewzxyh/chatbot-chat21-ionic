@@ -19,7 +19,7 @@ div {
     margin: 3px;
     background: var(--backgroundColor);
     overflow: hidden;
-    font-family: 'Muli', sans-serif;
+    font-family: var(--font-geist-sans);
     font-size: var(--buttonFontSize);
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
