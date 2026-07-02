@@ -62,11 +62,11 @@
             class="custom-mat-slide-toggle" [checked]="IS_AVAILABLE" labelPosition="before">
 
             <span *ngIf="IS_AVAILABLE"
-                style="font-weight: 400 !important; text-transform: capitalize; font-size:14px; color:#a9afbb">
+                style="font-weight: 400 !important; text-transform: capitalize; font-size:14px; color:var(--sidebar-user-detail-color)">
                 {{IS_AVAILABLE_msg}}
             </span>
             <span *ngIf="!IS_AVAILABLE"
-                style="font-weight: 400 !important;text-transform: capitalize;font-size:14px; color:#a9afbb">
+                style="font-weight: 400 !important;text-transform: capitalize;font-size:14px; color:var(--sidebar-user-detail-color)">
                 {{IS_UNAVAILABLE_msg}}
             </span>
         </mat-slide-toggle> -->
