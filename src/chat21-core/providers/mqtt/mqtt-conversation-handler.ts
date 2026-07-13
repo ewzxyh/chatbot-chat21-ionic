@@ -95,26 +95,14 @@ export class MQTTConversationHandler extends ConversationHandlerService {
             if (!err) {
                 messages.sort(compareValues('timestamp', 'asc'));
                 messages.forEach(message => {
-                    const msg: MessageModel = message;        
-                    msg.uid = message.message_id;
-
-                    this.addedMessage(msg);
+                    this.addedMessage(message);
                 });
             }
         });
         const handler_message_added = this.chat21Service.chatClient.onMessageAddedInConversation(
             this.conversationWith, (message, topic) => {
                 this.logger.log('[MQTTConversationHandler] message added:', message, 'on topic:', topic);
-                const msg: MessageModel = message;        
-                
-                //allow to replace message in unknown status (pending status: '0')
-                if(message.attributes && message.attributes.tempUID){
-                    msg.uid = message.attributes.tempUID;
-                }else{
-                    msg.uid = message.message_id
-                }
-
-                this.addedMessage(msg);
+                this.addedMessage(message);
         });
         const handler_message_updated = this.chat21Service.chatClient.onMessageUpdatedInConversation(
             this.conversationWith,  (message, topic) => {
@@ -258,6 +246,16 @@ export class MQTTConversationHandler extends ConversationHandlerService {
     /** */
     private addedMessage(messageSnapshot: any) {
         const msg = this.messageGenerate(messageSnapshot);
+        const temporaryUid = messageSnapshot.attributes?.tempUID;
+        const finalUid = messageSnapshot.message_id || msg.uid || temporaryUid;
+
+        if (temporaryUid && temporaryUid !== finalUid) {
+            const pendingIndex = searchIndexInArrayForUid(this.messages, temporaryUid);
+            if (pendingIndex > -1) {
+                this.messages.splice(pendingIndex, 1);
+            }
+        }
+        msg.uid = finalUid;
         
         if(this.skipInfoMessage && messageType(MESSAGE_TYPE_INFO, msg)){
             return;
