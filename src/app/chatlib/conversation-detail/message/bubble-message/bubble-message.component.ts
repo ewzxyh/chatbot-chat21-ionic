@@ -208,6 +208,20 @@ export class BubbleMessageComponent implements OnInit, OnChanges {
     return !!this.getChannelLabel(message);
   }
 
+  isStructuredAudio(message: Pick<MessageModel, 'text'>): boolean {
+    if (typeof message?.text !== 'string') return false;
+
+    const match = message.text.match(/\[casezap-audio:([A-Za-z0-9+/=]+)\]/);
+    if (!match) return false;
+
+    try {
+      const payload = JSON.parse(atob(match[1]));
+      return typeof payload?.src === 'string' && payload.src.trim().length > 0;
+    } catch {
+      return false;
+    }
+  }
+
 
   // printMessage(message, messageEl, component) {
   //   const messageOBJ = { message: message, sanitizer: this.sanitizer, messageEl: messageEl, component: component}

@@ -3,12 +3,30 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { MomentModule } from 'angular2-moment';
+import { MessageModel } from 'src/chat21-core/models/message';
 
 import { BubbleMessageComponent } from './bubble-message.component';
 
 describe('BubbleMessageComponent', () => {
   let component: BubbleMessageComponent;
   let fixture: ComponentFixture<BubbleMessageComponent>;
+
+  const createAudioMessage = (text: string): MessageModel => new MessageModel(
+    'message-id',
+    'pt',
+    'recipient-id',
+    'Recipient',
+    'sender-id',
+    'Sender',
+    200,
+    { src: 'audio.ogg', type: 'audio/ogg' },
+    text,
+    Date.now(),
+    'file',
+    {},
+    'group',
+    true
+  );
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -29,6 +47,42 @@ describe('BubbleMessageComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should detect structured CaseZap audio messages', () => {
+    const message = {
+      text: '[casezap-audio:eyJzcmMiOiJhdWRpby5vZ2cifQ==] Mensagem de voz'
+    };
+
+    expect(component.isStructuredAudio(message)).toBe(true);
+  });
+
+  it('should keep the native player for regular audio messages', () => {
+    const message = { text: 'Mensagem de voz' };
+
+    expect(component.isStructuredAudio(message)).toBe(false);
+  });
+
+  it('should keep the native player when the structured payload is invalid', () => {
+    const message = { text: '[casezap-audio:bm90LWpzb24=] Mensagem de voz' };
+
+    expect(component.isStructuredAudio(message)).toBe(false);
+  });
+
+  it('should render only the structured player placeholder for CaseZap audio', () => {
+    component.message = createAudioMessage('[casezap-audio:eyJzcmMiOiJhdWRpby5vZ2cifQ==] Mensagem de voz');
+
+    fixture.detectChanges();
+
+    expect(fixture.debugElement.query(By.css('chat-audio'))).toBeNull();
+  });
+
+  it('should render the native player for regular audio', () => {
+    component.message = createAudioMessage('Mensagem de voz');
+
+    fixture.detectChanges();
+
+    expect(fixture.debugElement.query(By.css('chat-audio'))).not.toBeNull();
   });
 
   it('should have a "chat-text" child element', () => {

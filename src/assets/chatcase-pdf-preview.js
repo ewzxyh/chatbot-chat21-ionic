@@ -414,6 +414,8 @@
     if (!bubble || !bubble.querySelectorAll) return;
     var nativeAudio = bubble.querySelectorAll('chat-audio');
     for (var i = 0; i < nativeAudio.length; i++) {
+      var media = nativeAudio[i].querySelector('audio');
+      if (media && !media.paused) media.pause();
       nativeAudio[i].style.display = 'none';
       nativeAudio[i].setAttribute('data-chatcase-hidden', 'native-audio');
     }
@@ -508,6 +510,11 @@
       var payload = decodeQuotePayload(match[2]);
       var preview = payload && payload.preview ? payload.preview : textNode.nodeValue.replace(match[0], '').trim();
       if (!shouldRenderStructuredCard(parent)) {
+        textNode.nodeValue = preview;
+        continue;
+      }
+
+      if (match[1] === 'audio' && (!payload || !payload.src)) {
         textNode.nodeValue = preview;
         continue;
       }

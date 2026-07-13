@@ -49,7 +49,7 @@
       (onElementRendered)="onElementRenderedFN($event)">
     </chat-frame>
 
-    <chat-audio  *ngIf="isAudio(message)"
+    <chat-audio  *ngIf="isAudio(message) && !isStructuredAudio(message)"
         [metadata]="message.metadata"
         [color]="fontColor"
         [fontSize]="fontSize"
