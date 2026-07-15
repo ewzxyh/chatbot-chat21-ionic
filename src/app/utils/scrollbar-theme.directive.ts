@@ -21,20 +21,25 @@ export class ScrollbarThemeDirective {
     // }
 
     const stylesheet = `
+      .inner-scroll {
+        scrollbar-color: #9aaabd #f1f5f9;
+        scrollbar-gutter: stable;
+        scrollbar-width: thin;
+      }
       ::-webkit-scrollbar {
-          width: 6px;
-         height: 8px;
-         display: none;
+        width: 8px;
+        height: 8px;
       }
       ::-webkit-scrollbar-track {
-        background: #f9f9f9;
+        background: #f1f5f9;
       }
       ::-webkit-scrollbar-thumb {
-         background-color: #b9b9b9;
-          border-radius: 0px;
+        background-color: #9aaabd;
+        border: 2px solid #f1f5f9;
+        border-radius: 8px;
       }
       ::-webkit-scrollbar-thumb:hover {
-        background-color: #727272;
+        background-color: var(--basic-blue, #2196f3);
       }
     `;
 
