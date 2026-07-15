@@ -328,7 +328,13 @@ export class MQTTConversationHandler extends ConversationHandlerService {
 
     /** */
     private addReplaceMessageInArray(uid: string, msg: MessageModel) {
-        const index = searchIndexInArrayForUid(this.messages, uid);
+        let index = searchIndexInArrayForUid(this.messages, uid);
+        const tiledeskMessageId = msg.attributes?.tiledesk_message_id;
+        if (index === -1 && tiledeskMessageId) {
+            index = this.messages.findIndex(message =>
+                message.attributes?.tiledesk_message_id === tiledeskMessageId
+            );
+        }
         if (index > -1) {
             // const headerDate = this.messages[index].headerDate;
             // msg.headerDate = headerDate;

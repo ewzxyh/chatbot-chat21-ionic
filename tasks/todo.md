@@ -33,3 +33,15 @@ recebe o scrollbar customizado. `npm run build` e `git diff --check` passaram; a
 execucao Karma permanece bloqueada por erros preexistentes em specs nao relacionadas.
 O container `chatcase-chat21-ionic` foi reconstruido na VPS DEV e os endpoints local
 e publico responderam `200`; o bundle servido contem as duas correcoes.
+
+# Duplicacao visual residual com persistencia unica
+
+- [x] Reproduzir IDs Chat21 alternativos para o mesmo `tiledesk_message_id`.
+- [x] Corrigir a reconciliacao no handler compartilhado de mensagens.
+- [x] Executar build e `git diff --check`.
+- [ ] Validar a correcao na VPS DEV.
+
+## Validacao local
+
+O build completo passou. O Karma focal nao chegou as assertions porque a compilacao
+global inclui specs legadas com imports ausentes e erros de tipos fora deste escopo.
