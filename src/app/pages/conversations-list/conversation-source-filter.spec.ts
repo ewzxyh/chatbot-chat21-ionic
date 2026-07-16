@@ -59,4 +59,15 @@ describe('conversation source filter', () => {
     expect(filters[1].key).toBe('whatsapp:phone-number-one')
     expect(filters[1].label).toBe('WhatsApp Business')
   })
+
+  it('uses the CaseZap sender phone when legacy attributes omit the instance', () => {
+    const conversations = [
+      { uid: 'legacy-casezap', attributes: { request_channel: 'casezap' }, sender: 'casezap-556292131417' } as ConversationModel,
+    ]
+
+    const filters = buildConversationSourceFilters(conversations)
+
+    expect(filters[1].key).toBe('casezap:556292131417')
+    expect(filters[1].label).toBe('CaseZap · 556292131417')
+  })
 })

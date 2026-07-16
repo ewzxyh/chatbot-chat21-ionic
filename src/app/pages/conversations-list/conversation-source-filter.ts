@@ -57,10 +57,14 @@ function getConversationSource(conversation: ConversationModel): ConversationSou
   const instanceLabel = normalizedValue(
     attributes.instanceLabel || attributes.integrationLabel || attributes.integration_name,
   )
+  const sender = normalizedValue(conversation.sender)
+  const caseZapSenderPhone = sender.toLowerCase().startsWith('casezap-')
+    ? sender.slice('casezap-'.length)
+    : ''
 
-  const isCaseZap = rawChannel === 'casezap' || Boolean(attributes.casezapPhone)
+  const isCaseZap = rawChannel === 'casezap' || Boolean(attributes.casezapPhone) || Boolean(caseZapSenderPhone)
   if (isCaseZap) {
-    const caseZapPhone = normalizedValue(attributes.casezapPhone)
+    const caseZapPhone = normalizedValue(attributes.casezapPhone) || caseZapSenderPhone
     const instanceId = integrationId || instanceLabel || caseZapPhone
     return {
       key: sourceKey('casezap', instanceId),
