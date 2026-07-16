@@ -23,25 +23,22 @@
     (onBackButton)=onBackButtonFN($event)>
   </header-conversations-list-unassigned>
 
+  <ion-list>
+    <ion-item *ngIf="displayNewConvsItem && conversationType !=='archived' && supportMode" class="ion-no-padding open-iframe-item" lines="none">
+      <div tabindex="0"></div>
+      <app-project-item
+        (openUnsevedConvsEvent)="openUnsevedConversationIframe($event)"
+        (projectIdEvent)="getLastProjectId($event)">
+      </app-project-item>
+    </ion-item>
+  </ion-list>
+
 </ion-header>
 
 <ion-content id="convs-list" #ioncontentconvlist appScrollbarTheme class="list-avatar-page" [class.mobile]="isMobile">
   <!-- class="ps" style="position: relative; max-width: 600px; max-height: 100%;" [perfectScrollbar]="config" -->
   <div id="scrollbar2">
     <ion-list>
-
-        <!-- supportMode && -->
-        <ion-item  *ngIf="displayNewConvsItem && conversationType !=='archived' && supportMode" class="ion-no-padding open-iframe-item" lines="none">
-          <div tabindex="0"></div>
-          <!-- <ion-note class="pinned-project">
-            {{ 'PINNED_PROJECT' | translate }}
-          </ion-note> -->
-     
-          <app-project-item
-            (openUnsevedConvsEvent)="openUnsevedConversationIframe($event)"
-            (projectIdEvent)="getLastProjectId($event)">
-          </app-project-item>
-        </ion-item>
 
       <span
         *ngIf="(conversations.length > 0 && conversationType ==='active') || (archivedConversations.length > 0  && conversationType ==='archived') || (unassignedConversations.length > 0  && conversationType ==='unassigned');then contentConversations else contentMessageWelcome">
