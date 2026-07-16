@@ -53,6 +53,12 @@ import { Globals } from 'src/app/utils/globals';
 import { TriggerEvents } from 'src/app/services/triggerEvents/triggerEvents';
 import { MessageModel } from 'src/chat21-core/models/message';
 import { Project } from 'src/chat21-core/models/projects';
+import {
+  ALL_CONVERSATIONS_FILTER,
+  buildConversationSourceFilters,
+  ConversationSourceFilter,
+  filterConversationsBySource,
+} from './conversation-source-filter';
 
 @Component({
   selector: 'app-conversations-list',
@@ -68,6 +74,10 @@ export class ConversationListPage implements OnInit {
   public tenant: string
   public loggedUserUid: string
   public conversations: Array<ConversationModel> = []
+  public visibleConversations: Array<ConversationModel> = []
+  public conversationSourceFilters: Array<ConversationSourceFilter> = []
+  public selectedConversationSource = ALL_CONVERSATIONS_FILTER
+  public selectedConversationSourceFilter: ConversationSourceFilter
   public archivedConversations: Array<ConversationModel> = []
   public unassignedConversations: Array<ConversationModel> = []
   public uidConvSelected: string
@@ -370,6 +380,7 @@ export class ConversationListPage implements OnInit {
       this.onImageLoaded(conversation)
       this.onConversationLoaded(conversation)
     })
+    this.refreshConversationView()
     this.logger.log('[CONVS-LIST-PAGE] - CONVERSATIONS ', this.conversations.length, this.conversations)
     // save conversationHandler in chatManager
     this.chatManager.setConversationsHandler(this.conversationsHandlerService)
@@ -458,6 +469,10 @@ export class ConversationListPage implements OnInit {
         this.logger.info('[CONVS-LIST-PAGE] - listenToLogoutEvent - hasclickedlogout',hasclickedlogout)
 
         this.conversations = []
+        this.visibleConversations = []
+        this.conversationSourceFilters = []
+        this.selectedConversationSource = ALL_CONVERSATIONS_FILTER
+        this.selectedConversationSourceFilter = null
         this.conversationsHandlerService.conversations = []
         this.uidConvSelected = null
 
@@ -570,6 +585,7 @@ export class ConversationListPage implements OnInit {
         if (conversation) {
           this.onImageLoaded(conversation)
           this.onConversationLoaded(conversation)
+          this.refreshConversationView()
           // conversation.is_new && this.isInitialized? this.segmentNewConversationAdded(conversation) : null;
         }
     })
@@ -580,11 +596,13 @@ export class ConversationListPage implements OnInit {
         if (conversation) {
           this.onImageLoaded(conversation)
           this.onConversationLoaded(conversation)
+          this.refreshConversationView()
         }
     })
 
     this.conversationsHandlerService.conversationRemoved.subscribe((conversation: ConversationModel) => {
         this.logger.log('[CONVS-LIST-PAGE] ***** conversationsRemoved *****',conversation)
+        this.refreshConversationView()
     })
 
     this.archivedConversationsHandlerService.archivedConversationAdded.subscribe((conversation: ConversationModel) => {
@@ -602,6 +620,10 @@ export class ConversationListPage implements OnInit {
   // ------------------------------------------------------------------------------------
   subscribeLoggedUserLogout = () => {
     this.conversations = []
+    this.visibleConversations = []
+    this.conversationSourceFilters = []
+    this.selectedConversationSource = ALL_CONVERSATIONS_FILTER
+    this.selectedConversationSourceFilter = null
     this.uidConvSelected = null
     this.logger.log('[CONVS-LIST-PAGE] - subscribeLoggedUserLogout conversations ',this.conversations)
     this.logger.log('[CONVS-LIST-PAGE] - subscribeLoggedUserLogout uidConvSelected ',this.uidConvSelected)
@@ -773,6 +795,32 @@ export class ConversationListPage implements OnInit {
       conversation_with_fullname = conversation.recipient_fullname
     }
     conversation.image = ''
+  }
+
+  public onConversationSourceChange(event: CustomEvent) {
+    this.selectedConversationSource = event && event.detail
+      ? event.detail.value
+      : ALL_CONVERSATIONS_FILTER
+    this.refreshConversationView()
+  }
+
+  private refreshConversationView() {
+    this.conversationSourceFilters = buildConversationSourceFilters(this.conversations)
+    const selectedFilter = this.conversationSourceFilters.find(
+      filter => filter.key === this.selectedConversationSource,
+    )
+
+    if (!selectedFilter) {
+      this.selectedConversationSource = ALL_CONVERSATIONS_FILTER
+    }
+
+    this.selectedConversationSourceFilter = this.conversationSourceFilters.find(
+      filter => filter.key === this.selectedConversationSource,
+    )
+    this.visibleConversations = filterConversationsBySource(
+      this.conversations,
+      this.selectedConversationSource,
+    )
   }
 
   onConversationLoaded(conversation: ConversationModel) {

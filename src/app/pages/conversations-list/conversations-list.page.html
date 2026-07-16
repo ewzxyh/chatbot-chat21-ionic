@@ -24,6 +24,31 @@
   </header-conversations-list-unassigned>
 
   <ion-list>
+    <ion-item
+      *ngIf="conversationType === 'active' && conversationSourceFilters.length > 2"
+      class="conversation-source-filter"
+      lines="none">
+      <img
+        slot="start"
+        class="conversation-source-filter__icon"
+        [src]="selectedConversationSourceFilter?.icon"
+        alt="">
+      <ion-label>
+        <span class="conversation-source-filter__caption">Canal ou instância</span>
+        <ion-select
+          interface="popover"
+          aria-label="Filtrar conversas por canal ou instância"
+          [value]="selectedConversationSource"
+          (ionChange)="onConversationSourceChange($event)">
+          <ion-select-option
+            *ngFor="let filter of conversationSourceFilters"
+            [value]="filter.key">
+            {{ filter.label }} ({{ filter.count }})
+          </ion-select-option>
+        </ion-select>
+      </ion-label>
+    </ion-item>
+
     <ion-item *ngIf="displayNewConvsItem && conversationType !=='archived' && supportMode" class="ion-no-padding open-iframe-item" lines="none">
       <div tabindex="0"></div>
       <app-project-item
@@ -41,7 +66,7 @@
     <ion-list>
 
       <span
-        *ngIf="(conversations.length > 0 && conversationType ==='active') || (archivedConversations.length > 0  && conversationType ==='archived') || (unassignedConversations.length > 0  && conversationType ==='unassigned');then contentConversations else contentMessageWelcome">
+        *ngIf="(visibleConversations.length > 0 && conversationType ==='active') || (archivedConversations.length > 0  && conversationType ==='archived') || (unassignedConversations.length > 0  && conversationType ==='unassigned');then contentConversations else contentMessageWelcome">
         here is ignored
       </span>
 
@@ -53,7 +78,7 @@
         <!-- ---------------------------------- -->
         <ion-list-conversations *ngIf="conversationType ==='active'" 
           [uidConvSelected]="uidConvSelected"
-          [listConversations]="conversations" 
+          [listConversations]="visibleConversations"
           [stylesMap]="stylesMap" 
           [translationMap]="translationMapConversation"
           (onConversationSelected)=onConversationSelected($event) 
@@ -118,7 +143,7 @@
         </div>
 
         <div id="no-convs-wpr"
-          *ngIf="!loadingIsActive && ((conversationType === 'active' && conversations.length === 0) || (conversationType === 'archived' && archivedConversations.length === 0) || (conversationType === 'unassigned' && unassignedConversations.length === 0))">
+          *ngIf="!loadingIsActive && ((conversationType === 'active' && visibleConversations.length === 0) || (conversationType === 'archived' && archivedConversations.length === 0) || (conversationType === 'unassigned' && unassignedConversations.length === 0))">
           <ion-item id="no-convs" class="ion-text-center" lines="none">
             <ion-label class="ion-text-wrap" color="medium">
               {{ 'LABEL_MSG_PUSH_START_CHAT' | translate }}

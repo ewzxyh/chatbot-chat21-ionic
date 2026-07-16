@@ -45,6 +45,39 @@ app-project-item{
   border-bottom: 1px dashed var(--border-color-base);
 }
 
+.conversation-source-filter {
+  --min-height: 58px;
+  --padding-start: 16px;
+  --inner-padding-end: 12px;
+  border-bottom: 1px solid var(--border-color-base);
+  cursor: default;
+}
+
+.conversation-source-filter__icon {
+  width: 20px;
+  height: 20px;
+  margin: 0 12px 0 0;
+  object-fit: contain;
+}
+
+.conversation-source-filter__caption {
+  display: block;
+  margin-bottom: 1px;
+  color: var(--icon-color);
+  font-size: 11px;
+  line-height: 16px;
+}
+
+.conversation-source-filter ion-select {
+  width: 100%;
+  max-width: 100%;
+  min-height: 24px;
+  padding: 0;
+  color: var(--list-conversation-with-color);
+  font-size: 14px;
+  line-height: 20px;
+}
+
 ion-list {
   display: block;
   margin-block-start: 1em;
