@@ -799,7 +799,10 @@ export class ConversationListPage implements OnInit {
 
   public onConversationSourceChange(source: string) {
     this.selectedConversationSource = source
-    this.refreshConversationView()
+    this.selectedConversationSourceFilter = this.conversationSourceFilters.find(
+      filter => filter.key === source,
+    )
+    this.visibleConversations = filterConversationsBySource(this.conversations, source)
   }
 
   private refreshConversationView() {
