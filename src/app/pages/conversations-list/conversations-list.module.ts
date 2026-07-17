@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 import { TranslateLoader, TranslateModule, TranslatePipe } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
@@ -32,6 +33,7 @@ import { MomentModule } from 'ngx-moment';
   imports: [
     CommonModule,
     FormsModule,
+    NgSelectModule,
     IonicModule,
     ConversationListPageRoutingModule,
     // ConversationDetailPageModule,
