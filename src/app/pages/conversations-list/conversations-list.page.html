@@ -37,8 +37,8 @@
         <span class="conversation-source-filter__caption">Canal ou instância</span>
         <select
           aria-label="Filtrar conversas por canal ou instância"
-          [value]="selectedConversationSource"
-          (change)="onConversationSourceChange($event)">
+          [(ngModel)]="selectedConversationSource"
+          (ngModelChange)="onConversationSourceChange($event)">
           <option
             *ngFor="let filter of conversationSourceFilters"
             [value]="filter.key">

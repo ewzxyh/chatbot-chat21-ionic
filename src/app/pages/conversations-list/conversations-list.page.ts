@@ -797,8 +797,8 @@ export class ConversationListPage implements OnInit {
     conversation.image = ''
   }
 
-  public onConversationSourceChange(event: Event) {
-    this.selectedConversationSource = (event.target as HTMLSelectElement).value
+  public onConversationSourceChange(source: string) {
+    this.selectedConversationSource = source
     this.refreshConversationView()
   }
 
