@@ -45,6 +45,10 @@ function labelWithInstance(label: string, instanceLabel: string): string {
   return instanceLabel ? `${label} · ${instanceLabel}` : label
 }
 
+function shortInstanceLabel(integrationId: string): string {
+  return integrationId ? `Instância ${integrationId.slice(-6)}` : ''
+}
+
 function getConversationSource(conversation: ConversationModel): ConversationSource {
   const attributes = conversation && conversation.attributes ? conversation.attributes : {}
   const attributeChannel = typeof attributes.channel === 'object'
@@ -58,17 +62,17 @@ function getConversationSource(conversation: ConversationModel): ConversationSou
     attributes.instanceLabel || attributes.integrationLabel || attributes.integration_name,
   )
   const sender = normalizedValue(conversation.sender)
-  const caseZapSenderPhone = sender.toLowerCase().startsWith('casezap-')
-    ? sender.slice('casezap-'.length)
-    : ''
+  const senderIntegrationMatch = sender.match(/^casezap-([0-9a-f]{24})(?:-|$)/i)
+  const senderIntegrationId = senderIntegrationMatch ? senderIntegrationMatch[1] : ''
 
-  const isCaseZap = rawChannel === 'casezap' || Boolean(attributes.casezapPhone) || Boolean(caseZapSenderPhone)
+  const isCaseZap = rawChannel === 'casezap' || Boolean(attributes.casezapPhone) || Boolean(senderIntegrationId)
   if (isCaseZap) {
-    const caseZapPhone = normalizedValue(attributes.casezapPhone) || caseZapSenderPhone
-    const instanceId = integrationId || instanceLabel || caseZapPhone
+    const caseZapPhone = normalizedValue(attributes.casezapPhone)
+    const instanceId = integrationId || senderIntegrationId || instanceLabel || caseZapPhone
+    const displayLabel = instanceLabel || caseZapPhone || shortInstanceLabel(instanceId)
     return {
       key: sourceKey('casezap', instanceId),
-      label: labelWithInstance('CaseZap', instanceLabel || caseZapPhone),
+      label: labelWithInstance('CaseZap', displayLabel),
       channel: 'casezap',
       icon: CHANNEL_ICONS.whatsapp,
     }

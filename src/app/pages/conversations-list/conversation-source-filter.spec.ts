@@ -60,14 +60,17 @@ describe('conversation source filter', () => {
     expect(filters[1].label).toBe('WhatsApp Business')
   })
 
-  it('uses the CaseZap sender phone when legacy attributes omit the instance', () => {
+  it('uses only a CaseZap integration id from the sender fallback', () => {
     const conversations = [
-      { uid: 'legacy-casezap', attributes: { request_channel: 'casezap' }, sender: 'casezap-556292131417' } as ConversationModel,
+      { uid: 'outgoing', attributes: { request_channel: 'casezap' }, sender: 'casezap-6a546a62937477001361fc0c-fromme' } as ConversationModel,
+      { uid: 'incoming', attributes: { request_channel: 'casezap' }, sender: 'casezap-556292131417' } as ConversationModel,
     ]
 
     const filters = buildConversationSourceFilters(conversations)
 
-    expect(filters[1].key).toBe('casezap:556292131417')
-    expect(filters[1].label).toBe('CaseZap · 556292131417')
+    expect(filters[1].key).toBe('casezap')
+    expect(filters[1].count).toBe(1)
+    expect(filters[2].key).toBe('casezap:6a546a62937477001361fc0c')
+    expect(filters[2].label).toBe('CaseZap · Instância 61fc0c')
   })
 })
