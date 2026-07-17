@@ -47,9 +47,13 @@ app-project-item{
 
 .conversation-source-filter {
   --min-height: 58px;
-  --padding-start: 16px;
-  --inner-padding-end: 12px;
-  border-bottom: 1px solid var(--border-color-base);
+  --padding-start: 12px;
+  --inner-padding-end: 10px;
+  width: calc(100% - 16px);
+  margin: 8px;
+  border: 1px solid var(--border-color-base);
+  border-radius: 4px;
+  overflow: hidden;
   cursor: default;
 }
 
@@ -68,11 +72,14 @@ app-project-item{
   line-height: 16px;
 }
 
-.conversation-source-filter ion-select {
+.conversation-source-filter select {
   width: 100%;
   max-width: 100%;
   min-height: 24px;
-  padding: 0;
+  padding: 0 8px 2px 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
   color: var(--list-conversation-with-color);
   font-size: 14px;
   line-height: 20px;

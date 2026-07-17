@@ -35,17 +35,16 @@
         alt="">
       <ion-label>
         <span class="conversation-source-filter__caption">Canal ou instância</span>
-        <ion-select
-          interface="popover"
+        <select
           aria-label="Filtrar conversas por canal ou instância"
           [value]="selectedConversationSource"
-          (ionChange)="onConversationSourceChange($event)">
-          <ion-select-option
+          (change)="onConversationSourceChange($event)">
+          <option
             *ngFor="let filter of conversationSourceFilters"
             [value]="filter.key">
             {{ filter.label }} ({{ filter.count }})
-          </ion-select-option>
-        </ion-select>
+          </option>
+        </select>
       </ion-label>
     </ion-item>
 
