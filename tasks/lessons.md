@@ -9,3 +9,4 @@
 - Quando a UX pedir um dropdown simples sem backdrop, usar `select` nativo; `ion-select` sempre aciona uma camada de interface Ionic.
 - Quando as opcoes precisam de icone e metadados, reutilizar o seletor rico ja instalado e carregar nomes pela fonte de integracoes; nunca expor IDs tecnicos como rotulo de fallback.
 - Ao usar um componente Angular em uma feature, importar seu modulo diretamente na feature; `CUSTOM_ELEMENTS_SCHEMA` pode mascarar a ausencia e renderizar apenas uma tag inerte.
+- Dropdowns dentro de `ion-list` podem ser recortados por `contain: content`; verificar contenção de pintura antes de tentar corrigir a sobreposição apenas com `z-index`.

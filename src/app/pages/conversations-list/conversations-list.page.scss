@@ -10,6 +10,11 @@ ion-header {
   }
 }
 
+ion-header > ion-list {
+  contain: none;
+  overflow: visible;
+}
+
 ion-content {
   --overflow: auto;
   
