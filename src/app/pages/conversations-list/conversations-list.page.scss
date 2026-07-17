@@ -46,43 +46,102 @@ app-project-item{
 }
 
 .conversation-source-filter {
-  --min-height: 58px;
-  --padding-start: 12px;
-  --inner-padding-end: 10px;
   width: calc(100% - 16px);
   margin: 8px;
+  padding: 7px 8px 5px 12px;
   border: 1px solid var(--border-color-base);
   border-radius: 4px;
-  overflow: hidden;
-  cursor: default;
+  background: var(--list-bkg-color);
+  position: relative;
+  z-index: 4;
 }
 
 .conversation-source-filter__icon {
   width: 20px;
   height: 20px;
-  margin: 0 12px 0 0;
+  flex: 0 0 20px;
   object-fit: contain;
 }
 
 .conversation-source-filter__caption {
   display: block;
-  margin-bottom: 1px;
+  margin-left: 28px;
   color: var(--icon-color);
   font-size: 11px;
   line-height: 16px;
 }
 
-.conversation-source-filter select {
+.conversation-source-filter__option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   width: 100%;
-  max-width: 100%;
-  min-height: 24px;
-  padding: 0 8px 2px 0;
-  border: 0;
-  outline: 0;
-  background: transparent;
+  min-width: 0;
+}
+
+.conversation-source-filter__channel {
+  flex: 0 0 auto;
   color: var(--list-conversation-with-color);
   font-size: 14px;
+  font-weight: 500;
   line-height: 20px;
+}
+
+.conversation-source-filter__instance {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--icon-color);
+  font-size: 13px;
+  line-height: 20px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.conversation-source-filter__count {
+  margin-left: auto;
+  color: var(--icon-color);
+  font-size: 12px;
+  line-height: 20px;
+}
+
+:host ::ng-deep .conversation-source-filter__select {
+  .ng-select-container {
+    min-height: 30px;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .ng-value-container {
+    min-width: 0;
+    padding-left: 0;
+  }
+
+  .ng-arrow-wrapper {
+    padding-right: 2px;
+  }
+
+  &.ng-select-focused:not(.ng-select-opened) > .ng-select-container {
+    border: 0;
+    box-shadow: none;
+  }
+
+  .ng-dropdown-panel {
+    margin-top: 6px;
+    overflow: hidden;
+    border: 1px solid var(--border-color-base);
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.16);
+  }
+
+  .ng-dropdown-panel .ng-option {
+    padding: 9px 12px;
+  }
+
+  .ng-dropdown-panel .ng-option.ng-option-marked {
+    background: var(--sidebar-user-detail-select-hover-background);
+  }
 }
 
 ion-list {

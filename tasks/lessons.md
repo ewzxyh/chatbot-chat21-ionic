@@ -7,3 +7,4 @@
 - Em `ion-content`, nao sobrescrever `--offset-bottom` com `auto`: o Ionic usa esse valor em `calc()` para limitar o `.inner-scroll`, e um valor invalido elimina o overflow que a scrollbar precisa controlar.
 - Controles fixos da lista devem ficar no `ion-header`; deixar o atalho de conversas nao atribuidas no `ion-content` faz o rotulo participar do scroll.
 - Quando a UX pedir um dropdown simples sem backdrop, usar `select` nativo; `ion-select` sempre aciona uma camada de interface Ionic.
+- Quando as opcoes precisam de icone e metadados, reutilizar o seletor rico ja instalado e carregar nomes pela fonte de integracoes; nunca expor IDs tecnicos como rotulo de fallback.

@@ -78,6 +78,8 @@ export class ConversationListPage implements OnInit {
   public conversationSourceFilters: Array<ConversationSourceFilter> = []
   public selectedConversationSource = ALL_CONVERSATIONS_FILTER
   public selectedConversationSourceFilter: ConversationSourceFilter
+  private conversationSourceInstanceLabels: { [integrationId: string]: string } = {}
+  private conversationSourceLabelsProjectId: string
   public archivedConversations: Array<ConversationModel> = []
   public unassignedConversations: Array<ConversationModel> = []
   public uidConvSelected: string
@@ -268,6 +270,7 @@ export class ConversationListPage implements OnInit {
   getLastProjectId(projectid: string) {
     this.logger.log('[CONVS-LIST-PAGE] - GET LAST PROJECT ID', projectid)
     this.lastProjectId = projectid
+    this.loadConversationSourceInstanceLabels(projectid)
   }
 
   openUnsevedConversationIframe(event:{event: string, data: ConversationModel[]}) {
@@ -501,6 +504,7 @@ export class ConversationListPage implements OnInit {
           isActiveSubscription: projectObjct['id_project']['isActiveSubscription'],
           trialExpired: projectObjct['id_project']['trialExpired']
         }
+        this.loadConversationSourceInstanceLabels(this.project._id)
 
         if (this.project.profile.type === 'free') {
 
@@ -806,7 +810,10 @@ export class ConversationListPage implements OnInit {
   }
 
   private refreshConversationView() {
-    this.conversationSourceFilters = buildConversationSourceFilters(this.conversations)
+    this.conversationSourceFilters = buildConversationSourceFilters(
+      this.conversations,
+      this.conversationSourceInstanceLabels,
+    )
     const selectedFilter = this.conversationSourceFilters.find(
       filter => filter.key === this.selectedConversationSource,
     )
@@ -821,6 +828,36 @@ export class ConversationListPage implements OnInit {
     this.visibleConversations = filterConversationsBySource(
       this.conversations,
       this.selectedConversationSource,
+    )
+  }
+
+  private loadConversationSourceInstanceLabels(projectId: string) {
+    if (!projectId || this.conversationSourceLabelsProjectId === projectId) {
+      return
+    }
+
+    this.conversationSourceLabelsProjectId = projectId
+    this.tiledeskService.getIntegrationInstances(projectId, 'casezap').subscribe(
+      (integrations: any[]) => {
+        const labels: { [integrationId: string]: string } = {}
+
+        for (const integration of integrations || []) {
+          const integrationId = integration && (integration._id || integration.id)
+          const value = integration && integration.value ? integration.value : {}
+          const instanceName = value.instanceName || value.name || value.number
+
+          if (integrationId && instanceName) {
+            labels[String(integrationId)] = String(instanceName).trim()
+          }
+        }
+
+        this.conversationSourceInstanceLabels = labels
+        this.refreshConversationView()
+      },
+      error => {
+        this.conversationSourceLabelsProjectId = null
+        this.logger.error('[CONVS-LIST-PAGE] unable to load CaseZap instance names', error)
+      },
     )
   }
 

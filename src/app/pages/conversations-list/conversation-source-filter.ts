@@ -7,6 +7,8 @@ const UNKNOWN_SOURCE = 'unknown'
 export interface ConversationSourceFilter {
   key: string
   label: string
+  channelLabel: string
+  instanceLabel?: string
   channel: string
   icon: string
   count: number
@@ -15,8 +17,14 @@ export interface ConversationSourceFilter {
 interface ConversationSource {
   key: string
   label: string
+  channelLabel: string
+  instanceLabel?: string
   channel: string
   icon: string
+}
+
+export interface ConversationSourceInstanceLabels {
+  [integrationId: string]: string
 }
 
 const CHANNEL_ICONS = {
@@ -45,11 +53,10 @@ function labelWithInstance(label: string, instanceLabel: string): string {
   return instanceLabel ? `${label} · ${instanceLabel}` : label
 }
 
-function shortInstanceLabel(integrationId: string): string {
-  return integrationId ? `Instância ${integrationId.slice(-6)}` : ''
-}
-
-function getConversationSource(conversation: ConversationModel): ConversationSource {
+function getConversationSource(
+  conversation: ConversationModel,
+  integrationLabels: ConversationSourceInstanceLabels = {},
+): ConversationSource {
   const attributes = conversation && conversation.attributes ? conversation.attributes : {}
   const attributeChannel = typeof attributes.channel === 'object'
     ? attributes.channel && attributes.channel.name
@@ -69,10 +76,13 @@ function getConversationSource(conversation: ConversationModel): ConversationSou
   if (isCaseZap) {
     const caseZapPhone = normalizedValue(attributes.casezapPhone)
     const instanceId = integrationId || senderIntegrationId || instanceLabel || caseZapPhone
-    const displayLabel = instanceLabel || caseZapPhone || shortInstanceLabel(instanceId)
+    const displayLabel = instanceLabel || integrationLabels[instanceId] || caseZapPhone ||
+      (instanceId ? 'Instância sem nome' : '')
     return {
       key: sourceKey('casezap', instanceId),
       label: labelWithInstance('CaseZap', displayLabel),
+      channelLabel: 'CaseZap',
+      instanceLabel: displayLabel,
       channel: 'casezap',
       icon: CHANNEL_ICONS.whatsapp,
     }
@@ -90,6 +100,8 @@ function getConversationSource(conversation: ConversationModel): ConversationSou
     return {
       key: sourceKey('whatsapp', instanceId),
       label: labelWithInstance('WhatsApp Business', whatsappLabel),
+      channelLabel: 'WhatsApp Business',
+      instanceLabel: whatsappLabel,
       channel: 'whatsapp',
       icon: CHANNEL_ICONS.whatsapp,
     }
@@ -99,6 +111,8 @@ function getConversationSource(conversation: ConversationModel): ConversationSou
     return {
       key: sourceKey('telegram', integrationId || instanceLabel),
       label: labelWithInstance('Telegram', instanceLabel),
+      channelLabel: 'Telegram',
+      instanceLabel,
       channel: 'telegram',
       icon: CHANNEL_ICONS.telegram,
     }
@@ -116,6 +130,7 @@ function getConversationSource(conversation: ConversationModel): ConversationSou
     return {
       key: rawChannel,
       label: knownChannel.label,
+      channelLabel: knownChannel.label,
       channel: rawChannel,
       icon: knownChannel.icon,
     }
@@ -124,6 +139,7 @@ function getConversationSource(conversation: ConversationModel): ConversationSou
   return {
     key: UNKNOWN_SOURCE,
     label: 'Outras conversas',
+    channelLabel: 'Outras conversas',
     channel: UNKNOWN_SOURCE,
     icon: CHANNEL_ICONS.group,
   }
@@ -131,11 +147,12 @@ function getConversationSource(conversation: ConversationModel): ConversationSou
 
 export function buildConversationSourceFilters(
   conversations: Array<ConversationModel>,
+  integrationLabels: ConversationSourceInstanceLabels = {},
 ): Array<ConversationSourceFilter> {
   const sourceCounts: { [key: string]: ConversationSourceFilter } = {}
 
   for (const conversation of conversations || []) {
-    const source = getConversationSource(conversation)
+    const source = getConversationSource(conversation, integrationLabels)
     if (!sourceCounts[source.key]) {
       sourceCounts[source.key] = { ...source, count: 0 }
     }
@@ -150,6 +167,7 @@ export function buildConversationSourceFilters(
     {
       key: ALL_CONVERSATIONS_FILTER,
       label: 'Todos',
+      channelLabel: 'Todos',
       channel: ALL_CONVERSATIONS_FILTER,
       icon: CHANNEL_ICONS.group,
       count: (conversations || []).length,

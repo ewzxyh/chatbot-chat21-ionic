@@ -91,6 +91,14 @@ export class TiledeskService {
     }))
   }
 
+  public getIntegrationInstances(project_id: string, integration_name: string) {
+    const url = this.getServerBaseUrl() + project_id + '/integration/name/' +
+      encodeURIComponent(integration_name) + '/instances'
+    const httpOptions = this.getHttpOptions()
+
+    return this.http.get(url, httpOptions).pipe(map((res: any[]) => res))
+  }
+
   public getProjectIdByConvRecipient(conversationWith: string ) {
     const lookupUrl = this.getServerBaseUrl() + 'requests_util/lookup/id_project/' + conversationWith;
 

@@ -66,11 +66,25 @@ describe('conversation source filter', () => {
       { uid: 'incoming', attributes: { request_channel: 'casezap' }, sender: 'casezap-556292131417' } as ConversationModel,
     ]
 
-    const filters = buildConversationSourceFilters(conversations)
+    const filters = buildConversationSourceFilters(conversations, {
+      '6a546a62937477001361fc0c': 'Lovtok',
+    })
 
     expect(filters[1].key).toBe('casezap')
     expect(filters[1].count).toBe(1)
     expect(filters[2].key).toBe('casezap:6a546a62937477001361fc0c')
-    expect(filters[2].label).toBe('CaseZap · Instância 61fc0c')
+    expect(filters[2].label).toBe('CaseZap · Lovtok')
+    expect(filters[2].instanceLabel).toBe('Lovtok')
+  })
+
+  it('does not expose an integration id when its name is unavailable', () => {
+    const conversations = [
+      { uid: 'legacy', attributes: { request_channel: 'casezap' }, sender: 'casezap-6a546a62937477001361fc0c-fromme' } as ConversationModel,
+    ]
+
+    const filters = buildConversationSourceFilters(conversations)
+
+    expect(filters[1].label).toBe('CaseZap · Instância sem nome')
+    expect(filters[1].label).not.toContain('61fc0c')
   })
 })

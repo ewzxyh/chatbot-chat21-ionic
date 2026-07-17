@@ -24,29 +24,38 @@
   </header-conversations-list-unassigned>
 
   <ion-list>
-    <ion-item
+    <div
       *ngIf="conversationType === 'active' && conversationSourceFilters.length > 1"
-      class="conversation-source-filter"
-      lines="none">
-      <img
-        slot="start"
-        class="conversation-source-filter__icon"
-        [src]="selectedConversationSourceFilter?.icon"
-        alt="">
-      <ion-label>
-        <span class="conversation-source-filter__caption">Canal ou instância</span>
-        <select
-          aria-label="Filtrar conversas por canal ou instância"
-          [(ngModel)]="selectedConversationSource"
-          (ngModelChange)="onConversationSourceChange($event)">
-          <option
-            *ngFor="let filter of conversationSourceFilters"
-            [value]="filter.key">
-            {{ filter.label }} ({{ filter.count }})
-          </option>
-        </select>
-      </ion-label>
-    </ion-item>
+      class="conversation-source-filter">
+      <span class="conversation-source-filter__caption">Canal ou instância</span>
+      <ng-select
+        class="conversation-source-filter__select"
+        aria-label="Filtrar conversas por canal ou instância"
+        [items]="conversationSourceFilters"
+        bindLabel="label"
+        bindValue="key"
+        [clearable]="false"
+        [searchable]="false"
+        [(ngModel)]="selectedConversationSource"
+        (ngModelChange)="onConversationSourceChange($event)">
+        <ng-template ng-label-tmp let-item="item">
+          <div class="conversation-source-filter__option">
+            <img class="conversation-source-filter__icon" [src]="item.icon" alt="">
+            <span class="conversation-source-filter__channel">{{ item.channelLabel }}</span>
+            <span *ngIf="item.instanceLabel" class="conversation-source-filter__instance">{{ item.instanceLabel }}</span>
+            <span class="conversation-source-filter__count">{{ item.count }}</span>
+          </div>
+        </ng-template>
+        <ng-template ng-option-tmp let-item="item">
+          <div class="conversation-source-filter__option">
+            <img class="conversation-source-filter__icon" [src]="item.icon" alt="">
+            <span class="conversation-source-filter__channel">{{ item.channelLabel }}</span>
+            <span *ngIf="item.instanceLabel" class="conversation-source-filter__instance">{{ item.instanceLabel }}</span>
+            <span class="conversation-source-filter__count">{{ item.count }}</span>
+          </div>
+        </ng-template>
+      </ng-select>
+    </div>
 
     <ion-item *ngIf="displayNewConvsItem && conversationType !=='archived' && supportMode" class="ion-no-padding open-iframe-item" lines="none">
       <div tabindex="0"></div>
