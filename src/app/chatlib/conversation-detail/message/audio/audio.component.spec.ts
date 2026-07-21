@@ -35,4 +35,16 @@ describe('AudioComponent', () => {
     expect(removeAttributeSpy).toHaveBeenCalledWith('src');
     expect(loadSpy).toHaveBeenCalled();
   });
+
+  it('should reject playback that was not requested by the play button', () => {
+    const audio = component.audioElement.nativeElement;
+    const pauseSpy = spyOn(audio, 'pause');
+    audio.currentTime = 5;
+
+    component.onAudioPlay();
+
+    expect(pauseSpy).toHaveBeenCalled();
+    expect(audio.currentTime).toBe(0);
+    expect(component.isPlaying).toBe(false);
+  });
 });

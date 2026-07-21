@@ -25,6 +25,7 @@ export class AudioComponent implements OnInit, OnDestroy {
   isPlaying: boolean = false;
   isLoading: boolean = true;
   hasError: boolean = false;
+  private playRequested: boolean = false;
 
   constructor(
     private sanitizer: DomSanitizer
@@ -49,6 +50,7 @@ export class AudioComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     const audio = this.audioElement.nativeElement;
+    this.playRequested = false;
     audio.pause();
     audio.currentTime = 0;
     audio.removeAttribute('src');
@@ -74,12 +76,14 @@ export class AudioComponent implements OnInit, OnDestroy {
   }
 
   onAudioEnded() {
+    this.playRequested = false;
     this.isPlaying = false;
     this.currentTime = 0;
     this.seekValue = 0;
   }
 
   onAudioError() {
+    this.playRequested = false;
     this.isLoading = false;
     this.hasError = true;
     this.isPlaying = false;
@@ -89,15 +93,34 @@ export class AudioComponent implements OnInit, OnDestroy {
   playPauseAudio() {
     const audio = this.audioElement.nativeElement;
     if (audio.paused) {
+      this.playRequested = true;
       audio.play()
         .then(() => {
           this.isPlaying = true;
         })
         .catch(() => this.onAudioError());
     } else {
+      this.playRequested = false;
       audio.pause();
       this.isPlaying = false;
     }
+  }
+
+  onAudioPlay() {
+    if (this.playRequested) {
+      this.isPlaying = true;
+      return;
+    }
+
+    const audio = this.audioElement.nativeElement;
+    audio.pause();
+    audio.currentTime = 0;
+    this.isPlaying = false;
+  }
+
+  onAudioPause() {
+    this.playRequested = false;
+    this.isPlaying = false;
   }
 
   seekAudio(event) {

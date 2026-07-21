@@ -3,6 +3,8 @@
     #audioElement
     [src]="audioUrl"
     preload="metadata"
+    (play)="onAudioPlay()"
+    (pause)="onAudioPause()"
     (loadedmetadata)="onLoadedMetadata()"
     (timeupdate)="onTimeUpdate()"
     (ended)="onAudioEnded()"
