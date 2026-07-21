@@ -750,7 +750,11 @@ export class ConversationListPage implements OnInit {
   setUidConvSelected(uidConvSelected: string, conversationType?: string) {
     this.logger.log('[CONVS-LIST-PAGE] setuidCOnvSelected', uidConvSelected, conversationType)
     this.uidConvSelected = uidConvSelected
-    // this.conversationsHandlerService.uidConvSelected = uidConvSelected;
+    if (conversationType === 'active') {
+      this.conversationsHandlerService.uidConvSelected = uidConvSelected
+    } else if (conversationType === 'archived') {
+      this.archivedConversationsHandlerService.uidConvSelected = uidConvSelected
+    }
     if (uidConvSelected) {
       let conversationSelected
       if (conversationType === 'active') {

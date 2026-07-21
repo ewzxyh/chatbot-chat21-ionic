@@ -1136,6 +1136,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.events.subscribe('profileInfoButtonClick:logout', this.subscribeProfileInfoButtonLogOut);
     this.events.subscribe('unservedRequest:count', this.subscribeUnservedRequestCount)
     this.events.subscribe('convList:onConversationSelected', this.subscribeConversationSelected)
+    this.events.subscribe('supportconvid:haschanged', this.subscribeConversationRouteSelected)
     this.conversationsHandlerService.conversationAdded.subscribe((conversation: ConversationModel) => {
       this.logger.log('[APP-COMP] ***** subscribeConversationAdded *****', conversation);
       if (conversation && conversation.is_new === true && this.isInitialized) {
@@ -1372,9 +1373,24 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
   }
 
+  private stopNotificationSounds() {
+    [this.audio, this.audio_NewConv, this.audio_Unassigned].forEach(audio => {
+      if (audio) {
+        audio.pause()
+        audio.currentTime = 0
+      }
+    })
+  }
+
+  subscribeConversationRouteSelected = (conversationId: string) => {
+    if (conversationId) {
+      this.stopNotificationSounds()
+    }
+  }
+
   subscribeConversationSelected= (conversation: ConversationModel) => {
-    if(conversation && conversation.is_new){
-      this.audio_NewConv.pause()
+    if(conversation){
+      this.stopNotificationSounds()
     }
   }
 
