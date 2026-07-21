@@ -56,6 +56,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   @ViewChild('sidebarNav', { static: false }) sidebarNav: IonNav;
   @ViewChild('detailNav', { static: false }) detailNav: IonRouterOutlet;
 
+  private activeConversationId: string = null
+
   // public appIsOnline$: Observable<boolean> = undefined;
   checkInternet: boolean;
 
@@ -1140,7 +1142,9 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.conversationsHandlerService.conversationAdded.subscribe((conversation: ConversationModel) => {
       this.logger.log('[APP-COMP] ***** subscribeConversationAdded *****', conversation);
       if (conversation && conversation.is_new === true && this.isInitialized) {
-        this.manageTabNotification('conv_added', conversation.sound)
+        if (!this.isActiveConversation(conversation)) {
+          this.manageTabNotification('conv_added', conversation.sound)
+        }
         this.manageEventNewConversation(conversation)
       }
       if(conversation) this.updateConversationsOnStorage()
@@ -1159,7 +1163,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         if (changes.value && changes.value.sender !== currentUser.uid) {
           let checkIfStatusChanged = changes.value.is_new === changes.previousValue.is_new? true: false
           let checkIfUidChanged = changes.value.uid === changes.previousValue.uid? true: false
-          if(changes.value.is_new && checkIfStatusChanged && checkIfUidChanged){
+          if(changes.value.is_new && checkIfStatusChanged && checkIfUidChanged && !this.isActiveConversation(changes.value)){
             this.manageTabNotification('new_message', true);
           }
         }
@@ -1382,7 +1386,13 @@ export class AppComponent implements OnInit, AfterViewInit {
     })
   }
 
+  private isActiveConversation(conversation: ConversationModel): boolean {
+    const conversationId = conversation && (conversation.conversation_with || conversation.uid || conversation['conversWith'])
+    return !!this.activeConversationId && conversationId === this.activeConversationId
+  }
+
   subscribeConversationRouteSelected = (conversationId: string) => {
+    this.activeConversationId = conversationId || null
     if (conversationId) {
       this.stopNotificationSounds()
     }
