@@ -432,6 +432,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   }
 
   ionViewWillEnter() {
+    this.stopMessageAudio()
     // this.info_content_child_enabled = true;
     this.logger.log('[CONVS-DETAIL] TEST > ionViewWillEnter - convId ', this.conversationWith)
     this.loggedUser = this.tiledeskAuthService.getCurrentUser()
@@ -447,6 +448,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   // Unsubscibe when new page transition end
   ionViewWillLeave() {
     this.logger.log('[CONVS-DETAIL] > ionViewWillLeave')
+    this.stopMessageAudio()
 
     // this.logger.log('[CONVS-DETAIL] > ionViewWillLeave info_content_child ', this.info_content_child)
     // if (this.info_content_child) {
@@ -456,6 +458,14 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
 
     // this.logger.log('[CONVS-DETAIL] TEST > ionViewWillLeave info_content_child_enabled ', this.info_content_child_enabled , 'convId ', this.conversationWith)
     this.unsubescribeAll()
+  }
+
+  private stopMessageAudio() {
+    const messageAudio = document.querySelectorAll<HTMLAudioElement>('chat-audio audio, .chatcase-audio-card audio')
+    messageAudio.forEach((audio) => {
+      audio.pause()
+      audio.currentTime = 0
+    })
   }
 
   // reloadTree() {

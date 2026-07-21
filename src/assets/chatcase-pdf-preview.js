@@ -288,6 +288,7 @@
 
     var audio = document.createElement('audio');
     audio.className = 'chatcase-audio-hidden';
+    audio.autoplay = false;
     audio.preload = 'metadata';
     if (payload.src) audio.src = payload.src;
     var pendingSeek = null;
@@ -415,7 +416,10 @@
     var nativeAudio = bubble.querySelectorAll('chat-audio');
     for (var i = 0; i < nativeAudio.length; i++) {
       var media = nativeAudio[i].querySelector('audio');
-      if (media && !media.paused) media.pause();
+      if (media) {
+        media.pause();
+        media.currentTime = 0;
+      }
       nativeAudio[i].style.display = 'none';
       nativeAudio[i].setAttribute('data-chatcase-hidden', 'native-audio');
     }
@@ -769,6 +773,17 @@
     }
   }
 
+  function stopRemovedAudio(root) {
+    if (!root || root.nodeType !== 1) return;
+    var audio = root.matches && root.matches('audio') ? [root] : root.querySelectorAll('audio');
+    for (var i = 0; i < audio.length; i++) {
+      audio[i].pause();
+      audio[i].currentTime = 0;
+      audio[i].removeAttribute('src');
+      audio[i].load();
+    }
+  }
+
   scan(document);
   document.addEventListener('DOMContentLoaded', function () {
     scan(document);
@@ -776,6 +791,9 @@
 
   var observer = new MutationObserver(function (mutations) {
     for (var i = 0; i < mutations.length; i++) {
+      for (var removedIndex = 0; removedIndex < mutations[i].removedNodes.length; removedIndex++) {
+        stopRemovedAudio(mutations[i].removedNodes[removedIndex]);
+      }
       for (var j = 0; j < mutations[i].addedNodes.length; j++) {
         var node = mutations[i].addedNodes[j];
         if (node.nodeType === 1) {

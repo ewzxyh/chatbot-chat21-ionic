@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
@@ -6,7 +6,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
   templateUrl: './audio.component.html',
   styleUrls: ['./audio.component.scss']
 })
-export class AudioComponent implements OnInit {
+export class AudioComponent implements OnInit, OnDestroy {
 
   @ViewChild('audioElement', { static: true }) audioElement!: ElementRef<HTMLAudioElement>;
 
@@ -34,6 +34,11 @@ export class AudioComponent implements OnInit {
   }
 
   ngAfterViewInit() {
+    const audio = this.audioElement.nativeElement;
+    audio.autoplay = false;
+    audio.pause();
+    audio.currentTime = 0;
+
     if (this.audioBlob) {
       this.rawAudioUrl = URL.createObjectURL(this.audioBlob);
     } else {
@@ -43,6 +48,12 @@ export class AudioComponent implements OnInit {
   }
 
   ngOnDestroy() {
+    const audio = this.audioElement.nativeElement;
+    audio.pause();
+    audio.currentTime = 0;
+    audio.removeAttribute('src');
+    audio.load();
+
     if (this.audioBlob && this.rawAudioUrl) {
       URL.revokeObjectURL(this.rawAudioUrl);
     }
