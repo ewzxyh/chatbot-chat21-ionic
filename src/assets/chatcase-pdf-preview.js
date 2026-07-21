@@ -4,6 +4,54 @@
   }
   window.__chatcaseAttachmentEnhancerInstalled = true;
 
+  var authorizedMessageAudio = new WeakSet();
+
+  function isMessageAudio(element) {
+    return element && element.matches && element.matches('chat-audio audio, .chatcase-audio-card audio');
+  }
+
+  function pauseMessageAudio(audio, reset) {
+    if (!audio) return;
+    audio.pause();
+    if (reset) audio.currentTime = 0;
+  }
+
+  function stopOtherMessageAudio(current) {
+    var audio = document.querySelectorAll('chat-audio audio, .chatcase-audio-card audio');
+    for (var i = 0; i < audio.length; i++) {
+      if (audio[i] !== current) pauseMessageAudio(audio[i], false);
+    }
+  }
+
+  document.addEventListener('click', function (event) {
+    var button = event.target.closest && event.target.closest('.play-pause, .chatcase-audio-toggle');
+    if (!button) return;
+    var host = button.closest('chat-audio, .chatcase-audio-card');
+    var audio = host && host.querySelector('audio');
+    if (!audio) return;
+
+    if (audio.paused) {
+      authorizedMessageAudio.add(audio);
+      stopOtherMessageAudio(audio);
+      setTimeout(function () {
+        if (audio.paused) authorizedMessageAudio.delete(audio);
+      }, 1000);
+    } else {
+      authorizedMessageAudio.delete(audio);
+    }
+  }, true);
+
+  document.addEventListener('play', function (event) {
+    var audio = event.target;
+    if (!isMessageAudio(audio)) return;
+    if (!authorizedMessageAudio.has(audio)) {
+      pauseMessageAudio(audio, true);
+      return;
+    }
+    authorizedMessageAudio.delete(audio);
+    stopOtherMessageAudio(audio);
+  }, true);
+
   var style = document.createElement('style');
   style.textContent = [
     '.chatcase-pdf-card{width:min(310px,72vw);border-radius:10px;overflow:hidden;background:#eef2f7;border:1px solid rgba(0,0,0,.08);margin:4px 0 6px 0;box-shadow:0 1px 2px rgba(0,0,0,.05)}',
