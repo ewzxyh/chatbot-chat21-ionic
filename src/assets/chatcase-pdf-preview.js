@@ -44,6 +44,7 @@
   document.addEventListener('play', function (event) {
     var audio = event.target;
     if (!isMessageAudio(audio)) return;
+    if (audio.matches('.chatcase-audio-card audio')) return;
     if (!authorizedMessageAudio.has(audio)) {
       pauseMessageAudio(audio, true);
       return;
@@ -338,7 +339,6 @@
     audio.className = 'chatcase-audio-hidden';
     audio.autoplay = false;
     audio.preload = 'metadata';
-    if (payload.src) audio.src = payload.src;
     var pendingSeek = null;
 
     var toggle = document.createElement('button');
@@ -395,6 +395,12 @@
       current.textContent = formatSeconds(audio.currentTime || 0);
     });
     audio.addEventListener('play', function() {
+      if (!authorizedMessageAudio.has(audio)) {
+        pauseMessageAudio(audio, true);
+        return;
+      }
+      authorizedMessageAudio.delete(audio);
+      stopOtherMessageAudio(audio);
       toggle.innerHTML = iconSvg('pause');
       toggle.setAttribute('aria-label', 'Pausar áudio');
     });
@@ -429,6 +435,7 @@
         audio.pause();
       }
     });
+    if (payload.src) audio.src = payload.src;
     return card;
   }
 
