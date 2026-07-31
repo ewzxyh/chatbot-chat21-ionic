@@ -10,9 +10,6 @@
     playsinline
     preload="metadata"
     [src]="mediaUrl"
-    (pointerdown)="allowVideoPlayback()"
-    (keydown)="allowVideoPlayback()"
-    (play)="onVideoPlay($event)"
     (loadedmetadata)="onLoaded($event)"
     (error)="onError()">
   </video>

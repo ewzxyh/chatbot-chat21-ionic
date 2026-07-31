@@ -28,14 +28,7 @@ describe('FrameComponent', () => {
     component.setFrameUrl();
     fixture.detectChanges();
 
-    const video = fixture.nativeElement.querySelector('video') as HTMLVideoElement;
-    spyOn(video, 'pause');
-    video.currentTime = 5;
-    component.onVideoPlay({ target: video } as any);
-
-    expect(video).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('video')).toBeTruthy();
     expect(fixture.nativeElement.querySelector('iframe')).toBeFalsy();
-    expect(video.pause).toHaveBeenCalled();
-    expect(video.currentTime).toBe(0);
   });
 });

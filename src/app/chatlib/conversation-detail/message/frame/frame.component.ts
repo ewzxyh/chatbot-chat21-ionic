@@ -19,7 +19,6 @@ export class FrameComponent implements OnInit {
   loading: boolean = true
   hasError: boolean = false
   retryCount: number = 0
-  private videoPlaybackAllowedAt = 0
   constructor(private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
@@ -48,20 +47,6 @@ export class FrameComponent implements OnInit {
     return this.metadata?.type?.startsWith('video/');
   }
 
-  allowVideoPlayback() {
-    this.videoPlaybackAllowedAt = Date.now();
-  }
-
-  onVideoPlay(event: Event) {
-    const video = event.target as HTMLVideoElement;
-    if (Date.now() - this.videoPlaybackAllowedAt < 1500) {
-      this.videoPlaybackAllowedAt = 0;
-      return;
-    }
-    video.pause();
-    video.currentTime = 0;
-  }
-  
   ngOnDestroy(){
     const video = this.videoElement?.nativeElement;
     if (video) {
