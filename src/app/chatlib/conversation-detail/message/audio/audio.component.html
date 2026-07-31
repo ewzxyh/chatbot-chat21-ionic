@@ -1,6 +1,7 @@
 <div class="audio-container" [class.is-loading]="isLoading" [class.has-error]="hasError">
   <audio
     #audioElement
+    muted
     preload="none"
     (play)="onAudioPlay()"
     (pause)="onAudioPause()"

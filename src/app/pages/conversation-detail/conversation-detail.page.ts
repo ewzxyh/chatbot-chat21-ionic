@@ -465,6 +465,9 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
     messageAudio.forEach((audio) => {
       audio.pause()
       audio.currentTime = 0
+      audio.muted = true
+      audio.removeAttribute('src')
+      audio.load()
     })
   }
 

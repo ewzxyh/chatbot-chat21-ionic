@@ -61,4 +61,19 @@ describe('AudioComponent', () => {
     expect(audio.getAttribute('src')).toBe('https://example.com/message.ogg');
     expect(loadSpy).toHaveBeenCalled();
   });
+
+  it('should stay muted until explicit playback and mute again on pause', () => {
+    const audio = component.audioElement.nativeElement;
+    spyOn(audio, 'play').and.returnValue(Promise.resolve());
+    component.rawAudioUrl = 'https://example.com/message.ogg';
+
+    component.ngAfterViewInit();
+    expect(audio.muted).toBe(true);
+
+    component.playPauseAudio();
+    expect(audio.muted).toBe(false);
+
+    component.onAudioPause();
+    expect(audio.muted).toBe(true);
+  });
 });

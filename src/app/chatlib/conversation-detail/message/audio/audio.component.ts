@@ -33,6 +33,7 @@ export class AudioComponent implements OnInit, OnDestroy {
   ngAfterViewInit() {
     const audio = this.audioElement.nativeElement;
     audio.autoplay = false;
+    audio.muted = true;
     audio.pause();
     audio.currentTime = 0;
 
@@ -46,6 +47,7 @@ export class AudioComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     const audio = this.audioElement.nativeElement;
     this.playRequested = false;
+    audio.muted = true;
     audio.pause();
     audio.currentTime = 0;
     audio.removeAttribute('src');
@@ -72,6 +74,7 @@ export class AudioComponent implements OnInit, OnDestroy {
 
   onAudioEnded() {
     this.playRequested = false;
+    this.audioElement.nativeElement.muted = true;
     this.isPlaying = false;
     this.currentTime = 0;
     this.seekValue = 0;
@@ -82,6 +85,7 @@ export class AudioComponent implements OnInit, OnDestroy {
     this.isLoading = false;
     this.hasError = true;
     this.isPlaying = false;
+    this.audioElement.nativeElement.muted = true;
     this.onElementRendered.emit({element: 'audio', status: false});
   }
 
@@ -93,6 +97,7 @@ export class AudioComponent implements OnInit, OnDestroy {
         audio.load();
       }
       this.playRequested = true;
+      audio.muted = false;
       audio.play()
         .then(() => {
           this.isPlaying = true;
@@ -112,6 +117,7 @@ export class AudioComponent implements OnInit, OnDestroy {
     }
 
     const audio = this.audioElement.nativeElement;
+    audio.muted = true;
     audio.pause();
     audio.currentTime = 0;
     this.isPlaying = false;
@@ -120,6 +126,7 @@ export class AudioComponent implements OnInit, OnDestroy {
   onAudioPause() {
     this.playRequested = false;
     this.isPlaying = false;
+    this.audioElement.nativeElement.muted = true;
   }
 
   seekAudio(event) {
