@@ -7,7 +7,7 @@
   var authorizedMessageAudio = new WeakSet();
 
   function isMessageAudio(element) {
-    return element && element.matches && element.matches('chat-audio audio, .chatcase-audio-card audio');
+    return element && element.matches && element.matches('chat-audio audio');
   }
 
   function pauseMessageAudio(audio, reset) {
@@ -17,16 +17,16 @@
   }
 
   function stopOtherMessageAudio(current) {
-    var audio = document.querySelectorAll('chat-audio audio, .chatcase-audio-card audio');
+    var audio = document.querySelectorAll('chat-audio audio');
     for (var i = 0; i < audio.length; i++) {
       if (audio[i] !== current) pauseMessageAudio(audio[i], false);
     }
   }
 
   document.addEventListener('click', function (event) {
-    var button = event.target.closest && event.target.closest('.play-pause, .chatcase-audio-toggle');
+    var button = event.target.closest && event.target.closest('.play-pause');
     if (!button) return;
-    var host = button.closest('chat-audio, .chatcase-audio-card');
+    var host = button.closest('chat-audio');
     var audio = host && host.querySelector('audio');
     if (!audio) return;
 
@@ -44,7 +44,6 @@
   document.addEventListener('play', function (event) {
     var audio = event.target;
     if (!isMessageAudio(audio)) return;
-    if (audio.matches('.chatcase-audio-card audio')) return;
     if (!authorizedMessageAudio.has(audio)) {
       pauseMessageAudio(audio, true);
       return;
@@ -89,14 +88,6 @@
     '.chatcase-poll-dot{width:14px;height:14px;border-radius:50%;border:2px solid #94a3b8;box-sizing:border-box;flex:0 0 auto}',
     '.chatcase-event-meta{margin-top:8px;display:flex;flex-direction:column;gap:4px;font-size:12px;line-height:1.35;color:#475569}',
     '.chatcase-event-status{display:flex;align-items:center;gap:6px;margin-top:8px;font-size:12px;line-height:1.35;color:#475569}',
-    '.chatcase-audio-card{display:flex;flex-direction:column;gap:7px}',
-    '.chatcase-audio-main{display:flex;align-items:center;gap:10px;width:100%}',
-    '.chatcase-audio-toggle{width:34px;height:34px;border:0;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:#1f9d69;color:#fff;cursor:pointer;flex:0 0 auto;padding:0}',
-    '.chatcase-audio-toggle svg{width:18px;height:18px;fill:currentColor}',
-    '.chatcase-audio-range{flex:1;min-width:0;accent-color:#238be6;cursor:pointer}',
-    '.chatcase-audio-time{font-size:12px;line-height:1;color:#475569;white-space:nowrap;min-width:32px;text-align:right}',
-    '.chatcase-audio-meta{display:flex;justify-content:space-between;gap:12px;font-size:11px;line-height:1.2;color:#64748b}',
-    '.chatcase-audio-hidden{display:none}',
     '.chatcase-hidden-message{display:none!important}'
   ].join('');
   document.head.appendChild(style);
@@ -329,116 +320,6 @@
     return card;
   }
 
-  function createAudioCard(payload) {
-    var card = document.createElement('span');
-    card.className = 'chatcase-wa-card chatcase-audio-card';
-    var row = document.createElement('span');
-    row.className = 'chatcase-audio-main';
-
-    var audio = document.createElement('audio');
-    audio.className = 'chatcase-audio-hidden';
-    audio.autoplay = false;
-    audio.preload = 'metadata';
-    var pendingSeek = null;
-
-    var toggle = document.createElement('button');
-    toggle.type = 'button';
-    toggle.className = 'chatcase-audio-toggle';
-    toggle.setAttribute('aria-label', 'Reproduzir áudio');
-    toggle.innerHTML = iconSvg('play');
-
-    var range = document.createElement('input');
-    range.className = 'chatcase-audio-range';
-    range.type = 'range';
-    range.min = '0';
-    range.max = String(payload.seconds || 0);
-    range.step = '0.01';
-    range.value = '0';
-
-    var current = document.createElement('span');
-    current.className = 'chatcase-audio-time';
-    current.textContent = '0:00';
-
-    row.appendChild(toggle);
-    row.appendChild(range);
-    row.appendChild(current);
-    card.appendChild(row);
-
-    var meta = document.createElement('span');
-    meta.className = 'chatcase-audio-meta';
-    appendText(meta, 'chatcase-audio-label', payload.ptt ? 'Mensagem de voz' : 'Áudio');
-    appendText(meta, 'chatcase-audio-total', payload.duration || formatSeconds(payload.seconds));
-    card.appendChild(meta);
-    card.appendChild(audio);
-
-    function applyPendingSeek() {
-      if (pendingSeek === null || audio.readyState < 1) return;
-      try {
-        audio.currentTime = pendingSeek;
-      } catch (error) {}
-      range.value = String(pendingSeek);
-      current.textContent = formatSeconds(pendingSeek);
-      pendingSeek = null;
-    }
-
-    audio.addEventListener('loadedmetadata', function() {
-      if (audio.duration && isFinite(audio.duration)) {
-        range.max = String(audio.duration);
-        var total = card.querySelector('.chatcase-audio-total');
-        if (total) total.textContent = formatSeconds(audio.duration);
-      }
-      applyPendingSeek();
-    });
-    audio.addEventListener('canplay', applyPendingSeek);
-    audio.addEventListener('timeupdate', function() {
-      range.value = String(audio.currentTime || 0);
-      current.textContent = formatSeconds(audio.currentTime || 0);
-    });
-    audio.addEventListener('play', function() {
-      if (!authorizedMessageAudio.has(audio)) {
-        pauseMessageAudio(audio, true);
-        return;
-      }
-      authorizedMessageAudio.delete(audio);
-      stopOtherMessageAudio(audio);
-      toggle.innerHTML = iconSvg('pause');
-      toggle.setAttribute('aria-label', 'Pausar áudio');
-    });
-    audio.addEventListener('pause', function() {
-      toggle.innerHTML = iconSvg('play');
-      toggle.setAttribute('aria-label', 'Reproduzir áudio');
-    });
-    function seekFromRange() {
-      var nextTime = Number(range.value || 0);
-      if (audio.readyState < 1) {
-        pendingSeek = nextTime;
-        if (audio.src) audio.load();
-        current.textContent = formatSeconds(nextTime);
-        return;
-      }
-      try {
-        audio.currentTime = nextTime;
-      } catch (error) {}
-      current.textContent = formatSeconds(nextTime);
-    }
-    range.addEventListener('input', seekFromRange);
-    range.addEventListener('change', seekFromRange);
-    toggle.addEventListener('click', function(event) {
-      event.preventDefault();
-      event.stopPropagation();
-      if (!audio.src) return;
-      if (audio.readyState < 1) audio.load();
-      if (audio.paused) {
-        var promise = audio.play();
-        if (promise && promise.catch) promise.catch(function() {});
-      } else {
-        audio.pause();
-      }
-    });
-    if (payload.src) audio.src = payload.src;
-    return card;
-  }
-
   function removeStructuredPreviewText(textNode, preview) {
     if (!textNode || !textNode.parentNode) return;
     var parent = textNode.parentNode;
@@ -464,35 +345,10 @@
     }
   }
 
-  function hideNativeAudioForCard(card) {
-    if (!card || !card.closest) return;
-    var bubble = card.closest('#bubble-message') || card.closest('chat-bubble-message') || card.closest('.bubble-container');
-    if (!bubble || !bubble.querySelectorAll) return;
-    var nativeAudio = bubble.querySelectorAll('chat-audio');
-    for (var i = 0; i < nativeAudio.length; i++) {
-      var media = nativeAudio[i].querySelector('audio');
-      if (media) {
-        media.pause();
-        media.currentTime = 0;
-      }
-      nativeAudio[i].style.display = 'none';
-      nativeAudio[i].setAttribute('data-chatcase-hidden', 'native-audio');
-    }
-  }
-
-  function normalizeStructuredCards(root) {
-    if (!root || !root.querySelectorAll) return;
-    var audioCards = root.querySelectorAll('.chatcase-audio-card');
-    for (var i = 0; i < audioCards.length; i++) {
-      hideNativeAudioForCard(audioCards[i]);
-    }
-  }
-
   function createStructuredCard(kind, payload) {
     if (kind === 'contact') return createContactCard(payload);
     if (kind === 'poll') return createPollCard(payload);
     if (kind === 'event') return createEventCard(payload);
-    if (kind === 'audio') return createAudioCard(payload);
     return null;
   }
 
@@ -573,8 +429,8 @@
         continue;
       }
 
-      if (match[1] === 'audio' && (!payload || !payload.src)) {
-        textNode.nodeValue = preview;
+      if (match[1] === 'audio') {
+        removeStructuredPreviewText(textNode, preview);
         continue;
       }
 
@@ -591,7 +447,6 @@
 
       parent.insertBefore(card, textNode);
       removeStructuredPreviewText(textNode, preview);
-      if (match[1] === 'audio') hideNativeAudioForCard(card);
     }
   }
 
@@ -820,7 +675,6 @@
     enhanceQuoteMarkers(root);
     enhanceStructuredMarkers(root);
     hideRawCaseZapUpdateMessages(root);
-    normalizeStructuredCards(root);
     var anchors = root.querySelectorAll('a[href]');
     for (var i = 0; i < anchors.length; i++) {
       enhancePdfAnchor(anchors[i]);

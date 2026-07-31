@@ -461,7 +461,7 @@ export class ConversationDetailPage implements OnInit, OnDestroy, AfterViewInit 
   }
 
   private stopMessageAudio() {
-    const messageAudio = document.querySelectorAll<HTMLAudioElement>('chat-audio audio, .chatcase-audio-card audio')
+    const messageAudio = document.querySelectorAll<HTMLAudioElement>('chat-audio audio')
     messageAudio.forEach((audio) => {
       audio.pause()
       audio.currentTime = 0

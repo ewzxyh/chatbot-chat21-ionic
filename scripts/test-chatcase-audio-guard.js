@@ -3,8 +3,9 @@ const fs = require('fs');
 const path = require('path');
 
 const source = fs.readFileSync(path.join(__dirname, '..', 'src', 'assets', 'chatcase-pdf-preview.js'), 'utf8');
-const createAudioCard = source.slice(source.indexOf('function createAudioCard'), source.indexOf('function removeStructuredPreviewText'));
+const bubbleTemplate = fs.readFileSync(path.join(__dirname, '..', 'src', 'app', 'chatlib', 'conversation-detail', 'message', 'bubble-message', 'bubble-message.component.html'), 'utf8');
 
-assert(createAudioCard.indexOf("audio.addEventListener('play'") < createAudioCard.indexOf('audio.src = payload.src'));
-assert(createAudioCard.includes('if (!authorizedMessageAudio.has(audio))'));
-assert(source.includes("if (audio.matches('.chatcase-audio-card audio')) return;"));
+assert(!source.includes('function createAudioCard'));
+assert(!source.includes('.chatcase-audio-card'));
+assert(source.includes("if (match[1] === 'audio') {\n        removeStructuredPreviewText(textNode, preview);\n        continue;"));
+assert(bubbleTemplate.includes('<chat-audio  *ngIf="isAudio(message)"'));

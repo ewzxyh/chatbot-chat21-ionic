@@ -49,32 +49,12 @@ describe('BubbleMessageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should detect structured CaseZap audio messages', () => {
-    const message = {
-      text: '[casezap-audio:eyJzcmMiOiJhdWRpby5vZ2cifQ==] Mensagem de voz'
-    };
-
-    expect(component.isStructuredAudio(message)).toBe(true);
-  });
-
-  it('should keep the native player for regular audio messages', () => {
-    const message = { text: 'Mensagem de voz' };
-
-    expect(component.isStructuredAudio(message)).toBe(false);
-  });
-
-  it('should keep the native player when the structured payload is invalid', () => {
-    const message = { text: '[casezap-audio:bm90LWpzb24=] Mensagem de voz' };
-
-    expect(component.isStructuredAudio(message)).toBe(false);
-  });
-
-  it('should render only the structured player placeholder for CaseZap audio', () => {
+  it('should render structured CaseZap audio with the native player', () => {
     component.message = createAudioMessage('[casezap-audio:eyJzcmMiOiJhdWRpby5vZ2cifQ==] Mensagem de voz');
 
     fixture.detectChanges();
 
-    expect(fixture.debugElement.query(By.css('chat-audio'))).toBeNull();
+    expect(fixture.debugElement.query(By.css('chat-audio'))).not.toBeNull();
   });
 
   it('should render the native player for regular audio', () => {
