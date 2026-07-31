@@ -1,5 +1,4 @@
 import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'chat-audio',
@@ -17,19 +16,16 @@ export class AudioComponent implements OnInit, OnDestroy {
   @Input() stylesMap: Map<string, string>;
   @Output() onElementRendered = new EventEmitter<{element: string, status: boolean}>();
 
-  audioUrl: SafeUrl | null = null;
   rawAudioUrl: string | null = null;
   audioDuration: number = 0;
   currentTime: number = 0;
   seekValue: number = 0;
   isPlaying: boolean = false;
-  isLoading: boolean = true;
+  isLoading: boolean = false;
   hasError: boolean = false;
   private playRequested: boolean = false;
 
-  constructor(
-    private sanitizer: DomSanitizer
-  ) {}
+  constructor() {}
 
   ngOnInit() {
   }
@@ -45,7 +41,6 @@ export class AudioComponent implements OnInit, OnDestroy {
     } else {
       this.rawAudioUrl = this.metadata?.src || '';
     }
-    this.audioUrl = this.rawAudioUrl ? this.sanitizer.bypassSecurityTrustUrl(this.rawAudioUrl) : null;
   }
 
   ngOnDestroy() {
@@ -93,6 +88,10 @@ export class AudioComponent implements OnInit, OnDestroy {
   playPauseAudio() {
     const audio = this.audioElement.nativeElement;
     if (audio.paused) {
+      if (!audio.getAttribute('src') && this.rawAudioUrl) {
+        audio.src = this.rawAudioUrl;
+        audio.load();
+      }
       this.playRequested = true;
       audio.play()
         .then(() => {

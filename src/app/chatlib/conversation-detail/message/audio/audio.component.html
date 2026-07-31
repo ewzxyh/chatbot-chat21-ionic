@@ -1,8 +1,7 @@
 <div class="audio-container" [class.is-loading]="isLoading" [class.has-error]="hasError">
   <audio
     #audioElement
-    [src]="audioUrl"
-    preload="metadata"
+    preload="none"
     (play)="onAudioPlay()"
     (pause)="onAudioPause()"
     (loadedmetadata)="onLoadedMetadata()"

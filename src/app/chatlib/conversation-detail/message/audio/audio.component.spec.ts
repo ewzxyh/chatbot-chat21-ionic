@@ -47,4 +47,18 @@ describe('AudioComponent', () => {
     expect(audio.currentTime).toBe(0);
     expect(component.isPlaying).toBe(false);
   });
+
+  it('should attach the audio source only after the play button is used', () => {
+    const audio = component.audioElement.nativeElement;
+    const loadSpy = spyOn(audio, 'load');
+    spyOn(audio, 'play').and.returnValue(Promise.resolve());
+    component.rawAudioUrl = 'https://example.com/message.ogg';
+
+    expect(audio.getAttribute('src')).toBeNull();
+
+    component.playPauseAudio();
+
+    expect(audio.getAttribute('src')).toBe('https://example.com/message.ogg');
+    expect(loadSpy).toHaveBeenCalled();
+  });
 });
