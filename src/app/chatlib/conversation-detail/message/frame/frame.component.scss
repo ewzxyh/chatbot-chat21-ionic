@@ -26,6 +26,20 @@ iframe {
     border-radius: var(--borderRadius)
 }
 
+.video-container {
+    max-width: 100%;
+}
+
+.message-video {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 65vh;
+    border-radius: var(--borderRadius);
+    background: #000;
+}
+
 .media-error {
     display: flex;
     min-width: 180px;

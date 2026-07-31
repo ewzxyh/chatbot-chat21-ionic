@@ -1,4 +1,25 @@
-<div  [ngStyle] = "{ 'max-width': '100%', 'width': width, 'height': height }">
+<div *ngIf="isVideo; else embeddedFrame" class="video-container">
+  <div *ngIf="hasError" class="media-error">
+    <span>Prévia indisponível</span>
+    <button type="button" (click)="retryLoad()">Tentar novamente</button>
+  </div>
+  <video *ngIf="!hasError"
+    #videoElement
+    class="message-video"
+    controls
+    playsinline
+    preload="metadata"
+    [src]="mediaUrl"
+    (pointerdown)="allowVideoPlayback()"
+    (keydown)="allowVideoPlayback()"
+    (play)="onVideoPlay($event)"
+    (loadedmetadata)="onLoaded($event)"
+    (error)="onError()">
+  </video>
+</div>
+
+<ng-template #embeddedFrame>
+<div [ngStyle] = "{ 'max-width': '100%', 'width': width, 'height': height }">
   <div *ngIf="loading" class="loader" [ngStyle] = "{ 'width': width , 'height': height  }"></div>
   <div *ngIf="hasError" class="media-error" [ngStyle] = "{ 'width': width , 'min-height': height  }">
     <span>Prévia indisponível</span>
@@ -12,3 +33,4 @@
     (error)="onError()">
   </iframe>
 </div>
+</ng-template>
