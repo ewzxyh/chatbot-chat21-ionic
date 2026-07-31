@@ -6,14 +6,24 @@
 
   var authorizedMessageAudio = new WeakSet();
 
-  function isMessageAudio(element) {
-    return element && element.matches && element.matches('chat-audio audio');
+  function isNotificationAudio(element) {
+    var source = (element && (element.currentSrc || element.src)) || '';
+    return source.indexOf('/assets/sounds/') !== -1;
   }
 
-  function pauseMessageAudio(audio, reset) {
+  function isMessageAudio(element) {
+    return element instanceof HTMLAudioElement && !isNotificationAudio(element);
+  }
+
+  function pauseMessageAudio(audio, reset, disarm) {
     if (!audio) return;
     audio.pause();
     if (reset) audio.currentTime = 0;
+    if (disarm) {
+      audio.muted = true;
+      audio.removeAttribute('src');
+      audio.load();
+    }
   }
 
   function stopOtherMessageAudio(current) {
@@ -45,7 +55,7 @@
     var audio = event.target;
     if (!isMessageAudio(audio)) return;
     if (!authorizedMessageAudio.has(audio)) {
-      pauseMessageAudio(audio, true);
+      pauseMessageAudio(audio, true, true);
       return;
     }
     authorizedMessageAudio.delete(audio);

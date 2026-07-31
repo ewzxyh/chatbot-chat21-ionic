@@ -10,6 +10,9 @@ const conversationDetail = fs.readFileSync(path.join(__dirname, '..', 'src', 'ap
 
 assert(!source.includes('function createAudioCard'));
 assert(!source.includes('.chatcase-audio-card'));
+assert(source.includes("source.indexOf('/assets/sounds/') !== -1"));
+assert(source.includes('element instanceof HTMLAudioElement && !isNotificationAudio(element)'));
+assert(source.includes('pauseMessageAudio(audio, true, true)'));
 assert(source.includes("if (match[1] === 'audio') {\n        removeStructuredPreviewText(textNode, preview);\n        continue;"));
 assert(bubbleTemplate.includes('<chat-audio  *ngIf="isAudio(message)"'));
 assert(!audioTemplate.includes('[src]="'));
